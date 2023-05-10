@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const raceZodSchema = z.object({
+const classZodSchema = z.object({
   system_id: z.string(),
   name: z.string(),
   details: z.string(),
@@ -41,3 +41,7 @@ const raceZodSchema = z.object({
     }).optional()
   }))
 });
+
+type IClass = z.infer<typeof classZodSchema>;
+
+export { IClass, classZodSchema }
