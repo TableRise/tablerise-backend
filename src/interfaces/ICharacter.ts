@@ -47,7 +47,7 @@ const characterZodSchema = z.object({
   player_name: z.string(),
   experience: z.number().default(0),
   level: z.number().default(0),
-  inpiration_bonus: z.number().default(0),
+  inspiration_bonus: z.number().default(0),
   proficience_bonus: z.number().default(0),
   saving_throws: z.object({
     strength: z.object({
