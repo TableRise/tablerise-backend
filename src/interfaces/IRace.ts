@@ -1,10 +1,11 @@
 import { z } from 'zod';
 
 const raceZodSchema = z.object({
-  system_id: z.string(),
   name: z.string(),
-  details: z.string(),
-  sub_race: z.string().optional(),
+  details: z.array(z.object({
+    title: z.string(),
+    description: z.string(),
+  })),
   bonus: z.array(z.object({
     name: z.enum([
       'strength',
@@ -21,7 +22,13 @@ const raceZodSchema = z.object({
     ]),
     value: z.number(),
   })).optional(),
-  characteristics: z.string(),
+  sub_race: z.array(z.object({
+    name: z.string(),
+    details: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+    })),
+  })).optional(),
 });
 
 type IRace = z.infer<typeof raceZodSchema>;

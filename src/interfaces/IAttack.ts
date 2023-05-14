@@ -36,7 +36,7 @@ const attackZodSchema = z.object({
   description: z.string(),
   buffs: z.array(z.string()),
   debuffs: z.array(z.string()),
-  requirements: z.string(),
+  requirements: z.array(z.string()),
   duration: z.string(),
   conjuration: z.string(),
 });

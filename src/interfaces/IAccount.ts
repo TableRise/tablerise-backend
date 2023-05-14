@@ -16,7 +16,7 @@ const accountZodSchema = z.object({
     campaign_id: z.string().length(16),
     active: z.boolean(),
     master: z.boolean(),
-    character: z.string().length(16),
+    character_id: z.string().length(16),
   })),
 });
 

@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 const itemZodSchema = z.object({
-  system_id: z.string(),
   name: z.string(),
   type: z.enum([
     'arma',
@@ -21,7 +20,10 @@ const itemZodSchema = z.object({
     'excepcional'
   ]),
   description: z.string().optional(),
-  properties: z.string().optional(),
+  properties: z.array(z.object({
+    name: z.string(),
+    description: z.string(),
+  })).optional(),
   value: z.number().default(0),
   weight: z.string(),
 });
