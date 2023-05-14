@@ -11,6 +11,13 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-console": 1
+        "no-console": "warn",
+        "max-len": ["error", {
+            "code": 90,
+            "ignoreComments": true,
+            "ignoreTrailingComments": true
+        }],
+        "arrow-parens": "error",
+        "no-await-in-loop": "error"
     }
 }
