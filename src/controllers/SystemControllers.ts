@@ -8,7 +8,7 @@ class SystemControllers {
     this.create = this.create.bind(this)
   }
 
-  public async create(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+  public async create(req: Request, res: Response): Promise<Response> {
     const payload: ISystem = req.body;
 
     const response = await this._service.create(payload);

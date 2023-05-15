@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node build/src/server.js",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest ./test",
     "test:unit": "jest --verbose=true ./test/unit",
     "test:integration": "jest --verbose=true ./test/integration",
     "test:coverage": "jest --verbose=true --coverage",
