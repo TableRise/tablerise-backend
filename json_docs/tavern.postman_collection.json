@@ -1,0 +1,36 @@
+{
+	"info": {
+		"_postman_id": "60b6ec28-cc16-40f3-8be1-addd27f36756",
+		"name": "tavern-collection-postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3001/system",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Dungeons and Dragons 5e\",\r\n    \"reference\": \"https://ordempendragon.files.wordpress.com/2017/04/dd-5e-livro-do-jogador-fundo-branco-biblioteca-c3a9lfica.pdf\",\r\n    \"rule_ids\": {\r\n        \"race\": [\"64629a053d6566450778b0e1\"],\r\n        \"class\": [\"64629a053d6566450778b0e1\"],\r\n        \"items\": [\"64629a053d6566450778b0e1\"],\r\n        \"attacks\": [\"64629a053d6566450778b0e1\"],\r\n        \"background\": [\"64629a053d6566450778b0e1\"]\r\n    },\r\n    \"details\": \"example\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/system",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"system"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
