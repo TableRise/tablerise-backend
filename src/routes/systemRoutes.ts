@@ -1,7 +1,14 @@
 import { Router } from 'express';
+import SystemModel from '../database/models/SystemModel';
+import SystemServices from '../services/SystemServices';
+import SystemControllers from '../controllers/SystemControllers';
 
 const router = Router();
 
-router.post('/', /* systemControllers.findAll */);
+const SystemModelInstance = new SystemModel();
+const SystemServicesInstance = new SystemServices(SystemModelInstance);
+const SystemConstrollersInstance = new SystemControllers(SystemServicesInstance);
+
+router.post('/', SystemConstrollersInstance.create);
 
 export default router;
