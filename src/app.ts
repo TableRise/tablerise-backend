@@ -1,7 +1,9 @@
+import 'express-async-errors';
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import routes from './routes/index';
+import ErrorMiddleware from './middlewares/ErrorMiddleware';
 
 const app: Application = express();
 
@@ -11,5 +13,7 @@ app.use(helmet());
 
 app.use('/health', (req, res) => res.send('OK'));
 app.use('/system', routes.systemRoutes);
+
+app.use(ErrorMiddleware.errorResponse);
 
 export default app;

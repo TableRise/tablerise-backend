@@ -13,10 +13,10 @@ const accountZodSchema = z.object({
     youtube: z.string().optional(),
   }).optional(),
   player_campaigns: z.array(z.object({
-    campaign_id: z.string().length(16),
+    campaign_id: z.string().length(24),
     active: z.boolean(),
     master: z.boolean(),
-    character_id: z.string().length(16),
+    character_id: z.string().length(24),
   })),
 });
 

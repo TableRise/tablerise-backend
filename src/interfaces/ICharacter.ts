@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
 const characterZodSchema = z.object({
-  player_id: z.string().length(16),
-  campaign_id: z.string().length(16),
+  player_id: z.string().length(24),
+  campaign_id: z.string().length(24),
   name: z.string().min(3),
-  race_id: z.string().length(16),
-  class_id: z.string().length(16),
-  background_id: z.string().length(16),
+  race_id: z.string().length(24),
+  class_id: z.string().length(24),
+  background_id: z.string().length(24),
   alignment: z.enum([
     'leal-e-bom',
     'neutro-e-bom',
@@ -196,9 +196,9 @@ const characterZodSchema = z.object({
   hit_points: z.number().default(0),
   actual_hit_points: z.number().default(0),
   temp_hit_points: z.number().default(0),
-  attacks: z.array(z.string().length(16)),
-  spells: z.array(z.string().length(16)),
-  equipment_id: z.string().length(16),
+  attacks: z.array(z.string().length(24)),
+  spells: z.array(z.string().length(24)),
+  equipment_id: z.string().length(24),
   characteristics_abilities: z.string(),
   age: z.string(),
   eyes: z.string(),

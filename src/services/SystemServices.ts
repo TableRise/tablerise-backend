@@ -10,9 +10,10 @@ class SystemServices implements IService<ISystem> {
       const validate = systemZodSchema.safeParse(payload);
 
       if (!validate.success) {
-        const newError = new Error(validate.error.message);
+        const newError = new Error(JSON.stringify(validate.error.issues));
         newError.name = 'PAYLOAD_ERROR';
         newError.stack = `${HttpStatusCode.UNPROCESSABLE_ENTITY}`;
+        throw newError;
       }
 
       const newSystem: ISystem = await this._model.create(payload);
