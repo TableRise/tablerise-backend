@@ -4,7 +4,8 @@
   "description": "A project to provide an API to Master Tavern application",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && node build/server.js",
+    "start": "npm run build && node build/src/server.js",
+    "build": "tsc",
     "test": "jest",
     "test:unit": "jest --verbose=true ./test/unit",
     "test:integration": "jest --verbose=true ./test/integration",
