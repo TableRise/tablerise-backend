@@ -14,6 +14,6 @@ app.use(helmet());
 app.use('/health', (req, res) => res.send('OK'));
 app.use('/system', routes.systemRoutes);
 
-app.use(ErrorMiddleware.errorResponse);
+app.use(ErrorMiddleware);
 
 export default app;
