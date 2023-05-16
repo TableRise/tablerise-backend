@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const systemZodSchema = z.object({
+  _id: z.string().optional(),
   name: z.string(),
   reference: z.string(),
   rule_ids: z.object({

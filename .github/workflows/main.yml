@@ -1,0 +1,21 @@
+on: [push, pull_request]
+name: Continuous Delivery Action
+jobs:
+  backend:
+    name: 'Testing Backend'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Checking lint
+        run: npm run lint
+
+      - name: Up database container
+        run: docker-compose up -d mongodb-tavern
+
+      - name: Run Tests
+        run: npm test
