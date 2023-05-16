@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import app from './app';
 import mongoose from 'mongoose';
 import 'dotenv/config';
@@ -11,10 +13,11 @@ const MONGODB_PORT = process.env.MONGODB_PORT || 27017;
 const MONGODB_DATABASE = process.env.MONGODB_DATABASE || 'tavern-data?authSource=admin';
 const MONGODB_CONNECTION_INITIAL = process.env.MONGODB_CONNECTION_INITIAL || 'mongodb';
 
-mongoose.connect(`${MONGODB_CONNECTION_INITIAL}://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch((err) => console.log(err));
+mongoose.connect(`${MONGODB_CONNECTION_INITIAL}://${MONGODB_USERNAME}:
+${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`)
+  .then(() => { console.log('MongoDB connected successfully'); })
+  .catch((err) => { console.log(err); });
 
 app.listen(port, () => {
-  console.log('Server started on port ' + port);
+  console.log(`Server started on port ${port}`);
 });

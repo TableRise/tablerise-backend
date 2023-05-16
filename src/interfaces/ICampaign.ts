@@ -9,12 +9,12 @@ const campaignZodSchema = z.object({
     name: z.string(),
     description: z.string(),
     character_ids: z.array(z.string()),
-    thumbnail: z.string(),
+    thumbnail: z.string()
   })),
   infos: z.string(),
-  status: z.boolean().default(true),
+  status: z.boolean().default(true)
 });
 
 type ICampaign = z.infer<typeof campaignZodSchema>;
 
-export { ICampaign, campaignZodSchema };
+export { type ICampaign, campaignZodSchema };

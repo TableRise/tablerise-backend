@@ -8,7 +8,7 @@ const itemZodSchema = z.object({
     'mágico',
     'aventureiro',
     'ferramenta',
-    'mundano',
+    'mundano'
   ]),
   rarity: z.enum([
     'comum',
@@ -22,12 +22,12 @@ const itemZodSchema = z.object({
   description: z.string().optional(),
   properties: z.array(z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string()
   })).optional(),
   value: z.number().default(0),
-  weight: z.string(),
+  weight: z.string()
 });
 
 type IItem = z.infer<typeof itemZodSchema>;
 
-export { IItem, itemZodSchema };
+export { type IItem, itemZodSchema };

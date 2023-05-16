@@ -16,7 +16,7 @@ const characterZodSchema = z.object({
     'caótico-e-neutro',
     'leal-e-mau',
     'neutro-e-mau',
-    'caótico-e-mau',
+    'caótico-e-mau'
   ]),
   alignment_story_details: z.string(),
   experience: z.number().default(0),
@@ -26,146 +26,146 @@ const characterZodSchema = z.object({
   saving_throws: z.object({
     strength: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
+      value: z.number().default(0)
     }),
     dexterity: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
+      value: z.number().default(0)
     }),
     constitution: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
+      value: z.number().default(0)
     }),
     intelligence: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
+      value: z.number().default(0)
     }),
     wisdom: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
+      value: z.number().default(0)
     }),
     charisma: z.object({
       active: z.boolean(),
-      value: z.number().default(0),
-    }),
+      value: z.number().default(0)
+    })
   }),
   skills: z.object({
     athletics: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     acrobatics: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     sleightOfHand: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     stealth: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     arcana: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     history: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     investigation: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     nature: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     religion: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     animalHandling: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     insight: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     medicine: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     perception: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     survival: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     deception: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     intimidation: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     performance: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
+      ability: z.string()
     }),
     persuasion: z.object({
       active: z.boolean(),
       value: z.number().default(0),
-      ability: z.string(),
-    }),
+      ability: z.string()
+    })
   }),
   ability_scores: z.object({
     strength: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
+      modifier: z.number().default(0)
     }),
     dexterity: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
+      modifier: z.number().default(0)
     }),
     constitution: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
+      modifier: z.number().default(0)
     }),
     intelligence: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
+      modifier: z.number().default(0)
     }),
     wisdom: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
+      modifier: z.number().default(0)
     }),
     charisma: z.object({
       value: z.number().default(0),
-      modifier: z.number().default(0),
-    }),
+      modifier: z.number().default(0)
+    })
   }),
   passive_wisdom: z.number().default(0),
   languages: z.enum([
@@ -188,7 +188,7 @@ const characterZodSchema = z.object({
   ]),
   extra_proficiences: z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string()
   }),
   armor_class: z.number().default(0),
   initiative: z.number().default(0),
@@ -211,10 +211,10 @@ const characterZodSchema = z.object({
   history: z.string(),
   teasures: z.array(z.object({
     name: z.string(),
-    description: z.string().optional(),
-  })),
+    description: z.string().optional()
+  }))
 });
 
 type ICharacter = z.infer<typeof characterZodSchema>;
 
-export { ICharacter, characterZodSchema };
+export { type ICharacter, characterZodSchema };

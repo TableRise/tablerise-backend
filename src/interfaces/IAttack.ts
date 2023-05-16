@@ -30,7 +30,7 @@ const attackZodSchema = z.object({
     'Queda',
     'Ruptura',
     'Maldição',
-    'Dreno',
+    'Dreno'
   ]),
   tags: z.array(z.string()).optional(),
   description: z.string(),
@@ -38,9 +38,9 @@ const attackZodSchema = z.object({
   debuffs: z.array(z.string()),
   requirements: z.array(z.string()),
   duration: z.string(),
-  conjuration: z.string(),
+  conjuration: z.string()
 });
 
 type IAttack = z.infer<typeof attackZodSchema>;
 
-export { IAttack, attackZodSchema };
+export { type IAttack, attackZodSchema };

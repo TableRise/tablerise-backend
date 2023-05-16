@@ -16,7 +16,7 @@ const systemMongooseSchema = new Schema<ISystem>({
 });
 
 class SystemModel extends MongoModel<ISystem> {
-  constructor(public model = mongooseCreateModel('System', systemMongooseSchema)) {
+  constructor (public model = mongooseCreateModel('System', systemMongooseSchema)) {
     super(model)
   }
 }

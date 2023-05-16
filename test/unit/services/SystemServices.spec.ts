@@ -48,7 +48,7 @@ describe('Test System Services', () => {
     });
 
     it('a new rpg system should fail and throws 422 error', async () => {
-      const { name:_, ...systemMockPayloadNoName } = SYSTEM_MOCK_PAYLOAD;
+      const { name: _, ...systemMockPayloadNoName } = SYSTEM_MOCK_PAYLOAD;
 
       try {
         await systemServicesMock.create(systemMockPayloadNoName as ISystem);

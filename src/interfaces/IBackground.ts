@@ -5,14 +5,14 @@ const backgroundZodSchema = z.object({
   description: z.string(),
   bonus: z.object({
     name: z.string(),
-    value: z.number(),
+    value: z.number()
   }),
-  equipment:  z.object({
+  equipment: z.object({
     name: z.string(),
-    damage: z.string(),
+    damage: z.string()
   })
 });
 
 type IBackground = z.infer<typeof backgroundZodSchema>;
 
-export { IBackground, backgroundZodSchema };
+export { type IBackground, backgroundZodSchema };

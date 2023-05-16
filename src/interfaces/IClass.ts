@@ -4,7 +4,7 @@ const classZodSchema = z.object({
   name: z.string(),
   details: z.array(z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string()
   })).optional(),
   bonus: z.array(z.object({
     name: z.enum([
@@ -18,9 +18,9 @@ const classZodSchema = z.object({
       'class-armor',
       'initiative',
       'proficience_bonus',
-      'speed',
+      'speed'
     ]),
-    value: z.number(),
+    value: z.number()
   })).optional(),
   leveling: z.array(z.object({
     level: z.number().default(0),
@@ -32,11 +32,11 @@ const classZodSchema = z.object({
     known_spells: z.number().default(0).optional(),
     spell_spaces: z.array(z.object({
       spell_level: z.number().default(0),
-      amount: z.number().default(0),
+      amount: z.number().default(0)
     })).optional()
   }))
 });
 
 type IClass = z.infer<typeof classZodSchema>;
 
-export { IClass, classZodSchema }
+export { type IClass, classZodSchema }

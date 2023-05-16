@@ -4,7 +4,7 @@ const raceZodSchema = z.object({
   name: z.string(),
   details: z.array(z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string()
   })),
   bonus: z.array(z.object({
     name: z.enum([
@@ -18,19 +18,19 @@ const raceZodSchema = z.object({
       'class-armor',
       'initiative',
       'proficience_bonus',
-      'speed',
+      'speed'
     ]),
-    value: z.number(),
+    value: z.number()
   })).optional(),
   sub_race: z.array(z.object({
     name: z.string(),
     details: z.array(z.object({
       title: z.string(),
-      description: z.string(),
-    })),
-  })).optional(),
+      description: z.string()
+    }))
+  })).optional()
 });
 
 type IRace = z.infer<typeof raceZodSchema>;
 
-export { IRace, raceZodSchema };
+export { type IRace, raceZodSchema };

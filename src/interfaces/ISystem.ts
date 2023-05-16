@@ -9,11 +9,11 @@ const systemZodSchema = z.object({
     class: z.array(z.string().length(24)),
     items: z.array(z.string().length(24)),
     attacks: z.array(z.string().length(24)),
-    background: z.array(z.string().length(24)),
+    background: z.array(z.string().length(24))
   }),
-  details: z.string(),
+  details: z.string()
 });
 
 type ISystem = z.infer<typeof systemZodSchema>;
 
-export { ISystem, systemZodSchema }
+export { type ISystem, systemZodSchema }

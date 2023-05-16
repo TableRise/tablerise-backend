@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
+/* eslint-disable no-console */
 import request from 'supertest';
 import mongoose from 'mongoose';
 import app from '../../../src/app';
@@ -53,11 +55,11 @@ describe('Test the create of a new rpg system', () => {
 
   describe('When data is incorrect', () => {
     const systemModelMock = new SystemModel();
-    const { name:_, ...systemMockWithoutName } = SYSTEM_MOCK_PAYLOAD;
+    const { name: _, ...systemMockWithoutName } = SYSTEM_MOCK_PAYLOAD;
 
     it('should not be successfully saved in database', async () => {
       try {
-        await systemModelMock.create(systemMockWithoutName as ISystem); 
+        await systemModelMock.create(systemMockWithoutName as ISystem);
       } catch (error: any) {
         expect(error.name).toBe('ValidationError')
       }
