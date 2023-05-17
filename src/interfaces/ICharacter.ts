@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const characterZodSchema = z.object({
+  _id: z.string().optional(),
   player_id: z.string().length(24),
   campaign_id: z.string().length(24),
   name: z.string().min(3),

@@ -2,17 +2,17 @@
 /* eslint-disable no-console */
 import request from 'supertest';
 import mongoose from 'mongoose';
-import app from '../../../src/app';
-import SystemModel from '../../../src/database/models/SystemModel';
+import app from 'src/app';
+import SystemModel from 'src/database/models/SystemModel';
+import HttpStatusCode from 'src/helpers/HttpStatusCode';
+import { ISystem } from 'src/interfaces/ISystem';
 import {
   SYSTEM_MOCK_INSTANCE,
   SYSTEM_MOCK_PAYLOAD,
   ZOD_ERROR_SYSTEM_NAME
 } from '../../__mocks__/system';
-import HttpStatusCode from '../../../src/helpers/HttpStatusCode';
-import { ISystem } from '../../../src/interfaces/ISystem';
 
-describe('Test the create of a new rpg system', () => {
+describe('Create a new RPG system', () => {
   beforeAll(async () => {
     await mongoose.connect('mongodb://root:secret@127.0.0.1:27018/tavern-data-test?authSource=admin')
       .then(() => console.log('MongoDB connected successfully'))

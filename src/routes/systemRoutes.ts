@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import SystemModel from '../database/models/SystemModel';
-import SystemServices from '../services/SystemServices';
-import SystemControllers from '../controllers/SystemControllers';
+import SystemModel from 'src/database/models/SystemModel';
+import SystemServices from 'src/services/SystemServices';
+import SystemControllers from 'src/controllers/SystemControllers';
 
 const router = Router();
 

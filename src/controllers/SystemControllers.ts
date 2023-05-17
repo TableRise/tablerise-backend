@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ISystem } from '../interfaces/ISystem';
-import SystemServices from '../services/SystemServices';
-import HttpStatusCode from '../helpers/HttpStatusCode';
+import { ISystem } from 'src/interfaces/ISystem';
+import SystemServices from 'src/services/SystemServices';
+import HttpStatusCode from 'src/helpers/HttpStatusCode';
 
 class SystemControllers {
   constructor (private readonly _service: SystemServices) {

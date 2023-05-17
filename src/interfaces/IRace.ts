@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const raceZodSchema = z.object({
+  _id: z.string().optional(),
   name: z.string(),
   details: z.array(z.object({
     title: z.string(),

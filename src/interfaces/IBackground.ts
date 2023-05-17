@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const backgroundZodSchema = z.object({
+  _id: z.string().optional(),
   name: z.string(),
   description: z.string(),
   bonus: z.object({

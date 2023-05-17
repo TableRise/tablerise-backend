@@ -1,14 +1,14 @@
-import SystemModel from '../../../src/database/models/SystemModel';
-import SystemServices from '../../../src/services/SystemServices';
-import { ISystem } from '../../../src/interfaces/ISystem';
+import SystemModel from 'src/database/models/SystemModel';
+import SystemServices from 'src/services/SystemServices';
+import { ISystem } from 'src/interfaces/ISystem';
+import HttpStatusCode from 'src/helpers/HttpStatusCode';
 import {
   SYSTEM_MOCK_INSTANCE,
   SYSTEM_MOCK_PAYLOAD,
   ZOD_ERROR_SYSTEM_NAME
 } from '../../__mocks__/system';
-import HttpStatusCode from '../../../src/helpers/HttpStatusCode';
 
-describe('Test System Services', () => {
+describe('Services :: SystemServices', () => {
   const systemModelMock = new SystemModel();
   const systemServicesMock = new SystemServices(systemModelMock);
 

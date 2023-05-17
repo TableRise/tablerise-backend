@@ -1,14 +1,14 @@
 import { Response, Request } from 'express';
-import SystemModel from '../../../src/database/models/SystemModel';
-import SystemServices from '../../../src/services/SystemServices';
-import SystemControllers from '../../../src/controllers/SystemControllers';
+import SystemModel from 'src/database/models/SystemModel';
+import SystemServices from 'src/services/SystemServices';
+import SystemControllers from 'src/controllers/SystemControllers';
 import {
   SYSTEM_MOCK_INSTANCE,
   SYSTEM_MOCK_PAYLOAD
 } from '../../__mocks__/system';
 import HttpStatusCode from '../../../src/helpers/HttpStatusCode';
 
-describe('Test System Controllers', () => {
+describe('Controllers :: SystemControllers', () => {
   const systemModelMock = new SystemModel();
   const systemServicesMock = new SystemServices(systemModelMock);
   const systemControllersMock = new SystemControllers(systemServicesMock);

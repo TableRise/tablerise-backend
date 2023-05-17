@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const attackZodSchema = z.object({
+  _id: z.string().optional(),
   system_id: z.string(),
   name: z.string(),
   range: z.string(),

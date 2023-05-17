@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const itemZodSchema = z.object({
+  _id: z.string().optional(),
   name: z.string(),
   type: z.enum([
     'arma',

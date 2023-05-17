@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const campaignZodSchema = z.object({
+  _id: z.string().optional(),
   title: z.string(),
   system_id: z.string(),
   creature_ids: z.array(z.string()),

@@ -26,7 +26,7 @@ const SYSTEM_MOCK_PAYLOAD = {
 }
 
 const ZOD_ERROR_SYSTEM_NAME = {
-  name: 'PAYLOAD_ERROR',
+  name: 'ValidationError',
   message: [
     {
       code: 'invalid_type',
