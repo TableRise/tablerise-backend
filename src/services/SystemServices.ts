@@ -1,21 +1,15 @@
 import IModel from '../interfaces/IModel';
 import IService from '../interfaces/IService';
+import ValidateEntry from 'src/helpers/ValidateEntry';
 import { ISystem, systemZodSchema } from '../interfaces/ISystem';
-import HttpStatusCode from '../helpers/HttpStatusCode';
 
-class SystemServices implements IService<ISystem> {
-  constructor (private readonly _model: IModel<ISystem>) {}
+class SystemServices extends ValidateEntry implements IService<ISystem> {
+  constructor (private readonly _model: IModel<ISystem>) {
+    super();
+  }
 
   public async create (payload: ISystem): Promise<ISystem> {
-    const validate = systemZodSchema.safeParse(payload);
-
-    if (!validate.success) {
-      const newError = new Error(JSON.stringify(validate.error.issues));
-      newError.name = 'PAYLOAD_ERROR';
-      newError.stack = `${HttpStatusCode.UNPROCESSABLE_ENTITY}`;
-      throw newError;
-    }
-
+    this.validate(systemZodSchema, payload);
     const newSystem: ISystem = await this._model.create(payload);
     return newSystem;
   }
