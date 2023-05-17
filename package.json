@@ -1,12 +1,12 @@
 {
-  "name": "backend-master-tavern",
+  "name": "backend-taverna-do-mestre",
   "version": "1.0.0",
-  "description": "A project to provide an API to Master Tavern application",
-  "main": "server.js",
+  "description": "A project to provide an API to Taverna do Mestre application",
+  "main": "src/server.js",
   "scripts": {
     "start": "npm run build && node build/src/server.js",
     "build": "tsc",
-    "test": "jest ./test",
+    "test": "jest --verbose=true ./test",
     "test:unit": "jest --verbose=true ./test/unit",
     "test:integration": "jest --verbose=true ./test/integration",
     "test:coverage": "jest --verbose=true --coverage",

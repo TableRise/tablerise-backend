@@ -11,7 +11,13 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "src/*": [
+        "*",
+      ]
+    }
   },
-  "exclude": ["node_modules", "coverage"]
+  "exclude": ["node_modules", "coverage"],
 }
