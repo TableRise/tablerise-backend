@@ -23,6 +23,16 @@ describe('Create a new RPG system', () => {
     await mongoose.connection.close();
   });
 
+  describe('Confirmation of API health', () => {
+    it('should return "OK" when healthy', async () => {
+      const responseTest = await request(app)
+        .get('/health')
+        .expect(HttpStatusCode.OK);
+
+      expect(responseTest.text).toBe('OK!');
+    });
+  });
+
   describe('When data is correct', () => {
     const systemModelMock = new SystemModel();
     const systemInstanceKeys = Object.keys(SYSTEM_MOCK_INSTANCE);

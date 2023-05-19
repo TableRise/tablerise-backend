@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-app.use('/health', (req, res) => res.send('OK'));
+app.use('/health', (req, res) => res.send('OK!'));
 app.use('/system', routes.systemRoutes);
 
 app.use(ErrorMiddleware);
