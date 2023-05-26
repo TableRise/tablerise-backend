@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  backend:
+    container_name: backend-tavern
+    build: ./app/backend
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+    volumes:
+      - ./app/backend:/app/backend
+    environment:
+      - PORT=3001
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=secret
+      - MONGODB_HOST=database
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=tavern-data?authSource=admin
+      - MONGODB_CONNECTION_INITIAL=mongodb
+    depends_on:
+      - database
+
+  database:
+    container_name: mongodb-tavern
+    image: mongo:5
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-tavern-volume:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+
+  database-test:
+    container_name: mongodb-tavern-test
+    image: mongo:5
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb-tavern-test-volume:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+
+volumes:
+  mongodb-tavern-volume:
+  mongodb-tavern-test-volume:

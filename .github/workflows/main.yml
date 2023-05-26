@@ -1,0 +1,32 @@
+on: [push, pull_request]
+name: Continuous Delivery Action
+jobs:
+  backend:
+    name: 'Testing Backend'
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run:  npm install
+
+      - name: Checking lint
+        run:  npm run lint
+
+      - name: Up database container
+        run: docker-compose up -d database-test
+
+      - name: Run Tests
+        run:  npm run test:coverage
+
+      - name: Monitor coverage
+        uses: slavcodev/coverage-monitor-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          coverage_path: "coverage/clover.xml"
+          threshold_alert: 10
+          threshold_warning: 50
+          threshold_metric: "lines"
+
