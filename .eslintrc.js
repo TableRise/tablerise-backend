@@ -25,7 +25,7 @@ module.exports = {
     'no-await-in-loop': 'error',
     // eslint-disable-next-line quote-props
     'semi': 0,
-    '@typescript-eslint/semi': 2,
+    '@typescript-eslint/semi': 0,
     '@typescript-eslint/consistent-type-imports': 0,
     '@typescript-eslint/consistent-type-assertions': 0,
     '@typescript-eslint/strict-boolean-expressions': 0,
