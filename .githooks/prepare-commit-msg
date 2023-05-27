@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MESSAGE=$(cat $1) 
-COMMITFORMAT="^(feat|fix|docs|style|ref|test)(\((.*)\))?:\s?(.*)$"
+COMMITFORMAT="^(feat|fix|docs|style|ref|test|setup)(\((.*)\))?:\s?(.*)$"
 
 if ! [[ "$MESSAGE" =~ $COMMITFORMAT ]]; then
   echo "========================"
