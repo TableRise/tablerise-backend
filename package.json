@@ -1,7 +1,7 @@
 {
-  "name": "backend-taverna-do-mestre",
+  "name": "backend-table-rise",
   "version": "1.0.0",
-  "description": "A project to provide an API to Taverna do Mestre application",
+  "description": "A project to provide an API to TableRise application",
   "main": "src/server.js",
   "scripts": {
     "start": "npm run build && node build/src/server.js",
