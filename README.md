@@ -1,16 +1,15 @@
-<div align="center"><h1>Master Tavern</h1></div>
+<div align="center"><h1>TableRise</h1></div>
 <br />
 <div align="center"><img src="" alt="thumbnail" /></div>
 <br />
 <br />
 <div align="center">
-A Taverna do Mestre foi idealizada enquanto eu jogava uma campanha de D&D e uma boa parte do tempo
-eu e meus colegas de mesa ficavamos discutindo regras e lendo efeitos de magias, e esse é o objetivo
-principal do projeto, agilizar esses processos e fornecer ferramentas úteis para uma campanha de
+TableRise foi idealizado pensando em jogadores que querem uma partida de RPG mais dinâmica e fluida,
+e esse é o objetivo principal do projeto, agilizar esses processos e fornecer ferramentas úteis para uma campanha de
 D&D, já existem outros projetos neste sentido, porem o Master Tavern é pensado para ser algo
 super intuitivo, simples fácil de usar, para campanhas mais elaboradas ou mais complexas, sites
 como o Roll20 podem ser mais interessantes, se seu objetivo é criar com mais facilidade uma ficha,
-anotações, histórias e personagens, Master Tavern vai te servir muito bem.
+anotações, histórias e personagens, TableRise vai te servir muito bem.
 </div>
 <br />
 <br />
