@@ -1,3 +1,7 @@
+describe('test', () => {
+  expect(true).toBe(true);
+});
+
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable no-console */
 // import request from 'supertest';

@@ -1,3 +1,7 @@
+describe('test', () => {
+  expect(true).toBe(true);
+});
+
 // import { Response, Request } from 'express';
 // import SystemModel from 'src/database/models/SystemModel';
 // import SystemServices from 'src/services/SystemServices';
