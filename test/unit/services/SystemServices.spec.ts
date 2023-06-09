@@ -1,7 +1,8 @@
 describe('test', () => {
-  expect(true).toBe(true);
+  it('test', () => {
+    expect(true).toBe(true);
+  });
 });
-
 // import SystemModel from 'src/database/models/SystemModel';
 // import SystemServices from 'src/services/SystemServices';
 // import { ISystem } from 'src/interfaces/ISystem';

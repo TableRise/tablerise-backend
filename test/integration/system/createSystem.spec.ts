@@ -1,5 +1,7 @@
 describe('test', () => {
-  expect(true).toBe(true);
+  it('test', () => {
+    expect(true).toBe(true);
+  });
 });
 
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
