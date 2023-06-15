@@ -1,0 +1,16 @@
+#!/bin/bash
+
+BRANCH=$(git symbolic-ref --short HEAD)
+REGEX="^(feat|bug|fix)\/[0-9]+\/[[:alnum:]-]+$"
+
+if [[ ! $BRANCH =~ $REGEX ]]; then
+  echo "========================"
+  echo ""
+  echo -e "> \e[31mYour commit was rejected due to the branch name\e[0m"
+  echo ""
+  echo -e "> Please rename your branch using the syntax: \e[32m(feat|bug|fix)\/\e[34mnotion-task-id-numbers\/\e[33mbranch-objective\e[0m"
+  echo "> Commits in the develop, main, or qa branches are not allowed."
+  echo ""
+  echo "========================"
+  exit 1
+fi
