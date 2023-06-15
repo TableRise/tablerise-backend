@@ -60,14 +60,6 @@ anotações, histórias e personagens, TableRise vai te servir muito bem.
 <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
 </div>
 <br />
-<h4>CHECKLIST</h4>
-
-- [ ] Documentações
-- [ ] Endpoints
-- [ ] User Interface
-- [ ] Responsividade
-- [ ] Testes 100%
-- [ ] Deploy
 
 <br />
 
