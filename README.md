@@ -73,4 +73,4 @@ anotações, histórias e personagens, TableRise vai te servir muito bem.
 
 ---
 
-*Template desenvolvido com :white_heart: por `<a href="https://github.com/Adson-Gomes-Oliveira">`Adson Gomes Oliveira`</a>`*
+*Template desenvolvido com :white_heart: por <a href="https://github.com/Adson-Gomes-Oliveira">Adson Gomes Oliveira</a>*
