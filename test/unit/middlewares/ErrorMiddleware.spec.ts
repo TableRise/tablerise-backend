@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
-import { ZOD_ERROR_SYSTEM_NAME } from '../../__mocks__/system';
 import HttpStatusCode from 'src/helpers/HttpStatusCode';
 
 describe('Middlewares :: ErrorMiddleware', () => {
@@ -9,6 +8,21 @@ describe('Middlewares :: ErrorMiddleware', () => {
     const response = {} as Response;
     const error = {} as Error;
     const next = jest.fn().mockReturnValue({}) as NextFunction;
+
+    const ZOD_ERROR_SYSTEM_NAME = {
+      name: 'ValidationError',
+      message: [
+        {
+          code: 'invalid_type',
+          expected: 'string',
+          received: 'undefined',
+          path: [
+            'name'
+          ],
+          message: 'Required'
+        }
+      ]
+    }
 
     beforeAll(() => {
       response.status = jest.fn().mockReturnValue(response);
