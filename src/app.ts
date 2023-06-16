@@ -4,7 +4,7 @@ import 'express-async-errors';
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import RoutesWrapper from 'src/routes/index';
+import RoutesWrapper from 'src/routes/RoutesWrapper';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 
 const autoSwagger = require('@tablerise/auto-swagger');
