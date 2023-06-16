@@ -14,6 +14,9 @@
     "lint": "eslint . --ext .ts --max-warnings=0",
     "check-lib": "node scripts/checkUnauthorizedChars.js"
   },
+  "_moduleAliases": {
+    "src": "./build/src/"
+  },
   "keywords": [],
   "author": "Adson Gomes Oliveira (https://github.com/Adson-Gomes-Oliveira)",
   "license": "ISC",
@@ -38,6 +41,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
+    "@tablerise/auto-swagger": "1.0.2",
     "bcrypt": "5.1.0",
     "cors": "2.8.5",
     "dotenv": "16.0.3",
@@ -45,6 +49,7 @@
     "express-async-errors": "3.1.1",
     "helmet": "7.0.0",
     "jsonwebtoken": "9.0.0",
+    "module-alias": "2.2.3",
     "mongoose": "7.1.0",
     "passport": "0.6.0",
     "passport-http-bearer": "1.0.1",

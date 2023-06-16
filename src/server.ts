@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import app from 'src/app';
+import app from './app';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
