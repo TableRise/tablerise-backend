@@ -1,8 +1,14 @@
 import { ZodIssue, ZodObject } from 'zod';
-import HttpStatusCode from 'src/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/helpers/HttpStatusCode';
 
-class ValidateEntry {
-  private throwError (message: ZodIssue[], code: number): void {
+export default class ValidateEntry {
+  validator: (zodSchema: ZodObject<any>, payload: unknown) => void;
+
+  constructor() {
+    this.validator = this.validate;
+  }
+
+  private _throwError (message: ZodIssue[], code: number): void {
     const error = new Error(JSON.stringify(message));
     error.stack = code.toString();
     error.name = 'ValidationError';
@@ -10,12 +16,10 @@ class ValidateEntry {
     throw error;
   }
 
-  protected validate (zodSchema: ZodObject<any>, payload: unknown): void {
+  public validate (zodSchema: ZodObject<any>, payload: unknown): void {
     const verify = zodSchema.safeParse(payload);
     if (!verify.success) {
-      this.throwError(verify.error.issues, HttpStatusCode.UNPROCESSABLE_ENTITY)
+      this._throwError(verify.error.issues, HttpStatusCode.UNPROCESSABLE_ENTITY)
     }
   }
 };
-
-export default ValidateEntry;
