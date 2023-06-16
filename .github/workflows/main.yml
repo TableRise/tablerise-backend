@@ -6,10 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
+      - name: npmrcgen
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > .npmrc
+          echo "@tablerise:registry=https://npm.pkg.github.com/" >> .npmrc
+
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checking Package.json
         run: npm run check-lib
