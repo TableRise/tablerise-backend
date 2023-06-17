@@ -1,17 +1,23 @@
+import 'module-alias/register';
 import 'express-async-errors';
+
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import RoutesWrapper from 'src/routes/RoutesWrapper';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
+
+const autoSwagger = require('@tablerise/auto-swagger');
 
 const app: Application = express();
 
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
+app
+  .use(express.json())
+  .use(cors())
+  .use(helmet())
+  .use('/health', (req, res) => res.send('OK!'))
+  .use(ErrorMiddleware);
 
-app.use('/health', (req, res) => res.send('OK!'));
-
-app.use(ErrorMiddleware);
+autoSwagger(RoutesWrapper.declareRoutes());
 
 export default app;
