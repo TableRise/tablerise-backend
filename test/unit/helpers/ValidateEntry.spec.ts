@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import ValidateEntry from 'src/helpers/ValidateEntry';
 
-describe.only('Helpers :: ValidateEntry', () => {
+describe('Helpers :: ValidateEntry', () => {
   describe('when a zod validation is successfull', () => {
     it('should not throw any error', () => {
       try {
