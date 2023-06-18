@@ -1,7 +1,9 @@
-import generateNewMongoID from 'src/helpers/generateNewMongoID';
-import { ISystem } from 'src/schemas/systemValidationSchema';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import { ISystem } from 'src/schemas/systemsValidationSchema';
+import IMock from 'src/types/IMock';
 
-const SYSTEM_INSTANCE_MOCK: ISystem = {
+const systemInstance: ISystem = {
+  _id: generateNewMongoID(),
   name: '',
   content: {
     races: [generateNewMongoID()],
@@ -21,6 +23,11 @@ const SYSTEM_INSTANCE_MOCK: ISystem = {
     cover: ''
   },
   active: true
+};
+
+const SYSTEM_INSTANCE_MOCK: IMock = {
+  instance: systemInstance,
+  description: 'Mock an instance of a RPG system'
 };
 
 export default {
