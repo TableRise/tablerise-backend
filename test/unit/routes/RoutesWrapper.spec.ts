@@ -1,13 +1,13 @@
-import RoutesWrapper from 'src/routes/RoutesWrapper';
+import RoutesWrapper, { IRoutesWrapperDeclared } from 'src/routes/RoutesWrapper';
 
 describe('Routes :: RoutesWrapper', () => {
   describe('When declare routes method is called', () => {
-    let routesDeclared: Array<[]>;
+    let routesDeclared: IRoutesWrapperDeclared[][];
 
-    it('should return an array with 0 arrays inside', () => {
+    it('should return an array with 2 arrays inside', () => {
       routesDeclared = RoutesWrapper.declareRoutes();
       expect(routesDeclared).toBeInstanceOf(Array);
-      expect(routesDeclared.length).toBe(0);
+      expect(routesDeclared.length).toBe(2);
     });
   })
 });

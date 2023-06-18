@@ -25,11 +25,9 @@ const systemInstance: ISystem = {
   active: true
 };
 
-const SYSTEM_INSTANCE_MOCK: IMock = {
+const system: IMock = {
   instance: systemInstance,
   description: 'Mock an instance of a RPG system'
 };
 
-export default {
-  SYSTEM_INSTANCE_MOCK
-};
+export default system;

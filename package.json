@@ -48,6 +48,7 @@
     "dotenv": "16.0.3",
     "express": "4.18.2",
     "express-async-errors": "3.1.1",
+    "glob": "^10.2.7",
     "helmet": "7.0.0",
     "jsonwebtoken": "9.0.0",
     "module-alias": "2.2.3",

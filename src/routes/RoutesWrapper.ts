@@ -1,20 +1,22 @@
 import systemRoutes from 'src/routes/systemRoutes';
 import IRoute, { IRoutesDeclareParams } from 'src/types/IRoute';
-import entitiesMock from 'src/support/schemas/systemsMocks';
+import mocks from 'src/support/schemas';
 import IMock from 'src/types/IMock';
 
-type IRoutesWrapperDeclared = string | null | IRoutesDeclareParams[] | IMock | boolean
+export type IRoutesWrapperDeclared = string | null | IRoutesDeclareParams[] | IMock | boolean
+
+const systemInstance = mocks.system.instance as IMock;
 
 class RoutesWrapper {
   static declareRoutes(): IRoutesWrapperDeclared[][] {
     return [
-      ['/systems', 'system', 'get', null, entitiesMock.SYSTEM_INSTANCE_MOCK, false],
+      ['/systems', 'system', 'get', null, systemInstance, false],
       ['/systems/{id}', 'system', 'getByID', [{
         name: '_id',
         location: 'path',
         required: true,
         type: 'string'
-      }], entitiesMock.SYSTEM_INSTANCE_MOCK, false]
+      }], systemInstance, false]
     ];
   }
 
