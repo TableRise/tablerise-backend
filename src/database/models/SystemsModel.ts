@@ -2,7 +2,7 @@ import { model as mongooseCreateModel, Schema } from 'mongoose';
 import { ISystem } from 'src/schemas/systemsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
-const systemsMongooseSchema = new Schema<ISystem>({
+export const systemsMongooseSchema = new Schema<ISystem>({
   name: { type: String, required: true },
   content: {
     races: { type: Array, required: true },
