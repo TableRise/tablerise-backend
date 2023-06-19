@@ -31,6 +31,8 @@ describe('Middlewares :: VerifyIdMiddleware', () => {
         const err = error as Error;
 
         expect(err.message).toBe('The parameter id is invalid');
+        expect(err.stack).toBe('400');
+        expect(err.name).toBe('Invalid Entry');
         expect(next).toHaveBeenCalledTimes(0);
       }
     });
