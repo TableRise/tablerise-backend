@@ -1,5 +1,5 @@
 import { ZodIssue, ZodObject } from 'zod';
-import { HttpStatusCode } from 'src/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class ValidateEntry {
   validator: (zodSchema: ZodObject<any>, payload: unknown) => void;

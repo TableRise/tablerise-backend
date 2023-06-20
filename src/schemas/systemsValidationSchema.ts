@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-const referencesSystemZodSchema = z.object({
+const systemReferencesZodSchema = z.object({
   srd: z.string(),
   icon: z.string(),
   cover: z.string()
 });
 
-const contentSystemZodSchema = z.object({
+const systemContentZodSchema = z.object({
   races: z.array(z.string().length(24)),
   classes: z.array(z.string().length(24)),
   spells: z.array(z.string().length(24)),
@@ -21,11 +21,12 @@ const contentSystemZodSchema = z.object({
 
 const systemZodSchema = z.object({
   name: z.string(),
-  content: contentSystemZodSchema,
-  references: referencesSystemZodSchema,
+  content: systemContentZodSchema,
+  references: systemReferencesZodSchema,
   active: z.boolean().default(true)
 });
 
-export type ISystem = z.infer<typeof systemZodSchema>
+export type ISystem = z.infer<typeof systemZodSchema> & { _id?: string }
+export type ISystemContent = z.infer<typeof systemContentZodSchema>
 
 export default systemZodSchema;
