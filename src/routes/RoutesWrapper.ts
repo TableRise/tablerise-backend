@@ -11,7 +11,7 @@ class RoutesWrapper {
   static declareRoutes(): IRoutesWrapperDeclared[][] {
     return [
       ['/systems', 'system', 'get', null, systemInstance, false],
-      ['/systems/{id}', 'system', 'getByID', [{
+      ['/systems/{_id}', 'system', 'get', [{
         name: '_id',
         location: 'path',
         required: true,
