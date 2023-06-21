@@ -38,7 +38,7 @@ describe('Middlewares :: ErrorMiddleware', () => {
       expect(response.status).toHaveBeenCalledWith(HttpStatusCode.UNPROCESSABLE_ENTITY);
       expect(response.json).toHaveBeenCalledWith({
         name: error.name,
-        message: JSON.parse(error.message)
+        message: error.message
       });
     });
   });

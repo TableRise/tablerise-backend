@@ -4,7 +4,7 @@ import IMock from 'src/types/IMock';
 
 const systemInstance: ISystem = {
   _id: generateNewMongoID(),
-  name: '',
+  name: 'Tormenta',
   content: {
     races: [generateNewMongoID()],
     classes: [generateNewMongoID()],
@@ -18,9 +18,9 @@ const systemInstance: ISystem = {
     monsters: [generateNewMongoID()]
   },
   references: {
-    srd: '',
-    icon: '',
-    cover: ''
+    srd: 'http://tormenta20.com.br',
+    icon: 'http://tormenta20.com.br/icon/550.jpg',
+    cover: 'http://tormenta20.com.br/cover/2100.jpg'
   },
   active: true
 };
