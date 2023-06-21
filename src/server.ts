@@ -5,9 +5,7 @@ import ConnectMongoInstance from './support/helpers/ConnectMongoInstance';
 
 const port = process.env.PORT || 3001;
 
-ConnectMongoInstance.connect()
-  .then(() => {})
-  .catch((e) => e);
+void ConnectMongoInstance.connect();
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
