@@ -1,5 +1,6 @@
-import systemsMocks from 'src/support/schemas/systemsMocks';
+import systemsMocks, { updateSystem } from 'src/support/schemas/systemsMocks';
 
 export default {
-  system: systemsMocks
+  system: systemsMocks,
+  updateSystemContent: updateSystem
 }

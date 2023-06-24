@@ -6,6 +6,7 @@ import IMock from 'src/types/IMock';
 export type IRoutesWrapperDeclared = string | null | IRoutesDeclareParams[] | IMock | boolean
 
 const systemInstance = mocks.system.instance as IMock;
+const updateSystemContentInstance = mocks.updateSystemContent.instance as IMock;
 
 class RoutesWrapper {
   static declareRoutes(): IRoutesWrapperDeclared[][] {
@@ -16,7 +17,27 @@ class RoutesWrapper {
         location: 'path',
         required: true,
         type: 'string'
-      }], systemInstance, false]
+      }], systemInstance, false],
+      ['/systems/{_id}', 'system', 'put', [{
+        name: '_id',
+        location: 'path',
+        required: true,
+        type: 'string'
+      }], systemInstance, false],
+      ['/systems/{_id}', 'system', 'patch', [
+        {
+          name: '_id',
+          location: 'path',
+          required: true,
+          type: 'string'
+        },
+        {
+          name: 'entity',
+          location: 'query',
+          required: true,
+          type: 'string'
+        }
+      ], updateSystemContentInstance, false]
     ];
   }
 
