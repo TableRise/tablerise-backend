@@ -12,7 +12,8 @@
     "test:coverage": "jest --verbose --coverage",
     "dev": "npx nodemon",
     "lint": "eslint . --ext .ts --max-warnings=0",
-    "check-lib": "node scripts/checkUnauthorizedChars.js"
+    "check-lib": "node scripts/checkUnauthorizedChars.js",
+    "check-cov": "node scripts/checkCoverage.js"
   },
   "_moduleAliases": {
     "src": "./build/src/"
