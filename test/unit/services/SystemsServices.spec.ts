@@ -121,8 +121,16 @@ describe('Services :: SystemsServices', () => {
       jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
     });
 
-    it('should return a confirmation of addition or remove of an entity ID', async () => {
+    it('should return a confirmation of add an entity ID', async () => {
       const responseTest = await systemsServicesMock.updateContent(systemMockID, entityMockQuery, updateContentMockInstance);
+      expect(responseTest).toBe(`New ID ${newID} was ${method} to array of entities ${entityMockQuery}`);
+    });
+
+    it('should return a confirmation of remove an entity ID', async () => {
+      const updateContentMockInstanceRemove: IUpdateContent = { method: 'remove', newID: systemMockInstance.content.races[0] };
+      const { method, newID } = updateContentMockInstanceRemove;
+
+      const responseTest = await systemsServicesMock.updateContent(systemMockID, entityMockQuery, updateContentMockInstanceRemove);
       expect(responseTest).toBe(`New ID ${newID} was ${method} to array of entities ${entityMockQuery}`);
     });
 
