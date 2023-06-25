@@ -9,6 +9,7 @@ describe('Helpers :: HttpStatusCode', () => {
         'DELETED',
         'BAD_REQUEST',
         'UNAUTHORIZED',
+        'FORBIDDEN',
         'NOT_FOUND',
         'UNPROCESSABLE_ENTITY',
         'INTERNAL_SERVER'
@@ -27,6 +28,7 @@ describe('Helpers :: HttpStatusCode', () => {
         204,
         400,
         401,
+        403,
         404,
         422,
         500

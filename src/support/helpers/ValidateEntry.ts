@@ -16,7 +16,7 @@ export default class ValidateEntry {
     throw error;
   }
 
-  public validate (zodSchema: ZodObject<any>, payload: unknown): void {
+  protected validate (zodSchema: ZodObject<any>, payload: unknown): void {
     const verify = zodSchema.safeParse(payload);
     if (!verify.success) {
       this._throwError(verify.error.issues, HttpStatusCode.UNPROCESSABLE_ENTITY)
