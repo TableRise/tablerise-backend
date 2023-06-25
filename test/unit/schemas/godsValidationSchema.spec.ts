@@ -1,5 +1,5 @@
 import godZodSchema, { IGod } from 'src/schemas/godsValidationSchema';
-import mocks from 'src/support/schemas';
+import mocks from 'src/support/mocks';
 
 describe('Schemas :: GodsValidationSchema', () => {
   describe('When the zod validation is called with the correct data', () => {

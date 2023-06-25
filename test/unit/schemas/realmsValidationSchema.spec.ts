@@ -1,5 +1,5 @@
 import realmZodSchema, { IRealm } from 'src/schemas/realmsValidationSchema';
-import mocks from 'src/support/schemas';
+import mocks from 'src/support/mocks';
 
 describe('Schemas :: RealmsValidationSchema', () => {
   describe('When the zod validation is called with the correct data', () => {
