@@ -1,5 +1,5 @@
 import systemZodSchema, { ISystem } from 'src/schemas/systemsValidationSchema';
-import mocks from 'src/support/schemas';
+import mocks from 'src/support/mocks';
 
 describe('Schemas :: SystemValidationSchema', () => {
   describe('When the zod validation is called with the correct data', () => {

@@ -1,4 +1,4 @@
-import mocks from 'src/support/schemas';
+import mocks from 'src/support/mocks';
 import { Model } from 'mongoose';
 import { ISystem } from 'src/schemas/systemsValidationSchema';
 import SystemsModel from 'src/database/models/SystemsModel';

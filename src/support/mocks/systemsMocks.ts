@@ -1,6 +1,7 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import { ISystem } from 'src/schemas/systemsValidationSchema';
 import IMock from 'src/types/IMock';
+import { IUpdateContent } from 'src/schemas/updateContentSchema';
 
 const systemInstance: ISystem = {
   _id: generateNewMongoID(),
@@ -25,9 +26,18 @@ const systemInstance: ISystem = {
   active: true
 };
 
+const updateSystemContentInstance: IUpdateContent = {
+  method: 'add',
+  newID: generateNewMongoID()
+}
 const system: IMock = {
   instance: systemInstance,
   description: 'Mock an instance of a RPG system'
+};
+
+export const updateSystem: IMock = {
+  instance: updateSystemContentInstance,
+  description: 'Mock an instance of a RPG system updating of a content'
 };
 
 export default system;

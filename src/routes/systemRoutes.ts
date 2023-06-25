@@ -12,5 +12,7 @@ const router = Router();
 
 router.get('/', controllers.findAll);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
+router.put('/:id', VerifyIdMiddleware, controllers.update);
+router.patch('/:id', VerifyIdMiddleware, controllers.updateContent);
 
 export default router;
