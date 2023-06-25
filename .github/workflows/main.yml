@@ -31,7 +31,7 @@ jobs:
         run: docker-compose up -d database-test
 
       - name: Run Tests
-        run:  npm run test:coverage
+        run:  npm run test
 
       - name: Monitor coverage
         uses: slavcodev/coverage-monitor-action@v1
