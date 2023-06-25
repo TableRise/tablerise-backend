@@ -2,8 +2,7 @@
 const summary = require('../coverage/coverage-summary.json');
 
 function checkCoverage() {
-  const summaryParsed = JSON.parse(summary);
-  const summaryTotal = summaryParsed.total;
+  const summaryTotal = summary.total;
 
   const summaryPercentages = [
     summaryTotal.lines.pct,
@@ -16,9 +15,9 @@ function checkCoverage() {
     if (spec < 90) {
       throw new Error('Some coverage point is below 90%');
     }
-
-    console.log('Well Done, all the coverage point are above or equal 90%');
   });
+
+  console.log('Well Done, all the coverage points are above or equal 90%');
 }
 
 checkCoverage();
