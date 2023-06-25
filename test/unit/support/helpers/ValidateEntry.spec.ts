@@ -11,7 +11,7 @@ describe('Helpers :: ValidateEntry', () => {
 
         const testObject = { value: 10 };
 
-        new ValidateEntry().validate(testZodSchema, testObject);
+        new ValidateEntry().validator(testZodSchema, testObject);
         expect(true).toBe(true);
       } catch (error) {
         expect(error).toBeUndefined();
@@ -36,7 +36,7 @@ describe('Helpers :: ValidateEntry', () => {
 
         const testObject = { noNumber: '10' };
 
-        new ValidateEntry().validate(testZodSchema, testObject);
+        new ValidateEntry().validator(testZodSchema, testObject);
         expect(true).toBe(false);
       } catch (error) {
         const zodError = error as Error;

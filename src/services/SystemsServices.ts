@@ -8,7 +8,7 @@ import updateContentZodSchema, { IUpdateContent } from 'src/schemas/updateConten
 export default class SystemsServices
   extends ValidateEntry
   implements IService<ISystem> {
-  constructor(readonly _model: SystemsModel) {
+  constructor(private readonly _model: SystemsModel) {
     super();
   }
 

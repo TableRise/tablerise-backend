@@ -30,7 +30,6 @@ const updateSystemContentInstance: IUpdateContent = {
   method: 'add',
   newID: generateNewMongoID()
 }
-
 const system: IMock = {
   instance: systemInstance,
   description: 'Mock an instance of a RPG system'

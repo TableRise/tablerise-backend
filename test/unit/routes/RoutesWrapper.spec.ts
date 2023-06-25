@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import RoutesWrapper, { IRoutesWrapperDeclared } from 'src/routes/RoutesWrapper';
-import IRoute from 'src/types/IRoute';
+import RoutesWrapper from 'src/routes/RoutesWrapper';
+import IRoute, { IRoutesWrapperDeclared } from 'src/types/IRoute';
 
 describe('Routes :: RoutesWrapper', () => {
   describe('When declare routes method is called', () => {
@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
     it('should return an array with 2 arrays inside', () => {
       routesDeclared = RoutesWrapper.declareRoutes();
       expect(routesDeclared).toBeInstanceOf(Array);
-      expect(routesDeclared.length).toBe(2);
+      expect(routesDeclared.length).toBe(4);
     });
   });
 

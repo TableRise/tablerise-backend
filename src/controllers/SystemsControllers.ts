@@ -38,6 +38,6 @@ export default class SystemsControllers {
     const payload = req.body as IUpdateContent;
 
     const request = await this._service.updateContent(_id, entity as string, payload);
-    return res.status(HttpStatusCode.OK).json(request);
+    return res.status(HttpStatusCode.OK).send(request);
   }
 }
