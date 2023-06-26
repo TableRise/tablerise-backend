@@ -26,7 +26,10 @@ class RoutesWrapper {
       ['/systems', 'system', 'get', null, systemInstance, null, false],
       ['/systems/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
       ['/systems/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
-      ['/systems/{_id}', 'system', 'patch', [...generateIDParam(), ...generateQueryParam(1, ['entity'])], updateSystemInstance, false]
+      ['/systems/{_id}', 'system', 'patch',
+        [...generateIDParam(), ...generateQueryParam(1, ['entity'])],
+        null, updateSystemInstance, false
+      ]
     ];
   }
 };
