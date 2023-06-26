@@ -4,35 +4,30 @@ import systemZodSchema, { ISystem } from 'src/schemas/systemsValidationSchema';
 import ConnectMongoInstance from './ConnectMongoInstance';
 import ValidateEntry from './ValidateEntry';
 
-export default class Seeder {
-  constructor(readonly env: string) {}
+export default class Seeder extends ValidateEntry {
+  constructor(readonly env: string) {
+    super();
+  }
 
   private async _stablishConnection(): Promise<void> {
     if (this.env === 'test') {
       await ConnectMongoInstance.connectInTest();
     }
 
-    if (this.env === 'prod') {
+    if (this.env === 'prod' || this.env === 'dev') {
       await ConnectMongoInstance.connect();
-    }
-  }
-
-  private async _envCheck(): Promise<void> {
-    if (this.env === 'test' || this.env === 'prod') {
-      console.log('Stablishing connection with mongodb instance');
-      await this._stablishConnection();
     }
   }
 
   public async systems(data: ISystem[]): Promise<boolean> {
     try {
-      await this._envCheck();
+      await this._stablishConnection();
 
       const model = new SystemsModel();
       const requests: Array<Promise<ISystem>> = [];
 
       data.forEach((singleData) => {
-        new ValidateEntry().validate(systemZodSchema, singleData);
+        this.validate(systemZodSchema, singleData);
         requests.push(model.create(singleData));
       });
 
