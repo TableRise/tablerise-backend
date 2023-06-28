@@ -22,10 +22,12 @@ export const systemsMongooseSchema = new Schema<ISystem>({
     cover: { type: String, required: false }
   },
   active: { type: Boolean, required: true }
+}, {
+  versionKey: false
 });
 
 export default class SystemsModel extends MongoModel<ISystem> {
-  constructor(public model = mongooseCreateModel('SystemsModel', systemsMongooseSchema)) {
+  constructor(public model = mongooseCreateModel('system', systemsMongooseSchema)) {
     super(model)
   }
 }

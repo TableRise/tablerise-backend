@@ -9,6 +9,8 @@ export default class ValidateEntry {
   }
 
   private _throwError (message: ZodIssue[], code: number): void {
+    if (message[0].path.includes('content')) return;
+
     const error = new Error(JSON.stringify(message));
     error.stack = code.toString();
     error.name = 'ValidationError';

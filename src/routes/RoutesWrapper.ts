@@ -11,7 +11,7 @@ import { ISystem } from 'src/schemas/systemsValidationSchema';
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
 const systemInstance = mocks.system.instance as IMock;
-const { content: _, ...systemWithoutContent } = systemInstance as unknown as ISystem;
+const { _id: _, content: __, ...systemWithoutContent } = systemInstance as unknown as ISystem;
 const updateSystemInstance = mocks.updateSystemContent.instance as IMock;
 
 class RoutesWrapper {
