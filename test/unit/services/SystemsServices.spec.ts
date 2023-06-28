@@ -8,6 +8,7 @@ describe('Services :: SystemsServices', () => {
   const systemsModelMock = new SystemsModel();
   const systemsServicesMock = new SystemsServices(systemsModelMock);
   const systemMockInstance = mocks.system.instance as ISystem;
+  const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
 
   const updateContentMockInstance = mocks.updateSystemContent.instance as IUpdateContent;
 
@@ -40,7 +41,7 @@ describe('Services :: SystemsServices', () => {
         const err = error as Error;
         expect(err.message).toBe('Not found a system with provided ID');
         expect(err.stack).toBe('404');
-        expect(err.name).toBe('Not Found');
+        expect(err.name).toBe('NotFound');
       }
     });
   });
@@ -49,27 +50,16 @@ describe('Services :: SystemsServices', () => {
     const systemMockID = systemMockInstance._id as string;
     const systemMockUpdateInstance = { ...systemMockInstance, active: false, name: 'D&D' };
 
-    const systemMockUpdateContentInstance = {
-      ...systemMockInstance,
-      content: {
-        ...systemMockInstance.content,
-        races: []
-      }
-    } as unknown as ISystem;
-
-    const { _id: _, ...systemMockPayload } = systemMockInstance;
-    const { name: __, ...systemMockPayloadWrong } = systemMockPayload;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { name: ___, ...systemMockPayloadWrong } = systemMockPayload;
 
     beforeAll(() => {
-      jest.spyOn(systemsModelMock, 'findOne').mockResolvedValueOnce(systemMockInstance)
-        .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(systemMockInstance);
-
-      jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockUpdateInstance);
+      jest.spyOn(systemsModelMock, 'update').mockResolvedValueOnce(systemMockUpdateInstance)
+        .mockResolvedValue(null);
     });
 
     it('should return correct data with updated values', async () => {
-      const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload);
+      const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as ISystem);
       expect(responseTest).toBe(systemMockUpdateInstance);
     });
 
@@ -87,18 +77,18 @@ describe('Services :: SystemsServices', () => {
 
     it('should throw an error when ID is inexistent', async () => {
       try {
-        await systemsServicesMock.update('inexistent_id', systemMockPayload);
+        await systemsServicesMock.update('inexistent_id', systemMockPayload as ISystem);
       } catch (error) {
         const err = error as Error;
         expect(err.message).toBe('Not found a system with provided ID');
         expect(err.stack).toBe('404');
-        expect(err.name).toBe('Not Found');
+        expect(err.name).toBe('NotFound');
       }
     });
 
-    it('should throw an error when system content is modified', async () => {
+    it('should throw an error when system content is given', async () => {
       try {
-        await systemsServicesMock.update(systemMockID, systemMockUpdateContentInstance);
+        await systemsServicesMock.update(systemMockID, systemMockInstance);
       } catch (error) {
         const err = error as Error;
         expect(err.message).toBe('Update the content directly is not allowed');

@@ -17,7 +17,7 @@ describe('Middlewares :: VerifyIdMiddleware', () => {
     })
 
     it('should be successfull if is a valid mongo id', () => {
-      request.params = { _id: generateNewMongoID() };
+      request.params = { id: generateNewMongoID() };
       VerifyIdMiddleware(request, response, next);
 
       expect(next).toHaveBeenCalled();
@@ -25,7 +25,7 @@ describe('Middlewares :: VerifyIdMiddleware', () => {
 
     it('should fail if is a valid mongo id', () => {
       try {
-        request.params = { _id: 'invalid' };
+        request.params = { id: 'invalid' };
         VerifyIdMiddleware(request, response, next);
       } catch (error) {
         const err = error as Error;

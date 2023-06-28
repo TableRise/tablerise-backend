@@ -23,7 +23,7 @@ export default class SystemsServices
     if (!response) {
       const err = new Error('Not found a system with provided ID');
       err.stack = HttpStatusCode.NOT_FOUND.toString();
-      err.name = 'Not Found'
+      err.name = 'NotFound'
 
       throw err;
     }
@@ -34,9 +34,7 @@ export default class SystemsServices
   public async update(_id: string, payload: ISystem): Promise<ISystem> {
     this.validate(systemZodSchema, payload);
 
-    const recoverSystem = await this.findOne(_id);
-
-    if (recoverSystem.content !== payload.content) {
+    if (payload.content) {
       const err = new Error('Update the content directly is not allowed');
       err.stack = HttpStatusCode.FORBIDDEN.toString();
       err.name = 'ForbiddenRequest'
@@ -46,7 +44,15 @@ export default class SystemsServices
 
     const response = await this._model.update(_id, payload);
 
-    return response as ISystem;
+    if (!response) {
+      const err = new Error('Not found a system with provided ID');
+      err.stack = HttpStatusCode.NOT_FOUND.toString();
+      err.name = 'NotFound'
+
+      throw err;
+    }
+
+    return response;
   }
 
   public async updateContent(_id: string, entityQuery: string, payload: IUpdateContent): Promise<string> {
@@ -62,7 +68,15 @@ export default class SystemsServices
 
     const { method, newID } = payload;
 
-    const recoverSystem = await this.findOne(_id);
+    const recoverSystem = await this._model.findOne(_id);
+
+    if (!recoverSystem) {
+      const err = new Error('Not found a system with provided ID');
+      err.stack = HttpStatusCode.NOT_FOUND.toString();
+      err.name = 'NotFound';
+
+      throw err;
+    }
 
     if (method === 'add') {
       recoverSystem.content[entityQuery as keyof ISystemContent].push(newID);
@@ -75,7 +89,7 @@ export default class SystemsServices
       recoverSystem.content[entityQuery as keyof ISystemContent] = removeIdFromContent;
     }
 
-    await this.update(_id, recoverSystem);
+    await this._model.update(_id, recoverSystem);
 
     const response = `New ID ${newID} was ${method} to array of entities ${entityQuery}`;
 
