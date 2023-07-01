@@ -31,12 +31,14 @@ describe('Patch RPG systems in database', () => {
       const response = await model.create(systemMockPayload);
       documentId = response._id as string;
 
+      const updateResult = `New ID ${contentPayload.newID} was ${contentPayload.method} to array of entities races - system ID: ${documentId}`;
+
       const { text } = await request(app)
         .patch(`/systems/${documentId}?entity=races`)
         .send(contentPayload)
-        .expect(HttpStatusCode.OK);
+        .expect(HttpStatusCode.CREATED);
 
-      expect(text).toBe(`New ID ${contentPayload.newID} was ${contentPayload.method} to array of entities races`);
+      expect(text).toBe(updateResult);
     });
 
     it('should fail when data is wrong', async () => {
@@ -72,7 +74,7 @@ describe('Patch RPG systems in database', () => {
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('Not found a system with provided ID');
+      expect(body.message).toBe('NotFound a system with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });
