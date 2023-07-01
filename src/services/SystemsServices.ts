@@ -21,7 +21,7 @@ export default class SystemsServices
     const response = await this._model.findOne(_id);
 
     if (!response) {
-      const err = new Error('Not found a system with provided ID');
+      const err = new Error('NotFound a system with provided ID');
       err.stack = HttpStatusCode.NOT_FOUND.toString();
       err.name = 'NotFound'
 
@@ -45,7 +45,7 @@ export default class SystemsServices
     const response = await this._model.update(_id, payload);
 
     if (!response) {
-      const err = new Error('Not found a system with provided ID');
+      const err = new Error('NotFound a system with provided ID');
       err.stack = HttpStatusCode.NOT_FOUND.toString();
       err.name = 'NotFound'
 
@@ -71,7 +71,7 @@ export default class SystemsServices
     const recoverSystem = await this._model.findOne(_id);
 
     if (!recoverSystem) {
-      const err = new Error('Not found a system with provided ID');
+      const err = new Error('NotFound a system with provided ID');
       err.stack = HttpStatusCode.NOT_FOUND.toString();
       err.name = 'NotFound';
 
@@ -91,12 +91,60 @@ export default class SystemsServices
 
     await this._model.update(_id, recoverSystem);
 
-    const response = `New ID ${newID} was ${method} to array of entities ${entityQuery}`;
+    const response = `New ID ${newID} was ${method} to array of entities ${entityQuery} - system ID: ${recoverSystem._id as string}`;
 
     return response;
   };
 
-  public async delete(_id: string): Promise<void> {
-    throw new Error('Method not implemented yet');
+  public async activate(_id: string): Promise<string> {
+    const response = await this._model.findOne(_id);
+
+    if (!response) {
+      const err = new Error('NotFound a system with provided ID');
+      err.stack = HttpStatusCode.NOT_FOUND.toString();
+      err.name = 'NotFound'
+
+      throw err;
+    }
+
+    if (response.active) {
+      const err = new Error('System already active');
+      err.stack = HttpStatusCode.BAD_REQUEST.toString();
+      err.name = 'ValidationError'
+
+      throw err;
+    }
+
+    response.active = true;
+
+    await this._model.update(_id, response);
+
+    return `System ${response._id as string} was activated`;
+  }
+
+  public async deactivate(_id: string): Promise<string> {
+    const response = await this._model.findOne(_id);
+
+    if (!response) {
+      const err = new Error('NotFound a system with provided ID');
+      err.stack = HttpStatusCode.NOT_FOUND.toString();
+      err.name = 'NotFound'
+
+      throw err;
+    }
+
+    if (!response.active) {
+      const err = new Error('System already deactivated');
+      err.stack = HttpStatusCode.BAD_REQUEST.toString();
+      err.name = 'ValidationError'
+
+      throw err;
+    }
+
+    response.active = false;
+
+    await this._model.update(_id, response);
+
+    return `System ${response._id as string} was deactivated`;
   }
 }

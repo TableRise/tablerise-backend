@@ -14,5 +14,7 @@ router.get('/', controllers.findAll);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
 router.patch('/:id', VerifyIdMiddleware, controllers.updateContent);
+router.patch('/activate/:id', VerifyIdMiddleware, controllers.activate);
+router.patch('/deactivate/:id', VerifyIdMiddleware, controllers.deactivate);
 
 export default router;
