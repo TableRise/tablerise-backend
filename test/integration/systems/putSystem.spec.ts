@@ -75,7 +75,7 @@ describe('Put RPG systems in database', () => {
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('Not found a system with provided ID');
+      expect(body.message).toBe('NotFound a system with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });

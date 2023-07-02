@@ -56,14 +56,14 @@ describe('Get RPG systems from database', () => {
       expect(JSON.stringify(body._id)).toStrictEqual(JSON.stringify(documentId));
     });
 
-    it('should fail with id not found', async () => {
+    it('should fail with id NotFound', async () => {
       const { body } = await request(app)
         .get(`/systems/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('Not found a system with provided ID');
+      expect(body.message).toBe('NotFound a system with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });

@@ -83,7 +83,7 @@ describe('Services :: SystemsControllers', () => {
   describe('When a request is made to update one content system by ID', () => {
     const { method, newID } = systemUpdateContentMockInsatnce;
     const entityMockQuery = 'races';
-    const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery}`
+    const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - systemID: ${systemMockInstance._id as string}`;
 
     beforeAll(() => {
       response.status = jest.fn().mockReturnValue(response);
@@ -96,12 +96,58 @@ describe('Services :: SystemsControllers', () => {
       jest.clearAllMocks();
     });
 
-    it('should return correct data in response json with status 200', async () => {
+    it('should return correct data in response json with status 201', async () => {
       request.params = { _id: systemMockInstance._id as string };
       request.body = systemUpdateContentMockInsatnce;
       request.query = { entity: entityMockQuery };
 
       await systemsControllersMock.updateContent(request, response);
+      expect(response.status).toHaveBeenCalledWith(201);
+      expect(response.send).toHaveBeenCalledWith(updateResult);
+    });
+  });
+
+  describe('When a request is made to activate one system by ID', () => {
+    const updateResult = `System ${systemMockInstance._id as string} was activated`;
+
+    beforeAll(() => {
+      response.status = jest.fn().mockReturnValue(response);
+      response.send = jest.fn().mockReturnValue('');
+
+      jest.spyOn(systemsServicesMock, 'activate').mockResolvedValue(updateResult);
+    });
+
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return correct data in response json with status 200', async () => {
+      request.params = { _id: systemMockInstance._id as string };
+
+      await systemsControllersMock.activate(request, response);
+      expect(response.status).toHaveBeenCalledWith(200);
+      expect(response.send).toHaveBeenCalledWith(updateResult);
+    });
+  });
+
+  describe('When a request is made to deactivate one system by ID', () => {
+    const updateResult = `System ${systemMockInstance._id as string} was deactivated`;
+
+    beforeAll(() => {
+      response.status = jest.fn().mockReturnValue(response);
+      response.send = jest.fn().mockReturnValue('');
+
+      jest.spyOn(systemsServicesMock, 'deactivate').mockResolvedValue(updateResult);
+    });
+
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return correct data in response json with status 200', async () => {
+      request.params = { _id: systemMockInstance._id as string };
+
+      await systemsControllersMock.deactivate(request, response);
       expect(response.status).toHaveBeenCalledWith(200);
       expect(response.send).toHaveBeenCalledWith(updateResult);
     });

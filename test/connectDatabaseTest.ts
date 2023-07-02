@@ -7,7 +7,7 @@ export function connect(): void {
 
   mongoose
     .connect(firstSection + secondSection)
-    .then(() => { console.log('MongoDB Instance Connected') })
+    .then(() => {})
     .catch((error) => { throw error });
 }
 

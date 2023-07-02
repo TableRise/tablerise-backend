@@ -10,6 +10,8 @@ export default class SystemsControllers {
     this.findOne = this.findOne.bind(this);
     this.update = this.update.bind(this);
     this.updateContent = this.updateContent.bind(this);
+    this.activate = this.activate.bind(this);
+    this.deactivate = this.deactivate.bind(this);
   }
 
   public async findAll(_req: Request, res: Response): Promise<Response> {
@@ -38,6 +40,20 @@ export default class SystemsControllers {
     const payload = req.body as IUpdateContent;
 
     const request = await this._service.updateContent(_id, entity as string, payload);
+    return res.status(HttpStatusCode.CREATED).send(request);
+  }
+
+  public async activate(req: Request, res: Response): Promise<Response> {
+    const { id: _id } = req.params;
+
+    const request = await this._service.activate(_id);
+    return res.status(HttpStatusCode.OK).send(request);
+  }
+
+  public async deactivate(req: Request, res: Response): Promise<Response> {
+    const { id: _id } = req.params;
+
+    const request = await this._service.deactivate(_id);
     return res.status(HttpStatusCode.OK).send(request);
   }
 }
