@@ -1,4 +1,4 @@
-import godZodSchema, { IGod } from 'src/schemas/godsValidationSchema';
+import godZodSchema, { God } from 'src/schemas/godsValidationSchema';
 import mocks from 'src/support/mocks';
 
 describe('Schemas :: GodsValidationSchema', () => {
@@ -11,7 +11,7 @@ describe('Schemas :: GodsValidationSchema', () => {
 
   describe('When the zod validation is called with the incorrect data', () => {
     it('should fail', () => {
-      const { name: _, ...godMockWithoutName } = mocks.god.instance as IGod;
+      const { name: _, ...godMockWithoutName } = mocks.god.instance as God;
 
       const schemaValidation = godZodSchema.safeParse(godMockWithoutName);
       expect(schemaValidation.success).toBe(false);

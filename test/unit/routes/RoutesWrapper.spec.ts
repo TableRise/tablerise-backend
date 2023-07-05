@@ -1,21 +1,22 @@
 import { Router } from 'express';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
-import IRoute, { IRoutesWrapperDeclared } from 'src/types/IRoute';
+import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
 describe('Routes :: RoutesWrapper', () => {
   describe('When declare routes method is called', () => {
-    let routesDeclared: IRoutesWrapperDeclared[][];
+    let routesDeclared: RouteWrapperDeclared[][];
 
     it('should return an array with 2 arrays inside', () => {
       routesDeclared = RoutesWrapper.declareRoutes();
       expect(routesDeclared).toBeInstanceOf(Array);
-      expect(routesDeclared.length).toBe(6);
+      expect(routesDeclared.length).toBe(10);
     });
   });
 
   describe('When routes method is called', () => {
-    const routesMock: IRoute = {
-      systems: {} as Router
+    const routesMock: Route = {
+      system: {} as Router,
+      realms: {} as Router
     };
 
     it('should return the correct routes', () => {

@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
-import SystemsModel from 'src/database/models/SystemsModel';
-import SystemsServices from 'src/services/SystemsServices';
-import SystemsControllers from 'src/controllers/SystemsControllers';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import SystemsModel from 'src/database/models/SystemModel';
+import SystemsServices from 'src/services/SystemServices';
+import SystemsControllers from 'src/controllers/SystemControllers';
+import { System } from 'src/schemas/systemValidationSchema';
 import mocks from 'src/support/mocks';
-import { IUpdateContent } from 'src/schemas/updateContentSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 
 describe('Services :: SystemsControllers', () => {
   const systemsModelMock = new SystemsModel();
   const systemsServicesMock = new SystemsServices(systemsModelMock);
   const systemsControllersMock = new SystemsControllers(systemsServicesMock);
-  const systemMockInstance = mocks.system.instance as ISystem;
-  const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as IUpdateContent;
+  const systemMockInstance = mocks.system.instance as System;
+  const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;
   const request = {} as Request;
   const response = {} as Response;
 

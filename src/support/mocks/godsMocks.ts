@@ -1,8 +1,8 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { IGod } from 'src/schemas/godsValidationSchema';
-import IMock from 'src/types/IMock';
+import { God } from 'src/schemas/godsValidationSchema';
+import Mock from 'src/types/Mock';
 
-const godInstance: IGod = {
+const godInstance: God = {
   _id: generateNewMongoID(),
   name: 'Zeus',
   alignment: 'Neutro e Mal',
@@ -11,7 +11,7 @@ const godInstance: IGod = {
   phanteon: 'Grego'
 };
 
-const god: IMock = {
+const god: Mock = {
   instance: godInstance,
   description: 'Mock an instance of a RPG god'
 };

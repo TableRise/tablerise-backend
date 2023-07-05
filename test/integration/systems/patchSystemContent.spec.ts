@@ -4,8 +4,8 @@ import { connect, close } from '../../connectDatabaseTest';
 import SystemsModel from 'src/database/models/SystemsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks';
-import { IUpdateContent } from 'src/schemas/updateContentSchema';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import { System } from 'src/schemas/systemsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Patch RPG systems in database', () => {
@@ -18,10 +18,10 @@ describe('Patch RPG systems in database', () => {
   });
 
   const model = new SystemsModel();
-  const contentPayload = mocks.updateSystemContent.instance as IUpdateContent;
+  const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
   // const { method: _, ...newSystemContentPayloadWrong } = contentPayload;
 
-  const systemMockInstance = mocks.system.instance as ISystem;
+  const systemMockInstance = mocks.system.instance as System;
   const { _id: __, ...systemMockPayload } = systemMockInstance;
 
   let documentId: string;

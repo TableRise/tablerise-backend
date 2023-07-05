@@ -4,7 +4,7 @@ import { connect, close } from '../../connectDatabaseTest';
 import SystemsModel from 'src/database/models/SystemsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Patch RPG system status in database', () => {
@@ -18,7 +18,7 @@ describe('Patch RPG system status in database', () => {
 
   const model = new SystemsModel();
 
-  const systemMockInstance = mocks.system.instance as ISystem;
+  const systemMockInstance = mocks.system.instance as System;
   const { _id: __, ...systemMockPayload } = systemMockInstance;
 
   let documentId: string;

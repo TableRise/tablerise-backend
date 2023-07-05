@@ -1,7 +1,7 @@
 import { Model, UpdateQuery } from 'mongoose';
-import IModel from 'src/types/IModel';
+import ModelType from 'src/types/ModelType';
 
-abstract class MongoModel<T> implements IModel<T> {
+abstract class MongoModel<T> implements ModelType<T> {
   constructor (protected _model: Model<T>) {}
 
   public async create(payload: T): Promise<T> {

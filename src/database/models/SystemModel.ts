@@ -1,8 +1,8 @@
 import { model as mongooseCreateModel, Schema } from 'mongoose';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
-export const systemsMongooseSchema = new Schema<ISystem>({
+export const systemMongooseSchema = new Schema<System>({
   name: { type: String, required: true },
   content: {
     races: { type: Array, required: true },
@@ -26,8 +26,8 @@ export const systemsMongooseSchema = new Schema<ISystem>({
   versionKey: false
 });
 
-export default class SystemsModel extends MongoModel<ISystem> {
-  constructor(public model = mongooseCreateModel('system', systemsMongooseSchema)) {
+export default class SystemModel extends MongoModel<System> {
+  constructor(public model = mongooseCreateModel('system', systemMongooseSchema)) {
     super(model)
   }
 }

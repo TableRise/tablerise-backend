@@ -1,23 +1,23 @@
-import SystemsModel from 'src/database/models/SystemsModel';
-import IService from 'src/types/IService';
-import systemZodSchema, { ISystem, ISystemContent } from 'src/schemas/systemsValidationSchema';
+import SystemModel from 'src/database/models/SystemModel';
+import Service from 'src/types/Service';
+import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
-import updateContentZodSchema, { IUpdateContent } from 'src/schemas/updateContentSchema';
+import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 
-export default class SystemsServices
+export default class SystemServices
   extends ValidateEntry
-  implements IService<ISystem> {
-  constructor(private readonly _model: SystemsModel) {
+  implements Service<System> {
+  constructor(private readonly _model: SystemModel) {
     super();
   }
 
-  public async findAll(): Promise<ISystem[]> {
+  public async findAll(): Promise<System[]> {
     const response = await this._model.findAll();
     return response;
   };
 
-  public async findOne(_id: string): Promise<ISystem> {
+  public async findOne(_id: string): Promise<System> {
     const response = await this._model.findOne(_id);
 
     if (!response) {
@@ -31,7 +31,7 @@ export default class SystemsServices
     return response;
   }
 
-  public async update(_id: string, payload: ISystem): Promise<ISystem> {
+  public async update(_id: string, payload: System): Promise<System> {
     this.validate(systemZodSchema, payload);
 
     if (payload.content) {
@@ -55,7 +55,7 @@ export default class SystemsServices
     return response;
   }
 
-  public async updateContent(_id: string, entityQuery: string, payload: IUpdateContent): Promise<string> {
+  public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
     this.validate(updateContentZodSchema, payload);
 
     if (!entityQuery) {
@@ -79,14 +79,14 @@ export default class SystemsServices
     }
 
     if (method === 'add') {
-      recoverSystem.content[entityQuery as keyof ISystemContent].push(newID);
+      recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
     };
 
     if (method === 'remove') {
-      const removeIdFromContent = recoverSystem.content[entityQuery as keyof ISystemContent]
+      const removeIdFromContent = recoverSystem.content[entityQuery as keyof SystemContent]
         .filter((id) => id !== newID);
 
-      recoverSystem.content[entityQuery as keyof ISystemContent] = removeIdFromContent;
+      recoverSystem.content[entityQuery as keyof SystemContent] = removeIdFromContent;
     }
 
     await this._model.update(_id, recoverSystem);

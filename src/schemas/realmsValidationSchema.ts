@@ -6,6 +6,6 @@ const realmZodSchema = z.object({
   thumbnail: z.string()
 });
 
-export type IRealm = z.infer<typeof realmZodSchema> & { _id?: string };
+export type Realm = z.infer<typeof realmZodSchema>;
 
 export default realmZodSchema;

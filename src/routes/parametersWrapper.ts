@@ -1,6 +1,6 @@
-import { IRoutesDeclareParams } from 'src/types/IRoute';
+import { RouteDeclareParams } from 'src/types/Route';
 
-export default function generateIDParam(): IRoutesDeclareParams[] {
+export default function generateIDParam(): RouteDeclareParams[] {
   return [{
     name: '_id',
     location: 'path',
@@ -9,7 +9,7 @@ export default function generateIDParam(): IRoutesDeclareParams[] {
   }];
 };
 
-export function generateQueryParam(count: number, names: string[]): IRoutesDeclareParams[] {
+export function generateQueryParam(count: number, names: string[]): RouteDeclareParams[] {
   const params = []
 
   const idxCount = count - 1;

@@ -3,7 +3,7 @@ import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
 import SystemsModel from 'src/database/models/SystemsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
@@ -17,7 +17,7 @@ describe('Put RPG systems in database', () => {
   });
 
   const model = new SystemsModel();
-  const system = mocks.system.instance as ISystem;
+  const system = mocks.system.instance as System;
   const { _id: _, ...systemPayload } = system;
 
   const newSystemPayload = { ...systemPayload, name: 'D&D', active: false }
@@ -45,7 +45,7 @@ describe('Put RPG systems in database', () => {
     it('should fail when data is wrong', async () => {
       const { body } = await request(app)
         .put(`/systems/${documentId}`)
-        .send({ data: null } as unknown as ISystem)
+        .send({ data: null } as unknown as System)
         .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
       expect(body).toHaveProperty('message');

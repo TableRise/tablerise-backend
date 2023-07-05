@@ -1,17 +1,17 @@
-import SystemsModel from 'src/database/models/SystemsModel';
-import SystemsServices from 'src/services/SystemsServices';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
-import { IUpdateContent } from 'src/schemas/updateContentSchema';
+import SystemsModel from 'src/database/models/SystemModel';
+import SystemsServices from 'src/services/SystemServices';
+import { System } from 'src/schemas/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 import mocks from 'src/support/mocks';
 
 describe('Services :: SystemsServices', () => {
   const systemsModelMock = new SystemsModel();
   const systemsServicesMock = new SystemsServices(systemsModelMock);
-  const systemMockInstance = mocks.system.instance as ISystem;
+  const systemMockInstance = mocks.system.instance as System;
   const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
   const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
 
-  const updateContentMockInstance = mocks.updateSystemContent.instance as IUpdateContent;
+  const updateContentMockInstance = mocks.updateSystemContent.instance as UpdateContent;
 
   describe('When the recover all system service is called', () => {
     beforeAll(() => {
@@ -60,13 +60,13 @@ describe('Services :: SystemsServices', () => {
     });
 
     it('should return correct data with updated values', async () => {
-      const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as ISystem);
+      const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
       expect(responseTest).toBe(systemMockUpdateInstance);
     });
 
     it('should throw an error when payload is incorrect', async () => {
       try {
-        await systemsServicesMock.update(systemMockID, systemMockPayloadWrong as ISystem);
+        await systemsServicesMock.update(systemMockID, systemMockPayloadWrong as System);
       } catch (error) {
         const err = error as Error;
         expect(JSON.parse(err.message)[0].path[0]).toBe('name');
@@ -78,7 +78,7 @@ describe('Services :: SystemsServices', () => {
 
     it('should throw an error when ID is inexistent', async () => {
       try {
-        await systemsServicesMock.update('inexistent_id', systemMockPayload as ISystem);
+        await systemsServicesMock.update('inexistent_id', systemMockPayload as System);
       } catch (error) {
         const err = error as Error;
         expect(err.message).toBe('NotFound a system with provided ID');
@@ -117,7 +117,7 @@ describe('Services :: SystemsServices', () => {
     });
 
     it('should return a confirmation of remove an entity ID', async () => {
-      const updateContentMockInstanceRemove: IUpdateContent = { method: 'remove', newID: systemMockInstance.content.races[0] };
+      const updateContentMockInstanceRemove: UpdateContent = { method: 'remove', newID: systemMockInstance.content.races[0] };
       const { method, newID } = updateContentMockInstanceRemove;
       const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id as string}`;
 
@@ -127,7 +127,7 @@ describe('Services :: SystemsServices', () => {
 
     it('should throw an error when payload is incorrect', async () => {
       try {
-        await systemsServicesMock.updateContent(systemMockID, entityMockQuery, updateContentWithoutMethod as IUpdateContent);
+        await systemsServicesMock.updateContent(systemMockID, entityMockQuery, updateContentWithoutMethod as UpdateContent);
       } catch (error) {
         const err = error as Error;
         expect(JSON.parse(err.message)[0].path[0]).toBe('method');

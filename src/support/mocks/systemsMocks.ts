@@ -1,10 +1,9 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
-import IMock from 'src/types/IMock';
-import { IUpdateContent } from 'src/schemas/updateContentSchema';
+import { System } from 'src/schemas/systemValidationSchema';
+import Mock from 'src/types/Mock';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 
-const systemInstance: ISystem = {
-  _id: generateNewMongoID(),
+const systemInstance: System = {
   name: 'Tormenta',
   content: {
     races: [generateNewMongoID()],
@@ -26,16 +25,20 @@ const systemInstance: ISystem = {
   active: true
 };
 
-const updateSystemContentInstance: IUpdateContent = {
+const updateSystemContentInstance: UpdateContent = {
   method: 'add',
   newID: generateNewMongoID()
 }
-const system: IMock = {
-  instance: systemInstance,
+
+const system: Mock = {
+  instance: {
+    _id: generateNewMongoID(),
+    ...systemInstance
+  },
   description: 'Mock an instance of a RPG system'
 };
 
-export const updateSystem: IMock = {
+export const updateSystem = {
   instance: updateSystemContentInstance,
   description: 'Mock an instance of a RPG system updating of a content'
 };
