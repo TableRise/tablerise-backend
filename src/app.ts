@@ -19,7 +19,8 @@ app
   .use(cors())
   .use(helmet())
   .use('/health', (req, res) => res.send('OK!'))
-  .use('/systems', RoutesWrapper.routes().systems)
+  .use('/system', RoutesWrapper.routes().system)
+  .use('/realms', RoutesWrapper.routes().realms)
   .use(ErrorMiddleware);
 
 autoSwagger(RoutesWrapper.declareRoutes());

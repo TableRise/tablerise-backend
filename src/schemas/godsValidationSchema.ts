@@ -8,6 +8,6 @@ const godZodSchema = z.object({
   phanteon: z.string()
 });
 
-export type IGod = z.infer<typeof godZodSchema> & { _id?: string };
+export type God = z.infer<typeof godZodSchema> & { _id?: string };
 
 export default godZodSchema;

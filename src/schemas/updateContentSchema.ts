@@ -5,5 +5,5 @@ const updateContentZodSchema = z.object({
   newID: z.string()
 });
 
-export type IUpdateContent = z.infer<typeof updateContentZodSchema>;
+export type UpdateContent = z.infer<typeof updateContentZodSchema>;
 export default updateContentZodSchema;

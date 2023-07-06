@@ -26,7 +26,7 @@ const systemZodSchema = z.object({
   active: z.boolean().default(true)
 });
 
-export type ISystem = z.infer<typeof systemZodSchema> & { _id?: string }
-export type ISystemContent = z.infer<typeof systemContentZodSchema>
+export type System = z.infer<typeof systemZodSchema> & { _id?: string }
+export type SystemContent = z.infer<typeof systemContentZodSchema>
 
 export default systemZodSchema;

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import SystemsModel from 'src/database/models/SystemsModel';
-import SystemsServices from 'src/services/SystemsServices';
-import SystemsControllers from 'src/controllers/SystemsControllers';
+import SystemModel from 'src/database/models/SystemModel';
+import SystemServices from 'src/services/SystemServices';
+import SystemControllers from 'src/controllers/SystemControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new SystemsModel();
-const services = new SystemsServices(model);
-const controllers = new SystemsControllers(services);
+const model = new SystemModel();
+const services = new SystemServices(model);
+const controllers = new SystemControllers(services);
 
 const router = Router();
 

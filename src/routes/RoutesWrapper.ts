@@ -1,38 +1,50 @@
 /* eslint-disable max-len */
 import systemRoutes from 'src/routes/systemRoutes';
+import realmRoutes from 'src/routes/realmRoutes';
 
-import IRoute, { IRoutesWrapperDeclared } from 'src/types/IRoute';
-import IMock from 'src/types/IMock';
+import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
 import mocks from 'src/support/mocks';
 
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Realm } from 'src/schemas/realmsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
-const systemInstance = mocks.system.instance as IMock;
-const { _id: _, content: __, ...systemWithoutContent } = systemInstance as unknown as ISystem;
-const updateSystemInstance = mocks.updateSystemContent.instance as IMock;
+const systemInstance = mocks.system;
+const { _id: _, content: __, ...systemWithoutContent } = systemInstance.instance as System;
+const updateSystemInstance = mocks.updateSystemContent;
+
+const realmInstance = mocks.realm;
+const { _id: _1, ...realmWithoutId } = realmInstance.instance as Internacional<Realm>;
 
 class RoutesWrapper {
-  static routes(): IRoute {
+  static routes(): Route {
     return {
-      systems: systemRoutes
+      system: systemRoutes,
+      realms: realmRoutes
     }
   }
 
-  static declareRoutes(): IRoutesWrapperDeclared[][] {
+  static declareRoutes(): RouteWrapperDeclared[][] {
     return [
-      // RPG System routes
-      ['/systems', 'system', 'get', null, systemInstance, null, false],
-      ['/systems/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
-      ['/systems/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
-      ['/systems/{_id}', 'system', 'patch', [
+      // RPG systems routes
+      ['/system', 'system', 'get', null, systemInstance, null, false],
+      ['/system/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
+      ['/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
+      ['/system/{_id}', 'system', 'patch', [
         ...generateIDParam(),
         ...generateQueryParam(1, ['entity'])
-      ], null, updateSystemInstance, false],
-      ['/systems/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
-      ['/systems/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false]
+      ], null, updateSystemInstance.instance, false],
+      ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
+      ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
+
+      // RPG realms routes
+      ['/realms', 'realms', 'get', null, realmInstance, null, false],
+      ['/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
+      ['/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
+      ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };

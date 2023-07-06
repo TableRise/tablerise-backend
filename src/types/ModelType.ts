@@ -1,4 +1,4 @@
-export default interface IModel<T> {
+export default interface ModelType<T> {
   create: (payload: T) => Promise<T>
   findAll: () => Promise<T[]>
   findOne: (_id: string) => Promise<T | null>

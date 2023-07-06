@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import SystemsServices from 'src/services/SystemsServices';
+import SystemServices from 'src/services/SystemServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { IUpdateContent } from 'src/schemas/updateContentSchema';
-import { ISystem } from 'src/schemas/systemsValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 
-export default class SystemsControllers {
-  constructor(readonly _service: SystemsServices) {
+export default class SystemControllers {
+  constructor(readonly _service: SystemServices) {
     this.findAll = this.findAll.bind(this);
     this.findOne = this.findOne.bind(this);
     this.update = this.update.bind(this);
@@ -28,7 +28,7 @@ export default class SystemsControllers {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id: _id } = req.params;
-    const payload = req.body as ISystem;
+    const payload = req.body as System;
 
     const request = await this._service.update(_id, payload);
     return res.status(HttpStatusCode.OK).json(request);
@@ -37,7 +37,7 @@ export default class SystemsControllers {
   public async updateContent(req: Request, res: Response): Promise<Response> {
     const { id: _id } = req.params;
     const { entity } = req.query;
-    const payload = req.body as IUpdateContent;
+    const payload = req.body as UpdateContent;
 
     const request = await this._service.updateContent(_id, entity as string, payload);
     return res.status(HttpStatusCode.CREATED).send(request);
