@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import systemRoutes from 'src/routes/systemRoutes';
 import realmRoutes from 'src/routes/realmRoutes';
+import godRoutes from 'src/routes/godRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -9,6 +10,7 @@ import mocks from 'src/support/mocks';
 import { System } from 'src/schemas/systemValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/realmsValidationSchema';
+import { God } from 'src/schemas/godsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -19,11 +21,15 @@ const updateSystemInstance = mocks.updateSystemContent;
 const realmInstance = mocks.realm;
 const { _id: _1, ...realmWithoutId } = realmInstance.instance as Internacional<Realm>;
 
+const godInstance = mocks.god;
+const { _id: _2, ...godWithoutId } = godInstance.instance as Internacional<God>;
+
 class RoutesWrapper {
   static routes(): Route {
     return {
       system: systemRoutes,
-      realms: realmRoutes
+      realms: realmRoutes,
+      gods: godRoutes
     }
   }
 
@@ -44,7 +50,13 @@ class RoutesWrapper {
       ['/realms', 'realms', 'get', null, realmInstance, null, false],
       ['/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
       ['/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
-      ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false]
+      ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false],
+
+      // RPG gods routes
+      ['/gods', 'gods', 'get', null, realmInstance, null, false],
+      ['/gods/{_id}', 'gods', 'get', generateIDParam(), realmInstance, null, false],
+      ['/gods/{_id}', 'gods', 'put', generateIDParam(), realmInstance, godWithoutId, false],
+      ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };

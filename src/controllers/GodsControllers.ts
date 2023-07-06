@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import RealmsServices from 'src/services/RealmsServices';
+import GodsServices from 'src/services/GodsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Realm } from 'src/schemas/realmsValidationSchema';
+import { God } from 'src/schemas/godsValidationSchema';
 import { Internacional } from './../schemas/languagesWrapperSchema';
 
-export default class RealmsControllers {
-  constructor(readonly _service: RealmsServices) {
+export default class GodsControllers {
+  constructor(readonly _service: GodsServices) {
     this.findAll = this.findAll.bind(this);
     this.findOne = this.findOne.bind(this);
     this.update = this.update.bind(this);
@@ -26,7 +26,7 @@ export default class RealmsControllers {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id: _id } = req.params;
-    const payload = req.body as Internacional<Realm>;
+    const payload = req.body as Internacional<God>;
 
     const request = await this._service.update(_id, payload);
     return res.status(HttpStatusCode.OK).json(request);

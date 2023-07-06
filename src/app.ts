@@ -21,6 +21,7 @@ app
   .use('/health', (req, res) => res.send('OK!'))
   .use('/system', RoutesWrapper.routes().system)
   .use('/realms', RoutesWrapper.routes().realms)
+  .use('/gods', RoutesWrapper.routes().gods)
   .use(ErrorMiddleware);
 
 autoSwagger(RoutesWrapper.declareRoutes());

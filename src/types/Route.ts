@@ -4,6 +4,7 @@ import Mock from 'src/types/Mock';
 export default interface IRoutes {
   system: Router
   realms: Router
+  gods: Router
 }
 
 export interface RouteDeclareParams {
