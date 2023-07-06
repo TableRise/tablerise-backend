@@ -1,11 +1,11 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import SystemsModel from 'src/database/models/SystemsModel';
+import SystemsModel from 'src/database/models/SystemModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
-import { System } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Patch RPG systems in database', () => {
@@ -34,7 +34,7 @@ describe('Patch RPG systems in database', () => {
       const updateResult = `New ID ${contentPayload.newID} was ${contentPayload.method} to array of entities races - system ID: ${documentId}`;
 
       const { text } = await request(app)
-        .patch(`/systems/${documentId}?entity=races`)
+        .patch(`/system/${documentId}?entity=races`)
         .send(contentPayload)
         .expect(HttpStatusCode.CREATED);
 
@@ -43,7 +43,7 @@ describe('Patch RPG systems in database', () => {
 
     it('should fail when data is wrong', async () => {
       const { body } = await request(app)
-        .patch(`/systems/${documentId}?entity=races`)
+        .patch(`/system/${documentId}?entity=races`)
         .send({ data: null })
         .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -56,7 +56,7 @@ describe('Patch RPG systems in database', () => {
 
     it('should fail when no entityData', async () => {
       const { body } = await request(app)
-        .patch(`/systems/${documentId}`)
+        .patch(`/system/${documentId}`)
         .send(contentPayload)
         .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -68,7 +68,7 @@ describe('Patch RPG systems in database', () => {
 
     it('should fail with inexistent ID', async () => {
       const { body } = await request(app)
-        .patch(`/systems/${generateNewMongoID()}?entity=races`)
+        .patch(`/system/${generateNewMongoID()}?entity=races`)
         .send(contentPayload)
         .expect(HttpStatusCode.NOT_FOUND);
 

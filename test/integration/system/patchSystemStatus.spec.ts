@@ -1,10 +1,10 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import SystemsModel from 'src/database/models/SystemsModel';
+import SystemsModel from 'src/database/models/SystemModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks';
-import { System } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Patch RPG system status in database', () => {
@@ -32,7 +32,7 @@ describe('Patch RPG system status in database', () => {
       documentId = response._id as string;
 
       const { text } = await request(app)
-        .patch(`/systems/activate/${documentId}`)
+        .patch(`/system/activate/${documentId}`)
         .expect(HttpStatusCode.OK);
 
       expect(text).toBe(updateResult(documentId, 1));
@@ -43,7 +43,7 @@ describe('Patch RPG system status in database', () => {
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .patch(`/systems/activate/${documentId}`)
+        .patch(`/system/activate/${documentId}`)
         .expect(HttpStatusCode.BAD_REQUEST);
 
       expect(body).toHaveProperty('message');
@@ -54,7 +54,7 @@ describe('Patch RPG system status in database', () => {
 
     it('should fail with inexistent ID', async () => {
       const { body } = await request(app)
-        .patch(`/systems/activate/${generateNewMongoID()}`)
+        .patch(`/system/activate/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');
@@ -70,7 +70,7 @@ describe('Patch RPG system status in database', () => {
       documentId = response._id as string;
 
       const { text } = await request(app)
-        .patch(`/systems/deactivate/${documentId}`)
+        .patch(`/system/deactivate/${documentId}`)
         .expect(HttpStatusCode.OK);
 
       expect(text).toBe(updateResult(documentId, 0));
@@ -82,7 +82,7 @@ describe('Patch RPG system status in database', () => {
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .patch(`/systems/deactivate/${documentId}`)
+        .patch(`/system/deactivate/${documentId}`)
         .expect(HttpStatusCode.BAD_REQUEST);
 
       expect(body).toHaveProperty('message');
@@ -93,7 +93,7 @@ describe('Patch RPG system status in database', () => {
 
     it('should fail with inexistent ID', async () => {
       const { body } = await request(app)
-        .patch(`/systems/deactivate/${generateNewMongoID()}`)
+        .patch(`/system/deactivate/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');

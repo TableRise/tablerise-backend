@@ -9,6 +9,7 @@ export default class SystemsControllers {
     this.findAll = this.findAll.bind(this);
     this.findOne = this.findOne.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   public async findAll(_req: Request, res: Response): Promise<Response> {

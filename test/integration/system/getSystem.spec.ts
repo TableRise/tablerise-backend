@@ -1,13 +1,13 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import SystemsModel from 'src/database/models/SystemsModel';
+import SystemsModel from 'src/database/models/SystemModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG systems from database', () => {
+describe('Get RPG system from database', () => {
   beforeAll(() => {
     connect();
   });
@@ -28,7 +28,7 @@ describe('Get RPG systems from database', () => {
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .get('/systems')
+        .get('/system')
         .expect(HttpStatusCode.OK);
 
       expect(body).toBeInstanceOf(Array);
@@ -45,7 +45,7 @@ describe('Get RPG systems from database', () => {
       await model.create(systemPayload);
 
       const { body } = await request(app)
-        .get(`/systems/${documentId}`)
+        .get(`/system/${documentId}`)
         .expect(HttpStatusCode.OK);
 
       expect(body).toHaveProperty('_id');
@@ -58,7 +58,7 @@ describe('Get RPG systems from database', () => {
 
     it('should fail with id NotFound', async () => {
       const { body } = await request(app)
-        .get(`/systems/${generateNewMongoID()}`)
+        .get(`/system/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');

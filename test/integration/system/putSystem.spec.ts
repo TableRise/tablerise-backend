@@ -1,9 +1,9 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import SystemsModel from 'src/database/models/SystemsModel';
+import SystemsModel from 'src/database/models/SystemModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/systemsValidationSchema';
+import { System } from 'src/schemas/systemValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
@@ -31,7 +31,7 @@ describe('Put RPG systems in database', () => {
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .put(`/systems/${documentId}`)
+        .put(`/system/${documentId}`)
         .send(newSystemPayloadNoContent)
         .expect(HttpStatusCode.OK);
 
@@ -44,7 +44,7 @@ describe('Put RPG systems in database', () => {
 
     it('should fail when data is wrong', async () => {
       const { body } = await request(app)
-        .put(`/systems/${documentId}`)
+        .put(`/system/${documentId}`)
         .send({ data: null } as unknown as System)
         .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -57,7 +57,7 @@ describe('Put RPG systems in database', () => {
 
     it('should fail with content in payload', async () => {
       const { body } = await request(app)
-        .put(`/systems/${generateNewMongoID()}`)
+        .put(`/system/${generateNewMongoID()}`)
         .send(newSystemPayload)
         .expect(HttpStatusCode.FORBIDDEN);
 
@@ -69,7 +69,7 @@ describe('Put RPG systems in database', () => {
 
     it('should fail with inexistent ID', async () => {
       const { body } = await request(app)
-        .put(`/systems/${generateNewMongoID()}`)
+        .put(`/system/${generateNewMongoID()}`)
         .send(newSystemPayloadNoContent)
         .expect(HttpStatusCode.NOT_FOUND);
 
