@@ -1,0 +1,46 @@
+import generateNewMongoID from '../helpers/generateNewMongoID';
+import { Background } from 'src/schemas/backgroundsValidationSchema';
+import Mock from 'src/types/Mock';
+
+const backgroundMockEn: Background = {
+  name: 'Insane',
+  description: 'Someone that lost his mental health',
+  skillProficiences: ['perception', 'wisdom'],
+  characteristics: {
+    name: 'Crazy Defensor',
+    description: 'A crazy defensor is a creature that defends the crazyness',
+    suggested: {
+      personalityTrait: ['crazy creature'],
+      ideal: ['kill everything'],
+      bond: ['some bond'],
+      flaw: ['too much beautiful']
+    }
+  }
+};
+
+const backgroundMockPt: Background = {
+  name: 'Insano',
+  description: 'Alguem que perdeu sua sanidade',
+  skillProficiences: ['percepção', 'sabedoria'],
+  characteristics: {
+    name: 'Defensor Louco',
+    description: 'Um defensor louco é uma criatura que defende a loucura',
+    suggested: {
+      personalityTrait: ['criatura louca'],
+      ideal: ['matar tudo'],
+      bond: ['alguma ligação'],
+      flaw: ['muita beleza']
+    }
+  }
+};
+
+const background: Mock = {
+  instance: {
+    _id: generateNewMongoID(),
+    en: backgroundMockEn,
+    pt: backgroundMockPt
+  },
+  description: 'Mock an instance of a RPG background'
+}
+
+export default background;
