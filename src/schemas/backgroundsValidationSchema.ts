@@ -17,6 +17,8 @@ const backgroundZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   skillProficiences: z.array(z.string()),
+  languages: z.array(z.union([z.number(), z.null()])),
+  equipment: z.string(),
   characteristics: characteristicsZodSchema
 });
 
