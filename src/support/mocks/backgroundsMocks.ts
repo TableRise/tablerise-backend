@@ -15,7 +15,9 @@ const backgroundMockEn: Background = {
       bond: ['some bond'],
       flaw: ['too much beautiful']
     }
-  }
+  },
+  languages: [],
+  equipment: ''
 };
 
 const backgroundMockPt: Background = {
@@ -31,7 +33,9 @@ const backgroundMockPt: Background = {
       bond: ['alguma ligação'],
       flaw: ['muita beleza']
     }
-  }
+  },
+  languages: [],
+  equipment: ''
 };
 
 const background: Mock = {
