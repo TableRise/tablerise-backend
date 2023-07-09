@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
-import HttpStatusCode from 'src/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 describe('Middlewares :: ErrorMiddleware', () => {
   describe('When error is throwed by request', () => {
@@ -32,17 +32,13 @@ describe('Middlewares :: ErrorMiddleware', () => {
       error.name = 'ValidationError';
     });
 
-    afterAll(() => {
-      jest.clearAllMocks();
-    });
-
-    it('The error message is returned and http status error code throwed', () => {
+    it('should the error message be returned and http status error code throwed', () => {
       ErrorMiddleware(error, request, response, next);
 
       expect(response.status).toHaveBeenCalledWith(HttpStatusCode.UNPROCESSABLE_ENTITY);
       expect(response.json).toHaveBeenCalledWith({
         name: error.name,
-        message: JSON.parse(error.message)
+        message: error.message
       });
     });
   });
@@ -62,11 +58,7 @@ describe('Middlewares :: ErrorMiddleware', () => {
       error.name = 'Internal Error';
     });
 
-    afterAll(() => {
-      jest.clearAllMocks();
-    });
-
-    it('The error message is returned and internal error code throwed', () => {
+    it('should the error message be returned and internal error code throwed', () => {
       ErrorMiddleware(error, request, response, next);
 
       expect(response.status).toHaveBeenCalledWith(HttpStatusCode.INTERNAL_SERVER);

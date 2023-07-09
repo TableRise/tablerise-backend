@@ -9,11 +9,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@tablerise'
+
       - name: Checking Package.json
         run: npm run check-lib
 
       - name: Install dependencies
         run:  npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_REGISTRY_PACKAGES }}
 
       - name: Checking lint
         run:  npm run lint
@@ -32,4 +41,10 @@ jobs:
           threshold_alert: 10
           threshold_warning: 50
           threshold_metric: "lines"
+
+      - name: Create json coverage report
+        run: npx jest --coverage --coverageReporters='json-summary'
+
+      - name: Checking coverage level
+        run: npm run check-cov
 
