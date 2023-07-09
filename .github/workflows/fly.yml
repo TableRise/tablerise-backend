@@ -10,9 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          secrets: |
-            "NODE_AUTH_TOKEN=${{ secrets.GH_REGISTRY_PACKAGES }}"
+      - run: docker secret create NODE_AUTH_TOKEN
+      - run: export NODE_AUTH_TOKEN=$( cat /run/secrets/NODE_AUTH_TOKEN )
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
