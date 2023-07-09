@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          args: deploy --build-arg NODE_AUTH_TOKEN="${{ secrets.GH_REGISTRY_PACKAGES }}"
       - name: fly deploy
-        run: flyctl deploy --remote-only --build-secret NODE_AUTH_TOKEN=test
+        run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
