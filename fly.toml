@@ -1,0 +1,15 @@
+# fly.toml app configuration file generated for tablerise-backend on 2023-07-09T09:33:06-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "tablerise-backend"
+primary_region = "gru"
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 3
+  processes = ["app"]
