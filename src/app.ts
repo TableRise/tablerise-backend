@@ -24,7 +24,9 @@ app
   .use('/gods', RoutesWrapper.routes().gods)
   .use(ErrorMiddleware);
 
-autoSwagger(RoutesWrapper.declareRoutes());
+if (process.env.NODE_ENV === 'dev') {
+  autoSwagger(RoutesWrapper.declareRoutes());
+}
 
 app
   .use('/api-docs', swaggerUI.serve)
