@@ -13,9 +13,7 @@ jobs:
         with:
           secrets: |
             "NODE_AUTH_TOKEN=${{ secrets.GH_REGISTRY_PACKAGES }}"
-      - run: export NODE_AUTH_TOKEN=$( cat /run/secrets/NODE_AUTH_TOKEN )
-      - run: docker swarm init
-      - run: docker secret create NODE_AUTH_TOKEN
+      - run: --mount=type=secret,id=NODE_AUTH_TOKEN && export NODE_AUTH_TOKEN=$( cat /run/secrets/NODE_AUTH_TOKEN )
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
