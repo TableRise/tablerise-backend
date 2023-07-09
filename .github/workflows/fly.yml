@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: fly deploy
-        run: flyctl deploy --remote-only --build-secret NODE_AUTH_TOKEN=$HOME
+        run: flyctl deploy --remote-only --build-secret NODE_AUTH_TOKEN=test
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
