@@ -4,7 +4,7 @@ RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
 WORKDIR /app/backend
 EXPOSE 3001
 COPY package*.json .
-RUN echo NODE_AUTH_TOKEN
+RUN echo $NODE_AUTH_TOKEN
 RUN npm install
 COPY . .
 ENTRYPOINT npm start
