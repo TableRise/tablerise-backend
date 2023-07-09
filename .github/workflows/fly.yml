@@ -10,10 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: echo //npm.pkg.github.com/:_authToken=${{ secrets.GH_REGISTRY_PACKAGES }} > .npmrc
-      - run: echo @tablerise:registry=https://npm.pkg.github.com/ >> .npmrc
+      - name: Create configs
+        run: echo //npm.pkg.github.com/:_authToken=${{ secrets.GH_REGISTRY_PACKAGES }} > .npmrc && @tablerise:registry=https://npm.pkg.github.com/ >> .npmrc
       - name: fly deploy
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - run: rm .npmrc
+      - name: Destroy configs
+        run: rm .npmrc
