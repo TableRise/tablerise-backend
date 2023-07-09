@@ -12,7 +12,7 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Create configs
         run: echo //npm.pkg.github.com/:_authToken=${{ secrets.GH_REGISTRY_PACKAGES }} > .npmrc && echo @tablerise:registry=https://npm.pkg.github.com/ >> .npmrc
-      - name: fly deploy
+      - name: Flyio deploy
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
