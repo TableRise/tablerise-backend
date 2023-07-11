@@ -10,7 +10,7 @@ describe('Schemas :: FeatsValidationSchema', () => {
   });
 
   describe('When the zod validation is called with the incorrect data', () => {
-    it('should be successfull', () => {
+    it('should fail', () => {
       const { name: _, ...featWithoutName } = mocks.feat.instance.en as Feat;
 
       const schemaValidation = featZodSchema.safeParse(featWithoutName);
