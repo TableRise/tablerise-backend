@@ -10,7 +10,7 @@ describe('Schemas :: BackgroundsValidationSchema', () => {
   });
 
   describe('When the zod validation is called with the incorrect data', () => {
-    it('should be successfull', () => {
+    it('should fail', () => {
       const { name: _, ...backgroundWithoutName } = mocks.background.instance.en as Background;
 
       const schemaValidation = backgroundZodSchema.safeParse(backgroundWithoutName);
