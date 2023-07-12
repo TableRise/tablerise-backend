@@ -12,7 +12,7 @@ const spellZodSchema = z.object({
   description: z.string(),
   type: z.string(),
   level: z.string(),
-  higherLevels: higherLevelsZodSchema,
+  higherLevels: z.array(higherLevelsZodSchema),
   damage: z.string(),
   castingTime: z.string(),
   duration: z.string(),
