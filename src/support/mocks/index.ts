@@ -2,7 +2,7 @@ import backgroundMocks from 'src/support/mocks/backgroundsMocks';
 import classMocks from 'src/support/mocks/classesMocks';
 import featMocks from 'src/support/mocks/featsMocks';
 import godsMocks from 'src/support/mocks/godsMocks';
-import itensMocks from 'src/support/mocks/itensMocks';
+import itemsMocks from 'src/support/mocks/itemsMocks';
 import Mock from 'src/types/Mock';
 import racesMocks from 'src/support/mocks/racesMocks';
 import realmsMocks from 'src/support/mocks/realmsMocks';
@@ -14,7 +14,7 @@ export default {
   class: classMocks,
   feat: featMocks,
   god: godsMocks,
-  item: itensMocks,
+  item: itemsMocks,
   race: racesMocks,
   realm: realmsMocks,
   spell: spellMocks,

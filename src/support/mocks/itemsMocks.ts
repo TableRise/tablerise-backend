@@ -1,5 +1,5 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { Item } from 'src/schemas/itensValidationSchema';
+import { Item } from 'src/schemas/itemsValidationSchema';
 import Mock from 'src/types/Mock';
 
 const itemMockEn: Item = {
@@ -18,7 +18,7 @@ const itemMockPt: Item = {
   weight: 5
 };
 
-const itensMocks: Mock = {
+const itemsMocks: Mock = {
   instance: {
     _id: generateNewMongoID(),
     en: itemMockEn,
@@ -27,4 +27,4 @@ const itensMocks: Mock = {
   description: 'Mock an instance of Item'
 };
 
-export default itensMocks;
+export default itemsMocks;
