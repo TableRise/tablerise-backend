@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const abilityScoreIncreaseZodSchema = z.object({
-  name: z.string(), // str, dex, vit, int, wix, char
+  name: z.string(), 
   value: z.number().int()
 })
 
