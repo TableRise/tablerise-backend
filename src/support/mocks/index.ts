@@ -4,6 +4,8 @@ import godsMocks from 'src/support/mocks/godsMocks';
 import backgroundMocks from 'src/support/mocks/backgroundsMocks';
 import featMocks from 'src/support/mocks/featsMocks';
 import Mock from 'src/types/Mock';
+import spellMocks from 'src/support/mocks/spellsMocks';
+import classMocks from 'src/support/mocks/classesMocks';
 
 export default {
   system: systemsMocks,
@@ -11,5 +13,7 @@ export default {
   realm: realmsMocks,
   god: godsMocks,
   background: backgroundMocks,
-  feat: featMocks
+  feat: featMocks,
+  spell: spellMocks,
+  class: classMocks
 }
