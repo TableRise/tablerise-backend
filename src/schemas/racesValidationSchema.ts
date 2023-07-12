@@ -1,6 +1,6 @@
 import z from 'zod';
 
-const abilityModifierZodSchema = z.object({
+const abilityScoreIncreaseZodSchema = z.object({
   name: z.string(), // str, dex, vit, int, wix, char
   value: z.number().int()
 })
@@ -13,13 +13,13 @@ const characteristicsZodSchema = z.object({
 const subRacesZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  abilityScoreIncrease: abilityModifierZodSchema
+  abilityScoreIncrease: abilityScoreIncreaseZodSchema
 })
 
 const racesZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  abilityScoreIncrease: abilityModifierZodSchema,
+  abilityScoreIncrease: abilityScoreIncreaseZodSchema,
   age: z.number().int(),
   alignment: z.array(z.string()),
   height: z.number().int(),
@@ -33,6 +33,6 @@ const racesZodSchema = z.object({
 export type Characteristic = z.infer<typeof characteristicsZodSchema>
 export type Race = z.infer<typeof racesZodSchema>
 export type SubRace = z.infer<typeof subRacesZodSchema>
-export type AbilityModifier = z.infer<typeof abilityModifierZodSchema>
+export type AbilityScoreIncrease = z.infer<typeof abilityScoreIncreaseZodSchema>
 
 export default racesZodSchema;
