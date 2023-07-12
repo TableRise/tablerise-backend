@@ -7,12 +7,12 @@ const spellMockEn: Spell = {
   description: 'Explodes everyone',
   type: 'Fire',
   level: '1',
-  higherLevels: {
+  higherLevels: [{
     level: '2',
     damage: '20',
     buffs: ['Strength'],
     debuffs: ['Fire']
-  },
+  }],
   damage: '10',
   castingTime: '1',
   duration: '5',
@@ -27,12 +27,12 @@ const spellMockPt: Spell = {
   description: 'Explode todo mundo',
   type: 'Fogo',
   level: '1',
-  higherLevels: {
+  higherLevels: [{
     level: '2',
     damage: '20',
     buffs: ['Força'],
     debuffs: ['Fogo']
-  },
+  }],
   damage: '10',
   castingTime: '1',
   duration: '5',
