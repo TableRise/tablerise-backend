@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 
 const abilityScoreIncreaseZodSchema = z.object({
   name: z.string(), // str, dex, vit, int, wix, char
