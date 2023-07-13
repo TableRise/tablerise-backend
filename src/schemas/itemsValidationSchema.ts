@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const itensZodSchema = z.object({
+const itemsZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   cost: z.number().int(),
@@ -8,6 +8,6 @@ const itensZodSchema = z.object({
   weight: z.number().int()
 });
 
-export type Item = z.infer<typeof itensZodSchema>;
+export type Item = z.infer<typeof itemsZodSchema>;
 
-export default itensZodSchema;
+export default itemsZodSchema;

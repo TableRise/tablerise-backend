@@ -1,76 +1,69 @@
 <div align="center"><h1>TableRise</h1></div>
-<br />
+<!-- <br />
 <div align="center"><img src="" alt="thumbnail" /></div>
-<br />
+<br /> -->
 <br />
 <div align="center">
-TableRise foi idealizado pensando em jogadores que querem uma partida de RPG mais dinâmica e fluida,
-e esse é o objetivo principal do projeto, agilizar esses processos e fornecer ferramentas úteis para uma campanha de
-D&D, já existem outros projetos neste sentido, porem o Master Tavern é pensado para ser algo
-super intuitivo, simples fácil de usar, para campanhas mais elaboradas ou mais complexas, sites
-como o Roll20 podem ser mais interessantes, se seu objetivo é criar com mais facilidade uma ficha,
-anotações, histórias e personagens, TableRise vai te servir muito bem.
+  <p>
+    TableRise foi idealizado pensando em jogadores apaixonados por RPG, que desejam uma partida dinâmica e divertida,
+    esse é o objetivo principal do projeto, fornecer ferramentas úteis e fáceis de usar para uma campanha de
+    RPG, já existem outros projetos neste sentido, porem o TableRise é pensado para ser uma plataforma
+    super intuitiva e muito aconchegante para campanhas simples ou até mais elaboradas e mais complexas, se seu
+    objetivo é ter uma experiência incrível com seus amigos jogando RPG, TableRise é com certeza o lugar ideal.
+  </p>
 </div>
 <br />
-<br />
-<h4>INSTRUÇÕES DE INSTALAÇÃO</h4>
-<details>
-<summary>:computer: Instalação Local</summary>
-<br>
 
-> Clone este repositório `git clone git@github.com:Adson-Gomes-Oliveira/taverna-do-mestre-backend.git`
-
-> Entre na pasta **taverna-do-mestre-backend**, e execute `npm install`
-
-> **! Importante:** Os comandos abaixo exigem que o banco de dados esteja configurado corretamente, consulte o env.example.txt
->
-> para saber as variaveis que precisa fornecer para o backend funcionar.
-
-> Para popular o banco execute na raiz do projeto `npm run seed:db`
-
-> Para subir o servidor: `npm run dev`
-
-> Acesse *localhost:3001/api-docs* para utilizar o swagger da API
-
-> Aproveite ! 😄
-
-</details>
-<details>
-<summary>:whale: Utilizando o Docker</summary>
-<br>
-
-> Clone este repositório `git clone git@github.com:Adson-Gomes-Oliveira/master-tavern.git`
-
-> Execute `docker-compose up -d --build` e seu ambiente estará pronto para utilizar.
-
-> Acesse *localhost:3001/api-docs* para utilizar o swagger da API
-
-> Aproveite ! 😄
-
-</details>
 <br />
 <h4>TECNOLOGIAS UTILIZADAS</h4>
+  <div align="center">
+    <p>
+      Nossos magos da tecnologia estão sempre buscando as melhores spells para seu conforto e segurança, se liga nessas que tiramos do nosso grimório ao construir essa plataforma para você.
+    </p>
+  </div>
+<br />
 <br />
 <div align="center">
-<img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js" />
-<img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
-<img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker" />
-<img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
-<img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
-<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
+  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js" />
+  <img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker" />
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="javascript" />
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
+  <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
 </div>
 <br />
 
 <br />
 
-<h4>INFORMAÇÕES ADICIONAIS</h4>
+<h4>ATUALIZAÇÕES</h4>
 
-- Equipe envolvida no projeto:
-  - Adson Gomes Oliveira [ Owner & Developer ]
-    - [Github](https://github.com/Adson-Gomes-Oliveira) || [Linkedin](https://www.linkedin.com/in/adson-gomes-oliveira/) || [Portfolio](https://devago.com.br)
+<span>Ainda não há nada por aqui</span>
+<br />
+<br />
+
+<h4>⚔️ MEMBROS DA GUILDA 🛡️<h4>
+
+  - Adson Gomes Oliveira [ Owner & Developer ] [Github](https://github.com/Adson-Gomes-Oliveira) || [Linkedin](https://www.linkedin.com/in/adson-gomes-oliveira/)
+
+  - Isac Queiroz de Oliveira [ Product Owner & Developer ] [Github]() || [Linkedin]()
+
+  - Jorge Felipe Campos Chagas [ Developer ] [Github]() || [Linkedin]()
+
+  - Layssa Hillary  [ UI/UX Designer ] [Github]() || [Linkedin]()
+
+  - Icaro Gabriel B.O Vieira  [ UI/UX Designer ] [Github]() || [Linkedin]()
+
+  - Cairo Noleto  [ Consultant ] [Github]() || [Linkedin]()
+
+  - Cesar Holanda  [ Developer ] [Github]() || [Linkedin]()
+
+  - Ash Trindade  [ Community Moderator & Developer ] [Github]() || [Linkedin]()
+
+  - Felipe Murata [ Head de UI/UX ] [Github]() || [Linkedin]()
 
 <br />
 
 ---
 
-*Template desenvolvido com :white_heart: por <a href="https://github.com/Adson-Gomes-Oliveira">Adson Gomes Oliveira</a>*
+*Todos os direitos resevados TableRise - 2023*
