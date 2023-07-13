@@ -4,29 +4,33 @@
 <br /> -->
 <br />
 <div align="center">
-TableRise foi idealizado pensando em jogadores apaixonados por RPG, que desejam uma partida dinâmica e divertida,
-esse é o objetivo principal do projeto, fornecer ferramentas úteis e fáceis de usar para uma campanha de
-RPG, já existem outros projetos neste sentido, porem o TableRise é pensado para ser uma plataforma
-super intuitiva e muito aconchegante para campanhas simples ou até mais elaboradas e mais complexas, se seu
-objetivo é ter uma experiência incrível com seus amigos jogando RPG, TableRise é com certeza o lugar ideal.
+  <p>
+    TableRise foi idealizado pensando em jogadores apaixonados por RPG, que desejam uma partida dinâmica e divertida,
+    esse é o objetivo principal do projeto, fornecer ferramentas úteis e fáceis de usar para uma campanha de
+    RPG, já existem outros projetos neste sentido, porem o TableRise é pensado para ser uma plataforma
+    super intuitiva e muito aconchegante para campanhas simples ou até mais elaboradas e mais complexas, se seu
+    objetivo é ter uma experiência incrível com seus amigos jogando RPG, TableRise é com certeza o lugar ideal.
+  </p>
 </div>
 <br />
 
 <br />
 <h4>TECNOLOGIAS UTILIZADAS</h4>
-<div align="center">
-Nossos magos da tecnologia estão sempre buscando as melhores spells para seu conforto e segurança, se liga nessas que tiramos do nosso grimório ao construir essa plataforma para você.
-</div>
+  <div align="center">
+    <p>
+      Nossos magos da tecnologia estão sempre buscando as melhores spells para seu conforto e segurança, se liga nessas que tiramos do nosso grimório ao construir essa plataforma para você.
+    </p>
+  </div>
 <br />
 <br />
 <div align="center">
-<img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js" />
-<img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
-<img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker" />
-<img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="javascript" />
-<img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
-<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
+  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js" />
+  <img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker" />
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="javascript" />
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="express" />
+  <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" />
 </div>
 <br />
 
@@ -34,7 +38,7 @@ Nossos magos da tecnologia estão sempre buscando as melhores spells para seu co
 
 <h4>ATUALIZAÇÕES</h4>
 
-Ainda não há nada por aqui
+<span>Ainda não há nada por aqui</span>
 <br />
 <br />
 
