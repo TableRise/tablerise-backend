@@ -11,10 +11,10 @@ services:
       - PORT=3001
       - MONGODB_USERNAME=root
       - MONGODB_PASSWORD=secret
-      - MONGODB_HOST=mongodb-tablerise
-      - MONGODB_PORT=27017
+      - MONGODB_HOST=mongodb-tablerise:27017
       - MONGODB_DATABASE=tablerise?authSource=admin
       - MONGODB_CONNECTION_INITIAL=mongodb
+      - NODE_ENV=dev
     depends_on:
       - database
 

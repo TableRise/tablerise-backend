@@ -3,6 +3,10 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['build'],
+  coveragePathIgnorePatterns: [
+    'src/app.ts',
+    'test/connectDatabaseTest.ts'
+  ],
   rootDir: './',
   modulePaths: ['<rootDir>']
 }

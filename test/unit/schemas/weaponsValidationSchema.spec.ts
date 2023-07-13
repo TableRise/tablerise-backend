@@ -1,19 +1,19 @@
-import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
+import weaponZodSchema, { Weapon } from 'src/schemas/weaponsValidationSchema';
 import mocks from 'src/support/mocks';
 
-describe('Schemas :: FeatsValidationSchema', () => {
+describe('Schemas :: weaponsValidationSchema', () => {
   describe('When the zod validation is called with the correct data', () => {
     it('should be successfull', () => {
-      const schemaValidation = featZodSchema.safeParse(mocks.feat.instance.en);
+      const schemaValidation = weaponZodSchema.safeParse(mocks.weapon.instance.en);
       expect(schemaValidation.success).toBe(true);
     });
   });
 
   describe('When the zod validation is called with the incorrect data', () => {
     it('should fail', () => {
-      const { name: _, ...featWithoutName } = mocks.feat.instance.en as Feat;
+      const { name: _, ...weaponWithoutName } = mocks.weapon.instance.en as Weapon;
 
-      const schemaValidation = featZodSchema.safeParse(featWithoutName);
+      const schemaValidation = weaponZodSchema.safeParse(weaponWithoutName);
       expect(schemaValidation.success).toBe(false);
     });
   });

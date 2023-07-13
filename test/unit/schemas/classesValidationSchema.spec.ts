@@ -1,19 +1,19 @@
-import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
+import classZodSchema, { Class } from 'src/schemas/classesValidationSchema';
 import mocks from 'src/support/mocks';
 
-describe('Schemas :: FeatsValidationSchema', () => {
+describe('Schemas :: classesValidationSchema', () => {
   describe('When the zod validation is called with the correct data', () => {
     it('should be successfull', () => {
-      const schemaValidation = featZodSchema.safeParse(mocks.feat.instance.en);
+      const schemaValidation = classZodSchema.safeParse(mocks.class.instance.en);
       expect(schemaValidation.success).toBe(true);
     });
   });
 
   describe('When the zod validation is called with the incorrect data', () => {
     it('should fail', () => {
-      const { name: _, ...featWithoutName } = mocks.feat.instance.en as Feat;
+      const { name: _, ...classWithoutName } = mocks.class.instance.en as Class;
 
-      const schemaValidation = featZodSchema.safeParse(featWithoutName);
+      const schemaValidation = classZodSchema.safeParse(classWithoutName);
       expect(schemaValidation.success).toBe(false);
     });
   });
