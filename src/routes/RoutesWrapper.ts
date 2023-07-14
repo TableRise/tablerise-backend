@@ -24,6 +24,9 @@ const { _id: _1, ...realmWithoutId } = realmInstance.instance as Internacional<R
 const godInstance = mocks.god;
 const { _id: _2, ...godWithoutId } = godInstance.instance as Internacional<God>;
 
+const backgroundInstance = mocks.background;
+const { _id: _3, ...backgroundWithoutId } = backgroundInstance.instance as Internacional<God>;
+
 class RoutesWrapper {
   static routes(): Route {
     return {
@@ -53,10 +56,16 @@ class RoutesWrapper {
       ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false],
 
       // RPG gods routes
-      ['/gods', 'gods', 'get', null, realmInstance, null, false],
-      ['/gods/{_id}', 'gods', 'get', generateIDParam(), realmInstance, null, false],
-      ['/gods/{_id}', 'gods', 'put', generateIDParam(), realmInstance, godWithoutId, false],
-      ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false]
+      ['/gods', 'gods', 'get', null, godInstance, null, false],
+      ['/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
+      ['/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
+      ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false],
+
+      // RPG backgrounds routes
+      ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };
