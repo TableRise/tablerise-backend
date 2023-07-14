@@ -5,16 +5,16 @@ import MongoModel from 'src/database/models/MongoModel';
 export const systemMongooseSchema = new Schema<System>({
   name: { type: String, required: true },
   content: {
-    races: { type: Array, required: true },
-    classes: { type: Array, required: true },
-    spells: { type: Array, required: true },
-    items: { type: Array, required: true },
-    weapons: { type: Array, required: true },
-    armors: { type: Array, required: true },
-    feats: { type: Array, required: true },
-    realms: { type: Array, required: true },
-    gods: { type: Array, required: true },
-    monsters: { type: Array, required: true }
+    races: { type: [String], required: true },
+    classes: { type: [String], required: true },
+    spells: { type: [String], required: true },
+    items: { type: [String], required: true },
+    weapons: { type: [String], required: true },
+    armors: { type: [String], required: true },
+    feats: { type: [String], required: true },
+    realms: { type: [String], required: true },
+    gods: { type: [String], required: true },
+    monsters: { type: [String], required: true }
   },
   references: {
     srd: { type: String, required: true },

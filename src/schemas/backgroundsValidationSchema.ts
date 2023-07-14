@@ -17,11 +17,13 @@ const backgroundZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   skillProficiences: z.array(z.string()),
-  languages: z.array(z.union([z.number(), z.null()])),
-  equipment: z.string(),
+  languages: z.array(z.string()),
+  equipment: z.array(z.string()),
   characteristics: characteristicsZodSchema
 });
 
 export type Background = z.infer<typeof backgroundZodSchema>;
+export type BackgroundCharacteristics = z.infer<typeof characteristicsZodSchema>;
+export type BackgroundSuggested = z.infer<typeof suggestedZodSchema>;
 
 export default backgroundZodSchema;
