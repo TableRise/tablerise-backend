@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
     it('should return an array with 2 arrays inside', () => {
       routesDeclared = RoutesWrapper.declareRoutes();
       expect(routesDeclared).toBeInstanceOf(Array);
-      expect(routesDeclared.length).toBe(18);
+      expect(routesDeclared.length).toBe(22);
     });
   });
 
@@ -17,7 +17,9 @@ describe('Routes :: RoutesWrapper', () => {
     const routesMock: Route = {
       system: {} as Router,
       realms: {} as Router,
-      gods: {} as Router
+      gods: {} as Router,
+      backgrounds: {} as Router,
+      feats: {} as Router
     };
 
     it('should return the correct routes', () => {
