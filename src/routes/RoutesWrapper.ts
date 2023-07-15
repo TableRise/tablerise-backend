@@ -2,6 +2,8 @@
 import systemRoutes from 'src/routes/systemRoutes';
 import realmRoutes from 'src/routes/realmRoutes';
 import godRoutes from 'src/routes/godRoutes';
+import backgroundRoutes from 'src/routes/backgroundRoutes';
+import featRoutes from 'src/routes/featRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -11,6 +13,8 @@ import { System } from 'src/schemas/systemValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/realmsValidationSchema';
 import { God } from 'src/schemas/godsValidationSchema';
+import { Background } from 'src/schemas/backgroundsValidationSchema';
+import { Feat } from 'src/schemas/featsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -25,14 +29,19 @@ const godInstance = mocks.god;
 const { _id: _2, ...godWithoutId } = godInstance.instance as Internacional<God>;
 
 const backgroundInstance = mocks.background;
-const { _id: _3, ...backgroundWithoutId } = backgroundInstance.instance as Internacional<God>;
+const { _id: _3, ...backgroundWithoutId } = backgroundInstance.instance as Internacional<Background>;
+
+const featInstance = mocks.feat;
+const { _id: _4, ...featWithoutId } = featInstance.instance as Internacional<Feat>;
 
 class RoutesWrapper {
   static routes(): Route {
     return {
       system: systemRoutes,
       realms: realmRoutes,
-      gods: godRoutes
+      gods: godRoutes,
+      backgrounds: backgroundRoutes,
+      feats: featRoutes
     }
   }
 
@@ -65,7 +74,13 @@ class RoutesWrapper {
       ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
-      ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false]
+      ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false],
+
+      // RPG feats routes
+      ['/feats', 'feats', 'get', null, featInstance, null, false],
+      ['/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
+      ['/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
+      ['/feats/{_id}', 'feats', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };
