@@ -1,19 +1,19 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const hitPointsZodSchema = z.object({
   hitDice: z.string(),
   hitPointsAtFirstLevel: z.string(),
-  hitPointsAtHigherLevels: z.string(),
+  hitPointsAtHigherLevels: z.string()
 });
 
 const savingThrowsZodSchema = z.object({
   name: z.string(),
-  value: z.number().int(),
+  value: z.number().int()
 });
 
 const skillProficiencesZodSchema = z.object({
   name: z.string(),
-  value: z.number().int(),
+  value: z.number().int()
 });
 
 const statsZodSchema = z.object({
@@ -26,24 +26,24 @@ const statsZodSchema = z.object({
   senses: z.array(z.string()),
   skillProficiences: z.array(skillProficiencesZodSchema),
   languages: z.array(z.string()),
-  challangeLevel: z.number().int(),
+  challangeLevel: z.number().int()
 });
 
 const abilityScoreZodSchema = z.object({
   name: z.string(),
   value: z.number().int(),
-  modifier: z.number().int(),
+  modifier: z.number().int()
 });
 
 const skillsZodSchema = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z.string()
 });
 
 const actionsZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  successTarget: z.string(),
+  successTarget: z.string()
 });
 
 const monsterZodSchema = z.object({
@@ -53,7 +53,7 @@ const monsterZodSchema = z.object({
   abilityScore: z.array(abilityScoreZodSchema),
   skills: z.array(skillsZodSchema),
   actions: z.array(actionsZodSchema),
-  picture: z.string(),
+  picture: z.string()
 });
 
 export type Monster = z.infer<typeof monsterZodSchema>;
