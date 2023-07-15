@@ -18,21 +18,21 @@ import { Feat } from 'src/schemas/featsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
-const systemInstance = mocks.system;
-const { _id: _, content: __, ...systemWithoutContent } = systemInstance.instance as System;
+const systemInstance = mocks.system.instance as System;
+const { _id: _, content: __, ...systemWithoutContent } = systemInstance;
 const updateSystemInstance = mocks.updateSystemContent;
 
-const realmInstance = mocks.realm;
-const { _id: _1, ...realmWithoutId } = realmInstance.instance as Internacional<Realm>;
+const realmInstance = mocks.realm.instance as Internacional<Realm>;
+const { _id: _1, ...realmWithoutId } = realmInstance;
 
-const godInstance = mocks.god;
-const { _id: _2, ...godWithoutId } = godInstance.instance as Internacional<God>;
+const godInstance = mocks.god.instance as Internacional<God>;
+const { _id: _2, ...godWithoutId } = godInstance;
 
-const backgroundInstance = mocks.background;
-const { _id: _3, ...backgroundWithoutId } = backgroundInstance.instance as Internacional<Background>;
+const backgroundInstance = mocks.background.instance as Internacional<Background>;
+const { _id: _3, ...backgroundWithoutId } = backgroundInstance;
 
-const featInstance = mocks.feat;
-const { _id: _4, ...featWithoutId } = featInstance.instance as Internacional<Feat>;
+const featInstance = mocks.feat.instance as Internacional<Feat>;
+const { _id: _4, ...featWithoutId } = featInstance;
 
 class RoutesWrapper {
   static routes(): Route {
