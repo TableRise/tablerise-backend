@@ -5,6 +5,8 @@ const featsSeeder = require('./featsSeeder.json');
 const backgroundsSeeder = require('./backgroundsSeeder.json');
 const racesSeeder = require('./racesSeeder.json');
 const itemsSeeder = require('./itemsSeeder.json');
+const weaponsSeeder = require('./weaponsSeeder.json');
+const armorsSeeder = require('./armorsSeeder.json');
 
 module.exports = {
   system: systemSeeder,
@@ -13,5 +15,7 @@ module.exports = {
   feat: featsSeeder,
   backgrounds: backgroundsSeeder,
   races: racesSeeder,
-  items: itemsSeeder
+  items: itemsSeeder,
+  weapons: weaponsSeeder,
+  armors: armorsSeeder
 };
