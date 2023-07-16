@@ -17,7 +17,7 @@ const backgroundMockEn: Background = {
     }
   },
   languages: [],
-  equipment: ''
+  equipment: []
 };
 
 const backgroundMockPt: Background = {
@@ -35,7 +35,7 @@ const backgroundMockPt: Background = {
     }
   },
   languages: [],
-  equipment: ''
+  equipment: []
 };
 
 const background: Mock = {

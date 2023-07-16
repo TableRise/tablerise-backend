@@ -22,6 +22,8 @@ app
   .use('/system', RoutesWrapper.routes().system)
   .use('/realms', RoutesWrapper.routes().realms)
   .use('/gods', RoutesWrapper.routes().gods)
+  .use('/backgrounds', RoutesWrapper.routes().backgrounds)
+  .use('/feats', RoutesWrapper.routes().feats)
   .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {

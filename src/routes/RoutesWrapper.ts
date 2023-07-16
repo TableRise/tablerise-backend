@@ -2,6 +2,8 @@
 import systemRoutes from 'src/routes/systemRoutes';
 import realmRoutes from 'src/routes/realmRoutes';
 import godRoutes from 'src/routes/godRoutes';
+import backgroundRoutes from 'src/routes/backgroundRoutes';
+import featRoutes from 'src/routes/featRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -11,25 +13,35 @@ import { System } from 'src/schemas/systemValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/realmsValidationSchema';
 import { God } from 'src/schemas/godsValidationSchema';
+import { Background } from 'src/schemas/backgroundsValidationSchema';
+import { Feat } from 'src/schemas/featsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
-const systemInstance = mocks.system;
-const { _id: _, content: __, ...systemWithoutContent } = systemInstance.instance as System;
+const systemInstance = mocks.system.instance as System;
+const { _id: _, content: __, ...systemWithoutContent } = systemInstance;
 const updateSystemInstance = mocks.updateSystemContent;
 
-const realmInstance = mocks.realm;
-const { _id: _1, ...realmWithoutId } = realmInstance.instance as Internacional<Realm>;
+const realmInstance = mocks.realm.instance as Internacional<Realm>;
+const { _id: _1, ...realmWithoutId } = realmInstance;
 
-const godInstance = mocks.god;
-const { _id: _2, ...godWithoutId } = godInstance.instance as Internacional<God>;
+const godInstance = mocks.god.instance as Internacional<God>;
+const { _id: _2, ...godWithoutId } = godInstance;
+
+const backgroundInstance = mocks.background.instance as Internacional<Background>;
+const { _id: _3, ...backgroundWithoutId } = backgroundInstance;
+
+const featInstance = mocks.feat.instance as Internacional<Feat>;
+const { _id: _4, ...featWithoutId } = featInstance;
 
 class RoutesWrapper {
   static routes(): Route {
     return {
       system: systemRoutes,
       realms: realmRoutes,
-      gods: godRoutes
+      gods: godRoutes,
+      backgrounds: backgroundRoutes,
+      feats: featRoutes
     }
   }
 
@@ -53,10 +65,22 @@ class RoutesWrapper {
       ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false],
 
       // RPG gods routes
-      ['/gods', 'gods', 'get', null, realmInstance, null, false],
-      ['/gods/{_id}', 'gods', 'get', generateIDParam(), realmInstance, null, false],
-      ['/gods/{_id}', 'gods', 'put', generateIDParam(), realmInstance, godWithoutId, false],
-      ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false]
+      ['/gods', 'gods', 'get', null, godInstance, null, false],
+      ['/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
+      ['/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
+      ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false],
+
+      // RPG backgrounds routes
+      ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
+      ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false],
+
+      // RPG feats routes
+      ['/feats', 'feats', 'get', null, featInstance, null, false],
+      ['/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
+      ['/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
+      ['/feats/{_id}', 'feats', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };

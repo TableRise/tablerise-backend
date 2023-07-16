@@ -5,6 +5,8 @@ export default interface IRoutes {
   system: Router
   realms: Router
   gods: Router
+  backgrounds: Router
+  feats: Router
 }
 
 export interface RouteDeclareParams {
