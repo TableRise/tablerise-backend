@@ -2,6 +2,7 @@
   {
     "en": {
       "name": "Abacus",
+      "description": "",
       "cost": {
         "currency": "gp",
         "value": 2
@@ -11,6 +12,7 @@
     },
     "pt": {
       "name": "Ábaco",
+      "description": "",
       "cost": {
         "currency": "po",
         "value": 2

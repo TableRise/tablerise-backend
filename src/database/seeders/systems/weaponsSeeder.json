@@ -2,6 +2,7 @@
   {
     "en": {
       "name": "Club",
+      "description": "",
       "cost": {
         "currency": "sp",
         "value": 1
@@ -13,6 +14,7 @@
     },
     "pt": {
       "name": "Clava",
+      "description": "",
       "cost": {
         "currency": "po",
         "value": 1
