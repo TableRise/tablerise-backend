@@ -1,0 +1,26 @@
+[
+  {
+    "en": {
+      "name": "Club",
+      "cost": {
+        "currency": "sp",
+        "value": 1
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d4 bludgeoning",
+      "properties": ["light"]
+    },
+    "pt": {
+      "name": "Clava",
+      "cost": {
+        "currency": "po",
+        "value": 1
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d4 de concussão",
+      "properties": ["leve"]
+    }
+  }
+]

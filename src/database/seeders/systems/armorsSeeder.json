@@ -1,0 +1,26 @@
+[
+  {
+    "en": {
+      "name": "Leather",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "light armor",
+      "weight": 4.5,
+      "requiredStrength": 0,
+      "stealthPenalty": false
+    },
+    "pt": {
+      "name": "Couro",
+      "cost": {
+      "currency": "po",
+      "value": 10
+      },
+      "type": "armadura leve",
+      "weight": 4.5,
+      "requiredStrength": 0,
+      "stealthPenalty": false
+    }
+  }
+]

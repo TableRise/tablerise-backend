@@ -1,18 +1,22 @@
 [
   {
     "en": {
-      "name": "Amulet of Health",
-      "description": "Your Constitution score is 19 while you wear this amulet. It has no effect on you if your Constitution is already 19 or higher.",
-      "cost": 0,
-      "type": "Wondrous item, rare (requires attunement), magic",
-      "weight": 0
+      "name": "Abacus",
+      "cost": {
+        "currency": "gp",
+        "value": 2
+      },
+      "type": "adventuring gear",
+      "weight": 0.9
     },
     "pt": {
-      "name": "Amuleto da Saúde",
-      "description": "Seu valor de Constituição é 19 enquanto você estiver usando este amuleto. Ele não tem efeito em você se sua Constituição já for 19 ou maior.",
-      "cost": 0,
-      "type": "Item Maravilhoso, raro (requer sintonia), mágico",
-      "weight": 0
+      "name": "Ábaco",
+      "cost": {
+        "currency": "po",
+        "value": 2
+      },
+      "type": "equipamento de aventura",
+      "weight": 0.9
     }
   }
 ]
