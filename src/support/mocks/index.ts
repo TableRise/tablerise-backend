@@ -7,6 +7,8 @@ import Mock from 'src/types/Mock';
 import racesMocks from 'src/support/mocks/racesMocks';
 import realmsMocks from 'src/support/mocks/realmsMocks';
 import spellMocks from 'src/support/mocks/spellsMocks';
+import weaponMocks from 'src/support/mocks/weaponsMocks';
+import armorMocks from 'src/support/mocks/armorsMocks';
 import systemsMocks, { updateSystem } from 'src/support/mocks/systemsMocks';
 
 export default {
@@ -19,5 +21,7 @@ export default {
   realm: realmsMocks,
   spell: spellMocks,
   system: systemsMocks,
+  weapon: weaponMocks,
+  armor: armorMocks,
   updateSystemContent: updateSystem as Mock
 }
