@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import FeatsServices from 'src/services/FeatsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Feat } from 'src/schemas/featsValidationSchema';
-import { Internacional } from './../schemas/languagesWrapperSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 export default class FeatsControllers {
   constructor(readonly _service: FeatsServices) {

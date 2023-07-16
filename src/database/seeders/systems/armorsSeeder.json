@@ -1,0 +1,30 @@
+[
+  {
+    "en": {
+      "name": "Leather",
+      "description": "The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "light armor",
+      "weight": 4.5,
+      "armorClass": "11 + Dex modifier",
+      "requiredStrength": 0,
+      "stealthPenalty": false
+    },
+    "pt": {
+      "name": "Couro",
+      "description": "O peitoral e os protetores de ombro desta armadura são feitos de couro que foi endurecido ao ser fervido em óleo. O restante da armadura é feito de materiais mais macios e flexíveis.",
+      "cost": {
+      "currency": "po",
+      "value": 10
+      },
+      "type": "armadura leve",
+      "weight": 4.5,
+      "armorClass": "11 + Modificador Des",
+      "requiredStrength": 0,
+      "stealthPenalty": false
+    }
+  }
+]

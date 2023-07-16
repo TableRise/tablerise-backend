@@ -38,11 +38,11 @@
           "characteristics": [
             {
               "name": "Lack of Strength",
-              "description": "Your strength attribute receives a penalty of -1."
+              "description": "You have disadvantage on strength checks related to objects, such as pulling, pushing, and carrying."
             },
             {
-              "name": "Dwarf Magic Specialist",
-              "description": "When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, and once every 8 hours, you gain advantage on 1 roll involving that magical item."
+              "name": "Magic Specialist",
+              "description": "When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item."
             }
           ]
         }
@@ -109,11 +109,11 @@
           "characteristics": [
             {
               "name": "Falta de Força Anã",
-              "description": "Seu atributo força recebe uma penalidade de -1."
+              "description": "Você tem desvantagem em testes de força relacionados a objetos, como puxar, empurrar e carregar."
             },
             {
-              "name": "Especialista em Magia Anã",
-              "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e, uma vez a cada 8 horas, você ganha vantagem em 1 rolagem que envolva esse item mágico."
+              "name": "Especialista em Magia",
+              "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico."
             }
           ]
         }
