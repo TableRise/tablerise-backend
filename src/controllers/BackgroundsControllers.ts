@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/BackgroundsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Background } from 'src/schemas/backgroundsValidationSchema';
-import { Internacional } from './../schemas/languagesWrapperSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 export default class BackgroundsControllers {
   constructor(readonly _service: BackgroundsServices) {

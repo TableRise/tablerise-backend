@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import RealmsServices from 'src/services/RealmsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Realm } from 'src/schemas/realmsValidationSchema';
-import { Internacional } from './../schemas/languagesWrapperSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 export default class RealmsControllers {
   constructor(readonly _service: RealmsServices) {

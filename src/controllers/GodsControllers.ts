@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import GodsServices from 'src/services/GodsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { God } from 'src/schemas/godsValidationSchema';
-import { Internacional } from './../schemas/languagesWrapperSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 export default class GodsControllers {
   constructor(readonly _service: GodsServices) {
