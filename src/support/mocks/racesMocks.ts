@@ -10,10 +10,10 @@ const raceMockEn: Race = {
     the result of thousands of years of elven refinement
     `,
   abilityScoreIncrease: { name: 'Dexterity', value: 2 },
-  age: 101,
+  ageMax: 101,
   alignment: ['Neutral'],
-  height: 6,
-  speed: 30,
+  heightMax: 6,
+  speed: [30, 'Your base walking speed is 30 feet'],
   language: ['commun', 'elvish'],
   subRaces: [{
     name: 'High Elf',
@@ -26,13 +26,18 @@ const raceMockEn: Race = {
       other type is more common and more friendly, and 
       often encountered among humans and other races.
       `,
-    abilityScoreIncrease: { name: 'Intelligence', value: 1 }
+    abilityScoreIncrease: { name: 'Intelligence', value: 1 },
+    characteristics: [{
+      name: 'Extra Language',
+      description: 'You can speak, read, write one extra language'
+    }]
   }],
   skillProficiences: ['Perception'],
   characterstics: [{
     name: 'Keen Senses',
     description: 'You have proficiency in the Perception skill.'
-  }]
+  }],
+  weightMax: 100
 };
 
 const raceMockPt: Race = {
@@ -42,10 +47,10 @@ const raceMockPt: Race = {
     o resultado de milhares de anos de refinamento élfico
     `,
   abilityScoreIncrease: { name: 'Destreza', value: 2 },
-  age: 101,
+  ageMax: 101,
   alignment: ['Neutro'],
-  height: 6,
-  speed: 30,
+  heightMax: 6,
+  speed: [30, 'Seu deslocamento base de caminhada é 9 metros.'],
   language: ['comun', 'elfo'],
   subRaces: [{
     name: 'Alto Elfo',
@@ -58,13 +63,18 @@ const raceMockPt: Race = {
       outro tipo é mais comum e mais amigável, e
       freqüentemente encontrados entre humanos e outras raças.
       `,
-    abilityScoreIncrease: { name: 'Intelligence', value: 1 }
+    abilityScoreIncrease: { name: 'Intelligence', value: 1 },
+    characteristics: [{
+      name: 'Idioma Extra',
+      description: 'Você pode falar, ler e escrever um idioma adicional à sua escolha.'
+    }]
   }],
   skillProficiences: ['Percepção'],
   characterstics: [{
     name: 'Sentios Aguçados',
     description: 'Você tem proficiência na abilidade percepção.'
-  }]
+  }],
+  weightMax: 100
 };
 
 const racesMocks: Mock = {
@@ -73,7 +83,7 @@ const racesMocks: Mock = {
     en: raceMockEn,
     pt: raceMockPt
   },
-  description: 'Mock an instance of Item'
+  description: 'Mock an instance of Race'
 };
 
 export default racesMocks;
