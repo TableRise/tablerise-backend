@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const abilityScoreIncreaseZodSchema = z.object({
   name: z.string(),
-  value: z.number().int()
+  value: z.number()
 })
 
 const characteristicsZodSchema = z.object({
@@ -13,21 +13,23 @@ const characteristicsZodSchema = z.object({
 const subRacesZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  abilityScoreIncrease: abilityScoreIncreaseZodSchema
+  abilityScoreIncrease: abilityScoreIncreaseZodSchema,
+  characteristics: z.array(characteristicsZodSchema)
 })
 
 const racesZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   abilityScoreIncrease: abilityScoreIncreaseZodSchema,
-  age: z.number(),
+  ageMax: z.number(),
   alignment: z.array(z.string()),
-  height: z.number(),
-  speed: z.number(),
+  heightMax: z.number(),
+  speed: z.tuple([z.number(), z.string()]),
   language: z.array(z.string()),
   subRaces: z.array(subRacesZodSchema),
   skillProficiences: z.array(z.string()),
-  characterstics: z.array(characteristicsZodSchema)
+  characterstics: z.array(characteristicsZodSchema),
+  weightMax: z.number()
 });
 
 export type Characteristic = z.infer<typeof characteristicsZodSchema>
