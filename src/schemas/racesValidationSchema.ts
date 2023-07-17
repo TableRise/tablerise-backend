@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const abilityScoreIncreaseZodSchema = z.object({
   name: z.string(),
-  value: z.number().int()
+  value: z.number()
 })
 
 const characteristicsZodSchema = z.object({
@@ -21,9 +21,9 @@ const racesZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   abilityScoreIncrease: abilityScoreIncreaseZodSchema,
-  ageMax: z.number().int(),
+  ageMax: z.number(),
   alignment: z.array(z.string()),
-  heightMax: z.number().int(),
+  heightMax: z.number(),
   speed: z.tuple([z.number(), z.string()]),
   language: z.array(z.string()),
   subRaces: z.array(subRacesZodSchema),

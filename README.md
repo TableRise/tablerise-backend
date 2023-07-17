@@ -38,29 +38,22 @@
 
 <h4>ATUALIZAÇÕES</h4>
 
-<span>Ainda não há nada por aqui</span>
-<br />
-<br />
+`<span>`Ainda não há nada por aqui
+`<br />`
+`<br />`
 
 <h4>⚔️ MEMBROS DA GUILDA 🛡️<h4>
 
-  - Adson Gomes Oliveira [ Owner & Developer ] [Github](https://github.com/Adson-Gomes-Oliveira) || [Linkedin](https://www.linkedin.com/in/adson-gomes-oliveira/)
-
-  - Isac Queiroz de Oliveira [ Product Owner & Developer ] [Github]() || [Linkedin]()
-
-  - Jorge Felipe Campos Chagas [ Developer ] [Github]() || [Linkedin]()
-
-  - Layssa Hillary  [ UI/UX Designer ] [Github]() || [Linkedin]()
-
-  - Icaro Gabriel B.O Vieira  [ UI/UX Designer ] [Github]() || [Linkedin]()
-
-  - Cairo Noleto  [ Consultant ] [Github]() || [Linkedin]()
-
-  - Cesar Holanda  [ Developer ] [Github]() || [Linkedin]()
-
-  - Ash Trindade  [ Community Moderator & Developer ] [Github]() || [Linkedin]()
-
-  - Felipe Murata [ Head de UI/UX ] [Github]() || [Linkedin]()
+- Adson Gomes Oliveira [ Founder & Developer ] [Github](https://github.com/Adson-Gomes-Oliveira) || [Linkedin](https://www.linkedin.com/in/adson-gomes-oliveira/)
+- Isac Queiroz de Oliveira [ Product Owner & Developer ] [Github]() || [Linkedin]()
+- Jorge Felipe Campos Chagas [ Developer ] [Github]() || [Linkedin]()
+- Layssa Hillary  [ UI/UX Designer ] [Github]() || [Linkedin]()
+- Icaro Gabriel B.O Vieira  [ UI/UX Designer ] [Github]() || [Linkedin]()
+- Cairo Noleto  [ Consultant ] [Github]() || [Linkedin]()
+- Cesar Holanda  [ Developer ] [Github]() || [Linkedin]()
+- Ash Trindade  [ Community Moderator & Developer ] [Github]() || [Linkedin]()
+- Felipe Murata [ Head de UI/UX ] [Github]() || [Linkedin]()
+- Guilherme Hallmann [ Developer ] [Github]() || [Linkedin]()
 
 <br />
 
