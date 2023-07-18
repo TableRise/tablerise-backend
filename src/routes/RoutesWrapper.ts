@@ -59,7 +59,6 @@ class RoutesWrapper {
 
   static declareRoutes(): RouteWrapperDeclared[][] {
     return [
-      // RPG systems routes
       ['/system', 'system', 'get', null, systemInstance, null, false],
       ['/system/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
       ['/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
@@ -70,37 +69,31 @@ class RoutesWrapper {
       ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
       ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
 
-      // RPG realms routes
       ['/realms', 'realms', 'get', null, realmInstance, null, false],
       ['/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
       ['/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
       ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false],
 
-      // RPG gods routes
       ['/gods', 'gods', 'get', null, godInstance, null, false],
       ['/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
       ['/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
       ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false],
 
-      // RPG backgrounds routes
       ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
       ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false],
 
-      // RPG feats routes
       ['/feats', 'feats', 'get', null, featInstance, null, false],
       ['/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
       ['/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
       ['/feats/{_id}', 'feats', 'delete', generateIDParam(), null, null, false],
 
-      // RPG weapons routes
       ['/weapons', 'weapons', 'get', null, weaponInstance, null, false],
       ['/weapons/{_id}', 'weapons', 'get', generateIDParam(), weaponInstance, null, false],
       ['/weapons/{_id}', 'weapons', 'put', generateIDParam(), weaponInstance, weaponWithoutId, false],
       ['/weapons/{_id}', 'weapons', 'delete', generateIDParam(), null, null, false],
 
-      // RPG armors routes
       ['/armors', 'armors', 'get', null, armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
