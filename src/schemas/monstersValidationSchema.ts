@@ -8,31 +8,31 @@ const hitPointsZodSchema = z.object({
 
 const savingThrowsZodSchema = z.object({
   name: z.string(),
-  value: z.number().int()
+  value: z.number()
 });
 
 const skillProficiencesZodSchema = z.object({
   name: z.string(),
-  value: z.number().int()
+  value: z.number()
 });
 
 const statsZodSchema = z.object({
-  armorClass: z.number().int(),
+  armorClass: z.number(),
   hitPoints: hitPointsZodSchema,
-  speed: z.number().int(),
+  speed: z.number(),
   savingThrows: z.array(savingThrowsZodSchema),
   damageImmunity: z.array(z.string()),
   statusImmunity: z.array(z.string()),
   senses: z.array(z.string()),
   skillProficiences: z.array(skillProficiencesZodSchema),
   languages: z.array(z.string()),
-  challangeLevel: z.number().int()
+  challangeLevel: z.number()
 });
 
 const abilityScoreZodSchema = z.object({
   name: z.string(),
-  value: z.number().int(),
-  modifier: z.number().int()
+  value: z.number(),
+  modifier: z.number()
 });
 
 const skillsZodSchema = z.object({
