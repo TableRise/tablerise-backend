@@ -7,6 +7,8 @@ export default interface IRoutes {
   gods: Router
   backgrounds: Router
   feats: Router
+  weapons: Router
+  armors: Router
 }
 
 export interface RouteDeclareParams {
