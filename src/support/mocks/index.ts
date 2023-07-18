@@ -11,6 +11,7 @@ import weaponMocks from 'src/support/mocks/weaponsMocks';
 import armorMocks from 'src/support/mocks/armorsMocks';
 import systemsMocks, { updateSystem } from 'src/support/mocks/systemsMocks';
 import monstersMocks from 'src/support/mocks/monstersMocks';
+import wikisMocks from 'src/support/mocks/wikisMocks'
 
 export default {
   background: backgroundMocks,
@@ -25,5 +26,6 @@ export default {
   weapon: weaponMocks,
   armor: armorMocks,
   monster: monstersMocks,
+  wiki: wikisMocks,
   updateSystemContent: updateSystem as Mock
 };
