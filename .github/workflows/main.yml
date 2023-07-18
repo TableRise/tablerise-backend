@@ -42,9 +42,6 @@ jobs:
           threshold_warning: 50
           threshold_metric: "lines"
 
-      - name: Create json coverage report
-        run: npx jest --coverage --coverageReporters='json-summary'
-
       - name: Checking coverage level
         run: npm run check-cov
 

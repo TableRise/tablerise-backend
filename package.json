@@ -7,6 +7,7 @@
     "start": "npm run build && node build/src/server.js",
     "build": "tsc",
     "test": "npm run test:unit && npm run test:integration",
+    "test:file": "jest --",
     "test:unit": "jest --verbose ./test/unit",
     "test:integration": "jest --verbose ./test/integration",
     "test:coverage": "jest --verbose --coverage",
