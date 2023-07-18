@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
     it('should return an array with 2 arrays inside', () => {
       routesDeclared = RoutesWrapper.declareRoutes();
       expect(routesDeclared).toBeInstanceOf(Array);
-      expect(routesDeclared.length).toBe(22);
+      expect(routesDeclared.length).toBe(30);
     });
   });
 
@@ -19,7 +19,9 @@ describe('Routes :: RoutesWrapper', () => {
       realms: {} as Router,
       gods: {} as Router,
       backgrounds: {} as Router,
-      feats: {} as Router
+      feats: {} as Router,
+      weapons: {} as Router,
+      armors: {} as Router
     };
 
     it('should return the correct routes', () => {
