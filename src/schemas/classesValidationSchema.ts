@@ -65,6 +65,16 @@ const invocationsKnownZodSchema = z.object({
   amount: z.array(z.number())
 });
 
+const ragesZodSchema = z.object({
+  isValidToThisClass: z.boolean(),
+  amount: z.array(z.number())
+});
+
+const rageDamageZodSchema = z.object({
+  isValidToThisClass: z.boolean(),
+  amount: z.array(z.number())
+});
+
 const levelingSpecsZodSchema = z.object({
   level: z.array(z.number()),
   proficiencyBonus: z.array(z.number()),
@@ -77,7 +87,9 @@ const levelingSpecsZodSchema = z.object({
   unarmoredMovement: unarmoredMovementZodSchema,
   sneakAttack: sneakAttackZodSchema,
   sorceryPoints: sorceryPointsZodSchema,
-  invocationsKnown: invocationsKnownZodSchema
+  invocationsKnown: invocationsKnownZodSchema,
+  rages: ragesZodSchema,
+  rageDamage: rageDamageZodSchema
 });
 
 const characteristicsZodSchema = z.object({
@@ -92,10 +104,7 @@ const classZodSchema = z.object({
   proficiencies: proficienciesZodSchema,
   equipment: z.array(equipmentZodSchema),
   levelingSpecs: levelingSpecsZodSchema,
-  characteristics: z.array(characteristicsZodSchema),
-  speed: z.number(),
-  language: z.array(z.string()),
-  skillProficiences: z.array(z.string())
+  characteristics: z.array(characteristicsZodSchema)
 });
 
 export type Class = z.infer<typeof classZodSchema>;
