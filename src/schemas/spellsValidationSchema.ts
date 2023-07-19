@@ -7,17 +7,22 @@ const higherLevelsZodSchema = z.object({
   debuffs: z.array(z.string())
 });
 
+const damageZodSchema = z.object({
+  type: z.string(),
+  value: z.string()
+})
+
 const spellZodSchema = z.object({
   name: z.string(),
   description: z.string(),
   type: z.string(),
-  level: z.string(),
+  level: z.number(),
   higherLevels: z.array(higherLevelsZodSchema),
-  damage: z.string(),
+  damage: damageZodSchema.or(z.null()),
   castingTime: z.string(),
   duration: z.string(),
   range: z.string(),
-  components: z.array(z.string()),
+  components: z.string(),
   buffs: z.array(z.string()),
   debuffs: z.array(z.string())
 });
