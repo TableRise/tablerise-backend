@@ -61,15 +61,20 @@ const classMockEn: Class = {
     invocationsKnown: {
       isValidToThisClass: true,
       amount: [1]
+    },
+    rages: {
+      isValidToThisClass: true,
+      amount: [1]
+    },
+    rageDamage: {
+      isValidToThisClass: true,
+      amount: [1]
     }
   },
   characteristics: [{
     title: 'Charming',
     description: 'He is very charming'
-  }],
-  speed: 1,
-  language: ['Love'],
-  skillProficiences: ['Bardic Inspiration']
+  }]
 };
 
 const classMockPt: Class = {
@@ -131,15 +136,20 @@ const classMockPt: Class = {
     invocationsKnown: {
       isValidToThisClass: true,
       amount: [1]
+    },
+    rages: {
+      isValidToThisClass: true,
+      amount: [1]
+    },
+    rageDamage: {
+      isValidToThisClass: true,
+      amount: [1]
     }
   },
   characteristics: [{
     title: 'Encantador',
     description: 'Ele é muito charmoso'
-  }],
-  speed: 1,
-  language: ['Amor'],
-  skillProficiences: ['inspiração bárdica']
+  }]
 };
 
 const _class: Mock = {
