@@ -6,18 +6,21 @@ const spellMockEn: Spell = {
   name: 'Fire ball',
   description: 'Explodes everyone',
   type: 'Fire',
-  level: '1',
+  level: 1,
   higherLevels: [{
     level: '2',
     damage: '20',
     buffs: ['Strength'],
     debuffs: ['Fire']
   }],
-  damage: '10',
+  damage: {
+    type: 'magical',
+    value: '4d6'
+  },
   castingTime: '1',
   duration: '5',
   range: '25',
-  components: ['Fire'],
+  components: 'Fire',
   buffs: ['Strength'],
   debuffs: ['Fire']
 };
@@ -26,18 +29,21 @@ const spellMockPt: Spell = {
   name: 'Bola de fogo',
   description: 'Explode todo mundo',
   type: 'Fogo',
-  level: '1',
+  level: 1,
   higherLevels: [{
     level: '2',
     damage: '20',
     buffs: ['Força'],
     debuffs: ['Fogo']
   }],
-  damage: '10',
+  damage: {
+    type: 'magico',
+    value: '4d6'
+  },
   castingTime: '1',
   duration: '5',
   range: '25',
-  components: ['Fogo'],
+  components: 'Fogo',
   buffs: ['Força'],
   debuffs: ['Fogo']
 };
