@@ -8,7 +8,16 @@
         "value": 2
       },
       "type": "adventuring gear",
-      "weight": 0.9
+      "weight": 0.9,
+      "mountOrVehicle": {
+        "isValid": false,
+        "speed": "",
+        "carryingCapacity": ""
+      },
+      "tradeGoods": {
+        "isValid": false,
+        "goods": ""
+      }
     },
     "pt": {
       "name": "Ábaco",
@@ -18,7 +27,16 @@
         "value": 2
       },
       "type": "equipamento de aventura",
-      "weight": 0.9
+      "weight": 0.9,
+      "mountOrVehicle": {
+        "isValid": false,
+        "speed": "",
+        "carryingCapacity": ""
+      },
+      "tradeGoods": {
+        "isValid": false,
+        "goods": ""
+      }
     }
   }
 ]
