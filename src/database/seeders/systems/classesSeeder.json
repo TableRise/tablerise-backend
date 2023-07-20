@@ -312,7 +312,7 @@
         },
         {
           "title": "Movimento Rápido",
-          "description": "A partir do 5º nível, sua velocidade aumenta em 10 pés enquanto você não estiver usando armadura pesada."
+          "description": "A partir do 5º nível, sua velocidade aumenta em 3 metros enquanto você não estiver usando armadura pesada."
         },
         {
           "title": "Instinto Selvagem",
@@ -352,11 +352,11 @@
         },
         {
           "title": "Presença Intimidadora",
-          "description": "A partir do 10º nível, você pode usar sua ação para amedrontar alguém com sua presença ameaçadora. Ao fazer isso, escolha uma criatura que você possa ver a até 30 pés de você. Se a criatura puder ver ou ouvir você, ela deve ter sucesso em um teste de resistência de Sabedoria (CD igual a 8 + seu bônus de proficiência + seu modificador de Carisma) ou ficar amedrontada por você até o final de seu próximo turno. Em turnos subsequentes, você pode usar sua ação para estender a duração desse efeito na criatura amedrontada até o final de seu próximo turno. Esse efeito termina se a criatura terminar seu turno fora do alcance da sua visão ou a mais de 60 pés de você.\n\nSe a criatura tiver sucesso em seu teste de resistência, você não pode usar essa característica novamente nessa criatura durante 24 horas."
+          "description": "A partir do 10º nível, você pode usar sua ação para amedrontar alguém com sua presença ameaçadora. Ao fazer isso, escolha uma criatura que você possa ver a até 9.1 metros de você. Se a criatura puder ver ou ouvir você, ela deve ter sucesso em um teste de resistência de Sabedoria (CD igual a 8 + seu bônus de proficiência + seu modificador de Carisma) ou ficar amedrontada por você até o final de seu próximo turno. Em turnos subsequentes, você pode usar sua ação para estender a duração desse efeito na criatura amedrontada até o final de seu próximo turno. Esse efeito termina se a criatura terminar seu turno fora do alcance da sua visão ou a mais de 18.2 metros de você.\n\nSe a criatura tiver sucesso em seu teste de resistência, você não pode usar essa característica novamente nessa criatura durante 24 horas."
         },
         {
           "title": "Retaliação",
-          "description": "A partir do 14º nível, quando você sofrer dano de uma criatura que esteja a até 5 pés de você, você pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura."
+          "description": "A partir do 14º nível, quando você sofrer dano de uma criatura que esteja a até 1.5 metros de você, você pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura."
         }
       ]
     }
