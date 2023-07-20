@@ -127,7 +127,7 @@
           "hitDice": "18d10 + 36",
           "default": 135
         },
-        "speed": "10 pés, nadar 40 pés",
+        "speed": "3 metros, nadar 12.1 metros",
         "savingThrows": [
           {
             "name": "constituição",
@@ -145,8 +145,8 @@
         "damageImmunities": [],
         "conditionImmunities": [],
         "damageResistances": [],
-        "senses": ["visão no escuro 120 pés, Percepção passiva 20"],
-        "languages": ["fala profunda", "telepatia 120 pés"],
+        "senses": ["visão no escuro 36.5 metros, Percepção passiva 20"],
+        "languages": ["fala profunda", "telepatia 36.5 metros"],
         "challengeLevel": 10
       },
       "abilityScore": [
@@ -188,7 +188,7 @@
         },
         {
           "name": "Nuvem de Muco",
-          "description": "Enquanto estiver submerso, o aboleth é cercado por um muco transformador. Uma criatura que toque o aboleth ou o atinja com um ataque corpo-a-corpo a até 5 pés dele deve fazer um teste de resistência de Constituição CD 14. Em caso de falha, a criatura fica doente por 1d4 horas e só pode respirar debaixo d'água."
+          "description": "Enquanto estiver submerso, o aboleth é cercado por um muco transformador. Uma criatura que toque o aboleth ou o atinja com um ataque corpo-a-corpo a até 1.5 metros dele deve fazer um teste de resistência de Constituição CD 14. Em caso de falha, a criatura fica doente por 1d4 horas e só pode respirar debaixo d'água."
         },
         {
           "name": "Telepatia de Sonda",
@@ -203,17 +203,17 @@
         },
         {
           "name": "Tentáculo",
-          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 10 pés, um alvo. Acerto: 12 (2d6 + 5) de dano concussão. Se o alvo for uma criatura, ele deve ser bem-sucedido em um teste de resistência de Constituição CD 14 ou ficará doente. A doença não tem efeito durante 1 minuto e pode ser removida por qualquer magia que cure doenças. Após 1 minuto, a pele da criatura doente fica translúcida e viscosa, e ela não pode recuperar pontos de vida, a menos que esteja debaixo d'água, e a doença só pode ser removida por magia cura ou outra magia de cura de doenças de 6º nível ou superior. Quando a criatura está fora da água, ela sofre 6 (1d12) de dano ácido a cada 10 minutos, a menos que a pele seja umedecida antes de 10 minutos passarem.",
+          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 12 (2d6 + 5) de dano concussão. Se o alvo for uma criatura, ele deve ser bem-sucedido em um teste de resistência de Constituição CD 14 ou ficará doente. A doença não tem efeito durante 1 minuto e pode ser removida por qualquer magia que cure doenças. Após 1 minuto, a pele da criatura doente fica translúcida e viscosa, e ela não pode recuperar pontos de vida, a menos que esteja debaixo d'água, e a doença só pode ser removida por magia cura ou outra magia de cura de doenças de 6º nível ou superior. Quando a criatura está fora da água, ela sofre 6 (1d12) de dano ácido a cada 10 minutos, a menos que a pele seja umedecida antes de 10 minutos passarem.",
           "type": "comum"
         },
         {
           "name": "Cauda",
-          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 10 pés, um alvo. Acerto: 15 (3d6 + 5) de dano concussão.",
+          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 15 (3d6 + 5) de dano concussão.",
           "type": "comum"
         },
         {
           "name": "Escravizar (3/Vezes ao Dia)",
-          "description": "O aboleth escolhe uma criatura que pode ver a até 30 pés dele. O alvo deve ser bem-sucedido em um teste de resistência de Sabedoria CD 14 ou ficará enfeitiçado magicamente pelo aboleth até que o aboleth morra ou até que o alvo esteja em um plano diferente de existência em relação ao aboleth. O alvo enfeitiçado está sob o controle do aboleth e não pode reagir, e o aboleth e o alvo podem se comunicar telepaticamente um com o outro, em qualquer distância.\n\nSempre que o alvo enfeitiçado sofrer dano, ele pode repetir o teste de resistência. Em caso de sucesso, o efeito termina. No máximo uma vez a cada 24 horas, o alvo pode repetir o teste de resistência quando estiver a pelo menos 1 milha do aboleth.",
+          "description": "O aboleth escolhe uma criatura que pode ver a até 9.1 metros dele. O alvo deve ser bem-sucedido em um teste de resistência de Sabedoria CD 14 ou ficará enfeitiçado magicamente pelo aboleth até que o aboleth morra ou até que o alvo esteja em um plano diferente de existência em relação ao aboleth. O alvo enfeitiçado está sob o controle do aboleth e não pode reagir, e o aboleth e o alvo podem se comunicar telepaticamente um com o outro, em qualquer distância.\n\nSempre que o alvo enfeitiçado sofrer dano, ele pode repetir o teste de resistência. Em caso de sucesso, o efeito termina. No máximo uma vez a cada 24 horas, o alvo pode repetir o teste de resistência quando estiver a pelo menos 1 milha do aboleth.",
           "type": "comum"
         },
         {

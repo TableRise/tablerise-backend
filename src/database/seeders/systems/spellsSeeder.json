@@ -9,14 +9,14 @@
       "damage": null,
       "castingTime": "1 action",
       "duration": "concentration, up to 1 minute",
-      "range": "36.5 meters",
+      "range": "120 feet",
       "components": "V, S, M (a bit of phosphorus or wychwood, or a glowworm)",
       "buffs": "no-buff",
       "debuffs": "no-debuffs"
     },
     "pt": {
       "name": "Luz Dançante",
-      "description": "Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou orbes brilhantes que flutuam no ar durante a duração. Você também pode combinar as quatro luzes em uma forma vagamente humanoides brilhante de tamanho Médio. Independentemente da forma escolhida, cada luz emite uma luz fraca em um raio de 10 pés.\n\nComo uma ação bônus em seu turno, você pode mover as luzes até 60 pés para um novo local dentro do alcance. Uma luz deve estar a até 20 pés de outra luz criada por este feitiço, e uma luz se apaga se ultrapassar o alcance do feitiço.",
+      "description": "Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou orbes brilhantes que flutuam no ar durante a duração. Você também pode combinar as quatro luzes em uma forma vagamente humanoides brilhante de tamanho Médio. Independentemente da forma escolhida, cada luz emite uma luz fraca em um raio de 3 metros.\n\nComo uma ação bônus em seu turno, você pode mover as luzes até 18 metros para um novo local dentro do alcance. Uma luz deve estar a até 6 metros de outra luz criada por este feitiço, e uma luz se apaga se ultrapassar o alcance do feitiço.",
       "type": "evocação-cantrip",
       "level": 0,
       "higherLevels": [],
