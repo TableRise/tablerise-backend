@@ -12,6 +12,7 @@ import armorMocks from 'src/support/mocks/armorsMocks';
 import systemsMocks, { updateSystem } from 'src/support/mocks/systemsMocks';
 import monstersMocks from 'src/support/mocks/monstersMocks';
 import wikisMocks from 'src/support/mocks/wikisMocks'
+import magicItemsMocks from 'src/support/mocks/magicItemsMocks';
 
 export default {
   background: backgroundMocks,
@@ -27,5 +28,6 @@ export default {
   armor: armorMocks,
   monster: monstersMocks,
   wiki: wikisMocks,
+  magicItems: magicItemsMocks,
   updateSystemContent: updateSystem as Mock
 };
