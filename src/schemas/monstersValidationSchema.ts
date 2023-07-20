@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 const hitPointsZodSchema = z.object({
   hitDice: z.string(),
-  hitPointsAtFirstLevel: z.string(),
-  hitPointsAtHigherLevels: z.string()
+  default: z.number()
 });
 
 const savingThrowsZodSchema = z.object({
@@ -11,20 +10,15 @@ const savingThrowsZodSchema = z.object({
   value: z.number()
 });
 
-const skillProficiencesZodSchema = z.object({
-  name: z.string(),
-  value: z.number()
-});
-
 const statsZodSchema = z.object({
   armorClass: z.number(),
   hitPoints: hitPointsZodSchema,
-  speed: z.number(),
+  speed: z.string(),
   savingThrows: z.array(savingThrowsZodSchema),
-  damageImmunity: z.array(z.string()),
-  statusImmunity: z.array(z.string()),
+  damageImmunities: z.array(z.string()),
+  conditionImmunities: z.array(z.string()),
+  damageResistances: z.array(z.string()),
   senses: z.array(z.string()),
-  skillProficiences: z.array(skillProficiencesZodSchema),
   languages: z.array(z.string()),
   challangeLevel: z.number()
 });
@@ -43,7 +37,7 @@ const skillsZodSchema = z.object({
 const actionsZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  successTarget: z.string()
+  type: z.string()
 });
 
 const monsterZodSchema = z.object({

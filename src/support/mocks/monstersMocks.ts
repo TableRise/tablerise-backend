@@ -9,15 +9,14 @@ const monsterMockEn: Monster = {
     armorClass: 2,
     hitPoints: {
       hitDice: '1d6',
-      hitPointsAtFirstLevel: '1d6',
-      hitPointsAtHigherLevels: '1d6'
+      default: 10
     },
-    speed: 9,
+    speed: '9',
     savingThrows: [],
-    damageImmunity: [],
-    statusImmunity: [],
+    damageImmunities: [],
+    conditionImmunities: [],
+    damageResistances: [],
     senses: [],
-    skillProficiences: [],
     languages: [],
     challangeLevel: 10
   },
@@ -34,15 +33,14 @@ const monsterMockPt: Monster = {
     armorClass: 2,
     hitPoints: {
       hitDice: '1d6',
-      hitPointsAtFirstLevel: '1d6',
-      hitPointsAtHigherLevels: '1d6'
+      default: 10
     },
-    speed: 9,
+    speed: '9',
     savingThrows: [],
-    damageImmunity: [],
-    statusImmunity: [],
+    damageImmunities: [],
+    conditionImmunities: [],
+    damageResistances: [],
     senses: [],
-    skillProficiences: [],
     languages: [],
     challangeLevel: 10
   },
