@@ -7,7 +7,16 @@ const itemMockEn: Item = {
   description: 'contains maps od the valley',
   cost: 25,
   type: 'adventuring gear',
-  weight: 5
+  weight: 5,
+  mountOrVehicle: {
+    isValid: false,
+    speed: '',
+    carryingCapacity: ''
+  },
+  tradeGoods: {
+    isValid: false,
+    goods: ''
+  }
 };
 
 const itemMockPt: Item = {
@@ -15,7 +24,16 @@ const itemMockPt: Item = {
   description: 'contém todos os mapas do vale',
   cost: 25,
   type: 'item de aventura',
-  weight: 5
+  weight: 5,
+  mountOrVehicle: {
+    isValid: false,
+    speed: '',
+    carryingCapacity: ''
+  },
+  tradeGoods: {
+    isValid: false,
+    goods: ''
+  }
 };
 
 const itemsMocks: Mock = {
