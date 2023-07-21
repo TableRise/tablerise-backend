@@ -6,6 +6,8 @@ import backgroundRoutes from 'src/routes/backgroundRoutes';
 import featRoutes from 'src/routes/featRoutes';
 import weaponRoutes from 'src/routes/weaponRoutes';
 import armorRoutes from 'src/routes/armorRoutes';
+import itemsRoutes from 'src/routes/itemsRoutes';
+import racesRoutes from 'src/routes/racesRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -19,6 +21,8 @@ import { Background } from 'src/schemas/backgroundsValidationSchema';
 import { Feat } from 'src/schemas/featsValidationSchema';
 import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { Armor } from 'src/schemas/armorsValidationSchema';
+import { Item } from 'src/schemas/itemsValidationSchema';
+import { Race } from 'src/schemas/racesValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -44,6 +48,12 @@ const { _id: _5, ...weaponWithoutId } = weaponInstance;
 const armorInstance = mocks.armor.instance as Internacional<Armor>;
 const { _id: _6, ...armorWithoutId } = armorInstance;
 
+const itemInstance = mocks.item.instance as Internacional<Item>;
+const { _id: _7, ...itemWithoutId } = itemInstance;
+
+const raceInstance = mocks.race.instance as Internacional<Race>;
+const { _id: _8, ...raceWithoutId } = raceInstance;
+
 class RoutesWrapper {
   static routes(): Route {
     return {
@@ -53,7 +63,9 @@ class RoutesWrapper {
       backgrounds: backgroundRoutes,
       feats: featRoutes,
       weapons: weaponRoutes,
-      armors: armorRoutes
+      armors: armorRoutes,
+      items: itemsRoutes,
+      races: racesRoutes
     }
   }
 
@@ -97,7 +109,17 @@ class RoutesWrapper {
       ['/armors', 'armors', 'get', null, armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
-      ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false]
+      ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
+
+      ['/items', 'items', 'get', null, itemInstance, null, false],
+      ['/items/{_id}', 'armors', 'get', generateIDParam(), itemInstance, null, false],
+      ['/items/{_id}', 'armors', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
+      ['/items/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
+
+      ['/races', 'races', 'get', null, raceInstance, null, false],
+      ['/races/{_id}', 'races', 'get', generateIDParam(), raceInstance, null, false],
+      ['/races/{_id}', 'races', 'put', generateIDParam(), raceInstance, raceWithoutId, false],
+      ['/races/{_id}', 'races', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };

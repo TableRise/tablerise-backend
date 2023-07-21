@@ -9,6 +9,8 @@ export default interface IRoutes {
   feats: Router
   weapons: Router
   armors: Router
+  items: Router
+  races: Router
 }
 
 export interface RouteDeclareParams {

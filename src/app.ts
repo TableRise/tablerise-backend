@@ -26,6 +26,8 @@ app
   .use('/feats', RoutesWrapper.routes().feats)
   .use('/weapons', RoutesWrapper.routes().weapons)
   .use('/armors', RoutesWrapper.routes().armors)
+  .use('/items', RoutesWrapper.routes().items)
+  .use('/races', RoutesWrapper.routes().races)
   .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {

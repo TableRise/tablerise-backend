@@ -21,7 +21,9 @@ describe('Routes :: RoutesWrapper', () => {
       backgrounds: {} as Router,
       feats: {} as Router,
       weapons: {} as Router,
-      armors: {} as Router
+      armors: {} as Router,
+      items: {} as Router,
+      races: {} as Router
     };
 
     it('should return the correct routes', () => {
