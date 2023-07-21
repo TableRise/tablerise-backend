@@ -9,14 +9,17 @@ const spellMockEn: Spell = {
   level: 1,
   higherLevels: [{
     level: '2',
-    damage: '20',
+    damage: [{
+      type: 'magico',
+      dice: '4d6'
+    }],
     buffs: ['Strength'],
     debuffs: ['Fire']
   }],
-  damage: {
+  damage: [{
     type: 'magical',
-    value: '4d6'
-  },
+    dice: '4d6'
+  }],
   castingTime: '1',
   duration: '5',
   range: '25',
@@ -32,14 +35,17 @@ const spellMockPt: Spell = {
   level: 1,
   higherLevels: [{
     level: '2',
-    damage: '20',
+    damage: [{
+      type: 'magico',
+      dice: '4d6'
+    }],
     buffs: ['Força'],
     debuffs: ['Fogo']
   }],
-  damage: {
+  damage: [{
     type: 'magico',
-    value: '4d6'
-  },
+    dice: '4d6'
+  }],
   castingTime: '1',
   duration: '5',
   range: '25',
