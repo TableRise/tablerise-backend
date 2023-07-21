@@ -5,7 +5,10 @@ import Mock from 'src/types/Mock';
 const itemMockEn: Item = {
   name: 'History of Valley',
   description: 'contains maps od the valley',
-  cost: 25,
+  cost: {
+    currency: 'sp',
+    value: 25
+  },
   type: 'adventuring gear',
   weight: 5,
   mountOrVehicle: {
@@ -22,7 +25,10 @@ const itemMockEn: Item = {
 const itemMockPt: Item = {
   name: 'História do Vale',
   description: 'contém todos os mapas do vale',
-  cost: 25,
+  cost: {
+    currency: 'po',
+    value: 25
+  },
   type: 'item de aventura',
   weight: 5,
   mountOrVehicle: {
