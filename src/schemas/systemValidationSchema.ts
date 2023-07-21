@@ -28,5 +28,6 @@ const systemZodSchema = z.object({
 
 export type System = z.infer<typeof systemZodSchema> & { _id?: string }
 export type SystemContent = z.infer<typeof systemContentZodSchema>
+export type SystemReference = z.infer<typeof systemReferencesZodSchema>
 
 export default systemZodSchema;
