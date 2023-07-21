@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import ItemsModel from 'src/database/models/ItemsModel';
-import ItemsServices from 'src/services/ItemsService';
-import ItemsControllers from 'src/controllers/ItemsControllers';
+import RacesModel from 'src/database/models/RacesModel';
+import RacesServices from 'src/services/RacesService';
+import RacesControllers from 'src/controllers/RacesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new ItemsModel();
-const services = new ItemsServices(model);
-const controllers = new ItemsControllers(services);
+const model = new RacesModel();
+const services = new RacesServices(model);
+const controllers = new RacesControllers(services);
 
 const router = Router();
 

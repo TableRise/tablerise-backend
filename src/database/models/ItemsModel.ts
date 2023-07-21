@@ -1,7 +1,12 @@
 import { model as mongooseCreateModel, Schema } from 'mongoose';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Item, MountOrVehicle, TradeGoods } from 'src/schemas/itemsValidationSchema';
+import { Item, MountOrVehicle, TradeGoods, Cost } from 'src/schemas/itemsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
+
+const costSchema = new Schema<Cost>({
+  currency: { type: String, required: true },
+  value: { type: Number, required: true }
+})
 
 const mountOrVehicleSchema = new Schema<MountOrVehicle>({
   isValid: { type: Boolean, required: true },
@@ -17,7 +22,7 @@ const tradeGoodsSchema = new Schema<TradeGoods>({
 const schema = new Schema<Item>({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  cost: { type: Number, required: true },
+  cost: costSchema,
   type: { type: String, required: true },
   weight: { type: Number, required: true },
   mountOrVehicle: mountOrVehicleSchema,

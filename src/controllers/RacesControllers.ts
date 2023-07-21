@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import ItemsServices from 'src/services/ItemsService';
+import RacesServices from 'src/services/RacesService';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Item } from 'src/schemas/itemsValidationSchema';
+import { Race } from 'src/schemas/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class ItemsControllers {
-  constructor(readonly _service: ItemsServices) {
+export default class RacesControllers {
+  constructor(readonly _service: RacesServices) {
     this.findAll = this.findAll.bind(this);
     this.findOne = this.findOne.bind(this);
     this.update = this.update.bind(this);
@@ -26,7 +26,7 @@ export default class ItemsControllers {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id: _id } = req.params;
-    const payload = req.body as Internacional<Item>;
+    const payload = req.body as Internacional<Race>;
 
     const request = await this._service.update(_id, payload);
     return res.status(HttpStatusCode.OK).json(request);
