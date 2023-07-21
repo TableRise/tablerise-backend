@@ -6,14 +6,22 @@ const wikiMockEn: Wiki = {
   title: 'Wiki title',
   description: 'Wiki description',
   reference: 'Book of rules',
-  image: ''
+  image: '',
+  subTopics: [{
+    subTitle: 'My subtitle',
+    description: 'subTopic description'
+  }]
 }
 
 const wikiMockPt: Wiki = {
   title: 'Título da wiki',
   description: 'Descrição da wiki',
   reference: 'Livro de regras',
-  image: ''
+  image: '',
+  subTopics: [{
+    subTitle: 'Meu subtitulo',
+    description: 'descrição do subTópico'
+  }]
 }
 
 const wiki: Mock = {

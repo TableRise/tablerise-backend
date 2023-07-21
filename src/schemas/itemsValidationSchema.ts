@@ -11,10 +11,15 @@ const mountOrVehicleZodSchema = z.object({
   carryingCapacity: z.string()
 });
 
+const costZodSchema = z.object({
+  currency: z.string(),
+  value: z.number()
+});
+
 const itemsZodSchema = z.object({
   name: z.string(),
   description: z.string(),
-  cost: z.number(),
+  cost: costZodSchema,
   type: z.string(),
   weight: z.number(),
   mountOrVehicle: mountOrVehicleZodSchema,
