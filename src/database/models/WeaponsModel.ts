@@ -1,15 +1,17 @@
 import { model as mongooseCreateModel, Schema } from 'mongoose';
-import { Weapon } from 'src/schemas/weaponsValidationSchema';
+import { Weapon, Cost } from 'src/schemas/weaponsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+
+const costMongooseSchema = new Schema<Cost>({
+  currency: { type: String, required: true },
+  value: { type: Number, required: true }
+});
 
 const schema = new Schema<Weapon>({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  cost: {
-    currency: { type: String, required: true },
-    value: { type: Number, required: true }
-  },
+  cost: costMongooseSchema,
   type: { type: String, required: true },
   weight: { type: Number, required: true },
   damage: { type: String, required: true },

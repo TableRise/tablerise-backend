@@ -16,5 +16,6 @@ const weaponsZodSchema = z.object({
 });
 
 export type Weapon = z.infer<typeof weaponsZodSchema>;
+export type Cost = z.infer<typeof costZodSchema>;
 
 export default weaponsZodSchema;
