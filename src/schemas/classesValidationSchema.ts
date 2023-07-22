@@ -108,5 +108,21 @@ const classZodSchema = z.object({
 });
 
 export type Class = z.infer<typeof classZodSchema>;
+export type HitPoints = z.infer<typeof hitPointsZodSchema>;
+export type Proficiencies = z.infer<typeof proficienciesZodSchema>;
+export type Equipment = z.infer<typeof equipmentZodSchema>;
+export type CantripsKnown = z.infer<typeof cantripsKnownZodSchema>;
+export type SpellSlotsPerSpellLevel = z.infer<typeof spellSlotsPerSpellLevelZodSchema>;
+export type SpellsKnown = z.infer<typeof spellsKnownZodSchema>;
+export type KiPoints = z.infer<typeof kiPointsZodSchema>;
+export type MartialArts = z.infer<typeof martialArtsZodSchema>;
+export type UnarmoredMovement = z.infer<typeof unarmoredMovementZodSchema>;
+export type SneakAttack = z.infer<typeof sneakAttackZodSchema>;
+export type SorceryPoints = z.infer<typeof sorceryPointsZodSchema>;
+export type InvocationsKnown = z.infer<typeof invocationsKnownZodSchema>;
+export type Rages = z.infer<typeof ragesZodSchema>;
+export type RageDamage = z.infer<typeof rageDamageZodSchema>;
+export type LevelingSpecs = z.infer<typeof levelingSpecsZodSchema>;
+export type Characteristics = z.infer<typeof characteristicsZodSchema>;
 
 export default classZodSchema;

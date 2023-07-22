@@ -28,5 +28,7 @@ const spellZodSchema = z.object({
 });
 
 export type Spell = z.infer<typeof spellZodSchema>;
+export type Damage = z.infer<typeof damageZodSchema>;
+export type HigherLevels = z.infer<typeof higherLevelsZodSchema>;
 
 export default spellZodSchema;

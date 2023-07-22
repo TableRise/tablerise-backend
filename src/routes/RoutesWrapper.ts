@@ -6,7 +6,9 @@ import backgroundRoutes from 'src/routes/backgroundRoutes';
 import featRoutes from 'src/routes/featRoutes';
 import weaponRoutes from 'src/routes/weaponRoutes';
 import armorRoutes from 'src/routes/armorRoutes';
+import classRoutes from 'src/routes/classRoutes';
 import magicItemRoutes from 'src/routes/magicItemsRoutes';
+import spellRoutes from 'src/routes/spellRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -20,7 +22,9 @@ import { Background } from 'src/schemas/backgroundsValidationSchema';
 import { Feat } from 'src/schemas/featsValidationSchema';
 import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { Armor } from 'src/schemas/armorsValidationSchema';
+import { Class } from 'src/schemas/classesValidationSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
+import { Spell } from 'src/schemas/spellsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -46,8 +50,14 @@ const { _id: _5, ...weaponWithoutId } = weaponInstance;
 const armorInstance = mocks.armor.instance as Internacional<Armor>;
 const { _id: _6, ...armorWithoutId } = armorInstance;
 
+const classInstance = mocks.class.instance as Internacional<Class>;
+const { _id: _7, ...classWithoutId } = classInstance;
+
 const magicItemInstance = mocks.magicItems.instance as Internacional<MagicItem>;
-const { _id: _7, ...magicItemWithoutId } = magicItemInstance;
+const { _id: _8, ...magicItemWithoutId } = magicItemInstance;
+
+const spellInstance = mocks.spell.instance as Internacional<Spell>;
+const { _id: _9, ...spellWithoutId } = spellInstance;
 
 class RoutesWrapper {
   static routes(): Route {
@@ -59,7 +69,9 @@ class RoutesWrapper {
       feats: featRoutes,
       weapons: weaponRoutes,
       armors: armorRoutes,
-      magicItems: magicItemRoutes
+      classes: classRoutes,
+      magicItems: magicItemRoutes,
+      spells: spellRoutes
     }
   }
 
@@ -105,10 +117,20 @@ class RoutesWrapper {
       ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
       ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
 
+      ['/classes', 'classes', 'get', null, classInstance, null, false],
+      ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
+      ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
+      ['/classes/{_id}', 'classes', 'delete', generateIDParam(), null, null, false],
+
       ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
-      ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false]
+      ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false],
+
+      ['/spells', 'spells', 'get', null, spellInstance, null, false],
+      ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
+      ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
+      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };
