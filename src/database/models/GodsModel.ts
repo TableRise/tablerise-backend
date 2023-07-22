@@ -9,7 +9,7 @@ const schema = new Schema<God>({
   suggestedDomains: { type: String, required: true },
   symbol: { type: String, required: true },
   phanteon: { type: String, required: true }
-});
+}, { versionKey: false, _id: false });
 
 export const godsMongooseSchema = new Schema<Internacional<God>>({
   en: schema,

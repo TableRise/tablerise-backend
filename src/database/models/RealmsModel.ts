@@ -7,7 +7,7 @@ const schema = new Schema<Realm>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   thumbnail: { type: String, required: true }
-});
+}, { versionKey: false, _id: false });
 
 export const realmsMongooseSchema = new Schema<Internacional<Realm>>({
   en: schema,

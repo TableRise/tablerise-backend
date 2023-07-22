@@ -6,7 +6,7 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 const costMongooseSchema = new Schema<Cost>({
   currency: { type: String, required: true },
   value: { type: Number, required: true }
-});
+}, { versionKey: false, _id: false });
 
 const schema = new Schema<Armor>({
   name: { type: String, required: true },
@@ -17,7 +17,7 @@ const schema = new Schema<Armor>({
   armorClass: { type: Number, required: true },
   requiredStrength: { type: Number, required: true },
   stealthPenalty: { type: Boolean, required: true }
-});
+}, { versionKey: false, _id: false });
 
 export const armorsMongooseSchema = new Schema<Internacional<Armor>>({
   en: schema,
