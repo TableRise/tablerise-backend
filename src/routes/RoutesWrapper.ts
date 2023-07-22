@@ -6,6 +6,7 @@ import backgroundRoutes from 'src/routes/backgroundRoutes';
 import featRoutes from 'src/routes/featRoutes';
 import weaponRoutes from 'src/routes/weaponRoutes';
 import armorRoutes from 'src/routes/armorRoutes';
+import classRoutes from 'src/routes/classRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -19,6 +20,7 @@ import { Background } from 'src/schemas/backgroundsValidationSchema';
 import { Feat } from 'src/schemas/featsValidationSchema';
 import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { Armor } from 'src/schemas/armorsValidationSchema';
+import { Class } from 'src/schemas/classesValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -44,6 +46,9 @@ const { _id: _5, ...weaponWithoutId } = weaponInstance;
 const armorInstance = mocks.armor.instance as Internacional<Armor>;
 const { _id: _6, ...armorWithoutId } = armorInstance;
 
+const classInstance = mocks.class.instance as Internacional<Class>;
+const { _id: _7, ...classWithoutId } = classInstance;
+
 class RoutesWrapper {
   static routes(): Route {
     return {
@@ -53,7 +58,8 @@ class RoutesWrapper {
       backgrounds: backgroundRoutes,
       feats: featRoutes,
       weapons: weaponRoutes,
-      armors: armorRoutes
+      armors: armorRoutes,
+      classes: classRoutes
     }
   }
 
@@ -97,7 +103,12 @@ class RoutesWrapper {
       ['/armors', 'armors', 'get', null, armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
-      ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false]
+      ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
+
+      ['/classes', 'classes', 'get', null, classInstance, null, false],
+      ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
+      ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
+      ['/classes/{_id}', 'classes', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };
