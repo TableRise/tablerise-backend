@@ -28,6 +28,7 @@ app
   .use('/armors', RoutesWrapper.routes().armors)
   .use('/classes', RoutesWrapper.routes().classes)
   .use('/magicItems', RoutesWrapper.routes().magicItems)
+  .use('/spells', RoutesWrapper.routes().spells)
   .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {

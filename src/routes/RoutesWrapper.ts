@@ -8,6 +8,7 @@ import weaponRoutes from 'src/routes/weaponRoutes';
 import armorRoutes from 'src/routes/armorRoutes';
 import classRoutes from 'src/routes/classRoutes';
 import magicItemRoutes from 'src/routes/magicItemsRoutes';
+import spellRoutes from 'src/routes/spellRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -23,6 +24,7 @@ import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { Armor } from 'src/schemas/armorsValidationSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
+import { Spell } from 'src/schemas/spellsValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -54,6 +56,9 @@ const { _id: _7, ...classWithoutId } = classInstance;
 const magicItemInstance = mocks.magicItems.instance as Internacional<MagicItem>;
 const { _id: _8, ...magicItemWithoutId } = magicItemInstance;
 
+const spellInstance = mocks.spell.instance as Internacional<Spell>;
+const { _id: _9, ...spellWithoutId } = spellInstance;
+
 class RoutesWrapper {
   static routes(): Route {
     return {
@@ -65,7 +70,8 @@ class RoutesWrapper {
       weapons: weaponRoutes,
       armors: armorRoutes,
       classes: classRoutes,
-      magicItems: magicItemRoutes
+      magicItems: magicItemRoutes,
+      spells: spellRoutes
     }
   }
 
@@ -119,7 +125,12 @@ class RoutesWrapper {
       ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
-      ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false]
+      ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false],
+
+      ['/spells', 'spells', 'get', null, spellInstance, null, false],
+      ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
+      ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
+      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
     ];
   }
 };

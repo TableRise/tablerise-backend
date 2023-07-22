@@ -11,6 +11,7 @@ export default interface IRoutes {
   armors: Router
   classes: Router
   magicItems: Router
+  spells: Router
 }
 
 export interface RouteDeclareParams {
