@@ -17,7 +17,7 @@ export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>({
 });
 
 export default class MagicItemsModel extends MongoModel<Internacional<MagicItem>> {
-  constructor(public model = mongooseCreateModel('magicItem', magicItemsMongooseSchema)) {
+  constructor(public model = mongooseCreateModel('magicItem', magicItemsMongooseSchema, 'magicItems')) {
     super(model)
   }
 }
