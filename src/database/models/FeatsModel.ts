@@ -8,7 +8,7 @@ const schema = new Schema<Feat>({
   prerequisite: { type: String, required: true },
   description: { type: String, required: true },
   benefits: { type: [String], required: true }
-});
+}, { versionKey: false, _id: false });
 
 export const featsMongooseSchema = new Schema<Internacional<Feat>>({
   en: schema,

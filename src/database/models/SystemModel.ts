@@ -6,7 +6,7 @@ const systemReferenceMongooseSchema = new Schema<SystemReference>({
   srd: { type: String, required: true },
   icon: { type: String, required: true },
   cover: { type: String, required: false }
-});
+}, { versionKey: false, _id: false });
 
 const systemContentMongooseSchema = new Schema<SystemContent>({
   races: { type: [String], required: true },
@@ -19,7 +19,7 @@ const systemContentMongooseSchema = new Schema<SystemContent>({
   realms: { type: [String], required: true },
   gods: { type: [String], required: true },
   monsters: { type: [String], required: true }
-});
+}, { versionKey: false, _id: false });
 
 const systemMongooseSchema = new Schema<System>({
   name: { type: String, required: true },

@@ -7,7 +7,7 @@ const schema = new Schema<MagicItem>({
   name: { type: String, required: true },
   characteristics: { type: [String], required: true },
   description: { type: String, required: true }
-});
+}, { versionKey: false, _id: false });
 
 export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>({
   en: schema,
@@ -17,7 +17,7 @@ export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>({
 });
 
 export default class MagicItemsModel extends MongoModel<Internacional<MagicItem>> {
-  constructor(public model = mongooseCreateModel('magicItem', magicItemsMongooseSchema)) {
+  constructor(public model = mongooseCreateModel('magicItem', magicItemsMongooseSchema, 'magicItems')) {
     super(model)
   }
 }
