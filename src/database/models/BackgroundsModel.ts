@@ -8,13 +8,13 @@ const suggestedSchema = new Schema<BackgroundSuggested>({
   ideal: { type: [String], required: true },
   bond: { type: [String], required: true },
   flaw: { type: [String], required: true }
-});
+}, { versionKey: false, _id: false });
 
 const characteristicsSchema = new Schema<BackgroundCharacteristics>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   suggested: suggestedSchema
-});
+}, { versionKey: false, _id: false });
 
 const schema = new Schema<Background>({
   name: { type: String, required: true },
@@ -23,7 +23,7 @@ const schema = new Schema<Background>({
   languages: { type: [String], required: true },
   equipment: { type: [String], required: true },
   characteristics: characteristicsSchema
-});
+}, { versionKey: false, _id: false });
 
 export const backgroundsMongooseSchema = new Schema<Internacional<Background>>({
   en: schema,
