@@ -27,6 +27,9 @@ jobs:
       - name: Checking lint
         run:  npm run lint
 
+      - name: Checking prettier
+        run:  npm run prettier
+
       - name: Up database container
         run: docker-compose up -d database-test
 

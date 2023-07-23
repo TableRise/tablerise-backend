@@ -5,59 +5,57 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
 
-export default class SpellsServices
-  extends ValidateEntry
-  implements Service<Internacional<Spell>> {
-  constructor(private readonly _model: SpellsModel) {
-    super();
-  }
-
-  public async findAll(): Promise<Array<Internacional<Spell>>> {
-    const response = await this._model.findAll();
-    return response;
-  };
-
-  public async findOne(_id: string): Promise<Internacional<Spell>> {
-    const response = await this._model.findOne(_id);
-
-    if (!response) {
-      const err = new Error('NotFound a spell with provided ID');
-      err.stack = HttpStatusCode.NOT_FOUND.toString();
-      err.name = 'NotFound'
-
-      throw err;
+export default class SpellsServices extends ValidateEntry implements Service<Internacional<Spell>> {
+    constructor(private readonly _model: SpellsModel) {
+        super();
     }
 
-    return response;
-  }
-
-  public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
-    this.validate(languagesWrapper(spellsZodSchema), payload);
-
-    const response = await this._model.update(_id, payload);
-
-    if (!response) {
-      const err = new Error('NotFound a spell with provided ID');
-      err.stack = HttpStatusCode.NOT_FOUND.toString();
-      err.name = 'NotFound'
-
-      throw err;
+    public async findAll(): Promise<Array<Internacional<Spell>>> {
+        const response = await this._model.findAll();
+        return response;
     }
 
-    return response;
-  }
+    public async findOne(_id: string): Promise<Internacional<Spell>> {
+        const response = await this._model.findOne(_id);
 
-  public async delete(_id: string): Promise<void> {
-    const response = await this._model.findOne(_id);
+        if (!response) {
+            const err = new Error('NotFound a spell with provided ID');
+            err.stack = HttpStatusCode.NOT_FOUND.toString();
+            err.name = 'NotFound';
 
-    if (!response) {
-      const err = new Error('NotFound a spell with provided ID');
-      err.stack = HttpStatusCode.NOT_FOUND.toString();
-      err.name = 'NotFound'
+            throw err;
+        }
 
-      throw err;
+        return response;
     }
 
-    await this._model.delete(_id);
-  };
+    public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
+        this.validate(languagesWrapper(spellsZodSchema), payload);
+
+        const response = await this._model.update(_id, payload);
+
+        if (!response) {
+            const err = new Error('NotFound a spell with provided ID');
+            err.stack = HttpStatusCode.NOT_FOUND.toString();
+            err.name = 'NotFound';
+
+            throw err;
+        }
+
+        return response;
+    }
+
+    public async delete(_id: string): Promise<void> {
+        const response = await this._model.findOne(_id);
+
+        if (!response) {
+            const err = new Error('NotFound a spell with provided ID');
+            err.stack = HttpStatusCode.NOT_FOUND.toString();
+            err.name = 'NotFound';
+
+            throw err;
+        }
+
+        await this._model.delete(_id);
+    }
 }
