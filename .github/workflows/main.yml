@@ -36,7 +36,6 @@ jobs:
           message: "Thank you for opening this PR :pray:"
           fail: true
           recreate: true
-          delete: true
 
       - name: Checking prettier
         run:  npm run prettier
