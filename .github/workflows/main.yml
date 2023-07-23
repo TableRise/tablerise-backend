@@ -27,16 +27,6 @@ jobs:
       - name: Checking lint
         run:  npm run lint
 
-      - uses: hasura/comment-progress@v2.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: "TableRise/tablerise-backend"
-          number: ${{ github.event.number }}
-          id: deploy-progress
-          message: "Thank you for opening this PR :pray:"
-          fail: true
-          recreate: true
-
       - name: Checking prettier
         run:  npm run prettier
 
