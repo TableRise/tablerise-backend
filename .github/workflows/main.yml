@@ -1,5 +1,5 @@
-on: [push, pull_request]
-name: Continuous Delivery Action
+name: continuous-delivery-action
+on: [pull_request]
 jobs:
   backend:
     name: 'Testing Backend'
