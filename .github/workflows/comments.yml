@@ -1,3 +1,4 @@
+name: Comment Errors
 on:
   workflow_run:
     workflows:
@@ -9,3 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: quipper/comment-failure-action@v0.1.1
+        with:
+            api-token: ${{ github.token }}
