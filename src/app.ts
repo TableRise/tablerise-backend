@@ -15,7 +15,7 @@ const autoSwagger = require('@tablerise/auto-swagger');
 const app: Application = express();
 
 app.use(express.json())
-  .use(cors())
+    .use(cors())
     .use(helmet())
     .use('/health', (req, res) => res.send('OK!'))
     .use('/system', RoutesWrapper.routes().system)
