@@ -13,18 +13,7 @@ module.exports = {
     },
     rules: {
         'no-console': 'warn',
-        'max-len': [
-            'error',
-            {
-                code: 150,
-                ignoreComments: true,
-                ignoreTrailingComments: true,
-            },
-        ],
-        'arrow-parens': 'error',
         'no-await-in-loop': 'error',
-        // eslint-disable-next-line quote-props
-        semi: 0,
         'space-before-function-paren': 0,
         '@typescript-eslint/semi': 0,
         '@typescript-eslint/consistent-type-imports': 0,
