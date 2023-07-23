@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import systemRoutes from 'src/routes/systemRoutes';
 import realmRoutes from 'src/routes/realmRoutes';
 import godRoutes from 'src/routes/godRoutes';
@@ -60,22 +59,23 @@ const spellInstance = mocks.spell.instance as Internacional<Spell>;
 const { _id: _9, ...spellWithoutId } = spellInstance;
 
 class RoutesWrapper {
-  static routes(): Route {
-    return {
-      system: systemRoutes,
-      realms: realmRoutes,
-      gods: godRoutes,
-      backgrounds: backgroundRoutes,
-      feats: featRoutes,
-      weapons: weaponRoutes,
-      armors: armorRoutes,
-      classes: classRoutes,
-      magicItems: magicItemRoutes,
-      spells: spellRoutes
+    static routes(): Route {
+        return {
+            system: systemRoutes,
+            realms: realmRoutes,
+            gods: godRoutes,
+            backgrounds: backgroundRoutes,
+            feats: featRoutes,
+            weapons: weaponRoutes,
+            armors: armorRoutes,
+            classes: classRoutes,
+            magicItems: magicItemRoutes,
+            spells: spellRoutes,
+        };
     }
-  }
 
-  static declareRoutes(): RouteWrapperDeclared[][] {
+    // prettier-ignore
+    static declareRoutes(): RouteWrapperDeclared[][] {
     return [
       ['/system', 'system', 'get', null, systemInstance, null, false],
       ['/system/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
@@ -133,6 +133,6 @@ class RoutesWrapper {
       ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
     ];
   }
-};
+}
 
 export default RoutesWrapper;

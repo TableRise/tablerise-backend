@@ -7,100 +7,100 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
 describe('Services :: SpellsControllers', () => {
-  const SpellsModelMock = new SpellsModel();
-  const SpellsServicesMock = new SpellsServices(SpellsModelMock);
-  const SpellsControllersMock = new SpellsControllers(SpellsServicesMock);
-  const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
-  const request = {} as Request;
-  const response = {} as Response;
+    const SpellsModelMock = new SpellsModel();
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock);
+    const SpellsControllersMock = new SpellsControllers(SpellsServicesMock);
+    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
+    const request = {} as Request;
+    const response = {} as Response;
 
-  describe('When a request is made to recover all spells', () => {
-    beforeAll(() => {
-      response.status = jest.fn().mockReturnValue(response);
-      response.json = jest.fn().mockReturnValue({});
+    describe('When a request is made to recover all spells', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
 
-      jest.spyOn(SpellsServicesMock, 'findAll').mockResolvedValue([spellMockInstance]);
+            jest.spyOn(SpellsServicesMock, 'findAll').mockResolvedValue([spellMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await SpellsControllersMock.findAll(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([spellMockInstance]);
+        });
     });
 
-    afterAll(() => {
-      jest.clearAllMocks();
+    describe('When a request is made to recover spell by ID', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(SpellsServicesMock, 'findOne').mockResolvedValue(spellMockInstance);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            request.params = { _id: spellMockInstance._id as string };
+
+            await SpellsControllersMock.findOne(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(spellMockInstance);
+        });
     });
 
-    it('should return correct data in response json with status 200', async () => {
-      await SpellsControllersMock.findAll(request, response);
-      expect(response.status).toHaveBeenCalledWith(200);
-      expect(response.json).toHaveBeenCalledWith([spellMockInstance]);
-    });
-  });
+    describe('When a request is made to update spell spell by ID', () => {
+        const spellMockUpdateInstance = {
+            en: { ...spellMockInstance.en, name: 'Fire' },
+            pt: { ...spellMockInstance.pt, name: 'Fogo' },
+        };
 
-  describe('When a request is made to recover spell by ID', () => {
-    beforeAll(() => {
-      response.status = jest.fn().mockReturnValue(response);
-      response.json = jest.fn().mockReturnValue({});
+        const { _id: _, ...spellMockPayload } = spellMockInstance;
 
-      jest.spyOn(SpellsServicesMock, 'findOne').mockResolvedValue(spellMockInstance);
-    });
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
 
-    afterAll(() => {
-      jest.clearAllMocks();
-    });
+            jest.spyOn(SpellsServicesMock, 'update').mockResolvedValue(spellMockUpdateInstance);
+        });
 
-    it('should return correct data in response json with status 200', async () => {
-      request.params = { _id: spellMockInstance._id as string };
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
 
-      await SpellsControllersMock.findOne(request, response);
-      expect(response.status).toHaveBeenCalledWith(200);
-      expect(response.json).toHaveBeenCalledWith(spellMockInstance);
-    });
-  });
+        it('should return correct data in response json with status 200', async () => {
+            request.params = { _id: spellMockInstance._id as string };
+            request.body = spellMockPayload;
 
-  describe('When a request is made to update spell spell by ID', () => {
-    const spellMockUpdateInstance = {
-      en: { ...spellMockInstance.en, name: 'Fire' },
-      pt: { ...spellMockInstance.pt, name: 'Fogo' }
-    };
-
-    const { _id: _, ...spellMockPayload } = spellMockInstance;
-
-    beforeAll(() => {
-      response.status = jest.fn().mockReturnValue(response);
-      response.json = jest.fn().mockReturnValue({});
-
-      jest.spyOn(SpellsServicesMock, 'update').mockResolvedValue(spellMockUpdateInstance);
+            await SpellsControllersMock.update(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(spellMockUpdateInstance);
+        });
     });
 
-    afterAll(() => {
-      jest.clearAllMocks();
+    describe('When a request is made to delete a spell', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.end = jest.fn().mockReturnValue({});
+
+            jest.spyOn(SpellsServicesMock, 'delete').mockResolvedValue();
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should not return any data in response with status 204', async () => {
+            request.params = { _id: spellMockInstance._id as string };
+
+            await SpellsControllersMock.delete(request, response);
+            expect(response.status).toHaveBeenCalledWith(204);
+            expect(response.end).toHaveBeenCalled();
+        });
     });
-
-    it('should return correct data in response json with status 200', async () => {
-      request.params = { _id: spellMockInstance._id as string };
-      request.body = spellMockPayload;
-
-      await SpellsControllersMock.update(request, response);
-      expect(response.status).toHaveBeenCalledWith(200);
-      expect(response.json).toHaveBeenCalledWith(spellMockUpdateInstance);
-    });
-  });
-
-  describe('When a request is made to delete a spell', () => {
-    beforeAll(() => {
-      response.status = jest.fn().mockReturnValue(response);
-      response.end = jest.fn().mockReturnValue({});
-
-      jest.spyOn(SpellsServicesMock, 'delete').mockResolvedValue();
-    });
-
-    afterAll(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should not return any data in response with status 204', async () => {
-      request.params = { _id: spellMockInstance._id as string };
-
-      await SpellsControllersMock.delete(request, response);
-      expect(response.status).toHaveBeenCalledWith(204);
-      expect(response.end).toHaveBeenCalled();
-    });
-  });
 });

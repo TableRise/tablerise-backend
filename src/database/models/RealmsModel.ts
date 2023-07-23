@@ -3,21 +3,27 @@ import { Realm } from 'src/schemas/realmsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-const schema = new Schema<Realm>({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  thumbnail: { type: String, required: true }
-}, { versionKey: false, _id: false });
+const schema = new Schema<Realm>(
+    {
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        thumbnail: { type: String, required: true },
+    },
+    { versionKey: false, _id: false }
+);
 
-export const realmsMongooseSchema = new Schema<Internacional<Realm>>({
-  en: schema,
-  pt: schema
-}, {
-  versionKey: false
-});
+export const realmsMongooseSchema = new Schema<Internacional<Realm>>(
+    {
+        en: schema,
+        pt: schema,
+    },
+    {
+        versionKey: false,
+    }
+);
 
 export default class RealmsModel extends MongoModel<Internacional<Realm>> {
-  constructor(public model = mongooseCreateModel('realm', realmsMongooseSchema)) {
-    super(model)
-  }
+    constructor(public model = mongooseCreateModel('realm', realmsMongooseSchema)) {
+        super(model);
+    }
 }
