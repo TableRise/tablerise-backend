@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import RacesServices from 'src/services/RacesService';
+import RacesServices from 'src/services/RacesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Race } from 'src/schemas/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';

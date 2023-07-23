@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import RacesModel from 'src/database/models/RacesModel';
-import RacesServices from 'src/services/RacesService';
+import RacesServices from 'src/services/RacesServices';
 import RacesControllers from 'src/controllers/RacesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ItemsServices from 'src/services/ItemsService';
+import ItemsServices from 'src/services/ItemsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Item } from 'src/schemas/itemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
