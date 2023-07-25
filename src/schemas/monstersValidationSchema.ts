@@ -50,6 +50,12 @@ const monsterZodSchema = z.object({
     picture: z.string(),
 });
 
+export type HitPoints = z.infer<typeof hitPointsZodSchema>;
+export type SavingThrows = z.infer<typeof savingThrowsZodSchema>;
+export type Stats = z.infer<typeof statsZodSchema>;
+export type AbilityScore = z.infer<typeof abilityScoreZodSchema>;
+export type Skills = z.infer<typeof skillsZodSchema>;
+export type Actions = z.infer<typeof actionsZodSchema>
 export type Monster = z.infer<typeof monsterZodSchema>;
 
 export default monsterZodSchema;
