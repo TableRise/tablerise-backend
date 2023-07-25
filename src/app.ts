@@ -28,6 +28,7 @@ app.use(express.json())
     .use('/classes', RoutesWrapper.routes().classes)
     .use('/magicItems', RoutesWrapper.routes().magicItems)
     .use('/spells', RoutesWrapper.routes().spells)
+    .use('/wikis', RoutesWrapper.routes().wikis)
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {
