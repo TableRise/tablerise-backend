@@ -20,7 +20,7 @@ const statsZodSchema = z.object({
     damageResistances: z.array(z.string()),
     senses: z.array(z.string()),
     languages: z.array(z.string()),
-    challangeLevel: z.number(),
+    challengeLevel: z.number(),
 });
 
 const abilityScoreZodSchema = z.object({
