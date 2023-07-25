@@ -12,6 +12,7 @@ export default interface IRoutes {
     classes: Router;
     magicItems: Router;
     spells: Router;
+    wikis: Router;
 }
 
 export interface RouteDeclareParams {
