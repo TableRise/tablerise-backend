@@ -1,14 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import RealmsModel from 'src/database/models/RealmsModel';
+import ItemsModel from 'src/database/models/ItemsModel';
 import mocks from 'src/support/mocks';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Realm } from 'src/schemas/realmsValidationSchema';
+import { Item } from 'src/schemas/itemsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Get RPG realms from database', () => {
+describe('Get RPG Items from database', () => {
   beforeAll(() => {
     connect();
   });
@@ -17,21 +17,22 @@ describe.skip('Get RPG realms from database', () => {
     await close();
   });
 
-  const model = new RealmsModel();
-  const realm = mocks.realm.instance;
-  const { _id: _, ...realmMockPayload } = realm as Internacional<Realm>;
+  const model = new ItemsModel();
+  const item = mocks.item.instance as Internacional<Item>;
+  const { _id: _, ...itemMockPayload } = item;
 
   let documentId: string;
 
-  describe('When request all rpg realms', () => {
-    it('should return an array with realms', async () => {
-      const keysToTest = ['name', 'description', 'thumbnail'];
+  describe('When request all rpg Items', () => {
+    it('should return an array with Items', async () => {
+      const keysToTest = Object.keys(item.en)
 
-      const response = await model.create(realmMockPayload);
+
+      const response = await model.create(itemMockPayload);
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .get('/realms')
+        .get('/items')
         .expect(HttpStatusCode.OK);
 
       expect(body).toBeInstanceOf(Array);
@@ -44,14 +45,14 @@ describe.skip('Get RPG realms from database', () => {
     });
   });
 
-  describe('When request one rpg realm', () => {
-    it('should return a realm instance', async () => {
-      const keysToTest = ['name', 'description', 'thumbnail'];
-
-      await model.create(realmMockPayload);
+  describe('When request one rpg Item', () => {
+    it('should return a Item instance', async () => {
+      const keysToTest = Object.keys(item.en)
+      console.log('ITEM MOCK: \n',itemMockPayload)
+      await model.create(itemMockPayload);
 
       const { body } = await request(app)
-        .get(`/realms/${documentId}`)
+        .get(`/items/${documentId}`)
         .expect(HttpStatusCode.OK);
 
       expect(body).toHaveProperty('_id');
@@ -66,12 +67,12 @@ describe.skip('Get RPG realms from database', () => {
 
     it('should fail when ID NotFound', async () => {
       const { body } = await request(app)
-        .get(`/realms/${generateNewMongoID()}`)
+        .get(`/items/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('NotFound a realm with provided ID');
+      expect(body.message).toBe('NotFound a Item with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });

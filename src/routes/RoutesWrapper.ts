@@ -112,9 +112,9 @@ class RoutesWrapper {
       ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
 
       ['/items', 'items', 'get', null, itemInstance, null, false],
-      ['/items/{_id}', 'armors', 'get', generateIDParam(), itemInstance, null, false],
-      ['/items/{_id}', 'armors', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
-      ['/items/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
+      ['/items/{_id}', 'items', 'get', generateIDParam(), itemInstance, null, false],
+      ['/items/{_id}', 'items', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
+      ['/items/{_id}', 'items', 'delete', generateIDParam(), null, null, false],
 
       ['/races', 'races', 'get', null, raceInstance, null, false],
       ['/races/{_id}', 'races', 'get', generateIDParam(), raceInstance, null, false],

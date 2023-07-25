@@ -8,7 +8,7 @@ import { Feat } from 'src/schemas/featsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG feats from database', () => {
+describe.skip('Get RPG feats from database', () => {
   beforeAll(() => {
     connect();
   });

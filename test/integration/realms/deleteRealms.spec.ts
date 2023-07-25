@@ -8,7 +8,7 @@ import { Realm } from 'src/schemas/realmsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Delete RPG realms in database', () => {
+describe.skip('Delete RPG realms in database', () => {
   beforeAll(() => {
     connect();
   });

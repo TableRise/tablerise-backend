@@ -1,14 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import RealmsModel from 'src/database/models/RealmsModel';
+import RacesModel from 'src/database/models/RacesModel';
 import mocks from 'src/support/mocks';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Realm } from 'src/schemas/realmsValidationSchema';
+import { Race } from 'src/schemas/racesValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Get RPG realms from database', () => {
+describe('Get RPG Races from database', () => {
   beforeAll(() => {
     connect();
   });
@@ -17,21 +17,21 @@ describe.skip('Get RPG realms from database', () => {
     await close();
   });
 
-  const model = new RealmsModel();
-  const realm = mocks.realm.instance;
-  const { _id: _, ...realmMockPayload } = realm as Internacional<Realm>;
+  const model = new RacesModel();
+  const race = mocks.race.instance as Internacional<Race>;
+  const { _id: _, ...raceMockPayload } = race;
 
   let documentId: string;
 
-  describe('When request all rpg realms', () => {
-    it('should return an array with realms', async () => {
-      const keysToTest = ['name', 'description', 'thumbnail'];
+  describe('When request all rpg Races', () => {
+    it('should return an array with Races', async () => {
+      const keysToTest = Object.keys(race.en)
 
-      const response = await model.create(realmMockPayload);
+      const response = await model.create(raceMockPayload);
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .get('/realms')
+        .get('/races')
         .expect(HttpStatusCode.OK);
 
       expect(body).toBeInstanceOf(Array);
@@ -44,14 +44,14 @@ describe.skip('Get RPG realms from database', () => {
     });
   });
 
-  describe('When request one rpg realm', () => {
-    it('should return a realm instance', async () => {
-      const keysToTest = ['name', 'description', 'thumbnail'];
+  describe('When request one rpg Race', () => {
+    it('should return a Race instance', async () => {
+      const keysToTest = Object.keys(race.en)
 
-      await model.create(realmMockPayload);
+      await model.create(raceMockPayload);
 
       const { body } = await request(app)
-        .get(`/realms/${documentId}`)
+        .get(`/races/${documentId}`)
         .expect(HttpStatusCode.OK);
 
       expect(body).toHaveProperty('_id');
@@ -66,12 +66,12 @@ describe.skip('Get RPG realms from database', () => {
 
     it('should fail when ID NotFound', async () => {
       const { body } = await request(app)
-        .get(`/realms/${generateNewMongoID()}`)
+        .get(`/races/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('NotFound a realm with provided ID');
+      expect(body.message).toBe('NotFound a Race with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });

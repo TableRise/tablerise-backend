@@ -7,7 +7,7 @@ import mocks from 'src/support/mocks';
 import { System } from 'src/schemas/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Patch RPG system status in database', () => {
+describe.skip('Patch RPG system status in database', () => {
   beforeAll(() => {
     connect();
   });

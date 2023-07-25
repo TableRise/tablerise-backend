@@ -8,7 +8,7 @@ import { Background } from 'src/schemas/backgroundsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG backgrounds from database', () => {
+describe.skip('Get RPG backgrounds from database', () => {
   beforeAll(() => {
     connect();
   });

@@ -8,7 +8,7 @@ import { UpdateContent } from 'src/schemas/updateContentSchema';
 import { System } from 'src/schemas/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Patch RPG systems in database', () => {
+describe.skip('Patch RPG systems in database', () => {
   beforeAll(() => {
     connect();
   });

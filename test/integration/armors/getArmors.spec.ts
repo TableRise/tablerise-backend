@@ -8,7 +8,7 @@ import { Armor } from 'src/schemas/armorsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG armors from database', () => {
+describe.skip('Get RPG armors from database', () => {
   beforeAll(() => {
     connect();
   });

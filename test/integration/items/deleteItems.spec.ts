@@ -1,14 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import WeaponsModel from 'src/database/models/WeaponsModel';
+import ItemsModel from 'src/database/models/ItemsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Weapon } from 'src/schemas/weaponsValidationSchema';
+import { Item } from 'src/schemas/itemsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Delete RPG weapons in database', () => {
+describe('Delete RPG Items in database', () => {
   beforeAll(() => {
     connect();
   });
@@ -17,19 +17,19 @@ describe.skip('Delete RPG weapons in database', () => {
     await close();
   });
 
-  const model = new WeaponsModel();
-  const weapon = mocks.weapon.instance as Internacional<Weapon>;
-  const { _id: _, ...weaponPayload } = weapon;
+  const model = new ItemsModel();
+  const Item = mocks.item.instance as Internacional<Item>;
+  const { _id: _, ...ItemPayload } = Item;
 
   let documentId: string;
 
-  describe('When delete one rpg weapon', () => {
+  describe('When delete one rpg Item', () => {
     it('should return 204 status with no content', async () => {
-      const response = await model.create(weaponPayload);
+      const response = await model.create(ItemPayload);
       documentId = response._id as string;
 
       const { body } = await request(app)
-        .delete(`/weapons/${documentId}`)
+        .delete(`/items/${documentId}`)
         .expect(HttpStatusCode.DELETED);
 
       expect(body).toStrictEqual({});
@@ -37,12 +37,12 @@ describe.skip('Delete RPG weapons in database', () => {
 
     it('should fail with inexistent ID', async () => {
       const { body } = await request(app)
-        .delete(`/weapons/${generateNewMongoID()}`)
+        .delete(`/items/${generateNewMongoID()}`)
         .expect(HttpStatusCode.NOT_FOUND);
 
       expect(body).toHaveProperty('message');
       expect(body).toHaveProperty('name');
-      expect(body.message).toBe('NotFound a weapon with provided ID');
+      expect(body.message).toBe('NotFound a Item with provided ID');
       expect(body.name).toBe('NotFound');
     });
   });

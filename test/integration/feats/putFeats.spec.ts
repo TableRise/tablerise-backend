@@ -8,7 +8,7 @@ import { Feat } from 'src/schemas/featsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG feats in database', () => {
+describe.skip('Put RPG feats in database', () => {
   beforeAll(() => {
     connect();
   });

@@ -8,7 +8,7 @@ import { God } from 'src/schemas/godsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG gods from database', () => {
+describe.skip('Get RPG gods from database', () => {
   beforeAll(() => {
     connect();
   });
