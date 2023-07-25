@@ -9,6 +9,7 @@ import classRoutes from 'src/routes/classRoutes';
 import magicItemRoutes from 'src/routes/magicItemsRoutes';
 import spellRoutes from 'src/routes/spellRoutes';
 import wikiRoutes from 'src/routes/wikiRoutes';
+import monsterRoutes from 'src/routes/monsterRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -26,6 +27,7 @@ import { Class } from 'src/schemas/classesValidationSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import { Spell } from 'src/schemas/spellsValidationSchema';
 import { Wiki } from 'src/schemas/wikisValidationSchema';
+import { Monster } from 'src/schemas/monstersValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -63,6 +65,9 @@ const { _id: _9, ...spellWithoutId } = spellInstance;
 const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
 const { _id: _10, ...wikiWithoutId } = wikiInstance;
 
+const monsterInstance = mocks.wiki.instance as Internacional<Monster>;
+const { _id: _11, ...monsterWithoutId } = monsterInstance;
+
 class RoutesWrapper {
     static routes(): Route {
         return {
@@ -77,6 +82,7 @@ class RoutesWrapper {
             magicItems: magicItemRoutes,
             spells: spellRoutes,
             wikis: wikiRoutes,
+            monsters: monsterRoutes,
         };
     }
 
@@ -141,7 +147,12 @@ class RoutesWrapper {
       ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
       ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
       ['/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
-      ['/wikis/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
+      ['/wikis/{_id}', 'wikis', 'delete', generateIDParam(), null, null, false],
+
+      ['/monsters', 'monsters', 'get', null, wikiInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'get', generateIDParam(), wikiInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
+      ['/monsters/{_id}', 'monsters', 'delete', generateIDParam(), null, null, false]
     ];
   }
 }

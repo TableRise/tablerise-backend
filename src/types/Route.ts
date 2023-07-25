@@ -13,6 +13,7 @@ export default interface IRoutes {
     magicItems: Router;
     spells: Router;
     wikis: Router;
+    monsters: Router;
 }
 
 export interface RouteDeclareParams {
