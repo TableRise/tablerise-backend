@@ -8,6 +8,7 @@ import armorRoutes from 'src/routes/armorRoutes';
 import classRoutes from 'src/routes/classRoutes';
 import magicItemRoutes from 'src/routes/magicItemsRoutes';
 import spellRoutes from 'src/routes/spellRoutes';
+import wikiRoutes from 'src/routes/wikiRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -24,6 +25,7 @@ import { Armor } from 'src/schemas/armorsValidationSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import { Spell } from 'src/schemas/spellsValidationSchema';
+import { Wiki } from 'src/schemas/wikisValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -58,6 +60,9 @@ const { _id: _8, ...magicItemWithoutId } = magicItemInstance;
 const spellInstance = mocks.spell.instance as Internacional<Spell>;
 const { _id: _9, ...spellWithoutId } = spellInstance;
 
+const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
+const { _id: _10, ...wikiWithoutId } = wikiInstance;
+
 class RoutesWrapper {
     static routes(): Route {
         return {
@@ -71,6 +76,7 @@ class RoutesWrapper {
             classes: classRoutes,
             magicItems: magicItemRoutes,
             spells: spellRoutes,
+            wikis: wikiRoutes,
         };
     }
 
@@ -130,7 +136,12 @@ class RoutesWrapper {
       ['/spells', 'spells', 'get', null, spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
-      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
+      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false],
+
+      ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
+      ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
+      ['/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
+      ['/wikis/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
     ];
   }
 }
