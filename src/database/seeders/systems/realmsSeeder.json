@@ -1,18 +1,14 @@
 [
   {
-    "en": [
-      {
-        "name": "The Material Plane",
-        "description": "The Material Plane is the nexus where the philosophical and elemental forces that define the other planes collide in the jumbled existence of mortal life and mundane matter. All fantasy gaming worlds exist within the Material Plane, making it the starting point for most campaigns and adventures. The rest of the multiverse is defined in relation to the Material Plane.\nThe worlds of the Material Plane are infinitely diverse, for they reflect the creative imagination of the GMs who set their games there, as well as the players whose heroes adventure there. They include magic-wasted desert planets and island-dotted water worlds, worlds where magic combines with advanced technology and others trapped in an endless Stone Age, worlds where the gods walk and places they have abandoned.",
-        "thumbnail": "https://i.ibb.co/MkSDFng/Material-Plane.png"
-      }
-    ],
-    "pt": [
-      {
-        "name": "O Plano Material",
-        "description": "O Plano Material é o ponto de encontro onde as forças filosóficas e elementais que definem os outros planos colidem na existência confusa da vida mortal e da matéria mundana. Todos os mundos de jogos de fantasia existem dentro do Plano Material, tornando-o o ponto de partida para a maioria das campanhas e aventuras. O restante do multiverso é definido em relação ao Plano Material.\nOs mundos do Plano Material são infinitamente diversos, pois refletem a imaginação criativa dos Mestres do Jogo que estabelecem seus jogos lá, assim como dos jogadores cujos heróis aventuram-se ali. Eles incluem planetas desérticos devastados pela magia e mundos aquáticos salpicados de ilhas, mundos onde a magia se combina com tecnologia avançada e outros presos em uma Idade da Pedra interminável, mundos onde os deuses caminham e lugares que eles abandonaram.",
-        "thumbnail": "https://i.ibb.co/MkSDFng/Material-Plane.png"
-      }
-    ]
+    "en": {
+      "name": "The Material Plane",
+      "description": "The Material Plane is the nexus where the philosophical and elemental forces that define the other planes collide in the jumbled existence of mortal life and mundane matter. All fantasy gaming worlds exist within the Material Plane, making it the starting point for most campaigns and adventures. The rest of the multiverse is defined in relation to the Material Plane.\n\nThe worlds of the Material Plane are infinitely diverse, for they reflect the creative imagination of the GMs who set their games there, as well as the players whose heroes adventure there. They include magic-wasted desert planets and island-dotted water worlds, worlds where magic combines with advanced technology and others trapped in an endless Stone Age, worlds where the gods walk and places they have abandoned.",
+      "thumbnail": "https://i.ibb.co/MkSDFng/Material-Plane.png"
+    },
+    "pt": {
+      "name": "O Plano Material",
+      "description": "O Plano Material é o ponto de encontro onde as forças filosóficas e elementais que definem os outros planos colidem na existência confusa da vida mortal e da matéria mundana. Todos os mundos de jogos de fantasia existem dentro do Plano Material, tornando-o o ponto de partida para a maioria das campanhas e aventuras. O restante do multiverso é definido em relação ao Plano Material.\n\nOs mundos do Plano Material são infinitamente diversos, pois refletem a imaginação criativa dos Mestres do Jogo que estabelecem seus jogos lá, assim como dos jogadores cujos heróis aventuram-se ali. Eles incluem planetas desérticos devastados pela magia e mundos aquáticos salpicados de ilhas, mundos onde a magia se combina com tecnologia avançada e outros presos em uma Idade da Pedra interminável, mundos onde os deuses caminham e lugares que eles abandonaram.",
+      "thumbnail": "https://i.ibb.co/MkSDFng/Material-Plane.png"
+    }
   }
 ]
