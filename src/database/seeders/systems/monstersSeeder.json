@@ -1,0 +1,242 @@
+[
+  {
+    "en": {
+      "name": "Aboleth",
+      "characteristics": ["large aberration", "lawful evil"],
+      "stats": {
+        "armorClass": 17,
+        "hitPoints": {
+          "hitDice": "18d10 + 36",
+          "default": 135
+        },
+        "speed": "10 feet, swim 40 feet",
+        "savingThrows": [
+          {
+            "name": "constitution",
+            "value": 6
+          },
+          {
+            "name": "intelligence",
+            "value": 8
+          },
+          {
+            "name": "wisdom",
+            "value": 6
+          }
+        ],
+        "damageImmunities": [],
+        "conditionImmunities": [],
+        "damageResistances": [],
+        "senses": ["darkvision 120 feet, passive Perception 20"],
+        "languages": ["deep speech", "telepathy 120 feet"],
+        "challengeLevel": 10
+      },
+      "abilityScore": [
+        {
+          "name": "strength",
+          "value": 21,
+          "modifier": 5
+        },
+        {
+          "name": "dexterity",
+          "value": 9,
+          "modifier": -1
+        },
+        {
+          "name": "constitution",
+          "value": 15,
+          "modifier": 2
+        },
+        {
+          "name": "intelligence",
+          "value": 18,
+          "modifier": 4
+        },
+        {
+          "name": "wisdom",
+          "value": 15,
+          "modifier": 2
+        },
+        {
+          "name": "charism",
+          "value": 18,
+          "modifier": 4
+        }
+      ],
+      "skills": [
+        {
+          "name": "Amphibious",
+          "description": "The aboleth can breathe air and water."
+        },
+        {
+          "name": "Mucous Cloud",
+          "description": "While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater."
+        },
+        {
+          "name": "Probing Telepathy",
+          "description": "If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The aboleth makes three tentacle attacks.",
+          "type": "common"
+        },
+        {
+          "name": "Tentacle",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+          "type": "common"
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+          "type": "common"
+        },
+        {
+          "name": "Enslave (3/Day)",
+          "description": "The aboleth targets one creature it can see within 30 feet of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\n\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+          "type": "common"
+        },
+        {
+          "name": "Legendary Actions",
+          "description": "The aboleth can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The aboleth regains spent legendary actions at the start of its turn."
+        },
+        {
+          "name": "Detect",
+          "description": "The aboleth makes a Wisdom (Perception) check.",
+          "type": "legendary"
+        },
+        {
+          "name": "Tail Swipe",
+          "description": "The aboleth makes one tail attack."
+        },
+        {
+          "name": "Psychic Drain (Costs 2 Actions)",
+          "description": "One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes."
+        }
+      ],
+      "picture": "https://i.ibb.co/GMGdPht/tumblr-oh3dew-Z0-RW1v9qvuco1-1280.jpg"
+    },
+    "pt": {
+      "name": "Aboleth",
+      "characteristics": ["grande aberração", "malígno e leal"],
+      "stats": {
+        "armorClass": 17,
+        "hitPoints": {
+          "hitDice": "18d10 + 36",
+          "default": 135
+        },
+        "speed": "3 metros, nadar 12.1 metros",
+        "savingThrows": [
+          {
+            "name": "constituição",
+            "value": 6
+          },
+          {
+            "name": "inteligência",
+            "value": 8
+          },
+          {
+            "name": "sabedoria",
+            "value": 6
+          }
+        ],
+        "damageImmunities": [],
+        "conditionImmunities": [],
+        "damageResistances": [],
+        "senses": ["visão no escuro 36.5 metros, Percepção passiva 20"],
+        "languages": ["fala profunda", "telepatia 36.5 metros"],
+        "challengeLevel": 10
+      },
+      "abilityScore": [
+        {
+          "name": "força",
+          "value": 21,
+          "modifier": 5
+        },
+        {
+          "name": "destreza",
+          "value": 9,
+          "modifier": -1
+        },
+        {
+          "name": "constituição",
+          "value": 15,
+          "modifier": 2
+        },
+        {
+          "name": "inteligência",
+          "value": 18,
+          "modifier": 4
+        },
+        {
+          "name": "sabedoria",
+          "value": 15,
+          "modifier": 2
+        },
+        {
+          "name": "carisma",
+          "value": 18,
+          "modifier": 4
+        }
+      ],
+      "skills": [
+        {
+          "name": "Anfíbio",
+          "description": "O aboleth pode respirar ar e água."
+        },
+        {
+          "name": "Nuvem de Muco",
+          "description": "Enquanto estiver submerso, o aboleth é cercado por um muco transformador. Uma criatura que toque o aboleth ou o atinja com um ataque corpo-a-corpo a até 1.5 metros dele deve fazer um teste de resistência de Constituição CD 14. Em caso de falha, a criatura fica doente por 1d4 horas e só pode respirar debaixo d'água."
+        },
+        {
+          "name": "Telepatia de Sonda",
+          "description": "Se uma criatura se comunicar telepaticamente com o aboleth, o aboleth descobre os maiores desejos da criatura, se puder vê-la."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiataque",
+          "description": "O aboleth faz três ataques com seus tentáculos.",
+          "type": "comum"
+        },
+        {
+          "name": "Tentáculo",
+          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 12 (2d6 + 5) de dano concussão. Se o alvo for uma criatura, ele deve ser bem-sucedido em um teste de resistência de Constituição CD 14 ou ficará doente. A doença não tem efeito durante 1 minuto e pode ser removida por qualquer magia que cure doenças. Após 1 minuto, a pele da criatura doente fica translúcida e viscosa, e ela não pode recuperar pontos de vida, a menos que esteja debaixo d'água, e a doença só pode ser removida por magia cura ou outra magia de cura de doenças de 6º nível ou superior. Quando a criatura está fora da água, ela sofre 6 (1d12) de dano ácido a cada 10 minutos, a menos que a pele seja umedecida antes de 10 minutos passarem.",
+          "type": "comum"
+        },
+        {
+          "name": "Cauda",
+          "description": "Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 15 (3d6 + 5) de dano concussão.",
+          "type": "comum"
+        },
+        {
+          "name": "Escravizar (3/Vezes ao Dia)",
+          "description": "O aboleth escolhe uma criatura que pode ver a até 9.1 metros dele. O alvo deve ser bem-sucedido em um teste de resistência de Sabedoria CD 14 ou ficará enfeitiçado magicamente pelo aboleth até que o aboleth morra ou até que o alvo esteja em um plano diferente de existência em relação ao aboleth. O alvo enfeitiçado está sob o controle do aboleth e não pode reagir, e o aboleth e o alvo podem se comunicar telepaticamente um com o outro, em qualquer distância.\n\nSempre que o alvo enfeitiçado sofrer dano, ele pode repetir o teste de resistência. Em caso de sucesso, o efeito termina. No máximo uma vez a cada 24 horas, o alvo pode repetir o teste de resistência quando estiver a pelo menos 1 milha do aboleth.",
+          "type": "comum"
+        },
+        {
+          "name": "Ações Lendárias",
+          "description": "O aboleth pode fazer 3 ações lendárias, escolhendo entre as opções abaixo. Somente uma opção de ação lendária pode ser usada de cada vez e somente no final do turno de outra criatura. O aboleth recupera as ações lendárias gastas no início de seu turno."
+        },
+        {
+          "name": "Detectar",
+          "description": "O aboleth faz um teste de Sabedoria (Percepção).",
+          "type": "lendário"
+        },
+        {
+          "name": "Golpe de Cauda",
+          "description": "O aboleth faz um ataque com a cauda.",
+          "type": "lendário"
+        },
+        {
+          "name": "Dreno Psíquico (Custa 2 Ações)",
+          "description": "Uma criatura enfeitiçada pelo aboleth sofre 10 (3d6) de dano psíquico, e o aboleth recupera pontos de vida iguais ao dano causado à criatura.",
+          "type": "lendário"
+        }
+      ],
+      "picture": "https://i.ibb.co/GMGdPht/tumblr-oh3dew-Z0-RW1v9qvuco1-1280.jpg"
+      }
+  }
+]

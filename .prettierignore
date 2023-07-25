@@ -1,0 +1,10 @@
+build
+coverage
+scripts
+.githooks
+.github
+.vscode
+api-docs
+node_modules
+src/database/seeders
+src/support/mocks
