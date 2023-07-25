@@ -73,7 +73,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.update(wikiMockID, wikiMockPayloadWrong as Internacional<Wiki>);
             } catch (error) {
                 const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
+                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'title']);
                 expect(JSON.parse(err.message)[0].message).toBe('Required');
                 expect(err.stack).toBe('422');
                 expect(err.name).toBe('ValidationError');
