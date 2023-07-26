@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
         it('should return an array with 2 arrays inside', () => {
             routesDeclared = RoutesWrapper.declareRoutes();
             expect(routesDeclared).toBeInstanceOf(Array);
-            expect(routesDeclared.length).toBe(42);
+            expect(routesDeclared.length).toBe(50);
         });
     });
 
@@ -22,6 +22,8 @@ describe('Routes :: RoutesWrapper', () => {
             feats: {} as Router,
             weapons: {} as Router,
             armors: {} as Router,
+            items: {} as Router,
+            races: {} as Router,
             classes: {} as Router,
             magicItems: {} as Router,
             spells: {} as Router,

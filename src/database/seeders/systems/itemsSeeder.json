@@ -2,7 +2,7 @@
   {
     "en": {
       "name": "Abacus",
-      "description": "",
+      "description": "2",
       "cost": {
         "currency": "gp",
         "value": 2
@@ -11,17 +11,17 @@
       "weight": 0.9,
       "mountOrVehicle": {
         "isValid": false,
-        "speed": "",
-        "carryingCapacity": ""
+        "speed": "2",
+        "carryingCapacity": "2"
       },
       "tradeGoods": {
         "isValid": false,
-        "goods": ""
+        "goods": "2"
       }
     },
     "pt": {
       "name": "Ábaco",
-      "description": "",
+      "description": "2",
       "cost": {
         "currency": "po",
         "value": 2
@@ -30,12 +30,12 @@
       "weight": 0.9,
       "mountOrVehicle": {
         "isValid": false,
-        "speed": "",
-        "carryingCapacity": ""
+        "speed": "2",
+        "carryingCapacity": "2"
       },
       "tradeGoods": {
         "isValid": false,
-        "goods": ""
+        "goods": "2"
       }
     }
   }
