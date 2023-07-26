@@ -45,17 +45,17 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
         return response;
     }
 
-    public async delete(_id: string): Promise<void> {
-        const response = await this._model.findOne(_id);
+    // public async delete(_id: string): Promise<void> {
+    //     const response = await this._model.findOne(_id);
 
-        if (!response) {
-            const err = new Error('NotFound a background with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
+    //     if (!response) {
+    //         const err = new Error('NotFound a background with provided ID');
+    //         err.stack = HttpStatusCode.NOT_FOUND.toString();
+    //         err.name = 'NotFound';
 
-            throw err;
-        }
+    //         throw err;
+    //     }
 
-        await this._model.delete(_id);
-    }
+    //     await this._model.delete(_id);
+    // }
 }
