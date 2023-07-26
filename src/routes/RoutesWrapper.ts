@@ -149,9 +149,9 @@ class RoutesWrapper {
       ['/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
       ['/wikis/{_id}', 'wikis', 'delete', generateIDParam(), null, null, false],
 
-      ['/monsters', 'monsters', 'get', null, wikiInstance, null, false],
-      ['/monsters/{_id}', 'monsters', 'get', generateIDParam(), wikiInstance, null, false],
-      ['/monsters/{_id}', 'monsters', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
+      ['/monsters', 'monsters', 'get', null, monsterInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'get', generateIDParam(), monsterInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'put', generateIDParam(), monsterInstance, monsterWithoutId, false],
       ['/monsters/{_id}', 'monsters', 'delete', generateIDParam(), null, null, false]
     ];
   }
