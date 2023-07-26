@@ -8,7 +8,7 @@ import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Delete RPG weapons in database', () => {
+describe('Delete RPG weapons in database', () => {
   beforeAll(() => {
     connect();
   });

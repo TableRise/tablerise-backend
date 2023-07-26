@@ -8,7 +8,7 @@ import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Get RPG weapons from database', () => {
+describe('Get RPG weapons from database', () => {
   beforeAll(() => {
     connect();
   });

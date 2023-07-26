@@ -8,7 +8,7 @@ import { Armor } from 'src/schemas/armorsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Delete RPG armors in database', () => {
+describe('Delete RPG armors in database', () => {
   beforeAll(() => {
     connect();
   });

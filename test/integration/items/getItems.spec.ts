@@ -27,8 +27,8 @@ describe('Get RPG Items from database', () => {
     it('should return an array with Items', async () => {
       const keysToTest = Object.keys(item.en)
 
-
       const response = await model.create(itemMockPayload);
+
       documentId = response._id as string;
 
       const { body } = await request(app)
@@ -48,7 +48,7 @@ describe('Get RPG Items from database', () => {
   describe('When request one rpg Item', () => {
     it('should return a Item instance', async () => {
       const keysToTest = Object.keys(item.en)
-      console.log('ITEM MOCK: \n',itemMockPayload)
+
       await model.create(itemMockPayload);
 
       const { body } = await request(app)

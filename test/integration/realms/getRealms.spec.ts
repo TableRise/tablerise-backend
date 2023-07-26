@@ -8,7 +8,7 @@ import { Realm } from 'src/schemas/realmsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Get RPG realms from database', () => {
+describe('Get RPG realms from database', () => {
   beforeAll(() => {
     connect();
   });

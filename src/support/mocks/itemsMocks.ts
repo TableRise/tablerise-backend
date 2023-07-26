@@ -13,12 +13,12 @@ const itemMockEn: Item = {
   weight: 5,
   mountOrVehicle: {
     isValid: false,
-    speed: '',
-    carryingCapacity: ''
+    speed: '2',
+    carryingCapacity: '3'
   },
   tradeGoods: {
     isValid: false,
-    goods: ''
+    goods: '3'
   }
 };
 
@@ -33,12 +33,12 @@ const itemMockPt: Item = {
   weight: 5,
   mountOrVehicle: {
     isValid: false,
-    speed: '',
-    carryingCapacity: ''
+    speed: '2',
+    carryingCapacity: '3'
   },
   tradeGoods: {
     isValid: false,
-    goods: ''
+    goods: '3'
   }
 };
 

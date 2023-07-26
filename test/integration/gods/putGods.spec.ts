@@ -8,7 +8,7 @@ import { God } from 'src/schemas/godsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Put RPG gods in database', () => {
+describe('Put RPG gods in database', () => {
   beforeAll(() => {
     connect();
   });

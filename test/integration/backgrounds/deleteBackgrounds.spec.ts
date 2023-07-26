@@ -8,7 +8,7 @@ import { Background } from 'src/schemas/backgroundsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Delete RPG backgrounds in database', () => {
+describe('Delete RPG backgrounds in database', () => {
   beforeAll(() => {
     connect();
   });

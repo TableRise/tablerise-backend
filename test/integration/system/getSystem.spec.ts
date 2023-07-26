@@ -7,7 +7,7 @@ import { System } from 'src/schemas/systemValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe.skip('Get RPG system from database', () => {
+describe('Get RPG system from database', () => {
   beforeAll(() => {
     connect();
   });

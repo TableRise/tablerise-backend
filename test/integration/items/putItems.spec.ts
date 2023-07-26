@@ -31,10 +31,10 @@ describe('Put RPG Items in database', () => {
   describe('When update one rpg Item', () => {
     it('should return updated Item', async () => {
       const keysToTest = Object.keys(item.en)
-      console.log("L34 => \n", keysToTest)
+
       const response = await model.create(itemPayload);
       documentId = response._id as string;
-      console.log('\L37', response)
+
       const { body } = await request(app)
         .put(`/items/${documentId}`)
         .send(newItemPayload)
@@ -49,8 +49,6 @@ describe('Put RPG Items in database', () => {
 
       expect(body.en.name).toBe('Item_testPut');
       expect(body.pt.name).toBe('Item_testPut');
-      console.log('>>', body.en.name)
-      console.log('>>', body.pt.name)
     });
 
     it('should fail when data is wrong', async () => {
