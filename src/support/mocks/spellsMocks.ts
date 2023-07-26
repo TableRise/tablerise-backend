@@ -3,58 +3,76 @@ import generateNewMongoID from '../helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
 const spellMockEn: Spell = {
-  name: 'Fire ball',
-  description: 'Explodes everyone',
-  type: 'Fire',
-  level: 1,
-  higherLevels: [{
-    level: '2',
-    damage: '20',
+    name: 'Fire ball',
+    description: 'Explodes everyone',
+    type: 'Fire',
+    level: 1,
+    higherLevels: [
+        {
+            level: '2',
+            damage: [
+                {
+                    type: 'magico',
+                    dice: '4d6',
+                },
+            ],
+            buffs: ['Strength'],
+            debuffs: ['Fire'],
+        },
+    ],
+    damage: [
+        {
+            type: 'magical',
+            dice: '4d6',
+        },
+    ],
+    castingTime: '1',
+    duration: '5',
+    range: '25',
+    components: 'Fire',
     buffs: ['Strength'],
-    debuffs: ['Fire']
-  }],
-  damage: {
-    type: 'magical',
-    value: '4d6'
-  },
-  castingTime: '1',
-  duration: '5',
-  range: '25',
-  components: 'Fire',
-  buffs: ['Strength'],
-  debuffs: ['Fire']
+    debuffs: ['Fire'],
 };
 
 const spellMockPt: Spell = {
-  name: 'Bola de fogo',
-  description: 'Explode todo mundo',
-  type: 'Fogo',
-  level: 1,
-  higherLevels: [{
-    level: '2',
-    damage: '20',
+    name: 'Bola de fogo',
+    description: 'Explode todo mundo',
+    type: 'Fogo',
+    level: 1,
+    higherLevels: [
+        {
+            level: '2',
+            damage: [
+                {
+                    type: 'magico',
+                    dice: '4d6',
+                },
+            ],
+            buffs: ['Força'],
+            debuffs: ['Fogo'],
+        },
+    ],
+    damage: [
+        {
+            type: 'magico',
+            dice: '4d6',
+        },
+    ],
+    castingTime: '1',
+    duration: '5',
+    range: '25',
+    components: 'Fogo',
     buffs: ['Força'],
-    debuffs: ['Fogo']
-  }],
-  damage: {
-    type: 'magico',
-    value: '4d6'
-  },
-  castingTime: '1',
-  duration: '5',
-  range: '25',
-  components: 'Fogo',
-  buffs: ['Força'],
-  debuffs: ['Fogo']
+    debuffs: ['Fogo'],
 };
 
 const spell: Mock = {
-  instance: {
-    _id: generateNewMongoID(),
-    en: spellMockEn,
-    pt: spellMockPt
-  },
-  description: 'Mock an instance of a RPG spell'
-}
+    instance: {
+        _id: generateNewMongoID(),
+        en: spellMockEn,
+        pt: spellMockPt,
+    },
+    description: 'Mock an instance of a RPG spell',
+};
 
 export default spell;

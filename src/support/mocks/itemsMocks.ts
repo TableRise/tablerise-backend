@@ -43,12 +43,12 @@ const itemMockPt: Item = {
 };
 
 const itemsMocks: Mock = {
-  instance: {
-    _id: generateNewMongoID(),
-    en: itemMockEn,
-    pt: itemMockPt
-  },
-  description: 'Mock an instance of Item'
+    instance: {
+        _id: generateNewMongoID(),
+        en: itemMockEn,
+        pt: itemMockPt,
+    },
+    description: 'Mock an instance of Item',
 };
 
 export default itemsMocks;

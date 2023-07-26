@@ -3,24 +3,24 @@ import { Realm } from 'src/schemas/realmsValidationSchema';
 import Mock from 'src/types/Mock';
 
 const realmInstanceEn: Realm = {
-  name: 'Neverland',
-  description: 'A beautiful land full of magic',
-  thumbnail: 'http://neverland.com/picture.jpg'
+    name: 'Neverland',
+    description: 'A beautiful land full of magic',
+    thumbnail: 'http://neverland.com/picture.jpg',
 };
 
 const realmInstancePt: Realm = {
-  name: 'Neverland',
-  description: 'Uma terra linda e cheia de magia',
-  thumbnail: 'http://neverland.com/picture.jpg'
+    name: 'Neverland',
+    description: 'Uma terra linda e cheia de magia',
+    thumbnail: 'http://neverland.com/picture.jpg',
 };
 
 const realm: Mock = {
-  instance: {
-    _id: generateNewMongoID(),
-    en: realmInstanceEn,
-    pt: realmInstancePt
-  },
-  description: 'Mock an instance of a RPG realm'
+    instance: {
+        _id: generateNewMongoID(),
+        en: realmInstanceEn,
+        pt: realmInstancePt,
+    },
+    description: 'Mock an instance of a RPG realm',
 };
 
 export default realm;

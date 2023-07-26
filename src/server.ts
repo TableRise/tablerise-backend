@@ -16,10 +16,14 @@ const firstSection = `${MONGODB_CONNECTION_INITIAL}://${MONGODB_USERNAME}:${MONG
 const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
 
 mongoose
-  .connect(firstSection + secondSection)
-  .then(() => { console.log(':: MongoDB Instance Connected ::') })
-  .catch((error) => { throw error });
+    .connect(firstSection + secondSection)
+    .then(() => {
+        console.log(':: MongoDB Instance Connected ::');
+    })
+    .catch((error) => {
+        throw error;
+    });
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+    console.log(`Server started on port ${port}`);
 });

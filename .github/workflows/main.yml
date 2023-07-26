@@ -1,5 +1,5 @@
-on: [push, pull_request]
-name: Continuous Delivery Action
+name: continuous-delivery-action
+on: [pull_request]
 jobs:
   backend:
     name: 'Testing Backend'
@@ -26,6 +26,9 @@ jobs:
 
       - name: Checking lint
         run:  npm run lint
+
+      - name: Checking prettier
+        run:  npm run prettier
 
       - name: Up database container
         run: docker-compose up -d database-test

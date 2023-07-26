@@ -11,13 +11,17 @@ export default interface IRoutes {
   armors: Router
   items: Router
   races: Router
+  classes: Router
+  magicItems: Router
+  spells: Router
+
 }
 
 export interface RouteDeclareParams {
-  name: string
-  location: string
-  required: boolean
-  type: string
+    name: string;
+    location: string;
+    required: boolean;
+    type: string;
 }
 
-export type RouteWrapperDeclared = string | null | RouteDeclareParams[] | Mock | boolean | unknown
+export type RouteWrapperDeclared = string | null | RouteDeclareParams[] | Mock | boolean | unknown;
