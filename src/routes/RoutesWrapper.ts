@@ -65,7 +65,7 @@ const { _id: _9, ...spellWithoutId } = spellInstance;
 const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
 const { _id: _10, ...wikiWithoutId } = wikiInstance;
 
-const monsterInstance = mocks.wiki.instance as Internacional<Monster>;
+const monsterInstance = mocks.monster.instance as Internacional<Monster>;
 const { _id: _11, ...monsterWithoutId } = monsterInstance;
 
 class RoutesWrapper {
