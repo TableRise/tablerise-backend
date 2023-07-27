@@ -55,7 +55,7 @@ export type SavingThrows = z.infer<typeof savingThrowsZodSchema>;
 export type Stats = z.infer<typeof statsZodSchema>;
 export type AbilityScore = z.infer<typeof abilityScoreZodSchema>;
 export type Skills = z.infer<typeof skillsZodSchema>;
-export type Actions = z.infer<typeof actionsZodSchema>
+export type Actions = z.infer<typeof actionsZodSchema>;
 export type Monster = z.infer<typeof monsterZodSchema>;
 
 export default monsterZodSchema;

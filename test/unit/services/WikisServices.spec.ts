@@ -58,9 +58,7 @@ describe('Services :: WikisServices', () => {
         };
 
         beforeAll(() => {
-            jest.spyOn(WikisModelMock, 'update')
-                .mockResolvedValueOnce(wikiMockUpdateInstance)
-                .mockResolvedValue(null);
+            jest.spyOn(WikisModelMock, 'update').mockResolvedValueOnce(wikiMockUpdateInstance).mockResolvedValue(null);
         });
 
         it('should return correct data with updated values', async () => {

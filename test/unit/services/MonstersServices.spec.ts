@@ -64,7 +64,10 @@ describe('Services :: MonstersServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await MonstersServicesMock.update(monsterMockID, monsterMockPayload as Internacional<Monster>);
+            const responseTest = await MonstersServicesMock.update(
+                monsterMockID,
+                monsterMockPayload as Internacional<Monster>
+            );
             expect(responseTest).toBe(monsterMockUpdateInstance);
         });
 

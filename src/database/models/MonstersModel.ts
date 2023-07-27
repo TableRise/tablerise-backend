@@ -1,5 +1,13 @@
 import { model as mongooseCreateModel, Schema } from 'mongoose';
-import { Monster, HitPoints, SavingThrows, Stats, AbilityScore, Skills, Actions } from 'src/schemas/monstersValidationSchema';
+import {
+    Monster,
+    HitPoints,
+    SavingThrows,
+    Stats,
+    AbilityScore,
+    Skills,
+    Actions,
+} from 'src/schemas/monstersValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
@@ -24,13 +32,13 @@ const statsMongooseSchema = new Schema<Stats>(
         armorClass: { type: Number, required: true },
         hitPoints: { type: hitPointsMongooseSchema, required: true },
         speed: { type: String, required: true },
-        savingThrows: { type: [savingThrowsMongooseSchema], required: true},
+        savingThrows: { type: [savingThrowsMongooseSchema], required: true },
         damageImmunities: { type: [String], required: true },
         conditionImmunities: { type: [String], required: true },
         damageResistances: { type: [String], required: true },
         senses: { type: [String], required: true },
         languages: { type: [String], required: true },
-        challengeLevel: { type: Number, required: true }
+        challengeLevel: { type: Number, required: true },
     },
     { versionKey: false, _id: false }
 );

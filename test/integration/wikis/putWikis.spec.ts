@@ -30,13 +30,7 @@ describe('Put RPG wikis in database', () => {
 
     describe('When update one rpg wiki', () => {
         it('should return updated wiki', async () => {
-            const keysToTest = [
-                'title',
-                'description',
-                'reference',
-                'image',
-                'subTopics',
-            ];
+            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
 
             const response = await model.create(wikiPayload);
             documentId = response._id as string;

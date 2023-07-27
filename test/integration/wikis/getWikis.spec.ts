@@ -25,13 +25,7 @@ describe('Get RPG wikis from database', () => {
 
     describe('When request all rpg wikis', () => {
         it('should return an array with wikis', async () => {
-            const keysToTest = [
-                'title',
-                'description',
-                'reference',
-                'image',
-                'subTopics',
-            ];
+            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
 
             const response = await model.create(wikiMockPayload);
             documentId = response._id as string;
@@ -50,13 +44,7 @@ describe('Get RPG wikis from database', () => {
 
     describe('When request one rpg wiki', () => {
         it('should return a wiki instance', async () => {
-            const keysToTest = [
-                'title',
-                'description',
-                'reference',
-                'image',
-                'subTopics',
-            ];
+            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
 
             await model.create(wikiMockPayload);
 

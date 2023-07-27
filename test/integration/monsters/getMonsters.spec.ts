@@ -25,15 +25,7 @@ describe('Get RPG monsters from database', () => {
 
     describe('When request all rpg monsters', () => {
         it('should return an array with monsters', async () => {
-            const keysToTest = [
-                'name',
-                'characteristics',
-                'stats',
-                'abilityScore',
-                'skills',
-                'actions',
-                'picture'
-            ];
+            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];
 
             const response = await model.create(monsterMockPayload);
             documentId = response._id as string;
@@ -52,15 +44,7 @@ describe('Get RPG monsters from database', () => {
 
     describe('When request one rpg monster', () => {
         it('should return a monster instance', async () => {
-            const keysToTest = [
-                'name',
-                'characteristics',
-                'stats',
-                'abilityScore',
-                'skills',
-                'actions',
-                'picture'
-            ];
+            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];
 
             await model.create(monsterMockPayload);
 
@@ -77,7 +61,9 @@ describe('Get RPG monsters from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app).get(`/monsters/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await request(app)
+                .get(`/monsters/${generateNewMongoID()}`)
+                .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');

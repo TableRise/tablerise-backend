@@ -9,7 +9,7 @@ const subTopicsMongooseSchema = new Schema<SubTopic>(
         description: { type: String, required: true },
     },
     { versionKey: false, _id: false }
-)
+);
 
 const schema = new Schema<Wiki>(
     {
@@ -17,7 +17,7 @@ const schema = new Schema<Wiki>(
         description: { type: String, required: true },
         reference: { type: String, required: true },
         image: { type: String, required: true },
-        subTopics: {type: [subTopicsMongooseSchema], required: true}
+        subTopics: { type: [subTopicsMongooseSchema], required: true },
     },
     { versionKey: false, _id: false }
 );
