@@ -72,7 +72,7 @@ describe('Put RPG monsters in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a spell with provided ID');
+            expect(body.message).toBe('NotFound a monster with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });
