@@ -30,7 +30,7 @@ describe('Put RPG monsters in database', () => {
 
     describe('When update one rpg monster', () => {
         it('should return updated monster', async () => {
-            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
+            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'pictures'];
 
             const response = await model.create(monsterPayload);
             documentId = response._id as string;
