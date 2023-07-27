@@ -44,7 +44,7 @@ describe('Get RPG monsters from database', () => {
 
     describe('When request one rpg monster', () => {
         it('should return a monster instance', async () => {
-            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'pictures'];
+            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];
 
             await model.create(monsterMockPayload);
 
