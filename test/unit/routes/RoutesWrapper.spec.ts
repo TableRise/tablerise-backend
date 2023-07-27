@@ -22,6 +22,8 @@ describe('Routes :: RoutesWrapper', () => {
             feats: {} as Router,
             weapons: {} as Router,
             armors: {} as Router,
+            items: {} as Router,
+            races: {} as Router,
             classes: {} as Router,
             magicItems: {} as Router,
             spells: {} as Router,

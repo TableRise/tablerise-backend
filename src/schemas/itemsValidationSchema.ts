@@ -26,6 +26,9 @@ const itemsZodSchema = z.object({
     tradeGoods: tradeGoodsZodSchema,
 });
 
+export type Cost = z.infer<typeof costZodSchema>;
+export type TradeGoods = z.infer<typeof tradeGoodsZodSchema>;
+export type MountOrVehicle = z.infer<typeof mountOrVehicleZodSchema>;
 export type Item = z.infer<typeof itemsZodSchema>;
 
 export default itemsZodSchema;
