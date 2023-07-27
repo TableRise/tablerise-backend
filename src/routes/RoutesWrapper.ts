@@ -63,10 +63,10 @@ const spellInstance = mocks.spell.instance as Internacional<Spell>;
 const { _id: _9, ...spellWithoutId } = spellInstance;
 
 const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
-const { _id: _10, ...wikiWithoutId } = wikiInstance;
+const { _id: _12, ...wikiWithoutId } = wikiInstance;
 
 const monsterInstance = mocks.monster.instance as Internacional<Monster>;
-const { _id: _11, ...monsterWithoutId } = monsterInstance;
+const { _id: _13, ...monsterWithoutId } = monsterInstance;
 
 class RoutesWrapper {
     static routes(): Route {
