@@ -7,7 +7,8 @@ const subTopicsMongooseSchema = new Schema<SubTopic>(
     {
         subTitle: { type: String, required: true },
         description: { type: String, required: true },
-    }
+    },
+    { versionKey: false, _id: false }
 )
 
 const schema = new Schema<Wiki>(
