@@ -13,6 +13,7 @@ const wikiZodSchema = z.object({
     subTopics: z.array(subTopicsZodSchema),
 });
 
+export type SubTopic = z.infer<typeof subTopicsZodSchema>;
 export type Wiki = z.infer<typeof wikiZodSchema>;
 
 export default wikiZodSchema;

@@ -10,6 +10,8 @@ import racesRoutes from 'src/routes/racesRoutes';
 import classRoutes from 'src/routes/classRoutes';
 import magicItemRoutes from 'src/routes/magicItemsRoutes';
 import spellRoutes from 'src/routes/spellRoutes';
+import wikiRoutes from 'src/routes/wikiRoutes';
+import monsterRoutes from 'src/routes/monsterRoutes';
 
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
@@ -28,6 +30,8 @@ import { Race } from 'src/schemas/racesValidationSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import { Spell } from 'src/schemas/spellsValidationSchema';
+import { Wiki } from 'src/schemas/wikisValidationSchema';
+import { Monster } from 'src/schemas/monstersValidationSchema';
 
 import generateIDParam, { generateQueryParam } from './parametersWrapper';
 
@@ -68,6 +72,12 @@ const { _id: _10, ...magicItemWithoutId } = magicItemInstance;
 const spellInstance = mocks.spell.instance as Internacional<Spell>;
 const { _id: _11, ...spellWithoutId } = spellInstance;
 
+const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
+const { _id: _12, ...wikiWithoutId } = wikiInstance;
+
+const monsterInstance = mocks.monster.instance as Internacional<Monster>;
+const { _id: _13, ...monsterWithoutId } = monsterInstance;
+
 class RoutesWrapper {
     static routes(): Route {
         return {
@@ -83,6 +93,8 @@ class RoutesWrapper {
             classes: classRoutes,
             magicItems: magicItemRoutes,
             spells: spellRoutes,
+            wikis: wikiRoutes,
+            monsters: monsterRoutes,
         };
     }
 
@@ -152,7 +164,17 @@ class RoutesWrapper {
       ['/spells', 'spells', 'get', null, spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
-      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false]
+      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false],
+
+      ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
+      ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
+      ['/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
+      ['/wikis/{_id}', 'wikis', 'delete', generateIDParam(), null, null, false],
+
+      ['/monsters', 'monsters', 'get', null, monsterInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'get', generateIDParam(), monsterInstance, null, false],
+      ['/monsters/{_id}', 'monsters', 'put', generateIDParam(), monsterInstance, monsterWithoutId, false],
+      ['/monsters/{_id}', 'monsters', 'delete', generateIDParam(), null, null, false]
     ];
   }
 }
