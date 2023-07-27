@@ -50,8 +50,8 @@ describe('Get RPG monsters from database', () => {
         });
     });
 
-    describe('When request one rpg wiki', () => {
-        it('should return a wiki instance', async () => {
+    describe('When request one rpg monster', () => {
+        it('should return a monster instance', async () => {
             const keysToTest = [
                 'name',
                 'characteristics',
