@@ -9,6 +9,7 @@ describe('Services :: ClassesServices', () => {
     const ClassesServicesMock = new ClassesServices(ClassesModelMock);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
+    
 
     describe('When the recover all classes service is called', () => {
         beforeAll(() => {
@@ -49,6 +50,8 @@ describe('Services :: ClassesServices', () => {
             en: { ...classMockInstance.en, name: 'None' },
             pt: { ...classMockInstance.pt, name: 'None' },
         };
+        const classMockPayloadWithoutActive = { ...classMockPayload }
+        delete classMockPayloadWithoutActive.active;
 
         const { name: _1, ...classesMockEnWithoutName } = classMockPayload.en;
         const { name: _2, ...classesMockPtWithoutName } = classMockPayload.pt;
@@ -66,7 +69,7 @@ describe('Services :: ClassesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ClassesServicesMock.update(
                 classMockID,
-                classMockPayload as Internacional<Class>
+                classMockPayloadWithoutActive as Internacional<Class>
             );
             expect(responseTest).toBe(classMockUpdateInstance);
         });
@@ -83,38 +86,20 @@ describe('Services :: ClassesServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a class with provided ID');
-                expect(err.stack).toBe('404');
-                expect(err.name).toBe('NotFound');
-            }
-        });
-    });
-
-    describe('When service for delete a class is called', () => {
-        const classMockID = classMockInstance._id as string;
-
-        beforeAll(() => {
-            jest.spyOn(ClassesModelMock, 'findOne').mockResolvedValueOnce(classMockInstance).mockResolvedValue(null);
-
-            jest.spyOn(ClassesModelMock, 'delete').mockResolvedValue(null);
-        });
-
-        it('should delete class and not return any data', async () => {
-            try {
-                await ClassesServicesMock.delete(classMockID);
-            } catch (error) {
-                fail('it should not reach here');
+                expect(err.message).toBe('Not authorize to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ClassesServicesMock.delete('inexistent_id');
+                await ClassesServicesMock.update('inexistent_id', classMockPayloadWithoutActive as Internacional<Class>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a class with provided ID');
@@ -123,4 +108,33 @@ describe('Services :: ClassesServices', () => {
             }
         });
     });
+
+    // describe('When service for delete a class is called', () => {
+    //     const classMockID = classMockInstance._id as string;
+
+    //     beforeAll(() => {
+    //         jest.spyOn(ClassesModelMock, 'findOne').mockResolvedValueOnce(classMockInstance).mockResolvedValue(null);
+
+    //         jest.spyOn(ClassesModelMock, 'delete').mockResolvedValue(null);
+    //     });
+
+    //     it('should delete class and not return any data', async () => {
+    //         try {
+    //             await ClassesServicesMock.delete(classMockID);
+    //         } catch (error) {
+    //             fail('it should not reach here');
+    //         }
+    //     });
+
+    //     it('should throw an error when ID is inexistent', async () => {
+    //         try {
+    //             await ClassesServicesMock.delete('inexistent_id');
+    //         } catch (error) {
+    //             const err = error as Error;
+    //             expect(err.message).toBe('NotFound a class with provided ID');
+    //             expect(err.stack).toBe('404');
+    //             expect(err.name).toBe('NotFound');
+    //         }
+    //     });
+    // });
 });

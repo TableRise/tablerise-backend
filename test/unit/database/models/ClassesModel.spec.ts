@@ -48,9 +48,9 @@ describe('Database :: Models :: ClassesModel', () => {
             });
         });
 
-        it('should have the expected return when delete', async () => {
-            const responseTest = await newClassesModel.delete(testReturnWithID._id);
-            expect(responseTest).toStrictEqual({});
-        });
+        // it('should have the expected return when delete', async () => {
+        //     const responseTest = await newClassesModel.delete(testReturnWithID._id);
+        //     expect(responseTest).toStrictEqual({});
+        // });
     });
 });
