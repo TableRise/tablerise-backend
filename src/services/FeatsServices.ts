@@ -4,14 +4,20 @@ import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class FeatsServices extends ValidateEntry implements Service<Internacional<Feat>> {
-    constructor(private readonly _model: FeatsModel) {
+    constructor(
+        private readonly _model: FeatsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Feat>>> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All feat entities found with success');
         return response;
     }
 
@@ -22,7 +28,8 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             const err = new Error('NotFound a feat with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -38,7 +45,8 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             const err = new Error('NotFound a feat with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 

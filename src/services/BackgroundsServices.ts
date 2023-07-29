@@ -4,14 +4,20 @@ import backgroundZodSchema, { Background } from 'src/schemas/backgroundsValidati
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class BackgroundsServices extends ValidateEntry implements Service<Internacional<Background>> {
-    constructor(private readonly _model: BackgroundsModel) {
+    constructor(
+        private readonly _model: BackgroundsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Background>>> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All background entities found with success');
         return response;
     }
 
@@ -22,7 +28,8 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             const err = new Error('NotFound a background with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -38,7 +45,8 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             const err = new Error('NotFound a background with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 

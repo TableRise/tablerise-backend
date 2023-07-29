@@ -4,14 +4,20 @@ import armorZodSchema, { Armor } from 'src/schemas/armorsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class ArmorsServices extends ValidateEntry implements Service<Internacional<Armor>> {
-    constructor(private readonly _model: ArmorsModel) {
+    constructor(
+        private readonly _model: ArmorsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Armor>>> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All armor entities found with success');
         return response;
     }
 
@@ -22,10 +28,13 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
+        
 
+        this._logger('success', 'Armor entity found with success');
         return response;
     }
 
@@ -38,10 +47,12 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
-
+        
+        this._logger('success', 'Armor entity updated with success')
         return response;
     }
 
