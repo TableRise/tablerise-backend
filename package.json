@@ -9,7 +9,7 @@
         "test": "npm run test:unit && npm run test:integration",
         "test:file": "jest --",
         "test:unit": "jest --verbose ./test/unit",
-        "test:integration": "export NODE_ENV=test && jest --verbose ./test/integration",
+        "test:integration": "jest --verbose ./test/integration",
         "test:coverage": "export NODE_ENV=test && jest --verbose --coverage",
         "dev": "npx nodemon",
         "lint": "npx eslint . --ext .ts --max-warnings=0",
