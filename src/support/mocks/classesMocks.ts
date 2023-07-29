@@ -3,7 +3,6 @@ import generateNewMongoID from '../helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
 const classMockEn: Class = {
-    active: true,
     name: 'Bard',
     description: 'As a bard, you gain the following class features.',
     hitPoints: {
@@ -83,7 +82,6 @@ const classMockEn: Class = {
 };
 
 const classMockPt: Class = {
-    active: true,
     name: 'Bardo',
     description: 'Como um bardo, você ganha as seguintes características de classe.',
     hitPoints: {
@@ -165,6 +163,7 @@ const classMockPt: Class = {
 const _class: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: classMockEn,
         pt: classMockPt,
     },

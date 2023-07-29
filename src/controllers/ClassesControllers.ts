@@ -1,3 +1,4 @@
+import { UpdateAvailability } from './../schemas/updateAvailabilitySchema';
 import { Request, Response } from 'express';
 import ClassesServices from 'src/services/ClassesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
@@ -7,13 +8,20 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 export default class ClassesControllers {
     constructor(readonly _service: ClassesServices) {
         this.findAll = this.findAll.bind(this);
+        this.findAllDisabled = this.findAllDisabled.bind(this);
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
-        this.delete = this.delete.bind(this);
+        this.updateAvailability = this.updateAvailability.bind(this);
+        // this.delete = this.delete.bind(this);
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
         const request = await this._service.findAll();
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async findAllDisabled(_req: Request, res: Response): Promise<Response> {
+        const request = await this._service.findAllDisabled();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
@@ -32,10 +40,18 @@ export default class ClassesControllers {
         return res.status(HttpStatusCode.OK).json(request);
     }
 
-    public async delete(req: Request, res: Response): Promise<Response> {
+    public async updateAvailability(req: Request, res: Response): Promise<Response> {
         const { id: _id } = req.params;
+        const payload = req.body as UpdateAvailability;
 
-        await this._service.delete(_id);
-        return res.status(HttpStatusCode.DELETED).end();
+        const request = await this._service.updateAvailability(_id, payload);
+        return res.status(HttpStatusCode.OK).json(request);
     }
+
+    // public async delete(req: Request, res: Response): Promise<Response> {
+    //     const { id: _id } = req.params;
+
+    //     await this._service.delete(_id);
+    //     return res.status(HttpStatusCode.DELETED).end();
+    // }
 }
