@@ -23,6 +23,7 @@ const higherLevelsMongooseSchema = new Schema<HigherLevels>(
 
 const schema = new Schema<Spell>(
     {
+        active: { type: Boolean, required: true },
         name: { type: String, required: true },
         description: { type: String, required: true },
         type: { type: String, required: true },

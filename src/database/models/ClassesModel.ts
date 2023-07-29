@@ -168,6 +168,7 @@ const characteristicsMongooseSchema = new Schema<Characteristics>(
 
 const schema = new Schema<Class>(
     {
+        active: { type: Boolean, required: true },
         name: { type: String, required: true },
         description: { type: String, required: true },
         hitPoints: hitPointsMongooseSchema,

@@ -13,6 +13,7 @@ const higherLevelsZodSchema = z.object({
 });
 
 const spellZodSchema = z.object({
+    active: z.boolean(),
     name: z.string(),
     description: z.string(),
     type: z.string(),

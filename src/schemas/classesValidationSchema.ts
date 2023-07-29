@@ -98,6 +98,7 @@ const characteristicsZodSchema = z.object({
 });
 
 const classZodSchema = z.object({
+    active: z.boolean(),
     name: z.string(),
     description: z.string(),
     hitPoints: hitPointsZodSchema,
