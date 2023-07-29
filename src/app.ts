@@ -25,9 +25,13 @@ app.use(express.json())
     .use('/feats', RoutesWrapper.routes().feats)
     .use('/weapons', RoutesWrapper.routes().weapons)
     .use('/armors', RoutesWrapper.routes().armors)
+    .use('/items', RoutesWrapper.routes().items)
+    .use('/races', RoutesWrapper.routes().races)
     .use('/classes', RoutesWrapper.routes().classes)
     .use('/magicItems', RoutesWrapper.routes().magicItems)
     .use('/spells', RoutesWrapper.routes().spells)
+    .use('/wikis', RoutesWrapper.routes().wikis)
+    .use('/monsters', RoutesWrapper.routes().monsters)
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {

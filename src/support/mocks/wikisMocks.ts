@@ -6,7 +6,7 @@ const wikiMockEn: Wiki = {
     title: 'Wiki title',
     description: 'Wiki description',
     reference: 'Book of rules',
-    image: '',
+    image: 'https://img.db.com',
     subTopics: [
         {
             subTitle: 'My subtitle',
@@ -19,7 +19,7 @@ const wikiMockPt: Wiki = {
     title: 'Título da wiki',
     description: 'Descrição da wiki',
     reference: 'Livro de regras',
-    image: '',
+    image: 'https://img.db.com',
     subTopics: [
         {
             subTitle: 'Meu subtitulo',
