@@ -21,14 +21,11 @@ describe('Put RPG classes in database', () => {
     const _class = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classPayload } = _class;
 
-    const newClassPayload = {
-        en: { ...classPayload.en, name: 'Bard' },
-        pt: { ...classPayload.pt, name: 'Bardo' },
-    };
+    const newPayload = {active: false};
 
     let documentId: string;
 
-    describe('When update one rpg class', () => {
+    describe('When update availability one rpg class', () => {
         it('should return updated class', async () => {
             const keysToTest = [
                 'name',
@@ -44,11 +41,13 @@ describe('Put RPG classes in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/classes/${documentId}`)
-                .send(newClassPayload)
+                .patch(`/classes/${documentId}`)
+                .send(newPayload)
                 .expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
+            expect(body).toHaveProperty('active');
+            expect(body.active).toBe(false);
 
             keysToTest.forEach((key) => {
                 expect(body.en).toHaveProperty(key);
@@ -59,35 +58,35 @@ describe('Put RPG classes in database', () => {
             expect(body.pt.name).toBe('Bardo');
         });
 
+        it('should fail when availability already updated', async () => {
+            const { body } = await request(app)
+                .patch(`/classes/${documentId}`)
+                .send({active: false})
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+                expect(body).toHaveProperty('message');
+                expect(body).toHaveProperty('name');
+                expect(body.message).toBe('Entity already disabled');
+                expect(body.name).toBe('BadRequest');
+        });
+
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/classes/${documentId}`)
+                .patch(`/classes/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Class>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('en');
+            expect(JSON.parse(body.message)[0].path[0]).toBe('active');
             expect(JSON.parse(body.message)[0].message).toBe('Required');
             expect(body.name).toBe('ValidationError');
         });
 
-        it('should fail when try to change availability', async () => {
-            const { body } = await request(app)
-                .put(`/classes/${generateNewMongoID()}`)
-                .send({ active: true, ...newClassPayload })
-                .expect(HttpStatusCode.BAD_REQUEST);
-
-            expect(body).toHaveProperty('message');
-            expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Not authorize to change availability');
-            expect(body.name).toBe('BadRequest');
-        });
-
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/classes/${generateNewMongoID()}`)
-                .send(newClassPayload)
+                .patch(`/classes/${generateNewMongoID()}`)
+                .send(newPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
