@@ -37,7 +37,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
 
     public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
         this.validate(languagesWrapper(classesZodSchema), payload);
-        
+
         if (payload.active) {
             const err = new Error('Not authorize to change availability');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
@@ -73,7 +73,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         }
 
         if (response.active === payload.active) {
-            const err = new Error(`${payload.active ? "Entity already enabled" : 'Entity already disabled'}`);
+            const err = new Error(`${payload.active ? 'Entity already enabled' : 'Entity already disabled'}`);
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 

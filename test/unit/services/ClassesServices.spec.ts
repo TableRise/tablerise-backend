@@ -9,7 +9,6 @@ describe('Services :: ClassesServices', () => {
     const ClassesServicesMock = new ClassesServices(ClassesModelMock);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
-    
 
     describe('When the recover all classes service is called', () => {
         beforeAll(() => {
@@ -50,7 +49,7 @@ describe('Services :: ClassesServices', () => {
             en: { ...classMockInstance.en, name: 'None' },
             pt: { ...classMockInstance.pt, name: 'None' },
         };
-        const classMockPayloadWithoutActive = { ...classMockPayload }
+        const classMockPayloadWithoutActive = { ...classMockPayload };
         delete classMockPayloadWithoutActive.active;
 
         const { name: _1, ...classesMockEnWithoutName } = classMockPayload.en;
@@ -99,7 +98,10 @@ describe('Services :: ClassesServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ClassesServicesMock.update('inexistent_id', classMockPayloadWithoutActive as Internacional<Class>);
+                await ClassesServicesMock.update(
+                    'inexistent_id',
+                    classMockPayloadWithoutActive as Internacional<Class>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a class with provided ID');

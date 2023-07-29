@@ -21,7 +21,7 @@ describe('Put RPG classes in database', () => {
     const _class = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classPayload } = _class;
 
-    const newPayload = {active: false};
+    const newPayload = { active: false };
 
     let documentId: string;
 
@@ -61,13 +61,13 @@ describe('Put RPG classes in database', () => {
         it('should fail when availability already updated', async () => {
             const { body } = await request(app)
                 .patch(`/classes/${documentId}`)
-                .send({active: false})
+                .send({ active: false })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
-                expect(body).toHaveProperty('message');
-                expect(body).toHaveProperty('name');
-                expect(body.message).toBe('Entity already disabled');
-                expect(body.name).toBe('BadRequest');
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Entity already disabled');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail when data is wrong', async () => {
