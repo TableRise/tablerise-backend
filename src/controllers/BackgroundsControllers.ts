@@ -17,13 +17,13 @@ export default class BackgroundsControllers {
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [findAll] made to armor');
+        this._logger('warn', 'Request [findAll] made to backgrounds');
         const request = await this._service.findAll();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
     public async findOne(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [findOne] made to armor');
+        this._logger('warn', 'Request [findOne] made to backgrounds');
         const { id: _id } = req.params;
 
         const request = await this._service.findOne(_id);
@@ -31,7 +31,7 @@ export default class BackgroundsControllers {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [update] made to armor');
+        this._logger('warn', 'Request [update] made to backgrounds');
         const { id: _id } = req.params;
         const payload = req.body as Internacional<Background>;
 
