@@ -33,6 +33,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
+        this._logger('success', 'Feat entity found with success');
         return response;
     }
 
@@ -50,6 +51,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
+        this._logger('success', 'Feat entity updated with success');
         return response;
     }
 

@@ -3,9 +3,13 @@ import ArmorsServices from 'src/services/ArmorsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Armor } from 'src/schemas/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class ArmorsControllers {
-    constructor(readonly _service: ArmorsServices) {
+    constructor(
+        private readonly _service: ArmorsServices,
+        private readonly _logger: LoggerType
+    ) {
         this.findAll = this.findAll.bind(this);
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
@@ -13,11 +17,13 @@ export default class ArmorsControllers {
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findAll] made to armor');
         const request = await this._service.findAll();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
     public async findOne(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findOne] made to armor');
         const { id: _id } = req.params;
 
         const request = await this._service.findOne(_id);
@@ -25,6 +31,7 @@ export default class ArmorsControllers {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [update] made to armor');
         const { id: _id } = req.params;
         const payload = req.body as Internacional<Armor>;
 

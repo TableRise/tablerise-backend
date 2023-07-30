@@ -33,6 +33,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
 
+        this._logger('success', 'Class entity found with success');
         return response;
     }
 
@@ -50,6 +51,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
 
+        this._logger('success', 'Class entity updated with success');
         return response;
     }
 

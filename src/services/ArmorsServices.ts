@@ -33,7 +33,6 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             throw err;
         }
         
-
         this._logger('success', 'Armor entity found with success');
         return response;
     }

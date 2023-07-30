@@ -6,7 +6,6 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
 import { LoggerType } from 'src/types/LoggerType';
 
-
 export default class GodsServices extends ValidateEntry implements Service<Internacional<God>> {
     constructor(
         private readonly _model: GodsModel,
@@ -34,6 +33,7 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             throw err;
         }
 
+        this._logger('success', 'God entity found with success');
         return response;
     }
 
@@ -51,6 +51,7 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             throw err;
         }
 
+        this._logger('success', 'God entity updated with success');
         return response;
     }
 

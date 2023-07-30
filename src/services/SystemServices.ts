@@ -4,14 +4,20 @@ import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValida
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class SystemServices extends ValidateEntry implements Service<System> {
-    constructor(private readonly _model: SystemModel) {
+    constructor(
+        private readonly _model: SystemModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All system entities found with success');
         return response;
     }
 
@@ -22,10 +28,12 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             const err = new Error('NotFound a system with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'System entity found with success');
         return response;
     }
 
@@ -37,6 +45,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.FORBIDDEN.toString();
             err.name = 'ForbiddenRequest';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -46,10 +55,12 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             const err = new Error('NotFound a system with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-
+        
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'System entity updated with success');
         return response;
     }
 
@@ -61,6 +72,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.UNPROCESSABLE_ENTITY.toString();
             err.name = 'ValidationError';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -73,6 +85,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -94,6 +107,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             recoverSystem._id as string
         }`;
 
+        this._logger('success', 'Content of the system entity updated with success');
         return response;
     }
 
@@ -105,6 +119,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -113,6 +128,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'ValidationError';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -120,6 +136,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
         await this._model.update(_id, response);
 
+        this._logger('success', 'System entity activated with success');
         return `System ${response._id as string} was activated`;
     }
 
@@ -131,6 +148,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -139,6 +157,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'ValidationError';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -146,6 +165,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
         await this._model.update(_id, response);
 
+        this._logger('success', 'System entity deactivated with success');
         return `System ${response._id as string} was deactivated`;
     }
 }

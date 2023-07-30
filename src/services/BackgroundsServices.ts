@@ -33,6 +33,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             throw err;
         }
 
+        this._logger('success', 'Background entity found with success');
         return response;
     }
 
@@ -50,6 +51,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             throw err;
         }
 
+        this._logger('success', 'Background entity updated with success');
         return response;
     }
 
