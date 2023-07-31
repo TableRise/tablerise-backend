@@ -6,7 +6,7 @@ import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new MonstersModel(logger);
+const model = new MonstersModel();
 const services = new MonstersServices(model, logger);
 const controllers = new MonstersControllers(services, logger);
 

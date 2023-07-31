@@ -20,10 +20,10 @@ const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
 mongoose
     .connect(firstSection + secondSection)
     .then(() => {
-        logger('success', ':: MongoDB Instance Connected ::');
+        logger('success', 'mongoDB instance connected');
     })
     .catch((error) => {
-        logger('error', 'Connection to MongoDB failed');
+        logger('error', 'connection to mongodb failed');
         throw error;
     });
 

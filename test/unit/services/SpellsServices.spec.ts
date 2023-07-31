@@ -4,9 +4,11 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Spell } from 'src/schemas/spellsValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: SpellsServices', () => {
     const SpellsModelMock = new SpellsModel();
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock);
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger);
     const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 

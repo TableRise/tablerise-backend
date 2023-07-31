@@ -6,7 +6,7 @@ import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new WikisModel(logger);
+const model = new WikisModel();
 const services = new WikisServices(model, logger);
 const controllers = new WikisControllers(services, logger);
 

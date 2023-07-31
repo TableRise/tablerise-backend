@@ -25,7 +25,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a item with provided ID');
+            const err = new Error('NotFound an item with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
         
@@ -43,7 +43,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
         const response = await this._model.update(_id, payload);
 
         if (!response) {
-            const err = new Error('NotFound a item with provided ID');
+            const err = new Error('NotFound an item with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
         
@@ -59,7 +59,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a Item with provided ID');
+            const err = new Error('NotFound an item with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 

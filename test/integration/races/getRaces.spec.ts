@@ -65,7 +65,7 @@ describe('Get RPG Races from database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a Race with provided ID');
+            expect(body.message).toBe('NotFound a race with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

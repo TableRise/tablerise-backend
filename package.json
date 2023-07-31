@@ -26,7 +26,6 @@
     "author": "Adson Gomes Oliveira (https://github.com/Adson-Gomes-Oliveira)",
     "license": "ISC",
     "devDependencies": {
-        "@tablerise/auto-swagger": "1.1.5",
         "@types/bcrypt": "5.0.0",
         "@types/cors": "2.8.13",
         "@types/express": "4.17.17",
@@ -52,7 +51,8 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/dynamic-logger": "1.0.0",
+        "@tablerise/auto-swagger": "^1.1.6",
+        "@tablerise/dynamic-logger": "^1.1.4",
         "bcrypt": "5.1.0",
         "cors": "2.8.5",
         "dotenv": "16.0.3",

@@ -59,7 +59,7 @@ export default class RacesServices extends ValidateEntry implements Service<Inte
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a Race with provided ID');
+            const err = new Error('NotFound a race with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
