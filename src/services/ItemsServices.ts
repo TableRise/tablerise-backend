@@ -28,11 +28,11 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
             const err = new Error('NotFound an item with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }
-        
+
         this._logger('success', 'Item entity found with success');
         return response;
     }
@@ -46,7 +46,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
             const err = new Error('NotFound an item with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }

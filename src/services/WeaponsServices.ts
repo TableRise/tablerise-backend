@@ -28,7 +28,7 @@ export default class WeaponsServices extends ValidateEntry implements Service<In
             const err = new Error('NotFound a weapon with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }
@@ -46,7 +46,7 @@ export default class WeaponsServices extends ValidateEntry implements Service<In
             const err = new Error('NotFound a weapon with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }

@@ -28,7 +28,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound a spell with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }
@@ -46,7 +46,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound a spell with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }

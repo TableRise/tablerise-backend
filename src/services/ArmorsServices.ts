@@ -28,11 +28,11 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }
-        
+
         this._logger('success', 'Armor entity found with success');
         return response;
     }
@@ -46,12 +46,12 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
-        
+
             this._logger('error', err.message);
             throw err;
         }
-        
-        this._logger('success', 'Armor entity updated with success')
+
+        this._logger('success', 'Armor entity updated with success');
         return response;
     }
 
