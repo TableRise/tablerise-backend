@@ -4,9 +4,11 @@ import MagicItemsServices from 'src/services/MagicItemsServices';
 import MagicItemsControllers from 'src/controllers/MagicItemsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new MagicItemsModel();
-const services = new MagicItemsServices(model);
-const controllers = new MagicItemsControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new MagicItemsModel(logger);
+const services = new MagicItemsServices(model, logger);
+const controllers = new MagicItemsControllers(services, logger);
 
 const router = Router();
 

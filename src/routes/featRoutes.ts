@@ -4,9 +4,11 @@ import FeatsServices from 'src/services/FeatsServices';
 import FeatsControllers from 'src/controllers/FeatsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new FeatsModel();
-const services = new FeatsServices(model);
-const controllers = new FeatsControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new FeatsModel(logger);
+const services = new FeatsServices(model, logger);
+const controllers = new FeatsControllers(services, logger);
 
 const router = Router();
 

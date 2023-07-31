@@ -4,9 +4,11 @@ import ItemsServices from 'src/services/ItemsServices';
 import ItemsControllers from 'src/controllers/ItemsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new ItemsModel();
-const services = new ItemsServices(model);
-const controllers = new ItemsControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new ItemsModel(logger);
+const services = new ItemsServices(model, logger);
+const controllers = new ItemsControllers(services, logger);
 
 const router = Router();
 

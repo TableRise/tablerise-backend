@@ -4,9 +4,11 @@ import WikisServices from 'src/services/WikisService';
 import WikisControllers from 'src/controllers/WikisControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new WikisModel();
-const services = new WikisServices(model);
-const controllers = new WikisControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new WikisModel(logger);
+const services = new WikisServices(model, logger);
+const controllers = new WikisControllers(services, logger);
 
 const router = Router();
 

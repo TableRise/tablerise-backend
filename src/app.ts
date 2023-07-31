@@ -11,6 +11,7 @@ import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 const autoSwagger = require('@tablerise/auto-swagger');
+const logger = require('@tablerise/dynamic-logger');
 
 const app: Application = express();
 
@@ -40,4 +41,5 @@ if (process.env.NODE_ENV === 'dev') {
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 
+logger('success', ':: App started ::');
 export default app;

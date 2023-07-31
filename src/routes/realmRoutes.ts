@@ -4,9 +4,11 @@ import RealmsServices from 'src/services/RealmsServices';
 import RealmsControllers from 'src/controllers/RealmsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new RealmsModel();
-const services = new RealmsServices(model);
-const controllers = new RealmsControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new RealmsModel(logger);
+const services = new RealmsServices(model, logger);
+const controllers = new RealmsControllers(services, logger);
 
 const router = Router();
 

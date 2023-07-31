@@ -4,9 +4,11 @@ import WeaponsServices from 'src/services/WeaponsServices';
 import WeaponsControllers from 'src/controllers/WeaponsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
-const model = new WeaponsModel();
-const services = new WeaponsServices(model);
-const controllers = new WeaponsControllers(services);
+const logger = require('@tablerise/dynamic-logger');
+
+const model = new WeaponsModel(logger);
+const services = new WeaponsServices(model, logger);
+const controllers = new WeaponsControllers(services, logger);
 
 const router = Router();
 

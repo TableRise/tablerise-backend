@@ -4,9 +4,11 @@ import ArmorsServices from 'src/services/ArmorsServices';
 import ArmorsControllers from 'src/controllers/ArmorsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const model = new ArmorsModel();
-const services = new ArmorsServices(model);
-const controllers = new ArmorsControllers(services);
+const services = new ArmorsServices(model, logger);
+const controllers = new ArmorsControllers(services, logger);
 
 const router = Router();
 
