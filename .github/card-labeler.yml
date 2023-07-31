@@ -5,7 +5,9 @@ Board of Development:
     - 'important'
   Development:
     - 'in progress'
+  Test:
+    - 'in progress'
   CodeReview:
-    - 'blocked'
+    - 'waiting'
   ReadyToProduction:
     - 'completed'
