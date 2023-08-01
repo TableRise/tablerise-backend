@@ -90,7 +90,79 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Not authorize to change availability');
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await ClassesServicesMock.update(
+                    'inexistent_id',
+                    classMockPayloadWithoutActive as Internacional<Class>
+                );
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('NotFound a class with provided ID');
+                expect(err.stack).toBe('404');
+                expect(err.name).toBe('NotFound');
+            }
+        });
+    });
+
+    describe('When service for update availability class is called', () => {
+        const classMockID = classMockInstance._id as string;
+        const classMockUpdateInstance = {
+            _id: classMockID,
+            active: false,
+            en: { ...classMockInstance.en },
+            pt: { ...classMockInstance.pt },
+        };
+
+        const classMockFindInstance = {
+            _id: classMockID,
+            active: true,
+            en: { ...classMockInstance.en },
+            pt: { ...classMockInstance.pt },
+        };
+
+        const classMockPayloadWithoutActive = { ...classMockPayload };
+        delete classMockPayloadWithoutActive.active;
+
+        const queryMock = false;
+
+        const responseMessageMock = {
+            message: `Class ${classMockID} was ${queryMock ? "activated" : "deactivated"}`,
+            name: 'success'
+        }
+
+        beforeAll(() => {
+            jest.spyOn(ClassesModelMock, 'findOne')
+            .mockResolvedValueOnce(classMockFindInstance)
+            .mockResolvedValueOnce(classMockFindInstance)
+            .mockResolvedValue(null);
+
+            jest.spyOn(ClassesModelMock, 'update')
+            .mockResolvedValueOnce(classMockUpdateInstance)
+            .mockResolvedValueOnce(classMockUpdateInstance)
+            .mockResolvedValue(null);
+        });
+
+        it('should return correct success message', async () => {
+            const responseTest = await ClassesServicesMock.updateAvailability(
+                classMockID,
+                queryMock
+            );
+            expect(responseTest).toStrictEqual(responseMessageMock);
+        });
+
+        it('should throw an error when the class is already enable', async () => {
+            try {
+                await ClassesServicesMock.updateAvailability(classMockID, true);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
