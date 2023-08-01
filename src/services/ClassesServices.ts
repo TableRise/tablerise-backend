@@ -16,14 +16,14 @@ export default class ClassesServices extends ValidateEntry implements Service<In
     }
 
     public async findAll(): Promise<Array<Internacional<Class>>> {
-        const response = await this._model.findAll({active: true});
+        const response = await this._model.findAll({ active: true });
 
         this._logger('success', 'All class entities found with success');
         return response;
     }
 
     public async findAllDisabled(): Promise<Array<Internacional<Class>>> {
-        const response = await this._model.findAll({active: false});
+        const response = await this._model.findAll({ active: false });
 
         this._logger('success', 'All class entities found with success');
         return response;
@@ -99,12 +99,13 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             err.name = 'NotFound';
 
             throw err;
+        } else {
+            const responseMessage = {
+                message: `Class ${updatedResponse._id} was ${query ? 'activated' : 'deactivated'}`,
+                name: 'success',
+            };
+            return responseMessage;
         }
-        const responseMessage = {
-            message: `Class ${updatedResponse._id} was ${query === true ? 'activated' : 'deactivated'}`,
-            name: 'success',
-        };
-        return responseMessage;
     }
 
     // public async delete(_id: string): Promise<void> {
