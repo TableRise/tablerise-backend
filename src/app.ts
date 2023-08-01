@@ -1,5 +1,6 @@
 import 'module-alias/register';
 import 'express-async-errors';
+import 'dotenv/config';
 
 import express, { Application } from 'express';
 import cors from 'cors';
@@ -11,6 +12,7 @@ import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 const autoSwagger = require('@tablerise/auto-swagger');
+const logger = require('@tablerise/dynamic-logger');
 
 const app: Application = express();
 
@@ -35,9 +37,11 @@ app.use(express.json())
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {
+    logger('success', 'swagger document generated');
     autoSwagger(RoutesWrapper.declareRoutes());
 }
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 
+logger('success', 'app started');
 export default app;

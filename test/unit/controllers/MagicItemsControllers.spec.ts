@@ -6,10 +6,12 @@ import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: MagicItemsControllers', () => {
     const MagicItemsModelMock = new MagicItemsModel();
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock);
-    const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock);
+    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger);
+    const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock, logger);
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const request = {} as Request;
     const response = {} as Response;

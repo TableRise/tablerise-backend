@@ -4,14 +4,20 @@ import spellsZodSchema, { Spell } from 'src/schemas/spellsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class SpellsServices extends ValidateEntry implements Service<Internacional<Spell>> {
-    constructor(private readonly _model: SpellsModel) {
+    constructor(
+        private readonly _model: SpellsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Spell>>> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All spell entities found with success');
         return response;
     }
 
@@ -23,9 +29,11 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'Spell entity found with success');
         return response;
     }
 
@@ -39,9 +47,11 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'Spell entity updated with success');
         return response;
     }
 

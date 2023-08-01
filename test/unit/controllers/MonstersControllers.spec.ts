@@ -6,10 +6,12 @@ import { Monster } from 'src/schemas/monstersValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: MonstersControllers', () => {
     const MonstersModelMock = new MonstersModel();
-    const MonstersServicesMock = new MonstersServices(MonstersModelMock);
-    const MonstersControllersMock = new MonstersControllers(MonstersServicesMock);
+    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger);
+    const MonstersControllersMock = new MonstersControllers(MonstersServicesMock, logger);
     const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
     const request = {} as Request;
     const response = {} as Response;

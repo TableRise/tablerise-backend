@@ -6,10 +6,12 @@ import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: WeaponsControllers', () => {
     const WeaponsModelMock = new WeaponsModel();
-    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock);
-    const WeaponsControllersMock = new WeaponsControllers(WeaponsServicesMock);
+    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger);
+    const WeaponsControllersMock = new WeaponsControllers(WeaponsServicesMock, logger);
     const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const request = {} as Request;
     const response = {} as Response;

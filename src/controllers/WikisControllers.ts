@@ -3,9 +3,13 @@ import WikisServices from 'src/services/WikisService';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Wiki } from 'src/schemas/wikisValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class WikisControllers {
-    constructor(readonly _service: WikisServices) {
+    constructor(
+        private readonly _service: WikisServices,
+        private readonly _logger: LoggerType
+    ) {
         this.findAll = this.findAll.bind(this);
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
@@ -13,11 +17,13 @@ export default class WikisControllers {
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findAll] made to wiki');
         const request = await this._service.findAll();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
     public async findOne(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findOne] made to wiki');
         const { id: _id } = req.params;
 
         const request = await this._service.findOne(_id);
@@ -25,6 +31,7 @@ export default class WikisControllers {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [update] made to wiki');
         const { id: _id } = req.params;
         const payload = req.body as Internacional<Wiki>;
 
