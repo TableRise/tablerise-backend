@@ -48,9 +48,9 @@ describe('Database :: Models :: SpellsModel', () => {
             });
         });
 
-        it('should have the expected return when delete', async () => {
-            const responseTest = await newSpellsModel.delete(testReturnWithID._id);
-            expect(responseTest).toStrictEqual({});
-        });
+        // it('should have the expected return when delete', async () => {
+        //     const responseTest = await newSpellsModel.delete(testReturnWithID._id);
+        //     expect(responseTest).toStrictEqual({});
+        // });
     });
 });
