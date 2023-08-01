@@ -3,7 +3,6 @@ import generateNewMongoID from '../helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
 const spellMockEn: Spell = {
-    active: true,
     name: 'Fire ball',
     description: 'Explodes everyone',
     type: 'Fire',
@@ -36,7 +35,6 @@ const spellMockEn: Spell = {
 };
 
 const spellMockPt: Spell = {
-    active: true,
     name: 'Bola de fogo',
     description: 'Explode todo mundo',
     type: 'Fogo',
@@ -71,6 +69,7 @@ const spellMockPt: Spell = {
 const spell: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: spellMockEn,
         pt: spellMockPt,
     },
