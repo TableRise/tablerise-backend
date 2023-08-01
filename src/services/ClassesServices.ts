@@ -91,21 +91,13 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         }
 
         response.active = query;
-        const updatedResponse = await this._model.update(_id, response);
+        await this._model.update(_id, response);
 
-        if (!updatedResponse) {
-            const err = new Error('NotFound a class with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            throw err;
-        } else {
-            const responseMessage = {
-                message: `Class ${updatedResponse._id as string} was ${query ? 'activated' : 'deactivated'}`,
-                name: 'success',
-            };
-            return responseMessage;
-        }
+        const responseMessage = {
+            message: `Class ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
+        return responseMessage;
     }
 
     // public async delete(_id: string): Promise<void> {
