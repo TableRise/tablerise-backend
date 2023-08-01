@@ -1,14 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
 import { connect, close } from '../../connectDatabaseTest';
-import ClassesModel from 'src/database/models/ClassesModel';
+import SpellsModel from 'src/database/models/SpellsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Class } from 'src/schemas/classesValidationSchema';
+import { Spell } from 'src/schemas/spellsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Patch RPG classes in database', () => {
+describe('Patch RPG spells in database', () => {
     beforeAll(() => {
         connect();
     });
@@ -17,33 +17,33 @@ describe('Patch RPG classes in database', () => {
         await close();
     });
 
-    const model = new ClassesModel();
-    const _class = mocks.class.instance as Internacional<Class>;
-    const { _id: _, ...classPayload } = _class;
+    const model = new SpellsModel();
+    const _spell = mocks.spell.instance as Internacional<Spell>;
+    const { _id: _, ...spellPayload } = _spell;
 
     let documentId: string;
 
-    describe('When update availability one rpg class', () => {
-        it('should return a string with class updated id', async () => {
-            const response = await model.create(classPayload);
+    describe('When update availability one rpg spell', () => {
+        it('should return a string with spell updated id', async () => {
+            const response = await model.create(spellPayload);
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .patch(`/classes/${documentId}?availability=false`)
+                .patch(`/spells/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe(`Class ${documentId} was deactivated`);
+            expect(body.message).toBe(`Spell ${documentId} was deactivated`);
             expect(body.name).toBe('success');
         });
 
         it('should fail when availability already enabled', async () => {
-            const response = await model.create(classPayload);
+            const response = await model.create(spellPayload);
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .patch(`/classes/${documentId}?availability=true`)
+                .patch(`/spells/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -53,10 +53,10 @@ describe('Patch RPG classes in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/classes/${documentId}?availability=false`);
+            await request(app).patch(`/spells/${documentId}?availability=false`);
 
             const { body } = await request(app)
-                .patch(`/classes/${documentId}?availability=false`)
+                .patch(`/spells/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -67,7 +67,7 @@ describe('Patch RPG classes in database', () => {
 
         it('should fail when query is wrong', async () => {
             const { body } = await request(app)
-                .patch(`/classes/${documentId}?availability=wrongQuery`)
+                .patch(`/spells/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -78,12 +78,12 @@ describe('Patch RPG classes in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .patch(`/classes/${generateNewMongoID()}?availability=false`)
+                .patch(`/spells/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a class with provided ID');
+            expect(body.message).toBe('NotFound a spell with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });
