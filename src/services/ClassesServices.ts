@@ -101,7 +101,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
         const responseMessage = {
-            message: `Class ${updatedResponse._id} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Class ${updatedResponse._id} was ${query === true ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
         return responseMessage;
