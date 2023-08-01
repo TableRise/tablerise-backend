@@ -25,7 +25,6 @@ describe('Put RPG classes in database', () => {
 
     describe('When update availability one rpg class', () => {
         it('should return a string with class updated id', async () => {
-         
             const response = await model.create(classPayload);
             documentId = response._id as string;
 
@@ -33,10 +32,10 @@ describe('Put RPG classes in database', () => {
                 .patch(`/classes/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
-                expect(body).toHaveProperty('message');
-                expect(body).toHaveProperty('name');
-                expect(body.message).toBe(`Class ${documentId} was deactivated`);
-                expect(body.name).toBe('success');
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe(`Class ${documentId} was deactivated`);
+            expect(body.name).toBe('success');
         });
 
         it('should fail when availability already updated', async () => {

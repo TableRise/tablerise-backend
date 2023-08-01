@@ -4,7 +4,7 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 export default function VerifyBooleanQueryMiddleware(req: Request, _res: Response, next: NextFunction): void {
     const { availability } = req.query;
 
-    if (availability === "true" || availability === "false") {
+    if (availability === 'true' || availability === 'false') {
         return next();
     }
 
@@ -13,5 +13,4 @@ export default function VerifyBooleanQueryMiddleware(req: Request, _res: Respons
     err.name = 'Invalid Entry';
 
     throw err;
-    
 }

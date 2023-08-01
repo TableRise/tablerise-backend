@@ -135,27 +135,24 @@ describe('Services :: ClassesServices', () => {
         const queryMock = false;
 
         const responseMessageMock = {
-            message: `Class ${classMockID} was ${queryMock ? "activated" : "deactivated"}`,
-            name: 'success'
-        }
+            message: `Class ${classMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
 
         beforeAll(() => {
             jest.spyOn(ClassesModelMock, 'findOne')
-            .mockResolvedValueOnce(classMockFindInstance)
-            .mockResolvedValueOnce(classMockFindInstance)
-            .mockResolvedValue(null);
+                .mockResolvedValueOnce(classMockFindInstance)
+                .mockResolvedValueOnce(classMockFindInstance)
+                .mockResolvedValue(null);
 
             jest.spyOn(ClassesModelMock, 'update')
-            .mockResolvedValueOnce(classMockUpdateInstance)
-            .mockResolvedValueOnce(classMockUpdateInstance)
-            .mockResolvedValue(null);
+                .mockResolvedValueOnce(classMockUpdateInstance)
+                .mockResolvedValueOnce(classMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
         it('should return correct success message', async () => {
-            const responseTest = await ClassesServicesMock.updateAvailability(
-                classMockID,
-                queryMock
-            );
+            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, queryMock);
             expect(responseTest).toStrictEqual(responseMessageMock);
         });
 

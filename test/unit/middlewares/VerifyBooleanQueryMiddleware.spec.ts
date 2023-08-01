@@ -16,7 +16,7 @@ describe('Middlewares :: VerifyBooleanQueryMiddleware', () => {
         });
 
         it('should be successfull if is a valid query', () => {
-            request.query = { availability: "true" };
+            request.query = { availability: 'true' };
             VerifyBooleanQueryMiddleware(request, response, next);
 
             expect(next).toHaveBeenCalled();

@@ -50,7 +50,7 @@ export default class ClassesControllers {
     public async updateAvailability(req: Request, res: Response): Promise<Response> {
         const { id: _id } = req.params;
         const { availability } = req.query;
-        const query = availability === "true" ? true : false
+        const query = availability === 'true' ? true : false;
 
         const request = await this._service.updateAvailability(_id, query);
         return res.status(HttpStatusCode.OK).json(request);

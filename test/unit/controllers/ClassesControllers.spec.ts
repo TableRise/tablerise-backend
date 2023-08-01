@@ -87,9 +87,9 @@ describe('Services :: ClassesControllers', () => {
 
     describe('When a request is made to update availability class by ID', () => {
         const responseMessageMock = {
-            message: "Class {id} was deactivated",
-            name: 'success'
-        }
+            message: 'Class {id} was deactivated',
+            name: 'success',
+        };
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -104,7 +104,7 @@ describe('Services :: ClassesControllers', () => {
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: classMockInstance._id as string };
-            request.query = {availability: "false"};
+            request.query = { availability: 'false' };
 
             await ClassesControllersMock.updateAvailability(request, response);
             expect(response.status).toHaveBeenCalledWith(200);

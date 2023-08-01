@@ -66,7 +66,6 @@ export default class ClassesServices extends ValidateEntry implements Service<In
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-
         const response = await this._model.findOne(_id);
 
         if (!response) {
@@ -96,9 +95,9 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
         const responseMessage = {
-            message: `Class ${updatedResponse._id} was ${query ? "activated" : "deactivated"}`,
-            name: 'success'
-        }
+            message: `Class ${updatedResponse._id} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
         return responseMessage;
     }
 
