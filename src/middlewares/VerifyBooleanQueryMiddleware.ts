@@ -6,7 +6,7 @@ export default function VerifyBooleanQueryMiddleware(req: Request, _res: Respons
 
     if (availability === 'true' || availability === 'false') {
         next();
-        return
+        return;
     }
 
     const err = new Error('The query is invalid');

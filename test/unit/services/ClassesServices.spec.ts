@@ -24,7 +24,7 @@ describe('Services :: ClassesServices', () => {
     });
 
     describe('When the recover all disabled classes service is called', () => {
-        const classMockDisabled = {active: false, ...classMockInstance}
+        const classMockDisabled = { active: false, ...classMockInstance };
         beforeAll(() => {
             jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockDisabled]);
         });
@@ -193,10 +193,7 @@ describe('Services :: ClassesServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ClassesServicesMock.updateAvailability(
-                    'inexistent_id',
-                    false
-                );
+                await ClassesServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a class with provided ID');
