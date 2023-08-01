@@ -1,4 +1,3 @@
-import { UpdateAvailability } from './../schemas/updateAvailabilitySchema';
 import { Request, Response, query } from 'express';
 import ClassesServices from 'src/services/ClassesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';

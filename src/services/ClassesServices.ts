@@ -1,7 +1,6 @@
 import ClassesModel from 'src/database/models/ClassesModel';
 import Service from 'src/types/Service';
 import classesZodSchema, { Class } from 'src/schemas/classesValidationSchema';
-import updateAvailabilityZodSchema, { UpdateAvailability } from 'src/schemas/updateAvailabilitySchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
@@ -17,7 +16,14 @@ export default class ClassesServices extends ValidateEntry implements Service<In
     }
 
     public async findAll(): Promise<Array<Internacional<Class>>> {
-        const response = await this._model.findAll();
+        const response = await this._model.findAll({active: true});
+
+        this._logger('success', 'All class entities found with success');
+        return response;
+    }
+
+    public async findAllDisabled(): Promise<Array<Internacional<Class>>> {
+        const response = await this._model.findAll({active: false});
 
         this._logger('success', 'All class entities found with success');
         return response;
