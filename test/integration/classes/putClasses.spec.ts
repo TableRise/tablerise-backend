@@ -80,7 +80,7 @@ describe('Put RPG classes in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Not authorize to change availability');
+            expect(body.message).toBe('Not authorized to change availability');
             expect(body.name).toBe('BadRequest');
         });
 
