@@ -4,9 +4,11 @@ import RacesServices from 'src/services/RacesServices';
 import RacesControllers from 'src/controllers/RacesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const model = new RacesModel();
-const services = new RacesServices(model);
-const controllers = new RacesControllers(services);
+const services = new RacesServices(model, logger);
+const controllers = new RacesControllers(services, logger);
 
 const router = Router();
 

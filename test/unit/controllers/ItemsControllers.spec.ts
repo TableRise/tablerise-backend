@@ -6,10 +6,12 @@ import { Item } from 'src/schemas/itemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: ItemsControllers', () => {
     const ItemsModelMock = new ItemsModel();
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock);
-    const ItemsControllersMock = new ItemsControllers(ItemsServicesMock);
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger);
+    const ItemsControllersMock = new ItemsControllers(ItemsServicesMock, logger);
     const ItemMockInstance = mocks.item.instance as Internacional<Item>;
     const request = {} as Request;
     const response = {} as Response;

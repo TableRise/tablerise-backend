@@ -5,9 +5,11 @@ import ClassesControllers from 'src/controllers/ClassesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const model = new ClassesModel();
-const services = new ClassesServices(model);
-const controllers = new ClassesControllers(services);
+const services = new ClassesServices(model, logger);
+const controllers = new ClassesControllers(services, logger);
 
 const router = Router();
 

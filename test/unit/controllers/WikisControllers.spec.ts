@@ -6,10 +6,12 @@ import { Wiki } from 'src/schemas/wikisValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: SpellsControllers', () => {
     const WikisModelMock = new WikisModel();
-    const WikisServicesMock = new WikisServices(WikisModelMock);
-    const WikisControllersMock = new WikisControllers(WikisServicesMock);
+    const WikisServicesMock = new WikisServices(WikisModelMock, logger);
+    const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);
     const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
     const request = {} as Request;
     const response = {} as Response;

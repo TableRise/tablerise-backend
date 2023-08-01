@@ -3,9 +3,13 @@ import SystemServices from 'src/services/SystemServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import { System } from 'src/schemas/systemValidationSchema';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class SystemControllers {
-    constructor(readonly _service: SystemServices) {
+    constructor(
+        private readonly _service: SystemServices,
+        private readonly _logger: LoggerType
+    ) {
         this.findAll = this.findAll.bind(this);
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
@@ -15,11 +19,13 @@ export default class SystemControllers {
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findAll] made to system');
         const request = await this._service.findAll();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
     public async findOne(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findOne] made to system');
         const { id: _id } = req.params;
 
         const request = await this._service.findOne(_id);
@@ -27,6 +33,7 @@ export default class SystemControllers {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [update] made to system');
         const { id: _id } = req.params;
         const payload = req.body as System;
 
@@ -35,6 +42,7 @@ export default class SystemControllers {
     }
 
     public async updateContent(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [updateContent] made to system');
         const { id: _id } = req.params;
         const { entity } = req.query;
         const payload = req.body as UpdateContent;
@@ -44,6 +52,7 @@ export default class SystemControllers {
     }
 
     public async activate(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [activate] made to system');
         const { id: _id } = req.params;
 
         const request = await this._service.activate(_id);
@@ -51,6 +60,7 @@ export default class SystemControllers {
     }
 
     public async deactivate(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [deactivate] made to system');
         const { id: _id } = req.params;
 
         const request = await this._service.deactivate(_id);

@@ -4,9 +4,11 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: ClassesServices', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
 

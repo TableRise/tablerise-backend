@@ -4,9 +4,11 @@ import BackgroundsServices from 'src/services/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/BackgroundsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const model = new BackgroundsModel();
-const services = new BackgroundsServices(model);
-const controllers = new BackgroundsControllers(services);
+const services = new BackgroundsServices(model, logger);
+const controllers = new BackgroundsControllers(services, logger);
 
 const router = Router();
 

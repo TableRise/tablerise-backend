@@ -4,14 +4,20 @@ import realmZodSchema, { Realm } from 'src/schemas/realmsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class RealmsServices extends ValidateEntry implements Service<Internacional<Realm>> {
-    constructor(private readonly _model: RealmsModel) {
+    constructor(
+        private readonly _model: RealmsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Realm>>> {
         const response = await this._model.findAll();
+
+        this._logger('success', 'All realm entities found with success');
         return response;
     }
 
@@ -23,9 +29,11 @@ export default class RealmsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'Realm entity found with success');
         return response;
     }
 
@@ -39,9 +47,11 @@ export default class RealmsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('success', 'Realm entity updated with success');
         return response;
     }
 

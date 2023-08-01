@@ -4,9 +4,11 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Background } from 'src/schemas/backgroundsValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: BackgroundsServices', () => {
     const BackgroundsModelMock = new BackgroundsModel();
-    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock);
+    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger);
     const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
 
