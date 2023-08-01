@@ -24,6 +24,7 @@ describe('Put RPG classes in database', () => {
     let documentId: string;
 
     describe('When update availability one rpg class', () => {
+
         it('should return a string with class updated id', async () => {
             const response = await model.create(classPayload);
             documentId = response._id as string;
@@ -38,7 +39,24 @@ describe('Put RPG classes in database', () => {
             expect(body.name).toBe('success');
         });
 
-        it('should fail when availability already updated', async () => {
+        it('should fail when availability already enabled', async () => {
+            const response = await model.create(classPayload);
+            documentId = response._id as string;
+
+            const { body } = await request(app)
+                .patch(`/classes/${documentId}?availability=true`)
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Entity already enabled');
+            expect(body.name).toBe('BadRequest');
+        });
+
+        it('should fail when availability already disabled', async () => {
+            await request(app)
+                .patch(`/classes/${documentId}?availability=false`)
+                
             const { body } = await request(app)
                 .patch(`/classes/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
