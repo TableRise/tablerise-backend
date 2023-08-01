@@ -5,6 +5,7 @@ import updateAvailabilityZodSchema, { UpdateAvailability } from 'src/schemas/upd
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import UpdateResponse from 'src/types/UpdateResponse';
 
 export default class ClassesServices extends ValidateEntry implements Service<Internacional<Class>> {
     constructor(private readonly _model: ClassesModel) {
@@ -39,7 +40,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         this.validate(languagesWrapper(classesZodSchema), payload);
 
         if (payload.active) {
-            const err = new Error('Not authorize to change availability');
+            const err = new Error('Not authorized to change availability');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 
@@ -59,8 +60,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         return updatedResponse;
     }
 
-    public async updateAvailability(_id: string, payload: UpdateAvailability): Promise<Internacional<Class>> {
-        this.validate(updateAvailabilityZodSchema, payload);
+    public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
 
         const response = await this._model.findOne(_id);
 
@@ -72,15 +72,15 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
 
-        if (response.active === payload.active) {
-            const err = new Error(`${payload.active ? 'Entity already enabled' : 'Entity already disabled'}`);
+        if (response.active === query) {
+            const err = new Error(`${query ? 'Entity already enabled' : 'Entity already disabled'}`);
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 
             throw err;
         }
 
-        response.active = payload.active;
+        response.active = query;
         const updatedResponse = await this._model.update(_id, response);
 
         if (!updatedResponse) {
@@ -90,8 +90,11 @@ export default class ClassesServices extends ValidateEntry implements Service<In
 
             throw err;
         }
-
-        return updatedResponse;
+        const responseMessage = {
+            message: `Class ${updatedResponse._id} was ${query ? "activated" : "deactivated"}`,
+            name: 'success'
+        }
+        return responseMessage;
     }
 
     // public async delete(_id: string): Promise<void> {

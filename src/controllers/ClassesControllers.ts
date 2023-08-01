@@ -1,5 +1,5 @@
 import { UpdateAvailability } from './../schemas/updateAvailabilitySchema';
-import { Request, Response } from 'express';
+import { Request, Response, query } from 'express';
 import ClassesServices from 'src/services/ClassesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Class } from 'src/schemas/classesValidationSchema';
@@ -42,9 +42,10 @@ export default class ClassesControllers {
 
     public async updateAvailability(req: Request, res: Response): Promise<Response> {
         const { id: _id } = req.params;
-        const payload = req.body as UpdateAvailability;
+        const { availability } = req.query;
+        const query = availability === "true" ? true : false
 
-        const request = await this._service.updateAvailability(_id, payload);
+        const request = await this._service.updateAvailability(_id, query);
         return res.status(HttpStatusCode.OK).json(request);
     }
 
