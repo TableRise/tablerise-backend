@@ -99,18 +99,4 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         };
         return responseMessage;
     }
-
-    // public async delete(_id: string): Promise<void> {
-    //     const response = await this._model.findOne(_id);
-
-    //     if (!response) {
-    //         const err = new Error('NotFound a class with provided ID');
-    //         err.stack = HttpStatusCode.NOT_FOUND.toString();
-    //         err.name = 'NotFound';
-
-    //         throw err;
-    //     }
-
-    //     await this._model.delete(_id);
-    // }
 }

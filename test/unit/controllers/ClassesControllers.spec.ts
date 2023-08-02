@@ -111,25 +111,4 @@ describe('Services :: ClassesControllers', () => {
             expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
-
-    // describe('When a request is made to delete a class', () => {
-    //     beforeAll(() => {
-    //         response.status = jest.fn().mockReturnValue(response);
-    //         response.end = jest.fn().mockReturnValue({});
-
-    //         jest.spyOn(ClassesServicesMock, 'delete').mockResolvedValue();
-    //     });
-
-    //     afterAll(() => {
-    //         jest.clearAllMocks();
-    //     });
-
-    //     it('should not return any data in response with status 204', async () => {
-    //         request.params = { _id: classMockInstance._id as string };
-
-    //         await ClassesControllersMock.delete(request, response);
-    //         expect(response.status).toHaveBeenCalledWith(204);
-    //         expect(response.end).toHaveBeenCalled();
-    //     });
-    // });
 });

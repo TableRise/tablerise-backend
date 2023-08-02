@@ -15,7 +15,6 @@ export default class ClassesControllers {
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
         this.updateAvailability = this.updateAvailability.bind(this);
-        // this.delete = this.delete.bind(this);
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
@@ -54,11 +53,4 @@ export default class ClassesControllers {
         const request = await this._service.updateAvailability(_id, query);
         return res.status(HttpStatusCode.OK).json(request);
     }
-
-    // public async delete(req: Request, res: Response): Promise<Response> {
-    //     const { id: _id } = req.params;
-
-    //     await this._service.delete(_id);
-    //     return res.status(HttpStatusCode.DELETED).end();
-    // }
 }

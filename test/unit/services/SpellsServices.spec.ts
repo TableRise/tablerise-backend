@@ -199,33 +199,4 @@ describe('Services :: SpellsServices', () => {
             }
         });
     });
-
-    // describe('When service for delete a spell is called', () => {
-    //     const spellMockID = spellMockInstance._id as string;
-
-    //     beforeAll(() => {
-    //         jest.spyOn(SpellsModelMock, 'findOne').mockResolvedValueOnce(spellMockInstance).mockResolvedValue(null);
-
-    //         jest.spyOn(SpellsModelMock, 'delete').mockResolvedValue(null);
-    //     });
-
-    //     it('should delete spell and not return any data', async () => {
-    //         try {
-    //             await SpellsServicesMock.delete(spellMockID);
-    //         } catch (error) {
-    //             fail('it should not reach here');
-    //         }
-    //     });
-
-    //     it('should throw an error when ID is inexistent', async () => {
-    //         try {
-    //             await SpellsServicesMock.delete('inexistent_id');
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('NotFound a spell with provided ID');
-    //             expect(err.stack).toBe('404');
-    //             expect(err.name).toBe('NotFound');
-    //         }
-    //     });
-    // });
 });

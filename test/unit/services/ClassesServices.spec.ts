@@ -202,33 +202,4 @@ describe('Services :: ClassesServices', () => {
             }
         });
     });
-
-    // describe('When service for delete a class is called', () => {
-    //     const classMockID = classMockInstance._id as string;
-
-    //     beforeAll(() => {
-    //         jest.spyOn(ClassesModelMock, 'findOne').mockResolvedValueOnce(classMockInstance).mockResolvedValue(null);
-
-    //         jest.spyOn(ClassesModelMock, 'delete').mockResolvedValue(null);
-    //     });
-
-    //     it('should delete class and not return any data', async () => {
-    //         try {
-    //             await ClassesServicesMock.delete(classMockID);
-    //         } catch (error) {
-    //             fail('it should not reach here');
-    //         }
-    //     });
-
-    //     it('should throw an error when ID is inexistent', async () => {
-    //         try {
-    //             await ClassesServicesMock.delete('inexistent_id');
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('NotFound a class with provided ID');
-    //             expect(err.stack).toBe('404');
-    //             expect(err.name).toBe('NotFound');
-    //         }
-    //     });
-    // });
 });

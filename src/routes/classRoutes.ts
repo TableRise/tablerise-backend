@@ -18,6 +18,5 @@ router.get('/disabled', controllers.findAllDisabled);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
 router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
-// router.delete('/:id', VerifyIdMiddleware, controllers.delete);
 
 export default router;

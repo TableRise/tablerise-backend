@@ -111,25 +111,4 @@ describe('Services :: SpellsControllers', () => {
             expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
-
-    // describe('When a request is made to delete a spell', () => {
-    //     beforeAll(() => {
-    //         response.status = jest.fn().mockReturnValue(response);
-    //         response.end = jest.fn().mockReturnValue({});
-
-    //         jest.spyOn(SpellsServicesMock, 'delete').mockResolvedValue();
-    //     });
-
-    //     afterAll(() => {
-    //         jest.clearAllMocks();
-    //     });
-
-    //     it('should not return any data in response with status 204', async () => {
-    //         request.params = { _id: spellMockInstance._id as string };
-
-    //         await SpellsControllersMock.delete(request, response);
-    //         expect(response.status).toHaveBeenCalledWith(204);
-    //         expect(response.end).toHaveBeenCalled();
-    //     });
-    // });
 });
