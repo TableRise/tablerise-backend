@@ -11,14 +11,20 @@ export default class ClassesControllers {
         private readonly _logger: LoggerType
     ) {
         this.findAll = this.findAll.bind(this);
+        this.findAllDisabled = this.findAllDisabled.bind(this);
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
-        this.delete = this.delete.bind(this);
+        this.updateAvailability = this.updateAvailability.bind(this);
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [findAll] made to classes');
         const request = await this._service.findAll();
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async findAllDisabled(_req: Request, res: Response): Promise<Response> {
+        const request = await this._service.findAllDisabled();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
@@ -39,10 +45,12 @@ export default class ClassesControllers {
         return res.status(HttpStatusCode.OK).json(request);
     }
 
-    public async delete(req: Request, res: Response): Promise<Response> {
+    public async updateAvailability(req: Request, res: Response): Promise<Response> {
         const { id: _id } = req.params;
+        const { availability } = req.query;
+        const query = availability === 'true';
 
-        await this._service.delete(_id);
-        return res.status(HttpStatusCode.DELETED).end();
+        const request = await this._service.updateAvailability(_id, query);
+        return res.status(HttpStatusCode.OK).json(request);
     }
 }

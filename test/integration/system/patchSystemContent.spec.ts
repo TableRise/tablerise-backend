@@ -19,7 +19,6 @@ describe('Patch RPG systems in database', () => {
 
     const model = new SystemsModel();
     const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
-    // const { method: _, ...newSystemContentPayloadWrong } = contentPayload;
 
     const systemMockInstance = mocks.system.instance as System;
     const { _id: __, ...systemMockPayload } = systemMockInstance;

@@ -12,7 +12,7 @@ describe('Services :: SpellsServices', () => {
     const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 
-    describe('When the recover all spells service is called', () => {
+    describe('When the recover all enabled spells service is called', () => {
         beforeAll(() => {
             jest.spyOn(SpellsModelMock, 'findAll').mockResolvedValue([spellMockInstance]);
         });
@@ -20,6 +20,18 @@ describe('Services :: SpellsServices', () => {
         it('should return correct data', async () => {
             const responseTest = await SpellsServicesMock.findAll();
             expect(responseTest).toStrictEqual([spellMockInstance]);
+        });
+    });
+
+    describe('When the recover all disabled spells service is called', () => {
+        const spellMockDisabled = { active: false, ...spellMockInstance };
+        beforeAll(() => {
+            jest.spyOn(SpellsModelMock, 'findAll').mockResolvedValue([spellMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await SpellsServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([spellMockDisabled]);
         });
     });
 
@@ -51,6 +63,8 @@ describe('Services :: SpellsServices', () => {
             en: { ...spellMockInstance.en, name: 'None' },
             pt: { ...spellMockInstance.pt, name: 'None' },
         };
+        const spellMockPayloadWithoutActive = { ...spellMockPayload };
+        delete spellMockPayloadWithoutActive.active;
 
         const { name: _1, ...spellsMockEnWithoutName } = spellMockPayload.en;
         const { name: _2, ...spellsMockPtWithoutName } = spellMockPayload.pt;
@@ -66,7 +80,10 @@ describe('Services :: SpellsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await SpellsServicesMock.update(spellMockID, spellMockPayload as Internacional<Spell>);
+            const responseTest = await SpellsServicesMock.update(
+                spellMockID,
+                spellMockPayloadWithoutActive as Internacional<Spell>
+            );
             expect(responseTest).toBe(spellMockUpdateInstance);
         });
 
@@ -82,9 +99,20 @@ describe('Services :: SpellsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<Spell>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await SpellsServicesMock.update('inexistent_id', spellMockPayloadWithoutActive as Internacional<Spell>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a spell with provided ID');
@@ -94,26 +122,75 @@ describe('Services :: SpellsServices', () => {
         });
     });
 
-    describe('When service for delete a spell is called', () => {
+    describe('When service for update availability spell is called', () => {
         const spellMockID = spellMockInstance._id as string;
+        const spellMockUpdateInstance = {
+            _id: spellMockID,
+            active: false,
+            en: { ...spellMockInstance.en },
+            pt: { ...spellMockInstance.pt },
+        };
+
+        const spellMockFindInstance = {
+            _id: spellMockID,
+            active: true,
+            en: { ...spellMockInstance.en },
+            pt: { ...spellMockInstance.pt },
+        };
+
+        const spellMockPayloadWithoutActive = { ...spellMockPayload };
+        delete spellMockPayloadWithoutActive.active;
+
+        const queryMock = false;
+
+        const responseMessageMock = {
+            message: `Spell ${spellMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(SpellsModelMock, 'findOne').mockResolvedValueOnce(spellMockInstance).mockResolvedValue(null);
+            jest.spyOn(SpellsModelMock, 'findOne')
+                .mockResolvedValueOnce(spellMockFindInstance)
+                .mockResolvedValueOnce(spellMockFindInstance)
+                .mockResolvedValueOnce(spellMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(SpellsModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(SpellsModelMock, 'update')
+                .mockResolvedValueOnce(spellMockUpdateInstance)
+                .mockResolvedValueOnce(spellMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
-        it('should delete spell and not return any data', async () => {
+        it('should return correct success message', async () => {
+            const responseTest = await SpellsServicesMock.updateAvailability(spellMockID, queryMock);
+            expect(responseTest).toStrictEqual(responseMessageMock);
+        });
+
+        it('should throw an error when the spell is already enabled', async () => {
             try {
-                await SpellsServicesMock.delete(spellMockID);
+                await SpellsServicesMock.updateAvailability(spellMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the spell is already disabled', async () => {
+            try {
+                await SpellsServicesMock.updateAvailability(spellMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await SpellsServicesMock.delete('inexistent_id');
+                await SpellsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a spell with provided ID');

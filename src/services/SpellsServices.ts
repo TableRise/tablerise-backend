@@ -5,6 +5,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
 import { LoggerType } from 'src/types/LoggerType';
+import UpdateResponse from 'src/types/UpdateResponse';
 
 export default class SpellsServices extends ValidateEntry implements Service<Internacional<Spell>> {
     constructor(
@@ -15,7 +16,14 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
     }
 
     public async findAll(): Promise<Array<Internacional<Spell>>> {
-        const response = await this._model.findAll();
+        const response = await this._model.findAll({ active: true });
+
+        this._logger('success', 'All spell entities found with success');
+        return response;
+    }
+
+    public async findAllDisabled(): Promise<Array<Internacional<Spell>>> {
+        const response = await this._model.findAll({ active: false });
 
         this._logger('success', 'All spell entities found with success');
         return response;
@@ -40,6 +48,14 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
     public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
         this.validate(languagesWrapper(spellsZodSchema), payload);
 
+        if (payload.active) {
+            const err = new Error('Not authorized to change availability');
+            err.stack = HttpStatusCode.BAD_REQUEST.toString();
+            err.name = 'BadRequest';
+
+            throw err;
+        }
+
         const response = await this._model.update(_id, payload);
 
         if (!response) {
@@ -55,7 +71,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
         return response;
     }
 
-    public async delete(_id: string): Promise<void> {
+    public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
         if (!response) {
@@ -66,6 +82,21 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        await this._model.delete(_id);
+        if (response.active === query) {
+            const err = new Error(`${query ? 'Entity already enabled' : 'Entity already disabled'}`);
+            err.stack = HttpStatusCode.BAD_REQUEST.toString();
+            err.name = 'BadRequest';
+
+            throw err;
+        }
+
+        response.active = query;
+        await this._model.update(_id, response);
+
+        const responseMessage = {
+            message: `Spell ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
+        return responseMessage;
     }
 }

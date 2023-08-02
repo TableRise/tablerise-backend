@@ -181,6 +181,7 @@ const schema = new Schema<Class>(
 
 export const classsMongooseSchema = new Schema<Internacional<Class>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },
