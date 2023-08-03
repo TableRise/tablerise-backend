@@ -17,7 +17,7 @@ export default class RacesServices extends ValidateEntry implements Service<Inte
     public async findAll(): Promise<Array<Internacional<Race>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All race entities found with success');
+        this._logger('info', 'All race entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class RacesServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Race entity found with success');
+        this._logger('info', 'Race entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class RacesServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Race entity updated with success');
+        this._logger('info', 'Race entity updated with success');
         return response;
     }
 

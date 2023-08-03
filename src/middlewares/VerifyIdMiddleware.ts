@@ -17,6 +17,6 @@ export default function VerifyIdMiddleware(req: Request, _res: Response, next: N
         throw err;
     }
 
-    logger('success', 'The parameter id is valid');
+    logger('info', 'The parameter id is valid');
     next();
 }

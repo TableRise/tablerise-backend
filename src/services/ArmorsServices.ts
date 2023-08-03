@@ -17,7 +17,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
     public async findAll(): Promise<Array<Internacional<Armor>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All armor entities found with success');
+        this._logger('info', 'All armor entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Armor entity found with success');
+        this._logger('info', 'Armor entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Armor entity updated with success');
+        this._logger('info', 'Armor entity updated with success');
         return response;
     }
 

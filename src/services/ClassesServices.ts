@@ -18,14 +18,14 @@ export default class ClassesServices extends ValidateEntry implements Service<In
     public async findAll(): Promise<Array<Internacional<Class>>> {
         const response = await this._model.findAll({ active: true });
 
-        this._logger('success', 'All class entities found with success');
+        this._logger('info', 'All class entities found with success');
         return response;
     }
 
     public async findAllDisabled(): Promise<Array<Internacional<Class>>> {
         const response = await this._model.findAll({ active: false });
 
-        this._logger('success', 'All class entities found with success');
+        this._logger('info', 'All class entities found with success');
         return response;
     }
 
@@ -41,7 +41,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
 
-        this._logger('success', 'Class entity found with success');
+        this._logger('info', 'Class entity found with success');
         return response;
     }
 
@@ -67,7 +67,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             throw err;
         }
 
-        this._logger('success', 'Class entity updated with success');
+        this._logger('info', 'Class entity updated with success');
         return updatedResponse;
     }
 

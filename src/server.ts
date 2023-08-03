@@ -20,7 +20,7 @@ const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
 mongoose
     .connect(firstSection + secondSection)
     .then(() => {
-        logger('success', 'mongoDB instance connected');
+        logger('info', 'mongoDB instance connected');
     })
     .catch((error) => {
         logger('error', 'connection to mongodb failed');
@@ -28,5 +28,5 @@ mongoose
     });
 
 app.listen(port, () => {
-    logger('success', `Server started on port ${port}`);
+    logger('info', `Server started on port ${port}`);
 });

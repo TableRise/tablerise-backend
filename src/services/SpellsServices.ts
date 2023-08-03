@@ -18,14 +18,14 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
     public async findAll(): Promise<Array<Internacional<Spell>>> {
         const response = await this._model.findAll({ active: true });
 
-        this._logger('success', 'All spell entities found with success');
+        this._logger('info', 'All spell entities found with success');
         return response;
     }
 
     public async findAllDisabled(): Promise<Array<Internacional<Spell>>> {
         const response = await this._model.findAll({ active: false });
 
-        this._logger('success', 'All spell entities found with success');
+        this._logger('info', 'All spell entities found with success');
         return response;
     }
 
@@ -41,7 +41,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Spell entity found with success');
+        this._logger('info', 'Spell entity found with success');
         return response;
     }
 
@@ -67,7 +67,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Spell entity updated with success');
+        this._logger('info', 'Spell entity updated with success');
         return response;
     }
 
