@@ -9,7 +9,6 @@ import swaggerUI from 'swagger-ui-express';
 
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
-import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 const autoSwagger = require('@tablerise/auto-swagger');
 const logger = require('@tablerise/dynamic-logger');
@@ -40,6 +39,9 @@ if (process.env.NODE_ENV === 'dev') {
     logger('info', 'swagger document generated');
     autoSwagger(RoutesWrapper.declareRoutes());
 }
+
+// eslint-disable-next-line import/first
+import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 

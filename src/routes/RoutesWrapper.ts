@@ -106,7 +106,7 @@ class RoutesWrapper {
       ['/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
       ['/system/{_id}', 'system', 'patch', [
         ...generateIDParam(),
-        ...generateQueryParam(1, ['entity'])
+        ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])
       ], null, updateSystemInstance.instance, false],
       ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
       ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
@@ -154,7 +154,10 @@ class RoutesWrapper {
       ['/classes', 'classes', 'get', null, classInstance, null, false],
       ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
       ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
-      ['/classes/{_id}', 'classes', 'delete', generateIDParam(), null, null, false],
+      ['/classes/{_id}', 'classes', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
@@ -164,7 +167,10 @@ class RoutesWrapper {
       ['/spells', 'spells', 'get', null, spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
-      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false],
+      ['/spells/{_id}', 'spells', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
       ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
