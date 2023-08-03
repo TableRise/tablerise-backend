@@ -8,7 +8,7 @@ import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG weapons in database', () => {
+describe('Patch RPG weapons in database', () => {
     beforeAll(() => {
         connect();
     });
@@ -21,65 +21,64 @@ describe('Put RPG weapons in database', () => {
     const weapon = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponPayload } = weapon;
 
-    const newWeaponPayload = {
-        en: { ...weaponPayload.en, name: 'Olympo' },
-        pt: { ...weaponPayload.pt, name: 'Olympo' },
-    };
-
     let documentId: string;
 
-    describe('When update one rpg weapon', () => {
-        it('should return updated weapon', async () => {
-            const keysToTest = ['name', 'description', 'cost', 'type', 'weight', 'damage', 'properties'];
-
+    describe('When update availability one rpg weapon', () => {
+        it('should return a string with weapon updated id', async () => {
             const response = await model.create(weaponPayload);
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/weapons/${documentId}`)
-                .send(newWeaponPayload)
+                .patch(`/weapons/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
-
-            expect(body).toHaveProperty('_id');
-
-            keysToTest.forEach((key) => {
-                expect(body.en).toHaveProperty(key);
-                expect(body.pt).toHaveProperty(key);
-            });
-
-            expect(body.en.name).toBe('Olympo');
-            expect(body.pt.name).toBe('Olympo');
-        });
-
-        it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
-                .put(`/weapons/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Weapon>)
-                .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('en');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
-            expect(body.name).toBe('ValidationError');
+            expect(body.message).toBe(`Weapon ${documentId} was deactivated`);
+            expect(body.name).toBe('success');
         });
 
-        it('should fail when try to change availability', async () => {
+        it('should fail when availability already enabled', async () => {
+            const response = await model.create(weaponPayload);
+            documentId = response._id as string;
+
             const { body } = await request(app)
-                .put(`/weapons/${generateNewMongoID()}`)
-                .send({ active: true, ...newWeaponPayload })
+                .patch(`/weapons/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Not authorized to change availability');
+            expect(body.message).toBe('Entity already enabled');
             expect(body.name).toBe('BadRequest');
+        });
+
+        it('should fail when availability already disabled', async () => {
+            await request(app).patch(`/weapons/${documentId}?availability=false`);
+
+            const { body } = await request(app)
+                .patch(`/weapons/${documentId}?availability=false`)
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Entity already disabled');
+            expect(body.name).toBe('BadRequest');
+        });
+
+        it('should fail when query is wrong', async () => {
+            const { body } = await request(app)
+                .patch(`/weapons/${documentId}?availability=wrongQuery`)
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('The query is invalid');
+            expect(body.name).toBe('Invalid Entry');
         });
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/weapons/${generateNewMongoID()}`)
-                .send(newWeaponPayload)
+                .patch(`/weapons/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
