@@ -16,7 +16,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
     public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
-        
+
         this._logger('info', 'All system entities found with success');
         return response;
     }
