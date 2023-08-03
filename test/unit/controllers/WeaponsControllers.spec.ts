@@ -56,10 +56,10 @@ describe('Services :: WeaponsControllers', () => {
         });
     });
 
-    describe('When a request is made to update weapon weapon by ID', () => {
+    describe('When a request is made to update weapon by ID', () => {
         const weaponMockUpdateInstance = {
-            en: { ...weaponMockInstance.en, name: 'Olympo' },
-            pt: { ...weaponMockInstance.pt, name: 'Olympo' },
+            en: { ...weaponMockInstance.en, name: 'Cluster' },
+            pt: { ...weaponMockInstance.pt, name: 'Clave' },
         };
 
         const { _id: _, ...weaponMockPayload } = weaponMockInstance;
@@ -85,24 +85,30 @@ describe('Services :: WeaponsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a weapon', () => {
+    describe('When a request is made to update availability weapon by ID', () => {
+        const responseMessageMock = {
+            message: 'Weapon {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(WeaponsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(WeaponsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: weaponMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await WeaponsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await WeaponsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });
