@@ -5,11 +5,11 @@ import 'dotenv/config';
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import SwaggerDocument from '../api-docs/swagger-doc.json';
 import swaggerUI from 'swagger-ui-express';
 
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
-import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 const autoSwagger = require('@tablerise/auto-swagger');
 const logger = require('@tablerise/dynamic-logger');

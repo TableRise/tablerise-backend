@@ -25,4 +25,9 @@ export interface RouteDeclareParams {
     type: string;
 }
 
+export interface ParamName {
+    name: string;
+    type: string;
+}
+
 export type RouteWrapperDeclared = string | null | RouteDeclareParams[] | Mock | boolean | unknown;
