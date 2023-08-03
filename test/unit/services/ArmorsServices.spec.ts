@@ -12,7 +12,7 @@ describe('Services :: ArmorsServices', () => {
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
 
-    describe('When the recover all armors service is called', () => {
+    describe('When the recover all enabled armors service is called', () => {
         beforeAll(() => {
             jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockInstance]);
         });
@@ -20,6 +20,18 @@ describe('Services :: ArmorsServices', () => {
         it('should return correct data', async () => {
             const responseTest = await ArmorsServicesMock.findAll();
             expect(responseTest).toStrictEqual([armorMockInstance]);
+        });
+    });
+
+    describe('When the recover all disabled armors service is called', () => {
+        const armorMockDisabled = { active: false, ...armorMockInstance };
+        beforeAll(() => {
+            jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await ArmorsServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([armorMockDisabled]);
         });
     });
 
@@ -38,7 +50,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('NotFound a armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -51,6 +63,8 @@ describe('Services :: ArmorsServices', () => {
             en: { ...armorMockInstance.en, name: 'None' },
             pt: { ...armorMockInstance.pt, name: 'None' },
         };
+        const armorMockPayloadWithoutActive = { ...armorMockPayload };
+        delete armorMockPayloadWithoutActive.active;
 
         const { name: _1, ...armorsMockEnWithoutName } = armorMockPayload.en;
         const { name: _2, ...armorsMockPtWithoutName } = armorMockPayload.pt;
@@ -66,7 +80,10 @@ describe('Services :: ArmorsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await ArmorsServicesMock.update(armorMockID, armorMockPayload as Internacional<Armor>);
+            const responseTest = await ArmorsServicesMock.update(
+                armorMockID,
+                armorMockPayloadWithoutActive as Internacional<Armor>
+            );
             expect(responseTest).toBe(armorMockUpdateInstance);
         });
 
@@ -82,41 +99,101 @@ describe('Services :: ArmorsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('NotFound a armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
         });
     });
 
-    describe('When service for delete a armor is called', () => {
+    describe('When service for update availability armor is called', () => {
         const armorMockID = armorMockInstance._id as string;
+        const armorMockUpdateInstance = {
+            _id: armorMockID,
+            active: false,
+            en: { ...armorMockInstance.en },
+            pt: { ...armorMockInstance.pt },
+        };
+
+        const armorMockFindInstance = {
+            _id: armorMockID,
+            active: true,
+            en: { ...armorMockInstance.en },
+            pt: { ...armorMockInstance.pt },
+        };
+
+        const armorMockPayloadWithoutActive = { ...armorMockPayload };
+        delete armorMockPayloadWithoutActive.active;
+
+        const queryMock = false;
+
+        const responseMessageMock = {
+            message: `Armor ${armorMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(ArmorsModelMock, 'findOne').mockResolvedValueOnce(armorMockInstance).mockResolvedValue(null);
+            jest.spyOn(ArmorsModelMock, 'findOne')
+                .mockResolvedValueOnce(armorMockFindInstance)
+                .mockResolvedValueOnce(armorMockFindInstance)
+                .mockResolvedValueOnce(armorMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(ArmorsModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(ArmorsModelMock, 'update')
+                .mockResolvedValueOnce(armorMockUpdateInstance)
+                .mockResolvedValueOnce(armorMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
-        it('should delete armor and not return any data', async () => {
+        it('should return correct success message', async () => {
+            const responseTest = await ArmorsServicesMock.updateAvailability(armorMockID, queryMock);
+            expect(responseTest).toStrictEqual(responseMessageMock);
+        });
+
+        it('should throw an error when the armor is already enabled', async () => {
             try {
-                await ArmorsServicesMock.delete(armorMockID);
+                await ArmorsServicesMock.updateAvailability(armorMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the armor is already disabled', async () => {
+            try {
+                await ArmorsServicesMock.updateAvailability(armorMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ArmorsServicesMock.delete('inexistent_id');
+                await ArmorsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('NotFound a armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

@@ -35,7 +35,7 @@ describe('Services :: ArmorsControllers', () => {
         });
     });
 
-    describe('When a request is made to recover armor armor by ID', () => {
+    describe('When a request is made to recover armor by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
@@ -58,8 +58,8 @@ describe('Services :: ArmorsControllers', () => {
 
     describe('When a request is made to update armor by ID', () => {
         const armorMockUpdateInstance = {
-            en: { ...armorMockInstance.en, name: 'Olympo' },
-            pt: { ...armorMockInstance.pt, name: 'Olympo' },
+            en: { ...armorMockInstance.en, name: 'Clothes' },
+            pt: { ...armorMockInstance.pt, name: 'Roupas' },
         };
 
         const { _id: _, ...armorMockPayload } = armorMockInstance;
@@ -85,24 +85,30 @@ describe('Services :: ArmorsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a armor', () => {
+    describe('When a request is made to update availability armor by ID', () => {
+        const responseMessageMock = {
+            message: 'Armor {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(ArmorsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(ArmorsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await ArmorsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await ArmorsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });
