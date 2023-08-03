@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import ItemZodSchema, { Item } from 'src/schemas/itemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class ItemsServices extends ValidateEntry implements Service<Internacional<Item>> {
     constructor(private readonly _model: ItemsModel) {

@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import realmZodSchema, { Realm } from 'src/schemas/realmsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class RealmsServices extends ValidateEntry implements Service<Internacional<Realm>> {
     constructor(private readonly _model: RealmsModel) {

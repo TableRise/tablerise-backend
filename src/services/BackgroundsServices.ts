@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import backgroundZodSchema, { Background } from 'src/schemas/backgroundsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class BackgroundsServices extends ValidateEntry implements Service<Internacional<Background>> {
     constructor(private readonly _model: BackgroundsModel) {

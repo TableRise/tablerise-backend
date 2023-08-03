@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import monstersZodSchema, { Monster } from 'src/schemas/monstersValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class MonstersService extends ValidateEntry implements Service<Internacional<Monster>> {
     constructor(private readonly _model: MonstersModel) {

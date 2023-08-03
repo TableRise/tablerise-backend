@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import weaponsZodSchema, { Weapon } from 'src/schemas/weaponsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class WeaponsServices extends ValidateEntry implements Service<Internacional<Weapon>> {
     constructor(private readonly _model: WeaponsModel) {

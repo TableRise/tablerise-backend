@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class FeatsServices extends ValidateEntry implements Service<Internacional<Feat>> {
     constructor(private readonly _model: FeatsModel) {

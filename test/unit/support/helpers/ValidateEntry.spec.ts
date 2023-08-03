@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 describe('Helpers :: ValidateEntry', () => {
     describe('when a zod validation is successfull', () => {

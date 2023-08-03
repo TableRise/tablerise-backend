@@ -2,7 +2,7 @@ import SystemModel from 'src/database/models/SystemModel';
 import Service from 'src/types/Service';
 import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 
 export default class SystemServices extends ValidateEntry implements Service<System> {

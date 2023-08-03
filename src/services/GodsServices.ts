@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import godZodSchema, { God } from 'src/schemas/godsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateEntry from 'src/support/helpers/ValidateData';
 
 export default class GodsServices extends ValidateEntry implements Service<Internacional<God>> {
     constructor(private readonly _model: GodsModel) {
