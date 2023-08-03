@@ -5,6 +5,7 @@ import 'dotenv/config';
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import SwaggerDocument from '../api-docs/swagger-doc.json';
 import swaggerUI from 'swagger-ui-express';
 
 import RoutesWrapper from 'src/routes/RoutesWrapper';
@@ -39,9 +40,6 @@ if (process.env.NODE_ENV === 'dev') {
     logger('info', 'swagger document generated');
     autoSwagger(RoutesWrapper.declareRoutes());
 }
-
-// eslint-disable-next-line import/first
-import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 
