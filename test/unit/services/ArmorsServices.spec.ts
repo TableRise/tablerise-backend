@@ -50,7 +50,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a armor with provided ID');
+                expect(err.message).toBe('NotFound an armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -115,7 +115,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a armor with provided ID');
+                expect(err.message).toBe('NotFound an armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -193,7 +193,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a armor with provided ID');
+                expect(err.message).toBe('NotFound an armor with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
