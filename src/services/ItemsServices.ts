@@ -17,7 +17,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
     public async findAll(): Promise<Array<Internacional<Item>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All item entities found with success');
+        this._logger('info', 'All item entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Item entity found with success');
+        this._logger('info', 'Item entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Item entity updated with success');
+        this._logger('info', 'Item entity updated with success');
         return response;
     }
 

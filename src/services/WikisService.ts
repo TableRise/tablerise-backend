@@ -17,7 +17,7 @@ export default class WikisServices extends ValidateEntry implements Service<Inte
     public async findAll(): Promise<Array<Internacional<Wiki>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All wiki entities found with success');
+        this._logger('info', 'All wiki entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class WikisServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Wiki entity found with success');
+        this._logger('info', 'Wiki entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class WikisServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Wiki entity updated with success');
+        this._logger('info', 'Wiki entity updated with success');
         return response;
     }
 

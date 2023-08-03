@@ -17,7 +17,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
     public async findAll(): Promise<Array<Internacional<Feat>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All feat entities found with success');
+        this._logger('info', 'All feat entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Feat entity found with success');
+        this._logger('info', 'Feat entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
             throw err;
         }
 
-        this._logger('success', 'Feat entity updated with success');
+        this._logger('info', 'Feat entity updated with success');
         return response;
     }
 

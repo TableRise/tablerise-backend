@@ -37,11 +37,11 @@ app.use(express.json())
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {
-    logger('success', 'swagger document generated');
+    logger('info', 'swagger document generated');
     autoSwagger(RoutesWrapper.declareRoutes());
 }
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 
-logger('success', 'app started');
+logger('info', 'app started');
 export default app;

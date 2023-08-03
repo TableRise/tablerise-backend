@@ -17,7 +17,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
     public async findAll(): Promise<Array<Internacional<Background>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All background entities found with success');
+        this._logger('info', 'All background entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             throw err;
         }
 
-        this._logger('success', 'Background entity found with success');
+        this._logger('info', 'Background entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
             throw err;
         }
 
-        this._logger('success', 'Background entity updated with success');
+        this._logger('info', 'Background entity updated with success');
         return response;
     }
 

@@ -17,7 +17,7 @@ export default class MagicItemsServices extends ValidateEntry implements Service
     public async findAll(): Promise<Array<Internacional<MagicItem>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All magic item entities found with success');
+        this._logger('info', 'All magic item entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class MagicItemsServices extends ValidateEntry implements Service
             throw err;
         }
 
-        this._logger('success', 'Magic item entity found with success');
+        this._logger('info', 'Magic item entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class MagicItemsServices extends ValidateEntry implements Service
             throw err;
         }
 
-        this._logger('success', 'Magic item entity updated with success');
+        this._logger('info', 'Magic item entity updated with success');
         return response;
     }
 

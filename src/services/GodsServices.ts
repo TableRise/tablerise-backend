@@ -17,7 +17,7 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
     public async findAll(): Promise<Array<Internacional<God>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All god entities found with success');
+        this._logger('info', 'All god entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             throw err;
         }
 
-        this._logger('success', 'God entity found with success');
+        this._logger('info', 'God entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             throw err;
         }
 
-        this._logger('success', 'God entity updated with success');
+        this._logger('info', 'God entity updated with success');
         return response;
     }
 

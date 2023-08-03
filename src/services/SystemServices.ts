@@ -17,7 +17,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
     public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All system entities found with success');
+        this._logger('info', 'All system entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             throw err;
         }
 
-        this._logger('success', 'System entity found with success');
+        this._logger('info', 'System entity found with success');
         return response;
     }
 
@@ -60,7 +60,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             throw err;
         }
 
-        this._logger('success', 'System entity updated with success');
+        this._logger('info', 'System entity updated with success');
         return response;
     }
 
@@ -107,7 +107,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
             recoverSystem._id as string
         }`;
 
-        this._logger('success', 'Content of the system entity updated with success');
+        this._logger('info', 'Content of the system entity updated with success');
         return response;
     }
 
@@ -136,7 +136,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
         await this._model.update(_id, response);
 
-        this._logger('success', 'System entity activated with success');
+        this._logger('info', 'System entity activated with success');
         return `System ${response._id as string} was activated`;
     }
 
@@ -165,7 +165,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
         await this._model.update(_id, response);
 
-        this._logger('success', 'System entity deactivated with success');
+        this._logger('info', 'System entity deactivated with success');
         return `System ${response._id as string} was deactivated`;
     }
 }

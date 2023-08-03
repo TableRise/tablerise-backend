@@ -17,7 +17,7 @@ export default class WeaponsServices extends ValidateEntry implements Service<In
     public async findAll(): Promise<Array<Internacional<Weapon>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All weapon entities found with success');
+        this._logger('info', 'All weapon entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class WeaponsServices extends ValidateEntry implements Service<In
             throw err;
         }
 
-        this._logger('success', 'Weapon entity found with success');
+        this._logger('info', 'Weapon entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class WeaponsServices extends ValidateEntry implements Service<In
             throw err;
         }
 
-        this._logger('success', 'Weapon entity updated with success');
+        this._logger('info', 'Weapon entity updated with success');
         return response;
     }
 

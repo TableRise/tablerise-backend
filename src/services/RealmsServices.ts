@@ -17,7 +17,7 @@ export default class RealmsServices extends ValidateEntry implements Service<Int
     public async findAll(): Promise<Array<Internacional<Realm>>> {
         const response = await this._model.findAll();
 
-        this._logger('success', 'All realm entities found with success');
+        this._logger('info', 'All realm entities found with success');
         return response;
     }
 
@@ -33,7 +33,7 @@ export default class RealmsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Realm entity found with success');
+        this._logger('info', 'Realm entity found with success');
         return response;
     }
 
@@ -51,7 +51,7 @@ export default class RealmsServices extends ValidateEntry implements Service<Int
             throw err;
         }
 
-        this._logger('success', 'Realm entity updated with success');
+        this._logger('info', 'Realm entity updated with success');
         return response;
     }
 
