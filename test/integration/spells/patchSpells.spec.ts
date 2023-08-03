@@ -35,7 +35,7 @@ describe('Patch RPG spells in database', () => {
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
             expect(body.message).toBe(`Spell ${documentId} was deactivated`);
-            expect(body.name).toBe('info');
+            expect(body.name).toBe('success');
         });
 
         it('should fail when availability already enabled', async () => {
