@@ -33,7 +33,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a armor with provided ID');
+            const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
@@ -60,7 +60,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
         const response = await this._model.update(_id, payload);
 
         if (!response) {
-            const err = new Error('NotFound a armor with provided ID');
+            const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
@@ -76,7 +76,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a armor with provided ID');
+            const err = new Error('NotFound an armor with provided ID');
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
