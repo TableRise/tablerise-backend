@@ -72,7 +72,7 @@ describe('Put RPG weapons in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Not authorized to change availability');
+            expect(body.message).toBe('Not possible to change availability through this route');
             expect(body.name).toBe('BadRequest');
         });
 
