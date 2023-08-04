@@ -24,7 +24,7 @@ describe('Services :: ClassesServices', () => {
     });
 
     describe('When the recover all disabled classes service is called', () => {
-        const classMockDisabled = { active: false, ...classMockInstance };
+        const classMockDisabled = { ...classMockInstance, active: false };
         beforeAll(() => {
             jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockDisabled]);
         });
@@ -141,32 +141,38 @@ describe('Services :: ClassesServices', () => {
             pt: { ...classMockInstance.pt },
         };
 
-        const classMockPayloadWithoutActive = { ...classMockPayload };
-        delete classMockPayloadWithoutActive.active;
+        const responseMessageMockActivated = {
+            message: `Class ${classMockID} was activated`,
+            name: 'success',
+        };
 
-        const queryMock = false;
-
-        const responseMessageMock = {
-            message: `Class ${classMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+        const responseMessageMockDeactivated = {
+            message: `Class ${classMockID} was deactivated`,
             name: 'success',
         };
 
         beforeAll(() => {
             jest.spyOn(ClassesModelMock, 'findOne')
                 .mockResolvedValueOnce(classMockFindInstance)
-                .mockResolvedValueOnce(classMockFindInstance)
+                .mockResolvedValueOnce({ ...classMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...classMockFindInstance, active: true })
                 .mockResolvedValueOnce(classMockUpdateInstance)
                 .mockResolvedValue(null);
 
             jest.spyOn(ClassesModelMock, 'update')
                 .mockResolvedValueOnce(classMockUpdateInstance)
-                .mockResolvedValueOnce(classMockUpdateInstance)
+                .mockResolvedValueOnce({ ...classMockUpdateInstance, active: true })
                 .mockResolvedValue(null);
         });
 
-        it('should return correct success message', async () => {
-            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, queryMock);
-            expect(responseTest).toStrictEqual(responseMessageMock);
+        it('should return correct success message - disable', async () => {
+            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
         });
 
         it('should throw an error when the class is already enabled', async () => {
