@@ -118,7 +118,7 @@ describe('Services :: SystemsServices', () => {
             jest.spyOn(systemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstance)
                 .mockResolvedValueOnce(systemMockInstance)
-                .mockResolvedValue(null)
+                .mockResolvedValue(null);
             jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
         });
 

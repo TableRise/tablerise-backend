@@ -60,16 +60,11 @@ describe('Services :: RacesServices', () => {
         };
 
         beforeAll(() => {
-            jest.spyOn(RacesModelMock, 'update')
-                .mockResolvedValueOnce(raceMockUpdateInstance)
-                .mockResolvedValue(null);
+            jest.spyOn(RacesModelMock, 'update').mockResolvedValueOnce(raceMockUpdateInstance).mockResolvedValue(null);
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await RacesServicesMock.update(
-                raceMockID,
-                racesMockPayload as Internacional<Race>
-            );
+            const responseTest = await RacesServicesMock.update(raceMockID, racesMockPayload as Internacional<Race>);
             expect(responseTest).toBe(raceMockUpdateInstance);
         });
 

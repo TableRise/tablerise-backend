@@ -60,16 +60,11 @@ describe('Services :: ItemsServices', () => {
         };
 
         beforeAll(() => {
-            jest.spyOn(ItemsModelMock, 'update')
-                .mockResolvedValueOnce(itemMockUpdateInstance)
-                .mockResolvedValue(null);
+            jest.spyOn(ItemsModelMock, 'update').mockResolvedValueOnce(itemMockUpdateInstance).mockResolvedValue(null);
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await ItemsServicesMock.update(
-                itemMockID,
-                itemsMockPayload as Internacional<Item>
-            );
+            const responseTest = await ItemsServicesMock.update(itemMockID, itemsMockPayload as Internacional<Item>);
             expect(responseTest).toBe(itemMockUpdateInstance);
         });
 
