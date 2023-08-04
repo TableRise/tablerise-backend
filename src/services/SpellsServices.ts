@@ -79,6 +79,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -87,6 +88,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -97,6 +99,8 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
             message: `Spell ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
+
+        this._logger('info', `Spell availability ${query ? 'activated' : 'deactivated'} with success`);
         return responseMessage;
     }
 }

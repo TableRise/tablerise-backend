@@ -24,7 +24,7 @@ export default class SpellsControllers {
     }
 
     public async findAllDisabled(_req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [findAll] made to spells');
+        this._logger('warn', 'Request [findAllDisabled] made to spells');
         const request = await this._service.findAllDisabled();
         return res.status(HttpStatusCode.OK).json(request);
     }
@@ -47,7 +47,7 @@ export default class SpellsControllers {
     }
 
     public async updateAvailability(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [update] made to spells');
+        this._logger('warn', 'Request [updateAvailability] made to spells');
         const { id: _id } = req.params;
         const { availability } = req.query;
         const query = availability === 'true';

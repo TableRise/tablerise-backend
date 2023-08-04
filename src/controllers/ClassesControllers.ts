@@ -24,6 +24,7 @@ export default class ClassesControllers {
     }
 
     public async findAllDisabled(_req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findAllDisabled] made to classes');
         const request = await this._service.findAllDisabled();
         return res.status(HttpStatusCode.OK).json(request);
     }
@@ -46,6 +47,7 @@ export default class ClassesControllers {
     }
 
     public async updateAvailability(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [updateAvailability] made to classes');
         const { id: _id } = req.params;
         const { availability } = req.query;
         const query = availability === 'true';
