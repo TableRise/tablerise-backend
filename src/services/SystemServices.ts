@@ -2,10 +2,11 @@ import SystemModel from 'src/database/models/SystemModel';
 import Service from 'src/types/Service';
 import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 
-export default class SystemServices extends ValidateEntry implements Service<System> {
+export default class SystemServices extends ValidateData implements Service<System> {
+    
     constructor(private readonly _model: SystemModel) {
         super();
     }
@@ -30,7 +31,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
     }
 
     public async update(_id: string, payload: System): Promise<System> {
-        this.validate(systemZodSchema, payload);
+        this.validateEntry(systemZodSchema, payload);
 
         if (payload.content) {
             const err = new Error('Update the content directly is not allowed');
