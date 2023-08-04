@@ -49,7 +49,7 @@ export default class ArmorsServices extends ValidateEntry implements Service<Int
         this.validate(languagesWrapper(armorsZodSchema), payload);
 
         if (payload.active) {
-            const err = new Error('Not authorized to change availability');
+            const err = new Error('Not possible to change availability through this route');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 
