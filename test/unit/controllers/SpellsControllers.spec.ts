@@ -35,6 +35,26 @@ describe('Services :: SpellsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all spells disabled', () => {
+        spellMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(SpellsServicesMock, 'findAllDisabled').mockResolvedValue([spellMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await SpellsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([spellMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover spell by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);

@@ -138,20 +138,21 @@ describe('Services :: SpellsServices', () => {
             pt: { ...spellMockInstance.pt },
         };
 
-        const spellMockPayloadWithoutActive = { ...spellMockPayload };
-        delete spellMockPayloadWithoutActive.active;
+        const responseMessageMockActivated = {
+            message: `Spell ${spellMockID} was activated`,
+            name: 'success',
+        };
 
-        const queryMock = false;
-
-        const responseMessageMock = {
-            message: `Spell ${spellMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+        const responseMessageMockDeactivated = {
+            message: `Spell ${spellMockID} was deactivated`,
             name: 'success',
         };
 
         beforeAll(() => {
             jest.spyOn(SpellsModelMock, 'findOne')
                 .mockResolvedValueOnce(spellMockFindInstance)
-                .mockResolvedValueOnce(spellMockFindInstance)
+                .mockResolvedValueOnce({ ...spellMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...spellMockFindInstance, active: true })
                 .mockResolvedValueOnce(spellMockUpdateInstance)
                 .mockResolvedValue(null);
 
@@ -161,9 +162,14 @@ describe('Services :: SpellsServices', () => {
                 .mockResolvedValue(null);
         });
 
-        it('should return correct success message', async () => {
-            const responseTest = await SpellsServicesMock.updateAvailability(spellMockID, queryMock);
-            expect(responseTest).toStrictEqual(responseMessageMock);
+        it('should return correct success message - disable', async () => {
+            const responseTest = await SpellsServicesMock.updateAvailability(spellMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await SpellsServicesMock.updateAvailability(spellMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
         });
 
         it('should throw an error when the spell is already enabled', async () => {

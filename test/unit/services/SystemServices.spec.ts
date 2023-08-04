@@ -115,7 +115,10 @@ describe('Services :: SystemsServices', () => {
         }`;
 
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findOne').mockResolvedValue(systemMockInstance);
+            jest.spyOn(systemsModelMock, 'findOne')
+                .mockResolvedValueOnce(systemMockInstance)
+                .mockResolvedValueOnce(systemMockInstance)
+                .mockResolvedValue(null);
             jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
         });
 
@@ -179,7 +182,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.updateContent(systemMockID, entityMockQuery, updateContentMockInstance);
+                await systemsServicesMock.updateContent('inexistent_id', entityMockQuery, updateContentMockInstance);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -242,7 +245,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.activate(systemMockInstance._id as string);
+                await systemsServicesMock.deactivate('inexistent_id');
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -253,7 +256,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when system is already deactivated', async () => {
             try {
-                await systemsServicesMock.activate(systemMockInstance._id as string);
+                await systemsServicesMock.deactivate(systemMockInstance._id as string);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('System already deactivated');

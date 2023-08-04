@@ -79,6 +79,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -87,6 +88,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 
+            this._logger('error', err.message);
             throw err;
         }
 
@@ -97,6 +99,8 @@ export default class ClassesServices extends ValidateEntry implements Service<In
             message: `Class ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
+
+        this._logger('info', `Class availability ${query ? 'activated' : 'deactivated'} with success`);
         return responseMessage;
     }
 }
