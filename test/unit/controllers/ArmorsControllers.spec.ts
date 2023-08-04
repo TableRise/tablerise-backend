@@ -48,7 +48,7 @@ describe('Services :: ArmorsControllers', () => {
         });
 
         it('should return correct data in response json with status 200', async () => {
-            await ArmorsControllersMock.findAll(request, response);
+            await ArmorsControllersMock.findAllDisabled(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith([armorMockInstance]);
         });

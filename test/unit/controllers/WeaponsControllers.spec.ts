@@ -48,7 +48,7 @@ describe('Services :: WeaponsControllers', () => {
         });
 
         it('should return correct data in response json with status 200', async () => {
-            await WeaponsControllersMock.findAll(request, response);
+            await WeaponsControllersMock.findAllDisabled(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith([weaponMockInstance]);
         });
