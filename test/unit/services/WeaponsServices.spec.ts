@@ -24,7 +24,7 @@ describe('Services :: WeaponsServices', () => {
     });
 
     describe('When the recover all disabled weapons service is called', () => {
-        const weaponMockDisabled = { active: false, ...weaponMockInstance };
+        const weaponMockDisabled = { ...weaponMockInstance, active: false };
         beforeAll(() => {
             jest.spyOn(WeaponsModelMock, 'findAll').mockResolvedValue([weaponMockDisabled]);
         });
@@ -141,32 +141,38 @@ describe('Services :: WeaponsServices', () => {
             pt: { ...weaponMockInstance.pt },
         };
 
-        const weaponMockPayloadWithoutActive = { ...weaponMockPayload };
-        delete weaponMockPayloadWithoutActive.active;
+        const responseMessageMockActivated = {
+            message: `Weapon ${weaponMockID} was activated`,
+            name: 'success',
+        };
 
-        const queryMock = false;
-
-        const responseMessageMock = {
-            message: `Weapon ${weaponMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+        const responseMessageMockDeactivated = {
+            message: `Weapon ${weaponMockID} was deactivated`,
             name: 'success',
         };
 
         beforeAll(() => {
             jest.spyOn(WeaponsModelMock, 'findOne')
                 .mockResolvedValueOnce(weaponMockFindInstance)
-                .mockResolvedValueOnce(weaponMockFindInstance)
+                .mockResolvedValueOnce({ ...weaponMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...weaponMockFindInstance, active: true })
                 .mockResolvedValueOnce(weaponMockUpdateInstance)
                 .mockResolvedValue(null);
 
             jest.spyOn(WeaponsModelMock, 'update')
                 .mockResolvedValueOnce(weaponMockUpdateInstance)
-                .mockResolvedValueOnce(weaponMockUpdateInstance)
+                .mockResolvedValueOnce({ ...weaponMockUpdateInstance, active: true })
                 .mockResolvedValue(null);
         });
 
-        it('should return correct success message', async () => {
-            const responseTest = await WeaponsServicesMock.updateAvailability(weaponMockID, queryMock);
-            expect(responseTest).toStrictEqual(responseMessageMock);
+        it('should return correct success message - disable', async () => {
+            const responseTest = await WeaponsServicesMock.updateAvailability(weaponMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await WeaponsServicesMock.updateAvailability(weaponMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
         });
 
         it('should throw an error when the weapon is already enabled', async () => {

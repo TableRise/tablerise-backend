@@ -24,7 +24,7 @@ describe('Services :: ArmorsServices', () => {
     });
 
     describe('When the recover all disabled armors service is called', () => {
-        const armorMockDisabled = { active: false, ...armorMockInstance };
+        const armorMockDisabled = { ...armorMockInstance, active: false };
         beforeAll(() => {
             jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockDisabled]);
         });
@@ -138,32 +138,38 @@ describe('Services :: ArmorsServices', () => {
             pt: { ...armorMockInstance.pt },
         };
 
-        const armorMockPayloadWithoutActive = { ...armorMockPayload };
-        delete armorMockPayloadWithoutActive.active;
+        const responseMessageMockActivated = {
+            message: `Armor ${armorMockID} was activated`,
+            name: 'success',
+        };
 
-        const queryMock = false;
-
-        const responseMessageMock = {
-            message: `Armor ${armorMockID} was ${queryMock ? 'activated' : 'deactivated'}`,
+        const responseMessageMockDeactivated = {
+            message: `Armor ${armorMockID} was deactivated`,
             name: 'success',
         };
 
         beforeAll(() => {
             jest.spyOn(ArmorsModelMock, 'findOne')
                 .mockResolvedValueOnce(armorMockFindInstance)
-                .mockResolvedValueOnce(armorMockFindInstance)
+                .mockResolvedValueOnce({ ...armorMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...armorMockFindInstance, active: true })
                 .mockResolvedValueOnce(armorMockUpdateInstance)
                 .mockResolvedValue(null);
 
             jest.spyOn(ArmorsModelMock, 'update')
                 .mockResolvedValueOnce(armorMockUpdateInstance)
-                .mockResolvedValueOnce(armorMockUpdateInstance)
+                .mockResolvedValueOnce({ ...armorMockUpdateInstance, active: true })
                 .mockResolvedValue(null);
         });
 
-        it('should return correct success message', async () => {
-            const responseTest = await ArmorsServicesMock.updateAvailability(armorMockID, queryMock);
-            expect(responseTest).toStrictEqual(responseMessageMock);
+        it('should return correct success message - disable', async () => {
+            const responseTest = await ArmorsServicesMock.updateAvailability(armorMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await ArmorsServicesMock.updateAvailability(armorMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
         });
 
         it('should throw an error when the armor is already enabled', async () => {
