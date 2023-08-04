@@ -35,6 +35,25 @@ describe('Services :: ArmorsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all disabled armors', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(ArmorsServicesMock, 'findAllDisabled').mockResolvedValue([armorMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await ArmorsControllersMock.findAll(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([armorMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover armor by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);

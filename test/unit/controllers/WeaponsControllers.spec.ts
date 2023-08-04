@@ -35,6 +35,25 @@ describe('Services :: WeaponsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all disabled weapons', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(WeaponsServicesMock, 'findAllDisabled').mockResolvedValue([weaponMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await WeaponsControllersMock.findAll(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([weaponMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover weapon by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
