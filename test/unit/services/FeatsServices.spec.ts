@@ -181,7 +181,7 @@ describe('Services :: FeatsServices', () => {
                 await FeatsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a background with provided ID');
+                expect(err.message).toBe('NotFound a feat with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
