@@ -66,6 +66,9 @@ describe('Services :: BackgroundsServices', () => {
             pt: { ...backgroundMockInstance.pt, name: 'None' },
         };
 
+        const backgroundMockPayloadWithoutActive = { ...backgroundMockPayload };
+        delete backgroundMockPayloadWithoutActive.active;
+
         const { name: _1, ...backgroundMockEnWithoutName } = backgroundMockPayload.en;
         const { name: _2, ...backgroundMockPtWithoutName } = backgroundMockPayload.pt;
         const backgroundMockPayloadWrong = {
@@ -82,7 +85,7 @@ describe('Services :: BackgroundsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await BackgroundsServicesMock.update(
                 backgroundMockID,
-                backgroundMockPayload as Internacional<Background>
+                backgroundMockPayloadWithoutActive as Internacional<Background>
             );
             expect(responseTest).toBe(backgroundMockUpdateInstance);
         });
@@ -102,11 +105,22 @@ describe('Services :: BackgroundsServices', () => {
             }
         });
 
+        it('should throw an error when try to update availability', async () => {
+            try {
+                await BackgroundsServicesMock.update('inexistent_id', backgroundMockPayload as Internacional<Background>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
         it('should throw an error when ID is inexistent', async () => {
             try {
                 await BackgroundsServicesMock.update(
                     'inexistent_id',
-                    backgroundMockPayload as Internacional<Background>
+                    backgroundMockPayloadWithoutActive as Internacional<Background>
                 );
             } catch (error) {
                 const err = error as Error;

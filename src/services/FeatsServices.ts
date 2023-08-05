@@ -48,6 +48,14 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
     public async update(_id: string, payload: Internacional<Feat>): Promise<Internacional<Feat>> {
         this.validate(languagesWrapper(featZodSchema), payload);
 
+        if (payload.active) {
+            const err = new Error('Not authorized to change availability');
+            err.stack = HttpStatusCode.BAD_REQUEST.toString();
+            err.name = 'BadRequest';
+
+            throw err;
+        }
+
         const response = await this._model.update(_id, payload);
 
         if (!response) {

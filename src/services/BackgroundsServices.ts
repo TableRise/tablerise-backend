@@ -48,6 +48,14 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
     public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
         this.validate(languagesWrapper(backgroundZodSchema), payload);
 
+        if (payload.active) {
+            const err = new Error('Not authorized to change availability');
+            err.stack = HttpStatusCode.BAD_REQUEST.toString();
+            err.name = 'BadRequest';
+
+            throw err;
+        }
+
         const response = await this._model.update(_id, payload);
 
         if (!response) {

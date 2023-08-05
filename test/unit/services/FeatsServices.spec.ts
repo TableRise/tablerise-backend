@@ -64,6 +64,9 @@ describe('Services :: FeatsServices', () => {
             pt: { ...featMockInstance.pt, name: 'None' },
         };
 
+        const featMockPayloadWithoutActive = { ...featMockPayload };
+        delete featMockPayloadWithoutActive.active;
+
         const { name: _1, ...featMockEnWithoutName } = featMockPayload.en;
         const { name: _2, ...featMockPtWithoutName } = featMockPayload.pt;
         const featMockPayloadWrong = {
@@ -76,7 +79,7 @@ describe('Services :: FeatsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await FeatsServicesMock.update(featMockID, featMockPayload as Internacional<Feat>);
+            const responseTest = await FeatsServicesMock.update(featMockID, featMockPayloadWithoutActive as Internacional<Feat>);
             expect(responseTest).toBe(featMockUpdateInstance);
         });
 
@@ -92,9 +95,20 @@ describe('Services :: FeatsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<Feat>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a feat with provided ID');

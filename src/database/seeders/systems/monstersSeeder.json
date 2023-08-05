@@ -1,5 +1,6 @@
 [
   {
+    "active": true,
     "en": {
       "name": "Aboleth",
       "characteristics": ["large aberration", "lawful evil"],
