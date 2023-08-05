@@ -107,7 +107,10 @@ describe('Services :: BackgroundsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await BackgroundsServicesMock.update('inexistent_id', backgroundMockPayload as Internacional<Background>);
+                await BackgroundsServicesMock.update(
+                    'inexistent_id',
+                    backgroundMockPayload as Internacional<Background>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not authorized to change availability');

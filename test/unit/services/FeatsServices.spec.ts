@@ -79,7 +79,10 @@ describe('Services :: FeatsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await FeatsServicesMock.update(featMockID, featMockPayloadWithoutActive as Internacional<Feat>);
+            const responseTest = await FeatsServicesMock.update(
+                featMockID,
+                featMockPayloadWithoutActive as Internacional<Feat>
+            );
             expect(responseTest).toBe(featMockUpdateInstance);
         });
 
