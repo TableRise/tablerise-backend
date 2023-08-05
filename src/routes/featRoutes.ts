@@ -3,6 +3,7 @@ import FeatsModel from 'src/database/models/FeatsModel';
 import FeatsServices from 'src/services/FeatsServices';
 import FeatsControllers from 'src/controllers/FeatsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -15,6 +16,6 @@ const router = Router();
 router.get('/', controllers.findAll);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.delete('/:id', VerifyIdMiddleware, controllers.delete);
+router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
 
 export default router;

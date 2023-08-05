@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
         it('should return an array with 2 arrays inside', () => {
             routesDeclared = RoutesWrapper.declareRoutes();
             expect(routesDeclared).toBeInstanceOf(Array);
-            expect(routesDeclared.length).toBe(63);
+            expect(routesDeclared.length).toBe(64);
         });
     });
 

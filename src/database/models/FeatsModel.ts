@@ -15,6 +15,7 @@ const schema = new Schema<Feat>(
 
 export const featsMongooseSchema = new Schema<Internacional<Feat>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },
