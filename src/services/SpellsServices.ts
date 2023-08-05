@@ -49,7 +49,7 @@ export default class SpellsServices extends ValidateEntry implements Service<Int
         this.validate(languagesWrapper(spellsZodSchema), payload);
 
         if (payload.active) {
-            const err = new Error('Not authorized to change availability');
+            const err = new Error('Not possible to change availability through this route');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 

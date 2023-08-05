@@ -17,6 +17,7 @@ const magicItemMockPt: MagicItem = {
 const itemsMocks: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: magicItemMockEn,
         pt: magicItemMockPt,
     },
