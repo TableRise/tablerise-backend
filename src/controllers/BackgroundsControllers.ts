@@ -15,7 +15,6 @@ export default class BackgroundsControllers {
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
         this.updateAvailability = this.updateAvailability.bind(this);
-
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {

@@ -134,12 +134,12 @@ describe('Services :: BackgroundsServices', () => {
         };
 
         const responseMessageMockActivated = {
-            message: `Class ${backgroundMockID} was activated`,
+            message: `Background ${backgroundMockID} was activated`,
             name: 'success',
         };
 
         const responseMessageMockDeactivated = {
-            message: `Class ${backgroundMockID} was deactivated`,
+            message: `Background ${backgroundMockID} was deactivated`,
             name: 'success',
         };
 
