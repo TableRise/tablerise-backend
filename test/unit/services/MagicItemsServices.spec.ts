@@ -107,7 +107,10 @@ describe('Services :: MagicItemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayloadWithoutActive as Internacional<MagicItem>);
+                await MagicItemsServicesMock.update(
+                    'inexistent_id',
+                    magicItemMockPayloadWithoutActive as Internacional<MagicItem>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a magic item with provided ID');
