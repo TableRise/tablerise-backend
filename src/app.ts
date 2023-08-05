@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'module-alias/register';
 import 'express-async-errors';
 
@@ -11,6 +12,7 @@ import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 const autoSwagger = require('@tablerise/auto-swagger');
+const logger = require('@tablerise/dynamic-logger');
 
 const app: Application = express();
 
@@ -25,7 +27,9 @@ app
   .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {
-  autoSwagger(RoutesWrapper.declareRoutes());
+  autoSwagger(RoutesWrapper.declareRoutes())
+    .then((_result: any) => logger('info', 'swagger document generated'))
+    .catch((error: any) => { console.log(error); });
 }
 
 app
