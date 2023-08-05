@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
+const logger = require('@tablerise/dynamic-logger');
 
 function ErrorMiddleware(err: Error, _req: Request, res: Response, _next: NextFunction): Response {
-  if (!Number(err.stack)) return res.status(500).send(err.message);
-  return res.status(Number(err.stack)).json({
-    name: err.name,
-    message: err.message
-  });
+    logger('error', `error http throwed - code: ${!Number(err.stack) ? 500 : (err.stack as string)} [ ${err.name} ]`);
+    if (!Number(err.stack)) return res.status(500).send(err.message);
+    return res.status(Number(err.stack)).json({
+        name: err.name,
+        message: err.message,
+    });
 }
 
 export default ErrorMiddleware;

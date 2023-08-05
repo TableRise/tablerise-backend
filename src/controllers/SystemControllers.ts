@@ -3,57 +3,67 @@ import SystemServices from 'src/services/SystemServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import { System } from 'src/schemas/systemValidationSchema';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class SystemControllers {
-  constructor(readonly _service: SystemServices) {
-    this.findAll = this.findAll.bind(this);
-    this.findOne = this.findOne.bind(this);
-    this.update = this.update.bind(this);
-    this.updateContent = this.updateContent.bind(this);
-    this.activate = this.activate.bind(this);
-    this.deactivate = this.deactivate.bind(this);
-  }
+    constructor(
+        private readonly _service: SystemServices,
+        private readonly _logger: LoggerType
+    ) {
+        this.findAll = this.findAll.bind(this);
+        this.findOne = this.findOne.bind(this);
+        this.update = this.update.bind(this);
+        this.updateContent = this.updateContent.bind(this);
+        this.activate = this.activate.bind(this);
+        this.deactivate = this.deactivate.bind(this);
+    }
 
-  public async findAll(_req: Request, res: Response): Promise<Response> {
-    const request = await this._service.findAll();
-    return res.status(HttpStatusCode.OK).json(request);
-  }
+    public async findAll(_req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findAll] made to system');
+        const request = await this._service.findAll();
+        return res.status(HttpStatusCode.OK).json(request);
+    }
 
-  public async findOne(req: Request, res: Response): Promise<Response> {
-    const { id: _id } = req.params;
+    public async findOne(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [findOne] made to system');
+        const { id: _id } = req.params;
 
-    const request = await this._service.findOne(_id);
-    return res.status(HttpStatusCode.OK).json(request);
-  }
+        const request = await this._service.findOne(_id);
+        return res.status(HttpStatusCode.OK).json(request);
+    }
 
-  public async update(req: Request, res: Response): Promise<Response> {
-    const { id: _id } = req.params;
-    const payload = req.body as System;
+    public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [update] made to system');
+        const { id: _id } = req.params;
+        const payload = req.body as System;
 
-    const request = await this._service.update(_id, payload);
-    return res.status(HttpStatusCode.OK).json(request);
-  }
+        const request = await this._service.update(_id, payload);
+        return res.status(HttpStatusCode.OK).json(request);
+    }
 
-  public async updateContent(req: Request, res: Response): Promise<Response> {
-    const { id: _id } = req.params;
-    const { entity } = req.query;
-    const payload = req.body as UpdateContent;
+    public async updateContent(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [updateContent] made to system');
+        const { id: _id } = req.params;
+        const { entity } = req.query;
+        const payload = req.body as UpdateContent;
 
-    const request = await this._service.updateContent(_id, entity as string, payload);
-    return res.status(HttpStatusCode.CREATED).send(request);
-  }
+        const request = await this._service.updateContent(_id, entity as string, payload);
+        return res.status(HttpStatusCode.CREATED).send(request);
+    }
 
-  public async activate(req: Request, res: Response): Promise<Response> {
-    const { id: _id } = req.params;
+    public async activate(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [activate] made to system');
+        const { id: _id } = req.params;
 
-    const request = await this._service.activate(_id);
-    return res.status(HttpStatusCode.OK).send(request);
-  }
+        const request = await this._service.activate(_id);
+        return res.status(HttpStatusCode.OK).send(request);
+    }
 
-  public async deactivate(req: Request, res: Response): Promise<Response> {
-    const { id: _id } = req.params;
+    public async deactivate(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [deactivate] made to system');
+        const { id: _id } = req.params;
 
-    const request = await this._service.deactivate(_id);
-    return res.status(HttpStatusCode.OK).send(request);
-  }
+        const request = await this._service.deactivate(_id);
+        return res.status(HttpStatusCode.OK).send(request);
+    }
 }

@@ -1,0 +1,42 @@
+[
+  {
+    "en": {
+      "name": "Abacus",
+      "description": "2",
+      "cost": {
+        "currency": "gp",
+        "value": 2
+      },
+      "type": "adventuring gear",
+      "weight": 0.9,
+      "mountOrVehicle": {
+        "isValid": false,
+        "speed": "2",
+        "carryingCapacity": "2"
+      },
+      "tradeGoods": {
+        "isValid": false,
+        "goods": "2"
+      }
+    },
+    "pt": {
+      "name": "Ábaco",
+      "description": "2",
+      "cost": {
+        "currency": "po",
+        "value": 2
+      },
+      "type": "equipamento de aventura",
+      "weight": 0.9,
+      "mountOrVehicle": {
+        "isValid": false,
+        "speed": "2",
+        "carryingCapacity": "2"
+      },
+      "tradeGoods": {
+        "isValid": false,
+        "goods": "2"
+      }
+    }
+  }
+]

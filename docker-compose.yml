@@ -1,45 +1,27 @@
 version: '3.9'
 services:
-  backend:
-    container_name: backend-tablerise
-    build: ./
-    ports:
-      - 3001:3001
-    volumes:
-      - ./:/app/backend
-    environment:
-      - PORT=3001
-      - MONGODB_USERNAME=root
-      - MONGODB_PASSWORD=secret
-      - MONGODB_HOST=mongodb-tablerise
-      - MONGODB_PORT=27017
-      - MONGODB_DATABASE=tablerise?authSource=admin
-      - MONGODB_CONNECTION_INITIAL=mongodb
-    depends_on:
-      - database
+    database:
+        container_name: mongodb-tablerise
+        image: mongo:5
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb-tablerise-volume:/data/db
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=secret
 
-  database:
-    container_name: mongodb-tablerise
-    image: mongo:5
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb-tablerise-volume:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=secret
-
-  database-test:
-    container_name: mongodb-tablerise-test
-    image: mongo:5
-    ports:
-      - 27018:27017
-    volumes:
-      - mongodb-tablerise-test-volume:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=secret
+    database-test:
+        container_name: mongodb-tablerise-test
+        image: mongo:5
+        ports:
+            - 27018:27017
+        volumes:
+            - mongodb-tablerise-test-volume:/data/db
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=secret
 
 volumes:
-  mongodb-tablerise-volume:
-  mongodb-tablerise-test-volume:
+    mongodb-tablerise-volume:
+    mongodb-tablerise-test-volume:

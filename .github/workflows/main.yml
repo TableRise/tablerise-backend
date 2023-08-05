@@ -1,5 +1,5 @@
-on: [push, pull_request]
-name: Continuous Delivery Action
+name: continuous-delivery-action
+on: [pull_request]
 jobs:
   backend:
     name: 'Testing Backend'
@@ -27,11 +27,17 @@ jobs:
       - name: Checking lint
         run:  npm run lint
 
+      - name: Checking prettier
+        run:  npm run prettier
+
       - name: Up database container
         run: docker-compose up -d database-test
 
-      - name: Run Tests
+      - name: Run tests
         run:  npm run test:coverage
+
+      - name: Run integration tests
+        run:  npm run test:integration 
 
       - name: Monitor coverage
         uses: slavcodev/coverage-monitor-action@v1
@@ -41,9 +47,6 @@ jobs:
           threshold_alert: 10
           threshold_warning: 50
           threshold_metric: "lines"
-
-      - name: Create json coverage report
-        run: npx jest --coverage --coverageReporters='json-summary'
 
       - name: Checking coverage level
         run: npm run check-cov
