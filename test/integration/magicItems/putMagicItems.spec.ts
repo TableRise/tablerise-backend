@@ -32,7 +32,7 @@ describe('Put RPG magic items in database', () => {
         it('should return updated magic item', async () => {
             const keysToTest = ['name', 'characteristics', 'description'];
 
-            const response = await model.create(newMagicItemPayload);
+            const response = await model.create(magicItemPayload);
             documentId = response._id as string;
 
             const { body } = await request(app)
@@ -62,6 +62,18 @@ describe('Put RPG magic items in database', () => {
             expect(JSON.parse(body.message)[0].path[0]).toBe('en');
             expect(JSON.parse(body.message)[0].message).toBe('Required');
             expect(body.name).toBe('ValidationError');
+        });
+
+        it('should fail when try to change availability', async () => {
+            const { body } = await request(app)
+                .put(`/magicItems/${generateNewMongoID()}`)
+                .send({ active: true, ...newMagicItemPayload })
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {

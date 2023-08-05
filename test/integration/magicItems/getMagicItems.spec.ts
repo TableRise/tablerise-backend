@@ -42,6 +42,30 @@ describe('Get RPG magic items from database', () => {
         });
     });
 
+    describe('When request all disabled rpg magic items', () => {
+        it('should return an array with disabled magic items', async () => {
+            const keysToTest = ['name', 'characteristics', 'description'];
+            const magicItemMockCopy = {
+                active: false,
+                en: { ...magicItemMockPayload.en, active: false },
+                pt: { ...magicItemMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(magicItemMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/magicItems/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg magic item', () => {
         it('should return a magic item instance', async () => {
             const keysToTest = ['name', 'characteristics', 'description'];
