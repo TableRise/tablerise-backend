@@ -83,7 +83,7 @@ describe('Patch RPG backgrounds in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a Background with provided ID');
+            expect(body.message).toBe('NotFound a background with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });
