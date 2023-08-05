@@ -27,6 +27,7 @@ const schema = new Schema<Armor>(
 
 export const armorsMongooseSchema = new Schema<Internacional<Armor>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

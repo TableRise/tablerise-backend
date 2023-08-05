@@ -51,8 +51,42 @@ describe('Get RPG armors from database', () => {
         });
     });
 
-    describe('When request one rpg weapon', () => {
-        it('should return a weapon instance', async () => {
+    describe('When request all disabled rpg armors', () => {
+        it('should return an array with disabled armors', async () => {
+            const keysToTest = [
+                'name',
+                'description',
+                'cost',
+                'type',
+                'weight',
+                'armorClass',
+                'requiredStrength',
+                'stealthPenalty',
+            ];
+
+            const armorMockCopy = {
+                active: false,
+                en: { ...armorMockPayload.en, active: false },
+                pt: { ...armorMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(armorMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/armors/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
+    describe('When request one rpg armor', () => {
+        it('should return a armor instance', async () => {
             const keysToTest = [
                 'name',
                 'description',

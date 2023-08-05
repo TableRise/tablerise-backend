@@ -31,6 +31,7 @@ const weaponMockPt: Weapon = {
 const weapon: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: weaponMockEn,
         pt: weaponMockPt,
     },
