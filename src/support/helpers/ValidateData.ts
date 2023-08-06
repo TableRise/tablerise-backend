@@ -2,47 +2,66 @@ import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
+import { System } from 'src/schemas/systemValidationSchema';
+import getErrorName from './getErrorName';
 
 export default class ValidateData {
-    entry: (zodSchema: ZodObject<any>, payload: unknown, className: string) => void;
-    response: (response: null | Internacional<any>, serviceClassName: string) => Internacional<any>;
+    entry: (zodSchema: ZodObject<any>, payload: unknown, errorMessage: string) => void;
+    response: (response: null | Internacional<any> , errorMessage: string) => Internacional<any>;
+    active: (payload: boolean | undefined | null, errorMessage: string) => void;
+    systemResponse: (response: null | System, errorMessage: string) => System | any;
 
     constructor(private readonly _logger: LoggerType,) {
         this.entry = this.validateEntry;
         this.response = this.validateResponse;
+        this.active = this.validateActive;
+        this.systemResponse = this.validateSystemResponse;
     }
 
-    private _throwError(message: string, code: number, className: string): void {
+    private _generateError( code: number, errorMessage: string): Error {
 
-        const error = new Error(message);
+        const error = new Error(errorMessage);
         error.stack = code.toString();
-        error.name = 'ValidationError';
+        error.name = getErrorName(code);
 
-        this._logger('info', `All ${className} entities found with success`)
+        this._logger('error', errorMessage)
 
-        throw error;
+        return error;
     }
 
-    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown, className: string): void {
+    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown, errorMessage: string): void {
         const verify = zodSchema.safeParse(payload);
         if (!verify.success) {
             const errorMessage = JSON.stringify(verify.error.issues);
-            this._throwError(errorMessage, HttpStatusCode.UNPROCESSABLE_ENTITY, className);
+            throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY,  errorMessage);
         }
     }
 
-    protected validateResponse(response: null | Internacional<any>, className: string): Internacional<any> 
-        {
-            if (!response) {
-                const err = new Error(`NotFound an ${className} with provided ID`);
-                err.stack = HttpStatusCode.NOT_FOUND.toString();
-                err.name = 'NotFound';
-
-                this._logger('info', `All ${className} entities found with success`)
-
-                throw err;
-            }
-            return response;
-
+    protected validateResponse(response: null | Internacional<any> | any, errorMessage: string): Internacional<any> {
+        if (!response) {
+            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }
+        return response;
+    }
+
+    protected validateSystemResponse(response: null | System, errorMessage: string): System {
+        if (!response) {
+            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
+        }
+        return response;
+    }
+
+    protected validateActive(activeStatus: boolean | undefined | null, errorMessage: string): void {
+        if (activeStatus) {
+            const err = new Error(errorMessage);
+            err.stack = HttpStatusCode.BAD_REQUEST.toString();
+            err.name = 'BadRequest';
+
+            this._logger('error', errorMessage)
+
+            throw err;
+        }
+    }
+
+
 }

@@ -3,12 +3,14 @@ import SystemsServices from 'src/services/SystemServices';
 import { System } from 'src/schemas/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SystemsServices', () => {
     const systemsModelMock = new SystemsModel();
-    const systemsServicesMock = new SystemsServices(systemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const systemsServicesMock = new SystemsServices(systemsModelMock, logger, ValidateDataMock);
     const systemMockInstance = mocks.system.instance as System;
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
@@ -67,6 +69,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should return correct data with updated values', async () => {
             const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
+            console.log('72>>>',responseTest)
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
@@ -75,6 +78,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update(systemMockID, systemMockPayloadWrong as System);
             } catch (error) {
                 const err = error as Error;
+                console.log('80>>>',err,  err.message)
                 expect(JSON.parse(err.message)[0].path[0]).toBe('name');
                 expect(JSON.parse(err.message)[0].message).toBe('Required');
                 expect(err.stack).toBe('422');
@@ -87,6 +91,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update('inexistent_id', systemMockPayload as System);
             } catch (error) {
                 const err = error as Error;
+                console.log('92>>>',err,  err.message)
                 expect(err.message).toBe('NotFound a system with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');

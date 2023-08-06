@@ -3,12 +3,14 @@ import SpellsServices from 'src/services/SpellsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Spell } from 'src/schemas/spellsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SpellsServices', () => {
     const SpellsModelMock = new SpellsModel();
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock);
     const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 
@@ -104,7 +106,7 @@ describe('Services :: SpellsServices', () => {
                 await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<Spell>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }

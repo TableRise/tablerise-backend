@@ -3,12 +3,14 @@ import FeatsServices from 'src/services/FeatsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Feat } from 'src/schemas/featsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: FeatsServices', () => {
     const FeatsModelMock = new FeatsModel();
-    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock);
     const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const { _id: _, ...featMockPayload } = featMockInstance;
 

@@ -3,12 +3,14 @@ import WikisServices from 'src/services/WikisService';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Wiki } from 'src/schemas/wikisValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: WikisServices', () => {
     const WikisModelMock = new WikisModel();
-    const WikisServicesMock = new WikisServices(WikisModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock);
     const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
     const { _id: _, ...wikiMockPayload } = wikiMockInstance;
 

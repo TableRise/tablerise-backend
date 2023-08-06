@@ -2,17 +2,16 @@ import WikisModel from 'src/database/models/WikisModel';
 import Service from 'src/types/Service';
 import wikiZodSchema, { Wiki } from 'src/schemas/wikisValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
+import { errorMessage } from 'src/support/helpers/errorMessage';
 
 export default class WikisServices  implements Service<Internacional<Wiki>> {
     constructor(
         private readonly _model: WikisModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) {}
 
     public async findAll(): Promise<Array<Internacional<Wiki>>> {
         const response = await this._model.findAll();
@@ -24,47 +23,23 @@ export default class WikisServices  implements Service<Internacional<Wiki>> {
     public async findOne(_id: string): Promise<Internacional<Wiki>> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            const err = new Error('NotFound a wiki with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
-        }
-
         this._logger('info', 'Wiki entity found with success');
-        return response;
+        return (this._validate.response(response, errorMessage.notFound.wiki));
     }
 
     public async update(_id: string, payload: Internacional<Wiki>): Promise<Internacional<Wiki>> {
-        this.validate(languagesWrapper(wikiZodSchema), payload);
+        this._validate.entry(languagesWrapper(wikiZodSchema), payload, errorMessage.notFound.wiki);
 
         const response = await this._model.update(_id, payload);
 
-        if (!response) {
-            const err = new Error('NotFound a wiki with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
-        }
-
         this._logger('info', 'Wiki entity updated with success');
-        return response;
+        return (this._validate.response(response, errorMessage.notFound.wiki));
     }
 
     public async delete(_id: string): Promise<void> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            const err = new Error('NotFound a wiki with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            throw err;
-        }
+        this._validate.response(response, errorMessage.notFound.wiki);
 
         await this._model.delete(_id);
     }

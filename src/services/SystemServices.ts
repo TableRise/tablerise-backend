@@ -1,10 +1,10 @@
 import SystemModel from 'src/database/models/SystemModel';
 import Service from 'src/types/Service';
-import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateData from 'src/support/helpers/ValidateData';
+import { System, SystemContent, systemPayloadZodSchema } from 'src/schemas/systemValidationSchema';import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
+import { errorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class SystemServices  implements Service<System> {
     constructor(
@@ -23,21 +23,12 @@ export default class SystemServices  implements Service<System> {
     public async findOne(_id: string): Promise<System> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
-        }
-
         this._logger('info', 'System entity found with success');
-        return response;
+        return (this._validate.systemResponse(response, errorMessage.notFound.system));
     }
 
     public async update(_id: string, payload: System): Promise<System> {
-        this.validateEntry(systemZodSchema, payload);
+        this._validate.entry(systemPayloadZodSchema, payload, errorMessage.notFound.system);
 
         if (payload.content) {
             const err = new Error('Update the content directly is not allowed');
@@ -64,7 +55,7 @@ export default class SystemServices  implements Service<System> {
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
-        this.validate(updateContentZodSchema, payload);
+        this._validate.entry(updateContentZodSchema, payload, errorMessage.notFound.system);
 
         if (!entityQuery) {
             const err = new Error('An entity name is required');
