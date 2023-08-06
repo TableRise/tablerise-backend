@@ -226,7 +226,7 @@ describe('Services :: SystemsServices', () => {
                 const err = error as Error;
                 expect(err.message).toBe('System already active');
                 expect(err.stack).toBe('400');
-                expect(err.name).toBe('ValidationError');
+                expect(err.name).toBe('BadRequest');
             }
         });
     });
@@ -263,7 +263,7 @@ describe('Services :: SystemsServices', () => {
                 const err = error as Error;
                 expect(err.message).toBe('System already deactivated');
                 expect(err.stack).toBe('400');
-                expect(err.name).toBe('ValidationError');
+                expect(err.name).toBe('BadRequest');
             }
         });
     });
