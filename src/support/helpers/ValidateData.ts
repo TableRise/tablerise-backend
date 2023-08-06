@@ -1,4 +1,4 @@
-import { ZodIssue, ZodObject } from 'zod';
+import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
@@ -14,7 +14,7 @@ export default class ValidateData {
 
     private _throwError(message: string, code: number, className: string): void {
 
-        const error = new Error(JSON.stringify(message));
+        const error = new Error(message);
         error.stack = code.toString();
         error.name = 'ValidationError';
 
@@ -34,7 +34,7 @@ export default class ValidateData {
     protected validateResponse(response: null | Internacional<any>, className: string): Internacional<any> 
         {
             if (!response) {
-                const err = new Error(`NotFound a ${className} with provided ID`);
+                const err = new Error(`NotFound an ${className} with provided ID`);
                 err.stack = HttpStatusCode.NOT_FOUND.toString();
                 err.name = 'NotFound';
 

@@ -6,13 +6,12 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
 
-export default class SystemServices extends ValidateEntry implements Service<System> {
+export default class SystemServices  implements Service<System> {
     constructor(
         private readonly _model: SystemModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) { }
 
     public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
