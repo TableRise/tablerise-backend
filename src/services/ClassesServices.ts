@@ -32,26 +32,26 @@ export default class ClassesServices implements Service<Internacional<Class>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Class entity found with success');
-        return (this._validate.response(response,errorMessage.notFound.classe));
+        return this._validate.response(response, errorMessage.notFound.classe);
     }
 
     public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
         this._validate.entry(languagesWrapper(classesZodSchema), payload, errorMessage.notFound.classe);
 
-        this._validate.active(payload.active, errorMessage.badRequest.payloadActive);
+        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
         const updatedResponse = await this._model.update(_id, payload);
 
         this._logger('info', 'Class entity updated with success');
-        return (this._validate.response(updatedResponse, errorMessage.notFound.classe));
+        return this._validate.response(updatedResponse, errorMessage.notFound.classe);
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         let response = await this._model.findOne(_id);
 
-        response = this._validate.response(response,errorMessage.notFound.classe);
+        response = this._validate.response(response, errorMessage.notFound.classe);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.responseActive(query))
+        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
 
         response.active = query;
         await this._model.update(_id, response);

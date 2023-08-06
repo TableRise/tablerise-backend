@@ -6,7 +6,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class RacesServices  implements Service<Internacional<Race>> {
+export default class RacesServices implements Service<Internacional<Race>> {
     constructor(
         private readonly _model: RacesModel,
         private readonly _logger: LoggerType,
@@ -24,7 +24,7 @@ export default class RacesServices  implements Service<Internacional<Race>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Race entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.race));
+        return this._validate.response(response, errorMessage.notFound.race);
     }
 
     public async update(_id: string, payload: Internacional<Race>): Promise<Internacional<Race>> {
@@ -33,7 +33,7 @@ export default class RacesServices  implements Service<Internacional<Race>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Race entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.race));
+        return this._validate.response(response, errorMessage.notFound.race);
     }
 
     public async delete(_id: string): Promise<void> {

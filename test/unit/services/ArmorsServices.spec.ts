@@ -10,7 +10,7 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: ArmorsServices', () => {
     const ArmorsModelMock = new ArmorsModel();
     const ValidateDataMock = new ValidateData(logger);
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock );
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock);
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
 

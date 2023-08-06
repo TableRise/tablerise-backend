@@ -24,7 +24,7 @@ export default class GodsServices implements Service<Internacional<God>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'God entity found with success');
-        return (this._validate.response(response,errorMessage.notFound.god));
+        return this._validate.response(response, errorMessage.notFound.god);
     }
 
     public async update(_id: string, payload: Internacional<God>): Promise<Internacional<God>> {
@@ -33,13 +33,13 @@ export default class GodsServices implements Service<Internacional<God>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'God entity updated with success');
-        return (this._validate.response(response,errorMessage.notFound.god));
+        return this._validate.response(response, errorMessage.notFound.god);
     }
 
     public async delete(_id: string): Promise<void> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response,errorMessage.notFound.god);
+        this._validate.response(response, errorMessage.notFound.god);
 
         await this._model.delete(_id);
     }

@@ -32,18 +32,18 @@ export default class SpellsServices implements Service<Internacional<Spell>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Spell entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.spell));
+        return this._validate.response(response, errorMessage.notFound.spell);
     }
 
     public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
         this._validate.entry(languagesWrapper(spellsZodSchema), payload, errorMessage.notFound.spell);
 
-        this._validate.active(payload.active, errorMessage.badRequest.payloadActive);
+        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Spell entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.spell));
+        return this._validate.response(response, errorMessage.notFound.spell);
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
@@ -51,7 +51,7 @@ export default class SpellsServices implements Service<Internacional<Spell>> {
 
         response = this._validate.response(response, errorMessage.notFound.spell);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.responseActive(query));
+        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
 
         response.active = query;
         await this._model.update(_id, response);

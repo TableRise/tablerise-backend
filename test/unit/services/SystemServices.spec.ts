@@ -69,7 +69,6 @@ describe('Services :: SystemsServices', () => {
 
         it('should return correct data with updated values', async () => {
             const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
-            console.log('72>>>',responseTest)
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
@@ -78,7 +77,6 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update(systemMockID, systemMockPayloadWrong as System);
             } catch (error) {
                 const err = error as Error;
-                console.log('80>>>',err,  err.message)
                 expect(JSON.parse(err.message)[0].path[0]).toBe('name');
                 expect(JSON.parse(err.message)[0].message).toBe('Required');
                 expect(err.stack).toBe('422');
@@ -91,7 +89,6 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update('inexistent_id', systemMockPayload as System);
             } catch (error) {
                 const err = error as Error;
-                console.log('92>>>',err,  err.message)
                 expect(err.message).toBe('NotFound a system with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');

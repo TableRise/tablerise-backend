@@ -24,7 +24,7 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Feat entity found with success');
-        return (this._validate.response(response,errorMessage.notFound.feat));
+        return this._validate.response(response, errorMessage.notFound.feat);
     }
 
     public async update(_id: string, payload: Internacional<Feat>): Promise<Internacional<Feat>> {
@@ -33,13 +33,13 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Feat entity updated with success');
-        return (this._validate.response(response,errorMessage.notFound.feat));
+        return this._validate.response(response, errorMessage.notFound.feat);
     }
 
     public async delete(_id: string): Promise<void> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response,errorMessage.notFound.feat);
+        this._validate.response(response, errorMessage.notFound.feat);
 
         await this._model.delete(_id);
     }

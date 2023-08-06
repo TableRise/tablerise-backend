@@ -6,13 +6,12 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-
 export default class MagicItemsServices implements Service<Internacional<MagicItem>> {
     constructor(
         private readonly _model: MagicItemsModel,
         private readonly _logger: LoggerType,
         private readonly _validate: ValidateData
-    ) { }
+    ) {}
 
     public async findAll(): Promise<Array<Internacional<MagicItem>>> {
         const response = await this._model.findAll();
@@ -25,7 +24,7 @@ export default class MagicItemsServices implements Service<Internacional<MagicIt
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Magic item entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.magicItem));
+        return this._validate.response(response, errorMessage.notFound.magicItem);
     }
 
     public async update(_id: string, payload: Internacional<MagicItem>): Promise<Internacional<MagicItem>> {
@@ -34,7 +33,7 @@ export default class MagicItemsServices implements Service<Internacional<MagicIt
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Magic item entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.magicItem));
+        return this._validate.response(response, errorMessage.notFound.magicItem);
     }
 
     public async delete(_id: string): Promise<void> {

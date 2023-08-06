@@ -7,7 +7,6 @@ import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
 export default class ItemsServices implements Service<Internacional<Item>> {
-
     constructor(
         private readonly _model: ItemsModel,
         private readonly _logger: LoggerType,
@@ -25,7 +24,7 @@ export default class ItemsServices implements Service<Internacional<Item>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Item entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.item));
+        return this._validate.response(response, errorMessage.notFound.item);
     }
 
     public async update(_id: string, payload: Internacional<Item>): Promise<Internacional<Item>> {
@@ -39,7 +38,7 @@ export default class ItemsServices implements Service<Internacional<Item>> {
     public async delete(_id: string): Promise<void> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response, errorMessage.notFound.item)
+        this._validate.response(response, errorMessage.notFound.item);
 
         await this._model.delete(_id);
     }

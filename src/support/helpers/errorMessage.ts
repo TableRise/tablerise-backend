@@ -1,5 +1,5 @@
 export const errorMessage = {
-    notFound:{
+    notFound: {
         armor: 'NotFound an armor with provided ID',
         background: 'NotFound a background with provided ID',
         classe: 'NotFound a classe with provided ID',
@@ -13,12 +13,18 @@ export const errorMessage = {
         spell: 'NotFound a spell with provided ID',
         system: 'NotFound a system with provided ID',
         weapon: 'NotFound a weapon with provided ID',
-        wiki: 'NotFound a wiki with provided ID'
+        wiki: 'NotFound a wiki with provided ID',
     },
-    badRequest:{
-        responseActive: (query: boolean)=> `${query ? 'Entity already enabled' : 'Entity already disabled'}`,
-        payloadActive: 'Not possible to change availability through this route'
+    badRequest: {
+        system: {
+            responseActive: (isActive: boolean) => `${isActive ?'System already active' : 'System already deactivated'}`,
+            payloadActive: 'Not possible to change availability through this route',
+        },
+        default: {
+            responseActive: (query: boolean) => `${query ? 'Entity already enabled' : 'Entity already disabled'}`,
+            payloadActive: 'Not possible to change availability through this route',
+        },
     },
     forbidden: 'Update the content directly is not allowed',
-    unprocessableEntity: 'An entity name is required'
-}
+    unprocessableEntity: 'An entity name is required',
+};

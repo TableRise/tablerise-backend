@@ -6,7 +6,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class WikisServices  implements Service<Internacional<Wiki>> {
+export default class WikisServices implements Service<Internacional<Wiki>> {
     constructor(
         private readonly _model: WikisModel,
         private readonly _logger: LoggerType,
@@ -24,7 +24,7 @@ export default class WikisServices  implements Service<Internacional<Wiki>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Wiki entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.wiki));
+        return this._validate.response(response, errorMessage.notFound.wiki);
     }
 
     public async update(_id: string, payload: Internacional<Wiki>): Promise<Internacional<Wiki>> {
@@ -33,7 +33,7 @@ export default class WikisServices  implements Service<Internacional<Wiki>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Wiki entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.wiki));
+        return this._validate.response(response, errorMessage.notFound.wiki);
     }
 
     public async delete(_id: string): Promise<void> {

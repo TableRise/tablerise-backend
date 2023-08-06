@@ -24,7 +24,7 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Background entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.background));
+        return this._validate.response(response, errorMessage.notFound.background);
     }
 
     public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
@@ -33,7 +33,7 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Background entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.background));
+        return this._validate.response(response, errorMessage.notFound.background);
     }
 
     public async delete(_id: string): Promise<void> {

@@ -6,7 +6,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class MonstersService  implements Service<Internacional<Monster>> {
+export default class MonstersService implements Service<Internacional<Monster>> {
     constructor(
         private readonly _model: MonstersModel,
         private readonly _logger: LoggerType,
@@ -24,7 +24,7 @@ export default class MonstersService  implements Service<Internacional<Monster>>
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Monster entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.monster));
+        return this._validate.response(response, errorMessage.notFound.monster);
     }
 
     public async update(_id: string, payload: Internacional<Monster>): Promise<Internacional<Monster>> {
@@ -33,13 +33,13 @@ export default class MonstersService  implements Service<Internacional<Monster>>
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Monster entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.monster));
+        return this._validate.response(response, errorMessage.notFound.monster);
     }
 
     public async delete(_id: string): Promise<void> {
         const response = await this._model.findOne(_id);
 
-       this._validate.response(response, errorMessage.notFound.monster);
+        this._validate.response(response, errorMessage.notFound.monster);
 
         await this._model.delete(_id);
     }

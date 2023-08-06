@@ -6,7 +6,7 @@ import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class RealmsServices  implements Service<Internacional<Realm>> {
+export default class RealmsServices implements Service<Internacional<Realm>> {
     constructor(
         private readonly _model: RealmsModel,
         private readonly _logger: LoggerType,
@@ -24,7 +24,7 @@ export default class RealmsServices  implements Service<Internacional<Realm>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Realm entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.realm));
+        return this._validate.response(response, errorMessage.notFound.realm);
     }
 
     public async update(_id: string, payload: Internacional<Realm>): Promise<Internacional<Realm>> {
@@ -33,7 +33,7 @@ export default class RealmsServices  implements Service<Internacional<Realm>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Realm entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.realm));
+        return this._validate.response(response, errorMessage.notFound.realm);
     }
 
     public async delete(_id: string): Promise<void> {

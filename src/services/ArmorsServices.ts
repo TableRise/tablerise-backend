@@ -38,7 +38,7 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
         this._validate.entry(languagesWrapper(armorsZodSchema), payload, errorMessage.notFound.armor);
 
-        this._validate.active(payload.active, errorMessage.badRequest.payloadActive);
+        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
         const response = await this._model.update(_id, payload);
 
@@ -49,9 +49,9 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         let response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.armor)
+        response = this._validate.response(response, errorMessage.notFound.armor);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.responseActive(query))
+        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
 
         response.active = query;
         await this._model.update(_id, response);

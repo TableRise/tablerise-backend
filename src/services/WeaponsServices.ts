@@ -32,18 +32,18 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Weapon entity found with success');
-        return (this._validate.response(response, errorMessage.notFound.weapon));
+        return this._validate.response(response, errorMessage.notFound.weapon);
     }
 
     public async update(_id: string, payload: Internacional<Weapon>): Promise<Internacional<Weapon>> {
         this._validate.entry(languagesWrapper(weaponsZodSchema), payload, errorMessage.notFound.weapon);
 
-        this._validate.active(payload.active, errorMessage.badRequest.payloadActive);
+        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Weapon entity updated with success');
-        return (this._validate.response(response, errorMessage.notFound.weapon));
+        return this._validate.response(response, errorMessage.notFound.weapon);
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
@@ -51,7 +51,7 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
 
         response = this._validate.response(response, errorMessage.notFound.weapon);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.responseActive(query))
+        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
 
         response.active = query;
         await this._model.update(_id, response);
