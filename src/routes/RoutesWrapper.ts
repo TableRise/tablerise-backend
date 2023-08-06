@@ -122,14 +122,22 @@ class RoutesWrapper {
       ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false],
 
       ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
+      ['/backgrounds/disabled', 'backgrounds', 'get', null, backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
       ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
-      ['/backgrounds/{_id}', 'backgrounds', 'delete', generateIDParam(), null, null, false],
-
+      ['/backgrounds/{_id}', 'backgrounds', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
+ 
       ['/feats', 'feats', 'get', null, featInstance, null, false],
+      ['/feats/disabled', 'feats', 'get', null, featInstance, null, false],
       ['/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
       ['/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
-      ['/feats/{_id}', 'feats', 'delete', generateIDParam(), null, null, false],
+      ['/feats/{_id}', 'feats', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/weapons', 'weapons', 'get', null, weaponInstance, null, false],
       ['/weapons/disabled', 'weapons', 'get', null, weaponInstance, null, false],

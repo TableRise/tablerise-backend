@@ -36,6 +36,7 @@ const schema = new Schema<Background>(
 
 export const backgroundsMongooseSchema = new Schema<Internacional<Background>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

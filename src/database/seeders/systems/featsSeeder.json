@@ -1,5 +1,6 @@
 [
   {
+    "active": true,
     "en": {
       "name": "Grappler",
       "prerequisite": "Strength 13 or higher",

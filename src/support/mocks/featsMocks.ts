@@ -19,6 +19,7 @@ const featInstancePt: Feat = {
 const feat: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: featInstanceEn,
         pt: featInstancePt,
     },

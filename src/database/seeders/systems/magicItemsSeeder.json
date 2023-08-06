@@ -1,5 +1,6 @@
 [
   {
+    "active": true,
     "en": {
       "name": "Adamantine Armor",
       "characteristics": ["Armor (medium or heavy, but not hide)", "uncommon"],
