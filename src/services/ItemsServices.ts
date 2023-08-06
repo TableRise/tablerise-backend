@@ -3,16 +3,15 @@ import Service from 'src/types/Service';
 import ItemZodSchema, { Item } from 'src/schemas/itemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 
-export default class ItemsServices extends ValidateEntry implements Service<Internacional<Item>> {
+export default class ItemsServices implements Service<Internacional<Item>> {
     constructor(
         private readonly _model: ItemsModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) { }
 
     public async findAll(): Promise<Array<Internacional<Item>>> {
         const response = await this._model.findAll();
@@ -38,8 +37,8 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
     }
 
     public async update(_id: string, payload: Internacional<Item>): Promise<Internacional<Item>> {
-        this.validate(languagesWrapper(ItemZodSchema), payload);
-
+        this._validate.entry(languagesWrapper(ItemZodSchema), payload, 'Item');
+        console.log(ItemsServices.name, "L$!!@<<<<<<<<<<<<<<<<<<<<<<<<")
         const response = await this._model.update(_id, payload);
 
         if (!response) {

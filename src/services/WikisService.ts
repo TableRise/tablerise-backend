@@ -3,10 +3,10 @@ import Service from 'src/types/Service';
 import wikiZodSchema, { Wiki } from 'src/schemas/wikisValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 
-export default class WikisServices extends ValidateEntry implements Service<Internacional<Wiki>> {
+export default class WikisServices  implements Service<Internacional<Wiki>> {
     constructor(
         private readonly _model: WikisModel,
         private readonly _logger: LoggerType

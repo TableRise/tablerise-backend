@@ -3,12 +3,13 @@ import ItemsServices from 'src/services/ItemsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item } from 'src/schemas/itemsValidationSchema';
 import mocks from 'src/support/mocks';
-
+import ValidateData from 'src/support/helpers/ValidateData';
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ItemsServices', () => {
     const ItemsModelMock = new ItemsModel();
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock);
     const itemsMockInstance = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 

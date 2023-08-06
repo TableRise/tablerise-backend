@@ -3,16 +3,16 @@ import Service from 'src/types/Service';
 import magicItemZodSchema, { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 
-export default class MagicItemsServices extends ValidateEntry implements Service<Internacional<MagicItem>> {
+
+export default class MagicItemsServices implements Service<Internacional<MagicItem>> {
     constructor(
         private readonly _model: MagicItemsModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) { }
 
     public async findAll(): Promise<Array<Internacional<MagicItem>>> {
         const response = await this._model.findAll();
@@ -38,7 +38,7 @@ export default class MagicItemsServices extends ValidateEntry implements Service
     }
 
     public async update(_id: string, payload: Internacional<MagicItem>): Promise<Internacional<MagicItem>> {
-        this.validate(languagesWrapper(magicItemZodSchema), payload);
+        this._validate.entry(languagesWrapper(magicItemZodSchema), payload, 'MagicItems');
 
         const response = await this._model.update(_id, payload);
 

@@ -3,12 +3,14 @@ import MagicItemsServices from 'src/services/MagicItemsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MagicItemsServices', () => {
     const MagicItemsModelMock = new MagicItemsModel();
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock);
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
