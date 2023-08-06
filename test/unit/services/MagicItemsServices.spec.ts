@@ -23,6 +23,18 @@ describe('Services :: MagicItemsServices', () => {
         });
     });
 
+    describe('When the recover all disabled magicItems service is called', () => {
+        const magicItemMockDisabled = { ...magicItemMockInstance, active: false };
+        beforeAll(() => {
+            jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await MagicItemsServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([magicItemMockDisabled]);
+        });
+    });
+
     describe('When the recover a magic item by ID service is called', () => {
         beforeAll(() => {
             jest.spyOn(MagicItemsModelMock, 'findOne')
@@ -54,6 +66,9 @@ describe('Services :: MagicItemsServices', () => {
             pt: { ...magicItemMockInstance.pt, name: 'None' },
         };
 
+        const magicItemMockPayloadWithoutActive = { ...magicItemMockPayload };
+        delete magicItemMockPayloadWithoutActive.active;
+
         const { name: _1, ...magicItemMockEnWithoutName } = magicItemMockPayload.en;
         const { name: _2, ...magicItemMockPtWithoutName } = magicItemMockPayload.pt;
         const magicItemMockPayloadWrong = {
@@ -70,7 +85,7 @@ describe('Services :: MagicItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await MagicItemsServicesMock.update(
                 magicItemMockID,
-                magicItemMockPayload as Internacional<MagicItem>
+                magicItemMockPayloadWithoutActive as Internacional<MagicItem>
             );
             expect(responseTest).toBe(magicItemMockUpdateInstance);
         });
@@ -90,9 +105,23 @@ describe('Services :: MagicItemsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayload as Internacional<MagicItem>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await MagicItemsServicesMock.update(
+                    'inexistent_id',
+                    magicItemMockPayloadWithoutActive as Internacional<MagicItem>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a magic item with provided ID');
@@ -102,31 +131,84 @@ describe('Services :: MagicItemsServices', () => {
         });
     });
 
-    describe('When service for delete a magic item is called', () => {
+    describe('When service for update availability magic item is called', () => {
         const magicItemMockID = magicItemMockInstance._id as string;
+        const magicItemMockUpdateInstance = {
+            _id: magicItemMockID,
+            active: false,
+            en: { ...magicItemMockInstance.en },
+            pt: { ...magicItemMockInstance.pt },
+        };
+
+        const magicItemMockFindInstance = {
+            _id: magicItemMockID,
+            active: true,
+            en: { ...magicItemMockInstance.en },
+            pt: { ...magicItemMockInstance.pt },
+        };
+
+        const responseMessageMockActivated = {
+            message: `Magic Items ${magicItemMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `Magic Items ${magicItemMockID} was deactivated`,
+            name: 'success',
+        };
 
         beforeAll(() => {
             jest.spyOn(MagicItemsModelMock, 'findOne')
-                .mockResolvedValueOnce(magicItemMockInstance)
+                .mockResolvedValueOnce(magicItemMockFindInstance)
+                .mockResolvedValueOnce({ ...magicItemMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...magicItemMockFindInstance, active: true })
+                .mockResolvedValueOnce(magicItemMockUpdateInstance)
                 .mockResolvedValue(null);
 
-            jest.spyOn(MagicItemsModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(MagicItemsModelMock, 'update')
+                .mockResolvedValueOnce(magicItemMockUpdateInstance)
+                .mockResolvedValueOnce({ ...magicItemMockUpdateInstance, active: true })
+                .mockResolvedValue(null);
         });
 
-        it('should delete magic item and not return any data', async () => {
+        it('should return correct success message - disable', async () => {
+            const responseTest = await MagicItemsServicesMock.updateAvailability(magicItemMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await MagicItemsServicesMock.updateAvailability(magicItemMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the magic item is already enabled', async () => {
             try {
-                await MagicItemsServicesMock.delete(magicItemMockID);
+                await MagicItemsServicesMock.updateAvailability(magicItemMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the background is already disabled', async () => {
+            try {
+                await MagicItemsServicesMock.updateAvailability(magicItemMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await MagicItemsServicesMock.delete('inexistent_id');
+                await MagicItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic item with provided ID');
+                expect(err.message).toBe('NotFound a magic items with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

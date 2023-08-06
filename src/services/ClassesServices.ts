@@ -49,7 +49,7 @@ export default class ClassesServices extends ValidateEntry implements Service<In
         this.validate(languagesWrapper(classesZodSchema), payload);
 
         if (payload.active) {
-            const err = new Error('Not authorized to change availability');
+            const err = new Error('Not possible to change availability through this route');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 

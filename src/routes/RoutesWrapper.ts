@@ -177,9 +177,13 @@ class RoutesWrapper {
       ], null, null, false],
 
       ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
+      ['/magicItems/disabled', 'magicItems', 'get', null, weaponInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
-      ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false],
+      ['/magicItems/{_id}', 'magicItems', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/spells', 'spells', 'get', null, spellInstance, null, false],
       ['/spells/disabled', 'spells', 'get', null, weaponInstance, null, false],

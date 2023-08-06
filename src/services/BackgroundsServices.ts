@@ -49,7 +49,7 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
         this.validate(languagesWrapper(backgroundZodSchema), payload);
 
         if (payload.active) {
-            const err = new Error('Not authorized to change availability');
+            const err = new Error('Not possible to change availability through this route');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 

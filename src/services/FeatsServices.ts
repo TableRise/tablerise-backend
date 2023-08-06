@@ -49,7 +49,7 @@ export default class FeatsServices extends ValidateEntry implements Service<Inte
         this.validate(languagesWrapper(featZodSchema), payload);
 
         if (payload.active !== undefined) {
-            const err = new Error('Not authorized to change availability');
+            const err = new Error('Not possible to change availability through this route');
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
             err.name = 'BadRequest';
 

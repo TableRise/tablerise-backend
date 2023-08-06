@@ -14,6 +14,7 @@ const schema = new Schema<MagicItem>(
 
 export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

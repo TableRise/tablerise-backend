@@ -42,6 +42,30 @@ describe('Get RPG feats from database', () => {
         });
     });
 
+    describe('When request all disabled rpg feats', () => {
+        it('should return an array with disabled feats', async () => {
+            const keysToTest = ['name', 'prerequisite', 'description', 'benefits'];
+            const featMockCopy = {
+                active: false,
+                en: { ...featMockPayload.en, active: false },
+                pt: { ...featMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(featMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/feats/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg feat', () => {
         it('should return a feat instance', async () => {
             const keysToTest = ['name', 'prerequisite', 'description', 'benefits'];
