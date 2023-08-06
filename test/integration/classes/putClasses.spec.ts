@@ -72,6 +72,18 @@ describe('Put RPG classes in database', () => {
             expect(body.name).toBe('ValidationError');
         });
 
+        it('should fail when try to change availability', async () => {
+            const { body } = await request(app)
+                .put(`/classes/${generateNewMongoID()}`)
+                .send({ active: true, ...newClassPayload })
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Not authorized to change availability');
+            expect(body.name).toBe('BadRequest');
+        });
+
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
                 .put(`/classes/${generateNewMongoID()}`)

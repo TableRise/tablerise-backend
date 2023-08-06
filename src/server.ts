@@ -4,6 +4,8 @@ import app from './app';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const port = process.env.PORT as string;
 
 const MONGODB_USERNAME = process.env.MONGODB_USERNAME as string;
@@ -18,12 +20,13 @@ const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
 mongoose
     .connect(firstSection + secondSection)
     .then(() => {
-        console.log(':: MongoDB Instance Connected ::');
+        logger('info', 'mongoDB instance connected');
     })
     .catch((error) => {
+        logger('error', 'connection to mongodb failed');
         throw error;
     });
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    logger('info', `Server started on port ${port}`);
 });

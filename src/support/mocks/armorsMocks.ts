@@ -33,6 +33,7 @@ const armorMockPt: Armor = {
 const armor: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: armorMockEn,
         pt: armorMockPt,
     },

@@ -4,9 +4,11 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { God } from 'src/schemas/godsValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: GodsServices', () => {
     const GodsModelMock = new GodsModel();
-    const GodsServicesMock = new GodsServices(GodsModelMock);
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger);
     const godMockInstance = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godMockPayload } = godMockInstance;
 

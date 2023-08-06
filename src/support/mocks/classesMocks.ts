@@ -163,6 +163,7 @@ const classMockPt: Class = {
 const _class: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: classMockEn,
         pt: classMockPt,
     },

@@ -69,6 +69,7 @@ const spellMockPt: Spell = {
 const spell: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: spellMockEn,
         pt: spellMockPt,
     },

@@ -4,9 +4,11 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Wiki } from 'src/schemas/wikisValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: WikisServices', () => {
     const WikisModelMock = new WikisModel();
-    const WikisServicesMock = new WikisServices(WikisModelMock);
+    const WikisServicesMock = new WikisServices(WikisModelMock, logger);
     const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
     const { _id: _, ...wikiMockPayload } = wikiMockInstance;
 

@@ -50,6 +50,38 @@ describe('Get RPG classes from database', () => {
         });
     });
 
+    describe('When request all disabled rpg classes', () => {
+        it('should return an array with disabled classes', async () => {
+            const keysToTest = [
+                'name',
+                'description',
+                'hitPoints',
+                'proficiencies',
+                'equipment',
+                'levelingSpecs',
+                'characteristics',
+            ];
+            const classMockCopy = {
+                active: false,
+                en: { ...classMockPayload.en, active: false },
+                pt: { ...classMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(classMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/classes/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg class', () => {
         it('should return a class instance', async () => {
             const keysToTest = [

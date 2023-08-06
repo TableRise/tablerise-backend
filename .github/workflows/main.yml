@@ -33,8 +33,11 @@ jobs:
       - name: Up database container
         run: docker-compose up -d database-test
 
-      - name: Run Tests
+      - name: Run tests
         run:  npm run test:coverage
+
+      - name: Run integration tests
+        run:  npm run test:integration 
 
       - name: Monitor coverage
         uses: slavcodev/coverage-monitor-action@v1

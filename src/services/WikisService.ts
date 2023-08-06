@@ -3,15 +3,21 @@ import Service from 'src/types/Service';
 import wikiZodSchema, { Wiki } from 'src/schemas/wikisValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateData';
+import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class WikisServices extends ValidateEntry implements Service<Internacional<Wiki>> {
-    constructor(private readonly _model: WikisModel) {
+    constructor(
+        private readonly _model: WikisModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<Wiki>>> {
         const response = await this._model.findAll();
+
+        this._logger('info', 'All wiki entities found with success');
         return response;
     }
 
@@ -23,9 +29,11 @@ export default class WikisServices extends ValidateEntry implements Service<Inte
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('info', 'Wiki entity found with success');
         return response;
     }
 
@@ -39,9 +47,11 @@ export default class WikisServices extends ValidateEntry implements Service<Inte
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('info', 'Wiki entity updated with success');
         return response;
     }
 

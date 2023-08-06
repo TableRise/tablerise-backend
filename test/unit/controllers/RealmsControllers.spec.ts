@@ -6,10 +6,12 @@ import { Realm } from 'src/schemas/realmsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: RealmsControllers', () => {
     const RealmsModelMock = new RealmsModel();
-    const RealmsServicesMock = new RealmsServices(RealmsModelMock);
-    const RealmsControllersMock = new RealmsControllers(RealmsServicesMock);
+    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger);
+    const RealmsControllersMock = new RealmsControllers(RealmsServicesMock, logger);
     const realmMockInstance = mocks.realm.instance as Internacional<Realm>;
     const request = {} as Request;
     const response = {} as Response;

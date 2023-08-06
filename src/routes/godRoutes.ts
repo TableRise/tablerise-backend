@@ -4,9 +4,11 @@ import GodsServices from 'src/services/GodsServices';
 import GodsControllers from 'src/controllers/GodsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 
+const logger = require('@tablerise/dynamic-logger');
+
 const model = new GodsModel();
-const services = new GodsServices(model);
-const controllers = new GodsControllers(services);
+const services = new GodsServices(model, logger);
+const controllers = new GodsControllers(services, logger);
 
 const router = Router();
 

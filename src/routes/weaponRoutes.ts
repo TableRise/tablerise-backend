@@ -3,16 +3,20 @@ import WeaponsModel from 'src/database/models/WeaponsModel';
 import WeaponsServices from 'src/services/WeaponsServices';
 import WeaponsControllers from 'src/controllers/WeaponsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+
+const logger = require('@tablerise/dynamic-logger');
 
 const model = new WeaponsModel();
-const services = new WeaponsServices(model);
-const controllers = new WeaponsControllers(services);
+const services = new WeaponsServices(model, logger);
+const controllers = new WeaponsControllers(services, logger);
 
 const router = Router();
 
 router.get('/', controllers.findAll);
+router.get('/disabled', controllers.findAllDisabled);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.delete('/:id', VerifyIdMiddleware, controllers.delete);
+router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
 
 export default router;

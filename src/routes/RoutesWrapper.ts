@@ -106,7 +106,7 @@ class RoutesWrapper {
       ['/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
       ['/system/{_id}', 'system', 'patch', [
         ...generateIDParam(),
-        ...generateQueryParam(1, ['entity'])
+        ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])
       ], null, updateSystemInstance.instance, false],
       ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
       ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
@@ -132,14 +132,22 @@ class RoutesWrapper {
       ['/feats/{_id}', 'feats', 'delete', generateIDParam(), null, null, false],
 
       ['/weapons', 'weapons', 'get', null, weaponInstance, null, false],
+      ['/weapons/disabled', 'weapons', 'get', null, weaponInstance, null, false],
       ['/weapons/{_id}', 'weapons', 'get', generateIDParam(), weaponInstance, null, false],
       ['/weapons/{_id}', 'weapons', 'put', generateIDParam(), weaponInstance, weaponWithoutId, false],
-      ['/weapons/{_id}', 'weapons', 'delete', generateIDParam(), null, null, false],
+      ['/weapons/{_id}', 'weapons', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/armors', 'armors', 'get', null, armorInstance, null, false],
+      ['/armors/disabled', 'armors', 'get', null, armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
       ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
-      ['/armors/{_id}', 'armors', 'delete', generateIDParam(), null, null, false],
+      ['/armors/{_id}', 'armors', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/items', 'items', 'get', null, itemInstance, null, false],
       ['/items/{_id}', 'items', 'get', generateIDParam(), itemInstance, null, false],
@@ -152,9 +160,13 @@ class RoutesWrapper {
       ['/races/{_id}', 'races', 'delete', generateIDParam(), null, null, false],
       
       ['/classes', 'classes', 'get', null, classInstance, null, false],
+      ['/classes/disabled', 'classes', 'get', null, weaponInstance, null, false],
       ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
       ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
-      ['/classes/{_id}', 'classes', 'delete', generateIDParam(), null, null, false],
+      ['/classes/{_id}', 'classes', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
       ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
@@ -162,9 +174,13 @@ class RoutesWrapper {
       ['/magicItems/{_id}', 'magicItems', 'delete', generateIDParam(), null, null, false],
 
       ['/spells', 'spells', 'get', null, spellInstance, null, false],
+      ['/spells/disabled', 'spells', 'get', null, weaponInstance, null, false],
       ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
       ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
-      ['/spells/{_id}', 'spells', 'delete', generateIDParam(), null, null, false],
+      ['/spells/{_id}', 'spells', 'patch', [
+        ...generateIDParam(),
+        ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])
+      ], null, null, false],
 
       ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
       ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],

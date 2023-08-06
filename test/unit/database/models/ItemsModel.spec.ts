@@ -5,7 +5,7 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Model } from 'mongoose';
 import ItemsModel from 'src/database/models/ItemsModel';
 
-describe.only('Database :: Models :: BackgroundsModel', () => {
+describe('Database :: Models :: BackgroundsModel', () => {
     describe('When a method of ItemsModel class is called with correct params', () => {
         const newItemsModel = new ItemsModel();
         const testReturn = mocks.item.instance as Internacional<Item>;

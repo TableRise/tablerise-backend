@@ -18,8 +18,8 @@ describe('Get RPG spells from database', () => {
     });
 
     const model = new SpellsModel();
-    const spell = mocks.spell.instance;
-    const { _id: _, ...spellMockPayload } = spell as Internacional<Spell>;
+    const _spell = mocks.spell.instance;
+    const { _id: _, ...spellMockPayload } = _spell as Internacional<Spell>;
 
     let documentId: string;
 
@@ -44,6 +44,43 @@ describe('Get RPG spells from database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app).get('/spells').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
+    describe('When request all disabled rpg spells', () => {
+        it('should return an array with disabled spells', async () => {
+            const keysToTest = [
+                'name',
+                'description',
+                'type',
+                'level',
+                'higherLevels',
+                'damage',
+                'castingTime',
+                'duration',
+                'range',
+                'components',
+                'buffs',
+                'debuffs',
+            ];
+            const spellMockCopy = {
+                active: false,
+                en: { ...spellMockPayload.en, active: false },
+                pt: { ...spellMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(spellMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/spells/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');

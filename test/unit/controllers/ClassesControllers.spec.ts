@@ -6,10 +6,12 @@ import { Class } from 'src/schemas/classesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: ClassesControllers', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock);
-    const ClassesControllersMock = new ClassesControllers(ClassesServicesMock);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
+    const ClassesControllersMock = new ClassesControllers(ClassesServicesMock, logger);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const request = {} as Request;
     const response = {} as Response;
@@ -28,6 +30,26 @@ describe('Services :: ClassesControllers', () => {
 
         it('should return correct data in response json with status 200', async () => {
             await ClassesControllersMock.findAll(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([classMockInstance]);
+        });
+    });
+
+    describe('When a request is made to recover all classes disabled', () => {
+        classMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(ClassesServicesMock, 'findAllDisabled').mockResolvedValue([classMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await ClassesControllersMock.findAllDisabled(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith([classMockInstance]);
         });
@@ -83,24 +105,30 @@ describe('Services :: ClassesControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a class', () => {
+    describe('When a request is made to update availability class by ID', () => {
+        const responseMessageMock = {
+            message: 'Class {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(ClassesServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(ClassesServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: classMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await ClassesControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await ClassesControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

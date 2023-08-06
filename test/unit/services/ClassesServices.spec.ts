@@ -4,13 +4,15 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import mocks from 'src/support/mocks';
 
+const logger = require('@tablerise/dynamic-logger');
+
 describe('Services :: ClassesServices', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
 
-    describe('When the recover all classes service is called', () => {
+    describe('When the recover all enabled classes service is called', () => {
         beforeAll(() => {
             jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockInstance]);
         });
@@ -18,6 +20,18 @@ describe('Services :: ClassesServices', () => {
         it('should return correct data', async () => {
             const responseTest = await ClassesServicesMock.findAll();
             expect(responseTest).toStrictEqual([classMockInstance]);
+        });
+    });
+
+    describe('When the recover all disabled classes service is called', () => {
+        const classMockDisabled = { ...classMockInstance, active: false };
+        beforeAll(() => {
+            jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await ClassesServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([classMockDisabled]);
         });
     });
 
@@ -49,6 +63,8 @@ describe('Services :: ClassesServices', () => {
             en: { ...classMockInstance.en, name: 'None' },
             pt: { ...classMockInstance.pt, name: 'None' },
         };
+        const classMockPayloadWithoutActive = { ...classMockPayload };
+        delete classMockPayloadWithoutActive.active;
 
         const { name: _1, ...classesMockEnWithoutName } = classMockPayload.en;
         const { name: _2, ...classesMockPtWithoutName } = classMockPayload.pt;
@@ -66,7 +82,7 @@ describe('Services :: ClassesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ClassesServicesMock.update(
                 classMockID,
-                classMockPayload as Internacional<Class>
+                classMockPayloadWithoutActive as Internacional<Class>
             );
             expect(responseTest).toBe(classMockUpdateInstance);
         });
@@ -83,9 +99,23 @@ describe('Services :: ClassesServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await ClassesServicesMock.update(
+                    'inexistent_id',
+                    classMockPayloadWithoutActive as Internacional<Class>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a class with provided ID');
@@ -95,26 +125,81 @@ describe('Services :: ClassesServices', () => {
         });
     });
 
-    describe('When service for delete a class is called', () => {
+    describe('When service for update availability class is called', () => {
         const classMockID = classMockInstance._id as string;
+        const classMockUpdateInstance = {
+            _id: classMockID,
+            active: false,
+            en: { ...classMockInstance.en },
+            pt: { ...classMockInstance.pt },
+        };
+
+        const classMockFindInstance = {
+            _id: classMockID,
+            active: true,
+            en: { ...classMockInstance.en },
+            pt: { ...classMockInstance.pt },
+        };
+
+        const responseMessageMockActivated = {
+            message: `Class ${classMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `Class ${classMockID} was deactivated`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(ClassesModelMock, 'findOne').mockResolvedValueOnce(classMockInstance).mockResolvedValue(null);
+            jest.spyOn(ClassesModelMock, 'findOne')
+                .mockResolvedValueOnce(classMockFindInstance)
+                .mockResolvedValueOnce({ ...classMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...classMockFindInstance, active: true })
+                .mockResolvedValueOnce(classMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(ClassesModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(ClassesModelMock, 'update')
+                .mockResolvedValueOnce(classMockUpdateInstance)
+                .mockResolvedValueOnce({ ...classMockUpdateInstance, active: true })
+                .mockResolvedValue(null);
         });
 
-        it('should delete class and not return any data', async () => {
+        it('should return correct success message - disable', async () => {
+            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await ClassesServicesMock.updateAvailability(classMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the class is already enabled', async () => {
             try {
-                await ClassesServicesMock.delete(classMockID);
+                await ClassesServicesMock.updateAvailability(classMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the class is already disabled', async () => {
+            try {
+                await ClassesServicesMock.updateAvailability(classMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ClassesServicesMock.delete('inexistent_id');
+                await ClassesServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a class with provided ID');

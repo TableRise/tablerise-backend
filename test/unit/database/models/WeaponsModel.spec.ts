@@ -47,10 +47,5 @@ describe('Database :: Models :: WeaponsModel', () => {
                 _id: secondID,
             });
         });
-
-        it('should have the expected return when delete', async () => {
-            const responseTest = await newWeaponsModel.delete(testReturnWithID._id);
-            expect(responseTest).toStrictEqual({});
-        });
     });
 });

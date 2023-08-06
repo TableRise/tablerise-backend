@@ -66,7 +66,7 @@ describe('Get RPG Items from database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a Item with provided ID');
+            expect(body.message).toBe('NotFound an item with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

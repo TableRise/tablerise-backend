@@ -3,15 +3,21 @@ import Service from 'src/types/Service';
 import godZodSchema, { God } from 'src/schemas/godsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateData';
+import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { LoggerType } from 'src/types/LoggerType';
 
 export default class GodsServices extends ValidateEntry implements Service<Internacional<God>> {
-    constructor(private readonly _model: GodsModel) {
+    constructor(
+        private readonly _model: GodsModel,
+        private readonly _logger: LoggerType
+    ) {
         super();
     }
 
     public async findAll(): Promise<Array<Internacional<God>>> {
         const response = await this._model.findAll();
+
+        this._logger('info', 'All god entities found with success');
         return response;
     }
 
@@ -23,9 +29,11 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('info', 'God entity found with success');
         return response;
     }
 
@@ -39,9 +47,11 @@ export default class GodsServices extends ValidateEntry implements Service<Inter
             err.stack = HttpStatusCode.NOT_FOUND.toString();
             err.name = 'NotFound';
 
+            this._logger('error', err.message);
             throw err;
         }
 
+        this._logger('info', 'God entity updated with success');
         return response;
     }
 
