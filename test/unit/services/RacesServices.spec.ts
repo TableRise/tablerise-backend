@@ -79,7 +79,10 @@ describe('Services :: RacesServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await RacesServicesMock.update(raceMockID, raceMockPayloadWithoutActive as Internacional<Race>);
+            const responseTest = await RacesServicesMock.update(
+                raceMockID,
+                raceMockPayloadWithoutActive as Internacional<Race>
+            );
             expect(responseTest).toBe(raceMockUpdateInstance);
         });
 

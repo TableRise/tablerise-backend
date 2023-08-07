@@ -79,7 +79,10 @@ describe('Services :: ItemsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await ItemsServicesMock.update(itemMockID, itemMockPayloadWithoutActive as Internacional<Item>);
+            const responseTest = await ItemsServicesMock.update(
+                itemMockID,
+                itemMockPayloadWithoutActive as Internacional<Item>
+            );
             expect(responseTest).toBe(itemMockUpdateInstance);
         });
 

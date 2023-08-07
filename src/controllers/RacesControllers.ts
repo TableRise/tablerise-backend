@@ -36,7 +36,6 @@ export default class RacesControllers {
         const request = await this._service.findOne(_id);
         return res.status(HttpStatusCode.OK).json(request);
     }
-    
 
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to races');
