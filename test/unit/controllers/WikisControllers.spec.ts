@@ -8,7 +8,7 @@ import mocks from 'src/support/mocks';
 
 const logger = require('@tablerise/dynamic-logger');
 
-describe('Services :: SpellsControllers', () => {
+describe('Services :: WikisControllers', () => {
     const WikisModelMock = new WikisModel();
     const WikisServicesMock = new WikisServices(WikisModelMock, logger);
     const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);
@@ -35,7 +35,26 @@ describe('Services :: SpellsControllers', () => {
         });
     });
 
-    describe('When a request is made to recover spell by ID', () => {
+    describe('When a request is made to recover all disabled wikis', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(WikisServicesMock, 'findAllDisabled').mockResolvedValue([wikiMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await WikisControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([wikiMockInstance]);
+        });
+    });
+
+    describe('When a request is made to recover wiki by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
@@ -85,24 +104,30 @@ describe('Services :: SpellsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a wiki', () => {
+    describe('When a request is made to update availability wiki by ID', () => {
+        const responseMessageMock = {
+            message: 'Wiki {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(WikisServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(WikisServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: wikiMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await WikisControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await WikisControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });
