@@ -42,6 +42,31 @@ describe('Get RPG Races from database', () => {
         });
     });
 
+    describe('When request all disabled rpg races', () => {
+        it('should return an array with disabled races', async () => {
+            const keysToTest = Object.keys(race.en);
+
+            const raceMockCopy = {
+                active: false,
+                en: { ...raceMockPayload.en, active: false },
+                pt: { ...raceMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(raceMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/races/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg Race', () => {
         it('should return a Race instance', async () => {
             const keysToTest = Object.keys(race.en);

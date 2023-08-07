@@ -43,6 +43,31 @@ describe('Get RPG Items from database', () => {
         });
     });
 
+    describe('When request all disabled rpg monsters', () => {
+        it('should return an array with disabled monsters', async () => {
+            const keysToTest = Object.keys(item.en);
+
+            const itemMockCopy = {
+                active: false,
+                en: { ...itemMockPayload.en, active: false },
+                pt: { ...itemMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(itemMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/items/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg Item', () => {
         it('should return a Item instance', async () => {
             const keysToTest = Object.keys(item.en);

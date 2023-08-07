@@ -8,7 +8,7 @@ import { Race } from 'src/schemas/racesValidationSchema';
 import mocks from 'src/support/mocks';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG Races in database', () => {
+describe('Patch RPG races in database', () => {
     beforeAll(() => {
         connect();
     });
@@ -21,65 +21,64 @@ describe('Put RPG Races in database', () => {
     const race = mocks.race.instance as Internacional<Race>;
     const { _id: _, ...racePayload } = race;
 
-    const newRacePayload = {
-        en: { ...racePayload.en, name: 'Race_testPut' },
-        pt: { ...racePayload.pt, name: 'Race_testPut' },
-    };
-
     let documentId: string;
 
-    describe('When update one rpg Race', () => {
-        it('should return updated Race', async () => {
-            const keysToTest = Object.keys(race.en);
-
+    describe('When update availability one rpg race', () => {
+        it('should return a string with race updated id', async () => {
             const response = await model.create(racePayload);
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/races/${documentId}`)
-                .send(newRacePayload)
+                .patch(`/races/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
-
-            expect(body).toHaveProperty('_id');
-
-            keysToTest.forEach((key) => {
-                expect(body.en).toHaveProperty(key);
-                expect(body.pt).toHaveProperty(key);
-            });
-
-            expect(body.en.name).toBe('Race_testPut');
-            expect(body.pt.name).toBe('Race_testPut');
-        });
-
-        it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
-                .put(`/races/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Race>)
-                .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('en');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
-            expect(body.name).toBe('ValidationError');
+            expect(body.message).toBe(`Race ${documentId} was deactivated`);
+            expect(body.name).toBe('success');
         });
 
-        it('should fail when try to change availability', async () => {
+        it('should fail when availability already enabled', async () => {
+            const response = await model.create(racePayload);
+            documentId = response._id as string;
+
             const { body } = await request(app)
-                .put(`/races/${generateNewMongoID()}`)
-                .send({ active: true, ...newRacePayload })
+                .patch(`/races/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.message).toBe('Entity already enabled');
             expect(body.name).toBe('BadRequest');
+        });
+
+        it('should fail when availability already disabled', async () => {
+            await request(app).patch(`/races/${documentId}?availability=false`);
+
+            const { body } = await request(app)
+                .patch(`/races/${documentId}?availability=false`)
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Entity already disabled');
+            expect(body.name).toBe('BadRequest');
+        });
+
+        it('should fail when query is wrong', async () => {
+            const { body } = await request(app)
+                .patch(`/races/${documentId}?availability=wrongQuery`)
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('The query is invalid');
+            expect(body.name).toBe('Invalid Entry');
         });
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/races/${generateNewMongoID()}`)
-                .send(newRacePayload)
+                .patch(`/races/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
