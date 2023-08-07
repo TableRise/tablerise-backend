@@ -98,6 +98,17 @@ describe('Services :: ItemsServices', () => {
             }
         });
 
+        it('should throw an error when try to update availability', async () => {
+            try {
+                await ItemsServicesMock.update('inexistent_id', itemMockPayload as Internacional<Item>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
         it('should throw an error when ID is inexistent', async () => {
             try {
                 await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<Item>);
