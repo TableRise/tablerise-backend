@@ -42,6 +42,31 @@ describe('Get RPG wikis from database', () => {
         });
     });
 
+    describe('When request all disabled rpg wikis', () => {
+        it('should return an array with disabled wikis', async () => {
+            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
+
+            const weaponMockCopy = {
+                active: false,
+                en: { ...wikiMockPayload.en, active: false },
+                pt: { ...wikiMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(weaponMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/wikis/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg wiki', () => {
         it('should return a wiki instance', async () => {
             const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];

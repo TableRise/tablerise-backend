@@ -42,6 +42,31 @@ describe('Get RPG monsters from database', () => {
         });
     });
 
+    describe('When request all disabled rpg monsters', () => {
+        it('should return an array with disabled monsters', async () => {
+            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
+
+            const weaponMockCopy = {
+                active: false,
+                en: { ...monsterMockPayload.en, active: false },
+                pt: { ...monsterMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(weaponMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/monsters/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg monster', () => {
         it('should return a monster instance', async () => {
             const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];
