@@ -35,6 +35,25 @@ describe('Services :: MonstersControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all disabled monsters', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(MonstersServicesMock, 'findAllDisabled').mockResolvedValue([monsterMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await MonstersControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([monsterMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover monster by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -85,24 +104,30 @@ describe('Services :: MonstersControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a monster', () => {
+    describe('When a request is made to update availability monster by ID', () => {
+        const responseMessageMock = {
+            message: 'Monster {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(MonstersServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(MonstersServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await MonstersControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await MonstersControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

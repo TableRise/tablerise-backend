@@ -31,6 +31,7 @@ const wikiMockPt: Wiki = {
 const wiki: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: wikiMockEn,
         pt: wikiMockPt,
     },

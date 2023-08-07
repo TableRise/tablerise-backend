@@ -24,6 +24,7 @@ const schema = new Schema<Wiki>(
 
 export const wikisMongooseSchema = new Schema<Internacional<Wiki>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

@@ -12,7 +12,7 @@ describe('Services :: MonstersServices', () => {
     const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
     const { _id: _, ...monsterMockPayload } = monsterMockInstance;
 
-    describe('When the recover all monsters service is called', () => {
+    describe('When the recover all enabled monsters service is called', () => {
         beforeAll(() => {
             jest.spyOn(MonstersModelMock, 'findAll').mockResolvedValue([monsterMockInstance]);
         });
@@ -20,6 +20,18 @@ describe('Services :: MonstersServices', () => {
         it('should return correct data', async () => {
             const responseTest = await MonstersServicesMock.findAll();
             expect(responseTest).toStrictEqual([monsterMockInstance]);
+        });
+    });
+
+    describe('When the recover all disabled monster service is called', () => {
+        const monsterMockDisabled = { ...monsterMockInstance, active: false };
+        beforeAll(() => {
+            jest.spyOn(MonstersModelMock, 'findAll').mockResolvedValue([monsterMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await MonstersServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([monsterMockDisabled]);
         });
     });
 
@@ -51,6 +63,8 @@ describe('Services :: MonstersServices', () => {
             en: { ...monsterMockInstance.en, name: 'None' },
             pt: { ...monsterMockInstance.pt, name: 'None' },
         };
+        const monsterMockPayloadWithoutActive = { ...monsterMockPayload };
+        delete monsterMockPayloadWithoutActive.active;
 
         const { name: _1, ...monstersMockEnWithoutName } = monsterMockPayload.en;
         const { name: _2, ...monstersMockPtWithoutName } = monsterMockPayload.pt;
@@ -68,7 +82,7 @@ describe('Services :: MonstersServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await MonstersServicesMock.update(
                 monsterMockID,
-                monsterMockPayload as Internacional<Monster>
+                monsterMockPayloadWithoutActive as Internacional<Monster>
             );
             expect(responseTest).toBe(monsterMockUpdateInstance);
         });
@@ -85,9 +99,23 @@ describe('Services :: MonstersServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await MonstersServicesMock.update('inexistent_id', monsterMockPayload as Internacional<Monster>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await MonstersServicesMock.update(
+                    'inexistent_id',
+                    monsterMockPayloadWithoutActive as Internacional<Monster>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a monster with provided ID');
@@ -97,26 +125,81 @@ describe('Services :: MonstersServices', () => {
         });
     });
 
-    describe('When service for delete a monster is called', () => {
+    describe('When service for update availability monster is called', () => {
         const monsterMockID = monsterMockInstance._id as string;
+        const monsterMockUpdateInstance = {
+            _id: monsterMockID,
+            active: false,
+            en: { ...monsterMockInstance.en },
+            pt: { ...monsterMockInstance.pt },
+        };
+
+        const monsterMockFindInstance = {
+            _id: monsterMockID,
+            active: true,
+            en: { ...monsterMockInstance.en },
+            pt: { ...monsterMockInstance.pt },
+        };
+
+        const responseMessageMockActivated = {
+            message: `Monster ${monsterMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `Monster ${monsterMockID} was deactivated`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(MonstersModelMock, 'findOne').mockResolvedValueOnce(monsterMockInstance).mockResolvedValue(null);
+            jest.spyOn(MonstersModelMock, 'findOne')
+                .mockResolvedValueOnce(monsterMockFindInstance)
+                .mockResolvedValueOnce({ ...monsterMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...monsterMockFindInstance, active: true })
+                .mockResolvedValueOnce(monsterMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(MonstersModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(MonstersModelMock, 'update')
+                .mockResolvedValueOnce(monsterMockUpdateInstance)
+                .mockResolvedValueOnce({ ...monsterMockUpdateInstance, active: true })
+                .mockResolvedValue(null);
         });
 
-        it('should delete monster and not return any data', async () => {
+        it('should return correct success message - disable', async () => {
+            const responseTest = await MonstersServicesMock.updateAvailability(monsterMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await MonstersServicesMock.updateAvailability(monsterMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the monster is already enabled', async () => {
             try {
-                await MonstersServicesMock.delete(monsterMockID);
+                await MonstersServicesMock.updateAvailability(monsterMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the monster is already disabled', async () => {
+            try {
+                await MonstersServicesMock.updateAvailability(monsterMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await MonstersServicesMock.delete('inexistent_id');
+                await MonstersServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a monster with provided ID');
