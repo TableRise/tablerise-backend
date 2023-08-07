@@ -35,6 +35,25 @@ describe('Services :: RacesControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all disabled races', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(RacesServicesMock, 'findAllDisabled').mockResolvedValue([RaceMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await RacesControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([RaceMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover one Race by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -85,24 +104,30 @@ describe('Services :: RacesControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a Race', () => {
+    describe('When a request is made to update availability race by ID', () => {
+        const responseMessageMock = {
+            message: 'Race {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(RacesServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(RacesServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await RacesControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await RacesControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

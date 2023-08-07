@@ -111,7 +111,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])],
             null,
             updateSystemInstance.instance,
-            false,
+            false
         ],
         ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
         ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
@@ -137,7 +137,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/feats', 'feats', 'get', null, featInstance, null, false],
@@ -151,7 +151,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/weapons', 'weapons', 'get', null, weaponInstance, null, false],
@@ -165,7 +165,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/armors', 'armors', 'get', null, armorInstance, null, false],
@@ -179,18 +179,36 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/items', 'items', 'get', null, itemInstance, null, false],
+        ['/items/disabled', 'items', 'get', null, itemInstance, null, false],
         ['/items/{_id}', 'items', 'get', generateIDParam(), itemInstance, null, false],
         ['/items/{_id}', 'items', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
-        ['/items/{_id}', 'items', 'delete', generateIDParam(), null, null, false],
+        [
+            '/items/{_id}',
+            'items',
+            'patch',
+            [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+            null,
+            null,
+            false
+        ],
 
         ['/races', 'races', 'get', null, raceInstance, null, false],
+        ['/races/disabled', 'races', 'get', null, raceInstance, null, false],
         ['/races/{_id}', 'races', 'get', generateIDParam(), raceInstance, null, false],
         ['/races/{_id}', 'races', 'put', generateIDParam(), raceInstance, raceWithoutId, false],
-        ['/races/{_id}', 'races', 'delete', generateIDParam(), null, null, false],
+        [
+            '/races/{_id}',
+            'races',
+            'patch',
+            [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+            null,
+            null,
+            false
+        ],
 
         ['/classes', 'classes', 'get', null, classInstance, null, false],
         ['/classes/disabled', 'classes', 'get', null, classInstance, null, false],
@@ -203,7 +221,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
@@ -217,7 +235,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/spells', 'spells', 'get', null, spellInstance, null, false],
@@ -231,7 +249,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
@@ -245,7 +263,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
 
         ['/monsters', 'monsters', 'get', null, monsterInstance, null, false],
@@ -259,7 +277,7 @@ class RoutesWrapper {
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
             null,
             null,
-            false,
+            false
         ],
     ];
   }
