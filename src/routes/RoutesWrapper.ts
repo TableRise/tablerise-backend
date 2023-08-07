@@ -193,7 +193,7 @@ class RoutesWrapper {
         ['/races/{_id}', 'races', 'delete', generateIDParam(), null, null, false],
 
         ['/classes', 'classes', 'get', null, classInstance, null, false],
-        ['/classes/disabled', 'classes', 'get', null, weaponInstance, null, false],
+        ['/classes/disabled', 'classes', 'get', null, classInstance, null, false],
         ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
         ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
         [
@@ -207,7 +207,7 @@ class RoutesWrapper {
         ],
 
         ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
-        ['/magicItems/disabled', 'magicItems', 'get', null, weaponInstance, null, false],
+        ['/magicItems/disabled', 'magicItems', 'get', null, magicItemInstance, null, false],
         ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
         ['/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
         [
@@ -221,7 +221,7 @@ class RoutesWrapper {
         ],
 
         ['/spells', 'spells', 'get', null, spellInstance, null, false],
-        ['/spells/disabled', 'spells', 'get', null, weaponInstance, null, false],
+        ['/spells/disabled', 'spells', 'get', null, spellInstance, null, false],
         ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
         ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
         [
