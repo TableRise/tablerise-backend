@@ -84,6 +84,7 @@ const schema = new Schema<Monster>(
 
 export const monstersMongooseSchema = new Schema<Internacional<Monster>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },
