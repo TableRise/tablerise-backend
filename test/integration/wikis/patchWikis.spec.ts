@@ -34,7 +34,7 @@ describe('Patch RPG wikis in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe(`wiki ${documentId} was deactivated`);
+            expect(body.message).toBe(`Wiki ${documentId} was deactivated`);
             expect(body.name).toBe('success');
         });
 

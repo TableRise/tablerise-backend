@@ -34,7 +34,7 @@ describe('Patch RPG monsters in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe(`monster ${documentId} was deactivated`);
+            expect(body.message).toBe(`Monster ${documentId} was deactivated`);
             expect(body.name).toBe('success');
         });
 

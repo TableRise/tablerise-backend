@@ -44,7 +44,7 @@ describe('Get RPG monsters from database', () => {
 
     describe('When request all disabled rpg monsters', () => {
         it('should return an array with disabled monsters', async () => {
-            const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];
+            const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];
 
             const weaponMockCopy = {
                 active: false,
