@@ -65,7 +65,7 @@ describe('Services :: WikisServices', () => {
         };
         const wikiMockPayloadWithoutActive = { ...wikiMockPayload };
         delete wikiMockPayloadWithoutActive.active;
-        
+
         const { title: _1, ...wikisMockEnWithoutTitle } = wikiMockPayload.en;
         const { title: _2, ...wikisMockPtWithoutTitle } = wikiMockPayload.pt;
         const wikiMockPayloadWrong = {
@@ -78,7 +78,10 @@ describe('Services :: WikisServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await WikisServicesMock.update(wikiMockID, wikiMockPayloadWithoutActive as Internacional<Wiki>);
+            const responseTest = await WikisServicesMock.update(
+                wikiMockID,
+                wikiMockPayloadWithoutActive as Internacional<Wiki>
+            );
             expect(responseTest).toBe(wikiMockUpdateInstance);
         });
 
@@ -200,5 +203,4 @@ describe('Services :: WikisServices', () => {
             }
         });
     });
-    
 });

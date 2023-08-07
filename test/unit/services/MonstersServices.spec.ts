@@ -112,7 +112,10 @@ describe('Services :: MonstersServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await MonstersServicesMock.update('inexistent_id', monsterMockPayloadWithoutActive as Internacional<Monster>);
+                await MonstersServicesMock.update(
+                    'inexistent_id',
+                    monsterMockPayloadWithoutActive as Internacional<Monster>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a monster with provided ID');
