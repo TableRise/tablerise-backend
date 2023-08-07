@@ -31,6 +31,7 @@ const schema = new Schema<Item>({
 
 export const itemsMongooseSchema = new Schema<Internacional<Item>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },
