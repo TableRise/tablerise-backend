@@ -18,8 +18,8 @@ describe('Get RPG realms from database', () => {
     });
 
     const model = new RealmsModel();
-    const realm = mocks.realm.instance;
-    const { _id: _, ...realmMockPayload } = realm as Internacional<Realm>;
+    const _realm = mocks.realm.instance;
+    const { _id: _, ...realmMockPayload } = _realm as Internacional<Realm>;
 
     let documentId: string;
 
@@ -31,6 +31,31 @@ describe('Get RPG realms from database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app).get('/realms').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
+    describe('When request all disabled rpg realms', () => {
+        it('should return an array with disabled realms', async () => {
+            const keysToTest = ['name', 'description', 'thumbnail'];
+
+            const realmMockCopy = {
+                active: false,
+                en: { ...realmMockPayload.en, active: false },
+                pt: { ...realmMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(realmMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/realms/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');

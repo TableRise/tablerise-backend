@@ -17,6 +17,7 @@ const realmInstancePt: Realm = {
 const realm: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: realmInstanceEn,
         pt: realmInstancePt,
     },

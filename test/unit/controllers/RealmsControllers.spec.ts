@@ -35,7 +35,27 @@ describe('Services :: RealmsControllers', () => {
         });
     });
 
-    describe('When a request is made to recover one realm by ID', () => {
+    describe('When a request is made to recover all realms disabled', () => {
+        realmMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(RealmsServicesMock, 'findAllDisabled').mockResolvedValue([realmMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await RealmsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([realmMockInstance]);
+        });
+    });
+
+    describe('When a request is made to recover realm by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
@@ -56,10 +76,10 @@ describe('Services :: RealmsControllers', () => {
         });
     });
 
-    describe('When a request is made to update one realm by ID', () => {
+    describe('When a request is made to update realm by ID', () => {
         const realmMockUpdateInstance = {
-            en: { ...realmMockInstance.en, name: 'Olympo' },
-            pt: { ...realmMockInstance.pt, name: 'Olympo' },
+            en: { ...realmMockInstance.en, name: 'Bard' },
+            pt: { ...realmMockInstance.pt, name: 'Bardo' },
         };
 
         const { _id: _, ...realmMockPayload } = realmMockInstance;
@@ -85,24 +105,30 @@ describe('Services :: RealmsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a realm', () => {
+    describe('When a request is made to update availability realm by ID', () => {
+        const responseMessageMock = {
+            message: 'Realm {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(RealmsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(RealmsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: realmMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await RealmsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await RealmsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

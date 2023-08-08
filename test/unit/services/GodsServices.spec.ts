@@ -12,7 +12,7 @@ describe('Services :: GodsServices', () => {
     const godMockInstance = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godMockPayload } = godMockInstance;
 
-    describe('When the recover all gods service is called', () => {
+    describe('When the recover all enabled gods service is called', () => {
         beforeAll(() => {
             jest.spyOn(GodsModelMock, 'findAll').mockResolvedValue([godMockInstance]);
         });
@@ -20,6 +20,18 @@ describe('Services :: GodsServices', () => {
         it('should return correct data', async () => {
             const responseTest = await GodsServicesMock.findAll();
             expect(responseTest).toStrictEqual([godMockInstance]);
+        });
+    });
+
+    describe('When the recover all disabled gods service is called', () => {
+        const godMockDisabled = { active: false, ...godMockInstance };
+        beforeAll(() => {
+            jest.spyOn(GodsModelMock, 'findAll').mockResolvedValue([godMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await GodsServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([godMockDisabled]);
         });
     });
 
@@ -51,12 +63,14 @@ describe('Services :: GodsServices', () => {
             en: { ...godMockInstance.en, name: 'None' },
             pt: { ...godMockInstance.pt, name: 'None' },
         };
+        const godMockPayloadWithoutActive = { ...godMockPayload };
+        delete godMockPayloadWithoutActive.active;
 
-        const { name: _1, ...godMockEnWithoutName } = godMockPayload.en;
-        const { name: _2, ...godMockPtWithoutName } = godMockPayload.pt;
+        const { name: _1, ...godsMockEnWithoutName } = godMockPayload.en;
+        const { name: _2, ...godsMockPtWithoutName } = godMockPayload.pt;
         const godMockPayloadWrong = {
-            en: godMockEnWithoutName,
-            pt: godMockPtWithoutName,
+            en: godsMockEnWithoutName,
+            pt: godsMockPtWithoutName,
         };
 
         beforeAll(() => {
@@ -64,7 +78,10 @@ describe('Services :: GodsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await GodsServicesMock.update(godMockID, godMockPayload as Internacional<God>);
+            const responseTest = await GodsServicesMock.update(
+                godMockID,
+                godMockPayloadWithoutActive as Internacional<God>
+            );
             expect(responseTest).toBe(godMockUpdateInstance);
         });
 
@@ -80,9 +97,20 @@ describe('Services :: GodsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await GodsServicesMock.update('inexistent_id', godMockPayload as Internacional<God>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await GodsServicesMock.update('inexistent_id', godMockPayloadWithoutActive as Internacional<God>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a god with provided ID');
@@ -92,26 +120,81 @@ describe('Services :: GodsServices', () => {
         });
     });
 
-    describe('When service for delete a god is called', () => {
+    describe('When service for update availability god is called', () => {
         const godMockID = godMockInstance._id as string;
+        const godMockUpdateInstance = {
+            _id: godMockID,
+            active: false,
+            en: { ...godMockInstance.en },
+            pt: { ...godMockInstance.pt },
+        };
+
+        const godMockFindInstance = {
+            _id: godMockID,
+            active: true,
+            en: { ...godMockInstance.en },
+            pt: { ...godMockInstance.pt },
+        };
+
+        const responseMessageMockActivated = {
+            message: `God ${godMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `God ${godMockID} was deactivated`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(GodsModelMock, 'findOne').mockResolvedValueOnce(godMockInstance).mockResolvedValue(null);
+            jest.spyOn(GodsModelMock, 'findOne')
+                .mockResolvedValueOnce(godMockFindInstance)
+                .mockResolvedValueOnce({ ...godMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...godMockFindInstance, active: true })
+                .mockResolvedValueOnce(godMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(GodsModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(GodsModelMock, 'update')
+                .mockResolvedValueOnce(godMockUpdateInstance)
+                .mockResolvedValueOnce(godMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
-        it('should delete god and not return any data', async () => {
+        it('should return correct success message - disable', async () => {
+            const responseTest = await GodsServicesMock.updateAvailability(godMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await GodsServicesMock.updateAvailability(godMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the god is already enabled', async () => {
             try {
-                await GodsServicesMock.delete(godMockID);
+                await GodsServicesMock.updateAvailability(godMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the god is already disabled', async () => {
+            try {
+                await GodsServicesMock.updateAvailability(godMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await GodsServicesMock.delete('inexistent_id');
+                await GodsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a god with provided ID');

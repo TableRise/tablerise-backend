@@ -14,6 +14,7 @@ const schema = new Schema<Realm>(
 
 export const realmsMongooseSchema = new Schema<Internacional<Realm>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

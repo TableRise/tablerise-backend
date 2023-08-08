@@ -18,8 +18,8 @@ describe('Get RPG gods from database', () => {
     });
 
     const model = new GodsModel();
-    const god = mocks.god.instance;
-    const { _id: _, ...godMockPayload } = god as Internacional<God>;
+    const _god = mocks.god.instance;
+    const { _id: _, ...godMockPayload } = _god as Internacional<God>;
 
     let documentId: string;
 
@@ -31,6 +31,31 @@ describe('Get RPG gods from database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app).get('/gods').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
+    describe('When request all disabled rpg gods', () => {
+        it('should return an array with disabled gods', async () => {
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'phanteon'];
+
+            const godMockCopy = {
+                active: false,
+                en: { ...godMockPayload.en, active: false },
+                pt: { ...godMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(godMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/gods/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
