@@ -21,6 +21,7 @@ const godInstancePt: God = {
 const god: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: godInstanceEn,
         pt: godInstancePt,
     },
