@@ -35,7 +35,27 @@ describe('Services :: GodsControllers', () => {
         });
     });
 
-    describe('When a request is made to recover one god by ID', () => {
+    describe('When a request is made to recover all gods disabled', () => {
+        godMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(GodsServicesMock, 'findAllDisabled').mockResolvedValue([godMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await GodsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([godMockInstance]);
+        });
+    });
+
+    describe('When a request is made to recover god by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
@@ -56,10 +76,10 @@ describe('Services :: GodsControllers', () => {
         });
     });
 
-    describe('When a request is made to update one god by ID', () => {
+    describe('When a request is made to update god by ID', () => {
         const godMockUpdateInstance = {
-            en: { ...godMockInstance.en, name: 'Olympo' },
-            pt: { ...godMockInstance.pt, name: 'Olympo' },
+            en: { ...godMockInstance.en, name: 'Bard' },
+            pt: { ...godMockInstance.pt, name: 'Bardo' },
         };
 
         const { _id: _, ...godMockPayload } = godMockInstance;
@@ -85,24 +105,30 @@ describe('Services :: GodsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a god', () => {
+    describe('When a request is made to update availability god by ID', () => {
+        const responseMessageMock = {
+            message: 'God {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(GodsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(GodsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: godMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await GodsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await GodsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });
