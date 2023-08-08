@@ -22,8 +22,8 @@ describe('Put RPG realms in database', () => {
     const { _id: _, ...realmPayload } = realm;
 
     const newRealmPayload = {
-        en: { ...realmPayload.en, name: 'Olympo' },
-        pt: { ...realmPayload.pt, name: 'Olympo' },
+        en: { ...realmPayload.en, name: 'Fire' },
+        pt: { ...realmPayload.pt, name: 'Fogo' },
     };
 
     let documentId: string;
@@ -47,8 +47,8 @@ describe('Put RPG realms in database', () => {
                 expect(body.pt).toHaveProperty(key);
             });
 
-            expect(body.en.name).toBe('Olympo');
-            expect(body.pt.name).toBe('Olympo');
+            expect(body.en.name).toBe('Fire');
+            expect(body.pt.name).toBe('Fogo');
         });
 
         it('should fail when data is wrong', async () => {
@@ -62,6 +62,18 @@ describe('Put RPG realms in database', () => {
             expect(JSON.parse(body.message)[0].path[0]).toBe('en');
             expect(JSON.parse(body.message)[0].message).toBe('Required');
             expect(body.name).toBe('ValidationError');
+        });
+
+        it('should fail when try to change availability', async () => {
+            const { body } = await request(app)
+                .put(`/realms/${generateNewMongoID()}`)
+                .send({ active: true, ...newRealmPayload })
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {
