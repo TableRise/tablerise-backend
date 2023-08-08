@@ -117,14 +117,32 @@ class RoutesWrapper {
         ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
 
         ['/realms', 'realms', 'get', null, realmInstance, null, false],
+        ['/realms/disabled', 'realms', 'get', null, itemInstance, null, false],
         ['/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
         ['/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
-        ['/realms/{_id}', 'realms', 'delete', generateIDParam(), null, null, false],
+        [
+            '/realms/{_id}',
+            'realms',
+            'patch',
+            [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+            null,
+            null,
+            false
+        ],
 
         ['/gods', 'gods', 'get', null, godInstance, null, false],
+        ['/gods/disabled', 'gods', 'get', null, itemInstance, null, false],
         ['/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
         ['/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
-        ['/gods/{_id}', 'gods', 'delete', generateIDParam(), null, null, false],
+        [
+            '/gods/{_id}',
+            'gods',
+            'patch',
+            [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+            null,
+            null,
+            false
+        ],
 
         ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
         ['/backgrounds/disabled', 'backgrounds', 'get', null, backgroundInstance, null, false],
