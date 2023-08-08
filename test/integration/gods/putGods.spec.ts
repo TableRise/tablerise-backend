@@ -22,8 +22,8 @@ describe('Put RPG gods in database', () => {
     const { _id: _, ...godPayload } = god;
 
     const newGodPayload = {
-        en: { ...godPayload.en, name: 'Olympo' },
-        pt: { ...godPayload.pt, name: 'Olympo' },
+        en: { ...godPayload.en, name: 'Fire' },
+        pt: { ...godPayload.pt, name: 'Fogo' },
     };
 
     let documentId: string;
@@ -47,8 +47,8 @@ describe('Put RPG gods in database', () => {
                 expect(body.pt).toHaveProperty(key);
             });
 
-            expect(body.en.name).toBe('Olympo');
-            expect(body.pt.name).toBe('Olympo');
+            expect(body.en.name).toBe('Fire');
+            expect(body.pt.name).toBe('Fogo');
         });
 
         it('should fail when data is wrong', async () => {
@@ -62,6 +62,18 @@ describe('Put RPG gods in database', () => {
             expect(JSON.parse(body.message)[0].path[0]).toBe('en');
             expect(JSON.parse(body.message)[0].message).toBe('Required');
             expect(body.name).toBe('ValidationError');
+        });
+
+        it('should fail when try to change availability', async () => {
+            const { body } = await request(app)
+                .put(`/gods/${generateNewMongoID()}`)
+                .send({ active: true, ...newGodPayload })
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {
