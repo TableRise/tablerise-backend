@@ -5,12 +5,14 @@ import ClassesControllers from 'src/controllers/ClassesControllers';
 import { Class } from 'src/schemas/classesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ClassesControllers', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock);
     const ClassesControllersMock = new ClassesControllers(ClassesServicesMock, logger);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const request = {} as Request;

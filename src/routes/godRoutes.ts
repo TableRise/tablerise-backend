@@ -3,11 +3,13 @@ import GodsModel from 'src/database/models/GodsModel';
 import GodsServices from 'src/services/GodsServices';
 import GodsControllers from 'src/controllers/GodsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new GodsModel();
-const services = new GodsServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new GodsServices(model, logger, validateData);
 const controllers = new GodsControllers(services, logger);
 
 const router = Router();

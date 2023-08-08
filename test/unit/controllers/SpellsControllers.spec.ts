@@ -5,12 +5,14 @@ import SpellsControllers from 'src/controllers/SpellsControllers';
 import { Spell } from 'src/schemas/spellsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SpellsControllers', () => {
     const SpellsModelMock = new SpellsModel();
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock);
     const SpellsControllersMock = new SpellsControllers(SpellsServicesMock, logger);
     const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const request = {} as Request;

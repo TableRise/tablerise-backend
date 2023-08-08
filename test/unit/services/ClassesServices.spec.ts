@@ -106,7 +106,7 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Not authorized to change availability');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }

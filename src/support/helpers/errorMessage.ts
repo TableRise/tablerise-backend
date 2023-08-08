@@ -2,7 +2,7 @@ export const errorMessage = {
     notFound: {
         armor: 'NotFound an armor with provided ID',
         background: 'NotFound a background with provided ID',
-        classe: 'NotFound a classe with provided ID',
+        classe: 'NotFound a class with provided ID',
         feat: 'NotFound a feat with provided ID',
         god: 'NotFound a god with provided ID',
         item: 'NotFound an item with provided ID',

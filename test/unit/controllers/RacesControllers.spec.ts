@@ -5,12 +5,14 @@ import RacesControllers from 'src/controllers/RacesControllers';
 import { Race } from 'src/schemas/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RacesControllers', () => {
     const RacesModelMock = new RacesModel();
-    const RacesServicesMock = new RacesServices(RacesModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock);
     const RacesControllersMock = new RacesControllers(RacesServicesMock, logger);
     const RaceMockInstance = mocks.race.instance as Internacional<Race>;
     const request = {} as Request;

@@ -3,11 +3,13 @@ import RealmsModel from 'src/database/models/RealmsModel';
 import RealmsServices from 'src/services/RealmsServices';
 import RealmsControllers from 'src/controllers/RealmsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new RealmsModel();
-const services = new RealmsServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new RealmsServices(model, logger, validateData);
 const controllers = new RealmsControllers(services, logger);
 
 const router = Router();

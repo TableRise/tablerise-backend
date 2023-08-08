@@ -4,11 +4,13 @@ import SpellsServices from 'src/services/SpellsServices';
 import SpellsControllers from 'src/controllers/SpellsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new SpellsModel();
-const services = new SpellsServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new SpellsServices(model, logger, validateData);
 const controllers = new SpellsControllers(services, logger);
 
 const router = Router();

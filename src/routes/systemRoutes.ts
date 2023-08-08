@@ -3,11 +3,13 @@ import SystemModel from 'src/database/models/SystemModel';
 import SystemServices from 'src/services/SystemServices';
 import SystemControllers from 'src/controllers/SystemControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new SystemModel();
-const services = new SystemServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new SystemServices(model, logger, validateData);
 const controllers = new SystemControllers(services, logger);
 
 const router = Router();
