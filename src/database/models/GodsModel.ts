@@ -16,6 +16,7 @@ const schema = new Schema<God>(
 
 export const godsMongooseSchema = new Schema<Internacional<God>>(
     {
+        active: { type: Boolean, required: true },
         en: schema,
         pt: schema,
     },

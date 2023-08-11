@@ -37,6 +37,26 @@ describe('Services :: MagicItemsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all backgrounds disabled', () => {
+        magicItemMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(MagicItemsServicesMock, 'findAllDisabled').mockResolvedValue([magicItemMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await MagicItemsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([magicItemMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover magic item god by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -87,24 +107,30 @@ describe('Services :: MagicItemsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a god', () => {
+    describe('When a request is made to update availability background by ID', () => {
+        const responseMessageMock = {
+            message: 'Magic Item {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(MagicItemsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(MagicItemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await MagicItemsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await MagicItemsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

@@ -41,6 +41,7 @@ const backgroundMockPt: Background = {
 const background: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: backgroundMockEn,
         pt: backgroundMockPt,
     },

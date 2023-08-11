@@ -64,6 +64,18 @@ describe('Put RPG feats in database', () => {
             expect(body.name).toBe('ValidationError');
         });
 
+        it('should fail when try to change availability', async () => {
+            const { body } = await request(app)
+                .put(`/feats/${generateNewMongoID()}`)
+                .send({ active: true, ...newFeatPayload })
+                .expect(HttpStatusCode.BAD_REQUEST);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
+        });
+
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
                 .put(`/feats/${generateNewMongoID()}`)

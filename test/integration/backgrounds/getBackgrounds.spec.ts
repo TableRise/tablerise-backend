@@ -49,6 +49,37 @@ describe('Get RPG backgrounds from database', () => {
         });
     });
 
+    describe('When request all disabled rpg backgrounds', () => {
+        it('should return an array with disabled backgrounds', async () => {
+            const keysToTest = [
+                'name',
+                'description',
+                'skillProficiences',
+                'languages',
+                'equipment',
+                'characteristics',
+            ];
+            const backgroundMockCopy = {
+                active: false,
+                en: { ...backgroundMockPayload.en, active: false },
+                pt: { ...backgroundMockPayload.pt, active: false },
+            };
+
+            const response = await model.create(backgroundMockCopy);
+            documentId = response._id as string;
+
+            const { body } = await request(app).get('/backgrounds/disabled').expect(HttpStatusCode.OK);
+
+            expect(body).toBeInstanceOf(Array);
+            expect(body[0]).toHaveProperty('_id');
+
+            keysToTest.forEach((key) => {
+                expect(body[0].en).toHaveProperty(key);
+                expect(body[0].pt).toHaveProperty(key);
+            });
+        });
+    });
+
     describe('When request one rpg background', () => {
         it('should return a background instance', async () => {
             const keysToTest = [

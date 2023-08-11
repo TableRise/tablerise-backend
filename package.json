@@ -11,7 +11,7 @@
         "test:unit": "jest --verbose ./test/unit",
         "test:integration": "jest --verbose ./test/integration",
         "test:coverage": "jest --verbose ./test/unit --coverage",
-        "dev": "npx nodemon",
+        "dev": "npm run build && npx nodemon",
         "lint": "npx eslint . --ext .ts --max-warnings=0",
         "prettier": "npx prettier --check .",
         "prettier:fix": "npx prettier . --write",
@@ -51,7 +51,7 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/auto-swagger": "1.2.0",
+        "@tablerise/auto-swagger": "1.2.1",
         "@tablerise/dynamic-logger": "1.2.1",
         "bcrypt": "5.1.0",
         "cors": "2.8.5",

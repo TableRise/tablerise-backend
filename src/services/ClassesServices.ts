@@ -36,7 +36,7 @@ export default class ClassesServices implements Service<Internacional<Class>> {
     }
 
     public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
-        this._validate.entry(languagesWrapper(classesZodSchema), payload, errorMessage.notFound.classe);
+        this._validate.entry(languagesWrapper(classesZodSchema), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

@@ -37,6 +37,26 @@ describe('Services :: BackgroundsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all backgrounds disabled', () => {
+        backgroundMockInstance.active = false;
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(BackgroundsServicesMock, 'findAllDisabled').mockResolvedValue([backgroundMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await BackgroundsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([backgroundMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover one background by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -87,24 +107,30 @@ describe('Services :: BackgroundsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a background', () => {
+    describe('When a request is made to update availability background by ID', () => {
+        const responseMessageMock = {
+            message: 'Background {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(BackgroundsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(BackgroundsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await BackgroundsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await BackgroundsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

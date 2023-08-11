@@ -92,6 +92,7 @@ const raceMockPt: Race = {
 const racesMocks: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: raceMockEn,
         pt: raceMockPt,
     },

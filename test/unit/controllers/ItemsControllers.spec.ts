@@ -37,6 +37,25 @@ describe('Services :: ItemsControllers', () => {
         });
     });
 
+    describe('When a request is made to recover all disabled items', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(ItemsServicesMock, 'findAllDisabled').mockResolvedValue([ItemMockInstance]);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            await ItemsControllersMock.findAllDisabled(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([ItemMockInstance]);
+        });
+    });
+
     describe('When a request is made to recover one Item by ID', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
@@ -87,24 +106,30 @@ describe('Services :: ItemsControllers', () => {
         });
     });
 
-    describe('When a request is made to delete a Item', () => {
+    describe('When a request is made to update availability item by ID', () => {
+        const responseMessageMock = {
+            message: 'Item {id} was deactivated',
+            name: 'success',
+        };
+
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.end = jest.fn().mockReturnValue({});
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(ItemsServicesMock, 'delete').mockResolvedValue();
+            jest.spyOn(ItemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
             jest.clearAllMocks();
         });
 
-        it('should not return any data in response with status 204', async () => {
+        it('should return correct data in response json with status 200', async () => {
             request.params = { _id: ItemMockInstance._id as string };
+            request.query = { availability: 'false' };
 
-            await ItemsControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
-            expect(response.end).toHaveBeenCalled();
+            await ItemsControllersMock.updateAvailability(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

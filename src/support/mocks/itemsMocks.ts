@@ -45,6 +45,7 @@ const itemMockPt: Item = {
 const itemsMocks: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: itemMockEn,
         pt: itemMockPt,
     },

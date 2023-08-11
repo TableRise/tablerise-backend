@@ -47,10 +47,5 @@ describe('Database :: Models :: RealmsModel', () => {
                 _id: secondID,
             });
         });
-
-        it('should have the expected return when delete', async () => {
-            const responseTest = await newRealmsModel.delete(testReturnWithID._id);
-            expect(responseTest).toStrictEqual({});
-        });
     });
 });

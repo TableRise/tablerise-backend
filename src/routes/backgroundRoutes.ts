@@ -4,6 +4,7 @@ import BackgroundsServices from 'src/services/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/BackgroundsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import ValidateData from 'src/support/helpers/ValidateData';
+import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -15,8 +16,9 @@ const controllers = new BackgroundsControllers(services, logger);
 const router = Router();
 
 router.get('/', controllers.findAll);
+router.get('/disabled', controllers.findAllDisabled);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.delete('/:id', VerifyIdMiddleware, controllers.delete);
+router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
 
 export default router;

@@ -53,6 +53,7 @@ const monsterMockPt: Monster = {
 const monster: Mock = {
     instance: {
         _id: generateNewMongoID(),
+        active: true,
         en: monsterMockEn,
         pt: monsterMockPt,
     },

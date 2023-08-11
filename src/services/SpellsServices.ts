@@ -36,7 +36,7 @@ export default class SpellsServices implements Service<Internacional<Spell>> {
     }
 
     public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
-        this._validate.entry(languagesWrapper(spellsZodSchema), payload, errorMessage.notFound.spell);
+        this._validate.entry(languagesWrapper(spellsZodSchema), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

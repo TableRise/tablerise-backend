@@ -25,6 +25,18 @@ describe('Services :: FeatsServices', () => {
         });
     });
 
+    describe('When the recover all disabled feats service is called', () => {
+        const featMockDisabled = { ...featMockInstance, active: false };
+        beforeAll(() => {
+            jest.spyOn(FeatsModelMock, 'findAll').mockResolvedValue([featMockDisabled]);
+        });
+
+        it('should return correct data', async () => {
+            const responseTest = await FeatsServicesMock.findAllDisabled();
+            expect(responseTest).toStrictEqual([featMockDisabled]);
+        });
+    });
+
     describe('When the recover a feat by ID service is called', () => {
         beforeAll(() => {
             jest.spyOn(FeatsModelMock, 'findOne').mockResolvedValueOnce(featMockInstance).mockResolvedValue(null);
@@ -54,6 +66,9 @@ describe('Services :: FeatsServices', () => {
             pt: { ...featMockInstance.pt, name: 'None' },
         };
 
+        const featMockPayloadWithoutActive = { ...featMockPayload };
+        delete featMockPayloadWithoutActive.active;
+
         const { name: _1, ...featMockEnWithoutName } = featMockPayload.en;
         const { name: _2, ...featMockPtWithoutName } = featMockPayload.pt;
         const featMockPayloadWrong = {
@@ -66,7 +81,10 @@ describe('Services :: FeatsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await FeatsServicesMock.update(featMockID, featMockPayload as Internacional<Feat>);
+            const responseTest = await FeatsServicesMock.update(
+                featMockID,
+                featMockPayloadWithoutActive as Internacional<Feat>
+            );
             expect(responseTest).toBe(featMockUpdateInstance);
         });
 
@@ -82,9 +100,20 @@ describe('Services :: FeatsServices', () => {
             }
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when try to update availability', async () => {
             try {
                 await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<Feat>);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a feat with provided ID');
@@ -94,26 +123,81 @@ describe('Services :: FeatsServices', () => {
         });
     });
 
-    describe('When service for delete a feat is called', () => {
+    describe('When service for update availability feat is called', () => {
         const featMockID = featMockInstance._id as string;
+        const featMockUpdateInstance = {
+            _id: featMockID,
+            active: false,
+            en: { ...featMockInstance.en },
+            pt: { ...featMockInstance.pt },
+        };
+
+        const featMockFindInstance = {
+            _id: featMockID,
+            active: true,
+            en: { ...featMockInstance.en },
+            pt: { ...featMockInstance.pt },
+        };
+
+        const responseMessageMockActivated = {
+            message: `Feat ${featMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `Feat ${featMockID} was deactivated`,
+            name: 'success',
+        };
 
         beforeAll(() => {
-            jest.spyOn(FeatsModelMock, 'findOne').mockResolvedValueOnce(featMockInstance).mockResolvedValue(null);
+            jest.spyOn(FeatsModelMock, 'findOne')
+                .mockResolvedValueOnce(featMockFindInstance)
+                .mockResolvedValueOnce({ ...featMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...featMockFindInstance, active: true })
+                .mockResolvedValueOnce(featMockUpdateInstance)
+                .mockResolvedValue(null);
 
-            jest.spyOn(FeatsModelMock, 'delete').mockResolvedValue(null);
+            jest.spyOn(FeatsModelMock, 'update')
+                .mockResolvedValueOnce(featMockUpdateInstance)
+                .mockResolvedValueOnce({ ...featMockUpdateInstance, active: true })
+                .mockResolvedValue(null);
         });
 
-        it('should delete feat and not return any data', async () => {
+        it('should return correct success message - disable', async () => {
+            const responseTest = await FeatsServicesMock.updateAvailability(featMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
+        });
+
+        it('should return correct success message - enable', async () => {
+            const responseTest = await FeatsServicesMock.updateAvailability(featMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the background is already enabled', async () => {
             try {
-                await FeatsServicesMock.delete(featMockID);
+                await FeatsServicesMock.updateAvailability(featMockID, true);
             } catch (error) {
-                fail('it should not reach here');
+                const err = error as Error;
+                expect(err.message).toBe('Entity already enabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when the background is already disabled', async () => {
+            try {
+                await FeatsServicesMock.updateAvailability(featMockID, false);
+            } catch (error) {
+                const err = error as Error;
+                expect(err.message).toBe('Entity already disabled');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await FeatsServicesMock.delete('inexistent_id');
+                await FeatsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a feat with provided ID');

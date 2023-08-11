@@ -5,6 +5,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
 import { errorMessage } from 'src/support/helpers/errorMessage';
+import UpdateResponse from 'src/types/UpdateResponse';
 
 export default class MonstersService implements Service<Internacional<Monster>> {
     constructor(
@@ -27,8 +28,17 @@ export default class MonstersService implements Service<Internacional<Monster>> 
         return this._validate.response(response, errorMessage.notFound.monster);
     }
 
+    public async findAllDisabled(): Promise<Array<Internacional<Monster>>> {
+        const response = await this._model.findAll({ active: true });
+
+        this._logger('info', 'All Monster entities found with success');
+        return response;
+    }
+
     public async update(_id: string, payload: Internacional<Monster>): Promise<Internacional<Monster>> {
-        this._validate.entry(languagesWrapper(monstersZodSchema), payload, errorMessage.notFound.monster);
+        this._validate.entry(languagesWrapper(monstersZodSchema), payload);
+
+        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
         const response = await this._model.update(_id, payload);
 
@@ -36,11 +46,22 @@ export default class MonstersService implements Service<Internacional<Monster>> 
         return this._validate.response(response, errorMessage.notFound.monster);
     }
 
-    public async delete(_id: string): Promise<void> {
-        const response = await this._model.findOne(_id);
+    public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
+        let response = await this._model.findOne(_id);
 
-        this._validate.response(response, errorMessage.notFound.monster);
+        response = this._validate.response(response, errorMessage.notFound.monster);
 
-        await this._model.delete(_id);
+        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+
+        response.active = query;
+        await this._model.update(_id, response);
+
+        const responseMessage = {
+            message: `Monster ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
+
+        this._logger('info', 'Monster entity availability updated with success');
+        return responseMessage;
     }
 }

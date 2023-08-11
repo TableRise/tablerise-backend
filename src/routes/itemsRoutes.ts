@@ -4,6 +4,7 @@ import ItemsServices from 'src/services/ItemsServices';
 import ItemsControllers from 'src/controllers/ItemsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import ValidateData from 'src/support/helpers/ValidateData';
+import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -15,8 +16,9 @@ const controllers = new ItemsControllers(services, logger);
 const router = Router();
 
 router.get('/', controllers.findAll);
+router.get('/disabled', controllers.findAllDisabled);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.delete('/:id', VerifyIdMiddleware, controllers.delete);
+router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
 
 export default router;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'module-alias/register';
 import 'express-async-errors';
 import 'dotenv/config';
@@ -37,8 +38,11 @@ app.use(express.json())
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'dev') {
-    logger('info', 'swagger document generated');
-    autoSwagger(RoutesWrapper.declareRoutes());
+    autoSwagger(RoutesWrapper.declareRoutes())
+        .then((_result: any) => logger('info', 'swagger document generated'))
+        .catch((error: any) => {
+            console.log(error);
+        });
 }
 
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
