@@ -18,7 +18,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { value: 10 };
-                const validate = new ValidateData(logger)
+                const validate = new ValidateData(logger);
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(true);
             } catch (error) {
@@ -93,7 +93,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.active fail', () => {
-        const response = {...mocks.race.instance.en as Internacional<Race>, active: true };
+        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: true };
         it('should throw a an error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -111,7 +111,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.active is sucessfull', () => {
-        const response = {...mocks.race.instance.en as Internacional<Race>, active: false };
+        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: false };
         it('should not throw an error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -128,7 +128,6 @@ describe('Helpers :: ValidateData', () => {
             try {
                 const validate = new ValidateData(logger);
                 validate.systemResponse(response, errorMessage.notFound.system);
-
             } catch (error) {
                 const notFoundError = error as Error;
                 expect(notFoundError).toHaveProperty('message');
@@ -155,11 +154,15 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.systemActive fail', () => {
-        const response = {...mocks.system.instance as System, active: true };
+        const response = { ...(mocks.system.instance as System), active: true };
         it('should throw a an error', () => {
             try {
                 const validate = new ValidateData(logger);
-                validate.systemActive(response.active, HttpStatusCode.BAD_REQUEST, errorMessage.badRequest.system.responseActive(response.active));
+                validate.systemActive(
+                    response.active,
+                    HttpStatusCode.BAD_REQUEST,
+                    errorMessage.badRequest.system.responseActive(response.active)
+                );
                 expect(validate.systemActive).toThrow(Error);
             } catch (error) {
                 const notFoundError = error as Error;
@@ -174,10 +177,14 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.systemActive is sucessfull', () => {
-        const response = {...mocks.race.instance.en as Internacional<Race>, active: false };
+        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: false };
         it('should not throw an error', () => {
             const validate = new ValidateData(logger);
-            validate.systemActive(response.active, HttpStatusCode.BAD_REQUEST, errorMessage.badRequest.system.responseActive(response.active));
+            validate.systemActive(
+                response.active,
+                HttpStatusCode.BAD_REQUEST,
+                errorMessage.badRequest.system.responseActive(response.active)
+            );
             expect(validate.systemActive).not.toThrow(Error);
         });
     });
@@ -212,6 +219,4 @@ describe('Helpers :: ValidateData', () => {
             }
         });
     });
-
-
 });

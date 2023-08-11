@@ -17,7 +17,8 @@ export const errorMessage = {
     },
     badRequest: {
         system: {
-            responseActive: (isActive: boolean) => `${isActive ?'System already active' : 'System already deactivated'}`,
+            responseActive: (isActive: boolean) =>
+                `${isActive ? 'System already active' : 'System already deactivated'}`,
             payloadActive: 'Not possible to change availability through this route',
         },
         default: {

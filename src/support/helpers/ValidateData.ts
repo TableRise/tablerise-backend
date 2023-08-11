@@ -10,7 +10,7 @@ export default class ValidateData {
     response: (response: null | Internacional<any>, errorMessage: string) => Internacional<any>;
     active: (payload: boolean | undefined | null, errorMessage: string) => void;
     systemResponse: (response: any, errorMessage: string) => System;
-    systemActive: (activeStatus: any, code: number,  errorMessage: string) => void;
+    systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
     systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
@@ -40,7 +40,7 @@ export default class ValidateData {
         }
     }
 
-    protected validateResponse(response: null | Internacional<any> | any, errorMessage: string): Internacional<any> {
+    protected validateResponse(response: Internacional<any> | any, errorMessage: string): Internacional<any> {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }
@@ -53,15 +53,14 @@ export default class ValidateData {
         }
     }
 
-
     protected validateSystemActive(activeStatus: any, code: number, errorMessage: string): void {
         if (activeStatus) {
             throw this._generateError(code, errorMessage);
         }
     }
 
-    protected validateSystemQuery(entityQuery: string, errorMessage:string): void {
-        if(entityQuery === '') {
+    protected validateSystemQuery(entityQuery: string, errorMessage: string): void {
+        if (!entityQuery) {
             throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
         }
     }
@@ -72,6 +71,4 @@ export default class ValidateData {
         }
         return response;
     }
-
-
 }

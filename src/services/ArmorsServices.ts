@@ -54,6 +54,7 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
         this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
 
         response.active = query;
+
         await this._model.update(_id, response);
 
         const responseMessage = {

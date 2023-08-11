@@ -36,7 +36,7 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
     }
 
     public async update(_id: string, payload: Internacional<Weapon>): Promise<Internacional<Weapon>> {
-        this._validate.entry(languagesWrapper(weaponsZodSchema), payload, errorMessage.notFound.weapon);
+        this._validate.entry(languagesWrapper(weaponsZodSchema), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

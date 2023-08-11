@@ -6,7 +6,6 @@ import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import realmZodSchema from 'src/schemas/realmsValidationSchema';
 
 export default class RealmsServices implements Service<Internacional<Realm>> {
     constructor(
@@ -37,7 +36,7 @@ export default class RealmsServices implements Service<Internacional<Realm>> {
     }
 
     public async update(_id: string, payload: Internacional<Realm>): Promise<Internacional<Realm>> {
-        this._validate.entry(languagesWrapper(realmZodSchema), payload);
+        this._validate.entry(languagesWrapper(realmsZodSchema), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
@@ -53,7 +52,6 @@ export default class RealmsServices implements Service<Internacional<Realm>> {
         response = this._validate.response(response, errorMessage.notFound.realm);
 
         this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
-
 
         response.active = query;
         await this._model.update(_id, response);

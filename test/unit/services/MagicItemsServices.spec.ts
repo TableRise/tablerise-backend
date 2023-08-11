@@ -210,7 +210,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic items with provided ID');
+                expect(err.message).toBe('NotFound a magic item with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

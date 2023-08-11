@@ -42,7 +42,7 @@ export default class SystemServices implements Service<System> {
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
         this._validate.entry(updateContentZodSchema, payload);
 
-        this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity)
+        this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity);
 
         const { method, newID } = payload;
 
@@ -76,7 +76,11 @@ export default class SystemServices implements Service<System> {
         let response = await this._model.findOne(_id);
         response = this._validate.systemResponse(response, errorMessage.notFound.system);
 
-        this._validate.systemActive(response.active, HttpStatusCode.BAD_REQUEST, errorMessage.badRequest.system.responseActive(response.active))
+        this._validate.systemActive(
+            response.active,
+            HttpStatusCode.BAD_REQUEST,
+            errorMessage.badRequest.system.responseActive(response.active)
+        );
 
         response.active = true;
 
@@ -90,7 +94,11 @@ export default class SystemServices implements Service<System> {
         let response = await this._model.findOne(_id);
         response = this._validate.systemResponse(response, errorMessage.notFound.system);
 
-        this._validate.systemActive(!response.active, HttpStatusCode.BAD_REQUEST, errorMessage.badRequest.system.responseActive(response.active))
+        this._validate.systemActive(
+            !response.active,
+            HttpStatusCode.BAD_REQUEST,
+            errorMessage.badRequest.system.responseActive(response.active)
+        );
 
         response.active = false;
 

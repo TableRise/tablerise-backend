@@ -1,10 +1,16 @@
 import { HttpStatusCode } from './HttpStatusCode';
 
 export default (code: number): string => {
-    if (code === HttpStatusCode.NOT_FOUND) return 'NotFound';
-    if (code === HttpStatusCode.BAD_REQUEST) return 'BadRequest';
-    if (code === HttpStatusCode.UNPROCESSABLE_ENTITY) return 'ValidationError';
-    if (code === HttpStatusCode.FORBIDDEN) return 'ForbiddenRequest';
-
-    throw new Error(`This ${code} is not valid, check the code List at HttpStatusCode.`);
+    switch (code) {
+        case HttpStatusCode.NOT_FOUND:
+            return 'NotFound';
+        case HttpStatusCode.BAD_REQUEST:
+            return 'BadRequest';
+        case HttpStatusCode.UNPROCESSABLE_ENTITY:
+            return 'ValidationError';
+        case HttpStatusCode.FORBIDDEN:
+            return 'ForbiddenRequest';
+        default:
+            throw new Error(`This ${code} is not valid, check the code List at HttpStatusCode.`);
+    }
 };
