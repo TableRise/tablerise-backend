@@ -28,7 +28,7 @@ export default class ItemsServices implements Service<Internacional<Item>> {
     }
 
     public async update(_id: string, payload: Internacional<Item>): Promise<Internacional<Item>> {
-        this._validate.entry(languagesWrapper(ItemZodSchema), payload, errorMessage.notFound.item);
+        this._validate.entry(languagesWrapper(ItemZodSchema), payload);
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Item entity updated with success');

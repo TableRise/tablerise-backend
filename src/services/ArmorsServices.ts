@@ -36,7 +36,7 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     }
 
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
-        this._validate.entry(languagesWrapper(armorsZodSchema), payload, errorMessage.notFound.armor);
+        this._validate.entry(languagesWrapper(armorsZodSchema), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

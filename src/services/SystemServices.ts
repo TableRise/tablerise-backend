@@ -29,7 +29,7 @@ export default class SystemServices implements Service<System> {
     }
 
     public async update(_id: string, payload: System): Promise<System> {
-        this._validate.entry(systemPayloadZodSchema, payload, errorMessage.notFound.system);
+        this._validate.entry(systemPayloadZodSchema, payload);
 
         this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
 
@@ -40,7 +40,7 @@ export default class SystemServices implements Service<System> {
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
-        this._validate.entry(updateContentZodSchema, payload, errorMessage.notFound.system);
+        this._validate.entry(updateContentZodSchema, payload);
 
         this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity)
 

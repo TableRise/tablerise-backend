@@ -6,12 +6,12 @@ import { System } from 'src/schemas/systemValidationSchema';
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
-    entry: (zodSchema: ZodObject<any>, payload: unknown, errorMessage: string) => void;
+    entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
     response: (response: null | Internacional<any>, errorMessage: string) => Internacional<any>;
     active: (payload: boolean | undefined | null, errorMessage: string) => void;
     systemResponse: (response: any, errorMessage: string) => System;
-    systemActive: (activeStatus: any, code:number,  errorMessage: string) => void;
-    systemEntityQuery: (entityQuery: string, errorMessage:string) => void;
+    systemActive: (activeStatus: any, code: number,  errorMessage: string) => void;
+    systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
         this.entry = this.validateEntry;
@@ -32,7 +32,7 @@ export default class ValidateData {
         return error;
     }
 
-    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown, errorMessage: string): void {
+    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown): void {
         const verify = zodSchema.safeParse(payload);
         if (!verify.success) {
             const errorMessage = JSON.stringify(verify.error.issues);
@@ -61,7 +61,7 @@ export default class ValidateData {
     }
 
     protected validateSystemQuery(entityQuery: string, errorMessage:string): void {
-        if(!entityQuery) {
+        if(entityQuery === '') {
             throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
         }
     }
