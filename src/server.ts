@@ -2,31 +2,28 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import app from './app';
 import mongoose from 'mongoose';
+import generateMongoURI from './support/helpers/generateMongoURI';
+import TableRiseConnections from './types/TableRiseConnections';
 import 'dotenv/config';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const port = process.env.PORT as string;
 
-const MONGODB_USERNAME = process.env.MONGODB_USERNAME as string;
-const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD as string;
-const MONGODB_HOST = process.env.MONGODB_HOST as string;
-const MONGODB_DATABASE = process.env.MONGODB_DATABASE as string;
-const MONGODB_CONNECTION_INITIAL = process.env.MONGODB_CONNECTION_INITIAL as string;
+const connections: TableRiseConnections = {
+    'dungeons&dragons5e': {} as mongoose.Connection
+};
 
-const firstSection = `${MONGODB_CONNECTION_INITIAL}://${MONGODB_USERNAME}:${MONGODB_PASSWORD}`;
-const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
-
-mongoose
-    .connect(firstSection + secondSection)
-    .then(() => {
-        logger('info', 'mongoDB instance connected');
-    })
-    .catch((error) => {
-        logger('error', 'connection to mongodb failed');
-        throw error;
-    });
+try {
+    connections['dungeons&dragons5e'] = mongoose.createConnection(generateMongoURI('dungeons&dragons5e'));
+    logger('info', 'Dungeons and Dragons 5° Edition - Databse Connection Instanciated');
+} catch (error) {
+    logger('error', 'Some connection with mongoose had fail, please verify connections');
+    throw error;
+}
 
 app.listen(port, () => {
     logger('info', `Server started on port ${port}`);
 });
+
+export default connections;
