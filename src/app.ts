@@ -36,4 +36,5 @@ if (process.env.NODE_ENV === 'dev') {
 app.use('/api-docs', swaggerUI.serve).use('/api-docs', swaggerUI.setup(SwaggerDocument));
 
 logger('info', 'app started');
+
 export default app;

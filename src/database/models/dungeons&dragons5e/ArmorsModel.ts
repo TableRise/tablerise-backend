@@ -1,13 +1,10 @@
 import { Schema } from 'mongoose';
-import Connections from 'src/server';
+import Connections from 'src/database/DatabaseConnection';
 import { Armor, Cost } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const logger = require('@tablerise/dynamic-logger');
-
-const mongooseCreateModel = Connections['dungeons&dragons5e'].model;
-if (!mongooseCreateModel) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
 
 const costMongooseSchema = new Schema<Cost>(
     {
@@ -42,8 +39,11 @@ export const armorsMongooseSchema = new Schema<Internacional<Armor>>(
     }
 );
 
+const model = Connections['dungeons&dragons5e'].model('armor', armorsMongooseSchema);
+if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 export default class ArmorsModel extends MongoModel<Internacional<Armor>> {
-    constructor(public model = mongooseCreateModel('armor', armorsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

@@ -12,9 +12,8 @@
         "skipLibCheck": true,
         "baseUrl": "./src/",
         "paths": {
-            "src/*": ["*", "dungeons&dragons5e/*"]
+            "src/*": ["*"]
         }
     },
-    "include": ["src/**/**/*.ts", "test/**/**/*.ts"],
     "exclude": ["node_modules", "coverage"]
 }

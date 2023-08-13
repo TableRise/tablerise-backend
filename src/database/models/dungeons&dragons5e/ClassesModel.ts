@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import Connections from 'src/server';
+import Connections from 'src/database/DatabaseConnection';
 import {
     Class,
     HitPoints,
@@ -23,9 +23,6 @@ import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const logger = require('@tablerise/dynamic-logger');
-
-const mongooseCreateModel = Connections['dungeons&dragons5e'].model;
-if (!mongooseCreateModel) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
 
 const hitPointsMongooseSchema = new Schema<HitPoints>(
     {
@@ -185,7 +182,7 @@ const schema = new Schema<Class>(
     { versionKey: false, _id: false }
 );
 
-export const classsMongooseSchema = new Schema<Internacional<Class>>(
+export const classMongooseSchema = new Schema<Internacional<Class>>(
     {
         active: { type: Boolean, required: true },
         en: schema,
@@ -196,8 +193,11 @@ export const classsMongooseSchema = new Schema<Internacional<Class>>(
     }
 );
 
-export default class ClasssModel extends MongoModel<Internacional<Class>> {
-    constructor(public model = mongooseCreateModel('class', classsMongooseSchema)) {
+const model = Connections['dungeons&dragons5e'].model('class', classMongooseSchema);
+if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
+export default class ClassModel extends MongoModel<Internacional<Class>> {
+    constructor() {
         super(model);
     }
 }

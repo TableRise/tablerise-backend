@@ -1,13 +1,10 @@
 import { Schema } from 'mongoose';
-import Connections from 'src/server';
+import Connections from 'src/database/DatabaseConnection';
 import { Background, BackgroundCharacteristics, BackgroundSuggested } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const logger = require('@tablerise/dynamic-logger');
-
-const mongooseCreateModel = Connections['dungeons&dragons5e'].model;
-if (!mongooseCreateModel) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
 
 const suggestedSchema = new Schema<BackgroundSuggested>(
     {
@@ -51,8 +48,11 @@ export const backgroundsMongooseSchema = new Schema<Internacional<Background>>(
     }
 );
 
+const model = Connections['dungeons&dragons5e'].model('background', backgroundsMongooseSchema);
+if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 export default class BackgroundsModel extends MongoModel<Internacional<Background>> {
-    constructor(public model = mongooseCreateModel('background', backgroundsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

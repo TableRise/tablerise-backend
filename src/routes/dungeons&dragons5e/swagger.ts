@@ -62,11 +62,11 @@ const monsterInstance = mocks.monster.instance as Internacional<Monster>;
 const { _id: _13, ...monsterWithoutId } = monsterInstance;
 
 export default [
-    ['/system', 'system', 'get', null, systemInstance, null, false],
-        ['/system/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
-        ['/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
+    ['/dnd5e/system', 'system', 'get', null, systemInstance, null, false],
+        ['/dnd5e/system/{_id}', 'system', 'get', generateIDParam(), systemInstance, null, false],
+        ['/dnd5e/system/{_id}', 'system', 'put', generateIDParam(), systemInstance, systemWithoutContent, false],
         [
-            '/system/{_id}',
+            '/dnd5e/system/{_id}',
             'system',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])],
@@ -74,15 +74,15 @@ export default [
             updateSystemInstance.instance,
             false
         ],
-        ['/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
-        ['/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
+        ['/dnd5e/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
+        ['/dnd5e/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
 
-        ['/realms', 'realms', 'get', null, realmInstance, null, false],
-        ['/realms/disabled', 'realms', 'get', null, itemInstance, null, false],
-        ['/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
-        ['/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
+        ['/dnd5e/realms', 'realms', 'get', null, realmInstance, null, false],
+        ['/dnd5e/realms/disabled', 'realms', 'get', null, itemInstance, null, false],
+        ['/dnd5e/realms/{_id}', 'realms', 'get', generateIDParam(), realmInstance, null, false],
+        ['/dnd5e/realms/{_id}', 'realms', 'put', generateIDParam(), realmInstance, realmWithoutId, false],
         [
-            '/realms/{_id}',
+            '/dnd5e/realms/{_id}',
             'realms',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -91,12 +91,12 @@ export default [
             false
         ],
 
-        ['/gods', 'gods', 'get', null, godInstance, null, false],
-        ['/gods/disabled', 'gods', 'get', null, itemInstance, null, false],
-        ['/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
-        ['/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
+        ['/dnd5e/gods', 'gods', 'get', null, godInstance, null, false],
+        ['/dnd5e/gods/disabled', 'gods', 'get', null, itemInstance, null, false],
+        ['/dnd5e/gods/{_id}', 'gods', 'get', generateIDParam(), godInstance, null, false],
+        ['/dnd5e/gods/{_id}', 'gods', 'put', generateIDParam(), godInstance, godWithoutId, false],
         [
-            '/gods/{_id}',
+            '/dnd5e/gods/{_id}',
             'gods',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -105,12 +105,12 @@ export default [
             false
         ],
 
-        ['/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
-        ['/backgrounds/disabled', 'backgrounds', 'get', null, backgroundInstance, null, false],
-        ['/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
-        ['/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
+        ['/dnd5e/backgrounds', 'backgrounds', 'get', null, backgroundInstance, null, false],
+        ['/dnd5e/backgrounds/disabled', 'backgrounds', 'get', null, backgroundInstance, null, false],
+        ['/dnd5e/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), backgroundInstance, null, false],
+        ['/dnd5e/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundInstance, backgroundWithoutId, false],
         [
-            '/backgrounds/{_id}',
+            '/dnd5e/backgrounds/{_id}',
             'backgrounds',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -119,12 +119,12 @@ export default [
             false
         ],
 
-        ['/feats', 'feats', 'get', null, featInstance, null, false],
-        ['/feats/disabled', 'feats', 'get', null, featInstance, null, false],
-        ['/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
-        ['/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
+        ['/dnd5e/feats', 'feats', 'get', null, featInstance, null, false],
+        ['/dnd5e/feats/disabled', 'feats', 'get', null, featInstance, null, false],
+        ['/dnd5e/feats/{_id}', 'feats', 'get', generateIDParam(), featInstance, null, false],
+        ['/dnd5e/feats/{_id}', 'feats', 'put', generateIDParam(), featInstance, featWithoutId, false],
         [
-            '/feats/{_id}',
+            '/dnd5e/feats/{_id}',
             'feats',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -133,12 +133,12 @@ export default [
             false
         ],
 
-        ['/weapons', 'weapons', 'get', null, weaponInstance, null, false],
-        ['/weapons/disabled', 'weapons', 'get', null, weaponInstance, null, false],
-        ['/weapons/{_id}', 'weapons', 'get', generateIDParam(), weaponInstance, null, false],
-        ['/weapons/{_id}', 'weapons', 'put', generateIDParam(), weaponInstance, weaponWithoutId, false],
+        ['/dnd5e/weapons', 'weapons', 'get', null, weaponInstance, null, false],
+        ['/dnd5e/weapons/disabled', 'weapons', 'get', null, weaponInstance, null, false],
+        ['/dnd5e/weapons/{_id}', 'weapons', 'get', generateIDParam(), weaponInstance, null, false],
+        ['/dnd5e/weapons/{_id}', 'weapons', 'put', generateIDParam(), weaponInstance, weaponWithoutId, false],
         [
-            '/weapons/{_id}',
+            '/dnd5e/weapons/{_id}',
             'weapons',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -147,12 +147,12 @@ export default [
             false
         ],
 
-        ['/armors', 'armors', 'get', null, armorInstance, null, false],
-        ['/armors/disabled', 'armors', 'get', null, armorInstance, null, false],
-        ['/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
-        ['/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
+        ['/dnd5e/armors', 'armors', 'get', null, armorInstance, null, false],
+        ['/dnd5e/armors/disabled', 'armors', 'get', null, armorInstance, null, false],
+        ['/dnd5e/armors/{_id}', 'armors', 'get', generateIDParam(), armorInstance, null, false],
+        ['/dnd5e/armors/{_id}', 'armors', 'put', generateIDParam(), armorInstance, armorWithoutId, false],
         [
-            '/armors/{_id}',
+            '/dnd5e/armors/{_id}',
             'armors',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -161,12 +161,12 @@ export default [
             false
         ],
 
-        ['/items', 'items', 'get', null, itemInstance, null, false],
-        ['/items/disabled', 'items', 'get', null, itemInstance, null, false],
-        ['/items/{_id}', 'items', 'get', generateIDParam(), itemInstance, null, false],
-        ['/items/{_id}', 'items', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
+        ['/dnd5e/items', 'items', 'get', null, itemInstance, null, false],
+        ['/dnd5e/items/disabled', 'items', 'get', null, itemInstance, null, false],
+        ['/dnd5e/items/{_id}', 'items', 'get', generateIDParam(), itemInstance, null, false],
+        ['/dnd5e/items/{_id}', 'items', 'put', generateIDParam(), itemInstance, itemWithoutId, false],
         [
-            '/items/{_id}',
+            '/dnd5e/items/{_id}',
             'items',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -175,12 +175,12 @@ export default [
             false
         ],
 
-        ['/races', 'races', 'get', null, raceInstance, null, false],
-        ['/races/disabled', 'races', 'get', null, raceInstance, null, false],
-        ['/races/{_id}', 'races', 'get', generateIDParam(), raceInstance, null, false],
-        ['/races/{_id}', 'races', 'put', generateIDParam(), raceInstance, raceWithoutId, false],
+        ['/dnd5e/races', 'races', 'get', null, raceInstance, null, false],
+        ['/dnd5e/races/disabled', 'races', 'get', null, raceInstance, null, false],
+        ['/dnd5e/races/{_id}', 'races', 'get', generateIDParam(), raceInstance, null, false],
+        ['/dnd5e/races/{_id}', 'races', 'put', generateIDParam(), raceInstance, raceWithoutId, false],
         [
-            '/races/{_id}',
+            '/dnd5e/races/{_id}',
             'races',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -189,12 +189,12 @@ export default [
             false
         ],
 
-        ['/classes', 'classes', 'get', null, classInstance, null, false],
-        ['/classes/disabled', 'classes', 'get', null, classInstance, null, false],
-        ['/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
-        ['/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
+        ['/dnd5e/classes', 'classes', 'get', null, classInstance, null, false],
+        ['/dnd5e/classes/disabled', 'classes', 'get', null, classInstance, null, false],
+        ['/dnd5e/classes/{_id}', 'classes', 'get', generateIDParam(), classInstance, null, false],
+        ['/dnd5e/classes/{_id}', 'classes', 'put', generateIDParam(), classInstance, classWithoutId, false],
         [
-            '/classes/{_id}',
+            '/dnd5e/classes/{_id}',
             'classes',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -203,12 +203,12 @@ export default [
             false
         ],
 
-        ['/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
-        ['/magicItems/disabled', 'magicItems', 'get', null, magicItemInstance, null, false],
-        ['/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
-        ['/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
+        ['/dnd5e/magicItems', 'magicItems', 'get', null, magicItemInstance, null, false],
+        ['/dnd5e/magicItems/disabled', 'magicItems', 'get', null, magicItemInstance, null, false],
+        ['/dnd5e/magicItems/{_id}', 'magicItems', 'get', generateIDParam(), magicItemInstance, null, false],
+        ['/dnd5e/magicItems/{_id}', 'magicItems', 'put', generateIDParam(), magicItemInstance, magicItemWithoutId, false],
         [
-            '/magicItems/{_id}',
+            '/dnd5e/magicItems/{_id}',
             'magicItems',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -217,12 +217,12 @@ export default [
             false
         ],
 
-        ['/spells', 'spells', 'get', null, spellInstance, null, false],
-        ['/spells/disabled', 'spells', 'get', null, spellInstance, null, false],
-        ['/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
-        ['/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
+        ['/dnd5e/spells', 'spells', 'get', null, spellInstance, null, false],
+        ['/dnd5e/spells/disabled', 'spells', 'get', null, spellInstance, null, false],
+        ['/dnd5e/spells/{_id}', 'spells', 'get', generateIDParam(), spellInstance, null, false],
+        ['/dnd5e/spells/{_id}', 'spells', 'put', generateIDParam(), spellInstance, spellWithoutId, false],
         [
-            '/spells/{_id}',
+            '/dnd5e/spells/{_id}',
             'spells',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -231,12 +231,12 @@ export default [
             false
         ],
 
-        ['/wikis', 'wikis', 'get', null, wikiInstance, null, false],
-        ['/wikis/disabled', 'wikis', 'get', null, wikiInstance, null, false],
-        ['/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
-        ['/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
+        ['/dnd5e/wikis', 'wikis', 'get', null, wikiInstance, null, false],
+        ['/dnd5e/wikis/disabled', 'wikis', 'get', null, wikiInstance, null, false],
+        ['/dnd5e/wikis/{_id}', 'wikis', 'get', generateIDParam(), wikiInstance, null, false],
+        ['/dnd5e/wikis/{_id}', 'wikis', 'put', generateIDParam(), wikiInstance, wikiWithoutId, false],
         [
-            '/wikis/{_id}',
+            '/dnd5e/wikis/{_id}',
             'wikis',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
@@ -245,12 +245,12 @@ export default [
             false
         ],
 
-        ['/monsters', 'monsters', 'get', null, monsterInstance, null, false],
-        ['/monsters/disabled', 'monsters', 'get', null, monsterInstance, null, false],
-        ['/monsters/{_id}', 'monsters', 'get', generateIDParam(), monsterInstance, null, false],
-        ['/monsters/{_id}', 'monsters', 'put', generateIDParam(), monsterInstance, monsterWithoutId, false],
+        ['/dnd5e/monsters', 'monsters', 'get', null, monsterInstance, null, false],
+        ['/dnd5e/monsters/disabled', 'monsters', 'get', null, monsterInstance, null, false],
+        ['/dnd5e/monsters/{_id}', 'monsters', 'get', generateIDParam(), monsterInstance, null, false],
+        ['/dnd5e/monsters/{_id}', 'monsters', 'put', generateIDParam(), monsterInstance, monsterWithoutId, false],
         [
-            '/monsters/{_id}',
+            '/dnd5e/monsters/{_id}',
             'monsters',
             'patch',
             [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],

@@ -1,13 +1,10 @@
 import { Schema } from 'mongoose';
-import Connections from 'src/server';
+import Connections from 'src/database/DatabaseConnection';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item, MountOrVehicle, TradeGoods, Cost } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
 const logger = require('@tablerise/dynamic-logger');
-
-const mongooseCreateModel = Connections['dungeons&dragons5e'].model;
-if (!mongooseCreateModel) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
 
 const costSchema = new Schema<Cost>({
     currency: { type: String, required: true },
@@ -46,8 +43,11 @@ export const itemsMongooseSchema = new Schema<Internacional<Item>>(
     }
 );
 
+const model = Connections['dungeons&dragons5e'].model('item', itemsMongooseSchema);
+if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 export default class ItemsModel extends MongoModel<Internacional<Item>> {
-    constructor(public model = mongooseCreateModel('item', itemsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

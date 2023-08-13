@@ -1,13 +1,10 @@
 import { Schema } from 'mongoose';
-import Connections from 'src/server';
+import Connections from 'src/database/DatabaseConnection';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const logger = require('@tablerise/dynamic-logger');
-
-const mongooseCreateModel = Connections['dungeons&dragons5e'].model;
-if (!mongooseCreateModel) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
 
 const schema = new Schema<Feat>(
     {
@@ -30,8 +27,11 @@ export const featsMongooseSchema = new Schema<Internacional<Feat>>(
     }
 );
 
+const model = Connections['dungeons&dragons5e'].model('feat', featsMongooseSchema);
+if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 export default class FeatsModel extends MongoModel<Internacional<Feat>> {
-    constructor(public model = mongooseCreateModel('feat', featsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }
