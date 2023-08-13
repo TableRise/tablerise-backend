@@ -1,22 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Put RPG Races in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new RacesModel();
     const race = mocks.race.instance as Internacional<Race>;
     const { _id: _, ...racePayload } = race;
@@ -27,6 +19,10 @@ describe('Put RPG Races in database', () => {
     };
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update one rpg Race', () => {
         it('should return updated Race', async () => {

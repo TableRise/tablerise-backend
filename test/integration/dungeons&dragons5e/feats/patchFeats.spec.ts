@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import FeatsModel from 'src/database/models/dungeons&dragons5e/FeatsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Patch RPG feats in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new FeatsModel();
     const feat = mocks.feat.instance as Internacional<Feat>;
     const { _id: _, ...featPayload } = feat;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update availability one rpg feat', () => {
         it('should return a string with feat updated id', async () => {

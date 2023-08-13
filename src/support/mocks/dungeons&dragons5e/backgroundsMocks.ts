@@ -1,4 +1,5 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import Mock from 'src/types/Mock';
 

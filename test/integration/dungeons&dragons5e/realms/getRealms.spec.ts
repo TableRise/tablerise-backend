@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Get RPG realms from database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new RealmsModel();
     const _realm = mocks.realm.instance;
     const { _id: _, ...realmMockPayload } = _realm as Internacional<Realm>;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When request all rpg realms', () => {
         it('should return an array with realms', async () => {

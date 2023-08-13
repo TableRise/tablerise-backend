@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Get RPG magic items from database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new MagicItemsModel();
     const magicItem = mocks.magicItems.instance;
     const { _id: _, ...magicItemMockPayload } = magicItem as Internacional<MagicItem>;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When request all rpg magic items', () => {
         it('should return an array with magic items', async () => {

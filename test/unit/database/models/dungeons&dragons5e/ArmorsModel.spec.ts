@@ -1,9 +1,10 @@
-import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Model } from 'mongoose';
+import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Database :: Models :: ArmorsModel', () => {
     describe('When a method of ArmorsModel class is called with correct params', () => {
@@ -23,6 +24,11 @@ describe('Database :: Models :: ArmorsModel', () => {
             });
 
             jest.spyOn(Model, 'findByIdAndDelete').mockResolvedValue({});
+        });
+
+        afterAll(async () => {
+            jest.clearAllMocks();
+            await Connections['dungeons&dragons5e'].close();
         });
 
         it('should have the expected return when create', async () => {

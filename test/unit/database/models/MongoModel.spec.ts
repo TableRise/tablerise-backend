@@ -1,6 +1,7 @@
 import { Model, model as mongooseCreateModel, Schema } from 'mongoose';
 import MongoModel from 'src/database/models/MongoModel';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Database :: Models :: MongoModel', () => {
     interface ITest {

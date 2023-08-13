@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Patch RPG items in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new ItemsModel();
     const item = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemPayload } = item;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update availability one rpg item', () => {
         it('should return a string with item updated id', async () => {

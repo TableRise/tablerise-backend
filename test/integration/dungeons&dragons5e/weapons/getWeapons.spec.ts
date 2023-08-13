@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import WeaponsModel from 'src/database/models/dungeons&dragons5e/WeaponsModel';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Get RPG weapons from database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new WeaponsModel();
     const weapon = mocks.weapon.instance;
     const { _id: _, ...weaponMockPayload } = weapon as Internacional<Weapon>;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When request all rpg weapons', () => {
         it('should return an array with weapons', async () => {

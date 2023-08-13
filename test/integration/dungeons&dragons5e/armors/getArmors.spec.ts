@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Get RPG armors from database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new ArmorsModel();
     const armor = mocks.armor.instance;
     const { _id: _, ...armorMockPayload } = armor as Internacional<Armor>;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When request all rpg armors', () => {
         it('should return an array with armors', async () => {

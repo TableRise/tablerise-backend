@@ -4,6 +4,7 @@ import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Model } from 'mongoose';
 import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Database :: Models :: BackgroundsModel', () => {
     describe('When a method of ItemsModel class is called with correct params', () => {
@@ -18,6 +19,11 @@ describe('Database :: Models :: BackgroundsModel', () => {
             jest.spyOn(Model, 'findOne').mockResolvedValue(testReturnWithID);
             jest.spyOn(Model, 'findByIdAndUpdate').mockResolvedValue({ ...testReturnWithID, _id: secondID });
             jest.spyOn(Model, 'findByIdAndDelete').mockResolvedValue({});
+        });
+
+        afterAll(async () => {
+            jest.clearAllMocks();
+            await Connections['dungeons&dragons5e'].close();
         });
 
         it('should have the expected return when create', async () => {

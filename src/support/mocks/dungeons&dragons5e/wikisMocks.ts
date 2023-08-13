@@ -1,5 +1,6 @@
 import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 import Mock from 'src/types/Mock';
 
 const wikiMockEn: Wiki = {

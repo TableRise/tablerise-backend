@@ -1,27 +1,23 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import BackgroundsModel from 'src/database/models/dungeons&dragons5e/BackgroundsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Patch RPG backgrounds in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new BackgroundsModel();
     const background = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundPayload } = background;
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update availability one rpg background', () => {
         it('should return a string with background updated id', async () => {

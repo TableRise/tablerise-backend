@@ -4,6 +4,7 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Database :: Models :: ClassesModel', () => {
     describe('When a method of ClassesModel class is called with correct params', () => {
@@ -23,6 +24,11 @@ describe('Database :: Models :: ClassesModel', () => {
             });
 
             jest.spyOn(Model, 'findByIdAndDelete').mockResolvedValue({});
+        });
+
+        afterAll(async () => {
+            jest.clearAllMocks();
+            await Connections['dungeons&dragons5e'].close();
         });
 
         it('should have the expected return when create', async () => {

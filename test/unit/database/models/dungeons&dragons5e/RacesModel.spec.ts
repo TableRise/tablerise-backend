@@ -1,4 +1,5 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
@@ -23,6 +24,11 @@ describe('Database :: Models :: BackgroundsModel', () => {
         it('should have the expected return when create', async () => {
             const responseTest = await newRacesModel.create(testReturn);
             expect(responseTest).toBe(testReturnWithID);
+        });
+
+        afterAll(async () => {
+            jest.clearAllMocks();
+            await Connections['dungeons&dragons5e'].close();
         });
 
         it('should have the expected return when findAll', async () => {

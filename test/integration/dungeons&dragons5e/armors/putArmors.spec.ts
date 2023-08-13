@@ -1,22 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Put RPG armors in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new ArmorsModel();
     const armor = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorPayload } = armor;
@@ -27,6 +19,10 @@ describe('Put RPG armors in database', () => {
     };
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update one rpg armor', () => {
         it('should return updated armor', async () => {

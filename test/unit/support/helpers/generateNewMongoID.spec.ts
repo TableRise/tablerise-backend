@@ -1,4 +1,5 @@
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 import { isValidObjectId } from 'mongoose';
 
 describe('Helpers :: GenerateNewMongoID', () => {

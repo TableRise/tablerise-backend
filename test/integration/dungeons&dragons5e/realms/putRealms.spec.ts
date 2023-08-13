@@ -1,22 +1,14 @@
 import request from 'supertest';
 import app from 'src/app';
-import { connect, close } from '../../../connectDatabaseTest';
 import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import Connections from 'src/database/DatabaseConnection';
 
 describe('Put RPG realms in database', () => {
-    beforeAll(() => {
-        connect();
-    });
-
-    afterAll(async () => {
-        await close();
-    });
-
     const model = new RealmsModel();
     const realm = mocks.realm.instance as Internacional<Realm>;
     const { _id: _, ...realmPayload } = realm;
@@ -27,6 +19,10 @@ describe('Put RPG realms in database', () => {
     };
 
     let documentId: string;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When update one rpg realm', () => {
         it('should return updated realm', async () => {
