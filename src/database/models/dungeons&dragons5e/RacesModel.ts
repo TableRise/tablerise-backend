@@ -1,7 +1,12 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/database/DatabaseConnection';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race, SubRace, Characteristic, AbilityScoreIncrease } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import {
+    Race,
+    SubRace,
+    Characteristic,
+    AbilityScoreIncrease,
+} from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
 const abilityScoreIncreaseSchema = new Schema<AbilityScoreIncrease>({
@@ -48,7 +53,6 @@ export const racesMongooseSchema = new Schema<Internacional<Race>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('race', racesMongooseSchema);
-
 
 export default class RacesModel extends MongoModel<Internacional<Race>> {
     constructor() {

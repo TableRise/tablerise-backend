@@ -15,7 +15,7 @@ describe('Routes :: RoutesWrapper', () => {
 
     describe('When routes method is called', () => {
         const routesMock: Route = {
-            "dungeons&dragons5e": {
+            'dungeons&dragons5e': {
                 system: {} as Router,
                 realms: {} as Router,
                 gods: {} as Router,
@@ -30,7 +30,7 @@ describe('Routes :: RoutesWrapper', () => {
                 spells: {} as Router,
                 wikis: {} as Router,
                 monsters: {} as Router,
-            }
+            },
         };
 
         it('should return the correct routes for dungeons&dragons5e system', () => {

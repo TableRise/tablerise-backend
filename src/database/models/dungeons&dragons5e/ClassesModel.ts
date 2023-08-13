@@ -193,7 +193,6 @@ export const classMongooseSchema = new Schema<Internacional<Class>>(
 
 const model = Connections['dungeons&dragons5e'].model('class', classMongooseSchema);
 
-
 export default class ClassModel extends MongoModel<Internacional<Class>> {
     constructor() {
         super(model);

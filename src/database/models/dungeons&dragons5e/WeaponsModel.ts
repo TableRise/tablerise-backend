@@ -38,7 +38,6 @@ export const weaponsMongooseSchema = new Schema<Internacional<Weapon>>(
 
 const model = Connections['dungeons&dragons5e'].model('weapon', weaponsMongooseSchema);
 
-
 export default class WeaponsModel extends MongoModel<Internacional<Weapon>> {
     constructor() {
         super(model);

@@ -85,7 +85,9 @@ describe('Get RPG feats from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app).get(`/dnd5e/feats/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await request(app)
+                .get(`/dnd5e/feats/${generateNewMongoID()}`)
+                .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');

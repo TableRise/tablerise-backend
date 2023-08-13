@@ -5,7 +5,7 @@ import Route, { RouteWrapperDeclared } from 'src/types/Route';
 export default class RoutesWrapper {
     static routes(): Route {
         return {
-            "dungeons&dragons5e": dungeonsAndDragonsRoutes
+            'dungeons&dragons5e': dungeonsAndDragonsRoutes,
         };
     }
 

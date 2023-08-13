@@ -71,7 +71,9 @@ describe('Patch RPG system status in database', () => {
             const response = await model.create(systemMockPayload);
             documentId = response._id as string;
 
-            const { text } = await request(app).patch(`/dnd5e/system/deactivate/${documentId}`).expect(HttpStatusCode.OK);
+            const { text } = await request(app)
+                .patch(`/dnd5e/system/deactivate/${documentId}`)
+                .expect(HttpStatusCode.OK);
 
             expect(text).toBe(updateResult(documentId, 0));
         });

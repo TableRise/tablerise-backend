@@ -28,7 +28,6 @@ export const godsMongooseSchema = new Schema<Internacional<God>>(
 
 const model = Connections['dungeons&dragons5e'].model('god', godsMongooseSchema);
 
-
 export default class GodsModel extends MongoModel<Internacional<God>> {
     constructor() {
         super(model);

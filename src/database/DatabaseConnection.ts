@@ -5,7 +5,7 @@ import generateMongoURI from 'src/support/helpers/generateMongoURI';
 const logger = require('@tablerise/dynamic-logger');
 
 const connections: TableRiseConnections = {
-    'dungeons&dragons5e': {} as mongoose.Connection
+    'dungeons&dragons5e': {} as mongoose.Connection,
 };
 
 connections['dungeons&dragons5e'] = mongoose.createConnection(generateMongoURI('dungeons&dragons5e'));

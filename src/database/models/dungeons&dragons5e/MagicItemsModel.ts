@@ -26,7 +26,6 @@ export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>(
 
 const model = Connections['dungeons&dragons5e'].model('magicItem', magicItemsMongooseSchema);
 
-
 export default class MagicItemsModel extends MongoModel<Internacional<MagicItem>> {
     constructor() {
         super(model);

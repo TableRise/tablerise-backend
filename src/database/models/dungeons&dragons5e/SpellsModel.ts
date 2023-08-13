@@ -53,7 +53,6 @@ export const spellsMongooseSchema = new Schema<Internacional<Spell>>(
 
 const model = Connections['dungeons&dragons5e'].model('spell', spellsMongooseSchema);
 
-
 export default class SpellsModel extends MongoModel<Internacional<Spell>> {
     constructor() {
         super(model);

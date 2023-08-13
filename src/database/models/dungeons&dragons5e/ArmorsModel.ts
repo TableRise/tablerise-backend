@@ -39,7 +39,6 @@ export const armorsMongooseSchema = new Schema<Internacional<Armor>>(
 
 const model = Connections['dungeons&dragons5e'].model('armor', armorsMongooseSchema);
 
-
 export default class ArmorsModel extends MongoModel<Internacional<Armor>> {
     constructor() {
         super(model);

@@ -27,7 +27,6 @@ export const featsMongooseSchema = new Schema<Internacional<Feat>>(
 
 const model = Connections['dungeons&dragons5e'].model('feat', featsMongooseSchema);
 
-
 export default class FeatsModel extends MongoModel<Internacional<Feat>> {
     constructor() {
         super(model);

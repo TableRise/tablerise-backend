@@ -26,7 +26,6 @@ export const realmsMongooseSchema = new Schema<Internacional<Realm>>(
 
 const model = Connections['dungeons&dragons5e'].model('realm', realmsMongooseSchema);
 
-
 export default class RealmsModel extends MongoModel<Internacional<Realm>> {
     constructor() {
         super(model);

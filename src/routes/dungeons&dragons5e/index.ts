@@ -28,4 +28,4 @@ export default {
     spells: spellRoutes,
     wikis: wikiRoutes,
     monsters: monsterRoutes,
-}
+};

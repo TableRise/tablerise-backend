@@ -11,4 +11,4 @@ export default (databaseName: string): string => {
     const secondSection = `@${MONGODB_HOST}/${MONGODB_DATABASE}`;
 
     return `${firstSection}${secondSection}`;
-}
+};

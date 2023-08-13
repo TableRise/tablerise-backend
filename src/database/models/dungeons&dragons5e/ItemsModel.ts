@@ -43,7 +43,6 @@ export const itemsMongooseSchema = new Schema<Internacional<Item>>(
 
 const model = Connections['dungeons&dragons5e'].model('item', itemsMongooseSchema);
 
-
 export default class ItemsModel extends MongoModel<Internacional<Item>> {
     constructor() {
         super(model);
