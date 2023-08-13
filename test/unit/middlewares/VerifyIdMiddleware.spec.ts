@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
 
 describe('Middlewares :: VerifyIdMiddleware', () => {
     describe('When a request is made with the parameter _id', () => {

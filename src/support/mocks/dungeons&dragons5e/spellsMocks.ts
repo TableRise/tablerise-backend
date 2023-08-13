@@ -1,6 +1,5 @@
 import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
 import Mock from 'src/types/Mock';
 
 const spellMockEn: Spell = {
