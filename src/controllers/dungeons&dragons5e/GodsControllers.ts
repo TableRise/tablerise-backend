@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { God } from 'src/schemas/godsValidationSchema';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

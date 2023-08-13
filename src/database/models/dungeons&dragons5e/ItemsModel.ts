@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Item, MountOrVehicle, TradeGoods, Cost } from 'src/schemas/itemsValidationSchema';
+import { Item, MountOrVehicle, TradeGoods, Cost } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
 const logger = require('@tablerise/dynamic-logger');

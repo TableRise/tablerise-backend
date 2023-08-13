@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
-import { Spell, Damage, HigherLevels } from 'src/schemas/spellsValidationSchema';
+import { Spell, Damage, HigherLevels } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

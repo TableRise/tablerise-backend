@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Monster } from 'src/schemas/monstersValidationSchema';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

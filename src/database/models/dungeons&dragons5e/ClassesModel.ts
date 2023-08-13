@@ -18,7 +18,7 @@ import {
     RageDamage,
     LevelingSpecs,
     Characteristics,
-} from 'src/schemas/classesValidationSchema';
+} from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

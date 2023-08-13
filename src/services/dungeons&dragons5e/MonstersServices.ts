@@ -1,6 +1,6 @@
 import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel';
 import Service from 'src/types/Service';
-import monstersZodSchema, { Monster } from 'src/schemas/monstersValidationSchema';
+import monstersZodSchema, { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

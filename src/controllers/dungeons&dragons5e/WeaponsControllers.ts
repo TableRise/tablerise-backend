@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Weapon } from 'src/schemas/weaponsValidationSchema';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

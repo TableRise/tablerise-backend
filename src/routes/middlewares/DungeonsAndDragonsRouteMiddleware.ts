@@ -1,6 +1,8 @@
 import { Router } from "express";
 import RoutesWrapper from "src/routes/RoutesWrapper";
 
+const logger = require('@tablerise/dynamic-logger');
+
 const router = Router();
 
 router.use('/system', RoutesWrapper.routes()['dungeons&dragons5e'].system)
@@ -17,5 +19,7 @@ router.use('/magicItems', RoutesWrapper.routes()['dungeons&dragons5e'].magicItem
 router.use('/spells', RoutesWrapper.routes()['dungeons&dragons5e'].spells)
 router.use('/wikis', RoutesWrapper.routes()['dungeons&dragons5e'].wikis)
 router.use('/monsters', RoutesWrapper.routes()['dungeons&dragons5e'].monsters)
+
+logger('info', 'Routes reading process - Dungeons & Dragons 5° Edition - DONE');
 
 export default router;

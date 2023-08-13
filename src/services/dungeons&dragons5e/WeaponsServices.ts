@@ -1,6 +1,6 @@
 import WeaponsModel from 'src/database/models/dungeons&dragons5e/WeaponsModel';
 import Service from 'src/types/Service';
-import weaponsZodSchema, { Weapon } from 'src/schemas/weaponsValidationSchema';
+import weaponsZodSchema, { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Race } from 'src/schemas/racesValidationSchema';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

@@ -1,20 +1,20 @@
-import mocks from 'src/support/mocks';
+import mocks from 'src/support/mocks/dungeons&dragons5e';
 
-import { System } from 'src/schemas/systemValidationSchema';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Realm } from 'src/schemas/realmsValidationSchema';
-import { God } from 'src/schemas/godsValidationSchema';
-import { Background } from 'src/schemas/backgroundsValidationSchema';
-import { Feat } from 'src/schemas/featsValidationSchema';
-import { Weapon } from 'src/schemas/weaponsValidationSchema';
-import { Armor } from 'src/schemas/armorsValidationSchema';
-import { Item } from 'src/schemas/itemsValidationSchema';
-import { Race } from 'src/schemas/racesValidationSchema';
-import { Class } from 'src/schemas/classesValidationSchema';
-import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
-import { Spell } from 'src/schemas/spellsValidationSchema';
-import { Wiki } from 'src/schemas/wikisValidationSchema';
-import { Monster } from 'src/schemas/monstersValidationSchema';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 

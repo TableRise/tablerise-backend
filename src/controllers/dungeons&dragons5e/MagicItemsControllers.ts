@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

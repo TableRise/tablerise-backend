@@ -1,6 +1,6 @@
 import FeatsModel from 'src/database/models/dungeons&dragons5e/FeatsModel';
 import Service from 'src/types/Service';
-import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
+import featZodSchema, { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

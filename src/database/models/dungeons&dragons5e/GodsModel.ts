@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
-import { God } from 'src/schemas/godsValidationSchema';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

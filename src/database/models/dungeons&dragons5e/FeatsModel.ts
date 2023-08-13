@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
-import { Feat } from 'src/schemas/featsValidationSchema';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

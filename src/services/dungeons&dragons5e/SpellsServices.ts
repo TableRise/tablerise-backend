@@ -1,6 +1,6 @@
 import SpellsModel from 'src/database/models/dungeons&dragons5e/SpellsModel';
 import Service from 'src/types/Service';
-import spellsZodSchema, { Spell } from 'src/schemas/spellsValidationSchema';
+import spellsZodSchema, { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

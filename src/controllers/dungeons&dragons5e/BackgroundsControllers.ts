@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Background } from 'src/schemas/backgroundsValidationSchema';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

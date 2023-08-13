@@ -1,6 +1,6 @@
 import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
 import Service from 'src/types/Service';
-import realmsZodSchema, { Realm } from 'src/schemas/realmsValidationSchema';
+import realmsZodSchema, { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

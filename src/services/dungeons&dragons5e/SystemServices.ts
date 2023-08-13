@@ -1,6 +1,6 @@
 import SystemModel from 'src/database/models/dungeons&dragons5e/SystemModel';
 import Service from 'src/types/Service';
-import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
+import systemZodSchema, { System, SystemContent } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
@@ -95,7 +95,7 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
         if (method === 'remove') {
             const removeIdFromContent = recoverSystem.content[entityQuery as keyof SystemContent].filter(
-                (id) => id !== newID
+                (id: string) => id !== newID
             );
 
             recoverSystem.content[entityQuery as keyof SystemContent] = removeIdFromContent;

@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
-import { System, SystemContent, SystemReference } from 'src/schemas/systemValidationSchema';
+import { System, SystemContent, SystemReference } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
 const logger = require('@tablerise/dynamic-logger');

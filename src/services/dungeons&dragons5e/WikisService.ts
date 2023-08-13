@@ -1,6 +1,6 @@
 import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
 import Service from 'src/types/Service';
-import wikisZodSchema, { Wiki } from 'src/schemas/wikisValidationSchema';
+import wikisZodSchema, { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

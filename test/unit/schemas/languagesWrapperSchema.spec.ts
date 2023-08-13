@@ -1,6 +1,6 @@
 import languagesWrapper from 'src/schemas/languagesWrapperSchema';
-import godZodSchema from 'src/schemas/godsValidationSchema';
-import mocks from 'src/support/mocks';
+import godZodSchema from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import mocks from 'src/support/mocks/dungeons&dragons5e';
 
 describe('Schemas :: LanguagesWrapperSchema', () => {
     describe('When the zod validation is called with the correct data', () => {

@@ -8,7 +8,7 @@ import {
     AbilityScore,
     Skills,
     Actions,
-} from 'src/schemas/monstersValidationSchema';
+} from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

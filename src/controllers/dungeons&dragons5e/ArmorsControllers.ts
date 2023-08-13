@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Armor } from 'src/schemas/armorsValidationSchema';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race, SubRace, Characteristic, AbilityScoreIncrease } from 'src/schemas/racesValidationSchema';
+import { Race, SubRace, Characteristic, AbilityScoreIncrease } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
 const logger = require('@tablerise/dynamic-logger');

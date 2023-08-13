@@ -5,7 +5,7 @@
     "main": "src/server.js",
     "scripts": {
         "start": "npm run build && node build/src/server.js",
-        "build": "tsc",
+        "build": "tsc --traceResolution",
         "test": "npm run test:unit && npm run test:integration",
         "test:file": "jest --",
         "test:unit": "jest --verbose ./test/unit",

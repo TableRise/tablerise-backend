@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Realm } from 'src/schemas/realmsValidationSchema';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

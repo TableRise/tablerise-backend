@@ -1,6 +1,6 @@
 import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
 import Service from 'src/types/Service';
-import magicItemZodSchema, { MagicItem } from 'src/schemas/magicItemsValidationSchema';
+import magicItemZodSchema, { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

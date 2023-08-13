@@ -1,6 +1,6 @@
 import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
 import Service from 'src/types/Service';
-import classesZodSchema, { Class } from 'src/schemas/classesValidationSchema';
+import classesZodSchema, { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

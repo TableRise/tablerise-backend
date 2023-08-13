@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import Connections from 'src/server';
-import { Armor, Cost } from 'src/schemas/armorsValidationSchema';
+import { Armor, Cost } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

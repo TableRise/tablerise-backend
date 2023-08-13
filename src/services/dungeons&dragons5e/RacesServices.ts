@@ -1,6 +1,6 @@
 import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
 import Service from 'src/types/Service';
-import RaceZodSchema, { Race } from 'src/schemas/racesValidationSchema';
+import RaceZodSchema, { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

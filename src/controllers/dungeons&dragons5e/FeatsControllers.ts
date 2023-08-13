@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Feat } from 'src/schemas/featsValidationSchema';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 

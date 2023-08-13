@@ -1,6 +1,6 @@
 import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
 import Service from 'src/types/Service';
-import ItemZodSchema, { Item } from 'src/schemas/itemsValidationSchema';
+import ItemZodSchema, { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import ValidateEntry from 'src/support/helpers/ValidateEntry';

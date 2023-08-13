@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Wiki } from 'src/schemas/wikisValidationSchema';
+import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 
