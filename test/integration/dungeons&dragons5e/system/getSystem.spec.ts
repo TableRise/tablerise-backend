@@ -27,7 +27,7 @@ describe('Get RPG system from database', () => {
             const response = await model.create(systemPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/system').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/system').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -42,7 +42,7 @@ describe('Get RPG system from database', () => {
         it('should return a system instance', async () => {
             await model.create(systemPayload);
 
-            const { body } = await request(app).get(`/system/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await request(app).get(`/dnd5e/system/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
             expect(body).toHaveProperty('name');
@@ -53,7 +53,7 @@ describe('Get RPG system from database', () => {
         });
 
         it('should fail with id NotFound', async () => {
-            const { body } = await request(app).get(`/system/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await request(app).get(`/dnd5e/system/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');

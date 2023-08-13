@@ -37,7 +37,7 @@ describe('Get RPG backgrounds from database', () => {
             const response = await model.create(backgroundMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/backgrounds').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/backgrounds').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -68,7 +68,7 @@ describe('Get RPG backgrounds from database', () => {
             const response = await model.create(backgroundMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/backgrounds/disabled').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/backgrounds/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -93,7 +93,7 @@ describe('Get RPG backgrounds from database', () => {
 
             await model.create(backgroundMockPayload);
 
-            const { body } = await request(app).get(`/backgrounds/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await request(app).get(`/dnd5e/backgrounds/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -107,7 +107,7 @@ describe('Get RPG backgrounds from database', () => {
 
         it('should fail when ID NotFound', async () => {
             const { body } = await request(app)
-                .get(`/backgrounds/${generateNewMongoID()}`)
+                .get(`/dnd5e/backgrounds/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');

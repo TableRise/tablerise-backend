@@ -36,7 +36,7 @@ describe('Put RPG gods in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/gods/${documentId}`)
+                .put(`/dnd5e/gods/${documentId}`)
                 .send(newGodPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG gods in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/gods/${documentId}`)
+                .put(`/dnd5e/gods/${documentId}`)
                 .send({ data: null } as unknown as Internacional<God>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG gods in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/gods/${generateNewMongoID()}`)
+                .put(`/dnd5e/gods/${generateNewMongoID()}`)
                 .send({ active: true, ...newGodPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG gods in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/gods/${generateNewMongoID()}`)
+                .put(`/dnd5e/gods/${generateNewMongoID()}`)
                 .send(newGodPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

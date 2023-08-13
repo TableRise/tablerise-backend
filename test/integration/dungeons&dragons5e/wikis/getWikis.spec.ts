@@ -30,7 +30,7 @@ describe('Get RPG wikis from database', () => {
             const response = await model.create(wikiMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/wikis').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/wikis').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -55,7 +55,7 @@ describe('Get RPG wikis from database', () => {
             const response = await model.create(weaponMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/wikis/disabled').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/wikis/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -73,7 +73,7 @@ describe('Get RPG wikis from database', () => {
 
             await model.create(wikiMockPayload);
 
-            const { body } = await request(app).get(`/wikis/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await request(app).get(`/dnd5e/wikis/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -86,7 +86,7 @@ describe('Get RPG wikis from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app).get(`/wikis/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await request(app).get(`/dnd5e/wikis/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');

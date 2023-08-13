@@ -45,7 +45,7 @@ describe('Put RPG armors in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/armors/${documentId}`)
+                .put(`/dnd5e/armors/${documentId}`)
                 .send(newArmorPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -62,7 +62,7 @@ describe('Put RPG armors in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/armors/${documentId}`)
+                .put(`/dnd5e/armors/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Armor>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -75,7 +75,7 @@ describe('Put RPG armors in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/armors/${generateNewMongoID()}`)
+                .put(`/dnd5e/armors/${generateNewMongoID()}`)
                 .send({ active: true, ...newArmorPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -87,7 +87,7 @@ describe('Put RPG armors in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/armors/${generateNewMongoID()}`)
+                .put(`/dnd5e/armors/${generateNewMongoID()}`)
                 .send(newArmorPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

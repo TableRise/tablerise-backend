@@ -4,8 +4,6 @@ import { Background, BackgroundCharacteristics, BackgroundSuggested } from 'src/
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const suggestedSchema = new Schema<BackgroundSuggested>(
     {
         personalityTrait: { type: [String], required: true },
@@ -49,7 +47,7 @@ export const backgroundsMongooseSchema = new Schema<Internacional<Background>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('background', backgroundsMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class BackgroundsModel extends MongoModel<Internacional<Background>> {
     constructor() {

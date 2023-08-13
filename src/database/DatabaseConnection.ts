@@ -8,12 +8,7 @@ const connections: TableRiseConnections = {
     'dungeons&dragons5e': {} as mongoose.Connection
 };
 
-try {
-    connections['dungeons&dragons5e'] = mongoose.createConnection(generateMongoURI('dungeons&dragons5e'));
-    logger('info', 'Dungeons and Dragons 5° Edition - Database Connection Instanciated');
-} catch (error) {
-    logger('error', 'Some connection with mongoose had fail, please verify connections');
-    throw error;
-}
+connections['dungeons&dragons5e'] = mongoose.createConnection(generateMongoURI('dungeons&dragons5e'));
+logger('info', 'Dungeons and Dragons 5° Edition - Database Connection Instanciated');
 
 export default connections;

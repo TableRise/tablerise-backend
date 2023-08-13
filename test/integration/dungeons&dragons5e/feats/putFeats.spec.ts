@@ -36,7 +36,7 @@ describe('Put RPG feats in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/feats/${documentId}`)
+                .put(`/dnd5e/feats/${documentId}`)
                 .send(newFeatPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG feats in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/feats/${documentId}`)
+                .put(`/dnd5e/feats/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Feat>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG feats in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/feats/${generateNewMongoID()}`)
+                .put(`/dnd5e/feats/${generateNewMongoID()}`)
                 .send({ active: true, ...newFeatPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG feats in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/feats/${generateNewMongoID()}`)
+                .put(`/dnd5e/feats/${generateNewMongoID()}`)
                 .send(newFeatPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

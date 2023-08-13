@@ -44,7 +44,7 @@ describe('Put RPG classes in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/classes/${documentId}`)
+                .put(`/dnd5e/classes/${documentId}`)
                 .send(newClassPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -61,7 +61,7 @@ describe('Put RPG classes in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/classes/${documentId}`)
+                .put(`/dnd5e/classes/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Class>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -74,7 +74,7 @@ describe('Put RPG classes in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/classes/${generateNewMongoID()}`)
+                .put(`/dnd5e/classes/${generateNewMongoID()}`)
                 .send({ active: true, ...newClassPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -86,7 +86,7 @@ describe('Put RPG classes in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/classes/${generateNewMongoID()}`)
+                .put(`/dnd5e/classes/${generateNewMongoID()}`)
                 .send(newClassPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

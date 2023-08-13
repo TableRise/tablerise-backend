@@ -4,8 +4,6 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Race, SubRace, Characteristic, AbilityScoreIncrease } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const abilityScoreIncreaseSchema = new Schema<AbilityScoreIncrease>({
     name: { type: String, required: true },
     value: { type: Number, required: true },
@@ -50,7 +48,7 @@ export const racesMongooseSchema = new Schema<Internacional<Race>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('race', racesMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class RacesModel extends MongoModel<Internacional<Race>> {
     constructor() {

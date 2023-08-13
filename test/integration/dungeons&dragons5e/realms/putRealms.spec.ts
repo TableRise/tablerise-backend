@@ -36,7 +36,7 @@ describe('Put RPG realms in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/realms/${documentId}`)
+                .put(`/dnd5e/realms/${documentId}`)
                 .send(newRealmPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG realms in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/realms/${documentId}`)
+                .put(`/dnd5e/realms/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Realm>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG realms in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/realms/${generateNewMongoID()}`)
+                .put(`/dnd5e/realms/${generateNewMongoID()}`)
                 .send({ active: true, ...newRealmPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG realms in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/realms/${generateNewMongoID()}`)
+                .put(`/dnd5e/realms/${generateNewMongoID()}`)
                 .send(newRealmPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

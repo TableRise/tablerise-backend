@@ -29,7 +29,7 @@ describe('Patch RPG armors in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .patch(`/armors/${documentId}?availability=false`)
+                .patch(`/dnd5e/armors/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('message');
@@ -43,7 +43,7 @@ describe('Patch RPG armors in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .patch(`/armors/${documentId}?availability=true`)
+                .patch(`/dnd5e/armors/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -53,10 +53,10 @@ describe('Patch RPG armors in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/armors/${documentId}?availability=false`);
+            await request(app).patch(`/dnd5e/armors/${documentId}?availability=false`);
 
             const { body } = await request(app)
-                .patch(`/armors/${documentId}?availability=false`)
+                .patch(`/dnd5e/armors/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -67,7 +67,7 @@ describe('Patch RPG armors in database', () => {
 
         it('should fail when query is wrong', async () => {
             const { body } = await request(app)
-                .patch(`/armors/${documentId}?availability=wrongQuery`)
+                .patch(`/dnd5e/armors/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
@@ -78,7 +78,7 @@ describe('Patch RPG armors in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .patch(`/armors/${generateNewMongoID()}?availability=false`)
+                .patch(`/dnd5e/armors/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');

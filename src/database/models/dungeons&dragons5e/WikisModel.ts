@@ -4,8 +4,6 @@ import { Wiki, SubTopic } from 'src/schemas/dungeons&dragons5e/wikisValidationSc
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const subTopicsMongooseSchema = new Schema<SubTopic>(
     {
         subTitle: { type: String, required: true },
@@ -37,7 +35,7 @@ export const wikisMongooseSchema = new Schema<Internacional<Wiki>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('wiki', wikisMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class WikisModel extends MongoModel<Internacional<Wiki>> {
     constructor() {

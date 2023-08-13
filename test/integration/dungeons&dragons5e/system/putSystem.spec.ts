@@ -31,7 +31,7 @@ describe('Put RPG systems in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/system/${documentId}`)
+                .put(`/dnd5e/system/${documentId}`)
                 .send(newSystemPayloadNoContent)
                 .expect(HttpStatusCode.OK);
 
@@ -44,7 +44,7 @@ describe('Put RPG systems in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/system/${documentId}`)
+                .put(`/dnd5e/system/${documentId}`)
                 .send({ data: null } as unknown as System)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -57,7 +57,7 @@ describe('Put RPG systems in database', () => {
 
         it('should fail with content in payload', async () => {
             const { body } = await request(app)
-                .put(`/system/${generateNewMongoID()}`)
+                .put(`/dnd5e/system/${generateNewMongoID()}`)
                 .send(newSystemPayload)
                 .expect(HttpStatusCode.FORBIDDEN);
 
@@ -69,7 +69,7 @@ describe('Put RPG systems in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/system/${generateNewMongoID()}`)
+                .put(`/dnd5e/system/${generateNewMongoID()}`)
                 .send(newSystemPayloadNoContent)
                 .expect(HttpStatusCode.NOT_FOUND);
 

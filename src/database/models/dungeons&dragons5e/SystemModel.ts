@@ -3,8 +3,6 @@ import Connections from 'src/database/DatabaseConnection';
 import { System, SystemContent, SystemReference } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const systemReferenceMongooseSchema = new Schema<SystemReference>(
     {
         srd: { type: String, required: true },
@@ -43,7 +41,7 @@ const systemMongooseSchema = new Schema<System>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('system', systemMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class SystemModel extends MongoModel<System> {
     constructor() {

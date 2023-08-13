@@ -36,7 +36,7 @@ describe('Put RPG wikis in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/wikis/${documentId}`)
+                .put(`/dnd5e/wikis/${documentId}`)
                 .send(newWikiPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG wikis in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/wikis/${documentId}`)
+                .put(`/dnd5e/wikis/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Wiki>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG wikis in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/wikis/${generateNewMongoID()}`)
+                .put(`/dnd5e/wikis/${generateNewMongoID()}`)
                 .send({ active: true, ...newWikiPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG wikis in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/wikis/${generateNewMongoID()}`)
+                .put(`/dnd5e/wikis/${generateNewMongoID()}`)
                 .send(newWikiPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

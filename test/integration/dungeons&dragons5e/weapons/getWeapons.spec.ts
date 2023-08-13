@@ -30,7 +30,7 @@ describe('Get RPG weapons from database', () => {
             const response = await model.create(weaponMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/weapons').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/weapons').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -55,7 +55,7 @@ describe('Get RPG weapons from database', () => {
             const response = await model.create(weaponMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/weapons/disabled').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/weapons/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -73,7 +73,7 @@ describe('Get RPG weapons from database', () => {
 
             await model.create(weaponMockPayload);
 
-            const { body } = await request(app).get(`/weapons/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await request(app).get(`/dnd5e/weapons/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -87,7 +87,7 @@ describe('Get RPG weapons from database', () => {
 
         it('should fail when ID NotFound', async () => {
             const { body } = await request(app)
-                .get(`/weapons/${generateNewMongoID()}`)
+                .get(`/dnd5e/weapons/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');

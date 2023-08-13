@@ -30,7 +30,7 @@ describe('Get RPG Races from database', () => {
             const response = await model.create(raceMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/races').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/races').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -55,7 +55,7 @@ describe('Get RPG Races from database', () => {
             const response = await model.create(raceMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/races/disabled').expect(HttpStatusCode.OK);
+            const { body } = await request(app).get('/dnd5e/races/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -73,7 +73,7 @@ describe('Get RPG Races from database', () => {
 
             await model.create(raceMockPayload);
 
-            const { body } = await request(app).get(`/races/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await request(app).get(`/dnd5e/races/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -86,7 +86,7 @@ describe('Get RPG Races from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app).get(`/races/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await request(app).get(`/dnd5e/races/${generateNewMongoID()}`).expect(HttpStatusCode.NOT_FOUND);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');

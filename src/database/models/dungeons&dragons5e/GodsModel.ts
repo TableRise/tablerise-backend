@@ -4,8 +4,6 @@ import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const schema = new Schema<God>(
     {
         name: { type: String, required: true },
@@ -29,7 +27,7 @@ export const godsMongooseSchema = new Schema<Internacional<God>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('god', godsMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class GodsModel extends MongoModel<Internacional<God>> {
     constructor() {

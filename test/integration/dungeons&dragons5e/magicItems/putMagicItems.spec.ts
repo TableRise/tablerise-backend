@@ -36,7 +36,7 @@ describe('Put RPG magic items in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/magicItems/${documentId}`)
+                .put(`/dnd5e/magicItems/${documentId}`)
                 .send(newMagicItemPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG magic items in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/magicItems/${documentId}`)
+                .put(`/dnd5e/magicItems/${documentId}`)
                 .send({ data: null } as unknown as Internacional<MagicItem>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG magic items in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/magicItems/${generateNewMongoID()}`)
+                .put(`/dnd5e/magicItems/${generateNewMongoID()}`)
                 .send({ active: true, ...newMagicItemPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG magic items in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/magicItems/${generateNewMongoID()}`)
+                .put(`/dnd5e/magicItems/${generateNewMongoID()}`)
                 .send(newMagicItemPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

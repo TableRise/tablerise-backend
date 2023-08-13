@@ -36,7 +36,7 @@ describe('Put RPG monsters in database', () => {
             documentId = response._id as string;
 
             const { body } = await request(app)
-                .put(`/monsters/${documentId}`)
+                .put(`/dnd5e/monsters/${documentId}`)
                 .send(newMonsterPayload)
                 .expect(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ describe('Put RPG monsters in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .put(`/monsters/${documentId}`)
+                .put(`/dnd5e/monsters/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Monster>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -66,7 +66,7 @@ describe('Put RPG monsters in database', () => {
 
         it('should fail when try to change availability', async () => {
             const { body } = await request(app)
-                .put(`/monsters/${generateNewMongoID()}`)
+                .put(`/dnd5e/monsters/${generateNewMongoID()}`)
                 .send({ active: true, ...newMonsterPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -78,7 +78,7 @@ describe('Put RPG monsters in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .put(`/monsters/${generateNewMongoID()}`)
+                .put(`/dnd5e/monsters/${generateNewMongoID()}`)
                 .send(newMonsterPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 

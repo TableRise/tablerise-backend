@@ -4,8 +4,6 @@ import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSc
 import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-const logger = require('@tablerise/dynamic-logger');
-
 const schema = new Schema<MagicItem>(
     {
         name: { type: String, required: true },
@@ -27,7 +25,7 @@ export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>(
 );
 
 const model = Connections['dungeons&dragons5e'].model('magicItem', magicItemsMongooseSchema);
-if (!model) logger('error', 'Some error was occurred in dungeons&dragons5e connection instance');
+
 
 export default class MagicItemsModel extends MongoModel<Internacional<MagicItem>> {
     constructor() {

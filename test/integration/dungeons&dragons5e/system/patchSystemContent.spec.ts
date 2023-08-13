@@ -33,7 +33,7 @@ describe('Patch RPG systems in database', () => {
             const updateResult = `New ID ${contentPayload.newID} was ${contentPayload.method} to array of entities races - system ID: ${documentId}`;
 
             const { text } = await request(app)
-                .patch(`/system/${documentId}?entity=races`)
+                .patch(`/dnd5e/system/${documentId}?entity=races`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.CREATED);
 
@@ -42,7 +42,7 @@ describe('Patch RPG systems in database', () => {
 
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
-                .patch(`/system/${documentId}?entity=races`)
+                .patch(`/dnd5e/system/${documentId}?entity=races`)
                 .send({ data: null })
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -55,7 +55,7 @@ describe('Patch RPG systems in database', () => {
 
         it('should fail when no entityData', async () => {
             const { body } = await request(app)
-                .patch(`/system/${documentId}`)
+                .patch(`/dnd5e/system/${documentId}`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
@@ -67,7 +67,7 @@ describe('Patch RPG systems in database', () => {
 
         it('should fail with inexistent ID', async () => {
             const { body } = await request(app)
-                .patch(`/system/${generateNewMongoID()}?entity=races`)
+                .patch(`/dnd5e/system/${generateNewMongoID()}?entity=races`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.NOT_FOUND);
 
