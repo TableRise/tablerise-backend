@@ -21,10 +21,6 @@ describe('Services :: ArmorsControllers', () => {
         await Connections['dungeons&dragons5e'].close();
     });
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
-
     describe('When a request is made to recover all armors', () => {
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
