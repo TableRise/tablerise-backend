@@ -44,6 +44,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-file: ./coverage/coverage-summary.json
+          base-coverage-file: ./coverage/coverage-summary.json
+          skip-step: all
 
       - name: Checking coverage level
         run: npm run check-cov
