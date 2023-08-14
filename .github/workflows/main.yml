@@ -46,7 +46,7 @@ jobs:
           coverage-summary-path: ./coverage/coverage-summary.json
           title: TableRise Coverage Report
           summary-title: Pull Request Coverage Level
-          remove-links-to-files: true
+          remove-links-to-files: false
           remove-links-to-lines: true
 
       - name: Checking coverage level
