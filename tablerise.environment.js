@@ -6,4 +6,4 @@ module.exports = {
     database_host: process.env.MONGODB_HOST,
     database_database: process.env.MONGODB_DATABASE,
     database_initialString: process.env.MONGODB_CONNECTION_INITIAL,
-}
+};
