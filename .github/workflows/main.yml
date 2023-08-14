@@ -40,13 +40,12 @@ jobs:
         run:  npm run test:integration 
 
       - name: Monitor coverage
-        uses: slavcodev/coverage-monitor-action@v1
+        uses: romeovs/lcov-reporter-action@v0.2.16
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: "coverage/clover.xml"
-          threshold_alert: 10
-          threshold_warning: 50
-          threshold_metric: "lines"
+          lcov-file: ./coverage/lcov.info
+          delete-old-comments: true
+          title: Coverage Report
 
       - name: Checking coverage level
         run: npm run check-cov
