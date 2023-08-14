@@ -40,7 +40,7 @@ const systemMongooseSchema = new Schema<System>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('system', systemMongooseSchema);
+const model = Connections['dungeons&dragons5e'].model('system', systemMongooseSchema, 'system');
 
 export default class SystemModel extends MongoModel<System> {
     constructor() {

@@ -25,7 +25,7 @@ app.use(express.json())
     .use(DungeonsAndDragonsRouteMiddleware)
     .use(ErrorMiddleware);
 
-if (process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV === 'develop') {
     autoSwagger(RoutesWrapper.declareRoutes())
         .then((_result: any) => logger('info', 'swagger document generated'))
         .catch((error: any) => {

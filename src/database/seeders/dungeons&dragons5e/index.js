@@ -14,7 +14,7 @@ const wikiSeeder = require('./wikiSeeder.json');
 const magicItemsSeeder = require('./magicItemsSeeder.json');
 
 module.exports = {
-  systems: systemSeeder,
+  system: systemSeeder,
   realms: realmsSeeder,
   gods: godsSeeder,
   feats: featsSeeder,
