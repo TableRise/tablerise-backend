@@ -1,7 +1,11 @@
 on:
   project_card:
     types: [moved]
+  
 name: Project Card Event
+
+permissions: write-all
+
 jobs:
   triage:
     name: Auto card labeler
