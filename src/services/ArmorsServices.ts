@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ArmorsModel from 'src/database/models/ArmorsModel';
 import Service from 'src/types/Service';
 import armorsZodSchema, { Armor } from 'src/schemas/armorsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 export default class ArmorsServices implements Service<Internacional<Armor>> {
@@ -31,29 +32,34 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async findOne(_id: string): Promise<Internacional<Armor>> {
         const response = await this._model.findOne(_id);
 
-        this._logger('info', 'Armor entity found with success');
-        return this._validate.response(response, errorMessage.notFound.armor);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        this._logger('info', 'Armor entity updated with success');
+
+        return response as Internacional<Armor>;
     }
 
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
         this._validate.entry(languagesWrapper(armorsZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.active(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._logger('info', 'Armor entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.armor);
+
+        return response as Internacional<Armor>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         let response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.armor);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        // @ts-expect-error
+        this._validate.active(response?.active === query, ErrorMessage.CONFLICT(query));
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
-
-        response.active = query;
+        response = { ...response, active: query } as Internacional<Armor>;
 
         await this._model.update(_id, response);
 

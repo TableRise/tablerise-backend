@@ -7,9 +7,9 @@ import getErrorName from './getErrorName';
 
 export default class ValidateData {
     entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
-    response: (response: null | Internacional<any>, errorMessage: string) => Internacional<any>;
+    response: (response: System | Internacional<any> | null, errorMessage: string) => void;
     active: (payload: boolean | undefined | null, errorMessage: string) => void;
-    systemResponse: (response: any, errorMessage: string) => System;
+    systemResponse: (response: any, errorMessage: string) => System | Internacional<any>;
     systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
     systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
@@ -40,11 +40,11 @@ export default class ValidateData {
         }
     }
 
-    protected validateResponse(response: Internacional<any> | any, errorMessage: string): Internacional<any> {
+    protected validateResponse(response: Internacional<any> | System | null, errorMessage: string): void {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }
-        return response;
+        // return response;
     }
 
     protected validateActive(activeStatus: boolean | undefined | null, errorMessage: string): void {
@@ -65,7 +65,7 @@ export default class ValidateData {
         }
     }
 
-    protected validateSystemResponse(response: any, errorMessage: string): System {
+    protected validateSystemResponse(response: any, errorMessage: string): System | Internacional<any> {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }

@@ -34,9 +34,9 @@ export default class SystemServices implements Service<System> {
         this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
 
         const response = await this._model.update(_id, payload);
-
+        this._validate.response(response, errorMessage.notFound.system);
         this._logger('info', 'System entity updated with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+        return response as System;
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
@@ -46,9 +46,9 @@ export default class SystemServices implements Service<System> {
 
         const { method, newID } = payload;
 
-        let recoverSystem = await this._model.findOne(_id);
+        const recoverSystem = await this._model.findOne(_id);
 
-        recoverSystem = this._validate.systemResponse(recoverSystem, errorMessage.notFound.system);
+        this._validate.response(recoverSystem, errorMessage.notFound.system);
 
         if (recoverSystem && method === 'add') {
             recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
