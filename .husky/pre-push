@@ -1,4 +1,8 @@
 #!/bin/bash
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run lint && npm run prettier
+
 BRANCH=$(git symbolic-ref --short HEAD)
 REGEX="^(feat|bug|fix)\/[0-9]+\/[[:alnum:]-]+$"
 
