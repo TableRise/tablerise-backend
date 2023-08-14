@@ -40,10 +40,11 @@ jobs:
         run:  npm run test:integration 
 
       - name: Monitor coverage
-        uses: romeovs/lcov-reporter-action@v0.2.16
+        uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
+          coverage-file: coverage-summary.json
+          base-coverage-file: coverage-summary.json
 
       - name: Checking coverage level
         run: npm run check-cov
