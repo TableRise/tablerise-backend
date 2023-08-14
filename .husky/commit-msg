@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 MESSAGE=$(cat $1) 
 COMMITFORMAT="^(feat|fix|docs|style|ref|test|setup)(\((.*)\))?:\s?(.*)$"
 
