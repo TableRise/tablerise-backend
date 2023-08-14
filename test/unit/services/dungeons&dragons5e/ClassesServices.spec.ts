@@ -3,6 +3,7 @@ import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: ClassesServices', () => {
     const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled classes service is called', () => {
         beforeAll(() => {

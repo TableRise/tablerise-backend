@@ -5,6 +5,7 @@ import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsController
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -15,6 +16,10 @@ describe('Services :: FeatsControllers', () => {
     const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const request = {} as Request;
     const response = {} as Response;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When a request is made to recover all feats', () => {
         beforeAll(() => {

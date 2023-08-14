@@ -3,6 +3,7 @@ import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServic
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: MagicItemsServices', () => {
     const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger);
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all magic items service is called', () => {
         beforeAll(() => {

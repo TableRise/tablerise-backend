@@ -3,6 +3,7 @@ import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: ArmorsServices', () => {
     const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger);
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled armors service is called', () => {
         beforeAll(() => {

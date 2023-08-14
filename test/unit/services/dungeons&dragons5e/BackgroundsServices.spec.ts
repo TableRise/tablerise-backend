@@ -3,6 +3,7 @@ import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServ
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: BackgroundsServices', () => {
     const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger);
     const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all backgrounds service is called', () => {
         beforeAll(() => {

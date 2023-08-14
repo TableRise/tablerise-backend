@@ -3,6 +3,7 @@ import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: SpellsServices', () => {
     const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger);
     const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled spells service is called', () => {
         beforeAll(() => {

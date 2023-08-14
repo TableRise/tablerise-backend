@@ -3,6 +3,7 @@ import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: RealmsServices', () => {
     const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger);
     const realmMockInstance = mocks.realm.instance as Internacional<Realm>;
     const { _id: _, ...realmMockPayload } = realmMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled realms service is called', () => {
         beforeAll(() => {

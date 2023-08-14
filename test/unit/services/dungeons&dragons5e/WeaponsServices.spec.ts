@@ -3,6 +3,7 @@ import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: WeaponsServices', () => {
     const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger);
     const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponMockPayload } = weaponMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled weapons service is called', () => {
         beforeAll(() => {

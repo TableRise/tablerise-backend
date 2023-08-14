@@ -3,6 +3,7 @@ import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: FeatsServices', () => {
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger);
     const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const { _id: _, ...featMockPayload } = featMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all feats service is called', () => {
         beforeAll(() => {

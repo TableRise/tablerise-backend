@@ -3,6 +3,7 @@ import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: MonstersServices', () => {
     const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger);
     const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
     const { _id: _, ...monsterMockPayload } = monsterMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled monsters service is called', () => {
         beforeAll(() => {

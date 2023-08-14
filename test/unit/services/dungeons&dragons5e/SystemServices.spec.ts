@@ -3,6 +3,7 @@ import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -12,6 +13,10 @@ describe('Services :: SystemsServices', () => {
     const systemMockInstance = mocks.system.instance as System;
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     const updateContentMockInstance = mocks.updateSystemContent.instance as UpdateContent;
 

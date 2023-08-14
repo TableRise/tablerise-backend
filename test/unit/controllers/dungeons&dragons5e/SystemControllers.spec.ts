@@ -5,6 +5,7 @@ import SystemsControllers from 'src/controllers/dungeons&dragons5e/SystemControl
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -16,6 +17,10 @@ describe('Services :: SystemsControllers', () => {
     const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;
     const request = {} as Request;
     const response = {} as Response;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When a request is made to recover all systems', () => {
         beforeAll(() => {

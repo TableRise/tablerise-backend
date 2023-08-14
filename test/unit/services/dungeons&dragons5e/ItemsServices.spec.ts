@@ -3,6 +3,7 @@ import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: ItemsServices', () => {
     const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger);
     const itemMockInstance = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemMockPayload } = itemMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all item service is called', () => {
         beforeAll(() => {

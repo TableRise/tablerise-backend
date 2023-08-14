@@ -3,6 +3,7 @@ import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import Connections from 'src/database/DatabaseConnection';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -11,6 +12,10 @@ describe('Services :: GodsServices', () => {
     const GodsServicesMock = new GodsServices(GodsModelMock, logger);
     const godMockInstance = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godMockPayload } = godMockInstance;
+
+    afterAll(async () => {
+        await Connections['dungeons&dragons5e'].close();
+    });
 
     describe('When the recover all enabled gods service is called', () => {
         beforeAll(() => {
