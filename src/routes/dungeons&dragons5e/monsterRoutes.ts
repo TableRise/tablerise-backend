@@ -3,12 +3,14 @@ import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel'
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
+const validateData = new ValidateData(logger);
 const model = new MonstersModel();
-const services = new MonstersServices(model, logger);
+const services = new MonstersServices(model, logger, validateData);
 const controllers = new MonstersControllers(services, logger);
 
 const router = Router();

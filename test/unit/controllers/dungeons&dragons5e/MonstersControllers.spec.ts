@@ -6,12 +6,14 @@ import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MonstersControllers', () => {
     const MonstersModelMock = new MonstersModel();
-    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock);
     const MonstersControllersMock = new MonstersControllers(MonstersServicesMock, logger);
     const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
     const request = {} as Request;

@@ -6,12 +6,14 @@ import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RealmsControllers', () => {
     const RealmsModelMock = new RealmsModel();
-    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock);
     const RealmsControllersMock = new RealmsControllers(RealmsServicesMock, logger);
     const realmMockInstance = mocks.realm.instance as Internacional<Realm>;
     const request = {} as Request;

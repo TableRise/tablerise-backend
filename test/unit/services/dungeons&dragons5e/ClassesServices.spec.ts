@@ -4,12 +4,14 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ClassesServices', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
 

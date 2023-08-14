@@ -4,14 +4,16 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RealmsServices', () => {
     const RealmsModelMock = new RealmsModel();
-    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger);
-    const realmMockInstance = mocks.realm.instance as Internacional<Realm>;
-    const { _id: _, ...realmMockPayload } = realmMockInstance;
+    const ValidateDataMock = new ValidateData(logger);
+    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock);
+    const realmsMockInstance = mocks.realm.instance as Internacional<Realm>;
+    const { _id: _, ...realmsMockPayload } = realmsMockInstance;
 
     afterAll(async () => {
         await Connections['dungeons&dragons5e'].close();
@@ -19,17 +21,17 @@ describe('Services :: RealmsServices', () => {
 
     describe('When the recover all enabled realms service is called', () => {
         beforeAll(() => {
-            jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmMockInstance]);
+            jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmsMockInstance]);
         });
 
         it('should return correct data', async () => {
             const responseTest = await RealmsServicesMock.findAll();
-            expect(responseTest).toStrictEqual([realmMockInstance]);
+            expect(responseTest).toStrictEqual([realmsMockInstance]);
         });
     });
 
     describe('When the recover all disabled realms service is called', () => {
-        const realmMockDisabled = { active: false, ...realmMockInstance };
+        const realmMockDisabled = { active: false, ...realmsMockInstance };
         beforeAll(() => {
             jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmMockDisabled]);
         });
@@ -42,12 +44,12 @@ describe('Services :: RealmsServices', () => {
 
     describe('When the recover a realm by ID service is called', () => {
         beforeAll(() => {
-            jest.spyOn(RealmsModelMock, 'findOne').mockResolvedValueOnce(realmMockInstance).mockResolvedValue(null);
+            jest.spyOn(RealmsModelMock, 'findOne').mockResolvedValueOnce(realmsMockInstance).mockResolvedValue(null);
         });
 
         it('should return correct data when ID valid', async () => {
-            const responseTest = await RealmsServicesMock.findOne(realmMockInstance._id as string);
-            expect(responseTest).toBe(realmMockInstance);
+            const responseTest = await RealmsServicesMock.findOne(realmsMockInstance._id as string);
+            expect(responseTest).toBe(realmsMockInstance);
         });
 
         it('should throw an error when ID is inexistent', async () => {
@@ -63,16 +65,16 @@ describe('Services :: RealmsServices', () => {
     });
 
     describe('When service for update a realm is called', () => {
-        const realmMockID = realmMockInstance._id as string;
+        const realmMockID = realmsMockInstance._id as string;
         const realmMockUpdateInstance = {
-            en: { ...realmMockInstance.en, name: 'None' },
-            pt: { ...realmMockInstance.pt, name: 'None' },
+            en: { ...realmsMockInstance.en, name: 'None' },
+            pt: { ...realmsMockInstance.pt, name: 'None' },
         };
-        const realmMockPayloadWithoutActive = { ...realmMockPayload };
+        const realmMockPayloadWithoutActive = { ...realmsMockPayload };
         delete realmMockPayloadWithoutActive.active;
 
-        const { name: _1, ...realmsMockEnWithoutName } = realmMockPayload.en;
-        const { name: _2, ...realmsMockPtWithoutName } = realmMockPayload.pt;
+        const { name: _1, ...realmsMockEnWithoutName } = realmsMockPayload.en;
+        const { name: _2, ...realmsMockPtWithoutName } = realmsMockPayload.pt;
         const realmMockPayloadWrong = {
             en: realmsMockEnWithoutName,
             pt: realmsMockPtWithoutName,
@@ -106,7 +108,7 @@ describe('Services :: RealmsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RealmsServicesMock.update('inexistent_id', realmMockPayload as Internacional<Realm>);
+                await RealmsServicesMock.update('inexistent_id', realmsMockPayload as Internacional<Realm>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -128,19 +130,19 @@ describe('Services :: RealmsServices', () => {
     });
 
     describe('When service for update availability realm is called', () => {
-        const realmMockID = realmMockInstance._id as string;
+        const realmMockID = realmsMockInstance._id as string;
         const realmMockUpdateInstance = {
             _id: realmMockID,
             active: false,
-            en: { ...realmMockInstance.en },
-            pt: { ...realmMockInstance.pt },
+            en: { ...realmsMockInstance.en },
+            pt: { ...realmsMockInstance.pt },
         };
 
         const realmMockFindInstance = {
             _id: realmMockID,
             active: true,
-            en: { ...realmMockInstance.en },
-            pt: { ...realmMockInstance.pt },
+            en: { ...realmsMockInstance.en },
+            pt: { ...realmsMockInstance.pt },
         };
 
         const responseMessageMockActivated = {

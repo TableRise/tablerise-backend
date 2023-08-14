@@ -6,12 +6,14 @@ import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SystemsControllers', () => {
     const systemsModelMock = new SystemsModel();
-    const systemsServicesMock = new SystemsServices(systemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const systemsServicesMock = new SystemsServices(systemsModelMock, logger, ValidateDataMock);
     const systemsControllersMock = new SystemsControllers(systemsServicesMock, logger);
     const systemMockInstance = mocks.system.instance as System;
     const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;

@@ -6,12 +6,14 @@ import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ArmorsControllers', () => {
     const ArmorsModelMock = new ArmorsModel();
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const request = {} as Request;

@@ -4,11 +4,13 @@ import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import ClassesControllers from 'src/controllers/dungeons&dragons5e/ClassesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new ClassesModel();
-const services = new ClassesServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new ClassesServices(model, logger, validateData);
 const controllers = new ClassesControllers(services, logger);
 
 const router = Router();

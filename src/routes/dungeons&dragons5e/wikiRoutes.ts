@@ -3,12 +3,14 @@ import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new WikisModel();
-const services = new WikisServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new WikisServices(model, logger, validateData);
 const controllers = new WikisControllers(services, logger);
 
 const router = Router();

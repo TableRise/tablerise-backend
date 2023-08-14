@@ -79,7 +79,7 @@ describe('Patch RPG magic items in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a magic items with provided ID');
+            expect(body.message).toBe('NotFound a magic item with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

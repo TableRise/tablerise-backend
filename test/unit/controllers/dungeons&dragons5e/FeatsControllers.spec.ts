@@ -6,12 +6,14 @@ import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: FeatsControllers', () => {
     const FeatsModelMock = new FeatsModel();
-    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock);
     const FeatsControllersMock = new FeatsControllers(FeatsServicesMock, logger);
     const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const request = {} as Request;

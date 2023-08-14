@@ -3,12 +3,14 @@ import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import GodsControllers from 'src/controllers/dungeons&dragons5e/GodsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new GodsModel();
-const services = new GodsServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new GodsServices(model, logger, validateData);
 const controllers = new GodsControllers(services, logger);
 
 const router = Router();

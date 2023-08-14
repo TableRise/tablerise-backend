@@ -4,12 +4,14 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: WeaponsServices', () => {
     const WeaponsModelMock = new WeaponsModel();
-    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock);
     const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponMockPayload } = weaponMockInstance;
 

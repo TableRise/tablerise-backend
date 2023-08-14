@@ -26,6 +26,12 @@ const systemZodSchema = z.object({
     active: z.boolean().default(true),
 });
 
+export const systemPayloadZodSchema = z.object({
+    name: z.string(),
+    references: systemReferencesZodSchema,
+    active: z.boolean().default(true),
+});
+
 export type System = z.infer<typeof systemZodSchema> & { _id?: string };
 export type SystemContent = z.infer<typeof systemContentZodSchema>;
 export type SystemReference = z.infer<typeof systemReferencesZodSchema>;

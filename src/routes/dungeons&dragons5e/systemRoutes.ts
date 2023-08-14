@@ -3,11 +3,13 @@ import SystemModel from 'src/database/models/dungeons&dragons5e/SystemModel';
 import SystemServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new SystemModel();
-const services = new SystemServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new SystemServices(model, logger, validateData);
 const controllers = new SystemControllers(services, logger);
 
 const router = Router();

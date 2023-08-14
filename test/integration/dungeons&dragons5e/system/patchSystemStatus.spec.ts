@@ -47,7 +47,7 @@ describe('Patch RPG system status in database', () => {
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
             expect(body.message).toBe('System already active');
-            expect(body.name).toBe('ValidationError');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {
@@ -89,7 +89,7 @@ describe('Patch RPG system status in database', () => {
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
             expect(body.message).toBe('System already deactivated');
-            expect(body.name).toBe('ValidationError');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {

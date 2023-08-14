@@ -4,12 +4,14 @@ import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SystemsServices', () => {
     const systemsModelMock = new SystemsModel();
-    const systemsServicesMock = new SystemsServices(systemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const systemsServicesMock = new SystemsServices(systemsModelMock, logger, ValidateDataMock);
     const systemMockInstance = mocks.system.instance as System;
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
@@ -229,7 +231,7 @@ describe('Services :: SystemsServices', () => {
                 const err = error as Error;
                 expect(err.message).toBe('System already active');
                 expect(err.stack).toBe('400');
-                expect(err.name).toBe('ValidationError');
+                expect(err.name).toBe('BadRequest');
             }
         });
     });
@@ -266,7 +268,7 @@ describe('Services :: SystemsServices', () => {
                 const err = error as Error;
                 expect(err.message).toBe('System already deactivated');
                 expect(err.stack).toBe('400');
-                expect(err.name).toBe('ValidationError');
+                expect(err.name).toBe('BadRequest');
             }
         });
     });

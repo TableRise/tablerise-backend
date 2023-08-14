@@ -3,12 +3,14 @@ import BackgroundsModel from 'src/database/models/dungeons&dragons5e/Backgrounds
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import ValidateData from 'src/support/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const logger = require('@tablerise/dynamic-logger');
 
 const model = new BackgroundsModel();
-const services = new BackgroundsServices(model, logger);
+const validateData = new ValidateData(logger);
+const services = new BackgroundsServices(model, logger, validateData);
 const controllers = new BackgroundsControllers(services, logger);
 
 const router = Router();

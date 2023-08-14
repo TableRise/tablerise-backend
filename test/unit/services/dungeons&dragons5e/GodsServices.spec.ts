@@ -4,12 +4,14 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: GodsServices', () => {
     const GodsModelMock = new GodsModel();
-    const GodsServicesMock = new GodsServices(GodsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock);
     const godMockInstance = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godMockPayload } = godMockInstance;
 

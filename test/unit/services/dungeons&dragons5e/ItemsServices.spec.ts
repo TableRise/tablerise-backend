@@ -4,14 +4,15 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
-
+import ValidateData from 'src/support/helpers/ValidateData';
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ItemsServices', () => {
     const ItemsModelMock = new ItemsModel();
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger);
-    const itemMockInstance = mocks.item.instance as Internacional<Item>;
-    const { _id: _, ...itemMockPayload } = itemMockInstance;
+    const ValidateDataMock = new ValidateData(logger);
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock);
+    const itemsMockInstance = mocks.item.instance as Internacional<Item>;
+    const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 
     afterAll(async () => {
         await Connections['dungeons&dragons5e'].close();
@@ -19,17 +20,17 @@ describe('Services :: ItemsServices', () => {
 
     describe('When the recover all item service is called', () => {
         beforeAll(() => {
-            jest.spyOn(ItemsModelMock, 'findAll').mockResolvedValue([itemMockInstance]);
+            jest.spyOn(ItemsModelMock, 'findAll').mockResolvedValue([itemsMockInstance]);
         });
 
         it('should return correct data', async () => {
             const responseTest = await ItemsServicesMock.findAll();
-            expect(responseTest).toStrictEqual([itemMockInstance]);
+            expect(responseTest).toStrictEqual([itemsMockInstance]);
         });
     });
 
     describe('When the recover all disabled items service is called', () => {
-        const itemMockDisabled = { ...itemMockInstance, active: false };
+        const itemMockDisabled = { ...itemsMockInstance, active: false };
         beforeAll(() => {
             jest.spyOn(ItemsModelMock, 'findAll').mockResolvedValue([itemMockDisabled]);
         });
@@ -42,12 +43,12 @@ describe('Services :: ItemsServices', () => {
 
     describe('When the recover a item by ID service is called', () => {
         beforeAll(() => {
-            jest.spyOn(ItemsModelMock, 'findOne').mockResolvedValueOnce(itemMockInstance).mockResolvedValue(null);
+            jest.spyOn(ItemsModelMock, 'findOne').mockResolvedValueOnce(itemsMockInstance).mockResolvedValue(null);
         });
 
         it('should return correct data when ID valid', async () => {
-            const responseTest = await ItemsServicesMock.findOne(itemMockInstance._id as string);
-            expect(responseTest).toBe(itemMockInstance);
+            const responseTest = await ItemsServicesMock.findOne(itemsMockInstance._id as string);
+            expect(responseTest).toBe(itemsMockInstance);
         });
 
         it('should throw an error when ID is inexistent', async () => {
@@ -63,17 +64,17 @@ describe('Services :: ItemsServices', () => {
     });
 
     describe('When service for update a item is called', () => {
-        const itemMockID = itemMockInstance._id as string;
+        const itemMockID = itemsMockInstance._id as string;
         const itemMockUpdateInstance = {
-            en: { ...itemMockInstance.en, name: 'None' },
-            pt: { ...itemMockInstance.pt, name: 'None' },
+            en: { ...itemsMockInstance.en, name: 'None' },
+            pt: { ...itemsMockInstance.pt, name: 'None' },
         };
 
-        const itemMockPayloadWithoutActive = { ...itemMockPayload };
+        const itemMockPayloadWithoutActive = { ...itemsMockPayload };
         delete itemMockPayloadWithoutActive.active;
 
-        const { name: _1, ...itemsMockEnWithoutName } = itemMockPayload.en;
-        const { name: _2, ...itemsMockPtWithoutName } = itemMockPayload.pt;
+        const { name: _1, ...itemsMockEnWithoutName } = itemsMockPayload.en;
+        const { name: _2, ...itemsMockPtWithoutName } = itemsMockPayload.pt;
         const itemMockPayloadWrong = {
             en: itemsMockEnWithoutName,
             pt: itemsMockPtWithoutName,
@@ -105,7 +106,7 @@ describe('Services :: ItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemMockPayload as Internacional<Item>);
+                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<Item>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -127,19 +128,19 @@ describe('Services :: ItemsServices', () => {
     });
 
     describe('When service for update availability race is called', () => {
-        const itemMockID = itemMockInstance._id as string;
+        const itemMockID = itemsMockInstance._id as string;
         const itemMockUpdateInstance = {
             _id: itemMockID,
             active: false,
-            en: { ...itemMockInstance.en },
-            pt: { ...itemMockInstance.pt },
+            en: { ...itemsMockInstance.en },
+            pt: { ...itemsMockInstance.pt },
         };
 
         const itemMockFindInstance = {
             _id: itemMockID,
             active: true,
-            en: { ...itemMockInstance.en },
-            pt: { ...itemMockInstance.pt },
+            en: { ...itemsMockInstance.en },
+            pt: { ...itemsMockInstance.pt },
         };
 
         const responseMessageMockActivated = {

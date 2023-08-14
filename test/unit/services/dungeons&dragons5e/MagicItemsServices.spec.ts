@@ -4,12 +4,14 @@ import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import Connections from 'src/database/DatabaseConnection';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MagicItemsServices', () => {
     const MagicItemsModelMock = new MagicItemsModel();
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock);
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
@@ -213,7 +215,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic items with provided ID');
+                expect(err.message).toBe('NotFound a magic item with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
