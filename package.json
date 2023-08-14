@@ -10,7 +10,7 @@
         "test:file": "jest --",
         "test:unit": "jest --verbose ./test/unit",
         "test:integration": "jest --verbose ./test/integration",
-        "test:coverage": "jest --verbose ./test/unit --coverage",
+        "test:coverage": "jest --detectOpenHandles --verbose ./test/unit --coverage",
         "dev": "npm run build && npx nodemon",
         "lint": "npx eslint . --ext .ts --max-warnings=0",
         "prettier": "npx prettier --check .",
