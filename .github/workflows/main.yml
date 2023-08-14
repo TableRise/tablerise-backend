@@ -40,12 +40,14 @@ jobs:
         run:  npm run test:integration 
 
       - name: Monitor coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: MishaKav/jest-coverage-comment@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/coverage-summary.json
-          base-coverage-file: ./coverage/coverage-summary.json
-          skip-step: all
+          coverage-summary-path: ./coverage/coverage-summary.json
+          title: TableRise Coverage Report
+          summary-title: Pull Request Coverage Level
+          remove-links-to-files: true
+          remove-links-to-lines: true
 
       - name: Checking coverage level
         run: npm run check-cov
