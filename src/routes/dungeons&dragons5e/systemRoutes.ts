@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import SystemModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement from '@tablerise/database-management';
 import SystemServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -7,9 +7,13 @@ import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new SystemModel();
 const validateData = new ValidateData(logger);
-const services = new SystemServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'System');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new SystemServices(model, logger, validateData, schema);
 const controllers = new SystemControllers(services, logger);
 
 const router = Router();

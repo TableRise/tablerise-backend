@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import SpellsModel from 'src/database/models/dungeons&dragons5e/SpellsModel';
+import DatabaseManagement from '@tablerise/database-management';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import SpellsControllers from 'src/controllers/dungeons&dragons5e/SpellsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,9 +8,13 @@ import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new SpellsModel();
 const validateData = new ValidateData(logger);
-const services = new SpellsServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'Spells');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new SpellsServices(model, logger, validateData, schema);
 const controllers = new SpellsControllers(services, logger);
 
 const router = Router();

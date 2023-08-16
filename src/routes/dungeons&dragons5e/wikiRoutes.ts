@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
+import DatabaseManagement from '@tablerise/database-management';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,9 +8,13 @@ import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMidd
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new WikisModel();
 const validateData = new ValidateData(logger);
-const services = new WikisServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new WikisServices(model, logger, validateData, schema);
 const controllers = new WikisControllers(services, logger);
 
 const router = Router();
