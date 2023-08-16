@@ -1,9 +1,8 @@
+import { DnDRace } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
-
 import Mock from 'src/types/Mock';
 
-const raceMockEn: Race = {
+const raceMockEn: DnDRace = {
     name: 'Elf',
     description: `
     Your elf character has a variety of natural abilities 
@@ -46,7 +45,7 @@ const raceMockEn: Race = {
     weightMax: 100,
 };
 
-const raceMockPt: Race = {
+const raceMockPt: DnDRace = {
     name: 'Elfo',
     description: `
     Seu personagem elfo tem uma variedade de habilidades naturais

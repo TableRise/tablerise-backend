@@ -1,19 +1,19 @@
-import { ZodObject } from 'zod';
+import { DnDSystem, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { Logger } from 'src/types/Logger';
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
-    entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
+    entry: (zodSchema: any, payload: unknown) => void;
     response: (response: null | Internacional<any>, errorMessage: string) => Internacional<any>;
     active: (payload: boolean | undefined | null, errorMessage: string) => void;
-    systemResponse: (response: any, errorMessage: string) => System;
+    systemResponse: (response: any, errorMessage: string) => DnDSystem & { _id: string };
     systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
     systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
-    constructor(private readonly _logger: LoggerType) {
+    constructor(
+        private readonly _logger: Logger
+    ) {
         this.entry = this.validateEntry;
         this.response = this.validateResponse;
         this.active = this.validateActive;
@@ -32,7 +32,7 @@ export default class ValidateData {
         return error;
     }
 
-    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown): void {
+    protected validateEntry(zodSchema: any, payload: unknown): void {
         const verify = zodSchema.safeParse(payload);
         if (!verify.success) {
             const errorMessage = JSON.stringify(verify.error.issues);
@@ -65,7 +65,7 @@ export default class ValidateData {
         }
     }
 
-    protected validateSystemResponse(response: any, errorMessage: string): System {
+    protected validateSystemResponse(response: any, errorMessage: string): DnDSystem & { _id: string } {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }

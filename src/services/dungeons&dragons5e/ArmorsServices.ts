@@ -1,42 +1,42 @@
-import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
+import { DnDArmor, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import armorsZodSchema, { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
-import UpdateResponse from 'src/types/UpdateResponse';
+import { Logger } from 'src/types/Logger';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import ValidateData from 'src/support/helpers/ValidateData';
+import UpdateResponse from 'src/types/UpdateResponse';
 
-export default class ArmorsServices implements Service<Internacional<Armor>> {
+export default class ArmorsServices implements Service<Internacional<DnDArmor>> {
     constructor(
-        private readonly _model: ArmorsModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDArmor>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Armor>>> {
+    public async findAll(): Promise<Array<Internacional<DnDArmor>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All armor entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Armor>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDArmor>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All armor entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Armor>> {
+    public async findOne(_id: string): Promise<Internacional<DnDArmor>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Armor entity found with success');
         return this._validate.response(response, errorMessage.notFound.armor);
     }
 
-    public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
-        this._validate.entry(languagesWrapper(armorsZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDArmor>): Promise<Internacional<DnDArmor>> {
+        const { helpers, armorZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(armorZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

@@ -57,6 +57,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "1.2.1",
+        "@tablerise/database-management": "^2.1.2",
         "@tablerise/dynamic-logger": "1.2.1",
         "bcrypt": "5.1.0",
         "cors": "2.8.5",

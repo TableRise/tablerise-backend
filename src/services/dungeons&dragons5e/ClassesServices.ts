@@ -1,42 +1,42 @@
-import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
+import { DnDClass, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import classesZodSchema, { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class ClassesServices implements Service<Internacional<Class>> {
+export default class ClassesServices implements Service<Internacional<DnDClass>> {
     constructor(
-        private readonly _model: ClassesModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDClass>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Class>>> {
+    public async findAll(): Promise<Array<Internacional<DnDClass>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All class entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Class>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDClass>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All class entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Class>> {
+    public async findOne(_id: string): Promise<Internacional<DnDClass>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Class entity found with success');
         return this._validate.response(response, errorMessage.notFound.classe);
     }
 
-    public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
-        this._validate.entry(languagesWrapper(classesZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDClass>): Promise<Internacional<DnDClass>> {
+        const { helpers, classZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(classZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

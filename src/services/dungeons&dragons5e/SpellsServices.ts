@@ -1,42 +1,42 @@
-import SpellsModel from 'src/database/models/dungeons&dragons5e/SpellsModel';
+import { DnDSpell, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import spellsZodSchema, { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 
-export default class SpellsServices implements Service<Internacional<Spell>> {
+export default class SpellsServices implements Service<Internacional<DnDSpell>> {
     constructor(
-        private readonly _model: SpellsModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDSpell>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Spell>>> {
+    public async findAll(): Promise<Array<Internacional<DnDSpell>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All spell entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Spell>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDSpell>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All spell entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Spell>> {
+    public async findOne(_id: string): Promise<Internacional<DnDSpell>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Spell entity found with success');
         return this._validate.response(response, errorMessage.notFound.spell);
     }
 
-    public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
-        this._validate.entry(languagesWrapper(spellsZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDSpell>): Promise<Internacional<DnDSpell>> {
+        const { helpers, spellZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(spellZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

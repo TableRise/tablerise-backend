@@ -1,8 +1,8 @@
-import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { DnDWeapon } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const weaponMockEn: Weapon = {
+const weaponMockEn: DnDWeapon = {
     type: 'Simple Melee',
     name: 'Club',
     description: 'A simple club',
@@ -15,7 +15,7 @@ const weaponMockEn: Weapon = {
     properties: ['Light'],
 };
 
-const weaponMockPt: Weapon = {
+const weaponMockPt: DnDWeapon = {
     type: 'Corpo a corpo simples',
     name: 'Clava',
     description: 'Uma simples clava',

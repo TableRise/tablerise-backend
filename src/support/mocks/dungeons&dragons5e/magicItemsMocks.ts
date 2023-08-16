@@ -1,14 +1,14 @@
+import { DnDMagicItem } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import Mock from 'src/types/Mock';
 
-const magicItemMockEn: MagicItem = {
+const magicItemMockEn: DnDMagicItem = {
     name: 'History of Valley',
     characteristics: ['armor'],
     description: 'contains maps od the valley',
 };
 
-const magicItemMockPt: MagicItem = {
+const magicItemMockPt: DnDMagicItem = {
     name: 'História do Vale',
     characteristics: ['armadura'],
     description: 'contém todos os mapas do vale',

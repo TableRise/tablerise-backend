@@ -1,42 +1,42 @@
-import FeatsModel from 'src/database/models/dungeons&dragons5e/FeatsModel';
-import Service from 'src/types/Service';
-import featZodSchema, { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import UpdateResponse from 'src/types/UpdateResponse';
-import { LoggerType } from 'src/types/LoggerType';
+import { DnDFeat, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
+import Service from 'src/types/Service';
+import { Logger } from 'src/types/Logger';
+import UpdateResponse from 'src/types/UpdateResponse';
 
-export default class FeatsServices implements Service<Internacional<Feat>> {
+export default class FeatsServices implements Service<Internacional<DnDFeat>> {
     constructor(
-        private readonly _model: FeatsModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDFeat>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Feat>>> {
+    public async findAll(): Promise<Array<Internacional<DnDFeat>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All feat entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Feat>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDFeat>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All feat entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Feat>> {
+    public async findOne(_id: string): Promise<Internacional<DnDFeat>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Feat entity found with success');
         return this._validate.response(response, errorMessage.notFound.feat);
     }
 
-    public async update(_id: string, payload: Internacional<Feat>): Promise<Internacional<Feat>> {
-        this._validate.entry(languagesWrapper(featZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDFeat>): Promise<Internacional<DnDFeat>> {
+        const { helpers, featZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(featZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

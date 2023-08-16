@@ -1,42 +1,42 @@
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import { DnDGod, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import godZodSchema, { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 
-export default class GodsServices implements Service<Internacional<God>> {
+export default class GodsServices implements Service<Internacional<DnDGod>> {
     constructor(
-        private readonly _model: GodsModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDGod>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<God>>> {
+    public async findAll(): Promise<Array<Internacional<DnDGod>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All god entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<God>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDGod>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All god entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<God>> {
+    public async findOne(_id: string): Promise<Internacional<DnDGod>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'God entity found with success');
         return this._validate.response(response, errorMessage.notFound.god);
     }
 
-    public async update(_id: string, payload: Internacional<God>): Promise<Internacional<God>> {
-        this._validate.entry(languagesWrapper(godZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDGod>): Promise<Internacional<DnDGod>> {
+        const { helpers, godZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(godZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

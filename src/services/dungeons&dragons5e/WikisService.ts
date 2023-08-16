@@ -1,42 +1,42 @@
-import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
+import { DnDWiki, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import wikiZodSchema, { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 
-export default class WikisServices implements Service<Internacional<Wiki>> {
+export default class WikisServices implements Service<Internacional<DnDWiki>> {
     constructor(
-        private readonly _model: WikisModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDWiki>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Wiki>>> {
+    public async findAll(): Promise<Array<Internacional<DnDWiki>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All wiki entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Wiki>> {
+    public async findOne(_id: string): Promise<Internacional<DnDWiki>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Wiki entity found with success');
         return this._validate.response(response, errorMessage.notFound.wiki);
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Wiki>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDWiki>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All wiki entities found with success');
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<Wiki>): Promise<Internacional<Wiki>> {
-        this._validate.entry(languagesWrapper(wikiZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDWiki>): Promise<Internacional<DnDWiki>> {
+        const { helpers, wikiZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(wikiZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 

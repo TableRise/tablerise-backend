@@ -1,42 +1,42 @@
-import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
+import { DnDItem, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import ItemZodSchema, { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
-import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 
-export default class ItemsServices implements Service<Internacional<Item>> {
+export default class ItemsServices implements Service<Internacional<DnDItem>> {
     constructor(
-        private readonly _model: ItemsModel,
-        private readonly _logger: LoggerType,
-        private readonly _validate: ValidateData
+        private readonly _model: MongoModel<Internacional<DnDItem>>,
+        private readonly _logger: Logger,
+        private readonly _validate: ValidateData,
+        private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<Item>>> {
+    public async findAll(): Promise<Array<Internacional<DnDItem>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All item entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<Item>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<DnDItem>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All item entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<Item>> {
+    public async findOne(_id: string): Promise<Internacional<DnDItem>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Item entity found with success');
         return this._validate.response(response, errorMessage.notFound.item);
     }
 
-    public async update(_id: string, payload: Internacional<Item>): Promise<Internacional<Item>> {
-        this._validate.entry(languagesWrapper(ItemZodSchema), payload);
+    public async update(_id: string, payload: Internacional<DnDItem>): Promise<Internacional<DnDItem>> {
+        const { helpers, itemZod } = this._schema;
+        this._validate.entry(helpers.languagesWrapperSchema(itemZod), payload);
 
         this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
 
