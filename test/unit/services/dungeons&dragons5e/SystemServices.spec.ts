@@ -1,5 +1,6 @@
 import DatabaseManagement, {
     DnDSystem,
+    DnDSystemPayload,
     MongoModel,
     SchemasDnDType,
     UpdateContent,
@@ -88,7 +89,7 @@ describe('Services :: SystemsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await SystemsServicesMock.update(systemMockID, systemMockPayload as DnDSystem);
+            const responseTest = await SystemsServicesMock.update(systemMockID, systemMockPayload as DnDSystemPayload);
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
@@ -106,7 +107,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await SystemsServicesMock.update('inexistent_id', systemMockPayload as DnDSystem);
+                await SystemsServicesMock.update('inexistent_id', systemMockPayload as DnDSystemPayload);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');

@@ -1,4 +1,4 @@
-import { DnDSystem, MongoModel, SchemasDnDType, UpdateContent, SystemContent } from '@tablerise/database-management';
+import { DnDSystem, DnDSystemPayload,MongoModel, SchemasDnDType, UpdateContent, SystemContent } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
@@ -27,10 +27,11 @@ export default class SystemServices implements Service<DnDSystem> {
         return this._validate.systemResponse(response, errorMessage.notFound.system);
     }
 
-    public async update(_id: string, payload: DnDSystem): Promise<DnDSystem> {
+    public async update(_id: string, payload: DnDSystemPayload): Promise<DnDSystem> {
         const { systemZod } = this._schema;
-        this._validate.entry(systemZod, payload);
+        this._validate.entry(systemZod.systemPayloadZodSchema, payload);
 
+        // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
         this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
 
         const response = await this._model.update(_id, payload);
