@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDArmor,
-    Internacional,
-    MongoModel,
-    SchemasDnDType,
+    Internacional
 } from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -13,21 +11,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: ArmorsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let ArmorsModelMock: MongoModel<any>;
-    let ArmorsServicesMock: ArmorsServices;
-    let ArmorsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
 
     const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
 
     describe('When the recover all enabled armors service is called', () => {
         beforeAll(() => {
-            ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
-            ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
-
             jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockInstance]);
         });
 
@@ -41,10 +35,6 @@ describe('Services :: ArmorsServices', () => {
         const armorMockDisabled = { ...armorMockInstance, active: false };
 
         beforeAll(() => {
-            ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
-            ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
-
             jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockDisabled]);
         });
 
@@ -56,10 +46,6 @@ describe('Services :: ArmorsServices', () => {
 
     describe('When the recover a armor by ID service is called', () => {
         beforeAll(() => {
-            ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
-            ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
-
             jest.spyOn(ArmorsModelMock, 'findOne').mockResolvedValueOnce(armorMockInstance).mockResolvedValue(null);
         });
 
@@ -97,10 +83,6 @@ describe('Services :: ArmorsServices', () => {
         };
 
         beforeAll(() => {
-            ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
-            ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
-
             jest.spyOn(ArmorsModelMock, 'update')
                 .mockResolvedValueOnce(armorMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -179,10 +161,6 @@ describe('Services :: ArmorsServices', () => {
         };
 
         beforeAll(() => {
-            ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
-            ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
-
             jest.spyOn(ArmorsModelMock, 'findOne')
                 .mockResolvedValueOnce(armorMockFindInstance)
                 .mockResolvedValueOnce({ ...armorMockFindInstance, active: false })

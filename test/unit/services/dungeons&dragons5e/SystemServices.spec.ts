@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDSystem,
     DnDSystemPayload,
-    MongoModel,
-    SchemasDnDType,
     UpdateContent,
 } from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
@@ -14,11 +12,11 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: SystemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let SystemsModelMock: MongoModel<any>;
-    let SystemsServicesMock: SystemsServices;
-    let SystemsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
 
     const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
@@ -28,10 +26,6 @@ describe('Services :: SystemsServices', () => {
 
     describe('When the recover all system service is called', () => {
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'findAll').mockResolvedValue([systemMockInstance]);
         });
 
@@ -43,10 +37,6 @@ describe('Services :: SystemsServices', () => {
 
     describe('When the recover a system by ID service is called', () => {
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'findOne').mockResolvedValueOnce(systemMockInstance).mockResolvedValue(null);
         });
 
@@ -79,10 +69,6 @@ describe('Services :: SystemsServices', () => {
         const { name: ___, ...systemMockPayloadWrong } = systemMockPayload;
 
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'update')
                 .mockResolvedValueOnce(systemMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -138,10 +124,6 @@ describe('Services :: SystemsServices', () => {
         } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstance)
                 .mockResolvedValueOnce(systemMockInstance)
@@ -222,10 +204,6 @@ describe('Services :: SystemsServices', () => {
 
     describe('When service for activate a system is called', () => {
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstanceNoActive)
                 .mockResolvedValueOnce(null)
@@ -263,10 +241,6 @@ describe('Services :: SystemsServices', () => {
 
     describe('When service for deactivate a system is called', () => {
         beforeAll(() => {
-            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
-            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-
             jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstanceNoActive)
                 .mockResolvedValueOnce(null)

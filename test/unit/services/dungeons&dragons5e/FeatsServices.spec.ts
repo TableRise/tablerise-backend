@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDFeat, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -8,21 +8,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: FeatsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let FeatsModelMock: MongoModel<any>;
-    let FeatsServicesMock: FeatsServices;
-    let FeatsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
+    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
 
     const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
     const { _id: _, ...featMockPayload } = featMockInstance;
 
     describe('When the recover all feats service is called', () => {
         beforeAll(() => {
-            FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
-            FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
-
             jest.spyOn(FeatsModelMock, 'findAll').mockResolvedValue([featMockInstance]);
         });
 
@@ -36,10 +32,6 @@ describe('Services :: FeatsServices', () => {
         const featMockDisabled = { ...featMockInstance, active: false };
 
         beforeAll(() => {
-            FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
-            FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
-
             jest.spyOn(FeatsModelMock, 'findAll').mockResolvedValue([featMockDisabled]);
         });
 
@@ -51,10 +43,6 @@ describe('Services :: FeatsServices', () => {
 
     describe('When the recover a feat by ID service is called', () => {
         beforeAll(() => {
-            FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
-            FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
-
             jest.spyOn(FeatsModelMock, 'findOne').mockResolvedValueOnce(featMockInstance).mockResolvedValue(null);
         });
 
@@ -93,10 +81,6 @@ describe('Services :: FeatsServices', () => {
         };
 
         beforeAll(() => {
-            FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
-            FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
-
             jest.spyOn(FeatsModelMock, 'update').mockResolvedValueOnce(featMockUpdateInstance).mockResolvedValue(null);
         });
 
@@ -170,10 +154,6 @@ describe('Services :: FeatsServices', () => {
         };
 
         beforeAll(() => {
-            FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
-            FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
-
             jest.spyOn(FeatsModelMock, 'findOne')
                 .mockResolvedValueOnce(featMockFindInstance)
                 .mockResolvedValueOnce({ ...featMockFindInstance, active: false })

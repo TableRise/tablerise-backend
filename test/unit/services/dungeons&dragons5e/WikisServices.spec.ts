@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDWiki, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -8,21 +8,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: WikisServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let WikisModelMock: MongoModel<any>;
-    let WikisServicesMock: WikisServices;
-    let WikisSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
+    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
 
     const wikiMockInstance = mocks.wiki.instance as Internacional<DnDWiki>;
     const { _id: _, ...wikiMockPayload } = wikiMockInstance;
 
     describe('When the recover all enabled wikis service is called', () => {
         beforeAll(() => {
-            WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
-            WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
-
             jest.spyOn(WikisModelMock, 'findAll').mockResolvedValue([wikiMockInstance]);
         });
 
@@ -36,10 +32,6 @@ describe('Services :: WikisServices', () => {
         const wikiMockDisabled = { ...wikiMockInstance, active: false };
 
         beforeAll(() => {
-            WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
-            WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
-
             jest.spyOn(WikisModelMock, 'findAll').mockResolvedValue([wikiMockDisabled]);
         });
 
@@ -51,10 +43,6 @@ describe('Services :: WikisServices', () => {
 
     describe('When the recover a wiki by ID service is called', () => {
         beforeAll(() => {
-            WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
-            WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
-
             jest.spyOn(WikisModelMock, 'findOne').mockResolvedValueOnce(wikiMockInstance).mockResolvedValue(null);
         });
 
@@ -92,10 +80,6 @@ describe('Services :: WikisServices', () => {
         };
 
         beforeAll(() => {
-            WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
-            WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
-
             jest.spyOn(WikisModelMock, 'update').mockResolvedValueOnce(wikiMockUpdateInstance).mockResolvedValue(null);
         });
 
@@ -169,10 +153,6 @@ describe('Services :: WikisServices', () => {
         };
 
         beforeAll(() => {
-            WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis', { mock: true });
-            WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
-
             jest.spyOn(WikisModelMock, 'findOne')
                 .mockResolvedValueOnce(wikiMockFindInstance)
                 .mockResolvedValueOnce({ ...wikiMockFindInstance, active: false })

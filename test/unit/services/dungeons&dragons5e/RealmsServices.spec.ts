@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDRealm,
-    Internacional,
-    MongoModel,
-    SchemasDnDType,
+    Internacional
 } from '@tablerise/database-management';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -13,21 +11,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: RealmsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let RealmsModelMock: MongoModel<any>;
-    let RealmsServicesMock: RealmsServices;
-    let RealmsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
 
     const realmsMockInstance = mocks.realm.instance as Internacional<DnDRealm>;
     const { _id: _, ...realmsMockPayload } = realmsMockInstance;
 
     describe('When the recover all enabled realms service is called', () => {
         beforeAll(() => {
-            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
-            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
-
             jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmsMockInstance]);
         });
 
@@ -40,10 +34,6 @@ describe('Services :: RealmsServices', () => {
     describe('When the recover all disabled realms service is called', () => {
         const realmMockDisabled = { active: false, ...realmsMockInstance };
         beforeAll(() => {
-            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
-            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
-
             jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmMockDisabled]);
         });
 
@@ -55,10 +45,6 @@ describe('Services :: RealmsServices', () => {
 
     describe('When the recover a realm by ID service is called', () => {
         beforeAll(() => {
-            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
-            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
-
             jest.spyOn(RealmsModelMock, 'findOne').mockResolvedValueOnce(realmsMockInstance).mockResolvedValue(null);
         });
 
@@ -96,10 +82,6 @@ describe('Services :: RealmsServices', () => {
         };
 
         beforeAll(() => {
-            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
-            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
-
             jest.spyOn(RealmsModelMock, 'update')
                 .mockResolvedValueOnce(realmMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -178,10 +160,6 @@ describe('Services :: RealmsServices', () => {
         };
 
         beforeAll(() => {
-            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
-            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
-
             jest.spyOn(RealmsModelMock, 'findOne')
                 .mockResolvedValueOnce(realmMockFindInstance)
                 .mockResolvedValueOnce({ ...realmMockFindInstance, active: false })

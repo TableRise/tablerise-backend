@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDRace, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -8,21 +8,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: RacesServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let RacesModelMock: MongoModel<any>;
-    let RacesServicesMock: RacesServices;
-    let RacesSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
+    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
 
     const racesMockInstance = mocks.race.instance as Internacional<DnDRace>;
     const { _id: _, ...racesMockPayload } = racesMockInstance;
 
     describe('When the recover all race service is called', () => {
         beforeAll(() => {
-            RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
-            RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-
             jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([racesMockInstance]);
         });
 
@@ -36,10 +32,6 @@ describe('Services :: RacesServices', () => {
         const raceMockDisabled = { ...racesMockInstance, active: false };
 
         beforeAll(() => {
-            RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
-            RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-
             jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([raceMockDisabled]);
         });
 
@@ -51,10 +43,6 @@ describe('Services :: RacesServices', () => {
 
     describe('When the recover a race by ID service is called', () => {
         beforeAll(() => {
-            RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
-            RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-
             jest.spyOn(RacesModelMock, 'findOne').mockResolvedValueOnce(racesMockInstance).mockResolvedValue(null);
         });
 
@@ -93,10 +81,6 @@ describe('Services :: RacesServices', () => {
         };
 
         beforeAll(() => {
-            RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
-            RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-
             jest.spyOn(RacesModelMock, 'update').mockResolvedValueOnce(raceMockUpdateInstance).mockResolvedValue(null);
         });
 
@@ -170,10 +154,6 @@ describe('Services :: RacesServices', () => {
         };
 
         beforeAll(() => {
-            RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
-            RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-
             jest.spyOn(RacesModelMock, 'findOne')
                 .mockResolvedValueOnce(raceMockFindInstance)
                 .mockResolvedValueOnce({ ...raceMockFindInstance, active: false })

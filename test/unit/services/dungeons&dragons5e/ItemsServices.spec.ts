@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDItem, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -7,21 +7,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: ItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let ItemsModelMock: MongoModel<any>;
-    let ItemsServicesMock: ItemsServices;
-    let ItemsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const ItemsModelMock =  DM_MOCK.modelInstance('dungeons&dragons5e', 'Items', { mock: true });
+    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);;
 
     const itemsMockInstance = mocks.item.instance as Internacional<DnDItem>;
     const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 
     describe('When the recover all item service is called', () => {
         beforeAll(() => {
-            ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items', { mock: true });
-            ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
-
             jest.spyOn(ItemsModelMock, 'findAll').mockResolvedValue([itemsMockInstance]);
         });
 

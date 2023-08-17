@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDMagicItem,
-    Internacional,
-    MongoModel,
-    SchemasDnDType,
+    Internacional
 } from '@tablerise/database-management';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -13,26 +11,22 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: MagicItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let MagicItemsModelMock: MongoModel<any>;
-    let MagicItemsServicesMock: MagicItemsServices;
-    let MagicItemsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });;
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MagicItemsServicesMock = new MagicItemsServices(
+        MagicItemsModelMock,
+        logger,
+        ValidateDataMock,
+        MagicItemsSchemaMock
+    );
 
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
     describe('When the recover all magic items service is called', () => {
         beforeAll(() => {
-            MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
-            MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(
-                MagicItemsModelMock,
-                logger,
-                ValidateDataMock,
-                MagicItemsSchemaMock
-            );
-
             jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockInstance]);
         });
 
@@ -46,15 +40,6 @@ describe('Services :: MagicItemsServices', () => {
         const magicItemMockDisabled = { ...magicItemMockInstance, active: false };
 
         beforeAll(() => {
-            MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
-            MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(
-                MagicItemsModelMock,
-                logger,
-                ValidateDataMock,
-                MagicItemsSchemaMock
-            );
-
             jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockDisabled]);
         });
 
@@ -66,15 +51,6 @@ describe('Services :: MagicItemsServices', () => {
 
     describe('When the recover a magic item by ID service is called', () => {
         beforeAll(() => {
-            MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
-            MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(
-                MagicItemsModelMock,
-                logger,
-                ValidateDataMock,
-                MagicItemsSchemaMock
-            );
-
             jest.spyOn(MagicItemsModelMock, 'findOne')
                 .mockResolvedValueOnce(magicItemMockInstance)
                 .mockResolvedValue(null);
@@ -115,15 +91,6 @@ describe('Services :: MagicItemsServices', () => {
         };
 
         beforeAll(() => {
-            MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
-            MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(
-                MagicItemsModelMock,
-                logger,
-                ValidateDataMock,
-                MagicItemsSchemaMock
-            );
-
             jest.spyOn(MagicItemsModelMock, 'update')
                 .mockResolvedValueOnce(magicItemMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -208,15 +175,6 @@ describe('Services :: MagicItemsServices', () => {
         };
 
         beforeAll(() => {
-            MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
-            MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(
-                MagicItemsModelMock,
-                logger,
-                ValidateDataMock,
-                MagicItemsSchemaMock
-            );
-
             jest.spyOn(MagicItemsModelMock, 'findOne')
                 .mockResolvedValueOnce(magicItemMockFindInstance)
                 .mockResolvedValueOnce({ ...magicItemMockFindInstance, active: false })

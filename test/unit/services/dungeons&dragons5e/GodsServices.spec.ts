@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDGod, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -8,21 +8,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: GodsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let GodsModelMock: MongoModel<any>;
-    let GodsServicesMock: GodsServices;
-    let GodsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
+    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
 
     const godMockInstance = mocks.god.instance as Internacional<DnDGod>;
     const { _id: _, ...godMockPayload } = godMockInstance;
 
     describe('When the recover all enabled gods service is called', () => {
         beforeAll(() => {
-            GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
-            GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
-
             jest.spyOn(GodsModelMock, 'findAll').mockResolvedValue([godMockInstance]);
         });
 
@@ -36,10 +32,6 @@ describe('Services :: GodsServices', () => {
         const godMockDisabled = { active: false, ...godMockInstance };
 
         beforeAll(() => {
-            GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
-            GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
-
             jest.spyOn(GodsModelMock, 'findAll').mockResolvedValue([godMockDisabled]);
         });
 
@@ -51,10 +43,6 @@ describe('Services :: GodsServices', () => {
 
     describe('When the recover a god by ID service is called', () => {
         beforeAll(() => {
-            GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
-            GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
-
             jest.spyOn(GodsModelMock, 'findOne').mockResolvedValueOnce(godMockInstance).mockResolvedValue(null);
         });
 
@@ -92,10 +80,6 @@ describe('Services :: GodsServices', () => {
         };
 
         beforeAll(() => {
-            GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
-            GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
-
             jest.spyOn(GodsModelMock, 'update').mockResolvedValueOnce(godMockUpdateInstance).mockResolvedValue(null);
         });
 
@@ -169,10 +153,6 @@ describe('Services :: GodsServices', () => {
         };
 
         beforeAll(() => {
-            GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
-            GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
-
             jest.spyOn(GodsModelMock, 'findOne')
                 .mockResolvedValueOnce(godMockFindInstance)
                 .mockResolvedValueOnce({ ...godMockFindInstance, active: false })

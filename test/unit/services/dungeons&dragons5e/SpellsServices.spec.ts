@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDSpell,
-    Internacional,
-    MongoModel,
-    SchemasDnDType,
+    Internacional
 } from '@tablerise/database-management';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -13,21 +11,17 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: SpellsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let SpellsModelMock: MongoModel<any>;
-    let SpellsServicesMock: SpellsServices;
-    let SpellsSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
+    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
 
     const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 
     describe('When the recover all enabled spells service is called', () => {
         beforeAll(() => {
-            SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
-            SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
-
             jest.spyOn(SpellsModelMock, 'findAll').mockResolvedValue([spellMockInstance]);
         });
 
@@ -41,10 +35,6 @@ describe('Services :: SpellsServices', () => {
         const spellMockDisabled = { active: false, ...spellMockInstance };
 
         beforeAll(() => {
-            SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
-            SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
-
             jest.spyOn(SpellsModelMock, 'findAll').mockResolvedValue([spellMockDisabled]);
         });
 
@@ -56,10 +46,6 @@ describe('Services :: SpellsServices', () => {
 
     describe('When the recover a spell by ID service is called', () => {
         beforeAll(() => {
-            SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
-            SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
-
             jest.spyOn(SpellsModelMock, 'findOne').mockResolvedValueOnce(spellMockInstance).mockResolvedValue(null);
         });
 
@@ -97,10 +83,6 @@ describe('Services :: SpellsServices', () => {
         };
 
         beforeAll(() => {
-            SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
-            SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
-
             jest.spyOn(SpellsModelMock, 'update')
                 .mockResolvedValueOnce(spellMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -179,10 +161,6 @@ describe('Services :: SpellsServices', () => {
         };
 
         beforeAll(() => {
-            SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
-            SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
-
             jest.spyOn(SpellsModelMock, 'findOne')
                 .mockResolvedValueOnce(spellMockFindInstance)
                 .mockResolvedValueOnce({ ...spellMockFindInstance, active: false })

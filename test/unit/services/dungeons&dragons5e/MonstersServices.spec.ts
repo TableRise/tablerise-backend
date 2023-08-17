@@ -1,8 +1,6 @@
 import DatabaseManagement, {
     DnDMonster,
-    Internacional,
-    MongoModel,
-    SchemasDnDType,
+    Internacional
 } from '@tablerise/database-management';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -13,26 +11,22 @@ const logger = require('@tablerise/dynamic-logger');
 describe('Services :: MonstersServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    let MonstersModelMock: MongoModel<any>;
-    let MonstersServicesMock: MonstersServices;
-    let MonstersSchemaMock: SchemasDnDType;
-
     const ValidateDataMock = new ValidateData(logger);
+
+    const MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
+    const MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MonstersServicesMock = new MonstersServices(
+        MonstersModelMock,
+        logger,
+        ValidateDataMock,
+        MonstersSchemaMock
+    );
 
     const monsterMockInstance = mocks.monster.instance as Internacional<DnDMonster>;
     const { _id: _, ...monsterMockPayload } = monsterMockInstance;
 
     describe('When the recover all enabled monsters service is called', () => {
         beforeAll(() => {
-            MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
-            MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MonstersServicesMock = new MonstersServices(
-                MonstersModelMock,
-                logger,
-                ValidateDataMock,
-                MonstersSchemaMock
-            );
-
             jest.spyOn(MonstersModelMock, 'findAll').mockResolvedValue([monsterMockInstance]);
         });
 
@@ -46,15 +40,6 @@ describe('Services :: MonstersServices', () => {
         const monsterMockDisabled = { ...monsterMockInstance, active: false };
 
         beforeAll(() => {
-            MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
-            MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MonstersServicesMock = new MonstersServices(
-                MonstersModelMock,
-                logger,
-                ValidateDataMock,
-                MonstersSchemaMock
-            );
-
             jest.spyOn(MonstersModelMock, 'findAll').mockResolvedValue([monsterMockDisabled]);
         });
 
@@ -66,15 +51,6 @@ describe('Services :: MonstersServices', () => {
 
     describe('When the recover a monster by ID service is called', () => {
         beforeAll(() => {
-            MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
-            MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MonstersServicesMock = new MonstersServices(
-                MonstersModelMock,
-                logger,
-                ValidateDataMock,
-                MonstersSchemaMock
-            );
-
             jest.spyOn(MonstersModelMock, 'findOne').mockResolvedValueOnce(monsterMockInstance).mockResolvedValue(null);
         });
 
@@ -112,15 +88,6 @@ describe('Services :: MonstersServices', () => {
         };
 
         beforeAll(() => {
-            MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
-            MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MonstersServicesMock = new MonstersServices(
-                MonstersModelMock,
-                logger,
-                ValidateDataMock,
-                MonstersSchemaMock
-            );
-
             jest.spyOn(MonstersModelMock, 'update')
                 .mockResolvedValueOnce(monsterMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -199,15 +166,6 @@ describe('Services :: MonstersServices', () => {
         };
 
         beforeAll(() => {
-            MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters', { mock: true });
-            MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MonstersServicesMock = new MonstersServices(
-                MonstersModelMock,
-                logger,
-                ValidateDataMock,
-                MonstersSchemaMock
-            );
-
             jest.spyOn(MonstersModelMock, 'findOne')
                 .mockResolvedValueOnce(monsterMockFindInstance)
                 .mockResolvedValueOnce({ ...monsterMockFindInstance, active: false })
