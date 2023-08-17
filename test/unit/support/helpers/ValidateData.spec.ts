@@ -1,11 +1,9 @@
 import { z } from 'zod';
+import { Internacional, DnDRace, DnDSystem } from '@tablerise/database-management';
 import ValidateData from 'src/support/helpers/ValidateData';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { errorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 const logger = require('@tablerise/dynamic-logger');
 
@@ -80,7 +78,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.response is sucessfull', () => {
-        const response = mocks.race.instance.en as Internacional<Race>;
+        const response = mocks.race.instance.en as Internacional<DnDRace>;
         it('should not throw a Not Found error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -93,7 +91,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.active fail', () => {
-        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: true };
+        const response = { ...(mocks.race.instance.en as Internacional<DnDRace>), active: true };
         it('should throw a an error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -111,7 +109,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.active is sucessfull', () => {
-        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: false };
+        const response = { ...(mocks.race.instance.en as Internacional<DnDRace>), active: false };
         it('should not throw an error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -141,7 +139,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.systemResponse is sucessfull', () => {
-        const response = mocks.system.instance as System;
+        const response = mocks.system.instance as DnDSystem;
         it('should not throw a Not Found error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -154,7 +152,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.systemActive fail', () => {
-        const response = { ...(mocks.system.instance as System), active: true };
+        const response = { ...(mocks.system.instance as DnDSystem), active: true };
         it('should throw a an error', () => {
             try {
                 const validate = new ValidateData(logger);
@@ -177,7 +175,7 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when validate.systemActive is sucessfull', () => {
-        const response = { ...(mocks.race.instance.en as Internacional<Race>), active: false };
+        const response = { ...(mocks.race.instance.en as Internacional<DnDRace>), active: false };
         it('should not throw an error', () => {
             const validate = new ValidateData(logger);
             validate.systemActive(
