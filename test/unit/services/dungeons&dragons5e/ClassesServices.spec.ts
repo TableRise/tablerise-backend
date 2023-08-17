@@ -1,26 +1,28 @@
-import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
+import DatabaseManagement, { DnDClass, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ClassesServices', () => {
-    const ClassesModelMock = new ClassesModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock);
-    const classMockInstance = mocks.class.instance as Internacional<Class>;
-    const { _id: _, ...classMockPayload } = classMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    let ClassesModelMock: MongoModel<any>;
+    let ClassesServicesMock: ClassesServices;
+    let ClassesSchemaMock: SchemasDnDType;
+
+    const ValidateDataMock = new ValidateData(logger);
+
+    const classMockInstance = mocks.class.instance as Internacional<DnDClass>;
+    const { _id: _, ...classMockPayload } = classMockInstance;
 
     describe('When the recover all enabled classes service is called', () => {
         beforeAll(() => {
+            ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+            ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+
             jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockInstance]);
         });
 
@@ -32,7 +34,12 @@ describe('Services :: ClassesServices', () => {
 
     describe('When the recover all disabled classes service is called', () => {
         const classMockDisabled = { ...classMockInstance, active: false };
+
         beforeAll(() => {
+            ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+            ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+
             jest.spyOn(ClassesModelMock, 'findAll').mockResolvedValue([classMockDisabled]);
         });
 
@@ -44,6 +51,10 @@ describe('Services :: ClassesServices', () => {
 
     describe('When the recover a class by ID service is called', () => {
         beforeAll(() => {
+            ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+            ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+
             jest.spyOn(ClassesModelMock, 'findOne').mockResolvedValueOnce(classMockInstance).mockResolvedValue(null);
         });
 
@@ -81,6 +92,10 @@ describe('Services :: ClassesServices', () => {
         };
 
         beforeAll(() => {
+            ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+            ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+
             jest.spyOn(ClassesModelMock, 'update')
                 .mockResolvedValueOnce(classMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -89,14 +104,14 @@ describe('Services :: ClassesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ClassesServicesMock.update(
                 classMockID,
-                classMockPayloadWithoutActive as Internacional<Class>
+                classMockPayloadWithoutActive as Internacional<DnDClass>
             );
             expect(responseTest).toBe(classMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ClassesServicesMock.update(classMockID, classMockPayloadWrong as Internacional<Class>);
+                await ClassesServicesMock.update(classMockID, classMockPayloadWrong as Internacional<DnDClass>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -108,7 +123,7 @@ describe('Services :: ClassesServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
+                await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<DnDClass>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -121,7 +136,7 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.update(
                     'inexistent_id',
-                    classMockPayloadWithoutActive as Internacional<Class>
+                    classMockPayloadWithoutActive as Internacional<DnDClass>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -159,6 +174,10 @@ describe('Services :: ClassesServices', () => {
         };
 
         beforeAll(() => {
+            ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+            ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+
             jest.spyOn(ClassesModelMock, 'findOne')
                 .mockResolvedValueOnce(classMockFindInstance)
                 .mockResolvedValueOnce({ ...classMockFindInstance, active: false })
