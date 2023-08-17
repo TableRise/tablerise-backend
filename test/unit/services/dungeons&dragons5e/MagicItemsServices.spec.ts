@@ -1,4 +1,9 @@
-import DatabaseManagement, { DnDMagicItem, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, {
+    DnDMagicItem,
+    Internacional,
+    MongoModel,
+    SchemasDnDType,
+} from '@tablerise/database-management';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -21,7 +26,12 @@ describe('Services :: MagicItemsServices', () => {
         beforeAll(() => {
             MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
             MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+            MagicItemsServicesMock = new MagicItemsServices(
+                MagicItemsModelMock,
+                logger,
+                ValidateDataMock,
+                MagicItemsSchemaMock
+            );
 
             jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockInstance]);
         });
@@ -38,7 +48,12 @@ describe('Services :: MagicItemsServices', () => {
         beforeAll(() => {
             MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
             MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+            MagicItemsServicesMock = new MagicItemsServices(
+                MagicItemsModelMock,
+                logger,
+                ValidateDataMock,
+                MagicItemsSchemaMock
+            );
 
             jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockDisabled]);
         });
@@ -53,7 +68,12 @@ describe('Services :: MagicItemsServices', () => {
         beforeAll(() => {
             MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
             MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+            MagicItemsServicesMock = new MagicItemsServices(
+                MagicItemsModelMock,
+                logger,
+                ValidateDataMock,
+                MagicItemsSchemaMock
+            );
 
             jest.spyOn(MagicItemsModelMock, 'findOne')
                 .mockResolvedValueOnce(magicItemMockInstance)
@@ -97,7 +117,12 @@ describe('Services :: MagicItemsServices', () => {
         beforeAll(() => {
             MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
             MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+            MagicItemsServicesMock = new MagicItemsServices(
+                MagicItemsModelMock,
+                logger,
+                ValidateDataMock,
+                MagicItemsSchemaMock
+            );
 
             jest.spyOn(MagicItemsModelMock, 'update')
                 .mockResolvedValueOnce(magicItemMockUpdateInstance)
@@ -129,7 +154,10 @@ describe('Services :: MagicItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayload as Internacional<DnDMagicItem>);
+                await MagicItemsServicesMock.update(
+                    'inexistent_id',
+                    magicItemMockPayload as Internacional<DnDMagicItem>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -182,7 +210,12 @@ describe('Services :: MagicItemsServices', () => {
         beforeAll(() => {
             MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
             MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+            MagicItemsServicesMock = new MagicItemsServices(
+                MagicItemsModelMock,
+                logger,
+                ValidateDataMock,
+                MagicItemsSchemaMock
+            );
 
             jest.spyOn(MagicItemsModelMock, 'findOne')
                 .mockResolvedValueOnce(magicItemMockFindInstance)

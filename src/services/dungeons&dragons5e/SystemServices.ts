@@ -47,9 +47,9 @@ export default class SystemServices implements Service<DnDSystem> {
 
         const { method, newID } = payload;
 
-        let recoverSystem = await this._model.findOne(_id) as DnDSystem & { _id: string };
+        let recoverSystem = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
 
-        recoverSystem = this._validate.systemResponse(recoverSystem, errorMessage.notFound.system) ;
+        recoverSystem = this._validate.systemResponse(recoverSystem, errorMessage.notFound.system);
 
         if (recoverSystem && method === 'add') {
             // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
@@ -68,16 +68,16 @@ export default class SystemServices implements Service<DnDSystem> {
 
         await this._model.update(_id, recoverSystem);
 
-        const response = `New ID ${newID as string} was ${method as string} to array of entities ${entityQuery} - system ID: ${
-            recoverSystem._id
-        }`;
+        const response = `New ID ${newID as string} was ${
+            method as string
+        } to array of entities ${entityQuery} - system ID: ${recoverSystem._id}`;
 
         this._logger('info', 'Content of the system entity updated with success');
         return response;
     }
 
     public async activate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id) as DnDSystem & { _id: string };;
+        let response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
         response = this._validate.systemResponse(response, errorMessage.notFound.system);
 
         this._validate.systemActive(
@@ -95,7 +95,7 @@ export default class SystemServices implements Service<DnDSystem> {
     }
 
     public async deactivate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id) as DnDSystem & { _id: string };;
+        let response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
         response = this._validate.systemResponse(response, errorMessage.notFound.system);
 
         this._validate.systemActive(

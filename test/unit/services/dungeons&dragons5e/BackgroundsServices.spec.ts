@@ -1,4 +1,9 @@
-import DatabaseManagement, { DnDBackground, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, {
+    DnDBackground,
+    Internacional,
+    MongoModel,
+    SchemasDnDType,
+} from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -21,7 +26,12 @@ describe('Services :: BackgroundsServices', () => {
         beforeAll(() => {
             BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
             BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
+            BackgroundsServicesMock = new BackgroundsServices(
+                BackgroundsModelMock,
+                logger,
+                ValidateDataMock,
+                BackgroundsSchemaMock
+            );
 
             jest.spyOn(BackgroundsModelMock, 'findAll').mockResolvedValue([backgroundMockInstance]);
         });
@@ -38,7 +48,12 @@ describe('Services :: BackgroundsServices', () => {
         beforeAll(() => {
             BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
             BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
+            BackgroundsServicesMock = new BackgroundsServices(
+                BackgroundsModelMock,
+                logger,
+                ValidateDataMock,
+                BackgroundsSchemaMock
+            );
 
             jest.spyOn(BackgroundsModelMock, 'findAll').mockResolvedValue([backgroundMockDisabled]);
         });
@@ -53,7 +68,12 @@ describe('Services :: BackgroundsServices', () => {
         beforeAll(() => {
             BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
             BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
+            BackgroundsServicesMock = new BackgroundsServices(
+                BackgroundsModelMock,
+                logger,
+                ValidateDataMock,
+                BackgroundsSchemaMock
+            );
 
             jest.spyOn(BackgroundsModelMock, 'findOne')
                 .mockResolvedValueOnce(backgroundMockInstance)
@@ -97,7 +117,12 @@ describe('Services :: BackgroundsServices', () => {
         beforeAll(() => {
             BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
             BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
+            BackgroundsServicesMock = new BackgroundsServices(
+                BackgroundsModelMock,
+                logger,
+                ValidateDataMock,
+                BackgroundsSchemaMock
+            );
 
             jest.spyOn(BackgroundsModelMock, 'update')
                 .mockResolvedValueOnce(backgroundMockUpdateInstance)
@@ -185,7 +210,12 @@ describe('Services :: BackgroundsServices', () => {
         beforeAll(() => {
             BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
             BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-            BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
+            BackgroundsServicesMock = new BackgroundsServices(
+                BackgroundsModelMock,
+                logger,
+                ValidateDataMock,
+                BackgroundsSchemaMock
+            );
 
             jest.spyOn(BackgroundsModelMock, 'findOne')
                 .mockResolvedValueOnce(backgroundMockFindInstance)

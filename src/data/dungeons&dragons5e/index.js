@@ -14,18 +14,18 @@ const wikiSeeder = require('./wikiSeeder.json');
 const magicItemsSeeder = require('./magicItemsSeeder.json');
 
 module.exports = {
-  system: systemSeeder,
-  realms: realmsSeeder,
-  gods: godsSeeder,
-  feats: featsSeeder,
-  backgrounds: backgroundsSeeder,
-  races: racesSeeder,
-  items: itemsSeeder,
-  weapons: weaponsSeeder,
-  armors: armorsSeeder,
-  classes: classesSeeder,
-  monsters: monstersSeeder,
-  spells: spellsSeeder,
-  wiki: wikiSeeder,
-  magicItems: magicItemsSeeder
+    system: systemSeeder,
+    realms: realmsSeeder,
+    gods: godsSeeder,
+    feats: featsSeeder,
+    backgrounds: backgroundsSeeder,
+    races: racesSeeder,
+    items: itemsSeeder,
+    weapons: weaponsSeeder,
+    armors: armorsSeeder,
+    classes: classesSeeder,
+    monsters: monstersSeeder,
+    spells: spellsSeeder,
+    wiki: wikiSeeder,
+    magicItems: magicItemsSeeder,
 };

@@ -173,7 +173,7 @@ describe('Services :: RacesServices', () => {
             RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
             RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
             RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
-        
+
             jest.spyOn(RacesModelMock, 'findOne')
                 .mockResolvedValueOnce(raceMockFindInstance)
                 .mockResolvedValueOnce({ ...raceMockFindInstance, active: false })

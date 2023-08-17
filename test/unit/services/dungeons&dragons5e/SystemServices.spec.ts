@@ -1,4 +1,9 @@
-import DatabaseManagement, { DnDSystem, MongoModel, SchemasDnDType, UpdateContent } from '@tablerise/database-management';
+import DatabaseManagement, {
+    DnDSystem,
+    MongoModel,
+    SchemasDnDType,
+    UpdateContent,
+} from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -127,9 +132,9 @@ describe('Services :: SystemsServices', () => {
         const systemMockID = systemMockInstance._id;
         const entityMockQuery = 'races';
         const { method: __, ...updateContentWithoutMethod } = updateContentMockInstance;
-        const updateResult = `New ID ${newID as string} was ${method as string} to array of entities ${entityMockQuery} - system ID: ${
-            systemMockInstance._id
-        }`;
+        const updateResult = `New ID ${newID as string} was ${
+            method as string
+        } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
         beforeAll(() => {
             SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
@@ -159,9 +164,9 @@ describe('Services :: SystemsServices', () => {
                 newID: systemMockInstance.content.races[0],
             };
             const { method, newID } = updateContentMockInstanceRemove;
-            const updateResult = `New ID ${newID as string} was ${method as string} to array of entities ${entityMockQuery} - system ID: ${
-                systemMockInstance._id
-            }`;
+            const updateResult = `New ID ${newID as string} was ${
+                method as string
+            } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
             const responseTest = await SystemsServicesMock.updateContent(
                 systemMockID,
@@ -260,7 +265,7 @@ describe('Services :: SystemsServices', () => {
             SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
             SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
             SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
-            
+
             jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstanceNoActive)
                 .mockResolvedValueOnce(null)

@@ -21,7 +21,7 @@ describe('Services :: ItemsServices', () => {
             ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items', { mock: true });
             ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
             ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
-        
+
             jest.spyOn(ItemsModelMock, 'findAll').mockResolvedValue([itemsMockInstance]);
         });
 

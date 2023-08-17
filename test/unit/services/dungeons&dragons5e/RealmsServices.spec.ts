@@ -1,4 +1,9 @@
-import DatabaseManagement, { DnDRealm, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, {
+    DnDRealm,
+    Internacional,
+    MongoModel,
+    SchemasDnDType,
+} from '@tablerise/database-management';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -133,7 +138,10 @@ describe('Services :: RealmsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await RealmsServicesMock.update('inexistent_id', realmMockPayloadWithoutActive as Internacional<DnDRealm>);
+                await RealmsServicesMock.update(
+                    'inexistent_id',
+                    realmMockPayloadWithoutActive as Internacional<DnDRealm>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a realm with provided ID');

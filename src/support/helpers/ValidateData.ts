@@ -11,9 +11,7 @@ export default class ValidateData {
     systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
     systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
-    constructor(
-        private readonly _logger: Logger
-    ) {
+    constructor(private readonly _logger: Logger) {
         this.entry = this.validateEntry;
         this.response = this.validateResponse;
         this.active = this.validateActive;
