@@ -17,7 +17,7 @@
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
         "check-cov": "node scripts/checkCoverage.js",
-        "populate": "npx @tablerise/database-seeder@3.0.2"
+        "populate": "npx @tablerise/database-seeder@4.3.1"
     },
     "_moduleAliases": {
         "src": "./build/src/"
