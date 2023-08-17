@@ -1,26 +1,28 @@
-import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
+import DatabaseManagement, { DnDRealm, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RealmsServices', () => {
-    const RealmsModelMock = new RealmsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock);
-    const realmsMockInstance = mocks.realm.instance as Internacional<Realm>;
-    const { _id: _, ...realmsMockPayload } = realmsMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    let RealmsModelMock: MongoModel<any>;
+    let RealmsServicesMock: RealmsServices;
+    let RealmsSchemaMock: SchemasDnDType;
+
+    const ValidateDataMock = new ValidateData(logger);
+
+    const realmsMockInstance = mocks.realm.instance as Internacional<DnDRealm>;
+    const { _id: _, ...realmsMockPayload } = realmsMockInstance;
 
     describe('When the recover all enabled realms service is called', () => {
         beforeAll(() => {
+            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
+
             jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmsMockInstance]);
         });
 
@@ -33,6 +35,10 @@ describe('Services :: RealmsServices', () => {
     describe('When the recover all disabled realms service is called', () => {
         const realmMockDisabled = { active: false, ...realmsMockInstance };
         beforeAll(() => {
+            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
+
             jest.spyOn(RealmsModelMock, 'findAll').mockResolvedValue([realmMockDisabled]);
         });
 
@@ -44,6 +50,10 @@ describe('Services :: RealmsServices', () => {
 
     describe('When the recover a realm by ID service is called', () => {
         beforeAll(() => {
+            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
+
             jest.spyOn(RealmsModelMock, 'findOne').mockResolvedValueOnce(realmsMockInstance).mockResolvedValue(null);
         });
 
@@ -81,6 +91,10 @@ describe('Services :: RealmsServices', () => {
         };
 
         beforeAll(() => {
+            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
+
             jest.spyOn(RealmsModelMock, 'update')
                 .mockResolvedValueOnce(realmMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -89,14 +103,14 @@ describe('Services :: RealmsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await RealmsServicesMock.update(
                 realmMockID,
-                realmMockPayloadWithoutActive as Internacional<Realm>
+                realmMockPayloadWithoutActive as Internacional<DnDRealm>
             );
             expect(responseTest).toBe(realmMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await RealmsServicesMock.update(realmMockID, realmMockPayloadWrong as Internacional<Realm>);
+                await RealmsServicesMock.update(realmMockID, realmMockPayloadWrong as Internacional<DnDRealm>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -108,7 +122,7 @@ describe('Services :: RealmsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RealmsServicesMock.update('inexistent_id', realmsMockPayload as Internacional<Realm>);
+                await RealmsServicesMock.update('inexistent_id', realmsMockPayload as Internacional<DnDRealm>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -119,7 +133,7 @@ describe('Services :: RealmsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await RealmsServicesMock.update('inexistent_id', realmMockPayloadWithoutActive as Internacional<Realm>);
+                await RealmsServicesMock.update('inexistent_id', realmMockPayloadWithoutActive as Internacional<DnDRealm>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a realm with provided ID');
@@ -156,6 +170,10 @@ describe('Services :: RealmsServices', () => {
         };
 
         beforeAll(() => {
+            RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+            RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
+
             jest.spyOn(RealmsModelMock, 'findOne')
                 .mockResolvedValueOnce(realmMockFindInstance)
                 .mockResolvedValueOnce({ ...realmMockFindInstance, active: false })

@@ -1,26 +1,28 @@
-import WeaponsModel from 'src/database/models/dungeons&dragons5e/WeaponsModel';
+import DatabaseManagement, { DnDWeapon, Internacional, MongoModel, SchemasDnDType } from '@tablerise/database-management';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: WeaponsServices', () => {
-    const WeaponsModelMock = new WeaponsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock);
-    const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
-    const { _id: _, ...weaponMockPayload } = weaponMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    let WeaponsModelMock: MongoModel<any>;
+    let WeaponsServicesMock: WeaponsServices;
+    let WeaponsSchemaMock: SchemasDnDType;
+
+    const ValidateDataMock = new ValidateData(logger);
+
+    const weaponMockInstance = mocks.weapon.instance as Internacional<DnDWeapon>;
+    const { _id: _, ...weaponMockPayload } = weaponMockInstance;
 
     describe('When the recover all enabled weapons service is called', () => {
         beforeAll(() => {
+            WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+            WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+
             jest.spyOn(WeaponsModelMock, 'findAll').mockResolvedValue([weaponMockInstance]);
         });
 
@@ -32,7 +34,12 @@ describe('Services :: WeaponsServices', () => {
 
     describe('When the recover all disabled weapons service is called', () => {
         const weaponMockDisabled = { ...weaponMockInstance, active: false };
+
         beforeAll(() => {
+            WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+            WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+
             jest.spyOn(WeaponsModelMock, 'findAll').mockResolvedValue([weaponMockDisabled]);
         });
 
@@ -44,6 +51,10 @@ describe('Services :: WeaponsServices', () => {
 
     describe('When the recover a weapon by ID service is called', () => {
         beforeAll(() => {
+            WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+            WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+
             jest.spyOn(WeaponsModelMock, 'findOne').mockResolvedValueOnce(weaponMockInstance).mockResolvedValue(null);
         });
 
@@ -81,6 +92,10 @@ describe('Services :: WeaponsServices', () => {
         };
 
         beforeAll(() => {
+            WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+            WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+
             jest.spyOn(WeaponsModelMock, 'update')
                 .mockResolvedValueOnce(weaponMockUpdateInstance)
                 .mockResolvedValue(null);
@@ -89,14 +104,14 @@ describe('Services :: WeaponsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await WeaponsServicesMock.update(
                 weaponMockID,
-                weaponMockPayloadWithoutActive as Internacional<Weapon>
+                weaponMockPayloadWithoutActive as Internacional<DnDWeapon>
             );
             expect(responseTest).toBe(weaponMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await WeaponsServicesMock.update(weaponMockID, weaponMockPayloadWrong as Internacional<Weapon>);
+                await WeaponsServicesMock.update(weaponMockID, weaponMockPayloadWrong as Internacional<DnDWeapon>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -108,7 +123,7 @@ describe('Services :: WeaponsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await WeaponsServicesMock.update('inexistent_id', weaponMockPayload as Internacional<Weapon>);
+                await WeaponsServicesMock.update('inexistent_id', weaponMockPayload as Internacional<DnDWeapon>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -121,7 +136,7 @@ describe('Services :: WeaponsServices', () => {
             try {
                 await WeaponsServicesMock.update(
                     'inexistent_id',
-                    weaponMockPayloadWithoutActive as Internacional<Weapon>
+                    weaponMockPayloadWithoutActive as Internacional<DnDWeapon>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -159,6 +174,10 @@ describe('Services :: WeaponsServices', () => {
         };
 
         beforeAll(() => {
+            WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+            WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+            
             jest.spyOn(WeaponsModelMock, 'findOne')
                 .mockResolvedValueOnce(weaponMockFindInstance)
                 .mockResolvedValueOnce({ ...weaponMockFindInstance, active: false })

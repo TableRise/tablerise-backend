@@ -1,51 +1,57 @@
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement, { DnDSystem, MongoModel, SchemasDnDType, UpdateContent } from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
-import { UpdateContent } from 'src/schemas/updateContentSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SystemsServices', () => {
-    const systemsModelMock = new SystemsModel();
+    const DM_MOCK = new DatabaseManagement();
+
+    let SystemsModelMock: MongoModel<any>;
+    let SystemsServicesMock: SystemsServices;
+    let SystemsSchemaMock: SchemasDnDType;
+
     const ValidateDataMock = new ValidateData(logger);
-    const systemsServicesMock = new SystemsServices(systemsModelMock, logger, ValidateDataMock);
-    const systemMockInstance = mocks.system.instance as System;
+
+    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     const updateContentMockInstance = mocks.updateSystemContent.instance as UpdateContent;
 
     describe('When the recover all system service is called', () => {
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findAll').mockResolvedValue([systemMockInstance]);
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+
+            jest.spyOn(SystemsModelMock, 'findAll').mockResolvedValue([systemMockInstance]);
         });
 
         it('should return correct data', async () => {
-            const responseTest = await systemsServicesMock.findAll();
+            const responseTest = await SystemsServicesMock.findAll();
             expect(responseTest).toStrictEqual([systemMockInstance]);
         });
     });
 
     describe('When the recover a system by ID service is called', () => {
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findOne').mockResolvedValueOnce(systemMockInstance).mockResolvedValue(null);
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+
+            jest.spyOn(SystemsModelMock, 'findOne').mockResolvedValueOnce(systemMockInstance).mockResolvedValue(null);
         });
 
         it('should return correct data when ID valid', async () => {
-            const responseTest = await systemsServicesMock.findOne(systemMockInstance._id as string);
+            const responseTest = await SystemsServicesMock.findOne(systemMockInstance._id);
             expect(responseTest).toBe(systemMockInstance);
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.findOne('inexistent_id');
+                await SystemsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -56,7 +62,7 @@ describe('Services :: SystemsServices', () => {
     });
 
     describe('When service for update a system is called', () => {
-        const systemMockID = systemMockInstance._id as string;
+        const systemMockID = systemMockInstance._id;
         const systemMockUpdateInstance = {
             ...systemMockInstance,
             active: false,
@@ -67,19 +73,23 @@ describe('Services :: SystemsServices', () => {
         const { name: ___, ...systemMockPayloadWrong } = systemMockPayload;
 
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'update')
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+
+            jest.spyOn(SystemsModelMock, 'update')
                 .mockResolvedValueOnce(systemMockUpdateInstance)
                 .mockResolvedValue(null);
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
+            const responseTest = await SystemsServicesMock.update(systemMockID, systemMockPayload as DnDSystem);
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await systemsServicesMock.update(systemMockID, systemMockPayloadWrong as System);
+                await SystemsServicesMock.update(systemMockID, systemMockPayloadWrong as DnDSystem);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path[0]).toBe('name');
@@ -91,7 +101,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.update('inexistent_id', systemMockPayload as System);
+                await SystemsServicesMock.update('inexistent_id', systemMockPayload as DnDSystem);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -102,7 +112,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when system content is given', async () => {
             try {
-                await systemsServicesMock.update(systemMockID, systemMockInstance);
+                await SystemsServicesMock.update(systemMockID, systemMockInstance);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Update the content directly is not allowed');
@@ -114,23 +124,27 @@ describe('Services :: SystemsServices', () => {
 
     describe('When service for update a system content is called', () => {
         const { method, newID } = updateContentMockInstance;
-        const systemMockID = systemMockInstance._id as string;
+        const systemMockID = systemMockInstance._id;
         const entityMockQuery = 'races';
         const { method: __, ...updateContentWithoutMethod } = updateContentMockInstance;
-        const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${
-            systemMockInstance._id as string
+        const updateResult = `New ID ${newID as string} was ${method as string} to array of entities ${entityMockQuery} - system ID: ${
+            systemMockInstance._id
         }`;
 
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findOne')
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+
+            jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstance)
                 .mockResolvedValueOnce(systemMockInstance)
                 .mockResolvedValue(null);
-            jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+            jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
         });
 
         it('should return a confirmation of add an entity ID', async () => {
-            const responseTest = await systemsServicesMock.updateContent(
+            const responseTest = await SystemsServicesMock.updateContent(
                 systemMockID,
                 entityMockQuery,
                 updateContentMockInstance
@@ -141,14 +155,15 @@ describe('Services :: SystemsServices', () => {
         it('should return a confirmation of remove an entity ID', async () => {
             const updateContentMockInstanceRemove: UpdateContent = {
                 method: 'remove',
+                // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
                 newID: systemMockInstance.content.races[0],
             };
             const { method, newID } = updateContentMockInstanceRemove;
-            const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${
-                systemMockInstance._id as string
+            const updateResult = `New ID ${newID as string} was ${method as string} to array of entities ${entityMockQuery} - system ID: ${
+                systemMockInstance._id
             }`;
 
-            const responseTest = await systemsServicesMock.updateContent(
+            const responseTest = await SystemsServicesMock.updateContent(
                 systemMockID,
                 entityMockQuery,
                 updateContentMockInstanceRemove
@@ -158,7 +173,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await systemsServicesMock.updateContent(
+                await SystemsServicesMock.updateContent(
                     systemMockID,
                     entityMockQuery,
                     updateContentWithoutMethod as UpdateContent
@@ -174,7 +189,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when there is no entityQuery', async () => {
             try {
-                await systemsServicesMock.updateContent(
+                await SystemsServicesMock.updateContent(
                     systemMockID,
                     undefined as unknown as string,
                     updateContentMockInstance
@@ -189,7 +204,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.updateContent('inexistent_id', entityMockQuery, updateContentMockInstance);
+                await SystemsServicesMock.updateContent('inexistent_id', entityMockQuery, updateContentMockInstance);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -201,21 +216,25 @@ describe('Services :: SystemsServices', () => {
 
     describe('When service for activate a system is called', () => {
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findOne')
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+
+            jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstanceNoActive)
                 .mockResolvedValueOnce(null)
                 .mockResolvedValue(systemMockInstanceNoActive);
-            jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+            jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
         });
 
         it('should return a confirmation of activation', async () => {
-            const responseTest = await systemsServicesMock.activate(systemMockInstance._id as string);
-            expect(responseTest).toBe(`System ${systemMockInstance._id as string} was activated`);
+            const responseTest = await SystemsServicesMock.activate(systemMockInstance._id);
+            expect(responseTest).toBe(`System ${systemMockInstance._id} was activated`);
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.activate(systemMockInstance._id as string);
+                await SystemsServicesMock.activate(systemMockInstance._id);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -226,7 +245,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when system is already active', async () => {
             try {
-                await systemsServicesMock.activate(systemMockInstance._id as string);
+                await SystemsServicesMock.activate(systemMockInstance._id);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('System already active');
@@ -238,21 +257,25 @@ describe('Services :: SystemsServices', () => {
 
     describe('When service for deactivate a system is called', () => {
         beforeAll(() => {
-            jest.spyOn(systemsModelMock, 'findOne')
+            SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+            SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+            SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+            
+            jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockInstanceNoActive)
                 .mockResolvedValueOnce(null)
                 .mockResolvedValue(systemMockInstanceNoActive);
-            jest.spyOn(systemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+            jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
         });
 
         it('should return a confirmation of deactivation', async () => {
-            const responseTest = await systemsServicesMock.deactivate(systemMockInstance._id as string);
-            expect(responseTest).toBe(`System ${systemMockInstance._id as string} was deactivated`);
+            const responseTest = await SystemsServicesMock.deactivate(systemMockInstance._id);
+            expect(responseTest).toBe(`System ${systemMockInstance._id} was deactivated`);
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await systemsServicesMock.deactivate('inexistent_id');
+                await SystemsServicesMock.deactivate('inexistent_id');
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound a system with provided ID');
@@ -263,7 +286,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should throw an error when system is already deactivated', async () => {
             try {
-                await systemsServicesMock.deactivate(systemMockInstance._id as string);
+                await SystemsServicesMock.deactivate(systemMockInstance._id);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('System already deactivated');
