@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDSystem } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -15,7 +15,7 @@ describe('Get RPG system from database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When request all rpg systems', () => {
@@ -23,7 +23,7 @@ describe('Get RPG system from database', () => {
             const response = await model.create(systemPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/system').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/system').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -38,7 +38,7 @@ describe('Get RPG system from database', () => {
         it('should return a system instance', async () => {
             await model.create(systemPayload);
 
-            const { body } = await request(app).get(`/dnd5e/system/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/system/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
             expect(body).toHaveProperty('name');
@@ -49,7 +49,7 @@ describe('Get RPG system from database', () => {
         });
 
         it('should fail with id NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/system/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

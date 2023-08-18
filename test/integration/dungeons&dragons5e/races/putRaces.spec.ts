@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -20,7 +20,7 @@ describe('Put RPG Races in database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When update one rpg Race', () => {
@@ -30,7 +30,7 @@ describe('Put RPG Races in database', () => {
             const response = await model.create(racePayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/races/${documentId}`)
                 .send(newRacePayload)
                 .expect(HttpStatusCode.OK);
@@ -47,7 +47,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/races/${documentId}`)
                 .send({ data: null } as unknown as Internacional<DnDRace>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -60,7 +60,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/races/${generateNewMongoID()}`)
                 .send({ active: true, ...newRacePayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -72,7 +72,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/races/${generateNewMongoID()}`)
                 .send(newRacePayload)
                 .expect(HttpStatusCode.NOT_FOUND);

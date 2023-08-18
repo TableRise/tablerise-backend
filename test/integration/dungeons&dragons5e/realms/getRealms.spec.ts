@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDRealm, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
@@ -15,7 +15,7 @@ describe('Get RPG realms from database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When request all rpg realms', () => {
@@ -25,7 +25,7 @@ describe('Get RPG realms from database', () => {
             const response = await model.create(realmMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/realms').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/realms').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -50,7 +50,7 @@ describe('Get RPG realms from database', () => {
             const response = await model.create(realmMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/realms/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/realms/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -68,7 +68,7 @@ describe('Get RPG realms from database', () => {
 
             await model.create(realmMockPayload);
 
-            const { body } = await request(app).get(`/dnd5e/realms/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/realms/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -81,7 +81,7 @@ describe('Get RPG realms from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/realms/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

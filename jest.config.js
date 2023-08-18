@@ -7,5 +7,5 @@ module.exports = {
     coveragePathIgnorePatterns: ['src/app.ts', 'test/connectDatabaseTest.ts'],
     rootDir: './',
     modulePaths: ['<rootDir>'],
-    setupFiles: ['<rootDir>/test/environmentVariables.js'],
+    setupFiles: ['<rootDir>/test/support/environmentVariables.js'],
 };

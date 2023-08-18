@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -15,7 +15,7 @@ describe('Patch RPG armors in database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When update availability one rpg armor', () => {
@@ -23,7 +23,7 @@ describe('Patch RPG armors in database', () => {
             const response = await model.create(armorPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/armors/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
@@ -37,7 +37,7 @@ describe('Patch RPG armors in database', () => {
             const response = await model.create(armorPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/armors/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -48,9 +48,9 @@ describe('Patch RPG armors in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/dnd5e/armors/${documentId}?availability=false`);
+            await requester.patch(`/dnd5e/armors/${documentId}?availability=false`);
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/armors/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -61,7 +61,7 @@ describe('Patch RPG armors in database', () => {
         });
 
         it('should fail when query is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/armors/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -72,7 +72,7 @@ describe('Patch RPG armors in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/armors/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

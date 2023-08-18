@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDSystem, UpdateContent } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -17,7 +17,7 @@ describe('Patch RPG systems in database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When update the content of the rpg system', () => {
@@ -29,7 +29,7 @@ describe('Patch RPG systems in database', () => {
                 contentPayload.method as string
             } to array of entities races - system ID: ${documentId}`;
 
-            const { text } = await request(app)
+            const { text } = await requester
                 .patch(`/dnd5e/system/${documentId}?entity=races`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.CREATED);
@@ -38,7 +38,7 @@ describe('Patch RPG systems in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/${documentId}?entity=races`)
                 .send({ data: null })
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -51,7 +51,7 @@ describe('Patch RPG systems in database', () => {
         });
 
         it('should fail when no entityData', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/${documentId}`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -63,7 +63,7 @@ describe('Patch RPG systems in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/${generateNewMongoID()}?entity=races`)
                 .send(contentPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

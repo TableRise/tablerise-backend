@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
@@ -20,7 +20,7 @@ describe('Put RPG wikis in database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     describe('When update one rpg wiki', () => {
@@ -30,7 +30,7 @@ describe('Put RPG wikis in database', () => {
             const response = await model.create(wikiPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/wikis/${documentId}`)
                 .send(newWikiPayload)
                 .expect(HttpStatusCode.OK);
@@ -47,7 +47,7 @@ describe('Put RPG wikis in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/wikis/${documentId}`)
                 .send({ data: null } as unknown as Internacional<DnDWiki>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -60,7 +60,7 @@ describe('Put RPG wikis in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/wikis/${generateNewMongoID()}`)
                 .send({ active: true, ...newWikiPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -72,7 +72,7 @@ describe('Put RPG wikis in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/wikis/${generateNewMongoID()}`)
                 .send(newWikiPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

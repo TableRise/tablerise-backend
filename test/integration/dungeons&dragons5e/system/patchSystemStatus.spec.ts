@@ -1,5 +1,5 @@
-import request from 'supertest';
-import app from 'src/app';
+import requester from '../../../support/requester';
+
 import DatabaseManagement, { DnDSystem } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
@@ -16,7 +16,7 @@ describe('Patch RPG system status in database', () => {
     let documentId: string;
 
     afterAll(async () => {
-        await model.connection.close();
+        await model.connection.instance.close();
     });
 
     const updateResult = (id: string, action: number): string =>
@@ -31,7 +31,7 @@ describe('Patch RPG system status in database', () => {
             const response = await model.create(systemMockPayloadNoActive);
             documentId = response._id as string;
 
-            const { text } = await request(app).patch(`/dnd5e/system/activate/${documentId}`).expect(HttpStatusCode.OK);
+            const { text } = await requester.patch(`/dnd5e/system/activate/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(text).toBe(updateResult(documentId, 1));
         });
@@ -40,7 +40,7 @@ describe('Patch RPG system status in database', () => {
             const response = await model.create(systemMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/activate/${documentId}`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -51,7 +51,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/activate/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
@@ -67,7 +67,7 @@ describe('Patch RPG system status in database', () => {
             const response = await model.create(systemMockPayload);
             documentId = response._id as string;
 
-            const { text } = await request(app)
+            const { text } = await requester
                 .patch(`/dnd5e/system/deactivate/${documentId}`)
                 .expect(HttpStatusCode.OK);
 
@@ -82,7 +82,7 @@ describe('Patch RPG system status in database', () => {
             const response = await model.create(systemMockPayloadNoActive);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/deactivate/${documentId}`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -93,7 +93,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/system/deactivate/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 
