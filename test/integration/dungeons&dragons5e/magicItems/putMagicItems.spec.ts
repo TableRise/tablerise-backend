@@ -19,6 +19,10 @@ describe('Put RPG magic items in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg magic item', () => {
         it('should return updated magic item', async () => {
             const keysToTest = ['name', 'characteristics', 'description'];

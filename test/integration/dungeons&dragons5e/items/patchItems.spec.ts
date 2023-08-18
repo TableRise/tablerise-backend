@@ -14,6 +14,10 @@ describe('Patch RPG items in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg item', () => {
         it('should return a string with item updated id', async () => {
             const response = await model.create(itemPayload);

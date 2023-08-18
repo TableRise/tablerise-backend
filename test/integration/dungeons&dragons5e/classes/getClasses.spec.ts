@@ -14,6 +14,10 @@ describe('Get RPG classes from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg classes', () => {
         it('should return an array with classes', async () => {
             const keysToTest = [

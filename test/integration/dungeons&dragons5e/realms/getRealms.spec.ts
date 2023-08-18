@@ -14,6 +14,10 @@ describe('Get RPG realms from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg realms', () => {
         it('should return an array with realms', async () => {
             const keysToTest = ['name', 'description', 'thumbnail'];

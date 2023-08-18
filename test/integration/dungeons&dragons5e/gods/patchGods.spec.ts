@@ -14,6 +14,10 @@ describe('Patch RPG gods in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg god', () => {
         it('should return a string with god updated id', async () => {
             const response = await model.create(godPayload);

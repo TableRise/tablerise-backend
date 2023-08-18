@@ -19,6 +19,10 @@ describe('Put RPG gods in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg god', () => {
         it('should return updated god', async () => {
             const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'phanteon'];

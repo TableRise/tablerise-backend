@@ -14,6 +14,10 @@ describe('Patch RPG feats in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg feat', () => {
         it('should return a string with feat updated id', async () => {
             const response = await model.create(featPayload);

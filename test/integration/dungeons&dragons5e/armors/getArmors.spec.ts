@@ -14,6 +14,10 @@ describe('Get RPG armors from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg armors', () => {
         it('should return an array with armors', async () => {
             const keysToTest = [

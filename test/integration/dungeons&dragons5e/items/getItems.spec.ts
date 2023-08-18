@@ -14,6 +14,10 @@ describe('Get RPG Items from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg Items', () => {
         it('should return an array with Items', async () => {
             const keysToTest = Object.keys(item.en);

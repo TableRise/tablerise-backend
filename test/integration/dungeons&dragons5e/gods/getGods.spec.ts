@@ -14,6 +14,10 @@ describe('Get RPG gods from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg gods', () => {
         it('should return an array with gods', async () => {
             const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'phanteon'];

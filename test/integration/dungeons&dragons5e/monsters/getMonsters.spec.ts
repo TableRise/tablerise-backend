@@ -14,6 +14,10 @@ describe('Get RPG monsters from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg monsters', () => {
         it('should return an array with monsters', async () => {
             const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];

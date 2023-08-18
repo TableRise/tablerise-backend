@@ -14,6 +14,10 @@ describe('Get RPG backgrounds from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg backgrounds', () => {
         it('should return an array with backgrounds', async () => {
             const keysToTest = [

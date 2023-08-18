@@ -14,6 +14,10 @@ describe('Get RPG system from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg systems', () => {
         it('should return an array with systems', async () => {
             const response = await model.create(systemPayload);

@@ -16,6 +16,10 @@ describe('Patch RPG systems in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update the content of the rpg system', () => {
         it('should return successfull confirmation', async () => {
             const response = await model.create(systemMockPayload);

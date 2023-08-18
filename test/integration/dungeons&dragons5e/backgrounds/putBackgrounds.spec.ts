@@ -19,6 +19,10 @@ describe('Put RPG backgrounds in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg background', () => {
         it('should return updated background', async () => {
             const keysToTest = [

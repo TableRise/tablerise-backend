@@ -19,6 +19,10 @@ describe('Put RPG feats in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg feat', () => {
         it('should return updated feat', async () => {
             const keysToTest = ['name', 'prerequisite', 'description', 'benefits'];

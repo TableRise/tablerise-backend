@@ -19,6 +19,10 @@ describe('Put RPG Races in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg Race', () => {
         it('should return updated Race', async () => {
             const keysToTest = Object.keys(race.en);

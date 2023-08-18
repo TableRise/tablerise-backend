@@ -14,6 +14,10 @@ describe('Get RPG Races from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg Races', () => {
         it('should return an array with Races', async () => {
             const keysToTest = Object.keys(race.en);

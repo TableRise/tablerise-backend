@@ -14,6 +14,10 @@ describe('Get RPG wikis from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg wikis', () => {
         it('should return an array with wikis', async () => {
             const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];

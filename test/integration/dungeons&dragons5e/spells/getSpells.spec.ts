@@ -14,6 +14,10 @@ describe('Get RPG spells from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg spells', () => {
         it('should return an array with spells', async () => {
             const keysToTest = [

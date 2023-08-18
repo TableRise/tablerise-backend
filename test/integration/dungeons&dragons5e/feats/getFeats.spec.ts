@@ -14,6 +14,10 @@ describe('Get RPG feats from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg feats', () => {
         it('should return an array with feats', async () => {
             const keysToTest = ['name', 'prerequisite', 'description', 'benefits'];

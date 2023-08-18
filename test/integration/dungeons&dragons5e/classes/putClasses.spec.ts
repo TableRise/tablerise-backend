@@ -19,6 +19,10 @@ describe('Put RPG classes in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg class', () => {
         it('should return updated class', async () => {
             const keysToTest = [

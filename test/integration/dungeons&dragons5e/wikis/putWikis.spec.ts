@@ -19,6 +19,10 @@ describe('Put RPG wikis in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg wiki', () => {
         it('should return updated wiki', async () => {
             const keysToTest = ['title', 'description', 'reference', 'image', 'subTopics'];

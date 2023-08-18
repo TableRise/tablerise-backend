@@ -17,6 +17,10 @@ describe('Put RPG systems in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg system', () => {
         it('should return updated system', async () => {
             const response = await model.create(systemPayload);

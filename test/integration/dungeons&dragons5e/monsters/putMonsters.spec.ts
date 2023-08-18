@@ -19,6 +19,10 @@ describe('Put RPG monsters in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg monster', () => {
         it('should return updated monster', async () => {
             const keysToTest = ['name', 'characteristics', 'stats', 'abilityScore', 'skills', 'actions', 'picture'];

@@ -14,6 +14,10 @@ describe('Patch RPG realms in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg realm', () => {
         it('should return a string with realm updated id', async () => {
             const response = await model.create(realmPayload);

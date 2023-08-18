@@ -14,6 +14,10 @@ describe('Patch RPG spells in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg spell', () => {
         it('should return a string with spell updated id', async () => {
             const response = await model.create(spellPayload);

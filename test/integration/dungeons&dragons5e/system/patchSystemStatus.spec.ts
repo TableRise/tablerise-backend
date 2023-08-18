@@ -15,6 +15,10 @@ describe('Patch RPG system status in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     const updateResult = (id: string, action: number): string =>
         `System ${id} was ${action === 1 ? 'activated' : 'deactivated'}`;
 

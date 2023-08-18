@@ -14,6 +14,10 @@ describe('Patch RPG weapons in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg weapon', () => {
         it('should return a string with weapon updated id', async () => {
             const response = await model.create(weaponPayload);

@@ -19,6 +19,10 @@ describe('Put RPG realms in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update one rpg realm', () => {
         it('should return updated realm', async () => {
             const keysToTest = ['name', 'description', 'thumbnail'];

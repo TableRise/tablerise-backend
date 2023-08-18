@@ -14,6 +14,10 @@ describe('Patch RPG wikis in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg wiki', () => {
         it('should return a string with wiki updated id', async () => {
             const response = await model.create(wikiPayload);

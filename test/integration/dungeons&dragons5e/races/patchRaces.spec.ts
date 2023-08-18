@@ -14,6 +14,10 @@ describe('Patch RPG races in database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When update availability one rpg race', () => {
         it('should return a string with race updated id', async () => {
             const response = await model.create(racePayload);

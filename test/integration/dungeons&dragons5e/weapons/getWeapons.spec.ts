@@ -14,6 +14,10 @@ describe('Get RPG weapons from database', () => {
 
     let documentId: string;
 
+    afterAll(async () => {
+        await model.connection.close();
+    });
+
     describe('When request all rpg weapons', () => {
         it('should return an array with weapons', async () => {
             const keysToTest = ['name', 'description', 'cost', 'type', 'weight', 'damage', 'properties'];
