@@ -87,10 +87,8 @@ export default class SystemServices implements Service<System> {
     }
 
     public async deactivate(_id: string): Promise<string> {
-        
         const response = await this._model.findOne(_id);
 
-      
         this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._validate.existance(!response?.active, ErrorMessage.BAD_REQUEST);

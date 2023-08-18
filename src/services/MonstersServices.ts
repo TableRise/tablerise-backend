@@ -60,7 +60,7 @@ export default class MonstersService implements Service<Internacional<Monster>> 
         this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
         if (response) response.active = query;
-        await this._model.update(_id, response as Internacional<Monster> );
+        await this._model.update(_id, response as Internacional<Monster>);
 
         const responseMessage = {
             message: `Monster ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
