@@ -8,16 +8,16 @@ import getErrorName from './getErrorName';
 export default class ValidateData {
     entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
     response: (response: System | Internacional<any> | null, errorMessage: string) => void;
-    active: (payload: boolean | undefined | null, errorMessage: string) => void;
-    systemResponse: (response: any, errorMessage: string) => System | Internacional<any>;
+    existance: (payload: boolean | null | undefined, errorMessage: string) => void;
+    // systemResponse: (response: any, errorMessage: string) => System | Internacional<any>;
     systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
     systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
         this.entry = this.validateEntry;
         this.response = this.validateResponse;
-        this.active = this.validateActive;
-        this.systemResponse = this.validateSystemResponse;
+        this.existance = this.validateExistance;
+        // this.systemResponse = this.validateSystemResponse;
         this.systemActive = this.validateSystemActive;
         this.systemEntityQuery = this.validateSystemQuery;
     }
@@ -40,16 +40,15 @@ export default class ValidateData {
         }
     }
 
+    protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
+        if (noQueryOrActiveProperty) {
+            throw this._generateError(HttpStatusCode.BAD_REQUEST, errorMessage);
+        }
+    }
+
     protected validateResponse(response: Internacional<any> | System | null, errorMessage: string): void {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
-        }
-        // return response;
-    }
-
-    protected validateActive(activeStatus: boolean | undefined | null, errorMessage: string): void {
-        if (activeStatus) {
-            throw this._generateError(HttpStatusCode.BAD_REQUEST, errorMessage);
         }
     }
 
@@ -63,12 +62,5 @@ export default class ValidateData {
         if (!entityQuery) {
             throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
         }
-    }
-
-    protected validateSystemResponse(response: any, errorMessage: string): System | Internacional<any> {
-        if (!response) {
-            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
-        }
-        return response;
     }
 }

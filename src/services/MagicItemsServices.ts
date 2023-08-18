@@ -5,7 +5,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import ValidateData from 'src/support/helpers/ValidateData';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 
 export default class MagicItemsServices implements Service<Internacional<MagicItem>> {
     constructor(
@@ -32,32 +32,36 @@ export default class MagicItemsServices implements Service<Internacional<MagicIt
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Magic item entity found with success');
-        return this._validate.response(response, errorMessage.notFound.magicItem);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<MagicItem>;
     }
 
     public async update(_id: string, payload: Internacional<MagicItem>): Promise<Internacional<MagicItem>> {
         this._validate.entry(languagesWrapper(magicItemZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Magic item entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.magicItem);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<MagicItem>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.magicItem);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = query;
-        await this._model.update(_id, response);
+        if (response) response.active = query;
+        await this._model.update(_id, response as Internacional<MagicItem>);
 
         const responseMessage = {
-            message: `Magic Items ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Magic Items ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

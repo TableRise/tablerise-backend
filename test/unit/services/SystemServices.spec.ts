@@ -43,7 +43,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a system with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -69,6 +69,7 @@ describe('Services :: SystemsServices', () => {
 
         it('should return correct data with updated values', async () => {
             const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
+            console.log('TEST L72', responseTest);
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
@@ -89,7 +90,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update('inexistent_id', systemMockPayload as System);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a system with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -100,9 +101,9 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.update(systemMockID, systemMockInstance);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Update the content directly is not allowed');
-                expect(err.stack).toBe('403');
-                expect(err.name).toBe('ForbiddenRequest');
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
     });
@@ -176,9 +177,9 @@ describe('Services :: SystemsServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('An entity name is required');
-                expect(err.stack).toBe('422');
-                expect(err.name).toBe('ValidationError');
+                expect(err.message).toBe('Not possible to change availability through this route');
+                expect(err.stack).toBe('400');
+                expect(err.name).toBe('BadRequest');
             }
         });
 
@@ -187,7 +188,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.updateContent('inexistent_id', entityMockQuery, updateContentMockInstance);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a system with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -213,7 +214,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.activate(systemMockInstance._id as string);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a system with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -224,7 +225,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.activate(systemMockInstance._id as string);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('System already active');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -250,7 +251,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.deactivate('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a system with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -261,7 +262,7 @@ describe('Services :: SystemsServices', () => {
                 await systemsServicesMock.deactivate(systemMockInstance._id as string);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('System already deactivated');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }

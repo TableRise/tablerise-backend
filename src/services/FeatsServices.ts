@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import FeatsModel from 'src/database/models/FeatsModel';
 import Service from 'src/types/Service';
 import featZodSchema, { Feat } from 'src/schemas/featsValidationSchema';
@@ -5,7 +6,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 
 export default class FeatsServices implements Service<Internacional<Feat>> {
     constructor(
@@ -32,32 +33,36 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Feat entity found with success');
-        return this._validate.response(response, errorMessage.notFound.feat);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<Feat>;
     }
 
     public async update(_id: string, payload: Internacional<Feat>): Promise<Internacional<Feat>> {
         this._validate.entry(languagesWrapper(featZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Feat entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.feat);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<Feat>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.feat);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = query;
-        await this._model.update(_id, response);
+        if (response) response.active = query;
+        await this._model.update(_id, response as Internacional<Feat>);
 
         const responseMessage = {
-            message: `Feat ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Feat ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

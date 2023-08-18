@@ -5,7 +5,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 
 export default class BackgroundsServices implements Service<Internacional<Background>> {
     constructor(
@@ -32,32 +32,36 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Background entity found with success');
-        return this._validate.response(response, errorMessage.notFound.background);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<Background>;
     }
 
     public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
         this._validate.entry(languagesWrapper(backgroundZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Background entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.background);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<Background>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.background);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = query;
-        await this._model.update(_id, response);
+        if (response) response.active = query;
+        await this._model.update(_id, response as Internacional<Background>);
 
         const responseMessage = {
-            message: `Background ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Background ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

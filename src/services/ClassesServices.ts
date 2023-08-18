@@ -5,7 +5,7 @@ import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSch
 import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 
 export default class ClassesServices implements Service<Internacional<Class>> {
     constructor(
@@ -32,32 +32,34 @@ export default class ClassesServices implements Service<Internacional<Class>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Class entity found with success');
-        return this._validate.response(response, errorMessage.notFound.classe);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        return response as Internacional<Class>;
     }
 
     public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
         this._validate.entry(languagesWrapper(classesZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const updatedResponse = await this._model.update(_id, payload);
 
         this._logger('info', 'Class entity updated with success');
-        return this._validate.response(updatedResponse, errorMessage.notFound.classe);
+        this._validate.response(updatedResponse, ErrorMessage.NOT_FOUND_BY_ID);
+        return updatedResponse as Internacional<Class>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.classe);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = query;
-        await this._model.update(_id, response);
+        if (response) response.active = query;
+        await this._model.update(_id, response as Internacional<Class>);
 
         const responseMessage = {
-            message: `Class ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Class ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ArmorsModel from 'src/database/models/ArmorsModel';
 import Service from 'src/types/Service';
 import armorsZodSchema, { Armor } from 'src/schemas/armorsValidationSchema';
@@ -42,7 +41,7 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
         this._validate.entry(languagesWrapper(armorsZodSchema), payload);
 
-        this._validate.active(payload.active, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
         this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
@@ -53,18 +52,16 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
-
+        const response = await this._model.findOne(_id);
         this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
-        // @ts-expect-error
-        this._validate.active(response?.active === query, ErrorMessage.CONFLICT(query));
 
-        response = { ...response, active: query } as Internacional<Armor>;
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        await this._model.update(_id, response);
+        if (response) response.active = query;
 
+        await this._model.update(_id, response as Internacional<Armor>);
         const responseMessage = {
-            message: `Armor ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Armor ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

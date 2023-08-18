@@ -4,8 +4,7 @@ import { System, SystemContent, systemPayloadZodSchema } from 'src/schemas/syste
 import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
-import { errorMessage } from 'src/support/helpers/errorMessage';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 
 export default class SystemServices implements Service<System> {
     constructor(
@@ -25,30 +24,32 @@ export default class SystemServices implements Service<System> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as System;
     }
 
     public async update(_id: string, payload: System): Promise<System> {
         this._validate.entry(systemPayloadZodSchema, payload);
-
-        this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
+        this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-        this._validate.response(response, errorMessage.notFound.system);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
         this._logger('info', 'System entity updated with success');
+
         return response as System;
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
         this._validate.entry(updateContentZodSchema, payload);
 
-        this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity);
+        this._validate.existance(!entityQuery, ErrorMessage.BAD_REQUEST);
 
         const { method, newID } = payload;
 
         const recoverSystem = await this._model.findOne(_id);
 
-        this._validate.response(recoverSystem, errorMessage.notFound.system);
+        this._validate.response(recoverSystem, ErrorMessage.NOT_FOUND_BY_ID);
 
         if (recoverSystem && method === 'add') {
             recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
@@ -62,10 +63,10 @@ export default class SystemServices implements Service<System> {
             recoverSystem.content[entityQuery as keyof SystemContent] = removeIdFromContent;
         }
 
-        await this._model.update(_id, recoverSystem);
+        await this._model.update(_id, recoverSystem as System);
 
         const response = `New ID ${newID} was ${method} to array of entities ${entityQuery} - system ID: ${
-            recoverSystem._id as string
+            recoverSystem?._id as string
         }`;
 
         this._logger('info', 'Content of the system entity updated with success');
@@ -73,38 +74,31 @@ export default class SystemServices implements Service<System> {
     }
 
     public async activate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id);
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        const response = await this._model.findOne(_id);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.systemActive(
-            response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active)
-        );
+        this._validate.existance(response?.active, ErrorMessage.BAD_REQUEST);
 
-        response.active = true;
-
-        await this._model.update(_id, response);
+        if (response) response.active = true;
+        await this._model.update(_id, response as System);
 
         this._logger('info', 'System entity activated with success');
-        return `System ${response._id as string} was activated`;
+        return `System ${response?._id as string} was activated`;
     }
 
     public async deactivate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id);
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        
+        const response = await this._model.findOne(_id);
 
-        this._validate.systemActive(
-            !response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active)
-        );
+      
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        response.active = false;
+        this._validate.existance(!response?.active, ErrorMessage.BAD_REQUEST);
 
-        await this._model.update(_id, response);
+        if (response) response.active = true;
+        await this._model.update(_id, response as System);
 
         this._logger('info', 'System entity deactivated with success');
-        return `System ${response._id as string} was deactivated`;
+        return `System ${response?._id as string} was deactivated`;
     }
 }

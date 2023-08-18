@@ -52,7 +52,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -117,7 +117,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -179,7 +179,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.updateAvailability(armorMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -190,7 +190,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.updateAvailability(armorMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -201,7 +201,7 @@ describe('Services :: ArmorsServices', () => {
                 await ArmorsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound an armor with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

@@ -52,7 +52,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a wiki with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -115,7 +115,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.update('inexistent_id', wikiMockPayloadWithoutActive as Internacional<Wiki>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a wiki with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -177,7 +177,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.updateAvailability(wikiMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -188,7 +188,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.updateAvailability(wikiMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -199,7 +199,7 @@ describe('Services :: WikisServices', () => {
                 await WikisServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a wiki with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

@@ -4,7 +4,7 @@ import realmsZodSchema, { Realm } from 'src/schemas/realmsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 
 export default class RealmsServices implements Service<Internacional<Realm>> {
@@ -32,32 +32,35 @@ export default class RealmsServices implements Service<Internacional<Realm>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Realm entity found with success');
-        return this._validate.response(response, errorMessage.notFound.realm);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        return response as Internacional<Realm>;
     }
 
     public async update(_id: string, payload: Internacional<Realm>): Promise<Internacional<Realm>> {
         this._validate.entry(languagesWrapper(realmsZodSchema), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Realm entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.realm);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response as Internacional<Realm>;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.realm);
+        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = query;
-        await this._model.update(_id, response);
+        if (response) response.active = query;
+        await this._model.update(_id, response as Internacional<Realm>);
 
         const responseMessage = {
-            message: `Realm ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Realm ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 
