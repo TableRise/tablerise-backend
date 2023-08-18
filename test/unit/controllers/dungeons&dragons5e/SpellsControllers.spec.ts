@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDSpell, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import SpellsModel from 'src/database/models/dungeons&dragons5e/SpellsModel';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import SpellsControllers from 'src/controllers/dungeons&dragons5e/SpellsControllers';
-import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SpellsControllers', () => {
-    const SpellsModelMock = new SpellsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock);
+
+    const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
+    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
     const SpellsControllersMock = new SpellsControllers(SpellsServicesMock, logger);
-    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
+
+    const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all spells', () => {
         beforeAll(() => {

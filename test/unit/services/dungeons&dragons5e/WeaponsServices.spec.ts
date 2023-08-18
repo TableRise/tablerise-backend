@@ -1,7 +1,4 @@
-import DatabaseManagement, {
-    DnDWeapon,
-    Internacional,
-} from '@tablerise/database-management';
+import DatabaseManagement, { DnDWeapon, Internacional } from '@tablerise/database-management';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';

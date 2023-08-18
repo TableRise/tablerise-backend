@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import MagicItemsControllers from 'src/controllers/dungeons&dragons5e/MagicItemsControllers';
-import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MagicItemsControllers', () => {
-    const MagicItemsModelMock = new MagicItemsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock);
+
+    const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
     const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock, logger);
-    const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
+
+    const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all magic items', () => {
         beforeAll(() => {

@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDRealm, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import RealmsControllers from 'src/controllers/dungeons&dragons5e/RealmsControllers';
-import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RealmsControllers', () => {
-    const RealmsModelMock = new RealmsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock);
+
+    const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms', { mock: true });
+    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
     const RealmsControllersMock = new RealmsControllers(RealmsServicesMock, logger);
-    const realmMockInstance = mocks.realm.instance as Internacional<Realm>;
+
+    const realmMockInstance = mocks.realm.instance as Internacional<DnDRealm>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all realms', () => {
         beforeAll(() => {

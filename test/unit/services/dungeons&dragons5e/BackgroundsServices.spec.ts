@@ -1,7 +1,4 @@
-import DatabaseManagement, {
-    DnDBackground,
-    Internacional
-} from '@tablerise/database-management';
+import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';

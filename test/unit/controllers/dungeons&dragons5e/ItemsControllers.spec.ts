@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import ItemsControllers from 'src/controllers/dungeons&dragons5e/ItemsControllers';
-import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ItemsControllers', () => {
-    const ItemsModelMock = new ItemsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock);
+
+    const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items', { mock: true });
+    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
     const ItemsControllersMock = new ItemsControllers(ItemsServicesMock, logger);
-    const ItemMockInstance = mocks.item.instance as Internacional<Item>;
+
+    const ItemMockInstance = mocks.item.instance as Internacional<DnDItem>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all Items', () => {
         beforeAll(() => {

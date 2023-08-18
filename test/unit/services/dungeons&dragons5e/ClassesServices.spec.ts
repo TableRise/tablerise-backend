@@ -1,7 +1,4 @@
-import DatabaseManagement, {
-    DnDClass,
-    Internacional
-} from '@tablerise/database-management';
+import DatabaseManagement, { DnDClass, Internacional } from '@tablerise/database-management';
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';

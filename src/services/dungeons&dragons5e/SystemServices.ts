@@ -1,4 +1,11 @@
-import { DnDSystem, DnDSystemPayload,MongoModel, SchemasDnDType, UpdateContent, SystemContent } from '@tablerise/database-management';
+import {
+    DnDSystem,
+    DnDSystemPayload,
+    MongoModel,
+    SchemasDnDType,
+    UpdateContent,
+    SystemContent,
+} from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';

@@ -1,7 +1,4 @@
-import DatabaseManagement, {
-    DnDSpell,
-    Internacional
-} from '@tablerise/database-management';
+import DatabaseManagement, { DnDSpell, Internacional } from '@tablerise/database-management';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';

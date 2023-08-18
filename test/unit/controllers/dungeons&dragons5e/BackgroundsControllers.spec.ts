@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import BackgroundsModel from 'src/database/models/dungeons&dragons5e/BackgroundsModel';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
-import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: BackgroundsControllers', () => {
-    const BackgroundsModelMock = new BackgroundsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock);
+
+    const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
+    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock, BackgroundsSchemaMock);
     const BackgroundsControllersMock = new BackgroundsControllers(BackgroundsServicesMock, logger);
-    const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
+
+    const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all backgrounds', () => {
         beforeAll(() => {
