@@ -5,9 +5,8 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-
 describe('Patch RPG systems in database', () => {
-   const DM = new DatabaseManagement();
+    const DM = new DatabaseManagement();
 
     const model = DM.modelInstance('dungeons&dragons5e', 'System');
     const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
@@ -22,7 +21,9 @@ describe('Patch RPG systems in database', () => {
             const response = await model.create(systemMockPayload);
             documentId = response._id as string;
 
-            const updateResult = `New ID ${contentPayload.newID as string} was ${contentPayload.method as string} to array of entities races - system ID: ${documentId}`;
+            const updateResult = `New ID ${contentPayload.newID as string} was ${
+                contentPayload.method as string
+            } to array of entities races - system ID: ${documentId}`;
 
             const { text } = await request(app)
                 .patch(`/dnd5e/system/${documentId}?entity=races`)

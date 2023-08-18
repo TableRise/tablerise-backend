@@ -90,9 +90,9 @@ describe('Services :: SystemsControllers', () => {
     describe('When a request is made to update one content system by ID', () => {
         const { method, newID } = systemUpdateContentMockInsatnce;
         const entityMockQuery = 'races';
-        const updateResult = `New ID ${newID as string} was ${method as string} to array of entities ${entityMockQuery} - systemID: ${
-            systemMockInstance._id
-        }`;
+        const updateResult = `New ID ${newID as string} was ${
+            method as string
+        } to array of entities ${entityMockQuery} - systemID: ${systemMockInstance._id}`;
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);

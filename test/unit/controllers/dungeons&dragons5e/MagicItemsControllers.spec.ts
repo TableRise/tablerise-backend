@@ -14,7 +14,12 @@ describe('Services :: MagicItemsControllers', () => {
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems', { mock: true });
     const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock, MagicItemsSchemaMock);
+    const MagicItemsServicesMock = new MagicItemsServices(
+        MagicItemsModelMock,
+        logger,
+        ValidateDataMock,
+        MagicItemsSchemaMock
+    );
     const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock, logger);
 
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;

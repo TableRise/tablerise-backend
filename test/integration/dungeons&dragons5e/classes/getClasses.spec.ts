@@ -5,7 +5,6 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-
 describe('Get RPG classes from database', () => {
     const DM = new DatabaseManagement();
 

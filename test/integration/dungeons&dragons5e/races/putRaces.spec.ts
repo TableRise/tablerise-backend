@@ -5,7 +5,6 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-
 describe('Put RPG Races in database', () => {
     const DM = new DatabaseManagement();
 

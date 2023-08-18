@@ -9,7 +9,7 @@
         "test": "npm run test:unit && npm run test:integration",
         "test:file": "cross-env NODE_ENV=test jest --",
         "test:unit": "cross-env NODE_ENV=test jest --verbose ./test/unit",
-        "test:integration": "cross-env NODE_ENV=test jest --verbose ./test/integration",
+        "test:integration": "cross-env NODE_ENV=test jest --forceExit --verbose ./test/integration",
         "test:coverage": "cross-env NODE_ENV=test jest --verbose ./test/unit --coverage",
         "dev": "cross-env NODE_ENV=develop npm run build && npx nodemon",
         "lint": "npx eslint . --ext .ts --max-warnings=0",

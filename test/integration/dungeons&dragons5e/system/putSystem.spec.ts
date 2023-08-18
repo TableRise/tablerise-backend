@@ -5,9 +5,8 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-
 describe('Put RPG systems in database', () => {
-   const DM = new DatabaseManagement();
+    const DM = new DatabaseManagement();
 
     const model = DM.modelInstance('dungeons&dragons5e', 'System');
     const system = mocks.system.instance as DnDSystem & { _id: string };

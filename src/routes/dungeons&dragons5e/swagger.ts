@@ -13,7 +13,7 @@ import {
     DnDMagicItem,
     DnDSpell,
     DnDWiki,
-    DnDMonster
+    DnDMonster,
 } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 
