@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
+import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG Races in database', () => {
-    const model = new RacesModel();
-    const race = mocks.race.instance as Internacional<Race>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Races');
+    const race = mocks.race.instance as Internacional<DnDRace>;
     const { _id: _, ...racePayload } = race;
 
     const newRacePayload = {
@@ -19,10 +19,6 @@ describe('Put RPG Races in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg Race', () => {
         it('should return updated Race', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG Races in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/races/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Race>)
+                .send({ data: null } as unknown as Internacional<DnDRace>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

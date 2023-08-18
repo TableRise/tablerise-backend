@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel';
+import DatabaseManagement, { DnDMonster, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG monsters in database', () => {
-    const model = new MonstersModel();
-    const monster = mocks.monster.instance as Internacional<Monster>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Monsters');
+    const monster = mocks.monster.instance as Internacional<DnDMonster>;
     const { _id: _, ...monsterPayload } = monster;
 
     const newMonsterPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG monsters in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg monster', () => {
         it('should return updated monster', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG monsters in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/monsters/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Monster>)
+                .send({ data: null } as unknown as Internacional<DnDMonster>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

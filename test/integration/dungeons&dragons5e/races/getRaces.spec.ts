@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
+import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG Races from database', () => {
-    const model = new RacesModel();
-    const race = mocks.race.instance as Internacional<Race>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Races');
+    const race = mocks.race.instance as Internacional<DnDRace>;
     const { _id: _, ...raceMockPayload } = race;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg Races', () => {
         it('should return an array with Races', async () => {

@@ -1,22 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement, { DnDSystem } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG system from database', () => {
-    const model = new SystemsModel();
-    const system = mocks.system.instance as System;
+   const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'System');
+    const system = mocks.system.instance as DnDSystem & { _id: string };
     const { _id: _, ...systemPayload } = system;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg systems', () => {
         it('should return an array with systems', async () => {

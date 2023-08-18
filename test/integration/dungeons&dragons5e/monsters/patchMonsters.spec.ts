@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel';
+import DatabaseManagement, { DnDMonster, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Patch RPG monsters in database', () => {
-    const model = new MonstersModel();
-    const monster = mocks.monster.instance as Internacional<Monster>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Monsters');
+    const monster = mocks.monster.instance as Internacional<DnDMonster>;
     const { _id: _, ...monsterPayload } = monster;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update availability one rpg monster', () => {
         it('should return a string with monster updated id', async () => {

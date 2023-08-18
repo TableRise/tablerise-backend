@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import RealmsModel from 'src/database/models/dungeons&dragons5e/RealmsModel';
+import DatabaseManagement, { DnDRealm, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG realms in database', () => {
-    const model = new RealmsModel();
-    const realm = mocks.realm.instance as Internacional<Realm>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Realms');
+    const realm = mocks.realm.instance as Internacional<DnDRealm>;
     const { _id: _, ...realmPayload } = realm;
 
     const newRealmPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG realms in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg realm', () => {
         it('should return updated realm', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG realms in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/realms/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Realm>)
+                .send({ data: null } as unknown as Internacional<DnDRealm>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

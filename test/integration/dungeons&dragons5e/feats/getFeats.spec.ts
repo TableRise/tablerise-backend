@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import FeatsModel from 'src/database/models/dungeons&dragons5e/FeatsModel';
+import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG feats from database', () => {
-    const model = new FeatsModel();
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Feats');
     const feat = mocks.feat.instance;
-    const { _id: _, ...featMockPayload } = feat as Internacional<Feat>;
+    const { _id: _, ...featMockPayload } = feat as Internacional<DnDFeat>;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg feats', () => {
         it('should return an array with feats', async () => {

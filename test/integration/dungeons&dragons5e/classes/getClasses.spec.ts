@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
+import DatabaseManagement, { DnDClass, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG classes from database', () => {
-    const model = new ClassesModel();
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Classes');
     const _class = mocks.class.instance;
-    const { _id: _, ...classMockPayload } = _class as Internacional<Class>;
+    const { _id: _, ...classMockPayload } = _class as Internacional<DnDClass>;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg classes', () => {
         it('should return an array with classes', async () => {

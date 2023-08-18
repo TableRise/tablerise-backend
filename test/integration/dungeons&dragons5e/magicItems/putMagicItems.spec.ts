@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
+import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG magic items in database', () => {
-    const model = new MagicItemsModel();
-    const magicItem = mocks.magicItems.instance as Internacional<MagicItem>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'MagicItems');
+    const magicItem = mocks.magicItems.instance as Internacional<DnDMagicItem>;
     const { _id: _, ...magicItemPayload } = magicItem;
 
     const newMagicItemPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG magic items in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg magic item', () => {
         it('should return updated magic item', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG magic items in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/magicItems/${documentId}`)
-                .send({ data: null } as unknown as Internacional<MagicItem>)
+                .send({ data: null } as unknown as Internacional<DnDMagicItem>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

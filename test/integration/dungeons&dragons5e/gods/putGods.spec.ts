@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG gods in database', () => {
-    const model = new GodsModel();
-    const god = mocks.god.instance as Internacional<God>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Gods');
+    const god = mocks.god.instance as Internacional<DnDGod>;
     const { _id: _, ...godPayload } = god;
 
     const newGodPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG gods in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg god', () => {
         it('should return updated god', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG gods in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/gods/${documentId}`)
-                .send({ data: null } as unknown as Internacional<God>)
+                .send({ data: null } as unknown as Internacional<DnDGod>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

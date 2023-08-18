@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
+import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG wikis in database', () => {
-    const model = new WikisModel();
-    const wiki = mocks.wiki.instance as Internacional<Wiki>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
+    const wiki = mocks.wiki.instance as Internacional<DnDWiki>;
     const { _id: _, ...wikiPayload } = wiki;
 
     const newWikiPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG wikis in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg wiki', () => {
         it('should return updated wiki', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG wikis in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/wikis/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Wiki>)
+                .send({ data: null } as unknown as Internacional<DnDWiki>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

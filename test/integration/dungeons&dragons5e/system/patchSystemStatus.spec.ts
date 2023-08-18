@@ -1,23 +1,20 @@
 import request from 'supertest';
 import app from 'src/app';
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement, { DnDSystem } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Patch RPG system status in database', () => {
-    const model = new SystemsModel();
+   const DM = new DatabaseManagement();
 
-    const systemMockInstance = mocks.system.instance as System;
+    const model = DM.modelInstance('dungeons&dragons5e', 'System');
+
+    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
     const { _id: __, ...systemMockPayload } = systemMockInstance;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     const updateResult = (id: string, action: number): string =>
         `System ${id} was ${action === 1 ? 'activated' : 'deactivated'}`;

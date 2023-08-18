@@ -1,25 +1,22 @@
 import request from 'supertest';
 import app from 'src/app';
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement, { DnDSystem } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG systems in database', () => {
-    const model = new SystemsModel();
-    const system = mocks.system.instance as System;
+   const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'System');
+    const system = mocks.system.instance as DnDSystem & { _id: string };
     const { _id: _, ...systemPayload } = system;
 
     const newSystemPayload = { ...systemPayload, name: 'D&D', active: false };
     const { content: __, ...newSystemPayloadNoContent } = newSystemPayload;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg system', () => {
         it('should return updated system', async () => {
@@ -41,7 +38,7 @@ describe('Put RPG systems in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/system/${documentId}`)
-                .send({ data: null } as unknown as System)
+                .send({ data: null } as unknown as DnDSystem)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

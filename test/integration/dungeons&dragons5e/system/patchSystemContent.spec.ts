@@ -1,32 +1,28 @@
 import request from 'supertest';
 import app from 'src/app';
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import DatabaseManagement, { DnDSystem, UpdateContent } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { UpdateContent } from 'src/schemas/updateContentSchema';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Patch RPG systems in database', () => {
-    const model = new SystemsModel();
+   const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'System');
     const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
 
-    const systemMockInstance = mocks.system.instance as System;
+    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
     const { _id: __, ...systemMockPayload } = systemMockInstance;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update the content of the rpg system', () => {
         it('should return successfull confirmation', async () => {
             const response = await model.create(systemMockPayload);
             documentId = response._id as string;
 
-            const updateResult = `New ID ${contentPayload.newID} was ${contentPayload.method} to array of entities races - system ID: ${documentId}`;
+            const updateResult = `New ID ${contentPayload.newID as string} was ${contentPayload.method as string} to array of entities races - system ID: ${documentId}`;
 
             const { text } = await request(app)
                 .patch(`/dnd5e/system/${documentId}?entity=races`)

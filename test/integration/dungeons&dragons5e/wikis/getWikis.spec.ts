@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
+import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG wikis from database', () => {
-    const model = new WikisModel();
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
     const wiki = mocks.wiki.instance;
-    const { _id: _, ...wikiMockPayload } = wiki as Internacional<Wiki>;
+    const { _id: _, ...wikiMockPayload } = wiki as Internacional<DnDWiki>;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg wikis', () => {
         it('should return an array with wikis', async () => {

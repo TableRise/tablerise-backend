@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Get RPG gods from database', () => {
-    const model = new GodsModel();
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Gods');
     const _god = mocks.god.instance;
-    const { _id: _, ...godMockPayload } = _god as Internacional<God>;
+    const { _id: _, ...godMockPayload } = _god as Internacional<DnDGod>;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When request all rpg gods', () => {
         it('should return an array with gods', async () => {

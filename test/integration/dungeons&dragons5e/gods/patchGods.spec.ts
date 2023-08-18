@@ -1,23 +1,19 @@
 import request from 'supertest';
 import app from 'src/app';
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Patch RPG gods in database', () => {
-    const model = new GodsModel();
-    const _god = mocks.god.instance as Internacional<God>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Gods');
+    const _god = mocks.god.instance as Internacional<DnDGod>;
     const { _id: _, ...godPayload } = _god;
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update availability one rpg god', () => {
         it('should return a string with god updated id', async () => {

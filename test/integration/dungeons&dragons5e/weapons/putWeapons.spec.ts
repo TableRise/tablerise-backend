@@ -1,16 +1,16 @@
 import request from 'supertest';
 import app from 'src/app';
-import WeaponsModel from 'src/database/models/dungeons&dragons5e/WeaponsModel';
+import DatabaseManagement, { DnDWeapon, Internacional } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
 
 describe('Put RPG weapons in database', () => {
-    const model = new WeaponsModel();
-    const weapon = mocks.weapon.instance as Internacional<Weapon>;
+    const DM = new DatabaseManagement();
+
+    const model = DM.modelInstance('dungeons&dragons5e', 'Weapons');
+    const weapon = mocks.weapon.instance as Internacional<DnDWeapon>;
     const { _id: _, ...weaponPayload } = weapon;
 
     const newWeaponPayload = {
@@ -19,10 +19,6 @@ describe('Put RPG weapons in database', () => {
     };
 
     let documentId: string;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When update one rpg weapon', () => {
         it('should return updated weapon', async () => {
@@ -50,7 +46,7 @@ describe('Put RPG weapons in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await request(app)
                 .put(`/dnd5e/weapons/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Weapon>)
+                .send({ data: null } as unknown as Internacional<DnDWeapon>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
