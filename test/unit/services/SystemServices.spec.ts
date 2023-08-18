@@ -69,7 +69,6 @@ describe('Services :: SystemsServices', () => {
 
         it('should return correct data with updated values', async () => {
             const responseTest = await systemsServicesMock.update(systemMockID, systemMockPayload as System);
-            console.log('TEST L72', responseTest);
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
