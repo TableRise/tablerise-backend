@@ -1,14 +1,13 @@
+import { DnDBackground, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 
 export default class BackgroundsControllers {
     constructor(
         private readonly _service: BackgroundsServices,
-        private readonly _logger: LoggerType
+        private readonly _logger: Logger
     ) {
         this.findAll = this.findAll.bind(this);
         this.findAllDisabled = this.findAllDisabled.bind(this);
@@ -40,7 +39,7 @@ export default class BackgroundsControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to backgrounds');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<Background>;
+        const payload = req.body as Internacional<DnDBackground>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);

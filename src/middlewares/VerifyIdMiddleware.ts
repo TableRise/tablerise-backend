@@ -1,5 +1,5 @@
+import { mongoose } from '@tablerise/database-management';
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 const logger = require('@tablerise/dynamic-logger');
 

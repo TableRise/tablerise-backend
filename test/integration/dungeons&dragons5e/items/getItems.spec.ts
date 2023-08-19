@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Get RPG Items from database', () => {
-    const model = new ItemsModel();
-    const item = mocks.item.instance as Internacional<Item>;
+    let model: MongoModel<Internacional<DnDItem>>;
+    const item = mocks.item.instance as Internacional<DnDItem>;
     const { _id: _, ...itemMockPayload } = item;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Items');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg Items', () => {
@@ -27,7 +34,7 @@ describe('Get RPG Items from database', () => {
 
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/items').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/items').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -52,7 +59,7 @@ describe('Get RPG Items from database', () => {
             const response = await model.create(itemMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/items/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/items/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -70,7 +77,7 @@ describe('Get RPG Items from database', () => {
 
             await model.create(itemMockPayload);
 
-            const { body } = await request(app).get(`/dnd5e/items/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/items/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -83,7 +90,7 @@ describe('Get RPG Items from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/items/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

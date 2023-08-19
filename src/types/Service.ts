@@ -1,4 +1,4 @@
-import { UpdateContent } from 'src/schemas/updateContentSchema';
+import { UpdateContent } from '@tablerise/database-management';
 export default interface Service<T> {
     create?: (payload: T) => Promise<T>;
     findAll: () => Promise<T[]>;

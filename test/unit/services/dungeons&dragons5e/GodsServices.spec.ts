@@ -1,23 +1,21 @@
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: GodsServices', () => {
-    const GodsModelMock = new GodsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock);
-    const godMockInstance = mocks.god.instance as Internacional<God>;
-    const { _id: _, ...godMockPayload } = godMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
+    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
+
+    const godMockInstance = mocks.god.instance as Internacional<DnDGod>;
+    const { _id: _, ...godMockPayload } = godMockInstance;
 
     describe('When the recover all enabled gods service is called', () => {
         beforeAll(() => {
@@ -32,6 +30,7 @@ describe('Services :: GodsServices', () => {
 
     describe('When the recover all disabled gods service is called', () => {
         const godMockDisabled = { active: false, ...godMockInstance };
+
         beforeAll(() => {
             jest.spyOn(GodsModelMock, 'findAll').mockResolvedValue([godMockDisabled]);
         });
@@ -87,14 +86,14 @@ describe('Services :: GodsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await GodsServicesMock.update(
                 godMockID,
-                godMockPayloadWithoutActive as Internacional<God>
+                godMockPayloadWithoutActive as Internacional<DnDGod>
             );
             expect(responseTest).toBe(godMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await GodsServicesMock.update(godMockID, godMockPayloadWrong as Internacional<God>);
+                await GodsServicesMock.update(godMockID, godMockPayloadWrong as Internacional<DnDGod>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +105,7 @@ describe('Services :: GodsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await GodsServicesMock.update('inexistent_id', godMockPayload as Internacional<God>);
+                await GodsServicesMock.update('inexistent_id', godMockPayload as Internacional<DnDGod>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -117,7 +116,7 @@ describe('Services :: GodsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await GodsServicesMock.update('inexistent_id', godMockPayloadWithoutActive as Internacional<God>);
+                await GodsServicesMock.update('inexistent_id', godMockPayloadWithoutActive as Internacional<DnDGod>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

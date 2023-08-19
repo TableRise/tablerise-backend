@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDMonster, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
-import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MonstersControllers', () => {
-    const MonstersModelMock = new MonstersModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock);
+
+    const MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters');
+    const MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock, MonstersSchemaMock);
     const MonstersControllersMock = new MonstersControllers(MonstersServicesMock, logger);
-    const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
+
+    const monsterMockInstance = mocks.monster.instance as Internacional<DnDMonster>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all monsters', () => {
         beforeAll(() => {

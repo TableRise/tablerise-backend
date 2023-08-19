@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import SpellsModel from 'src/database/models/dungeons&dragons5e/SpellsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDSpell, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Get RPG spells from database', () => {
-    const model = new SpellsModel();
+    let model: MongoModel<Internacional<DnDSpell>>;
     const _spell = mocks.spell.instance;
-    const { _id: _, ...spellMockPayload } = _spell as Internacional<Spell>;
+    const { _id: _, ...spellMockPayload } = _spell as Internacional<DnDSpell>;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Spells');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg spells', () => {
@@ -39,7 +46,7 @@ describe('Get RPG spells from database', () => {
             const response = await model.create(spellMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/spells').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/spells').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -76,7 +83,7 @@ describe('Get RPG spells from database', () => {
             const response = await model.create(spellMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/spells/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/spells/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -107,7 +114,7 @@ describe('Get RPG spells from database', () => {
 
             await model.create(spellMockPayload);
 
-            const { body } = await request(app).get(`/dnd5e/spells/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/spells/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -120,7 +127,7 @@ describe('Get RPG spells from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/spells/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

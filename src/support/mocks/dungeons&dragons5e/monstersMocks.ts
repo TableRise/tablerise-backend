@@ -1,8 +1,8 @@
-import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
+import { DnDMonster } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const monsterMockEn: Monster = {
+const monsterMockEn: DnDMonster = {
     name: 'Cthulu',
     characteristics: [],
     stats: {
@@ -26,7 +26,7 @@ const monsterMockEn: Monster = {
     picture: 'https://img.db.com',
 };
 
-const monsterMockPt: Monster = {
+const monsterMockPt: DnDMonster = {
     name: 'Cthulu',
     characteristics: [],
     stats: {

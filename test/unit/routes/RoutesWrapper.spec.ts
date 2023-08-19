@@ -1,13 +1,8 @@
 import { Router } from 'express';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 import Route, { RouteWrapperDeclared } from 'src/types/Route';
-import Connections from 'src/database/DatabaseConnection';
 
 describe('Routes :: RoutesWrapper', () => {
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
-
     describe('When declare routes method is called', () => {
         let routesDeclared: RouteWrapperDeclared[][];
 

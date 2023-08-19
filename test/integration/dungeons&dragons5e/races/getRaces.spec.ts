@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDRace, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Get RPG Races from database', () => {
-    const model = new RacesModel();
-    const race = mocks.race.instance as Internacional<Race>;
+    let model: MongoModel<Internacional<DnDRace>>;
+    const race = mocks.race.instance as Internacional<DnDRace>;
     const { _id: _, ...raceMockPayload } = race;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Races');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg Races', () => {
@@ -26,7 +33,7 @@ describe('Get RPG Races from database', () => {
             const response = await model.create(raceMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/races').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/races').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -51,7 +58,7 @@ describe('Get RPG Races from database', () => {
             const response = await model.create(raceMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/races/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/races/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -69,7 +76,7 @@ describe('Get RPG Races from database', () => {
 
             await model.create(raceMockPayload);
 
-            const { body } = await request(app).get(`/dnd5e/races/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/races/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -82,7 +89,7 @@ describe('Get RPG Races from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/races/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

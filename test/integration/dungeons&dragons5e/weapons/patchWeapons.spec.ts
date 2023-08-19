@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import WeaponsModel from 'src/database/models/dungeons&dragons5e/WeaponsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDWeapon, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Patch RPG weapons in database', () => {
-    const model = new WeaponsModel();
-    const weapon = mocks.weapon.instance as Internacional<Weapon>;
+    let model: MongoModel<Internacional<DnDWeapon>>;
+    const weapon = mocks.weapon.instance as Internacional<DnDWeapon>;
     const { _id: _, ...weaponPayload } = weapon;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Weapons');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg weapon', () => {
@@ -24,7 +31,7 @@ describe('Patch RPG weapons in database', () => {
             const response = await model.create(weaponPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/weapons/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
@@ -38,7 +45,7 @@ describe('Patch RPG weapons in database', () => {
             const response = await model.create(weaponPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/weapons/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -49,9 +56,9 @@ describe('Patch RPG weapons in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/dnd5e/weapons/${documentId}?availability=false`);
+            await requester.patch(`/dnd5e/weapons/${documentId}?availability=false`);
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/weapons/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -62,7 +69,7 @@ describe('Patch RPG weapons in database', () => {
         });
 
         it('should fail when query is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/weapons/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -73,7 +80,7 @@ describe('Patch RPG weapons in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/weapons/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

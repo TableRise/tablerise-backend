@@ -1,13 +1,12 @@
-import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
-    entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
+    entry: (zodSchema: any, payload: unknown) => void;
     existance: (payload: boolean | null | undefined, errorMessage: string) => void;
 
-    constructor(private readonly _logger: LoggerType) {
+    constructor(private readonly _logger: Logger) {
         this.entry = this.validateEntry;
         this.existance = this.validateExistance;
     }
@@ -22,7 +21,7 @@ export default class ValidateData {
         return error;
     }
 
-    protected validateEntry(zodSchema: ZodObject<any>, payload: unknown): void {
+    protected validateEntry(zodSchema: any, payload: unknown): void {
         const verify = zodSchema.safeParse(payload);
         if (!verify.success) {
             const errorMessage = JSON.stringify(verify.error.issues);

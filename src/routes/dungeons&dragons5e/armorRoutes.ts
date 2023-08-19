@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
+import DatabaseManagement from '@tablerise/database-management';
+
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,9 +9,13 @@ import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new ArmorsModel();
 const validateData = new ValidateData(logger);
-const services = new ArmorsServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new ArmorsServices(model, logger, validateData, schema);
 const controllers = new ArmorsControllers(services, logger);
 
 const router = Router();

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
+import DatabaseManagement from '@tablerise/database-management';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import GodsControllers from 'src/controllers/dungeons&dragons5e/GodsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,9 +8,13 @@ import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMidd
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new GodsModel();
 const validateData = new ValidateData(logger);
-const services = new GodsServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'Gods');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new GodsServices(model, logger, validateData, schema);
 const controllers = new GodsControllers(services, logger);
 
 const router = Router();

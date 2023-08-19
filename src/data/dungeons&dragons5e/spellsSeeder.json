@@ -1,0 +1,33 @@
+[
+    {
+        "active": true,
+        "en": {
+            "name": "Dancing Light",
+            "description": "You create up to four torch-sized lights within range, making them appear as torches, lanterns, or glowing orbs that hover in the air for the duration. You can also combine the four lights into one glowing vaguely humanoid form of Medium size. Whichever form you choose, each light sheds dim light in a 10-foot radius.\n\nAs a bonus action on your turn, you can move the lights up to 60 feet to a new spot within range. A light must be within 20 feet of another light created by this spell, and a light winks out if it exceeds the spell's range.",
+            "type": "evocation-cantrip",
+            "level": 0,
+            "higherLevels": [],
+            "damage": null,
+            "castingTime": "1 action",
+            "duration": "concentration, up to 1 minute",
+            "range": "120 feet",
+            "components": "V, S, M (a bit of phosphorus or wychwood, or a glowworm)",
+            "buffs": "no-buff",
+            "debuffs": "no-debuffs"
+        },
+        "pt": {
+            "name": "Luz Dançante",
+            "description": "Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou orbes brilhantes que flutuam no ar durante a duração. Você também pode combinar as quatro luzes em uma forma vagamente humanoides brilhante de tamanho Médio. Independentemente da forma escolhida, cada luz emite uma luz fraca em um raio de 3 metros.\n\nComo uma ação bônus em seu turno, você pode mover as luzes até 18 metros para um novo local dentro do alcance. Uma luz deve estar a até 6 metros de outra luz criada por este feitiço, e uma luz se apaga se ultrapassar o alcance do feitiço.",
+            "type": "evocação-cantrip",
+            "level": 0,
+            "higherLevels": [],
+            "damage": null,
+            "castingTime": "1 ação",
+            "duration": "concentração, até 1 minuto",
+            "range": "36.5 metros",
+            "components": "V, S, M (um pouco de fósforo ou madeira mágica, ou um vagalume)",
+            "buffs": "no-buff",
+            "debuffs": "no-debuffs"
+        }
+    }
+]

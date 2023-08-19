@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDGod, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import GodsModel from 'src/database/models/dungeons&dragons5e/GodsModel';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import GodsControllers from 'src/controllers/dungeons&dragons5e/GodsControllers';
-import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: GodsControllers', () => {
-    const GodsModelMock = new GodsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock);
+
+    const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
+    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
     const GodsControllersMock = new GodsControllers(GodsServicesMock, logger);
-    const godMockInstance = mocks.god.instance as Internacional<God>;
+
+    const godMockInstance = mocks.god.instance as Internacional<DnDGod>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all gods', () => {
         beforeAll(() => {

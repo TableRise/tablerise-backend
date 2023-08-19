@@ -1,23 +1,21 @@
-import MonstersModel from 'src/database/models/dungeons&dragons5e/MonstersModel';
+import DatabaseManagement, { DnDMonster, Internacional } from '@tablerise/database-management';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MonstersServices', () => {
-    const MonstersModelMock = new MonstersModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock);
-    const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
-    const { _id: _, ...monsterMockPayload } = monsterMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters');
+    const MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock, MonstersSchemaMock);
+
+    const monsterMockInstance = mocks.monster.instance as Internacional<DnDMonster>;
+    const { _id: _, ...monsterMockPayload } = monsterMockInstance;
 
     describe('When the recover all enabled monsters service is called', () => {
         beforeAll(() => {
@@ -32,6 +30,7 @@ describe('Services :: MonstersServices', () => {
 
     describe('When the recover all disabled monster service is called', () => {
         const monsterMockDisabled = { ...monsterMockInstance, active: false };
+
         beforeAll(() => {
             jest.spyOn(MonstersModelMock, 'findAll').mockResolvedValue([monsterMockDisabled]);
         });
@@ -89,14 +88,14 @@ describe('Services :: MonstersServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await MonstersServicesMock.update(
                 monsterMockID,
-                monsterMockPayloadWithoutActive as Internacional<Monster>
+                monsterMockPayloadWithoutActive as Internacional<DnDMonster>
             );
             expect(responseTest).toBe(monsterMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await MonstersServicesMock.update(monsterMockID, monsterMockPayloadWrong as Internacional<Monster>);
+                await MonstersServicesMock.update(monsterMockID, monsterMockPayloadWrong as Internacional<DnDMonster>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -108,7 +107,7 @@ describe('Services :: MonstersServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await MonstersServicesMock.update('inexistent_id', monsterMockPayload as Internacional<Monster>);
+                await MonstersServicesMock.update('inexistent_id', monsterMockPayload as Internacional<DnDMonster>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -121,7 +120,7 @@ describe('Services :: MonstersServices', () => {
             try {
                 await MonstersServicesMock.update(
                     'inexistent_id',
-                    monsterMockPayloadWithoutActive as Internacional<Monster>
+                    monsterMockPayloadWithoutActive as Internacional<DnDMonster>
                 );
             } catch (error) {
                 const err = error as Error;

@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import BackgroundsModel from 'src/database/models/dungeons&dragons5e/BackgroundsModel';
+import DatabaseManagement from '@tablerise/database-management';
+
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,9 +9,13 @@ import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMidd
 
 const logger = require('@tablerise/dynamic-logger');
 
-const model = new BackgroundsModel();
 const validateData = new ValidateData(logger);
-const services = new BackgroundsServices(model, logger, validateData);
+const DM = new DatabaseManagement();
+
+const model = DM.modelInstance('dungeons&dragons5e', 'Backgrounds');
+const schema = DM.schemaInstance('dungeons&dragons5e');
+
+const services = new BackgroundsServices(model, logger, validateData, schema);
 const controllers = new BackgroundsControllers(services, logger);
 
 const router = Router();

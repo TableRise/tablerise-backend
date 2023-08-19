@@ -1,8 +1,8 @@
-import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { DnDSpell } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const spellMockEn: Spell = {
+const spellMockEn: DnDSpell = {
     name: 'Fire ball',
     description: 'Explodes everyone',
     type: 'Fire',
@@ -34,7 +34,7 @@ const spellMockEn: Spell = {
     debuffs: ['Fire'],
 };
 
-const spellMockPt: Spell = {
+const spellMockPt: DnDSpell = {
     name: 'Bola de fogo',
     description: 'Explode todo mundo',
     type: 'Fogo',

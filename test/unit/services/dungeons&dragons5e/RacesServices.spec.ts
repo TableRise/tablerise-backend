@@ -1,23 +1,21 @@
-import RacesModel from 'src/database/models/dungeons&dragons5e/RacesModel';
+import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RacesServices', () => {
-    const RacesModelMock = new RacesModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock);
-    const racesMockInstance = mocks.race.instance as Internacional<Race>;
-    const { _id: _, ...racesMockPayload } = racesMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
+    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
+
+    const racesMockInstance = mocks.race.instance as Internacional<DnDRace>;
+    const { _id: _, ...racesMockPayload } = racesMockInstance;
 
     describe('When the recover all race service is called', () => {
         beforeAll(() => {
@@ -32,6 +30,7 @@ describe('Services :: RacesServices', () => {
 
     describe('When the recover all disabled races service is called', () => {
         const raceMockDisabled = { ...racesMockInstance, active: false };
+
         beforeAll(() => {
             jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([raceMockDisabled]);
         });
@@ -88,14 +87,14 @@ describe('Services :: RacesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await RacesServicesMock.update(
                 raceMockID,
-                raceMockPayloadWithoutActive as Internacional<Race>
+                raceMockPayloadWithoutActive as Internacional<DnDRace>
             );
             expect(responseTest).toBe(raceMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await RacesServicesMock.update(raceMockID, raceMockPayloadWrong as Internacional<Race>);
+                await RacesServicesMock.update(raceMockID, raceMockPayloadWrong as Internacional<DnDRace>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -107,7 +106,7 @@ describe('Services :: RacesServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RacesServicesMock.update('inexistent_id', racesMockPayload as Internacional<Race>);
+                await RacesServicesMock.update('inexistent_id', racesMockPayload as Internacional<DnDRace>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -118,7 +117,7 @@ describe('Services :: RacesServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await RacesServicesMock.update('inexistent_id', raceMockPayloadWithoutActive as Internacional<Race>);
+                await RacesServicesMock.update('inexistent_id', raceMockPayloadWithoutActive as Internacional<DnDRace>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

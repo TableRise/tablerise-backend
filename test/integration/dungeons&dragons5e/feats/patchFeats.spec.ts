@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import FeatsModel from 'src/database/models/dungeons&dragons5e/FeatsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDFeat, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Patch RPG feats in database', () => {
-    const model = new FeatsModel();
-    const feat = mocks.feat.instance as Internacional<Feat>;
+    let model: MongoModel<Internacional<DnDFeat>>;
+    const feat = mocks.feat.instance as Internacional<DnDFeat>;
     const { _id: _, ...featPayload } = feat;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Feats');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg feat', () => {
@@ -24,7 +31,7 @@ describe('Patch RPG feats in database', () => {
             const response = await model.create(featPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/feats/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
@@ -38,7 +45,7 @@ describe('Patch RPG feats in database', () => {
             const response = await model.create(featPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/feats/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -49,9 +56,9 @@ describe('Patch RPG feats in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/dnd5e/feats/${documentId}?availability=false`);
+            await requester.patch(`/dnd5e/feats/${documentId}?availability=false`);
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/feats/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -62,7 +69,7 @@ describe('Patch RPG feats in database', () => {
         });
 
         it('should fail when query is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/feats/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -73,7 +80,7 @@ describe('Patch RPG feats in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/feats/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

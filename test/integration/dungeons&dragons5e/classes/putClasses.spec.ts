@@ -1,16 +1,14 @@
-import request from 'supertest';
-import app from 'src/app';
-import ClassesModel from 'src/database/models/dungeons&dragons5e/ClassesModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDClass, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Put RPG classes in database', () => {
-    const model = new ClassesModel();
-    const _class = mocks.class.instance as Internacional<Class>;
+    let model: MongoModel<Internacional<DnDClass>>;
+    const _class = mocks.class.instance as Internacional<DnDClass>;
     const { _id: _, ...classPayload } = _class;
 
     const newClassPayload = {
@@ -20,8 +18,17 @@ describe('Put RPG classes in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Classes');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg class', () => {
@@ -39,7 +46,7 @@ describe('Put RPG classes in database', () => {
             const response = await model.create(classPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/classes/${documentId}`)
                 .send(newClassPayload)
                 .expect(HttpStatusCode.OK);
@@ -56,9 +63,9 @@ describe('Put RPG classes in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/classes/${documentId}`)
-                .send({ data: null } as unknown as Internacional<Class>)
+                .send({ data: null } as unknown as Internacional<DnDClass>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
@@ -69,7 +76,7 @@ describe('Put RPG classes in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/classes/${generateNewMongoID()}`)
                 .send({ active: true, ...newClassPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -81,7 +88,7 @@ describe('Put RPG classes in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/classes/${generateNewMongoID()}`)
                 .send(newClassPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

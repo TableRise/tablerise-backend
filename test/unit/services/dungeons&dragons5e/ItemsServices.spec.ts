@@ -1,22 +1,20 @@
-import ItemsModel from 'src/database/models/dungeons&dragons5e/ItemsModel';
+import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ItemsServices', () => {
-    const ItemsModelMock = new ItemsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock);
-    const itemsMockInstance = mocks.item.instance as Internacional<Item>;
-    const { _id: _, ...itemsMockPayload } = itemsMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items');
+    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
+
+    const itemsMockInstance = mocks.item.instance as Internacional<DnDItem>;
+    const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 
     describe('When the recover all item service is called', () => {
         beforeAll(() => {
@@ -87,14 +85,14 @@ describe('Services :: ItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ItemsServicesMock.update(
                 itemMockID,
-                itemMockPayloadWithoutActive as Internacional<Item>
+                itemMockPayloadWithoutActive as Internacional<DnDItem>
             );
             expect(responseTest).toBe(itemMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<Item>);
+                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<DnDItem>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +104,7 @@ describe('Services :: ItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<Item>);
+                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<DnDItem>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -117,7 +115,7 @@ describe('Services :: ItemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<Item>);
+                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<DnDItem>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

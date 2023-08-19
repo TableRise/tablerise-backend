@@ -1,15 +1,14 @@
-import request from 'supertest';
-import app from 'src/app';
-import SystemsModel from 'src/database/models/dungeons&dragons5e/SystemModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDSystem, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Put RPG systems in database', () => {
-    const model = new SystemsModel();
-    const system = mocks.system.instance as System;
+    let model: MongoModel<DnDSystem>;
+    const system = mocks.system.instance as DnDSystem & { _id: string };
     const { _id: _, ...systemPayload } = system;
 
     const newSystemPayload = { ...systemPayload, name: 'D&D', active: false };
@@ -17,16 +16,25 @@ describe('Put RPG systems in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'System');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg system', () => {
         it('should return updated system', async () => {
-            const response = await model.create(systemPayload);
-            documentId = response._id as string;
+            const response = (await model.create(systemPayload)) as DnDSystem & { _id: string };
+            documentId = response._id;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/system/${documentId}`)
                 .send(newSystemPayloadNoContent)
                 .expect(HttpStatusCode.OK);
@@ -39,9 +47,9 @@ describe('Put RPG systems in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/system/${documentId}`)
-                .send({ data: null } as unknown as System)
+                .send({ data: null } as unknown as DnDSystem)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
@@ -52,7 +60,7 @@ describe('Put RPG systems in database', () => {
         });
 
         it('should fail with content in payload', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/system/${generateNewMongoID()}`)
                 .send(newSystemPayload)
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -64,7 +72,7 @@ describe('Put RPG systems in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .put(`/dnd5e/system/${generateNewMongoID()}`)
                 .send(newSystemPayloadNoContent)
                 .expect(HttpStatusCode.NOT_FOUND);

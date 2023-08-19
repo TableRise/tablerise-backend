@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import WikisModel from 'src/database/models/dungeons&dragons5e/WikisModel';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
-import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: WikisControllers', () => {
-    const WikisModelMock = new WikisModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock);
+
+    const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
+    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
     const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);
-    const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
+
+    const wikiMockInstance = mocks.wiki.instance as Internacional<DnDWiki>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all wikis', () => {
         beforeAll(() => {

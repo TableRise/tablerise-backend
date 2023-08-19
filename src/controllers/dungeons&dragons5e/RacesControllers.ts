@@ -1,14 +1,13 @@
+import { DnDRace, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 
 export default class RacesControllers {
     constructor(
         private readonly _service: RacesServices,
-        private readonly _logger: LoggerType
+        private readonly _logger: Logger
     ) {
         this.findAll = this.findAll.bind(this);
         this.findAllDisabled = this.findAllDisabled.bind(this);
@@ -40,7 +39,7 @@ export default class RacesControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to races');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<Race>;
+        const payload = req.body as Internacional<DnDRace>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);

@@ -1,22 +1,29 @@
-import request from 'supertest';
-import app from 'src/app';
-import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDMagicItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Patch RPG magic items in database', () => {
-    const model = new MagicItemsModel();
-    const magicItem = mocks.magicItems.instance as Internacional<MagicItem>;
+    let model: MongoModel<Internacional<DnDMagicItem>>;
+    const magicItem = mocks.magicItems.instance as Internacional<DnDMagicItem>;
     const { _id: _, ...magicItemPayload } = magicItem;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'MagicItems');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg magic item', () => {
@@ -24,7 +31,7 @@ describe('Patch RPG magic items in database', () => {
             const response = await model.create(magicItemPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/magicItems/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
@@ -38,7 +45,7 @@ describe('Patch RPG magic items in database', () => {
             const response = await model.create(magicItemPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/magicItems/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -49,9 +56,9 @@ describe('Patch RPG magic items in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await request(app).patch(`/dnd5e/magicItems/${documentId}?availability=false`);
+            await requester.patch(`/dnd5e/magicItems/${documentId}?availability=false`);
 
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/magicItems/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -62,7 +69,7 @@ describe('Patch RPG magic items in database', () => {
         });
 
         it('should fail when query is wrong', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/magicItems/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -73,7 +80,7 @@ describe('Patch RPG magic items in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .patch(`/dnd5e/magicItems/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

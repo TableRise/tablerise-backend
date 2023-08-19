@@ -1,8 +1,8 @@
-import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { DnDClass } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const classMockEn: Class = {
+const classMockEn: DnDClass = {
     name: 'Bard',
     description: 'As a bard, you gain the following class features.',
     hitPoints: {
@@ -81,7 +81,7 @@ const classMockEn: Class = {
     ],
 };
 
-const classMockPt: Class = {
+const classMockPt: DnDClass = {
     name: 'Bardo',
     description: 'Como um bardo, você ganha as seguintes características de classe.',
     hitPoints: {

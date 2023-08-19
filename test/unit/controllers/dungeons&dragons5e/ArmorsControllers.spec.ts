@@ -1,27 +1,25 @@
+import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
-import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
-import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ArmorsControllers', () => {
-    const ArmorsModelMock = new ArmorsModel();
+    const DM_MOCK = new DatabaseManagement();
+
     const ValidateDataMock = new ValidateData(logger);
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock);
+
+    const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
-    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
+
+    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
     const request = {} as Request;
     const response = {} as Response;
-
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
 
     describe('When a request is made to recover all armors', () => {
         beforeAll(() => {

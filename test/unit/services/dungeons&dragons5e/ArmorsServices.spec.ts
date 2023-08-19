@@ -1,23 +1,21 @@
-import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
+import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ArmorsServices', () => {
-    const ArmorsModelMock = new ArmorsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock);
-    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
-    const { _id: _, ...armorMockPayload } = armorMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
+
+    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
+    const { _id: _, ...armorMockPayload } = armorMockInstance;
 
     describe('When the recover all enabled armors service is called', () => {
         beforeAll(() => {
@@ -32,6 +30,7 @@ describe('Services :: ArmorsServices', () => {
 
     describe('When the recover all disabled armors service is called', () => {
         const armorMockDisabled = { ...armorMockInstance, active: false };
+
         beforeAll(() => {
             jest.spyOn(ArmorsModelMock, 'findAll').mockResolvedValue([armorMockDisabled]);
         });
@@ -89,14 +88,14 @@ describe('Services :: ArmorsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ArmorsServicesMock.update(
                 armorMockID,
-                armorMockPayloadWithoutActive as Internacional<Armor>
+                armorMockPayloadWithoutActive as Internacional<DnDArmor>
             );
             expect(responseTest).toBe(armorMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<Armor>);
+                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<DnDArmor>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -108,7 +107,7 @@ describe('Services :: ArmorsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<Armor>);
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<DnDArmor>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -119,7 +118,10 @@ describe('Services :: ArmorsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
+                await ArmorsServicesMock.update(
+                    'inexistent_id',
+                    armorMockPayloadWithoutActive as Internacional<DnDArmor>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

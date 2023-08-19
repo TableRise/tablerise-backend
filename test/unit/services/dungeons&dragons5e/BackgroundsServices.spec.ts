@@ -1,23 +1,26 @@
-import BackgroundsModel from 'src/database/models/dungeons&dragons5e/BackgroundsModel';
+import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: BackgroundsServices', () => {
-    const BackgroundsModelMock = new BackgroundsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock);
-    const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
-    const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
+    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const BackgroundsServicesMock = new BackgroundsServices(
+        BackgroundsModelMock,
+        logger,
+        ValidateDataMock,
+        BackgroundsSchemaMock
+    );
+
+    const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;
+    const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
 
     describe('When the recover all backgrounds service is called', () => {
         beforeAll(() => {
@@ -32,6 +35,7 @@ describe('Services :: BackgroundsServices', () => {
 
     describe('When the recover all disabled backgrounds service is called', () => {
         const backgroundMockDisabled = { ...backgroundMockInstance, active: false };
+
         beforeAll(() => {
             jest.spyOn(BackgroundsModelMock, 'findAll').mockResolvedValue([backgroundMockDisabled]);
         });
@@ -92,7 +96,7 @@ describe('Services :: BackgroundsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await BackgroundsServicesMock.update(
                 backgroundMockID,
-                backgroundMockPayloadWithoutActive as Internacional<Background>
+                backgroundMockPayloadWithoutActive as Internacional<DnDBackground>
             );
             expect(responseTest).toBe(backgroundMockUpdateInstance);
         });
@@ -101,7 +105,7 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     backgroundMockID,
-                    backgroundMockPayloadWrong as Internacional<Background>
+                    backgroundMockPayloadWrong as Internacional<DnDBackground>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -116,7 +120,7 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     'inexistent_id',
-                    backgroundMockPayload as Internacional<Background>
+                    backgroundMockPayload as Internacional<DnDBackground>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -130,7 +134,7 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     'inexistent_id',
-                    backgroundMockPayloadWithoutActive as Internacional<Background>
+                    backgroundMockPayloadWithoutActive as Internacional<DnDBackground>
                 );
             } catch (error) {
                 const err = error as Error;

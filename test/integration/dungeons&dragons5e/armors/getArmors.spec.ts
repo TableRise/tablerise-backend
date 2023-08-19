@@ -1,22 +1,37 @@
-import request from 'supertest';
-import app from 'src/app';
-import ArmorsModel from 'src/database/models/dungeons&dragons5e/ArmorsModel';
+import requester from '../../../support/requester';
+import DatabaseManagement, { DnDArmor, Internacional, MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import Connections from 'src/database/DatabaseConnection';
+
+const logger = require('@tablerise/dynamic-logger');
 
 describe('Get RPG armors from database', () => {
-    const model = new ArmorsModel();
+    let model: MongoModel<Internacional<DnDArmor>>;
     const armor = mocks.armor.instance;
-    const { _id: _, ...armorMockPayload } = armor as Internacional<Armor>;
+    const { _id: _, ...armorMockPayload } = armor as Internacional<DnDArmor>;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+    });
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+    });
+
     afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg armors', () => {
@@ -35,7 +50,7 @@ describe('Get RPG armors from database', () => {
             const response = await model.create(armorMockPayload);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/armors').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/armors').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -69,7 +84,7 @@ describe('Get RPG armors from database', () => {
             const response = await model.create(armorMockCopy);
             documentId = response._id as string;
 
-            const { body } = await request(app).get('/dnd5e/armors/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester.get('/dnd5e/armors/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -96,7 +111,7 @@ describe('Get RPG armors from database', () => {
 
             await model.create(armorMockPayload);
 
-            const { body } = await request(app).get(`/dnd5e/armors/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester.get(`/dnd5e/armors/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -109,7 +124,7 @@ describe('Get RPG armors from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await request(app)
+            const { body } = await requester
                 .get(`/dnd5e/armors/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

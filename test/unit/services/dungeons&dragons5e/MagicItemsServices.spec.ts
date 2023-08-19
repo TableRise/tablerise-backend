@@ -1,23 +1,26 @@
-import MagicItemsModel from 'src/database/models/dungeons&dragons5e/MagicItemsModel';
+import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import Connections from 'src/database/DatabaseConnection';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MagicItemsServices', () => {
-    const MagicItemsModelMock = new MagicItemsModel();
-    const ValidateDataMock = new ValidateData(logger);
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock);
-    const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
-    const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
+    const DM_MOCK = new DatabaseManagement();
 
-    afterAll(async () => {
-        await Connections['dungeons&dragons5e'].close();
-    });
+    const ValidateDataMock = new ValidateData(logger);
+
+    const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MagicItemsServicesMock = new MagicItemsServices(
+        MagicItemsModelMock,
+        logger,
+        ValidateDataMock,
+        MagicItemsSchemaMock
+    );
+
+    const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+    const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
     describe('When the recover all magic items service is called', () => {
         beforeAll(() => {
@@ -32,6 +35,7 @@ describe('Services :: MagicItemsServices', () => {
 
     describe('When the recover all disabled magicItems service is called', () => {
         const magicItemMockDisabled = { ...magicItemMockInstance, active: false };
+
         beforeAll(() => {
             jest.spyOn(MagicItemsModelMock, 'findAll').mockResolvedValue([magicItemMockDisabled]);
         });
@@ -92,7 +96,7 @@ describe('Services :: MagicItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await MagicItemsServicesMock.update(
                 magicItemMockID,
-                magicItemMockPayloadWithoutActive as Internacional<MagicItem>
+                magicItemMockPayloadWithoutActive as Internacional<DnDMagicItem>
             );
             expect(responseTest).toBe(magicItemMockUpdateInstance);
         });
@@ -101,7 +105,7 @@ describe('Services :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update(
                     magicItemMockID,
-                    magicItemMockPayloadWrong as Internacional<MagicItem>
+                    magicItemMockPayloadWrong as Internacional<DnDMagicItem>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -114,7 +118,10 @@ describe('Services :: MagicItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayload as Internacional<MagicItem>);
+                await MagicItemsServicesMock.update(
+                    'inexistent_id',
+                    magicItemMockPayload as Internacional<DnDMagicItem>
+                );
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -127,7 +134,7 @@ describe('Services :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update(
                     'inexistent_id',
-                    magicItemMockPayloadWithoutActive as Internacional<MagicItem>
+                    magicItemMockPayloadWithoutActive as Internacional<DnDMagicItem>
                 );
             } catch (error) {
                 const err = error as Error;

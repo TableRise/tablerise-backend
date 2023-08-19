@@ -1,8 +1,8 @@
+import { DnDBackground } from '@tablerise/database-management';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import Mock from 'src/types/Mock';
 
-const backgroundMockEn: Background = {
+const backgroundMockEn: DnDBackground = {
     name: 'Insane',
     description: 'Someone that lost his mental health',
     skillProficiences: ['perception', 'wisdom'],
@@ -20,7 +20,7 @@ const backgroundMockEn: Background = {
     equipment: [],
 };
 
-const backgroundMockPt: Background = {
+const backgroundMockPt: DnDBackground = {
     name: 'Insano',
     description: 'Alguem que perdeu sua sanidade',
     skillProficiences: ['percepção', 'sabedoria'],

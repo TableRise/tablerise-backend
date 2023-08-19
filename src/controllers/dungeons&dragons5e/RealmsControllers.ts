@@ -1,14 +1,13 @@
+import { DnDRealm, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { LoggerType } from 'src/types/LoggerType';
+import { Logger } from 'src/types/Logger';
 
 export default class RealmsControllers {
     constructor(
         private readonly _service: RealmsServices,
-        private readonly _logger: LoggerType
+        private readonly _logger: Logger
     ) {
         this.findAll = this.findAll.bind(this);
         this.findAllDisabled = this.findAllDisabled.bind(this);
@@ -40,7 +39,7 @@ export default class RealmsControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to realms');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<Realm>;
+        const payload = req.body as Internacional<DnDRealm>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);
