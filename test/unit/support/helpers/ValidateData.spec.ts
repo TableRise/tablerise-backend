@@ -1,8 +1,5 @@
 import { z } from 'zod';
 import ValidateData from 'src/support/helpers/ValidateData';
-import mocks from 'src/support/mocks';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { Race } from 'src/schemas/racesValidationSchema';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import getErrorName from 'src/support/helpers/getErrorName';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
@@ -64,31 +61,6 @@ describe('Helpers :: ValidateData', () => {
             }
         });
     });
-
-    // describe('when validate.response fail', () => {
-    //     const response = null;
-    //     it('should throw an error', () => {
-    //         try {
-    //             const validate = new ValidateData(logger);
-    //             validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
-    //         } catch (error) {
-    //             const notFoundError = error as Error;
-    //             testToThrowError(notFoundError, ErrorMessage.NOT_FOUND_BY_ID, HttpStatusCode.NOT_FOUND);
-    //         }
-    //     });
-    // });
-
-    // describe('when validate.response is sucessfull', () => {
-    //     const response = mocks.race.instance.en as Internacional<Race>;
-    //     it('should not throw a Not Found error', () => {
-    //         try {
-    //             const validate = new ValidateData(logger);
-    //             validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
-    //         } catch (error) {
-    //             expect(error).toBeUndefined();
-    //         }
-    //     });
-    // });
 
     describe('when validate.existance fail', () => {
         const errorCondition = true;
