@@ -1,5 +1,4 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import {
     Race,
@@ -7,7 +6,7 @@ import {
     Characteristic,
     AbilityScoreIncrease,
 } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 
 const abilityScoreIncreaseSchema = new Schema<AbilityScoreIncrease>({
     name: { type: String, required: true },
@@ -52,10 +51,10 @@ export const racesMongooseSchema = new Schema<Internacional<Race>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('race', racesMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
 export default class RacesModel extends MongoModel<Internacional<Race>> {
-    constructor() {
+    constructor(public model = connection.model('race', racesMongooseSchema)) {
         super(model);
     }
 }

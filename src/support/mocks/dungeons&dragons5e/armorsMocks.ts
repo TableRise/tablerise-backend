@@ -1,4 +1,4 @@
-import { Armor } from '../../../schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 

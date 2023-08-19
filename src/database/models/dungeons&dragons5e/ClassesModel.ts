@@ -1,5 +1,4 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import {
     Class,
     HitPoints,
@@ -19,7 +18,7 @@ import {
     LevelingSpecs,
     Characteristics,
 } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const hitPointsMongooseSchema = new Schema<HitPoints>(
@@ -191,10 +190,10 @@ export const classMongooseSchema = new Schema<Internacional<Class>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('class', classMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
-export default class ClassModel extends MongoModel<Internacional<Class>> {
-    constructor() {
+export default class ClassesModel extends MongoModel<Internacional<Class>> {
+    constructor(public model = connection.model('class', classMongooseSchema)) {
         super(model);
     }
 }

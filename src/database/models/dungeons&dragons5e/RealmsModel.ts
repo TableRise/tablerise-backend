@@ -1,7 +1,6 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const schema = new Schema<Realm>(
@@ -24,10 +23,10 @@ export const realmsMongooseSchema = new Schema<Internacional<Realm>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('realm', realmsMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
 export default class RealmsModel extends MongoModel<Internacional<Realm>> {
-    constructor() {
+    constructor(public model = connection.model('realm', realmsMongooseSchema)) {
         super(model);
     }
 }

@@ -1,7 +1,6 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const schema = new Schema<MagicItem>(
@@ -24,10 +23,10 @@ export const magicItemsMongooseSchema = new Schema<Internacional<MagicItem>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('magicItem', magicItemsMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
 export default class MagicItemsModel extends MongoModel<Internacional<MagicItem>> {
-    constructor() {
+    constructor(public model = connection.model('magicItem', magicItemsMongooseSchema)) {
         super(model);
     }
 }

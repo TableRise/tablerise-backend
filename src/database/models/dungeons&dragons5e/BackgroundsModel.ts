@@ -1,11 +1,10 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import {
     Background,
     BackgroundCharacteristics,
     BackgroundSuggested,
 } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const suggestedSchema = new Schema<BackgroundSuggested>(
@@ -50,10 +49,10 @@ export const backgroundsMongooseSchema = new Schema<Internacional<Background>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('background', backgroundsMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
 export default class BackgroundsModel extends MongoModel<Internacional<Background>> {
-    constructor() {
+    constructor(public model = connection.model('background', backgroundsMongooseSchema)) {
         super(model);
     }
 }

@@ -1,7 +1,6 @@
-import { Schema } from 'mongoose';
-import Connections from 'src/database/DatabaseConnection';
+import mongoose, { Schema } from 'mongoose';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
-import MongoModel from 'src/database/models/MongoModel';
+import MongoModel from '../../models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const schema = new Schema<God>(
@@ -26,10 +25,10 @@ export const godsMongooseSchema = new Schema<Internacional<God>>(
     }
 );
 
-const model = Connections['dungeons&dragons5e'].model('god', godsMongooseSchema);
+const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
 
 export default class GodsModel extends MongoModel<Internacional<God>> {
-    constructor() {
+    constructor(public model = connection.model('god', godsMongooseSchema)) {
         super(model);
     }
 }
