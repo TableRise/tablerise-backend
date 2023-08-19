@@ -1,4 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import Connections from 'src/database/DatabaseConnection';
 import {
     Monster,
     HitPoints,
@@ -8,7 +9,7 @@ import {
     Skills,
     Actions,
 } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
-import MongoModel from '../../models/MongoModel';
+import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const hitPointsMongooseSchema = new Schema<HitPoints>(
@@ -93,10 +94,10 @@ export const monstersMongooseSchema = new Schema<Internacional<Monster>>(
     }
 );
 
-const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
+const model = Connections['dungeons&dragons5e'].model('monster', monstersMongooseSchema);
 
-export default class MonstersModel extends MongoModel<Internacional<Monster>> {
-    constructor(public model = connection.model('monster', monstersMongooseSchema)) {
+export default class SpellsModel extends MongoModel<Internacional<Monster>> {
+    constructor() {
         super(model);
     }
 }

@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import Connections from 'src/database/DatabaseConnection';
 import { Armor, Cost } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import MongoModel from '../../models/MongoModel';
+import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const costMongooseSchema = new Schema<Cost>(
@@ -36,10 +37,10 @@ export const armorsMongooseSchema = new Schema<Internacional<Armor>>(
     }
 );
 
-const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
+export const model = Connections['dungeons&dragons5e'].model('armor', armorsMongooseSchema);
 
 export default class ArmorsModel extends MongoModel<Internacional<Armor>> {
-    constructor(public model = connection.model('armor', armorsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

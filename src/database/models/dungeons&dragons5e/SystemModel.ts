@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import Connections from 'src/database/DatabaseConnection';
 import { System, SystemContent, SystemReference } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
-import MongoModel from '../../models/MongoModel';
+import MongoModel from 'src/database/models/MongoModel';
 
 const systemReferenceMongooseSchema = new Schema<SystemReference>(
     {
@@ -39,10 +40,10 @@ const systemMongooseSchema = new Schema<System>(
     }
 );
 
-const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
+const model = Connections['dungeons&dragons5e'].model('system', systemMongooseSchema, 'system');
 
 export default class SystemModel extends MongoModel<System> {
-    constructor(public model = connection.model('system', systemMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

@@ -1,7 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import Connections from 'src/database/DatabaseConnection';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Item, MountOrVehicle, TradeGoods, Cost } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
-import MongoModel from '../../models/MongoModel';
+import MongoModel from 'src/database/models/MongoModel';
 
 const costSchema = new Schema<Cost>({
     currency: { type: String, required: true },
@@ -40,10 +41,10 @@ export const itemsMongooseSchema = new Schema<Internacional<Item>>(
     }
 );
 
-const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
+const model = Connections['dungeons&dragons5e'].model('item', itemsMongooseSchema);
 
 export default class ItemsModel extends MongoModel<Internacional<Item>> {
-    constructor(public model = connection.model('item', itemsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }

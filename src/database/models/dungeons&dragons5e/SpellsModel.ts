@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import Connections from 'src/database/DatabaseConnection';
 import { Spell, Damage, HigherLevels } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
-import MongoModel from '../../models/MongoModel';
+import MongoModel from 'src/database/models/MongoModel';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const damageMongooseSchema = new Schema<Damage>(
@@ -50,10 +51,10 @@ export const spellsMongooseSchema = new Schema<Internacional<Spell>>(
     }
 );
 
-const connection = mongoose.connection.useDb('dungeons&dragons5e', { noListener: true, useCache: true });
+const model = Connections['dungeons&dragons5e'].model('spell', spellsMongooseSchema);
 
 export default class SpellsModel extends MongoModel<Internacional<Spell>> {
-    constructor(public model = connection.model('spell', spellsMongooseSchema)) {
+    constructor() {
         super(model);
     }
 }
