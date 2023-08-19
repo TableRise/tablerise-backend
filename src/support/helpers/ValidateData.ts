@@ -9,17 +9,11 @@ export default class ValidateData {
     entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
     response: (response: System | Internacional<any> | null, errorMessage: string) => void;
     existance: (payload: boolean | null | undefined, errorMessage: string) => void;
-    // systemResponse: (response: any, errorMessage: string) => System | Internacional<any>;
-    systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
-    systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
         this.entry = this.validateEntry;
         this.response = this.validateResponse;
         this.existance = this.validateExistance;
-        // this.systemResponse = this.validateSystemResponse;
-        this.systemActive = this.validateSystemActive;
-        this.systemEntityQuery = this.validateSystemQuery;
     }
 
     private _generateError(code: number, errorMessage: string): Error {
@@ -49,18 +43,6 @@ export default class ValidateData {
     protected validateResponse(response: Internacional<any> | System | null, errorMessage: string): void {
         if (!response) {
             throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
-        }
-    }
-
-    protected validateSystemActive(activeStatus: any, code: number, errorMessage: string): void {
-        if (activeStatus) {
-            throw this._generateError(code, errorMessage);
-        }
-    }
-
-    protected validateSystemQuery(entityQuery: string, errorMessage: string): void {
-        if (!entityQuery) {
-            throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
         }
     }
 }
