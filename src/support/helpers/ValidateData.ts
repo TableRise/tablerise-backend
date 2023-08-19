@@ -1,22 +1,18 @@
 import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
-import { System } from 'src/schemas/systemValidationSchema';
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
     entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
-    response: (response: System | Internacional<any> | null, errorMessage: string) => void;
     existance: (payload: boolean | null | undefined, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
         this.entry = this.validateEntry;
-        this.response = this.validateResponse;
         this.existance = this.validateExistance;
     }
 
-    private _generateError(code: number, errorMessage: string): Error {
+    public _generateError(code: number, errorMessage: string): Error {
         const error = new Error(errorMessage);
         error.stack = code.toString();
         error.name = getErrorName(code);
@@ -37,12 +33,6 @@ export default class ValidateData {
     protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
         if (noQueryOrActiveProperty) {
             throw this._generateError(HttpStatusCode.BAD_REQUEST, errorMessage);
-        }
-    }
-
-    protected validateResponse(response: Internacional<any> | System | null, errorMessage: string): void {
-        if (!response) {
-            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
         }
     }
 }

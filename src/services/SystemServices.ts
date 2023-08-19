@@ -5,6 +5,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class SystemServices implements Service<System> {
     constructor(
@@ -24,9 +25,11 @@ export default class SystemServices implements Service<System> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        return response as System;
+        return response;
     }
 
     public async update(_id: string, payload: System): Promise<System> {
@@ -34,10 +37,12 @@ export default class SystemServices implements Service<System> {
         this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
         this._logger('info', 'System entity updated with success');
 
-        return response as System;
+        return response;
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
@@ -49,7 +54,9 @@ export default class SystemServices implements Service<System> {
 
         const recoverSystem = await this._model.findOne(_id);
 
-        this._validate.response(recoverSystem, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!recoverSystem) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
         if (recoverSystem && method === 'add') {
             recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
@@ -63,10 +70,10 @@ export default class SystemServices implements Service<System> {
             recoverSystem.content[entityQuery as keyof SystemContent] = removeIdFromContent;
         }
 
-        await this._model.update(_id, recoverSystem as System);
+        await this._model.update(_id, recoverSystem);
 
         const response = `New ID ${newID} was ${method} to array of entities ${entityQuery} - system ID: ${
-            recoverSystem?._id as string
+            recoverSystem._id as string
         }`;
 
         this._logger('info', 'Content of the system entity updated with success');
@@ -75,28 +82,32 @@ export default class SystemServices implements Service<System> {
 
     public async activate(_id: string): Promise<string> {
         const response = await this._model.findOne(_id);
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.existance(response?.active, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
 
-        if (response) response.active = true;
-        await this._model.update(_id, response as System);
+        response.active = true;
+        await this._model.update(_id, response);
 
         this._logger('info', 'System entity activated with success');
-        return `System ${response?._id as string} was activated`;
+        return `System ${response._id as string} was activated`;
     }
 
     public async deactivate(_id: string): Promise<string> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.existance(!response?.active, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
 
-        if (response) response.active = true;
-        await this._model.update(_id, response as System);
+        response.active = true;
+        await this._model.update(_id, response);
 
         this._logger('info', 'System entity deactivated with success');
-        return `System ${response?._id as string} was deactivated`;
+        return `System ${response._id as string} was deactivated`;
     }
 }

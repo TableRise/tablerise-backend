@@ -7,6 +7,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import godZodSchema, { God } from 'src/schemas/godsValidationSchema';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class GodsServices implements Service<Internacional<God>> {
     constructor(
@@ -32,10 +33,12 @@ export default class GodsServices implements Service<Internacional<God>> {
     public async findOne(_id: string): Promise<Internacional<God>> {
         const response = await this._model.findOne(_id);
 
-        this._logger('info', 'God entity found with success');
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        return response as Internacional<God>;
+        this._logger('info', 'God entity found with success');
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<God>): Promise<Internacional<God>> {
@@ -45,24 +48,29 @@ export default class GodsServices implements Service<Internacional<God>> {
 
         const response = await this._model.update(_id, payload);
 
-        this._logger('info', 'God entity updated with success');
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        return response as Internacional<God>;
+        this._logger('info', 'God entity updated with success');
+
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
-        if (response) response.active = query;
-        await this._model.update(_id, response as Internacional<God>);
+        response.active = query;
+        await this._model.update(_id, response);
 
         const responseMessage = {
-            message: `God ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `God ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

@@ -6,6 +6,7 @@ import { LoggerType } from 'src/types/LoggerType';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import ValidateData from 'src/support/helpers/ValidateData';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class ArmorsServices implements Service<Internacional<Armor>> {
     constructor(
@@ -31,11 +32,13 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async findOne(_id: string): Promise<Internacional<Armor>> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
         this._logger('info', 'Armor entity updated with success');
 
-        return response as Internacional<Armor>;
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
@@ -44,24 +47,29 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
         this._logger('info', 'Armor entity updated with success');
 
-        return response as Internacional<Armor>;
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        if (response) response.active = query;
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
-        await this._model.update(_id, response as Internacional<Armor>);
+        response.active = query;
+
+        await this._model.update(_id, response);
         const responseMessage = {
-            message: `Armor ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Armor ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 

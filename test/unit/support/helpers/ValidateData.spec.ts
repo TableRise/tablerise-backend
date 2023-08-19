@@ -65,30 +65,30 @@ describe('Helpers :: ValidateData', () => {
         });
     });
 
-    describe('when validate.response fail', () => {
-        const response = null;
-        it('should throw an error', () => {
-            try {
-                const validate = new ValidateData(logger);
-                validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
-            } catch (error) {
-                const notFoundError = error as Error;
-                testToThrowError(notFoundError, ErrorMessage.NOT_FOUND_BY_ID, HttpStatusCode.NOT_FOUND);
-            }
-        });
-    });
+    // describe('when validate.response fail', () => {
+    //     const response = null;
+    //     it('should throw an error', () => {
+    //         try {
+    //             const validate = new ValidateData(logger);
+    //             validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+    //         } catch (error) {
+    //             const notFoundError = error as Error;
+    //             testToThrowError(notFoundError, ErrorMessage.NOT_FOUND_BY_ID, HttpStatusCode.NOT_FOUND);
+    //         }
+    //     });
+    // });
 
-    describe('when validate.response is sucessfull', () => {
-        const response = mocks.race.instance.en as Internacional<Race>;
-        it('should not throw a Not Found error', () => {
-            try {
-                const validate = new ValidateData(logger);
-                validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
-            } catch (error) {
-                expect(error).toBeUndefined();
-            }
-        });
-    });
+    // describe('when validate.response is sucessfull', () => {
+    //     const response = mocks.race.instance.en as Internacional<Race>;
+    //     it('should not throw a Not Found error', () => {
+    //         try {
+    //             const validate = new ValidateData(logger);
+    //             validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+    //         } catch (error) {
+    //             expect(error).toBeUndefined();
+    //         }
+    //     });
+    // });
 
     describe('when validate.existance fail', () => {
         const errorCondition = true;

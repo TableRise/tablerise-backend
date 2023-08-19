@@ -6,6 +6,7 @@ import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class BackgroundsServices implements Service<Internacional<Background>> {
     constructor(
@@ -32,9 +33,11 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Background entity found with success');
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        return response as Internacional<Background>;
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
@@ -44,24 +47,28 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
 
         const response = await this._model.update(_id, payload);
 
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
         this._logger('info', 'Background entity updated with success');
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
 
-        return response as Internacional<Background>;
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        this._validate.response(response, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.existance(response?.active === query, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
-        if (response) response.active = query;
-        await this._model.update(_id, response as Internacional<Background>);
+        response.active = query;
+        await this._model.update(_id, response);
 
         const responseMessage = {
-            message: `Background ${response?._id as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `Background ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 
