@@ -10,7 +10,7 @@ describe('Services :: BackgroundsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds', { mock: true });
+    const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
     const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,

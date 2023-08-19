@@ -1,21 +1,29 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDClass, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDClass, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Patch RPG classes in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Classes');
+describe('Patch RPG classes in database', () => {
+    let model: MongoModel<Internacional<DnDClass>>;
     const _class = mocks.class.instance as Internacional<DnDClass>;
     const { _id: _, ...classPayload } = _class;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Classes');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg class', () => {

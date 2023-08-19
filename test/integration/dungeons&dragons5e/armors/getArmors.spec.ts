@@ -1,21 +1,37 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDArmor, Internacional, MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG armors from database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+describe('Get RPG armors from database', () => {
+    let model: MongoModel<Internacional<DnDArmor>>;
     const armor = mocks.armor.instance;
     const { _id: _, ...armorMockPayload } = armor as Internacional<DnDArmor>;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+    });
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg armors', () => {
@@ -46,7 +62,7 @@ describe('Get RPG armors from database', () => {
         });
     });
 
-    describe.only('When request all disabled rpg armors', () => {
+    describe('When request all disabled rpg armors', () => {
         it('should return an array with disabled armors', async () => {
             const keysToTest = [
                 'name',

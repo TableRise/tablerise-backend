@@ -12,7 +12,7 @@ describe('Services :: ClassesControllers', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes', { mock: true });
+    const ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes');
     const ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
     const ClassesControllersMock = new ClassesControllers(ClassesServicesMock, logger);

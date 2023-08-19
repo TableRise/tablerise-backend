@@ -10,7 +10,7 @@ describe('Services :: SpellsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells', { mock: true });
+    const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
     const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
 

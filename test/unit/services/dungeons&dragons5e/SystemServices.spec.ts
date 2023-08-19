@@ -10,7 +10,7 @@ describe('Services :: SystemsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+    const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
 

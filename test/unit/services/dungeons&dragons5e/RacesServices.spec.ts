@@ -10,7 +10,7 @@ describe('Services :: RacesServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races', { mock: true });
+    const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
     const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
 

@@ -12,7 +12,7 @@ describe('Services :: WikisControllers', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System', { mock: true });
+    const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
     const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);

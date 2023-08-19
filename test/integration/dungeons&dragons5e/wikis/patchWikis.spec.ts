@@ -1,21 +1,29 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDWiki, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Patch RPG wikis in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
+describe('Patch RPG wikis in database', () => {
+    let model: MongoModel<Internacional<DnDWiki>>;
     const wiki = mocks.wiki.instance as Internacional<DnDWiki>;
     const { _id: _, ...wikiPayload } = wiki;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg wiki', () => {

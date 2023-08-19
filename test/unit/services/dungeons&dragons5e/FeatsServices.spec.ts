@@ -10,7 +10,7 @@ describe('Services :: FeatsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats', { mock: true });
+    const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
     const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
 

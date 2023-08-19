@@ -1,14 +1,13 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDMagicItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG magic items in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'MagicItems');
+describe('Put RPG magic items in database', () => {
+    let model: MongoModel<Internacional<DnDMagicItem>>;
     const magicItem = mocks.magicItems.instance as Internacional<DnDMagicItem>;
     const { _id: _, ...magicItemPayload } = magicItem;
 
@@ -19,8 +18,17 @@ describe('Put RPG magic items in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'MagicItems');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg magic item', () => {

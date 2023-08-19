@@ -1,14 +1,13 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDFeat, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG feats in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Feats');
+describe('Put RPG feats in database', () => {
+    let model: MongoModel<Internacional<DnDFeat>>;
     const feat = mocks.feat.instance as Internacional<DnDFeat>;
     const { _id: _, ...featPayload } = feat;
 
@@ -19,8 +18,17 @@ describe('Put RPG feats in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Feats');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg feat', () => {

@@ -1,21 +1,29 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Get RPG Items from database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Items');
+describe('Get RPG Items from database', () => {
+    let model: MongoModel<Internacional<DnDItem>>;
     const item = mocks.item.instance as Internacional<DnDItem>;
     const { _id: _, ...itemMockPayload } = item;
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Items');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg Items', () => {

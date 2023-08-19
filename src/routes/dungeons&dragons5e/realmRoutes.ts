@@ -11,7 +11,7 @@ const logger = require('@tablerise/dynamic-logger');
 const validateData = new ValidateData(logger);
 const DM = new DatabaseManagement();
 
-const model = DM.modelInstance('dungeons&dragons5e', 'Realms', { mock: process.env.TEST_ENV === 'unit' });
+const model = DM.modelInstance('dungeons&dragons5e', 'Realms');
 const schema = DM.schemaInstance('dungeons&dragons5e');
 
 const services = new RealmsServices(model, logger, validateData, schema);

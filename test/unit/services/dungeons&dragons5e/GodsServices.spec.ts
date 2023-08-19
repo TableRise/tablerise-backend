@@ -10,7 +10,7 @@ describe('Services :: GodsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods', { mock: true });
+    const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
     const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
 

@@ -12,7 +12,7 @@ describe('Services :: ArmorsControllers', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors', { mock: true });
+    const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
     const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);

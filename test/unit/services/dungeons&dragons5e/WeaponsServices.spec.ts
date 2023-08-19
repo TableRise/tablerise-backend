@@ -10,7 +10,7 @@ describe('Services :: WeaponsServices', () => {
 
     const ValidateDataMock = new ValidateData(logger);
 
-    const WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons', { mock: true });
+    const WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons');
     const WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
 

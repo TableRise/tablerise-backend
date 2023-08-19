@@ -1,14 +1,13 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDWeapon, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDWeapon, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG weapons in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Weapons');
+describe('Put RPG weapons in database', () => {
+    let model: MongoModel<Internacional<DnDWeapon>>;
     const weapon = mocks.weapon.instance as Internacional<DnDWeapon>;
     const { _id: _, ...weaponPayload } = weapon;
 
@@ -19,8 +18,17 @@ describe('Put RPG weapons in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Weapons');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg weapon', () => {

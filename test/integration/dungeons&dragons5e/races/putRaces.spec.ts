@@ -1,14 +1,13 @@
 import requester from '../../../support/requester';
-
-import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDRace, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-describe('Put RPG Races in database', () => {
-    const DM = new DatabaseManagement();
+const logger = require('@tablerise/dynamic-logger');
 
-    const model = DM.modelInstance('dungeons&dragons5e', 'Races');
+describe('Put RPG Races in database', () => {
+    let model: MongoModel<Internacional<DnDRace>>;
     const race = mocks.race.instance as Internacional<DnDRace>;
     const { _id: _, ...racePayload } = race;
 
@@ -19,8 +18,17 @@ describe('Put RPG Races in database', () => {
 
     let documentId: string;
 
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => logger('info', 'Test database connection instanciated'))
+            .catch(() => logger('error', 'Test database connection failed'));
+
+        const DM = new DatabaseManagement();
+        model = DM.modelInstance('dungeons&dragons5e', 'Races');
+    });
+
     afterAll(async () => {
-        await model.connection.instance.close();
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg Race', () => {
