@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+MESSAGE=$(cat $1) 
+COMMITFORMAT="^(feat|fix|docs|style|ref|test|setup)(\((.*)\))?:\s?(.*)$"
+
+if ! [[ "$MESSAGE" =~ $COMMITFORMAT ]]; then
+  echo "========================"
+  echo " "
+  echo -e "\e[31mYour commit was rejected due to the commit message. COMMIT FAILED !\e[0m" 
+  echo ""
+  echo "Please use the following format..."
+  echo ""
+  echo "feat: feature example comment"
+  echo "fix: fix example comment"
+  echo "bug: bugfix example comment"
+  echo "docs: docs example comment"
+  echo "style: style example comment"
+  echo "ref: ref example comment"
+  echo "test: test example comment"
+  echo " "
+  echo "========================"
+  exit 1
+fi

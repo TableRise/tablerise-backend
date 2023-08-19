@@ -3,7 +3,7 @@
 * [ ] Garanti que todos os arquivos criados possuem testes unitários ( quando aplicável ).
 * [ ] Garanti que todos os fluxos criados possuem testes de integração.
 * [ ] Nenhuma mudança foi feita na estrutura de rotas, ou, se foi feita o arquivo do swagger foi atualizado.
-* [ ] A pipeline foi executada com sucesso e a cobertura de testes atingou ou passou de 90%.
+* [ ] A pipeline foi executada com sucesso e a cobertura de testes atingiu ou passou de 90%.
 * [ ] Ao finalizar a task movi meu card para a coluna de CodeReview e enviei o link da PR no discord para aprovação.
 
 

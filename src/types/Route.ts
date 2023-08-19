@@ -2,20 +2,22 @@ import { Router } from 'express';
 import Mock from 'src/types/Mock';
 
 export default interface IRoutes {
-    system: Router;
-    realms: Router;
-    gods: Router;
-    backgrounds: Router;
-    feats: Router;
-    weapons: Router;
-    armors: Router;
-    items: Router;
-    races: Router;
-    classes: Router;
-    magicItems: Router;
-    spells: Router;
-    wikis: Router;
-    monsters: Router;
+    'dungeons&dragons5e': {
+        system: Router;
+        realms: Router;
+        gods: Router;
+        backgrounds: Router;
+        feats: Router;
+        weapons: Router;
+        armors: Router;
+        items: Router;
+        races: Router;
+        classes: Router;
+        magicItems: Router;
+        spells: Router;
+        wikis: Router;
+        monsters: Router;
+    };
 }
 
 export interface RouteDeclareParams {

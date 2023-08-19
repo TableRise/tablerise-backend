@@ -1,5 +1,5 @@
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
-import mocks from 'src/support/mocks';
+import mocks from 'src/support/mocks/dungeons&dragons5e';
 
 describe('Schemas :: UpdateContentSchema', () => {
     describe('When the zod validation is called with the correct data', () => {
