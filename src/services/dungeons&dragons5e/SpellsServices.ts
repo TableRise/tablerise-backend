@@ -32,9 +32,7 @@ export default class SpellsServices implements Service<Internacional<DnDSpell>> 
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Spell entity found with success');
-        if (!response) {
-            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         return response;
     }
@@ -48,9 +46,7 @@ export default class SpellsServices implements Service<Internacional<DnDSpell>> 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Spell entity updated with success');
-        if (!response) {
-            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         return response;
     }
@@ -58,9 +54,7 @@ export default class SpellsServices implements Service<Internacional<DnDSpell>> 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

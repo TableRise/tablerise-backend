@@ -31,9 +31,7 @@ export default class ClassesServices implements Service<Internacional<DnDClass>>
     public async findOne(_id: string): Promise<Internacional<DnDClass>> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._logger('info', 'Class entity found with success');
         return response;
@@ -47,9 +45,8 @@ export default class ClassesServices implements Service<Internacional<DnDClass>>
 
         const updatedResponse = await this._model.update(_id, payload);
 
-        if (!updatedResponse) {
+        if (!updatedResponse)
             throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
 
         this._logger('info', 'Class entity updated with success');
         return updatedResponse;
@@ -58,9 +55,7 @@ export default class ClassesServices implements Service<Internacional<DnDClass>>
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) {
-            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-        }
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
