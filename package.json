@@ -18,7 +18,7 @@
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
         "check-cov": "node scripts/checkCoverage.js",
-        "populate": "npx @tablerise/database-seeder@4.2.0",
+        "populate": "npx @tablerise/database-seeder@4.3.1",
         "circular": "npx dpdm --no-warning --no-tree src/server.ts",
         "prepare": "husky install"
     },

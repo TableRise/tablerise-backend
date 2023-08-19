@@ -53,12 +53,12 @@ describe('Patch RPG systems in database', () => {
             const { body } = await request(app)
                 .patch(`/dnd5e/system/${documentId}`)
                 .send(contentPayload)
-                .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
+                .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('An entity name is required');
-            expect(body.name).toBe('ValidationError');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {
@@ -69,7 +69,7 @@ describe('Patch RPG systems in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a system with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

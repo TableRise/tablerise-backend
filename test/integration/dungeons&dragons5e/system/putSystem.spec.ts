@@ -55,12 +55,12 @@ describe('Put RPG systems in database', () => {
             const { body } = await request(app)
                 .put(`/dnd5e/system/${generateNewMongoID()}`)
                 .send(newSystemPayload)
-                .expect(HttpStatusCode.FORBIDDEN);
+                .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Update the content directly is not allowed');
-            expect(body.name).toBe('ForbiddenRequest');
+            expect(body.message).toBe('Not possible to change availability through this route');
+            expect(body.name).toBe('BadRequest');
         });
 
         it('should fail with inexistent ID', async () => {
@@ -71,7 +71,7 @@ describe('Put RPG systems in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a system with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

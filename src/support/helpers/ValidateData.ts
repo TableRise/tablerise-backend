@@ -1,28 +1,22 @@
 import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { LoggerType } from 'src/types/LoggerType';
+<<<<<<< HEAD
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+=======
+>>>>>>> db0a77bd4d1a976425556db0343feec79afc70c9
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
     entry: (zodSchema: ZodObject<any>, payload: unknown) => void;
-    response: (response: null | Internacional<any>, errorMessage: string) => Internacional<any>;
-    active: (payload: boolean | undefined | null, errorMessage: string) => void;
-    systemResponse: (response: any, errorMessage: string) => System;
-    systemActive: (activeStatus: any, code: number, errorMessage: string) => void;
-    systemEntityQuery: (entityQuery: string, errorMessage: string) => void;
+    existance: (payload: boolean | null | undefined, errorMessage: string) => void;
 
     constructor(private readonly _logger: LoggerType) {
         this.entry = this.validateEntry;
-        this.response = this.validateResponse;
-        this.active = this.validateActive;
-        this.systemResponse = this.validateSystemResponse;
-        this.systemActive = this.validateSystemActive;
-        this.systemEntityQuery = this.validateSystemQuery;
+        this.existance = this.validateExistance;
     }
 
-    private _generateError(code: number, errorMessage: string): Error {
+    public _generateError(code: number, errorMessage: string): Error {
         const error = new Error(errorMessage);
         error.stack = code.toString();
         error.name = getErrorName(code);
@@ -40,35 +34,9 @@ export default class ValidateData {
         }
     }
 
-    protected validateResponse(response: Internacional<any> | any, errorMessage: string): Internacional<any> {
-        if (!response) {
-            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
-        }
-        return response;
-    }
-
-    protected validateActive(activeStatus: boolean | undefined | null, errorMessage: string): void {
-        if (activeStatus) {
+    protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
+        if (noQueryOrActiveProperty) {
             throw this._generateError(HttpStatusCode.BAD_REQUEST, errorMessage);
         }
-    }
-
-    protected validateSystemActive(activeStatus: any, code: number, errorMessage: string): void {
-        if (activeStatus) {
-            throw this._generateError(code, errorMessage);
-        }
-    }
-
-    protected validateSystemQuery(entityQuery: string, errorMessage: string): void {
-        if (!entityQuery) {
-            throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
-        }
-    }
-
-    protected validateSystemResponse(response: any, errorMessage: string): System {
-        if (!response) {
-            throw this._generateError(HttpStatusCode.NOT_FOUND, errorMessage);
-        }
-        return response;
     }
 }

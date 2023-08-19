@@ -57,7 +57,7 @@ describe('Services :: MonstersServices', () => {
                 await MonstersServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a monster with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -125,7 +125,7 @@ describe('Services :: MonstersServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a monster with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -187,7 +187,7 @@ describe('Services :: MonstersServices', () => {
                 await MonstersServicesMock.updateAvailability(monsterMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -198,7 +198,7 @@ describe('Services :: MonstersServices', () => {
                 await MonstersServicesMock.updateAvailability(monsterMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -209,7 +209,7 @@ describe('Services :: MonstersServices', () => {
                 await MonstersServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a monster with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

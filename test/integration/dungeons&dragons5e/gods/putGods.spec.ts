@@ -80,7 +80,7 @@ describe('Put RPG gods in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a god with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

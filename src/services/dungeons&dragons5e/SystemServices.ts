@@ -4,7 +4,7 @@ import { System, SystemContent, systemPayloadZodSchema } from 'src/schemas/dunge
 import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class SystemServices implements Service<System> {
@@ -25,30 +25,38 @@ export default class SystemServices implements Service<System> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
+
+        return response;
     }
 
     public async update(_id: string, payload: System): Promise<System> {
         this._validate.entry(systemPayloadZodSchema, payload);
-
-        this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
+        this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
         this._logger('info', 'System entity updated with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+
+        return response;
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
         this._validate.entry(updateContentZodSchema, payload);
 
-        this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity);
+        this._validate.existance(!entityQuery, ErrorMessage.BAD_REQUEST);
 
         const { method, newID } = payload;
 
-        let recoverSystem = await this._model.findOne(_id);
+        const recoverSystem = await this._model.findOne(_id);
 
-        recoverSystem = this._validate.systemResponse(recoverSystem, errorMessage.notFound.system);
+        if (!recoverSystem) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
         if (recoverSystem && method === 'add') {
             recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
@@ -73,17 +81,14 @@ export default class SystemServices implements Service<System> {
     }
 
     public async activate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id);
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        const response = await this._model.findOne(_id);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.systemActive(
-            response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active)
-        );
+        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
 
         response.active = true;
-
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity activated with success');
@@ -91,17 +96,15 @@ export default class SystemServices implements Service<System> {
     }
 
     public async deactivate(_id: string): Promise<string> {
-        let response = await this._model.findOne(_id);
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        const response = await this._model.findOne(_id);
 
-        this._validate.systemActive(
-            !response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active)
-        );
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        response.active = false;
+        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
 
+        response.active = true;
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity deactivated with success');
