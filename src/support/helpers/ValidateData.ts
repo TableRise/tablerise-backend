@@ -1,10 +1,6 @@
 import { ZodObject } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { LoggerType } from 'src/types/LoggerType';
-<<<<<<< HEAD
-import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
-=======
->>>>>>> db0a77bd4d1a976425556db0343feec79afc70c9
 import getErrorName from './getErrorName';
 
 export default class ValidateData {
