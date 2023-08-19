@@ -2,18 +2,18 @@ import BackgroundsModel from 'src/database/models/BackgroundsModel';
 import Service from 'src/types/Service';
 import backgroundZodSchema, { Background } from 'src/schemas/backgroundsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { LoggerType } from 'src/types/LoggerType';
+import ValidateData from 'src/support/helpers/ValidateData';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
-export default class BackgroundsServices extends ValidateEntry implements Service<Internacional<Background>> {
+export default class BackgroundsServices implements Service<Internacional<Background>> {
     constructor(
         private readonly _model: BackgroundsModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) {}
 
     public async findAll(): Promise<Array<Internacional<Background>>> {
         const response = await this._model.findAll();
@@ -32,42 +32,26 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
     public async findOne(_id: string): Promise<Internacional<Background>> {
         const response = await this._model.findOne(_id);
 
+        this._logger('info', 'Background entity found with success');
         if (!response) {
-            const err = new Error('NotFound a background with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        this._logger('info', 'Background entity found with success');
         return response;
     }
 
     public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
-        this.validate(languagesWrapper(backgroundZodSchema), payload);
+        this._validate.entry(languagesWrapper(backgroundZodSchema), payload);
 
-        if (payload.active) {
-            const err = new Error('Not possible to change availability through this route');
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest';
-
-            throw err;
-        }
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         if (!response) {
-            const err = new Error('NotFound a background with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
-
         this._logger('info', 'Background entity updated with success');
+
         return response;
     }
 
@@ -75,22 +59,10 @@ export default class BackgroundsServices extends ValidateEntry implements Servic
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a background with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        if (response.active === query) {
-            const err = new Error(`${query ? 'Entity already enabled' : 'Entity already disabled'}`);
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest';
-
-            this._logger('error', err.message);
-            throw err;
-        }
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
         await this._model.update(_id, response);

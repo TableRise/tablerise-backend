@@ -3,12 +3,14 @@ import WeaponsServices from 'src/services/WeaponsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Weapon } from 'src/schemas/weaponsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: WeaponsServices', () => {
     const WeaponsModelMock = new WeaponsModel();
-    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock);
     const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponMockPayload } = weaponMockInstance;
 
@@ -50,7 +52,7 @@ describe('Services :: WeaponsServices', () => {
                 await WeaponsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a weapon with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -118,7 +120,7 @@ describe('Services :: WeaponsServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a weapon with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -180,7 +182,7 @@ describe('Services :: WeaponsServices', () => {
                 await WeaponsServicesMock.updateAvailability(weaponMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -191,7 +193,7 @@ describe('Services :: WeaponsServices', () => {
                 await WeaponsServicesMock.updateAvailability(weaponMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -202,7 +204,7 @@ describe('Services :: WeaponsServices', () => {
                 await WeaponsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a weapon with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

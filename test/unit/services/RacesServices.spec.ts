@@ -3,28 +3,30 @@ import RacesServices from 'src/services/RacesServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Race } from 'src/schemas/racesValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: RacesServices', () => {
     const RacesModelMock = new RacesModel();
-    const RacesServicesMock = new RacesServices(RacesModelMock, logger);
-    const raceMockInstance = mocks.race.instance as Internacional<Race>;
-    const { _id: _, ...raceMockPayload } = raceMockInstance;
+    const ValidateDataMock = new ValidateData(logger);
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock);
+    const racesMockInstance = mocks.race.instance as Internacional<Race>;
+    const { _id: _, ...racesMockPayload } = racesMockInstance;
 
     describe('When the recover all race service is called', () => {
         beforeAll(() => {
-            jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([raceMockInstance]);
+            jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([racesMockInstance]);
         });
 
         it('should return correct data', async () => {
             const responseTest = await RacesServicesMock.findAll();
-            expect(responseTest).toStrictEqual([raceMockInstance]);
+            expect(responseTest).toStrictEqual([racesMockInstance]);
         });
     });
 
     describe('When the recover all disabled races service is called', () => {
-        const raceMockDisabled = { ...raceMockInstance, active: false };
+        const raceMockDisabled = { ...racesMockInstance, active: false };
         beforeAll(() => {
             jest.spyOn(RacesModelMock, 'findAll').mockResolvedValue([raceMockDisabled]);
         });
@@ -37,12 +39,12 @@ describe('Services :: RacesServices', () => {
 
     describe('When the recover a race by ID service is called', () => {
         beforeAll(() => {
-            jest.spyOn(RacesModelMock, 'findOne').mockResolvedValueOnce(raceMockInstance).mockResolvedValue(null);
+            jest.spyOn(RacesModelMock, 'findOne').mockResolvedValueOnce(racesMockInstance).mockResolvedValue(null);
         });
 
         it('should return correct data when ID valid', async () => {
-            const responseTest = await RacesServicesMock.findOne(raceMockInstance._id as string);
-            expect(responseTest).toBe(raceMockInstance);
+            const responseTest = await RacesServicesMock.findOne(racesMockInstance._id as string);
+            expect(responseTest).toBe(racesMockInstance);
         });
 
         it('should throw an error when ID is inexistent', async () => {
@@ -50,7 +52,7 @@ describe('Services :: RacesServices', () => {
                 await RacesServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a race with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -58,17 +60,17 @@ describe('Services :: RacesServices', () => {
     });
 
     describe('When service for update a race is called', () => {
-        const raceMockID = raceMockInstance._id as string;
+        const raceMockID = racesMockInstance._id as string;
         const raceMockUpdateInstance = {
-            en: { ...raceMockInstance.en, name: 'None' },
-            pt: { ...raceMockInstance.pt, name: 'None' },
+            en: { ...racesMockInstance.en, name: 'None' },
+            pt: { ...racesMockInstance.pt, name: 'None' },
         };
 
-        const raceMockPayloadWithoutActive = { ...raceMockPayload };
+        const raceMockPayloadWithoutActive = { ...racesMockPayload };
         delete raceMockPayloadWithoutActive.active;
 
-        const { name: _1, ...racesMockEnWithoutName } = raceMockPayload.en;
-        const { name: _2, ...racesMockPtWithoutName } = raceMockPayload.pt;
+        const { name: _1, ...racesMockEnWithoutName } = racesMockPayload.en;
+        const { name: _2, ...racesMockPtWithoutName } = racesMockPayload.pt;
         const raceMockPayloadWrong = {
             en: racesMockEnWithoutName,
             pt: racesMockPtWithoutName,
@@ -100,7 +102,7 @@ describe('Services :: RacesServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RacesServicesMock.update('inexistent_id', raceMockPayload as Internacional<Race>);
+                await RacesServicesMock.update('inexistent_id', racesMockPayload as Internacional<Race>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -114,7 +116,7 @@ describe('Services :: RacesServices', () => {
                 await RacesServicesMock.update('inexistent_id', raceMockPayloadWithoutActive as Internacional<Race>);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a race with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -122,19 +124,19 @@ describe('Services :: RacesServices', () => {
     });
 
     describe('When service for update availability race is called', () => {
-        const raceMockID = raceMockInstance._id as string;
+        const raceMockID = racesMockInstance._id as string;
         const raceMockUpdateInstance = {
             _id: raceMockID,
             active: false,
-            en: { ...raceMockInstance.en },
-            pt: { ...raceMockInstance.pt },
+            en: { ...racesMockInstance.en },
+            pt: { ...racesMockInstance.pt },
         };
 
         const raceMockFindInstance = {
             _id: raceMockID,
             active: true,
-            en: { ...raceMockInstance.en },
-            pt: { ...raceMockInstance.pt },
+            en: { ...racesMockInstance.en },
+            pt: { ...racesMockInstance.pt },
         };
 
         const responseMessageMockActivated = {
@@ -176,7 +178,7 @@ describe('Services :: RacesServices', () => {
                 await RacesServicesMock.updateAvailability(raceMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -187,7 +189,7 @@ describe('Services :: RacesServices', () => {
                 await RacesServicesMock.updateAvailability(raceMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -198,7 +200,7 @@ describe('Services :: RacesServices', () => {
                 await RacesServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a race with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

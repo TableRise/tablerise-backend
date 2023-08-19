@@ -1,18 +1,18 @@
 import SystemModel from 'src/database/models/SystemModel';
 import Service from 'src/types/Service';
-import systemZodSchema, { System, SystemContent } from 'src/schemas/systemValidationSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import { System, SystemContent, systemPayloadZodSchema } from 'src/schemas/systemValidationSchema';
+import ValidateData from 'src/support/helpers/ValidateData';
 import updateContentZodSchema, { UpdateContent } from 'src/schemas/updateContentSchema';
 import { LoggerType } from 'src/types/LoggerType';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
-export default class SystemServices extends ValidateEntry implements Service<System> {
+export default class SystemServices implements Service<System> {
     constructor(
         private readonly _model: SystemModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) {}
 
     public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
@@ -24,76 +24,45 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
     public async findOne(_id: string): Promise<System> {
         const response = await this._model.findOne(_id);
 
+        this._logger('info', 'System entity found with success');
         if (!response) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        this._logger('info', 'System entity found with success');
         return response;
     }
 
     public async update(_id: string, payload: System): Promise<System> {
-        this.validate(systemZodSchema, payload);
-
-        if (payload.content) {
-            const err = new Error('Update the content directly is not allowed');
-            err.stack = HttpStatusCode.FORBIDDEN.toString();
-            err.name = 'ForbiddenRequest';
-
-            this._logger('error', err.message);
-            throw err;
-        }
+        this._validate.entry(systemPayloadZodSchema, payload);
+        this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-
         if (!response) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
-
         this._logger('info', 'System entity updated with success');
+
         return response;
     }
 
     public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
-        this.validate(updateContentZodSchema, payload);
+        this._validate.entry(updateContentZodSchema, payload);
 
-        if (!entityQuery) {
-            const err = new Error('An entity name is required');
-            err.stack = HttpStatusCode.UNPROCESSABLE_ENTITY.toString();
-            err.name = 'ValidationError';
-
-            this._logger('error', err.message);
-            throw err;
-        }
+        this._validate.existance(!entityQuery, ErrorMessage.BAD_REQUEST);
 
         const { method, newID } = payload;
 
         const recoverSystem = await this._model.findOne(_id);
 
         if (!recoverSystem) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        if (method === 'add') {
+        if (recoverSystem && method === 'add') {
             recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
         }
 
-        if (method === 'remove') {
+        if (recoverSystem && method === 'remove') {
             const removeIdFromContent = recoverSystem.content[entityQuery as keyof SystemContent].filter(
                 (id) => id !== newID
             );
@@ -113,27 +82,13 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
 
     public async activate(_id: string): Promise<string> {
         const response = await this._model.findOne(_id);
-
         if (!response) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        if (response.active) {
-            const err = new Error('System already active');
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'ValidationError';
-
-            this._logger('error', err.message);
-            throw err;
-        }
+        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
 
         response.active = true;
-
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity activated with success');
@@ -144,25 +99,12 @@ export default class SystemServices extends ValidateEntry implements Service<Sys
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound a system with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        if (!response.active) {
-            const err = new Error('System already deactivated');
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'ValidationError';
+        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
 
-            this._logger('error', err.message);
-            throw err;
-        }
-
-        response.active = false;
-
+        response.active = true;
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity deactivated with success');

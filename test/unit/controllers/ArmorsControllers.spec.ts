@@ -5,12 +5,14 @@ import ArmorsControllers from 'src/controllers/ArmorsControllers';
 import { Armor } from 'src/schemas/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ArmorsControllers', () => {
     const ArmorsModelMock = new ArmorsModel();
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const request = {} as Request;

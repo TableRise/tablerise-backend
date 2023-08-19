@@ -5,12 +5,14 @@ import SystemsControllers from 'src/controllers/SystemControllers';
 import { System } from 'src/schemas/systemValidationSchema';
 import mocks from 'src/support/mocks';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: SystemsControllers', () => {
     const systemsModelMock = new SystemsModel();
-    const systemsServicesMock = new SystemsServices(systemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const systemsServicesMock = new SystemsServices(systemsModelMock, logger, ValidateDataMock);
     const systemsControllersMock = new SystemsControllers(systemsServicesMock, logger);
     const systemMockInstance = mocks.system.instance as System;
     const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;

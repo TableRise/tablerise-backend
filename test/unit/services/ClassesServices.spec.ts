@@ -3,12 +3,14 @@ import ClassesServices from 'src/services/ClassesServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Class } from 'src/schemas/classesValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: ClassesServices', () => {
     const ClassesModelMock = new ClassesModel();
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock);
     const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
 
@@ -50,7 +52,7 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a class with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -118,7 +120,7 @@ describe('Services :: ClassesServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a class with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -180,7 +182,7 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.updateAvailability(classMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -191,7 +193,7 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.updateAvailability(classMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -202,7 +204,7 @@ describe('Services :: ClassesServices', () => {
                 await ClassesServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a class with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

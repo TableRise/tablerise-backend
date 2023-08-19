@@ -3,12 +3,14 @@ import MagicItemsServices from 'src/services/MagicItemsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { MagicItem } from 'src/schemas/magicItemsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: MagicItemsServices', () => {
     const MagicItemsModelMock = new MagicItemsModel();
-    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const MagicItemsServicesMock = new MagicItemsServices(MagicItemsModelMock, logger, ValidateDataMock);
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
@@ -52,7 +54,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic item with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -124,7 +126,7 @@ describe('Services :: MagicItemsServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic item with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -186,7 +188,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.updateAvailability(magicItemMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -197,7 +199,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.updateAvailability(magicItemMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -208,7 +210,7 @@ describe('Services :: MagicItemsServices', () => {
                 await MagicItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a magic items with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

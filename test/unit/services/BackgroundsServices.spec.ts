@@ -3,12 +3,14 @@ import BackgroundsServices from 'src/services/BackgroundsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Background } from 'src/schemas/backgroundsValidationSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: BackgroundsServices', () => {
     const BackgroundsModelMock = new BackgroundsModel();
-    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const BackgroundsServicesMock = new BackgroundsServices(BackgroundsModelMock, logger, ValidateDataMock);
     const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
 
@@ -52,7 +54,7 @@ describe('Services :: BackgroundsServices', () => {
                 await BackgroundsServicesMock.findOne('inexistent_id');
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a background with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -127,7 +129,7 @@ describe('Services :: BackgroundsServices', () => {
                 );
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a background with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }
@@ -189,7 +191,7 @@ describe('Services :: BackgroundsServices', () => {
                 await BackgroundsServicesMock.updateAvailability(backgroundMockID, true);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already enabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -200,7 +202,7 @@ describe('Services :: BackgroundsServices', () => {
                 await BackgroundsServicesMock.updateAvailability(backgroundMockID, false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('Entity already disabled');
+                expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.stack).toBe('400');
                 expect(err.name).toBe('BadRequest');
             }
@@ -211,7 +213,7 @@ describe('Services :: BackgroundsServices', () => {
                 await BackgroundsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
                 const err = error as Error;
-                expect(err.message).toBe('NotFound a background with provided ID');
+                expect(err.message).toBe('NotFound an object with provided ID');
                 expect(err.stack).toBe('404');
                 expect(err.name).toBe('NotFound');
             }

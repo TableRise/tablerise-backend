@@ -5,12 +5,14 @@ import GodsControllers from 'src/controllers/GodsControllers';
 import { God } from 'src/schemas/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import mocks from 'src/support/mocks';
+import ValidateData from 'src/support/helpers/ValidateData';
 
 const logger = require('@tablerise/dynamic-logger');
 
 describe('Services :: GodsControllers', () => {
     const GodsModelMock = new GodsModel();
-    const GodsServicesMock = new GodsServices(GodsModelMock, logger);
+    const ValidateDataMock = new ValidateData(logger);
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock);
     const GodsControllersMock = new GodsControllers(GodsServicesMock, logger);
     const godMockInstance = mocks.god.instance as Internacional<God>;
     const request = {} as Request;

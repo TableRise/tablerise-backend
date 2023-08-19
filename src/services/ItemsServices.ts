@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ItemsModel from 'src/database/models/ItemsModel';
 import Service from 'src/types/Service';
 import ItemZodSchema, { Item } from 'src/schemas/itemsValidationSchema';
 import languagesWrapper, { Internacional } from 'src/schemas/languagesWrapperSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import ValidateEntry from 'src/support/helpers/ValidateEntry';
+import ValidateData from 'src/support/helpers/ValidateData';
 import { LoggerType } from 'src/types/LoggerType';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
-export default class ItemsServices extends ValidateEntry implements Service<Internacional<Item>> {
+export default class ItemsServices implements Service<Internacional<Item>> {
     constructor(
         private readonly _model: ItemsModel,
-        private readonly _logger: LoggerType
-    ) {
-        super();
-    }
+        private readonly _logger: LoggerType,
+        private readonly _validate: ValidateData
+    ) {}
 
     public async findAll(): Promise<Array<Internacional<Item>>> {
         const response = await this._model.findAll();
@@ -32,42 +33,26 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
     public async findOne(_id: string): Promise<Internacional<Item>> {
         const response = await this._model.findOne(_id);
 
+        this._logger('info', 'Item entity found with success');
         if (!response) {
-            const err = new Error('NotFound an item with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        this._logger('info', 'Item entity found with success');
         return response;
     }
 
     public async update(_id: string, payload: Internacional<Item>): Promise<Internacional<Item>> {
-        this.validate(languagesWrapper(ItemZodSchema), payload);
+        this._validate.entry(languagesWrapper(ItemZodSchema), payload);
 
-        if (payload.active) {
-            const err = new Error('Not possible to change availability through this route');
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest';
-
-            throw err;
-        }
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
+        this._logger('info', 'Item entity updated with success');
         if (!response) {
-            const err = new Error('NotFound an item with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        this._logger('info', 'Item entity updated with success');
         return response;
     }
 
@@ -75,22 +60,10 @@ export default class ItemsServices extends ValidateEntry implements Service<Inte
         const response = await this._model.findOne(_id);
 
         if (!response) {
-            const err = new Error('NotFound an item with provided ID');
-            err.stack = HttpStatusCode.NOT_FOUND.toString();
-            err.name = 'NotFound';
-
-            this._logger('error', err.message);
-            throw err;
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         }
 
-        if (response.active === query) {
-            const err = new Error(`${query ? 'Entity already enabled' : 'Entity already disabled'}`);
-            err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest';
-
-            this._logger('error', err.message);
-            throw err;
-        }
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
         await this._model.update(_id, response);
