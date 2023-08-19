@@ -2,8 +2,9 @@ import { DnDWiki, MongoModel, Internacional, SchemasDnDType } from '@tablerise/d
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class WikisServices implements Service<Internacional<DnDWiki>> {
     constructor(
@@ -24,7 +25,9 @@ export default class WikisServices implements Service<Internacional<DnDWiki>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Wiki entity found with success');
-        return this._validate.response(response, errorMessage.notFound.wiki);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response;
     }
 
     public async findAllDisabled(): Promise<Array<Internacional<DnDWiki>>> {
@@ -38,20 +41,22 @@ export default class WikisServices implements Service<Internacional<DnDWiki>> {
         const { helpers, wikiZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(wikiZod), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Wiki entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.wiki);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.wiki);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
         await this._model.update(_id, response);

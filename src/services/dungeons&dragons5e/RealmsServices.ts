@@ -2,8 +2,9 @@ import { DnDRealm, MongoModel, Internacional, SchemasDnDType } from '@tablerise/
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class RealmsServices implements Service<Internacional<DnDRealm>> {
     constructor(
@@ -31,27 +32,36 @@ export default class RealmsServices implements Service<Internacional<DnDRealm>> 
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Realm entity found with success');
-        return this._validate.response(response, errorMessage.notFound.realm);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<DnDRealm>): Promise<Internacional<DnDRealm>> {
         const { helpers, realmZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(realmZod), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Realm entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.realm);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
+
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.realm);
+        if (!response) {
+            throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        }
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
         await this._model.update(_id, response);

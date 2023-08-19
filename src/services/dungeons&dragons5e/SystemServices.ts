@@ -1,15 +1,8 @@
-import {
-    DnDSystem,
-    DnDSystemPayload,
-    MongoModel,
-    SchemasDnDType,
-    UpdateContent,
-    SystemContent,
-} from '@tablerise/database-management';
+import { DnDSystem, MongoModel, SchemasDnDType, UpdateContent, SystemContent } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
-import { errorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class SystemServices implements Service<DnDSystem> {
@@ -31,33 +24,34 @@ export default class SystemServices implements Service<DnDSystem> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response;
     }
 
-    public async update(_id: string, payload: DnDSystemPayload): Promise<DnDSystem> {
+    public async update(_id: string, payload: any): Promise<DnDSystem> {
         const { systemZod } = this._schema;
         this._validate.entry(systemZod.systemPayloadZodSchema, payload);
-
-        // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
-        this._validate.systemActive(payload.content, HttpStatusCode.FORBIDDEN, errorMessage.forbidden);
+        this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         this._logger('info', 'System entity updated with success');
-        return this._validate.systemResponse(response, errorMessage.notFound.system);
+
+        return response;
     }
 
-    public async updateContent(_id: string, entityQuery: string, payload: UpdateContent): Promise<string> {
+    public async updateContent(_id: string, entityQuery: string, payload: any): Promise<string> {
         const { updateContentZodSchema } = this._schema;
+
         this._validate.entry(updateContentZodSchema, payload);
+        this._validate.existance(!entityQuery, ErrorMessage.BAD_REQUEST);
 
-        this._validate.systemEntityQuery(entityQuery, errorMessage.unprocessableEntity);
+        const { method, newID } = payload as UpdateContent;
 
-        const { method, newID } = payload;
+        const recoverSystem = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
 
-        let recoverSystem = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
-
-        recoverSystem = this._validate.systemResponse(recoverSystem, errorMessage.notFound.system);
+        if (!recoverSystem) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         if (recoverSystem && method === 'add') {
             // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
@@ -85,35 +79,29 @@ export default class SystemServices implements Service<DnDSystem> {
     }
 
     public async activate(_id: string): Promise<string> {
-        let response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        const response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
 
-        this._validate.systemActive(
-            response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active as boolean)
-        );
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
 
         response.active = true;
 
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity activated with success');
+
         return `System ${response._id} was activated`;
     }
 
     public async deactivate(_id: string): Promise<string> {
-        let response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
-        response = this._validate.systemResponse(response, errorMessage.notFound.system);
+        const response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
 
-        this._validate.systemActive(
-            !response.active,
-            HttpStatusCode.BAD_REQUEST,
-            errorMessage.badRequest.system.responseActive(response.active as boolean)
-        );
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
-        response.active = false;
+        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
 
+        response.active = true;
         await this._model.update(_id, response);
 
         this._logger('info', 'System entity deactivated with success');

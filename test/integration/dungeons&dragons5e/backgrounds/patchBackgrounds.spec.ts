@@ -51,7 +51,7 @@ describe('Patch RPG backgrounds in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Entity already enabled');
+            expect(body.message).toBe('Not possible to change availability through this route');
             expect(body.name).toBe('BadRequest');
         });
 
@@ -64,7 +64,7 @@ describe('Patch RPG backgrounds in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('Entity already disabled');
+            expect(body.message).toBe('Not possible to change availability through this route');
             expect(body.name).toBe('BadRequest');
         });
 
@@ -86,7 +86,7 @@ describe('Patch RPG backgrounds in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a background with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

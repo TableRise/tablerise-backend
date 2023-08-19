@@ -1,7 +1,8 @@
 import { DnDFeat, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { errorMessage } from 'src/support/helpers/errorMessage';
 import Service from 'src/types/Service';
+import ValidateData from 'src/support/helpers/ValidateData';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 
@@ -31,27 +32,30 @@ export default class FeatsServices implements Service<Internacional<DnDFeat>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Feat entity found with success');
-        return this._validate.response(response, errorMessage.notFound.feat);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<DnDFeat>): Promise<Internacional<DnDFeat>> {
         const { helpers, featZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(featZod), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
 
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
         this._logger('info', 'Feat entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.feat);
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.feat);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
         await this._model.update(_id, response);

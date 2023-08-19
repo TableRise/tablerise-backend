@@ -53,7 +53,7 @@ describe('Patch RPG system status in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('System already active');
+            expect(body.message).toBe('Not possible to change availability through this route');
             expect(body.name).toBe('BadRequest');
         });
 
@@ -64,7 +64,7 @@ describe('Patch RPG system status in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a system with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });
@@ -93,7 +93,7 @@ describe('Patch RPG system status in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('System already deactivated');
+            expect(body.message).toBe('Not possible to change availability through this route');
             expect(body.name).toBe('BadRequest');
         });
 
@@ -104,7 +104,7 @@ describe('Patch RPG system status in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(body.message).toBe('NotFound a system with provided ID');
+            expect(body.message).toBe('NotFound an object with provided ID');
             expect(body.name).toBe('NotFound');
         });
     });

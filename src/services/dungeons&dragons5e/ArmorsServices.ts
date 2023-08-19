@@ -1,9 +1,10 @@
 import { DnDArmor, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
-import { errorMessage } from 'src/support/helpers/errorMessage';
-import ValidateData from 'src/support/helpers/ValidateData';
 import UpdateResponse from 'src/types/UpdateResponse';
+import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import ValidateData from 'src/support/helpers/ValidateData';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class ArmorsServices implements Service<Internacional<DnDArmor>> {
     constructor(
@@ -30,33 +31,37 @@ export default class ArmorsServices implements Service<Internacional<DnDArmor>> 
     public async findOne(_id: string): Promise<Internacional<DnDArmor>> {
         const response = await this._model.findOne(_id);
 
-        this._logger('info', 'Armor entity found with success');
-        return this._validate.response(response, errorMessage.notFound.armor);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+
+        this._logger('info', 'Armor entity updated with success');
+
+        return response;
     }
 
     public async update(_id: string, payload: Internacional<DnDArmor>): Promise<Internacional<DnDArmor>> {
         const { helpers, armorZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(armorZod), payload);
 
-        this._validate.active(payload.active, errorMessage.badRequest.default.payloadActive);
+        this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
         this._logger('info', 'Armor entity updated with success');
-        return this._validate.response(response, errorMessage.notFound.armor);
+
+        return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        let response = await this._model.findOne(_id);
+        const response = await this._model.findOne(_id);
 
-        response = this._validate.response(response, errorMessage.notFound.armor);
+        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.active(response.active === query, errorMessage.badRequest.default.responseActive(query));
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
         response.active = query;
 
         await this._model.update(_id, response);
-
         const responseMessage = {
             message: `Armor ${response._id as string} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
