@@ -27,7 +27,7 @@ app.use(express.json())
 
 if (process.env.NODE_ENV === 'develop') {
     autoSwagger(RoutesWrapper.declareRoutes())
-        .then((_result: any) => logger('info', 'swagger document generated'))
+        .then((_result: any) => { logger('info', 'swagger document generated'); })
         .catch((error: any) => {
             console.log(error);
         });
