@@ -5,7 +5,7 @@ import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersCont
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 describe('Services :: MonstersControllers', () => {
     const DM_MOCK = new DatabaseManagement();

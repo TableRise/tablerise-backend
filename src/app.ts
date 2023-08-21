@@ -14,7 +14,7 @@ import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAn
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 
 const autoSwagger = require('@tablerise/auto-swagger');
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 const app: Application = express();
 

@@ -5,7 +5,7 @@ import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsController
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 describe('Services :: FeatsControllers', () => {
     const DM_MOCK = new DatabaseManagement();

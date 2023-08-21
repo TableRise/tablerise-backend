@@ -3,7 +3,7 @@
 import DatabaseManagement from '@tablerise/database-management';
 import app from './app';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 const port = process.env.PORT as string;
 
