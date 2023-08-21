@@ -2,6 +2,7 @@
 import 'module-alias/register';
 import 'express-async-errors';
 import 'dotenv/config';
+import logger from '@tablerise/dynamic-logger';
 
 import express, { Application } from 'express';
 import cors from 'cors';
@@ -14,7 +15,6 @@ import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAn
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 
 const autoSwagger = require('@tablerise/auto-swagger');
-import logger from '@tablerise/dynamic-logger';
 
 const app: Application = express();
 
