@@ -4,7 +4,7 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG monsters in database', () => {
     let model: MongoModel<Internacional<DnDMonster>>;
@@ -20,8 +20,12 @@ describe('Put RPG monsters in database', () => {
 
     beforeAll(() => {
         DatabaseManagement.connect(true)
-            .then(() => logger('info', 'Test database connection instanciated'))
-            .catch(() => logger('error', 'Test database connection failed'));
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
 
         const DM = new DatabaseManagement();
         model = DM.modelInstance('dungeons&dragons5e', 'Monsters');

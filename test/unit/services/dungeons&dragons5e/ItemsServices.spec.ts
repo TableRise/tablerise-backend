@@ -2,7 +2,7 @@ import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 describe('Services :: ItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();

@@ -4,7 +4,7 @@ import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import getErrorName from 'src/support/helpers/getErrorName';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 describe('Helpers :: ValidateData', () => {
     const testToThrowError = (err: Error, errMessage: string, code: number): void => {

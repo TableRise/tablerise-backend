@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 
-const logger = require('@tablerise/dynamic-logger');
+import logger from '@tablerise/dynamic-logger';
 
 const router = Router();
 
