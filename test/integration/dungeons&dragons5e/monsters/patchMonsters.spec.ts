@@ -15,8 +15,12 @@ describe('Patch RPG monsters in database', () => {
 
     beforeAll(() => {
         DatabaseManagement.connect(true)
-            .then(() => { logger('info', 'Test database connection instanciated'); })
-            .catch(() => { logger('error', 'Test database connection failed'); });
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
 
         const DM = new DatabaseManagement();
         model = DM.modelInstance('dungeons&dragons5e', 'Monsters');
