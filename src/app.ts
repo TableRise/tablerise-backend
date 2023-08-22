@@ -2,13 +2,13 @@
 import 'module-alias/register';
 import 'express-async-errors';
 import 'dotenv/config';
-import logger from '@tablerise/dynamic-logger';
 
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import SwaggerDocument from '../api-docs/swagger-doc.json';
 import swaggerUI from 'swagger-ui-express';
+import logger from '@tablerise/dynamic-logger';
+import SwaggerDocument from '../api-docs/swagger-doc.json';
 
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAndDragonsRouteMiddleware';
