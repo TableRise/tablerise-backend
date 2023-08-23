@@ -16,6 +16,7 @@ import {
     DnDMonster,
 } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
+import { routeOriginal } from '@tablerise/auto-swagger';
 
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 
@@ -267,4 +268,4 @@ export default [
         null,
         false,
     ],
-];
+] as routeOriginal;
