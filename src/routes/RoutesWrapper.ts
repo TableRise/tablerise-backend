@@ -1,6 +1,7 @@
+import { routeOriginal } from '@tablerise/auto-swagger';
 import dungeonsAndDragonsRoutes from 'src/routes/dungeons&dragons5e';
 import dungeonsAndDragonsSwagger from 'src/routes/dungeons&dragons5e/swagger';
-import Route, { RouteWrapperDeclared } from 'src/types/Route';
+import Route from 'src/types/Route';
 
 export default class RoutesWrapper {
     static routes(): Route {
@@ -10,7 +11,7 @@ export default class RoutesWrapper {
     }
 
     // prettier-ignore
-    static declareRoutes(): RouteWrapperDeclared[][] {
+    static declareRoutes(): routeOriginal {
     return [
             ...dungeonsAndDragonsSwagger
         ];
