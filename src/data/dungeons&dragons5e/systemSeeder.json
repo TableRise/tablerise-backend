@@ -1,0 +1,23 @@
+[
+    {
+        "active": true,
+        "name": "Dungeons&Dragons",
+        "content": {
+            "races": [],
+            "classes": [],
+            "spells": [],
+            "items": [],
+            "weapons": [],
+            "armors": [],
+            "feats": [],
+            "realms": [],
+            "gods": [],
+            "monsters": []
+        },
+        "references": {
+            "srd": "https://dnd.wizards.com/resources/systems-reference-document",
+            "icon": "https://i.ibb.co/QNC8XnD/DnD-Logo.png",
+            "cover": "https://i.ibb.co/dMLYFHF/2560x1600-starter.jpg"
+        }
+    }
+]

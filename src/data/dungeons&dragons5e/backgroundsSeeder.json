@@ -1,0 +1,99 @@
+[
+    {
+        "active": true,
+        "en": {
+            "name": "Acolyte",
+            "description": "You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshippers into the presence of the divine. You are not necessarily a cleric—performing sacred rites is not the same thing as channeling divine power.\nChoose a god, a pantheon of gods, or some other quasi-divine being from among those listed in 'Fantasy-Historical Pantheons' or those specified by your GM, and work with your GM to detail the nature of your religious service. Were you a lesser functionary in a temple, raised from childhood to assist the priests in the sacred rites? Or were you a high priest who suddenly experienced a call to serve your god in a different way? Perhaps you were the leader of a small cult outside of any established temple structure, or even an occult group that served a fiendish master that you now deny.",
+            "skillProficientes": ["Insight", "Religion"],
+            "languages": [2, null],
+            "equipment": "Holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes, and a pouch containing 15 gp.",
+            "characteristics": {
+                "name": "Shelter of the Faithful",
+                "description": "As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle.\nYou might also have ties to a specific temple dedicated to your chosen deity or pantheon, and you have a residence there. This could be the temple where you used to serve, if you remain on good terms with it, or a temple where you have found a new home. While near your temple, you can call upon the priests for assistance, provided the assistance you ask for is not hazardous and you remain in good standing with your temple.",
+                "suggested": {
+                    "personalityTrait": [
+                        "I idolize a particular hero of my faith and constantly refer to that person's deeds and example.",
+                        "I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.",
+                        "I see omens in every event and action. The gods try to speak to us, we just need to listen.",
+                        "Nothing can shake my optimistic attitude.",
+                        "I quote (or misquote) sacred texts and proverbs in almost every situation.",
+                        "I am tolerant (or intolerant) of other faiths and respect (or condemn) the worship of other gods.",
+                        "I've enjoyed fine food, drink, and high society among my temple’s elite. Rough living grates on me.",
+                        "I've spent so long in the temple that I have little practical experience dealing with people in the outside world."
+                    ],
+                    "ideal": [
+                        "Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld. (Lawful)",
+                        "Charity. I always try to help those in need, no matter what the personal cost. (Good)",
+                        "Change. We must help bring about the changes the gods are constantly working in the world. (Chaotic)",
+                        "Power. I hope to one day rise to the top of my faith's religious hierarchy. (Lawful)",
+                        "Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well. (Lawful)",
+                        "Aspiration. I seek to prove myself worthy of my god's favor by matching my actions to my deity's teachings. (Any)"
+                    ],
+                    "bond": [
+                        "I would die to recover an ancient relic of my faith that was lost long ago.",
+                        "I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.",
+                        "I owe my life to the priest who took me in when my parents died.",
+                        "Everything I do is for the common people.",
+                        "I will do anything to protect the temple where I served.",
+                        "I seek to preserve a sacred text that my enemies seek to destroy."
+                    ],
+                    "flaw": [
+                        "Judge others harshly, and myself even more severely.",
+                        "I put too much trust in those who wield power within my temple's hierarchy.",
+                        "My piety sometimes leads me to blindly trust those that profess faith in my god.",
+                        "I am inflexible in my thinking.",
+                        "I am suspicious of strangers and expect the worst of them.",
+                        "Once I pick a goal, I become obsessed with it to the detriment of everything else in my life."
+                    ]
+                }
+            }
+        },
+        "pt": {
+            "name": "Acolyte",
+            "description": "Você passou sua vida no serviço de um templo dedicado a um deus específico ou panteão de deuses. Você age como intermediário entre o reino sagrado e o mundo mortal, realizando rituais sagrados e oferecendo sacrifícios para conduzir adoradores à presença do divino. Você não é necessariamente um clérigo - realizar rituais sagrados não é a mesma coisa que canalizar poder divino.\nEscolha um deus, um panteão de deuses ou algum outro ser quase-divino entre aqueles listados em 'Fantasy-Historical Pantheons' ou especificados pelo seu GM, e trabalhe com seu GM para detalhar a natureza do seu serviço religioso. Você era um funcionário de menor importância em um templo, criado desde a infância para auxiliar os sacerdotes nos rituais sagrados? Ou era um sumo sacerdote que de repente recebeu um chamado para servir seu deus de uma maneira diferente? Talvez você fosse o líder de um pequeno culto fora de qualquer estrutura de templo estabelecida, ou até mesmo um grupo ocultista que servia a um mestre demoníaco que agora você nega.",
+            "skillProficientes": ["Percepção", "Religião"],
+            "languages": [2, null],
+            "equipment": "Símbolo sagrado (um presente para você quando ingressou no sacerdócio), um livro de orações ou roda de orações, 5 bastões de incenso, vestes, um conjunto de roupas comuns e uma bolsa contendo 15 po.",
+            "characteristics": {
+                "name": "Amparo dos Fiéis",
+                "description": "Como acólito, você recebe o respeito daqueles que compartilham sua fé e pode realizar as cerimônias religiosas de sua divindade. Você e seus companheiros de aventura podem esperar receber cura e cuidados gratuitos em um templo, santuário ou outra presença estabelecida de sua fé, embora você deva fornecer quaisquer componentes materiais necessários para as magias. Aqueles que compartilham sua religião o apoiarão (apenas você) em um estilo de vida modesto.\nVocê também pode ter laços com um templo específico dedicado à sua divindade ou panteão escolhido, e ter uma residência lá. Isso pode ser o templo onde você costumava servir, se você mantiver bons termos com ele, ou um templo onde você encontrou um novo lar. Quando estiver perto do seu templo, você pode pedir ajuda aos sacerdotes, desde que a ajuda solicitada não seja perigosa e você mantenha uma boa relação com seu templo.",
+                "suggested": {
+                    "personalityTrait": [
+                        "Idolatro um herói específico da minha fé e constantemente faço referência aos feitos e exemplo dessa pessoa.",
+                        "Consigo encontrar pontos em comum entre os inimigos mais ferozes, empatizando com eles e sempre trabalhando pela paz.",
+                        "Vejo presságios em cada evento e ação. Os deuses tentam falar conosco, só precisamos ouvir.",
+                        "Nada abala minha atitude otimista.",
+                        "Cito (ou deturpo) textos sagrados e provérbios em quase todas as situações.",
+                        "Sou tolerante (ou intolerante) em relação a outras fé e respeito (ou condeno) a adoração de outros deuses.",
+                        "Desfrutei de boa comida, bebida e alta sociedade entre a elite do meu templo. Viver de forma simples me incomoda.",
+                        "Passei tanto tempo no templo que tenho pouca experiência prática em lidar com pessoas no mundo exterior."
+                    ],
+                    "ideal": [
+                        "Tradição. As antigas tradições de adoração e sacrifício devem ser preservadas e mantidas. (Leal)",
+                        "Caridade. Sempre tento ajudar aqueles em necessidade, não importando o custo pessoal. (Bom)",
+                        "Mudança. Devemos ajudar a promover as mudanças que os deuses estão constantemente realizando no mundo. (Caótico)",
+                        "Poder. Espero um dia chegar ao topo da hierarquia religiosa da minha fé. (Leal)",
+                        "Fé. Confio que minha divindade guiará minhas ações. Tenho fé de que, se trabalhar duro, as coisas correrão bem. (Leal)",
+                        "Aspiração. Busco me provar digno do favor do meu deus, vivendo de acordo com os ensinamentos dele. (Qualquer)"
+                    ],
+                    "bond": [
+                        "Daria minha vida para recuperar um relicário antigo da minha fé que foi perdido há muito tempo.",
+                        "Um dia me vingarei da hierarquia corrupta do templo que me rotulou como herege.",
+                        "Devo minha vida ao sacerdote que me acolheu quando meus pais morreram.",
+                        "Tudo o que faço é para o povo comum.",
+                        "Farei qualquer coisa para proteger o templo onde servi.",
+                        "Busco preservar um texto sagrado que meus inimigos buscam destruir."
+                    ],
+                    "flaw": [
+                        "Julgar os outros severamente e a mim mesmo ainda mais.",
+                        "Colocar confiança demais naqueles que detêm poder dentro da hierarquia do meu templo.",
+                        "Minha piedade às vezes me leva a confiar cegamente naqueles que professam fé no meu deus.",
+                        "Ser inflexível em meu pensamento.",
+                        "Ser desconfiado de estranhos e esperar o pior deles.",
+                        "Uma vez que defino um objetivo, me torno obcecado por ele em detrimento de tudo o mais em minha vida."
+                    ]
+                }
+            }
+        }
+    }
+]
