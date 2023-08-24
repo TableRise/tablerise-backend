@@ -107,14 +107,7 @@ export default [
     ['/dnd5e/backgrounds', 'backgrounds', 'get', null, null, false],
     ['/dnd5e/backgrounds/disabled', 'backgrounds', 'get', null, null, false],
     ['/dnd5e/backgrounds/{_id}', 'backgrounds', 'get', generateIDParam(), null, false],
-    [
-        '/dnd5e/backgrounds/{_id}',
-        'backgrounds',
-        'put',
-        generateIDParam(),
-        backgroundWithoutId,
-        false,
-    ],
+    ['/dnd5e/backgrounds/{_id}', 'backgrounds', 'put', generateIDParam(), backgroundWithoutId, false],
     [
         '/dnd5e/backgrounds/{_id}',
         'backgrounds',
