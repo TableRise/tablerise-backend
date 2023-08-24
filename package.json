@@ -55,7 +55,7 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/auto-swagger": "2.1.1",
+        "@tablerise/auto-swagger": "2.2.0",
         "@tablerise/database-management": "2.6.2",
         "@tablerise/dynamic-logger": "1.3.0",
         "cors": "2.8.5",
