@@ -1,8 +1,8 @@
 {
-    "name": "backend-table-rise",
-    "version": "1.0.0",
+    "name": "backend-tablerise",
+    "version": "1.1.0",
     "description": "A project to provide an API to TableRise application",
-    "main": "src/server.js",
+    "main": "build/server.js",
     "scripts": {
         "start": "npm run build && node ./build/src/server.js",
         "build": "tsc",
