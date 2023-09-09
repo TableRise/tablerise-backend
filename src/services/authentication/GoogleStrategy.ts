@@ -8,8 +8,8 @@ const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 passport.use(
     new GoogleStrategy(
         {
-            clientID: GOOGLE_CLIENT_ID as string || '',
-            clientSecret: GOOGLE_CLIENT_SECRET as string || '',
+            clientID: (GOOGLE_CLIENT_ID as string) || '',
+            clientSecret: (GOOGLE_CLIENT_SECRET as string) || '',
             callbackURL: 'http://localhost:3001/auth/google/callback',
             passReqToCallback: true,
             scope: ['profile', 'email'],
