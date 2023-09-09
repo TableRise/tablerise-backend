@@ -1,8 +1,8 @@
-import { Response, Request } from "express";
-import OAuthServices from "src/services/user/OAuthServices";
-import logger from "@tablerise/dynamic-logger";
-import OAuthControllers from "src/controllers/user/OAuthControllers";
-import { HttpStatusCode } from "src/support/helpers/HttpStatusCode";
+import { Response, Request } from 'express';
+import OAuthServices from 'src/services/user/OAuthServices';
+import logger from '@tablerise/dynamic-logger';
+import OAuthControllers from 'src/controllers/user/OAuthControllers';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 describe('Controllers :: User :: OAuthControllers', () => {
     const OAuthServicesMock = new OAuthServices(logger);
@@ -24,11 +24,11 @@ describe('Controllers :: User :: OAuthControllers', () => {
         });
 
         it('should return correct data in response json with status 200', async () => {
-            request.user = {}
+            request.user = {};
             await OAuthControllersMock.google(request, response);
 
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
             expect(response.json).toHaveBeenCalledWith({});
         });
-    })
+    });
 });

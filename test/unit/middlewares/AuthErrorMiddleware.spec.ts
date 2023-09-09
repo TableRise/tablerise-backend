@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import AuthErrorMiddleware from "src/middlewares/AuthErrorMiddleware";
-import { HttpStatusCode } from "src/support/helpers/HttpStatusCode";
+import { Request, Response } from 'express';
+import AuthErrorMiddleware from 'src/middlewares/AuthErrorMiddleware';
+import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 describe('Middlewares :: AuthErrorMiddleware', () => {
     describe('When called', () => {
         const request = {} as Request;
-        const response = {}  as Response;
+        const response = {} as Response;
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
