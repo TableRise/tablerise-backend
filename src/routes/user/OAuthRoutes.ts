@@ -1,4 +1,3 @@
-import 'src/services/authentication/GoogleStrategy';
 import { Router } from 'express';
 import passport from 'passport';
 import logger from '@tablerise/dynamic-logger';
