@@ -1,7 +1,8 @@
+import { routeOriginal } from '@tablerise/auto-swagger';
 import { Router } from 'express';
 import Mock from 'src/types/Mock';
 
-export default interface IRoutes {
+export default interface Route {
     'dungeons&dragons5e': {
         system: Router;
         realms: Router;
@@ -18,6 +19,14 @@ export default interface IRoutes {
         wikis: Router;
         monsters: Router;
     };
+    user: {
+        OAuth: Router;
+    };
+}
+
+export interface RouteDeclarations {
+    'dungeons&dragons5e': routeOriginal,
+    user: routeOriginal
 }
 
 export interface RouteDeclareParams {
