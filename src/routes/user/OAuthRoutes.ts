@@ -7,7 +7,7 @@ import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import OAuthServices from 'src/services/user/OAuthServices';
 import AuthErrorMiddleware from 'src/middlewares/AuthErrorMiddleware';
 
-const services = new OAuthServices();
+const services = new OAuthServices(logger);
 const controllers = new OAuthControllers(services, logger);
 
 const route = Router();

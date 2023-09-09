@@ -5,7 +5,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 
-describe('Services :: RealmsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
     const ValidateDataMock = new ValidateData(logger);
