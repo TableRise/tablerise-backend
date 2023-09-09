@@ -24,12 +24,14 @@ const COOKIE_AGE = 1000 * 60 * 60 * 120;
 const app: Application = express();
 
 app.use(express.json())
-    .use(session({
-        secret: 'cats',
-        resave: false,
-        saveUninitialized: true,
-        cookie: { maxAge: COOKIE_AGE }
-    }))
+    .use(
+        session({
+            secret: 'cats',
+            resave: false,
+            saveUninitialized: true,
+            cookie: { maxAge: COOKIE_AGE },
+        })
+    )
     .use(passport.session())
     .use(cors())
     .use(helmet())

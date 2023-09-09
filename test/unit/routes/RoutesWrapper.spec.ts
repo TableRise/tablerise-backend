@@ -38,8 +38,8 @@ describe('Routes :: RoutesWrapper', () => {
                 monsters: {} as Router,
             },
             user: {
-                OAuth: {} as Router
-            }
+                OAuth: {} as Router,
+            },
         };
 
         it('should return the correct routes for dungeons&dragons5e', () => {

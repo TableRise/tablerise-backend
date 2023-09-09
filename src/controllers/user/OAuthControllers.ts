@@ -13,7 +13,7 @@ export default class OAuthControllers {
 
     public async google(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to auth with google');
-        
+
         const { user } = req;
 
         const request = await this._service.google(user);

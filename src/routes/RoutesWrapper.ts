@@ -8,7 +8,7 @@ export default class RoutesWrapper {
     static routes(): Route {
         return {
             'dungeons&dragons5e': dungeonsAndDragonsRoutes,
-            user: userRoutes
+            user: userRoutes,
         };
     }
 

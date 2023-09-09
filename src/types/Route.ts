@@ -25,8 +25,8 @@ export default interface Route {
 }
 
 export interface RouteDeclarations {
-    'dungeons&dragons5e': routeOriginal,
-    user: routeOriginal
+    'dungeons&dragons5e': routeOriginal;
+    user: routeOriginal;
 }
 
 export interface RouteDeclareParams {
