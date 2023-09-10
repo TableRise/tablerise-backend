@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
-
 import logger from '@tablerise/dynamic-logger';
 
 const router = Router();
