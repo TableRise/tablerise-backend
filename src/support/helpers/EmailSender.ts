@@ -11,20 +11,20 @@ export default class EmailSender {
 
     static async handleEmail(contentType: 'html' | 'text', content: CommonContent, target: string): Promise<boolean> {
         const config = {
-            host: "smtp.gmail.com",
+            host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
                 user: EMAIL_SENDING_USER as string,
-                pass: EMAIL_SENDING_PASSWORD as string
-            }
-        }
+                pass: EMAIL_SENDING_PASSWORD as string,
+            },
+        };
 
         const message: EmailMessage = {
             from: 'TableRise <tablerise@gmail.com>',
             to: target,
             subject: content.subject,
-        }
+        };
 
         if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
@@ -43,7 +43,7 @@ export default class EmailSender {
     public async send(type: EmailSenderType, content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
-        }
+        };
 
         // @ts-expect-error :: The options below will with sure match with the string passed in arg type;
         const result = await options[type](content, target);

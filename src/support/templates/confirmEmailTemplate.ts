@@ -121,4 +121,4 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
             </section>
         </div>
     </body>
-</html>`
+</html>`;

@@ -1,5 +1,5 @@
 import confirmEmailTemplate from './confirmEmailTemplate';
 
 export default {
-    confirmEmail: confirmEmailTemplate
-}
+    confirmEmail: confirmEmailTemplate,
+};
