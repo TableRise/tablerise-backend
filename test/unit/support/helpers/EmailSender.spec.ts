@@ -21,7 +21,7 @@ describe('Support :: Helpers :: EmailSender', () => {
             it('should return true when the process is done with success', async () => {
                 const testContent = {
                     subject: 'Test',
-                    body: 'Test'
+                    body: 'Test',
                 };
 
                 const sendEmailTest = await emailSender.send('common', testContent, 'test@email.com');
