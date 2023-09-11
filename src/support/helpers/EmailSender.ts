@@ -26,7 +26,7 @@ export default class EmailSender {
             subject: content.subject,
         };
 
-        if (contentType === 'html') message.html = content.body;
+        // if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
 
         const transporter = nodemailer.createTransport(config);
