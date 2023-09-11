@@ -1,21 +1,16 @@
 import EmailSender from 'src/support/helpers/EmailSender';
 
+jest.mock('nodemailer', () => ({
+    createTransport: jest.fn().mockReturnValue({
+        sendMail: jest.fn()
+            .mockResolvedValueOnce(true),
+    }),
+}));
+
 describe('Support :: Helpers :: EmailSender', () => {
     describe('When data is correct to send an email', () => {
         describe('And type is common', () => {
             const emailSender = new EmailSender();
-
-            beforeAll(() => {
-                jest.mock('nodemailer', () => ({
-                    createTransport: jest.fn().mockReturnValue({
-                        sendMail: jest.fn().mockResolvedValue(true),
-                    }),
-                }));
-            });
-
-            afterAll(() => {
-                jest.clearAllMocks();
-            });
 
             it('should return true when the process is done with success', async () => {
                 const testContent = {
