@@ -2,8 +2,7 @@ import EmailSender from 'src/support/helpers/EmailSender';
 
 jest.mock('nodemailer', () => ({
     createTransport: jest.fn().mockReturnValue({
-        sendMail: jest.fn()
-            .mockResolvedValueOnce(true),
+        sendMail: jest.fn().mockResolvedValueOnce(true),
     }),
 }));
 
