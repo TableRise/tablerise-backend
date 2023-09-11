@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 import EmailSender from 'src/support/helpers/EmailSender';
 
 describe('Support :: Helpers :: EmailSender', () => {
