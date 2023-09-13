@@ -22,6 +22,15 @@ route.get(
     })
 );
 route.get('/google/register', controllers.google);
+route.get('/facebook', passport.authenticate('facebook'));
+route.get(
+    '/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect: '/auth/facebook/register',
+        failureRedirect: '/auth/error',
+    })
+);
+route.get('/facebook/register', controllers.facebook);
 route.get('/error', AuthErrorMiddleware);
 
 export default route;
