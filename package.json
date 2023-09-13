@@ -73,7 +73,7 @@
         "module-alias": "2.2.3",
         "nodemailer": "6.9.5",
         "passport": "0.6.0",
-        "passport-facebook": "^3.0.0",
+        "passport-facebook": "3.0.0",
         "passport-google-oauth20": "2.0.0",
         "swagger-ui-express": "4.6.3",
         "zod": "3.21.4"
