@@ -12,7 +12,7 @@ passport.use(
             clientSecret: (FACEBOOK_CLIENT_SECRET as string) || 'secret',
             callbackURL: 'http://localhost:3001/auth/facebook/callback',
             passReqToCallback: true,
-            scope: ['profile', 'email'],
+            scope: ['email'],
             profileFields: ['id', 'displayName', 'email'],
         },
         (request, accessToken, refreshToken, profile, done) => {
