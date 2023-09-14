@@ -3,6 +3,7 @@ import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default class SystemServices implements Service<DnDSystem> {
@@ -78,33 +79,22 @@ export default class SystemServices implements Service<DnDSystem> {
         return response;
     }
 
-    public async activate(_id: string): Promise<string> {
-        const response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
+    public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
+        const response = await this._model.findOne(_id);
 
         if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
 
-        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = true;
-
+        response.active = query;
         await this._model.update(_id, response);
 
-        this._logger('info', 'System entity activated with success');
+        const responseMessage = {
+            message: `System ${response.name as string} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
 
-        return `System ${response._id} was activated`;
-    }
-
-    public async deactivate(_id: string): Promise<string> {
-        const response = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
-
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
-
-        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
-
-        response.active = true;
-        await this._model.update(_id, response);
-
-        this._logger('info', 'System entity deactivated with success');
-        return `System ${response._id} was deactivated`;
+        this._logger('info', `System availability ${query ? 'activated' : 'deactivated'} with success`);
+        return responseMessage;
     }
 }
