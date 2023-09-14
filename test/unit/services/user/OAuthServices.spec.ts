@@ -12,4 +12,11 @@ describe('Services :: User :: OAuthServices', () => {
             expect(result).toBe(user);
         });
     });
+
+    describe('When a signup is made through facebook', () => {
+        it('test', async () => {
+            const result = await OAuthServicesMock.facebook(user);
+            expect(result).toBe(user);
+        });
+    });
 });

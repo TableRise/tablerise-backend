@@ -7,4 +7,9 @@ export default class OAuthServices {
         this._logger('info', 'Registration in the database made with Google was successful');
         return user;
     }
+
+    public async facebook(user: any): Promise<any> {
+        this._logger('info', 'Registration in the database made with Facebook was successful');
+        return user;
+    }
 }

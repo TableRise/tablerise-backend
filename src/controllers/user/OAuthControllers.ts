@@ -9,6 +9,7 @@ export default class OAuthControllers {
         private readonly _logger: Logger
     ) {
         this.google = this.google.bind(this);
+        this.facebook = this.facebook.bind(this);
     }
 
     public async google(req: Request, res: Response): Promise<Response> {
@@ -17,6 +18,15 @@ export default class OAuthControllers {
         const { user } = req;
 
         const request = await this._service.google(user);
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async facebook(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to auth with facebook');
+
+        const { user } = req;
+
+        const request = await this._service.facebook(user);
         return res.status(HttpStatusCode.OK).json(request);
     }
 }
