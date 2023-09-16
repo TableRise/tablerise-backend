@@ -61,7 +61,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "2.2.1",
-        "@tablerise/database-management": "2.6.2",
+        "@tablerise/database-management": "2.7.1",
         "@tablerise/dynamic-logger": "1.3.0",
         "cors": "2.8.5",
         "dotenv": "16.0.3",
