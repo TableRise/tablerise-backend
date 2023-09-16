@@ -1,4 +1,5 @@
 import 'src/services/authentication/GoogleStrategy';
+import 'src/services/authentication/FacebookStrategy';
 
 import { Router } from 'express';
 import passport from 'passport';
@@ -22,6 +23,7 @@ route.get(
     })
 );
 route.get('/google/register', controllers.google);
+
 route.get('/facebook', passport.authenticate('facebook'));
 route.get(
     '/facebook/callback',
