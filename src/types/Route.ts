@@ -21,6 +21,7 @@ export default interface Route {
     };
     user: {
         OAuth: Router;
+        user: Router;
     };
 }
 
