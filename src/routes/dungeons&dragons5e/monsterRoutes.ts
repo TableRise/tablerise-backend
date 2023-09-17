@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
-import DatabaseManagement from '@tablerise/database-management';
+import DatabaseManagement, { SchemasDnDType } from '@tablerise/database-management';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -12,7 +13,7 @@ const validateData = new ValidateData(logger);
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('dungeons&dragons5e', 'Monsters');
-const schema = DM.schemaInstance('dungeons&dragons5e');
+const schema = DM.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
 
 const services = new MonstersServices(model, logger, validateData, schema);
 const controllers = new MonstersControllers(services, logger);
