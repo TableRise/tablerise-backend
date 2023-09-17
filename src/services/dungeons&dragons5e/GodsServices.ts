@@ -1,34 +1,37 @@
-import { DnDGod, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from '@tablerise/database-management/dist/src/schemas';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class GodsServices implements Service<Internacional<DnDGod>> {
+export default class GodsServices implements Service<Internacional<God>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDGod>>,
+        private readonly _model: MongoModel<Internacional<God>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDGod>>> {
+    public async findAll(): Promise<Array<Internacional<God>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All god entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDGod>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<God>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All god entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDGod>> {
+    public async findOne(_id: string): Promise<Internacional<God>> {
         const response = await this._model.findOne(_id);
 
         if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
@@ -37,7 +40,7 @@ export default class GodsServices implements Service<Internacional<DnDGod>> {
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDGod>): Promise<Internacional<DnDGod>> {
+    public async update(_id: string, payload: Internacional<God>): Promise<Internacional<God>> {
         const { helpers, godZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(godZod), payload);
 

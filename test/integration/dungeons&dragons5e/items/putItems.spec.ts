@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG Items in database', () => {
-    let model: MongoModel<Internacional<DnDItem>>;
-    const item = mocks.item.instance as Internacional<DnDItem>;
+    let model: MongoModel<Internacional<Item>>;
+    const item = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemPayload } = item;
 
     const newItemPayload = {
@@ -61,7 +61,7 @@ describe('Put RPG Items in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await requester
                 .put(`/dnd5e/items/${documentId}`)
-                .send({ data: null } as unknown as Internacional<DnDItem>)
+                .send({ data: null } as unknown as Internacional<Item>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

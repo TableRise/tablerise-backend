@@ -16,7 +16,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
 
     const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };

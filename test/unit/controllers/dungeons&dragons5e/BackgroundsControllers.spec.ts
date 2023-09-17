@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
-    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,
         logger,
@@ -22,7 +22,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
     );
     const BackgroundsControllersMock = new BackgroundsControllers(BackgroundsServicesMock, logger);
 
-    const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;
+    const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const request = {} as Request;
     const response = {} as Response;
 

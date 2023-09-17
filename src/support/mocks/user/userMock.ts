@@ -1,4 +1,6 @@
-import { User, UserDetail } from '@tablerise/database-management';
+import { UserDetail } from "src/schemas/user/userDetailsValidationSchema"
+import { User } from "src/schemas/user/usersValidationSchema"
+
 
 const userMock: User = {
     providerId: '39dbb501-d973-4362-9005-fbc3750b83d3',

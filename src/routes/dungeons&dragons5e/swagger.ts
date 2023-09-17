@@ -24,43 +24,43 @@ const systemInstance = mocks.system.instance as DnDSystem & { _id: string };
 const { _id: _, content: __, ...systemWithoutContent } = systemInstance;
 const updateSystemInstance = mocks.updateSystemContent;
 
-const realmInstance = mocks.realm.instance as Internacional<DnDRealm>;
+const realmInstance = mocks.realm.instance as Internacional<Realm>;
 const { _id: _1, ...realmWithoutId } = realmInstance;
 
-const godInstance = mocks.god.instance as Internacional<DnDGod>;
+const godInstance = mocks.god.instance as Internacional<God>;
 const { _id: _2, ...godWithoutId } = godInstance;
 
-const backgroundInstance = mocks.background.instance as Internacional<DnDBackground>;
+const backgroundInstance = mocks.background.instance as Internacional<Background>;
 const { _id: _3, ...backgroundWithoutId } = backgroundInstance;
 
-const featInstance = mocks.feat.instance as Internacional<DnDFeat>;
+const featInstance = mocks.feat.instance as Internacional<Feat>;
 const { _id: _4, ...featWithoutId } = featInstance;
 
-const weaponInstance = mocks.weapon.instance as Internacional<DnDWeapon>;
+const weaponInstance = mocks.weapon.instance as Internacional<Weapon>;
 const { _id: _5, ...weaponWithoutId } = weaponInstance;
 
-const armorInstance = mocks.armor.instance as Internacional<DnDArmor>;
+const armorInstance = mocks.armor.instance as Internacional<Armor>;
 const { _id: _6, ...armorWithoutId } = armorInstance;
 
-const itemInstance = mocks.item.instance as Internacional<DnDItem>;
+const itemInstance = mocks.item.instance as Internacional<Item>;
 const { _id: _7, ...itemWithoutId } = itemInstance;
 
-const raceInstance = mocks.race.instance as Internacional<DnDRace>;
+const raceInstance = mocks.race.instance as Internacional<Race>;
 const { _id: _8, ...raceWithoutId } = raceInstance;
 
-const classInstance = mocks.class.instance as Internacional<DnDClass>;
+const classInstance = mocks.class.instance as Internacional<Class>;
 const { _id: _9, ...classWithoutId } = classInstance;
 
-const magicItemInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+const magicItemInstance = mocks.magicItems.instance as Internacional<MagicItem>;
 const { _id: _10, ...magicItemWithoutId } = magicItemInstance;
 
-const spellInstance = mocks.spell.instance as Internacional<DnDSpell>;
+const spellInstance = mocks.spell.instance as Internacional<Spell>;
 const { _id: _11, ...spellWithoutId } = spellInstance;
 
-const wikiInstance = mocks.wiki.instance as Internacional<DnDWiki>;
+const wikiInstance = mocks.wiki.instance as Internacional<Wiki>;
 const { _id: _12, ...wikiWithoutId } = wikiInstance;
 
-const monsterInstance = mocks.monster.instance as Internacional<DnDMonster>;
+const monsterInstance = mocks.monster.instance as Internacional<Monster>;
 const { _id: _13, ...monsterWithoutId } = monsterInstance;
 
 export default [

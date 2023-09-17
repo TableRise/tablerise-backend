@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG spells in database', () => {
-    let model: MongoModel<Internacional<DnDSpell>>;
-    const _spell = mocks.spell.instance as Internacional<DnDSpell>;
+    let model: MongoModel<Internacional<Spell>>;
+    const _spell = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellPayload } = _spell;
 
     let documentId: string;

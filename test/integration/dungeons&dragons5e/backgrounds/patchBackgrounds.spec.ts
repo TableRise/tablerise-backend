@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG backgrounds in database', () => {
-    let model: MongoModel<Internacional<DnDBackground>>;
-    const background = mocks.background.instance as Internacional<DnDBackground>;
+    let model: MongoModel<Internacional<Background>>;
+    const background = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundPayload } = background;
 
     let documentId: string;

@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG realms in database', () => {
-    let model: MongoModel<Internacional<DnDRealm>>;
-    const _realm = mocks.realm.instance as Internacional<DnDRealm>;
+    let model: MongoModel<Internacional<Realm>>;
+    const _realm = mocks.realm.instance as Internacional<Realm>;
     const { _id: _, ...realmPayload } = _realm;
 
     let documentId: string;

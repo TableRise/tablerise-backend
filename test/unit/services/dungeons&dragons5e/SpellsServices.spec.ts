@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
-    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
 
-    const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
+    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 
     describe('When the recover all enabled spells service is called', () => {
@@ -88,14 +88,14 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await SpellsServicesMock.update(
                 spellMockID,
-                spellMockPayloadWithoutActive as Internacional<DnDSpell>
+                spellMockPayloadWithoutActive as Internacional<Spell>
             );
             expect(responseTest).toBe(spellMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await SpellsServicesMock.update(spellMockID, spellMockPayloadWrong as Internacional<DnDSpell>);
+                await SpellsServicesMock.update(spellMockID, spellMockPayloadWrong as Internacional<Spell>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -107,7 +107,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<DnDSpell>);
+                await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<Spell>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -120,7 +120,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.update(
                     'inexistent_id',
-                    spellMockPayloadWithoutActive as Internacional<DnDSpell>
+                    spellMockPayloadWithoutActive as Internacional<Spell>
                 );
             } catch (error) {
                 const err = error as Error;

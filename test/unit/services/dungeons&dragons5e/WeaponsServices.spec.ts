@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons');
-    const WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
 
-    const weaponMockInstance = mocks.weapon.instance as Internacional<DnDWeapon>;
+    const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponMockPayload } = weaponMockInstance;
 
     describe('When the recover all enabled weapons service is called', () => {
@@ -88,14 +88,14 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await WeaponsServicesMock.update(
                 weaponMockID,
-                weaponMockPayloadWithoutActive as Internacional<DnDWeapon>
+                weaponMockPayloadWithoutActive as Internacional<Weapon>
             );
             expect(responseTest).toBe(weaponMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await WeaponsServicesMock.update(weaponMockID, weaponMockPayloadWrong as Internacional<DnDWeapon>);
+                await WeaponsServicesMock.update(weaponMockID, weaponMockPayloadWrong as Internacional<Weapon>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -107,7 +107,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await WeaponsServicesMock.update('inexistent_id', weaponMockPayload as Internacional<DnDWeapon>);
+                await WeaponsServicesMock.update('inexistent_id', weaponMockPayload as Internacional<Weapon>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -120,7 +120,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
             try {
                 await WeaponsServicesMock.update(
                     'inexistent_id',
-                    weaponMockPayloadWithoutActive as Internacional<DnDWeapon>
+                    weaponMockPayloadWithoutActive as Internacional<Weapon>
                 );
             } catch (error) {
                 const err = error as Error;

@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
 
-    const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
+    const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const { _id: _, ...featMockPayload } = featMockInstance;
 
     describe('When the recover all feats service is called', () => {
@@ -87,14 +87,14 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await FeatsServicesMock.update(
                 featMockID,
-                featMockPayloadWithoutActive as Internacional<DnDFeat>
+                featMockPayloadWithoutActive as Internacional<Feat>
             );
             expect(responseTest).toBe(featMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await FeatsServicesMock.update(featMockID, featMockPayloadWrong as Internacional<DnDFeat>);
+                await FeatsServicesMock.update(featMockID, featMockPayloadWrong as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +106,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<DnDFeat>);
+                await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -117,7 +117,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<DnDFeat>);
+                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
-    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const MagicItemsServicesMock = new MagicItemsServices(
         MagicItemsModelMock,
         logger,
@@ -22,7 +22,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
     );
     const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock, logger);
 
-    const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+    const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const request = {} as Request;
     const response = {} as Response;
 

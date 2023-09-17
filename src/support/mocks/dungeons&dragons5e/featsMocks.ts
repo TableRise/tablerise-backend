@@ -1,15 +1,15 @@
-import { DnDFeat } from '@tablerise/database-management';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const featInstanceEn: DnDFeat = {
+const featInstanceEn: Feat = {
     name: 'Grappler',
     prerequisite: 'Strength 13 or higher',
     description: 'Several skills',
     benefits: ['advantage on attack rolls'],
 };
 
-const featInstancePt: DnDFeat = {
+const featInstancePt: Feat = {
     name: 'Lutador',
     prerequisite: 'Força 13 ou superior',
     description: 'Diversas habilidades',

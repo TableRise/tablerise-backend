@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG Races from database', () => {
-    let model: MongoModel<Internacional<DnDRace>>;
-    const race = mocks.race.instance as Internacional<DnDRace>;
+    let model: MongoModel<Internacional<Race>>;
+    const race = mocks.race.instance as Internacional<Race>;
     const { _id: _, ...raceMockPayload } = race;
 
     let documentId: string;

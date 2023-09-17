@@ -1,34 +1,37 @@
-import { DnDBackground, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import UpdateResponse from 'src/types/UpdateResponse';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { SchemasDnDType } from 'src/schemas';
 
-export default class BackgroundsServices implements Service<Internacional<DnDBackground>> {
+export default class BackgroundsServices implements Service<Internacional<Background>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDBackground>>,
+        private readonly _model: MongoModel<Internacional<Background>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDBackground>>> {
+    public async findAll(): Promise<Array<Internacional<Background>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All background entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDBackground>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Background>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All background entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDBackground>> {
+    public async findOne(_id: string): Promise<Internacional<Background>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Background entity found with success');
@@ -37,7 +40,7 @@ export default class BackgroundsServices implements Service<Internacional<DnDBac
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDBackground>): Promise<Internacional<DnDBackground>> {
+    public async update(_id: string, payload: Internacional<Background>): Promise<Internacional<Background>> {
         const { helpers, backgroundZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(backgroundZod), payload);
 

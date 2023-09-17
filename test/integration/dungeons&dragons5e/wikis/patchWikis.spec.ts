@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG wikis in database', () => {
-    let model: MongoModel<Internacional<DnDWiki>>;
-    const wiki = mocks.wiki.instance as Internacional<DnDWiki>;
+    let model: MongoModel<Internacional<Wiki>>;
+    const wiki = mocks.wiki.instance as Internacional<Wiki>;
     const { _id: _, ...wikiPayload } = wiki;
 
     let documentId: string;

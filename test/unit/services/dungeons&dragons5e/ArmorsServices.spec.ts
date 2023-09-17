@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
 
-    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
+    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
 
     describe('When the recover all enabled armors service is called', () => {
@@ -88,14 +88,14 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ArmorsServicesMock.update(
                 armorMockID,
-                armorMockPayloadWithoutActive as Internacional<DnDArmor>
+                armorMockPayloadWithoutActive as Internacional<Armor>
             );
             expect(responseTest).toBe(armorMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<DnDArmor>);
+                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -107,7 +107,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<DnDArmor>);
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -120,7 +120,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
             try {
                 await ArmorsServicesMock.update(
                     'inexistent_id',
-                    armorMockPayloadWithoutActive as Internacional<DnDArmor>
+                    armorMockPayloadWithoutActive as Internacional<Armor>
                 );
             } catch (error) {
                 const err = error as Error;

@@ -1,27 +1,30 @@
-import { DnDMonster, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from '@tablerise/database-management/dist/src/schemas';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class MonstersService implements Service<Internacional<DnDMonster>> {
+export default class MonstersService implements Service<Internacional<Monster>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDMonster>>,
+        private readonly _model: MongoModel<Internacional<Monster>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDMonster>>> {
+    public async findAll(): Promise<Array<Internacional<Monster>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All monster entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDMonster>> {
+    public async findOne(_id: string): Promise<Internacional<Monster>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Monster entity found with success');
@@ -30,14 +33,14 @@ export default class MonstersService implements Service<Internacional<DnDMonster
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDMonster>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Monster>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All Monster entities found with success');
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDMonster>): Promise<Internacional<DnDMonster>> {
+    public async update(_id: string, payload: Internacional<Monster>): Promise<Internacional<Monster>> {
         const { helpers, monsterZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(monsterZod), payload);
 

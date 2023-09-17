@@ -7,9 +7,9 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG weapons from database', () => {
-    let model: MongoModel<Internacional<DnDWeapon>>;
+    let model: MongoModel<Internacional<Weapon>>;
     const weapon = mocks.weapon.instance;
-    const { _id: _, ...weaponMockPayload } = weapon as Internacional<DnDWeapon>;
+    const { _id: _, ...weaponMockPayload } = weapon as Internacional<Weapon>;
 
     let documentId: string;
 

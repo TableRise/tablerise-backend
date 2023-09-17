@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
     const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);
 
-    const wikiMockInstance = mocks.wiki.instance as Internacional<DnDWiki>;
+    const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
     const request = {} as Request;
     const response = {} as Response;
 

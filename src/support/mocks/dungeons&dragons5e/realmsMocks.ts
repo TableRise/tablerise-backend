@@ -1,14 +1,14 @@
-import { DnDRealm } from '@tablerise/database-management';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const realmInstanceEn: DnDRealm = {
+const realmInstanceEn: Realm = {
     name: 'Neverland',
     description: 'A beautiful land full of magic',
     thumbnail: 'http://neverland.com/picture.jpg',
 };
 
-const realmInstancePt: DnDRealm = {
+const realmInstancePt: Realm = {
     name: 'Neverland',
     description: 'Uma terra linda e cheia de magia',
     thumbnail: 'http://neverland.com/picture.jpg',

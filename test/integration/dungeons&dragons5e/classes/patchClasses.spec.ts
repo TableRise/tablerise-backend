@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG classes in database', () => {
-    let model: MongoModel<Internacional<DnDClass>>;
-    const _class = mocks.class.instance as Internacional<DnDClass>;
+    let model: MongoModel<Internacional<Class>>;
+    const _class = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classPayload } = _class;
 
     let documentId: string;

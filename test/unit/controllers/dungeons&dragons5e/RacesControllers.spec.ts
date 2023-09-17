@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
-    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
     const RacesControllersMock = new RacesControllers(RacesServicesMock, logger);
 
-    const RaceMockInstance = mocks.race.instance as Internacional<DnDRace>;
+    const RaceMockInstance = mocks.race.instance as Internacional<Race>;
     const request = {} as Request;
     const response = {} as Response;
 

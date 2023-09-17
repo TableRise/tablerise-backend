@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms');
-    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
 
-    const realmsMockInstance = mocks.realm.instance as Internacional<DnDRealm>;
+    const realmsMockInstance = mocks.realm.instance as Internacional<Realm>;
     const { _id: _, ...realmsMockPayload } = realmsMockInstance;
 
     describe('When the recover all enabled realms service is called', () => {
@@ -87,14 +87,14 @@ describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await RealmsServicesMock.update(
                 realmMockID,
-                realmMockPayloadWithoutActive as Internacional<DnDRealm>
+                realmMockPayloadWithoutActive as Internacional<Realm>
             );
             expect(responseTest).toBe(realmMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await RealmsServicesMock.update(realmMockID, realmMockPayloadWrong as Internacional<DnDRealm>);
+                await RealmsServicesMock.update(realmMockID, realmMockPayloadWrong as Internacional<Realm>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +106,7 @@ describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RealmsServicesMock.update('inexistent_id', realmsMockPayload as Internacional<DnDRealm>);
+                await RealmsServicesMock.update('inexistent_id', realmsMockPayload as Internacional<Realm>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -119,7 +119,7 @@ describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
             try {
                 await RealmsServicesMock.update(
                     'inexistent_id',
-                    realmMockPayloadWithoutActive as Internacional<DnDRealm>
+                    realmMockPayloadWithoutActive as Internacional<Realm>
                 );
             } catch (error) {
                 const err = error as Error;

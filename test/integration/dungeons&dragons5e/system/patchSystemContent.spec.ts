@@ -7,7 +7,7 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG systems in database', () => {
-    let model: MongoModel<DnDSystem>;
+    let model: MongoModel<System>;
     const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
 
     const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };

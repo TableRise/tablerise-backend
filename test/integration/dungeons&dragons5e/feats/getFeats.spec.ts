@@ -7,9 +7,9 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG feats from database', () => {
-    let model: MongoModel<Internacional<DnDFeat>>;
+    let model: MongoModel<Internacional<Feat>>;
     const feat = mocks.feat.instance;
-    const { _id: _, ...featMockPayload } = feat as Internacional<DnDFeat>;
+    const { _id: _, ...featMockPayload } = feat as Internacional<Feat>;
 
     let documentId: string;
 

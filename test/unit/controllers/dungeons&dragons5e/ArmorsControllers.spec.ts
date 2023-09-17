@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
 
-    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
+    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const request = {} as Request;
     const response = {} as Response;
 

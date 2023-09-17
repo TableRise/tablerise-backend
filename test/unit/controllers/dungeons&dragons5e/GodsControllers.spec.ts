@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
-    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
     const GodsControllersMock = new GodsControllers(GodsServicesMock, logger);
 
-    const godMockInstance = mocks.god.instance as Internacional<DnDGod>;
+    const godMockInstance = mocks.god.instance as Internacional<God>;
     const request = {} as Request;
     const response = {} as Response;
 

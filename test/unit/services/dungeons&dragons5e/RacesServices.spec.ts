@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
-    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
 
-    const racesMockInstance = mocks.race.instance as Internacional<DnDRace>;
+    const racesMockInstance = mocks.race.instance as Internacional<Race>;
     const { _id: _, ...racesMockPayload } = racesMockInstance;
 
     describe('When the recover all race service is called', () => {
@@ -87,14 +87,14 @@ describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await RacesServicesMock.update(
                 raceMockID,
-                raceMockPayloadWithoutActive as Internacional<DnDRace>
+                raceMockPayloadWithoutActive as Internacional<Race>
             );
             expect(responseTest).toBe(raceMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await RacesServicesMock.update(raceMockID, raceMockPayloadWrong as Internacional<DnDRace>);
+                await RacesServicesMock.update(raceMockID, raceMockPayloadWrong as Internacional<Race>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +106,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await RacesServicesMock.update('inexistent_id', racesMockPayload as Internacional<DnDRace>);
+                await RacesServicesMock.update('inexistent_id', racesMockPayload as Internacional<Race>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -117,7 +117,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await RacesServicesMock.update('inexistent_id', raceMockPayloadWithoutActive as Internacional<DnDRace>);
+                await RacesServicesMock.update('inexistent_id', raceMockPayloadWithoutActive as Internacional<Race>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

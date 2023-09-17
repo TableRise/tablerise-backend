@@ -11,7 +11,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
-    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const MagicItemsServicesMock = new MagicItemsServices(
         MagicItemsModelMock,
         logger,
@@ -19,7 +19,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
         MagicItemsSchemaMock
     );
 
-    const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+    const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemMockPayload } = magicItemMockInstance;
 
     describe('When the recover all magic items service is called', () => {
@@ -96,7 +96,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await MagicItemsServicesMock.update(
                 magicItemMockID,
-                magicItemMockPayloadWithoutActive as Internacional<DnDMagicItem>
+                magicItemMockPayloadWithoutActive as Internacional<MagicItem>
             );
             expect(responseTest).toBe(magicItemMockUpdateInstance);
         });
@@ -105,7 +105,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update(
                     magicItemMockID,
-                    magicItemMockPayloadWrong as Internacional<DnDMagicItem>
+                    magicItemMockPayloadWrong as Internacional<MagicItem>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -120,7 +120,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update(
                     'inexistent_id',
-                    magicItemMockPayload as Internacional<DnDMagicItem>
+                    magicItemMockPayload as Internacional<MagicItem>
                 );
             } catch (error) {
                 const err = error as Error;
@@ -134,7 +134,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update(
                     'inexistent_id',
-                    magicItemMockPayloadWithoutActive as Internacional<DnDMagicItem>
+                    magicItemMockPayloadWithoutActive as Internacional<MagicItem>
                 );
             } catch (error) {
                 const err = error as Error;

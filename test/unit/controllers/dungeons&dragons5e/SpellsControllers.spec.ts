@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
-    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
     const SpellsControllersMock = new SpellsControllers(SpellsServicesMock, logger);
 
-    const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
+    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const request = {} as Request;
     const response = {} as Response;
 

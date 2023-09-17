@@ -11,10 +11,10 @@ describe('Services :: DungeonsAndDragons5e :: WikisServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Wikis');
-    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
 
-    const wikiMockInstance = mocks.wiki.instance as Internacional<DnDWiki>;
+    const wikiMockInstance = mocks.wiki.instance as Internacional<Wiki>;
     const { _id: _, ...wikiMockPayload } = wikiMockInstance;
 
     describe('When the recover all enabled wikis service is called', () => {
@@ -86,14 +86,14 @@ describe('Services :: DungeonsAndDragons5e :: WikisServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await WikisServicesMock.update(
                 wikiMockID,
-                wikiMockPayloadWithoutActive as Internacional<DnDWiki>
+                wikiMockPayloadWithoutActive as Internacional<Wiki>
             );
             expect(responseTest).toBe(wikiMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await WikisServicesMock.update(wikiMockID, wikiMockPayloadWrong as Internacional<DnDWiki>);
+                await WikisServicesMock.update(wikiMockID, wikiMockPayloadWrong as Internacional<Wiki>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'title']);
@@ -105,7 +105,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await WikisServicesMock.update('inexistent_id', wikiMockPayload as Internacional<DnDWiki>);
+                await WikisServicesMock.update('inexistent_id', wikiMockPayload as Internacional<Wiki>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -116,7 +116,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await WikisServicesMock.update('inexistent_id', wikiMockPayloadWithoutActive as Internacional<DnDWiki>);
+                await WikisServicesMock.update('inexistent_id', wikiMockPayloadWithoutActive as Internacional<Wiki>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

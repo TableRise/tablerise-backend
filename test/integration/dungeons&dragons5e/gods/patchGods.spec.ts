@@ -7,8 +7,8 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG gods in database', () => {
-    let model: MongoModel<Internacional<DnDGod>>;
-    const _god = mocks.god.instance as Internacional<DnDGod>;
+    let model: MongoModel<Internacional<God>>;
+    const _god = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godPayload } = _god;
 
     let documentId: string;

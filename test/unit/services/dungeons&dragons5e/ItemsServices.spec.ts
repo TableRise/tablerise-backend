@@ -10,10 +10,10 @@ describe('Services :: DungeonsAndDragons5e :: ItemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items');
-    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
 
-    const itemsMockInstance = mocks.item.instance as Internacional<DnDItem>;
+    const itemsMockInstance = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 
     describe('When the recover all item service is called', () => {
@@ -85,14 +85,14 @@ describe('Services :: DungeonsAndDragons5e :: ItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ItemsServicesMock.update(
                 itemMockID,
-                itemMockPayloadWithoutActive as Internacional<DnDItem>
+                itemMockPayloadWithoutActive as Internacional<Item>
             );
             expect(responseTest).toBe(itemMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<DnDItem>);
+                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<Item>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -104,7 +104,7 @@ describe('Services :: DungeonsAndDragons5e :: ItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<DnDItem>);
+                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<Item>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -115,7 +115,7 @@ describe('Services :: DungeonsAndDragons5e :: ItemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<DnDItem>);
+                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<Item>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

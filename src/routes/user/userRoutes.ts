@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
-import DatabaseManagement, { SchemasUserType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 
 import UserControllers from 'src/controllers/user/UsersControllers';
@@ -12,7 +12,7 @@ const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('user', 'Users');
 const modelUserDetails = DM.modelInstance('user', 'UserDetails');
-const schema = DM.schemaInstance('user') as SchemasUserType;
+const schema = DM.schemaInstance('user');
 
 const services = new UserServices(model, modelUserDetails, logger, validateData, schema);
 const controllers = new UserControllers(services, logger);

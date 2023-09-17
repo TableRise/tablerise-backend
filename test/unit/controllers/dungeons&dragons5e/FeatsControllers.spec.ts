@@ -13,11 +13,11 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
+    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
     const FeatsControllersMock = new FeatsControllers(FeatsServicesMock, logger);
 
-    const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
+    const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const request = {} as Request;
     const response = {} as Response;
 
