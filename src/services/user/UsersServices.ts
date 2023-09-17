@@ -60,9 +60,9 @@ export default class RegisterServices {
             updatedAt,
         };
 
-        // @ts-expect-error The object spread here is retuned for mongo, the entity is inside _doc field
+        // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userToRegister);
-        this._logger('info', 'user saved on db');
+        this._logger('info', 'User saved on database');
 
         const userDetailsToRegister = {
             ...userDetails,
@@ -70,7 +70,7 @@ export default class RegisterServices {
         };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsToRegister);
-        this._logger('info', 'user details saved on db');
+        this._logger('info', 'User details saved on database');
 
         return {
             ...userRegistered._doc,

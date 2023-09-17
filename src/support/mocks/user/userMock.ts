@@ -3,7 +3,7 @@ import { User, UserDetail } from '@tablerise/database-management';
 const userMock: User = {
     providerId: '39dbb501-d973-4362-9005-fbc3750b83d3',
     email: 'user@email.com',
-    password: 'secret',
+    password: 'secret-secret',
     nickname: 'userTop',
     tag: '#5547',
     picture: 'https://imgbb.com',

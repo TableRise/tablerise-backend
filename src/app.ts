@@ -43,7 +43,7 @@ app.use(express.json())
 if (process.env.NODE_ENV === 'develop') {
     autoSwagger(RoutesWrapper.declareRoutes()['dungeons&dragons5e'], { title: 'dungeons&dragons5e' })
         .then((_result: any) => {
-            logger('info', 'swagger - dungeons&dragons5e - document generated');
+            logger('info', 'Swagger - dungeons&dragons5e - document generated');
         })
         .catch((error: any) => {
             console.log(error);
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'develop') {
 
     autoSwagger(RoutesWrapper.declareRoutes().user, { title: 'user' })
         .then((_result: any) => {
-            logger('info', 'swagger - user - document generated');
+            logger('info', 'Swagger - user - document generated');
         })
         .catch((error: any) => {
             console.log(error);
@@ -67,6 +67,6 @@ app.use('/api-docs/user', swaggerUI.serve, (req: Request, res: Response) => {
     res.send(html);
 });
 
-logger('info', 'app started');
+logger('info', 'App started');
 
 export default app;
