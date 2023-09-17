@@ -1,4 +1,9 @@
-import DatabaseManagement, { DnDSystem, DnDSystemPayload, UpdateContent, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement, {
+    DnDSystem,
+    DnDSystemPayload,
+    UpdateContent,
+    SchemasDnDType,
+} from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';

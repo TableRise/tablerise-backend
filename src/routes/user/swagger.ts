@@ -9,8 +9,8 @@ const { userId: _4, ...userDetailsPayload } = userDetailsInstance;
 
 const registerUserPayloadSchema = {
     ...userPayload,
-    details: userDetailsPayload
-}
+    details: userDetailsPayload,
+};
 
 export default [
     ['/auth/google', 'auth', 'get', null, null, false],

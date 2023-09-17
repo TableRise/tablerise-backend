@@ -10,9 +10,9 @@ export default class RegisterServices {
         private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
-        private readonly _schema: SchemasUserType,
-        // private readonly _cryptographer: any
-    ) {}
+        private readonly _schema: SchemasUserType
+    ) // private readonly _cryptographer: any
+    {}
 
     private _cryptographer(param: any): any {
         return param;
@@ -31,7 +31,7 @@ export default class RegisterServices {
 
             const err = new Error(errMessage);
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest'
+            err.name = 'BadRequest';
             throw err;
         }
 
@@ -44,7 +44,7 @@ export default class RegisterServices {
 
             const err = new Error(errMessage);
             err.stack = HttpStatusCode.BAD_REQUEST.toString();
-            err.name = 'BadRequest'
+            err.name = 'BadRequest';
             throw err;
         }
 
@@ -58,24 +58,24 @@ export default class RegisterServices {
             pasword: passwordHashed,
             tag,
             createdAt,
-            updatedAt
-        }
+            updatedAt,
+        };
 
         // @ts-expect-error The object spread here is retuned for mongo, the entity is inside _doc field
-        const userRegistered: User & { _doc: any }= await this._model.create(userToRegister);
+        const userRegistered: User & { _doc: any } = await this._model.create(userToRegister);
         this._logger('info', 'user saved on db');
 
         const userDetailsToRegister = {
             ...userDetails,
-            userId: userRegistered._id
-        }
+            userId: userRegistered._id,
+        };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsToRegister);
         this._logger('info', 'user details saved on db');
 
         return {
             ...userRegistered._doc,
-            details: userDetailsRegistered
+            details: userDetailsRegistered,
         };
     }
 }
