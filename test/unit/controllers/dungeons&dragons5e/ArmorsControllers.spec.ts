@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDArmor, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
 

@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDItem, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import ItemsControllers from 'src/controllers/dungeons&dragons5e/ItemsControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: ItemsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items');
-    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
     const ItemsControllersMock = new ItemsControllers(ItemsServicesMock, logger);
 

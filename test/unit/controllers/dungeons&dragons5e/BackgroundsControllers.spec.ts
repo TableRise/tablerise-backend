@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDBackground, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
-    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,
         logger,

@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDRace, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -11,7 +11,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
-    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
 
     const racesMockInstance = mocks.race.instance as Internacional<DnDRace>;

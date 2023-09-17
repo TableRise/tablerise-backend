@@ -39,6 +39,7 @@ describe('Routes :: RoutesWrapper', () => {
             },
             user: {
                 OAuth: {} as Router,
+                profile: {} as Router,
             },
         };
 

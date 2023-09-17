@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDWiki, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDWiki, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const WikisSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, WikisSchemaMock);
     const WikisControllersMock = new WikisControllers(WikisServicesMock, logger);
 

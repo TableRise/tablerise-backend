@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDRealm, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDRealm, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -11,7 +11,7 @@ describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms');
-    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const RealmsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const RealmsServicesMock = new RealmsServices(RealmsModelMock, logger, ValidateDataMock, RealmsSchemaMock);
 
     const realmsMockInstance = mocks.realm.instance as Internacional<DnDRealm>;

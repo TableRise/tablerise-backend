@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDSystem, UpdateContent } from '@tablerise/database-management';
+import DatabaseManagement, { DnDSystem, UpdateContent, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemsControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
     const SystemsControllersMock = new SystemsControllers(SystemsServicesMock, logger);
 

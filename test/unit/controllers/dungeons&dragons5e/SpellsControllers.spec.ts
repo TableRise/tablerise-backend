@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDSpell, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDSpell, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import SpellsControllers from 'src/controllers/dungeons&dragons5e/SpellsControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
-    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
     const SpellsControllersMock = new SpellsControllers(SpellsServicesMock, logger);
 

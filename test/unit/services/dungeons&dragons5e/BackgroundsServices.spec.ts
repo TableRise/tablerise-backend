@@ -1,4 +1,5 @@
-import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import DatabaseManagement, { DnDBackground, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -11,12 +12,12 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
-    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,
         logger,
         ValidateDataMock,
-        BackgroundsSchemaMock
+        BackgroundsSchemaMock as SchemasDnDType
     );
 
     const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;

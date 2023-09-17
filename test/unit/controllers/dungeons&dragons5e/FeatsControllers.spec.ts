@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDFeat, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsControllers';
@@ -13,7 +13,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
     const FeatsControllersMock = new FeatsControllers(FeatsServicesMock, logger);
 

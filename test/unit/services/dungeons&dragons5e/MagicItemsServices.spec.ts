@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement, { DnDMagicItem, Internacional, SchemasDnDType } from '@tablerise/database-management';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
@@ -11,7 +11,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
-    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
+    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
     const MagicItemsServicesMock = new MagicItemsServices(
         MagicItemsModelMock,
         logger,

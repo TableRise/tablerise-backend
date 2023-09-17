@@ -3,5 +3,5 @@ import userRoutes from 'src/routes/user/userRoutes';
 
 export default {
     OAuth: OAuthRoutes,
-    user: userRoutes
+    profile: userRoutes
 };
