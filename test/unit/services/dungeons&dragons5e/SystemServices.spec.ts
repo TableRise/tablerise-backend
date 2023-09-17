@@ -207,7 +207,6 @@ describe('Services :: SystemsServices', () => {
         const systemMockFindInstance = {
             _id: systemMockID,
             active: true,
-
         };
 
         const responseMessageMockActivated = {
@@ -223,15 +222,15 @@ describe('Services :: SystemsServices', () => {
         beforeAll(() => {
             jest.spyOn(SystemsModelMock, 'findOne')
                 .mockResolvedValueOnce(systemMockFindInstance)
-                .mockResolvedValueOnce({ ...systemMockFindInstance, active: false  })
-                .mockResolvedValueOnce({ ...systemMockFindInstance, active: true  })
+                .mockResolvedValueOnce({ ...systemMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...systemMockFindInstance, active: true })
                 .mockResolvedValueOnce(systemMockUpdateInstance)
-                .mockResolvedValueOnce(null)
-            
+                .mockResolvedValueOnce(null);
+
             jest.spyOn(SystemsModelMock, 'update')
-            .mockResolvedValue(systemMockUpdateInstance)
-            .mockResolvedValue(systemMockUpdateInstance)
-            .mockResolvedValue(null);
+                .mockResolvedValue(systemMockUpdateInstance)
+                .mockResolvedValue(systemMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
         it('should return correct success message - disable', async () => {
@@ -276,76 +275,76 @@ describe('Services :: SystemsServices', () => {
                 expect(err.name).toBe('NotFound');
             }
         });
-    //     beforeAll(() => {
-    //         jest.spyOn(SystemsModelMock, 'findOne')
-    //             .mockResolvedValueOnce(systemMockInstanceNoActive)
-    //             .mockResolvedValueOnce(null)
-    //             .mockResolvedValue(systemMockInstanceNoActive);
-    //         jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
-    //     });
+        //     beforeAll(() => {
+        //         jest.spyOn(SystemsModelMock, 'findOne')
+        //             .mockResolvedValueOnce(systemMockInstanceNoActive)
+        //             .mockResolvedValueOnce(null)
+        //             .mockResolvedValue(systemMockInstanceNoActive);
+        //         jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+        //     });
 
-    //     it('should return a confirmation of activation', async () => {
-    //         const responseTest = await SystemsServicesMock.activate(systemMockInstance._id);
-    //         expect(responseTest).toBe(`System ${systemMockInstance._id} was activated`);
-    //     });
+        //     it('should return a confirmation of activation', async () => {
+        //         const responseTest = await SystemsServicesMock.activate(systemMockInstance._id);
+        //         expect(responseTest).toBe(`System ${systemMockInstance._id} was activated`);
+        //     });
 
-    //     it('should throw an error when ID is inexistent', async () => {
-    //         try {
-    //             await SystemsServicesMock.activate(systemMockInstance._id);
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('NotFound an object with provided ID');
-    //             expect(err.stack).toBe('404');
-    //             expect(err.name).toBe('NotFound');
-    //         }
-    //     });
+        //     it('should throw an error when ID is inexistent', async () => {
+        //         try {
+        //             await SystemsServicesMock.activate(systemMockInstance._id);
+        //         } catch (error) {
+        //             const err = error as Error;
+        //             expect(err.message).toBe('NotFound an object with provided ID');
+        //             expect(err.stack).toBe('404');
+        //             expect(err.name).toBe('NotFound');
+        //         }
+        //     });
 
-    //     it('should throw an error when system is already active', async () => {
-    //         try {
-    //             await SystemsServicesMock.activate(systemMockInstance._id);
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('Not possible to change availability through this route');
-    //             expect(err.stack).toBe('400');
-    //             expect(err.name).toBe('BadRequest');
-    //         }
-    //     });
-    // });
+        //     it('should throw an error when system is already active', async () => {
+        //         try {
+        //             await SystemsServicesMock.activate(systemMockInstance._id);
+        //         } catch (error) {
+        //             const err = error as Error;
+        //             expect(err.message).toBe('Not possible to change availability through this route');
+        //             expect(err.stack).toBe('400');
+        //             expect(err.name).toBe('BadRequest');
+        //         }
+        //     });
+        // });
 
-    // describe('When service for deactivate a system is called', () => {
-    //     beforeAll(() => {
-    //         jest.spyOn(SystemsModelMock, 'findOne')
-    //             .mockResolvedValueOnce(systemMockInstanceNoActive)
-    //             .mockResolvedValueOnce(null)
-    //             .mockResolvedValue(systemMockInstanceNoActive);
-    //         jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
-    //     });
+        // describe('When service for deactivate a system is called', () => {
+        //     beforeAll(() => {
+        //         jest.spyOn(SystemsModelMock, 'findOne')
+        //             .mockResolvedValueOnce(systemMockInstanceNoActive)
+        //             .mockResolvedValueOnce(null)
+        //             .mockResolvedValue(systemMockInstanceNoActive);
+        //         jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+        //     });
 
-    //     it('should return a confirmation of deactivation', async () => {
-    //         const responseTest = await SystemsServicesMock.deactivate(systemMockInstance._id);
-    //         expect(responseTest).toBe(`System ${systemMockInstance._id} was deactivated`);
-    //     });
+        //     it('should return a confirmation of deactivation', async () => {
+        //         const responseTest = await SystemsServicesMock.deactivate(systemMockInstance._id);
+        //         expect(responseTest).toBe(`System ${systemMockInstance._id} was deactivated`);
+        //     });
 
-    //     it('should throw an error when ID is inexistent', async () => {
-    //         try {
-    //             await SystemsServicesMock.deactivate('inexistent_id');
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('NotFound an object with provided ID');
-    //             expect(err.stack).toBe('404');
-    //             expect(err.name).toBe('NotFound');
-    //         }
-    //     });
+        //     it('should throw an error when ID is inexistent', async () => {
+        //         try {
+        //             await SystemsServicesMock.deactivate('inexistent_id');
+        //         } catch (error) {
+        //             const err = error as Error;
+        //             expect(err.message).toBe('NotFound an object with provided ID');
+        //             expect(err.stack).toBe('404');
+        //             expect(err.name).toBe('NotFound');
+        //         }
+        //     });
 
-    //     it('should throw an error when system is already deactivated', async () => {
-    //         try {
-    //             await SystemsServicesMock.deactivate(systemMockInstance._id);
-    //         } catch (error) {
-    //             const err = error as Error;
-    //             expect(err.message).toBe('Not possible to change availability through this route');
-    //             expect(err.stack).toBe('400');
-    //             expect(err.name).toBe('BadRequest');
-    //         }
-    //     });
+        //     it('should throw an error when system is already deactivated', async () => {
+        //         try {
+        //             await SystemsServicesMock.deactivate(systemMockInstance._id);
+        //         } catch (error) {
+        //             const err = error as Error;
+        //             expect(err.message).toBe('Not possible to change availability through this route');
+        //             expect(err.stack).toBe('400');
+        //             expect(err.name).toBe('BadRequest');
+        //         }
+        //     });
     });
 });

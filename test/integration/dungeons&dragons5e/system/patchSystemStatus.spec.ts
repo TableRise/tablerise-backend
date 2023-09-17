@@ -38,13 +38,13 @@ describe('Patch RPG system status in database', () => {
             const { body } = await requester
                 .patch(`/dnd5e/system/${documentId}?aviability=false`)
                 .expect(HttpStatusCode.OK);
-            
-            expect(body).toHaveProperty('message')
-            expect(body).toHaveProperty('name')
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
             expect(body.message).toBe(`System ${documentId} was deactivated`);
-            expect(body.name).toBe('success')
-        }); 
-        
+            expect(body.name).toBe('success');
+        });
+
         it('should fail when availability already enabled', async () => {
             const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
             documentId = response._id;
