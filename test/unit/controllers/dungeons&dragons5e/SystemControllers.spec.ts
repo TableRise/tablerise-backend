@@ -116,14 +116,17 @@ describe('Services :: SystemsControllers', () => {
         });
     });
 
-    describe('When a request is made to activate one system by ID', () => {
-        const updateResult = `System ${systemMockInstance._id} was activated`;
+    describe('When a request is made to update availability system by ID', () => {
+        const responseMessageMock = {
+            message: 'System {id} was deactivated',
+            name: 'success',
+        };
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.send = jest.fn().mockReturnValue('');
+            response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(SystemsServicesMock, 'activate').mockResolvedValue(updateResult);
+            jest.spyOn(SystemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
         afterAll(() => {
@@ -132,33 +135,11 @@ describe('Services :: SystemsControllers', () => {
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
+            request.query = { availability: 'false' };
 
-            await SystemsControllersMock.activate(request, response);
+            await SystemsControllersMock.updateAvailability(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
-            expect(response.send).toHaveBeenCalledWith(updateResult);
-        });
-    });
-
-    describe('When a request is made to deactivate one system by ID', () => {
-        const updateResult = `System ${systemMockInstance._id} was deactivated`;
-
-        beforeAll(() => {
-            response.status = jest.fn().mockReturnValue(response);
-            response.send = jest.fn().mockReturnValue('');
-
-            jest.spyOn(SystemsServicesMock, 'deactivate').mockResolvedValue(updateResult);
-        });
-
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
-
-        it('should return correct data in response json with status 200', async () => {
-            request.params = { _id: systemMockInstance._id };
-
-            await SystemsControllersMock.deactivate(request, response);
-            expect(response.status).toHaveBeenCalledWith(200);
-            expect(response.send).toHaveBeenCalledWith(updateResult);
+            expect(response.json).toHaveBeenCalledWith(responseMessageMock);
         });
     });
 });

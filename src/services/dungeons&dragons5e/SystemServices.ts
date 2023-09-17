@@ -90,7 +90,7 @@ export default class SystemServices implements Service<DnDSystem> {
         await this._model.update(_id, response);
 
         const responseMessage = {
-            message: `System ${response.name as string} was ${query ? 'activated' : 'deactivated'}`,
+            message: `System ${_id} was ${query ? 'activated' : 'deactivated'}`,
             name: 'success',
         };
 
