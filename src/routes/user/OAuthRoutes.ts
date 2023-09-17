@@ -39,6 +39,16 @@ route.get(
     })
 );
 route.get('/facebook/register', controllers.facebook);
+
+route.get('/discord', passport.authenticate('discord'));
+route.get(
+    '/discord/callback',
+    passport.authenticate('google', {
+        successRedirect: '/auth/discord/register',
+        failureRedirect: '/auth/error',
+    })
+);
+
 route.get('/error', AuthErrorMiddleware);
 
 export default route;
