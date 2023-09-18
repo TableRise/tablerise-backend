@@ -1,14 +1,12 @@
-import DatabaseManagement, {
-    DnDSystem,
-    DnDSystemPayload,
-    UpdateContent,
-    SchemasDnDType,
-} from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -16,10 +14,14 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+    const SystemsServicesMock = new SystemsServices(
+        SystemsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
+    const systemMockInstance = mocks.system.instance as System & { _id: string };
     const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
 
@@ -76,13 +78,13 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
         });
 
         it('should return correct data with updated values', async () => {
-            const responseTest = await SystemsServicesMock.update(systemMockID, systemMockPayload as DnDSystemPayload);
+            const responseTest = await SystemsServicesMock.update(systemMockID, systemMockPayload);
             expect(responseTest).toBe(systemMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await SystemsServicesMock.update(systemMockID, systemMockPayloadWrong as DnDSystem);
+                await SystemsServicesMock.update(systemMockID, systemMockPayloadWrong as System);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path[0]).toBe('name');
@@ -94,7 +96,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await SystemsServicesMock.update('inexistent_id', systemMockPayload as DnDSystemPayload);
+                await SystemsServicesMock.update('inexistent_id', systemMockPayload);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');
@@ -120,7 +122,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
         const systemMockID = systemMockInstance._id;
         const entityMockQuery = 'races';
         const { method: __, ...updateContentWithoutMethod } = updateContentMockInstance;
-        const updateResult = `New ID ${newID as string} was ${
+        const updateResult = `New ID ${newID} was ${
             method as string
         } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
@@ -144,11 +146,10 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
         it('should return a confirmation of remove an entity ID', async () => {
             const updateContentMockInstanceRemove: UpdateContent = {
                 method: 'remove',
-                // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
                 newID: systemMockInstance.content.races[0],
             };
             const { method, newID } = updateContentMockInstanceRemove;
-            const updateResult = `New ID ${newID as string} was ${
+            const updateResult = `New ID ${newID} was ${
                 method as string
             } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 

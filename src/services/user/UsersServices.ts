@@ -3,7 +3,7 @@ import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { SchemasUserType } from '@tablerise/database-management/dist/src/schemas';
+import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
 

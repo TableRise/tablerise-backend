@@ -9,7 +9,7 @@ const usersZodSchema = z.object({
     tag: z.string().length(4).optional(),
     picture: z.string().max(120).or(z.null()),
     createdAt: z.string().optional(),
-    updatedAt: z.string().optional()
+    updatedAt: z.string().optional(),
 });
 
 export type User = z.infer<typeof usersZodSchema>;

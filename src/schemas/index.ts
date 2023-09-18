@@ -7,13 +7,13 @@ const schemas = {
     'dungeons&dragons5e': {
         ...dungeonsAndDragons5eSchemas,
         updateContentZodSchema,
-        helpers: { languagesWrapperSchema }
+        helpers: { languagesWrapperSchema },
     },
     user: {
-        ...userSchemas
-    }
-}
+        ...userSchemas,
+    },
+};
 
-export type SchemasDnDType = typeof schemas['dungeons&dragons5e'];
+export type SchemasDnDType = (typeof schemas)['dungeons&dragons5e'];
 export type SchemasUserType = typeof schemas.user;
 export default schemas;

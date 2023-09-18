@@ -5,7 +5,7 @@ import UpdateResponse from 'src/types/UpdateResponse';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { SchemasDnDType } from '@tablerise/database-management/dist/src/schemas';
+import { SchemasDnDType } from 'src/schemas';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

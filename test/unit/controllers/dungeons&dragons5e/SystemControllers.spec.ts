@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDSystem, UpdateContent, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemsControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
@@ -6,6 +6,9 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -13,11 +16,15 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+    const SystemsServicesMock = new SystemsServices(
+        SystemsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const SystemsControllersMock = new SystemsControllers(SystemsServicesMock, logger);
 
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
+    const systemMockInstance = mocks.system.instance as System & { _id: string };
     const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;
     const request = {} as Request;
     const response = {} as Response;
@@ -90,7 +97,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     describe('When a request is made to update one content system by ID', () => {
         const { method, newID } = systemUpdateContentMockInsatnce;
         const entityMockQuery = 'races';
-        const updateResult = `New ID ${newID as string} was ${
+        const updateResult = `New ID ${newID} was ${
             method as string
         } to array of entities ${entityMockQuery} - systemID: ${systemMockInstance._id}`;
 

@@ -1,9 +1,12 @@
-import DatabaseManagement, { DnDArmor, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -11,8 +14,12 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
+    const ArmorsServicesMock = new ArmorsServices(
+        ArmorsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
     const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
@@ -118,10 +125,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ArmorsServicesMock.update(
-                    'inexistent_id',
-                    armorMockPayloadWithoutActive as Internacional<Armor>
-                );
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

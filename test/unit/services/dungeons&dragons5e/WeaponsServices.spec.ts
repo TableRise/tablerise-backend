@@ -1,9 +1,12 @@
-import DatabaseManagement, { DnDWeapon, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -11,8 +14,12 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const WeaponsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Weapons');
-    const WeaponsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const WeaponsServicesMock = new WeaponsServices(WeaponsModelMock, logger, ValidateDataMock, WeaponsSchemaMock);
+    const WeaponsServicesMock = new WeaponsServices(
+        WeaponsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
     const weaponMockInstance = mocks.weapon.instance as Internacional<Weapon>;
     const { _id: _, ...weaponMockPayload } = weaponMockInstance;

@@ -4,7 +4,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { SchemasDnDType } from '@tablerise/database-management/dist/src/schemas';
+import { SchemasDnDType } from 'src/schemas';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 
@@ -73,9 +73,9 @@ export default class SystemServices implements Service<System> {
 
         await this._model.update(_id, recoverSystem);
 
-        const response = `New ID ${newID} was ${
-            method as string
-        } to array of entities ${entityQuery} - system ID: ${recoverSystem._id}`;
+        const response = `New ID ${newID} was ${method as string} to array of entities ${entityQuery} - system ID: ${
+            recoverSystem._id
+        }`;
 
         this._logger('info', 'Content of the system entity updated with success');
         return response;

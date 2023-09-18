@@ -3,5 +3,5 @@ import userDetailZod from './userDetailsValidationSchema';
 
 export default {
     userZod,
-    userDetailZod
-}
+    userDetailZod,
+};

@@ -5,7 +5,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { SchemasDnDType } from '@tablerise/database-management/dist/src/schemas';
+import { SchemasDnDType } from 'src/schemas';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 

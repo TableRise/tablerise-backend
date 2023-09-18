@@ -2,6 +2,8 @@
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 
+import schema from 'src/schemas';
+
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -14,9 +16,8 @@ const validateData = new ValidateData(logger);
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('dungeons&dragons5e', 'Backgrounds');
-const schema = DM.schemaInstance('dungeons&dragons5e');
 
-const services = new BackgroundsServices(model, logger, validateData, schema);
+const services = new BackgroundsServices(model, logger, validateData, schema['dungeons&dragons5e']);
 const controllers = new BackgroundsControllers(services, logger);
 
 const router = Router();

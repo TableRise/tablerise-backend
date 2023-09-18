@@ -1,9 +1,12 @@
-import DatabaseManagement, { DnDMagicItem, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -11,12 +14,11 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
-    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const MagicItemsServicesMock = new MagicItemsServices(
         MagicItemsModelMock,
         logger,
         ValidateDataMock,
-        MagicItemsSchemaMock
+        schema['dungeons&dragons5e']
     );
 
     const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
@@ -118,10 +120,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await MagicItemsServicesMock.update(
-                    'inexistent_id',
-                    magicItemMockPayload as Internacional<MagicItem>
-                );
+                await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayload as Internacional<MagicItem>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');

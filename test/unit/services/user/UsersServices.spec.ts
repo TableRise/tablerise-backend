@@ -1,9 +1,10 @@
-import DatabaseManagement, { SchemasUserType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import ValidateData from 'src/support/helpers/ValidateData';
 import mock from 'src/support/mocks/user';
 import { RegisterUserPayload } from 'src/types/Response';
+import schema from 'src/schemas';
 
 describe('Services :: User :: UsersServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -12,24 +13,36 @@ describe('Services :: User :: UsersServices', () => {
 
     const UsersModelMock = DM_MOCK.modelInstance('user', 'Users');
     const UsersDetailsModelMock = DM_MOCK.modelInstance('user', 'UserDetails');
-    const UsersSchemaMock = DM_MOCK.schemaInstance('user') as SchemasUserType;
-    const UsersServicesMock = new UsersServices(UsersModelMock, UsersDetailsModelMock, logger, ValidateDataMock, UsersSchemaMock);
+    const UsersServicesMock = new UsersServices(
+        UsersModelMock,
+        UsersDetailsModelMock,
+        logger,
+        ValidateDataMock,
+        schema.user
+    );
 
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
     userInstanceMock._id = '65075e05ca9f0d3b2485194f';
-    const { providerId: _, createdAt: _1, updatedAt: _2, _id: _3, tag: _4, ...userInstanceMockPayload } = userInstanceMock;
+    const {
+        providerId: _,
+        createdAt: _1,
+        updatedAt: _2,
+        _id: _3,
+        tag: _4,
+        ...userInstanceMockPayload
+    } = userInstanceMock;
     const { userId: _5, ...userDetailsInstanceMockPayload } = userDetailsInstanceMock;
 
     const userPayload = {
         ...userInstanceMockPayload,
-        details: userDetailsInstanceMockPayload
-    }
+        details: userDetailsInstanceMockPayload,
+    };
 
     const userResponse = {
         ...userInstanceMock,
-        details: userDetailsInstanceMock
-    }
+        details: userDetailsInstanceMock,
+    };
 
     describe('When a new user is registered', () => {
         describe('and the data is correct', () => {

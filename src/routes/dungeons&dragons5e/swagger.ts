@@ -1,5 +1,5 @@
 import {
-    DnDSystem,
+    System,
     Internacional,
     DnDRealm,
     DnDGod,
@@ -20,7 +20,7 @@ import { routeOriginal } from '@tablerise/auto-swagger';
 
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 
-const systemInstance = mocks.system.instance as DnDSystem & { _id: string };
+const systemInstance = mocks.system.instance as System & { _id: string };
 const { _id: _, content: __, ...systemWithoutContent } = systemInstance;
 const updateSystemInstance = mocks.updateSystemContent;
 

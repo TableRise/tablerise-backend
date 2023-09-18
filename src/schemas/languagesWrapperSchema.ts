@@ -7,7 +7,6 @@ export interface Internacional<T> {
     pt: T;
 }
 
-
 export default (zodSchema: ZodObject<any>): ZodObject<any> => {
     const languagesZodSchema = z.object({
         en: zodSchema,
