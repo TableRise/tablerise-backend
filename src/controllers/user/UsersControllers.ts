@@ -4,7 +4,7 @@ import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload } from 'src/types/Response';
 
-export default class OAuthControllers {
+export default class UsersControllers {
     constructor(
         private readonly _service: UsersServices,
         private readonly _logger: Logger
