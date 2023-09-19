@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
+import confirmEmailTemplate from 'src/support/templates/confirmEmailTemplate';
+import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 
@@ -26,7 +28,7 @@ export default class EmailSender {
             subject: content.subject,
         };
 
-        // if (contentType === 'html') message.html = content.body;
+        if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
 
         const transporter = nodemailer.createTransport(config);
@@ -40,9 +42,19 @@ export default class EmailSender {
         return { success: sendEmailResult };
     }
 
+    private async sendConfirmation(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+        const verificationCode = generateVerificationCode(6);
+        const username = content.username ?? target;
+        content.body = confirmEmailTemplate(verificationCode, username);
+
+        const sendEmailResult = await EmailSender.handleEmail('html', content, target);
+        return { success: sendEmailResult, verificationCode };
+    }
+
     public async send(type: EmailSenderType, content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
+            confirmation: this.sendConfirmation,
         };
 
         // @ts-expect-error :: The options below will with sure match with the string passed in arg type;
