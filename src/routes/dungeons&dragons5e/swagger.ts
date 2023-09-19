@@ -1,24 +1,22 @@
-import {
-    System,
-    Internacional,
-    DnDRealm,
-    DnDGod,
-    DnDBackground,
-    DnDFeat,
-    DnDWeapon,
-    DnDArmor,
-    DnDItem,
-    DnDRace,
-    DnDClass,
-    DnDMagicItem,
-    DnDSpell,
-    DnDWiki,
-    DnDMonster,
-} from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { routeOriginal } from '@tablerise/auto-swagger';
 
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 const systemInstance = mocks.system.instance as System & { _id: string };
 const { _id: _, content: __, ...systemWithoutContent } = systemInstance;
