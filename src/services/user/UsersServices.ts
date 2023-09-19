@@ -13,8 +13,7 @@ export default class RegisterServices {
         private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
-        private readonly _schema: SchemasUserType,
-        private readonly _cryptographer: any
+        private readonly _schema: SchemasUserType
     ) {}
 
     private _cryptographer(param: any): any {
