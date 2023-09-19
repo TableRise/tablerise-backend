@@ -7,6 +7,9 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
+
+    userInstanceMock.email = `${Math.random()}${userInstanceMock.email}`;
+
     const {
         providerId: _,
         createdAt: _1,
