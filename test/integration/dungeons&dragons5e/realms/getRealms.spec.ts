@@ -1,15 +1,17 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDRealm, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Get RPG realms from database', () => {
-    let model: MongoModel<Internacional<DnDRealm>>;
+    let model: MongoModel<Internacional<Realm>>;
     const _realm = mocks.realm.instance;
-    const { _id: _, ...realmMockPayload } = _realm as Internacional<DnDRealm>;
+    const { _id: _, ...realmMockPayload } = _realm as Internacional<Realm>;
 
     let documentId: string;
 

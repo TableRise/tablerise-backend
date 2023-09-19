@@ -1,8 +1,9 @@
-import { DnDSystem, UpdateContent } from '@tablerise/database-management';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const systemInstance: DnDSystem = {
+const systemInstance: System = {
     name: 'Tormenta',
     content: {
         races: [generateNewMongoID()],

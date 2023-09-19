@@ -1,9 +1,12 @@
-import DatabaseManagement, { DnDGod, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -11,10 +14,9 @@ describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
-    const GodsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
-    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, GodsSchemaMock);
+    const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
 
-    const godMockInstance = mocks.god.instance as Internacional<DnDGod>;
+    const godMockInstance = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godMockPayload } = godMockInstance;
 
     describe('When the recover all enabled gods service is called', () => {
@@ -86,14 +88,14 @@ describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await GodsServicesMock.update(
                 godMockID,
-                godMockPayloadWithoutActive as Internacional<DnDGod>
+                godMockPayloadWithoutActive as Internacional<God>
             );
             expect(responseTest).toBe(godMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await GodsServicesMock.update(godMockID, godMockPayloadWrong as Internacional<DnDGod>);
+                await GodsServicesMock.update(godMockID, godMockPayloadWrong as Internacional<God>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -105,7 +107,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await GodsServicesMock.update('inexistent_id', godMockPayload as Internacional<DnDGod>);
+                await GodsServicesMock.update('inexistent_id', godMockPayload as Internacional<God>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -116,7 +118,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await GodsServicesMock.update('inexistent_id', godMockPayloadWithoutActive as Internacional<DnDGod>);
+                await GodsServicesMock.update('inexistent_id', godMockPayloadWithoutActive as Internacional<God>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

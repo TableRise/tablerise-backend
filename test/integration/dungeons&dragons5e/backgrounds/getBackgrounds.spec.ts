@@ -1,15 +1,17 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDBackground, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Get RPG backgrounds from database', () => {
-    let model: MongoModel<Internacional<DnDBackground>>;
+    let model: MongoModel<Internacional<Background>>;
     const background = mocks.background.instance;
-    const { _id: _, ...backgroundMockPayload } = background as Internacional<DnDBackground>;
+    const { _id: _, ...backgroundMockPayload } = background as Internacional<Background>;
 
     let documentId: string;
 

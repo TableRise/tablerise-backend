@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDWiki, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Patch RPG wikis in database', () => {
-    let model: MongoModel<Internacional<DnDWiki>>;
-    const wiki = mocks.wiki.instance as Internacional<DnDWiki>;
+    let model: MongoModel<Internacional<Wiki>>;
+    const wiki = mocks.wiki.instance as Internacional<Wiki>;
     const { _id: _, ...wikiPayload } = wiki;
 
     let documentId: string;

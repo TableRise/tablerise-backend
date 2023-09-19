@@ -1,5 +1,6 @@
-import { DnDItem, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
@@ -39,7 +40,7 @@ export default class ItemsControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to items');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<DnDItem>;
+        const payload = req.body as Internacional<Item>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);

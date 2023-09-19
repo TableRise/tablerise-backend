@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSpell, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Patch RPG spells in database', () => {
-    let model: MongoModel<Internacional<DnDSpell>>;
-    const _spell = mocks.spell.instance as Internacional<DnDSpell>;
+    let model: MongoModel<Internacional<Spell>>;
+    const _spell = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellPayload } = _spell;
 
     let documentId: string;

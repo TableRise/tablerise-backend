@@ -1,8 +1,8 @@
-import { DnDGod } from '@tablerise/database-management';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const godInstanceEn: DnDGod = {
+const godInstanceEn: God = {
     name: 'Zeus',
     alignment: 'Neutral and Evil',
     suggestedDomains: 'Olympo',
@@ -10,7 +10,7 @@ const godInstanceEn: DnDGod = {
     phanteon: 'Greek',
 };
 
-const godInstancePt: DnDGod = {
+const godInstancePt: God = {
     name: 'Zeus',
     alignment: 'Neutro e Mal',
     suggestedDomains: 'Olympo',

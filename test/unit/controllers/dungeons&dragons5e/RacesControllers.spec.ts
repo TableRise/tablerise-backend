@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDRace, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import RacesControllers from 'src/controllers/dungeons&dragons5e/RacesControllers';
@@ -6,6 +6,9 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -13,11 +16,10 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
-    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e') as SchemasDnDType;
-    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
     const RacesControllersMock = new RacesControllers(RacesServicesMock, logger);
 
-    const RaceMockInstance = mocks.race.instance as Internacional<DnDRace>;
+    const RaceMockInstance = mocks.race.instance as Internacional<Race>;
     const request = {} as Request;
     const response = {} as Response;
 
