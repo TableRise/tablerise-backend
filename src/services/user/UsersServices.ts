@@ -57,7 +57,7 @@ export default class RegisterServices {
 
         const userToRegister = {
             ...user,
-            pasword: passwordHashed,
+            password: passwordHashed,
             tag,
             createdAt,
             updatedAt,
