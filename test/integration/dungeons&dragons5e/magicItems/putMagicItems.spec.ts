@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDMagicItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Put RPG magic items in database', () => {
-    let model: MongoModel<Internacional<DnDMagicItem>>;
-    const magicItem = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+    let model: MongoModel<Internacional<MagicItem>>;
+    const magicItem = mocks.magicItems.instance as Internacional<MagicItem>;
     const { _id: _, ...magicItemPayload } = magicItem;
 
     const newMagicItemPayload = {
@@ -61,7 +63,7 @@ describe('Put RPG magic items in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await requester
                 .put(`/dnd5e/magicItems/${documentId}`)
-                .send({ data: null } as unknown as Internacional<DnDMagicItem>)
+                .send({ data: null } as unknown as Internacional<MagicItem>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

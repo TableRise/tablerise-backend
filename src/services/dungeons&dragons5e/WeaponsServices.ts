@@ -1,34 +1,37 @@
-import { DnDWeapon, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class WeaponsServices implements Service<Internacional<DnDWeapon>> {
+export default class WeaponsServices implements Service<Internacional<Weapon>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDWeapon>>,
+        private readonly _model: MongoModel<Internacional<Weapon>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDWeapon>>> {
+    public async findAll(): Promise<Array<Internacional<Weapon>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All weapon entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDWeapon>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Weapon>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All weapon entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDWeapon>> {
+    public async findOne(_id: string): Promise<Internacional<Weapon>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Weapon entity found with success');
@@ -37,7 +40,7 @@ export default class WeaponsServices implements Service<Internacional<DnDWeapon>
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDWeapon>): Promise<Internacional<DnDWeapon>> {
+    public async update(_id: string, payload: Internacional<Weapon>): Promise<Internacional<Weapon>> {
         const { helpers, weaponZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(weaponZod), payload);
 

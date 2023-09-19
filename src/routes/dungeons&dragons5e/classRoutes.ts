@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
+
+import schema from 'src/schemas';
 
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import ClassesControllers from 'src/controllers/dungeons&dragons5e/ClassesControllers';
@@ -13,9 +16,8 @@ const validateData = new ValidateData(logger);
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('dungeons&dragons5e', 'Classes');
-const schema = DM.schemaInstance('dungeons&dragons5e');
 
-const services = new ClassesServices(model, logger, validateData, schema);
+const services = new ClassesServices(model, logger, validateData, schema['dungeons&dragons5e']);
 const controllers = new ClassesControllers(services, logger);
 
 const router = Router();

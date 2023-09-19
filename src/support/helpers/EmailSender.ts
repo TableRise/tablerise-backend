@@ -15,8 +15,8 @@ export default class EmailSender {
             port: 465,
             secure: true,
             auth: {
-                user: (EMAIL_SENDING_USER as string) || 'root',
-                pass: (EMAIL_SENDING_PASSWORD as string) || 'secret',
+                user: EMAIL_SENDING_USER as string,
+                pass: EMAIL_SENDING_PASSWORD as string,
             },
         };
 

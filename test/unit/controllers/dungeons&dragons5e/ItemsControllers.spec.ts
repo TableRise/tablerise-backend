@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import ItemsControllers from 'src/controllers/dungeons&dragons5e/ItemsControllers';
@@ -6,6 +6,9 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: ItemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -13,11 +16,10 @@ describe('Services :: DungeonsAndDragons5e :: ItemsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items');
-    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
     const ItemsControllersMock = new ItemsControllers(ItemsServicesMock, logger);
 
-    const ItemMockInstance = mocks.item.instance as Internacional<DnDItem>;
+    const ItemMockInstance = mocks.item.instance as Internacional<Item>;
     const request = {} as Request;
     const response = {} as Response;
 

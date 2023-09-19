@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsControllers';
@@ -6,6 +6,9 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -13,11 +16,10 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
     const ValidateDataMock = new ValidateData(logger);
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
     const FeatsControllersMock = new FeatsControllers(FeatsServicesMock, logger);
 
-    const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
+    const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const request = {} as Request;
     const response = {} as Response;
 

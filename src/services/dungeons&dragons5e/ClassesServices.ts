@@ -1,34 +1,37 @@
-import { DnDClass, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { SchemasDnDType } from 'src/schemas';
 
-export default class ClassesServices implements Service<Internacional<DnDClass>> {
+export default class ClassesServices implements Service<Internacional<Class>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDClass>>,
+        private readonly _model: MongoModel<Internacional<Class>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDClass>>> {
+    public async findAll(): Promise<Array<Internacional<Class>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All class entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDClass>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Class>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All class entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDClass>> {
+    public async findOne(_id: string): Promise<Internacional<Class>> {
         const response = await this._model.findOne(_id);
 
         if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
@@ -37,7 +40,7 @@ export default class ClassesServices implements Service<Internacional<DnDClass>>
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDClass>): Promise<Internacional<DnDClass>> {
+    public async update(_id: string, payload: Internacional<Class>): Promise<Internacional<Class>> {
         const { helpers, classZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(classZod), payload);
 
