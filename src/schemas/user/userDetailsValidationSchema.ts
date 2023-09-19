@@ -15,7 +15,7 @@ const userDetailsZodSchema = z.object({
     userId: z.string().length(24).optional(),
     firstName: z.string().max(16).or(z.null()),
     lastName: z.string().max(80).or(z.null()),
-    pronoun: z.enum(['he/his', 'she/her', 'he/his - she/her', 'neutral']).or(z.null()),
+    pronoun: z.enum(['he/his', 'she/her', 'they/them', 'he/his - she/her', 'any']).or(z.null()),
     secretQuestion: secretQuestionZodSchema.or(z.null()),
     birthday: z.string().or(z.null()),
     gameInfo: gameInfoZodSchema,
