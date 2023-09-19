@@ -1,10 +1,10 @@
-import generateIDParam, { generateHeaderParam, generateQueryParam } from "src/routes/parametersWrapper";
+import generateIDParam, { generateHeaderParam, generateQueryParam } from 'src/routes/parametersWrapper';
 
 describe('Routes :: ParametersWrapper', () => {
     describe('When generate an id', () => {
         it('should return an array with correct param', () => {
             const param = generateIDParam();
-    
+
             expect(param).toHaveLength(1);
             expect(param[0].name).toBe('_id');
             expect(param[0].location).toBe('path');
@@ -18,14 +18,14 @@ describe('Routes :: ParametersWrapper', () => {
             const param = generateQueryParam(2, [
                 {
                     name: 'active',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 {
                     name: 'showForm',
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             ]);
-    
+
             expect(param).toHaveLength(2);
             expect(param[0].name).toBe('active');
             expect(param[0].location).toBe('query');
@@ -42,7 +42,7 @@ describe('Routes :: ParametersWrapper', () => {
     describe('When generate a header', () => {
         it('should return an array with correct param', () => {
             const param = generateHeaderParam(1, [{ name: 'test', type: 'number' }]);
-    
+
             expect(param).toHaveLength(1);
             expect(param[0].name).toBe('test');
             expect(param[0].location).toBe('header');

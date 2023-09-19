@@ -16,7 +16,7 @@ export default class EmailSender {
             secure: true,
             auth: {
                 user: EMAIL_SENDING_USER as string,
-                pass: EMAIL_SENDING_PASSWORD as string
+                pass: EMAIL_SENDING_PASSWORD as string,
             },
         };
 
