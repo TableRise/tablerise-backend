@@ -37,6 +37,18 @@ describe('Support :: Helpers :: EmailSender', () => {
                 expect(typeof sendEmailTest.verificationCode).toBe('string');
                 expect(sendEmailTest.verificationCode?.length).toBe(6);
             });
+
+            it('should return true when the process is done with success without the username', async () => {
+                const testContent = {
+                    subject: 'Test',
+                    body: '',
+                };
+
+                const sendEmailTest = await emailSender.send('confirmation', testContent, 'test@email.com');
+                expect(sendEmailTest.success).toBe(true);
+                expect(typeof sendEmailTest.verificationCode).toBe('string');
+                expect(sendEmailTest.verificationCode?.length).toBe(6);
+            });
         });
     });
 });
