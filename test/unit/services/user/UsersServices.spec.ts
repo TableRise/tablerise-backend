@@ -48,8 +48,8 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the data is correct', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findAll').mockResolvedValue([]);
-                jest.spyOn(UsersModelMock, 'create').mockResolvedValue({ _doc: userInstanceMock })
-                jest.spyOn(UsersDetailsModelMock, 'create').mockResolvedValue(userDetailsInstanceMock)
+                jest.spyOn(UsersModelMock, 'create').mockResolvedValue({ _doc: userInstanceMock });
+                jest.spyOn(UsersDetailsModelMock, 'create').mockResolvedValue(userDetailsInstanceMock);
             });
 
             it('should return the new user registered', async () => {
@@ -82,7 +82,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 422 error - user details schema', async () => {
                 const { firstName: _, ...wrongUserDetailsPayload } = userDetailsInstanceMockPayload;
-                const userDetailsWrongPayload = { ...userPayload, details: wrongUserDetailsPayload }
+                const userDetailsWrongPayload = { ...userPayload, details: wrongUserDetailsPayload };
                 try {
                     await UsersServicesMock.register(userDetailsWrongPayload as RegisterUserPayload);
                     expect('it should not be here').toBe(true);
@@ -126,9 +126,7 @@ describe('Services :: User :: UsersServices', () => {
 
         describe('and the data is incorrect - username', () => {
             beforeAll(() => {
-                jest.spyOn(UsersModelMock, 'findAll')
-                    .mockResolvedValueOnce([])
-                    .mockResolvedValue([{}]);
+                jest.spyOn(UsersModelMock, 'findAll').mockResolvedValueOnce([]).mockResolvedValue([{}]);
                 jest.spyOn(UsersModelMock, 'create').mockResolvedValue(userResponse);
             });
 

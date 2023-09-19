@@ -10,13 +10,7 @@ describe('Post user in database', () => {
 
     userInstanceMock.email = `${Math.random()}${userInstanceMock.email}`;
 
-    const {
-        providerId: _,
-        createdAt: _1,
-        updatedAt: _2,
-        tag: _4,
-        ...userInstanceMockPayload
-    } = userInstanceMock;
+    const { providerId: _, createdAt: _1, updatedAt: _2, tag: _4, ...userInstanceMockPayload } = userInstanceMock;
     const { userId: _5, ...userDetailsInstanceMockPayload } = userDetailsInstanceMock;
 
     const userPayload = {
@@ -40,11 +34,8 @@ describe('Post user in database', () => {
 
     describe('When register a new user', () => {
         it('should return correct data and status', async () => {
-            const response = await requester
-                .post('/profile/register')
-                .send(userPayload)
-                .expect(HttpStatusCode.CREATED);
-    
+            const response = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+
             expect(response.body).toHaveProperty('_id');
             expect(response.body).toHaveProperty('tag');
             expect(response.body).toHaveProperty('createdAt');
