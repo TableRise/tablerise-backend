@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);

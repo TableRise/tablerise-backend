@@ -9,7 +9,7 @@ import schema from 'src/schemas';
 describe('Services :: User :: UsersServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const UsersModelMock = DM_MOCK.modelInstance('user', 'Users');
     const UsersDetailsModelMock = DM_MOCK.modelInstance('user', 'UserDetails');

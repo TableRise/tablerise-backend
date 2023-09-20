@@ -11,7 +11,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: RealmsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms');
     const RealmsServicesMock = new RealmsServices(

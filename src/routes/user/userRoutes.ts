@@ -9,7 +9,7 @@ import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import ValidateData from 'src/support/helpers/ValidateData';
 
-const validateData = new ValidateData(logger);
+const validateData = new ValidateData();
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('user', 'Users');

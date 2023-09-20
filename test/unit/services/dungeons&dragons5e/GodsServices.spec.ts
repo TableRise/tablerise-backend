@@ -11,7 +11,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
     const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);

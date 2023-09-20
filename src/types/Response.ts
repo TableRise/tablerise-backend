@@ -1,6 +1,8 @@
-import { User, UserDetail } from '@tablerise/database-management';
+import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { User } from 'src/schemas/user/usersValidationSchema';
 
 export interface RegisterUserPayload {
+    providerId?: string,
     email: string;
     password: string;
     nickname: string;

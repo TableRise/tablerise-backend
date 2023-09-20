@@ -8,6 +8,8 @@ import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import getErrorName from 'src/support/helpers/getErrorName';
 
 export default class ItemsServices implements Service<Internacional<Item>> {
     constructor(
@@ -35,7 +37,11 @@ export default class ItemsServices implements Service<Internacional<Item>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Item entity found with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) throw new HttpRequestErrors({
+            message: ErrorMessage.NOT_FOUND_BY_ID,
+            code: HttpStatusCode.NOT_FOUND,
+            name: getErrorName(HttpStatusCode.NOT_FOUND)
+        });
 
         return response;
     }
@@ -49,7 +55,11 @@ export default class ItemsServices implements Service<Internacional<Item>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Item entity updated with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) throw new HttpRequestErrors({
+            message: ErrorMessage.NOT_FOUND_BY_ID,
+            code: HttpStatusCode.NOT_FOUND,
+            name: getErrorName(HttpStatusCode.NOT_FOUND)
+        });
 
         return response;
     }
@@ -57,7 +67,11 @@ export default class ItemsServices implements Service<Internacional<Item>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response) throw new HttpRequestErrors({
+            message: ErrorMessage.NOT_FOUND_BY_ID,
+            code: HttpStatusCode.NOT_FOUND,
+            name: getErrorName(HttpStatusCode.NOT_FOUND)
+        });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

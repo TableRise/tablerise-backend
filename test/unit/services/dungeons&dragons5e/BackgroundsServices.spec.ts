@@ -12,7 +12,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: BackgroundsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
     const BackgroundsServicesMock = new BackgroundsServices(

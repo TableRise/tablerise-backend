@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);

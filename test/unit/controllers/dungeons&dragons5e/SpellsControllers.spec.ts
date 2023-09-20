@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
     const SpellsServicesMock = new SpellsServices(

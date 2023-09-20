@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters');
     const MonstersServicesMock = new MonstersServices(

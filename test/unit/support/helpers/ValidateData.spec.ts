@@ -24,7 +24,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { value: 10 };
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(true);
             } catch (error) {
@@ -51,7 +51,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { noNumber: '10' };
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(false);
             } catch (error) {
@@ -66,7 +66,7 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = true;
         it('should throw a an error', () => {
             try {
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
                 expect(validate.existance).toThrow(Error);
             } catch (error) {
@@ -80,7 +80,7 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = false;
         it('should not throw an error', () => {
             try {
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
             } catch (error) {
                 expect(error).toBeUndefined();
