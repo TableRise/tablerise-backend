@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import logger from '@tablerise/dynamic-logger';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-function ErrorMiddleware(err: Error, _req: Request, res: Response, _next: NextFunction): Response {
-    logger('error', `error http throwed - code: ${!Number(err.stack) ? 500 : (err.stack as string)} [ ${err.name} ]`);
-    if (!Number(err.stack)) return res.status(500).send(err.message);
-    return res.status(Number(err.stack)).json({
-        name: err.name,
-        message: err.message,
+function ErrorMiddleware(err: HttpRequestErrors | Error, _req: Request, res: Response, _next: NextFunction): Response {
+    if (!(err instanceof HttpRequestErrors)) {
+        logger('error', `error internal throwed - code: 500 [ ${err.name} ]`);
+        return res.status(500).send(err.message);
+    }
+
+    return res.status(err.code).json({
+        ...err,
+        message: err.message
     });
 }
 
