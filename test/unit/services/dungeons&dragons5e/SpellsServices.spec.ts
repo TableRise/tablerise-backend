@@ -7,11 +7,12 @@ import logger from '@tablerise/dynamic-logger';
 import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
     const SpellsServicesMock = new SpellsServices(
@@ -62,9 +63,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -104,10 +105,12 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.update(spellMockID, spellMockPayloadWrong as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
@@ -116,9 +119,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -127,9 +130,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.update('inexistent_id', spellMockPayloadWithoutActive as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -189,9 +192,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability(spellMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -200,9 +203,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability(spellMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -211,9 +214,9 @@ describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

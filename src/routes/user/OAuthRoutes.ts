@@ -8,8 +8,14 @@ import logger from '@tablerise/dynamic-logger';
 import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import OAuthServices from 'src/services/user/OAuthServices';
 import AuthErrorMiddleware from 'src/middlewares/AuthErrorMiddleware';
+import DatabaseManagement from '@tablerise/database-management';
 
-const services = new OAuthServices(logger);
+const DM = new DatabaseManagement();
+
+const modelUser = DM.modelInstance('user', 'Users');
+const modelUserDetails = DM.modelInstance('user', 'UserDetails');
+
+const services = new OAuthServices(modelUser, modelUserDetails, logger);
 const controllers = new OAuthControllers(services, logger);
 
 const route = Router();

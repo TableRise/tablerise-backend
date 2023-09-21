@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const SystemsServicesMock = new SystemsServices(
@@ -37,9 +37,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'findAll').mockResolvedValue([systemMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SystemsControllersMock.findAll(request, response);
@@ -56,9 +54,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'findOne').mockResolvedValue(systemMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -80,9 +76,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'update').mockResolvedValue(systemMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -108,9 +102,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'updateContent').mockResolvedValue(updateResult);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 201', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -133,9 +125,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'activate').mockResolvedValue(updateResult);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -156,9 +146,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'deactivate').mockResolvedValue(updateResult);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };

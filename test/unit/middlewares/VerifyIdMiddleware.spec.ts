@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Middlewares :: VerifyIdMiddleware', () => {
@@ -28,10 +29,10 @@ describe('Middlewares :: VerifyIdMiddleware', () => {
                 request.params = { id: 'invalid' };
                 VerifyIdMiddleware(request, response, next);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
 
                 expect(err.message).toBe('The parameter id is invalid');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('Invalid Entry');
                 expect(next).toHaveBeenCalledTimes(0);
             }

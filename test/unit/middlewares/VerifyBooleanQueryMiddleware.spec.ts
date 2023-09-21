@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 describe('Middlewares :: VerifyBooleanQueryMiddleware', () => {
     describe('When a request is made with the query availability', () => {
@@ -27,10 +28,10 @@ describe('Middlewares :: VerifyBooleanQueryMiddleware', () => {
                 request.query = { availability: 'invalid' };
                 VerifyBooleanQueryMiddleware(request, response, next);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
 
                 expect(err.message).toBe('The query is invalid');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('Invalid Entry');
                 expect(next).toHaveBeenCalledTimes(0);
             }

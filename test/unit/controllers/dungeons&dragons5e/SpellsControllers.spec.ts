@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
     const SpellsServicesMock = new SpellsServices(
@@ -36,9 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findAll').mockResolvedValue([spellMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SpellsControllersMock.findAll(request, response);
@@ -56,9 +54,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findAllDisabled').mockResolvedValue([spellMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SpellsControllersMock.findAllDisabled(request, response);
@@ -75,9 +71,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findOne').mockResolvedValue(spellMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };
@@ -103,9 +97,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'update').mockResolvedValue(spellMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };
@@ -130,9 +122,7 @@ describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };

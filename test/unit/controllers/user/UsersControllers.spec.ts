@@ -9,7 +9,7 @@ import mock from 'src/support/mocks/user';
 
 describe('Controllers :: User :: UsersControllers', () => {
     const DM = new DatabaseManagement();
-    const validateData = new ValidateData(logger);
+    const validateData = new ValidateData();
 
     const UsersModel = DM.modelInstance('user', 'Users');
     const UserDetailsModel = DM.modelInstance('user', 'UserDetails');

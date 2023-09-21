@@ -2,6 +2,7 @@ import { mongoose } from '@tablerise/database-management';
 import { NextFunction, Request, Response } from 'express';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import logger from '@tablerise/dynamic-logger';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 export default function VerifyIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
     const { id } = req.params;
@@ -9,12 +10,11 @@ export default function VerifyIdMiddleware(req: Request, _res: Response, next: N
     const isValidMongoID = mongoose.isValidObjectId(id);
 
     if (!isValidMongoID) {
-        const err = new Error('The parameter id is invalid');
-        err.stack = HttpStatusCode.BAD_REQUEST.toString();
-        err.name = 'Invalid Entry';
-
-        logger('error', err.message);
-        throw err;
+        throw new HttpRequestErrors({
+            message: 'The parameter id is invalid',
+            code: HttpStatusCode.BAD_REQUEST,
+            name: 'Invalid Entry',
+        });
     }
 
     logger('info', 'The parameter id is valid');

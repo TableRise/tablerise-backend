@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 export default function VerifyBooleanQueryMiddleware(req: Request, _res: Response, next: NextFunction): void {
@@ -9,9 +10,9 @@ export default function VerifyBooleanQueryMiddleware(req: Request, _res: Respons
         return;
     }
 
-    const err = new Error('The query is invalid');
-    err.stack = HttpStatusCode.BAD_REQUEST.toString();
-    err.name = 'Invalid Entry';
-
-    throw err;
+    throw new HttpRequestErrors({
+        message: 'The query is invalid',
+        code: HttpStatusCode.BAD_REQUEST,
+        name: 'Invalid Entry',
+    });
 }

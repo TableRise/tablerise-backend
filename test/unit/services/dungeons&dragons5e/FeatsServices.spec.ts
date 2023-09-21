@@ -7,11 +7,12 @@ import logger from '@tablerise/dynamic-logger';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
     const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
@@ -57,9 +58,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -98,10 +99,12 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.update(featMockID, featMockPayloadWrong as Internacional<Feat>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
@@ -110,9 +113,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<Feat>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -121,9 +124,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<Feat>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -183,9 +186,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.updateAvailability(featMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -194,9 +197,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.updateAvailability(featMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -205,9 +208,9 @@ describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
             try {
                 await FeatsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

@@ -12,7 +12,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 
-const validateData = new ValidateData(logger);
+const validateData = new ValidateData();
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('dungeons&dragons5e', 'Classes');
