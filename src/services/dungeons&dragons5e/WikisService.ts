@@ -30,11 +30,12 @@ export default class WikisServices implements Service<Internacional<Wiki>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Wiki entity found with success');
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -55,11 +56,12 @@ export default class WikisServices implements Service<Internacional<Wiki>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Wiki entity updated with success');
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -67,11 +69,12 @@ export default class WikisServices implements Service<Internacional<Wiki>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

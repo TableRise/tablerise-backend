@@ -36,7 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findAll').mockResolvedValue([armorMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ArmorsControllersMock.findAll(request, response);
@@ -53,7 +53,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findAllDisabled').mockResolvedValue([armorMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ArmorsControllersMock.findAllDisabled(request, response);
@@ -70,7 +70,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findOne').mockResolvedValue(armorMockInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };
@@ -96,7 +96,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'update').mockResolvedValue(armorMockUpdateInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };
@@ -121,7 +121,7 @@ describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };

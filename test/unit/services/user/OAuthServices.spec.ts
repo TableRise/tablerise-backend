@@ -2,7 +2,7 @@ import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import mock from 'src/support/mocks/user'
+import mock from 'src/support/mocks/user';
 
 describe('Services :: User :: OAuthServices', () => {
     const DM = new DatabaseManagement();

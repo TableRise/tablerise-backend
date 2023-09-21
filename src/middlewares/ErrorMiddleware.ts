@@ -10,7 +10,7 @@ function ErrorMiddleware(err: HttpRequestErrors | Error, _req: Request, res: Res
 
     return res.status(err.code).json({
         ...err,
-        message: err.message
+        message: err.message,
     });
 }
 

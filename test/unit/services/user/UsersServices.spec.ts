@@ -61,9 +61,7 @@ describe('Services :: User :: UsersServices', () => {
 
         describe('and the data is incorrect - username', () => {
             beforeAll(() => {
-                jest.spyOn(UsersModelMock, 'findAll')
-                    .mockResolvedValueOnce([])
-                    .mockResolvedValue([{}]);
+                jest.spyOn(UsersModelMock, 'findAll').mockResolvedValueOnce([]).mockResolvedValue([{}]);
                 jest.spyOn(UsersModelMock, 'create').mockResolvedValue(userResponse);
             });
 
@@ -87,13 +85,13 @@ describe('Services :: User :: UsersServices', () => {
                     .mockResolvedValueOnce([{ email: userPayload.email }])
                     .mockResolvedValueOnce([])
                     .mockResolvedValueOnce([])
-                    .mockResolvedValueOnce([{}])
+                    .mockResolvedValueOnce([{}]);
                 jest.spyOn(UsersModelMock, 'create').mockResolvedValue(userResponse);
             });
 
             afterAll(() => {
                 jest.clearAllMocks();
-            })
+            });
 
             it('should throw 422 error - user schema', async () => {
                 const { email: _, ...wrongUserPayload } = userPayload;

@@ -33,20 +33,22 @@ export default class RegisterServices {
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
 
-        if (emailAlreadyExist.length) throw new HttpRequestErrors({
-            message: 'Email already exists in database',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST)
-        });
+        if (emailAlreadyExist.length)
+            throw new HttpRequestErrors({
+                message: 'Email already exists in database',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
         const tagAlreadyExist = await this._model.findAll({ tag, nickname: userSerialized.nickname });
 
-        if (tagAlreadyExist.length) throw new HttpRequestErrors({
-            message: 'User already exists in database',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST)
-        });
+        if (tagAlreadyExist.length)
+            throw new HttpRequestErrors({
+                message: 'User already exists in database',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
         userSerialized.tag = tag;
         userSerialized.createdAt = new Date().toISOString();

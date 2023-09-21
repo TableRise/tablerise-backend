@@ -36,7 +36,7 @@ describe('Helpers :: userSerializer', () => {
                 tag: null,
                 picture: null,
                 createdAt: null,
-                updatedAt: null
+                updatedAt: null,
             });
         });
 
@@ -50,8 +50,8 @@ describe('Helpers :: userSerializer', () => {
                 birthday: null,
                 gameInfo: { campaigns: [], characters: [], badges: [] },
                 biography: null,
-                role: 'user'
-            })
-        })
+                role: 'user',
+            });
+        });
     });
 });

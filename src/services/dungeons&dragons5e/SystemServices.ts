@@ -29,11 +29,12 @@ export default class SystemServices implements Service<System> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -44,11 +45,12 @@ export default class SystemServices implements Service<System> {
         this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
         this._logger('info', 'System entity updated with success');
 
         return response;
@@ -64,11 +66,12 @@ export default class SystemServices implements Service<System> {
 
         const recoverSystem = (await this._model.findOne(_id)) as System & { _id: string };
 
-        if (!recoverSystem) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!recoverSystem)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         if (recoverSystem && method === 'add') {
             // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
@@ -98,11 +101,12 @@ export default class SystemServices implements Service<System> {
     public async activate(_id: string): Promise<string> {
         const response = (await this._model.findOne(_id)) as System & { _id: string };
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
 
@@ -118,11 +122,12 @@ export default class SystemServices implements Service<System> {
     public async deactivate(_id: string): Promise<string> {
         const response = (await this._model.findOne(_id)) as System & { _id: string };
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
 

@@ -1,4 +1,4 @@
-import { UpdateContent } from "src/schemas/updateContentSchema";
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 
 export default interface Service<T> {
     create?: (payload: T) => Promise<T>;

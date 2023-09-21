@@ -13,6 +13,6 @@ export default function VerifyBooleanQueryMiddleware(req: Request, _res: Respons
     throw new HttpRequestErrors({
         message: 'The query is invalid',
         code: HttpStatusCode.BAD_REQUEST,
-        name: 'Invalid Entry'
+        name: 'Invalid Entry',
     });
 }

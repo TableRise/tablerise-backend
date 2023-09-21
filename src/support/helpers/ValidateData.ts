@@ -15,23 +15,25 @@ export default class ValidateData {
     protected validateEntry(zodSchema: any, payload: unknown): void {
         const verify = zodSchema.safeParse(payload);
 
-        if (!verify.success) throw new HttpRequestErrors({
-            message: 'Schema error',
-            code: HttpStatusCode.UNPROCESSABLE_ENTITY,
-            name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
-            details: verify.error.issues.map((err: ZodIssue) => ({
-                attribute: err.path.length > 1 ? err.path : err.path[0],
-                reason: err.message,
-                path: 'payload'
-            }))
-        });
+        if (!verify.success)
+            throw new HttpRequestErrors({
+                message: 'Schema error',
+                code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+                name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
+                details: verify.error.issues.map((err: ZodIssue) => ({
+                    attribute: err.path.length > 1 ? err.path : err.path[0],
+                    reason: err.message,
+                    path: 'payload',
+                })),
+            });
     }
 
     protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
-        if (noQueryOrActiveProperty) throw new HttpRequestErrors({
-            message: errorMessage,
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST),
-        });
+        if (noQueryOrActiveProperty)
+            throw new HttpRequestErrors({
+                message: errorMessage,
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
     }
 }

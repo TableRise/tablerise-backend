@@ -36,7 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findAll').mockResolvedValue([magicItemMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MagicItemsControllersMock.findAll(request, response);
@@ -54,7 +54,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findAllDisabled').mockResolvedValue([magicItemMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MagicItemsControllersMock.findAllDisabled(request, response);
@@ -71,7 +71,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findOne').mockResolvedValue(magicItemMockInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };
@@ -97,7 +97,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'update').mockResolvedValue(magicItemMockUpdateInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };
@@ -122,7 +122,7 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };

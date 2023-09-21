@@ -36,11 +36,12 @@ export default class ClassesServices implements Service<Internacional<Class>> {
     public async findOne(_id: string): Promise<Internacional<Class>> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._logger('info', 'Class entity found with success');
         return response;
@@ -56,10 +57,10 @@ export default class ClassesServices implements Service<Internacional<Class>> {
 
         if (!updatedResponse)
             throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._logger('info', 'Class entity updated with success');
         return updatedResponse;
@@ -68,11 +69,12 @@ export default class ClassesServices implements Service<Internacional<Class>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

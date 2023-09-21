@@ -36,7 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsControllers', () => {
             jest.spyOn(WeaponsServicesMock, 'findAll').mockResolvedValue([weaponMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await WeaponsControllersMock.findAll(request, response);
@@ -53,7 +53,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsControllers', () => {
             jest.spyOn(WeaponsServicesMock, 'findAllDisabled').mockResolvedValue([weaponMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await WeaponsControllersMock.findAllDisabled(request, response);
@@ -70,7 +70,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsControllers', () => {
             jest.spyOn(WeaponsServicesMock, 'findOne').mockResolvedValue(weaponMockInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: weaponMockInstance._id as string };
@@ -96,7 +96,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsControllers', () => {
             jest.spyOn(WeaponsServicesMock, 'update').mockResolvedValue(weaponMockUpdateInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: weaponMockInstance._id as string };
@@ -121,7 +121,7 @@ describe('Services :: DungeonsAndDragons5e :: WeaponsControllers', () => {
             jest.spyOn(WeaponsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: weaponMockInstance._id as string };

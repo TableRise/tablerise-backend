@@ -37,11 +37,12 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Weapon entity found with success');
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -55,11 +56,12 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Weapon entity updated with success');
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -67,11 +69,12 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw new HttpRequestErrors({
-            message: ErrorMessage.NOT_FOUND_BY_ID,
-            code: HttpStatusCode.NOT_FOUND,
-            name: getErrorName(HttpStatusCode.NOT_FOUND)
-        });
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

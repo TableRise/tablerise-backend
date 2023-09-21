@@ -13,7 +13,7 @@ export default class OAuthServices {
     constructor(
         private readonly _model: MongoModel<User>,
         private readonly _modelDetails: MongoModel<UserDetail>,
-        private readonly _logger: Logger,
+        private readonly _logger: Logger
     ) {}
 
     public async google(profile: Google.Profile): Promise<any> {
@@ -24,11 +24,12 @@ export default class OAuthServices {
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
 
-        if (emailAlreadyExist.length) throw new HttpRequestErrors({
-            message: 'Email already exists in database',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST)
-        });
+        if (emailAlreadyExist.length)
+            throw new HttpRequestErrors({
+                message: 'Email already exists in database',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
@@ -60,11 +61,12 @@ export default class OAuthServices {
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
 
-        if (emailAlreadyExist.length) throw new HttpRequestErrors({
-            message: 'Email already exists in database',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST)
-        });
+        if (emailAlreadyExist.length)
+            throw new HttpRequestErrors({
+                message: 'Email already exists in database',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();

@@ -11,7 +11,7 @@ describe('Middlewares :: ErrorMiddleware', () => {
             message: 'Schema error',
             code: 422,
             name: 'ValidationError',
-            details: [{ attribute: 'name', path: 'required', reason: 'missing' }]
+            details: [{ attribute: 'name', path: 'required', reason: 'missing' }],
         });
         const next = jest.fn().mockReturnValue({}) as NextFunction;
 
@@ -31,7 +31,7 @@ describe('Middlewares :: ErrorMiddleware', () => {
                 name: error.name,
                 message: error.message,
                 code: error.code,
-                details: error.details
+                details: error.details,
             });
         });
     });

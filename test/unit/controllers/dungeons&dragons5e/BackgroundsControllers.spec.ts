@@ -36,7 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findAll').mockResolvedValue([backgroundMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await BackgroundsControllersMock.findAll(request, response);
@@ -54,7 +54,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findAllDisabled').mockResolvedValue([backgroundMockInstance]);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await BackgroundsControllersMock.findAllDisabled(request, response);
@@ -71,7 +71,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findOne').mockResolvedValue(backgroundMockInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };
@@ -97,7 +97,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'update').mockResolvedValue(backgroundMockUpdateInstance);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };
@@ -122,7 +122,7 @@ describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };

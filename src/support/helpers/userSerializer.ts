@@ -45,7 +45,7 @@ export function postUserSerializer({
     tag = null,
     picture = null,
     createdAt = null,
-    updatedAt = null
+    updatedAt = null,
 }: any): User {
     return {
         providerId,
@@ -55,8 +55,8 @@ export function postUserSerializer({
         tag,
         picture,
         createdAt,
-        updatedAt
-    }
+        updatedAt,
+    };
 }
 
 export function postUserDetailsSerializer({
@@ -68,7 +68,7 @@ export function postUserDetailsSerializer({
     birthday = null,
     gameInfo = { campaigns: [], characters: [], badges: [] },
     biography = null,
-    role = 'user'
+    role = 'user',
 }: any): UserDetail {
     return {
         userId,
@@ -79,6 +79,6 @@ export function postUserDetailsSerializer({
         birthday,
         gameInfo,
         biography,
-        role
-    }
+        role,
+    };
 }

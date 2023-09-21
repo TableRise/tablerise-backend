@@ -38,7 +38,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
             jest.spyOn(OAuthServicesMock, 'google').mockResolvedValue(userResponse); // change to user's mock when done
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 201', async () => {
             request.user = userProvidedGoogle;
@@ -57,7 +57,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
             jest.spyOn(OAuthServicesMock, 'facebook').mockResolvedValue(userResponse);
         });
 
-        afterAll(() => jest.clearAllMocks());;
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 201', async () => {
             request.user = userProvidedFacebook;
