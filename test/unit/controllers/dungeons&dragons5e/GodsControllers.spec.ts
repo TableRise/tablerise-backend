@@ -31,9 +31,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
             jest.spyOn(GodsServicesMock, 'findAll').mockResolvedValue([godMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await GodsControllersMock.findAll(request, response);
@@ -51,9 +49,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
             jest.spyOn(GodsServicesMock, 'findAllDisabled').mockResolvedValue([godMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await GodsControllersMock.findAllDisabled(request, response);
@@ -70,9 +66,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
             jest.spyOn(GodsServicesMock, 'findOne').mockResolvedValue(godMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: godMockInstance._id as string };
@@ -98,9 +92,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
             jest.spyOn(GodsServicesMock, 'update').mockResolvedValue(godMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: godMockInstance._id as string };
@@ -125,9 +117,7 @@ describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
             jest.spyOn(GodsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: godMockInstance._id as string };

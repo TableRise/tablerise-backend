@@ -57,10 +57,10 @@ describe('Put RPG systems in database', () => {
                 .send({ data: null } as unknown as System)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
-            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('details');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('name');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
+            expect(body.details[0].attribute).toBe('name');
+            expect(body.details[0].reason).toBe('Required');
             expect(body.name).toBe('ValidationError');
         });
 

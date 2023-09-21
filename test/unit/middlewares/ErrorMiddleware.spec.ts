@@ -1,34 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 
 describe('Middlewares :: ErrorMiddleware', () => {
     describe('When error is throwed by request', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const error = {} as Error;
-        const next = jest.fn().mockReturnValue({}) as NextFunction;
-
-        const ZOD_ERROR_SYSTEM_NAME = {
+        const error = new HttpRequestErrors({
+            message: 'Schema error',
+            code: 422,
             name: 'ValidationError',
-            message: [
-                {
-                    code: 'invalid_type',
-                    expected: 'string',
-                    received: 'undefined',
-                    path: ['name'],
-                    message: 'Required',
-                },
-            ],
-        };
+            details: [{ attribute: 'name', path: 'required', reason: 'missing' }]
+        });
+        const next = jest.fn().mockReturnValue({}) as NextFunction;
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
-            error.message = JSON.stringify(ZOD_ERROR_SYSTEM_NAME.message);
-            error.stack = '422';
-            error.name = 'ValidationError';
+            response.send = jest.fn().mockReturnValue('');
         });
+
+        afterAll(() => jest.clearAllMocks());
 
         it('should the error message be returned and http status error code throwed', () => {
             ErrorMiddleware(error, request, response, next);
@@ -37,6 +30,8 @@ describe('Middlewares :: ErrorMiddleware', () => {
             expect(response.json).toHaveBeenCalledWith({
                 name: error.name,
                 message: error.message,
+                code: error.code,
+                details: error.details
             });
         });
     });
@@ -49,12 +44,13 @@ describe('Middlewares :: ErrorMiddleware', () => {
 
         beforeAll(() => {
             response.status = jest.fn().mockReturnValue(response);
-            response.json = jest.fn().mockReturnValue({});
             response.send = jest.fn().mockReturnValue('');
             error.message = 'Internal Error';
             error.stack = '';
             error.name = 'Internal Error';
         });
+
+        afterAll(() => jest.clearAllMocks());
 
         it('should the error message be returned and internal error code throwed', () => {
             ErrorMiddleware(error, request, response, next);

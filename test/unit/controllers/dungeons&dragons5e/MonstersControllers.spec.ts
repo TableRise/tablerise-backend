@@ -36,9 +36,7 @@ describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findAll').mockResolvedValue([monsterMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await MonstersControllersMock.findAll(request, response);
@@ -55,9 +53,7 @@ describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findAllDisabled').mockResolvedValue([monsterMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await MonstersControllersMock.findAllDisabled(request, response);
@@ -74,9 +70,7 @@ describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findOne').mockResolvedValue(monsterMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };
@@ -102,9 +96,7 @@ describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'update').mockResolvedValue(monsterMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };
@@ -129,9 +121,7 @@ describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };

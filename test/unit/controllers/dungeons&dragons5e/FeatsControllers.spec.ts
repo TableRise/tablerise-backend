@@ -31,9 +31,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findAll').mockResolvedValue([featMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await FeatsControllersMock.findAll(request, response);
@@ -51,9 +49,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findAllDisabled').mockResolvedValue([featMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await FeatsControllersMock.findAllDisabled(request, response);
@@ -70,9 +66,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findOne').mockResolvedValue(featMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };
@@ -98,9 +92,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'update').mockResolvedValue(featMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };
@@ -125,9 +117,7 @@ describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };

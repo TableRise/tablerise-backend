@@ -7,6 +7,7 @@ import logger from '@tablerise/dynamic-logger';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
@@ -64,9 +65,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -110,10 +111,12 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
                     magicItemMockPayloadWrong as Internacional<MagicItem>
                 );
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
@@ -122,9 +125,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.update('inexistent_id', magicItemMockPayload as Internacional<MagicItem>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -136,9 +139,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
                     magicItemMockPayloadWithoutActive as Internacional<MagicItem>
                 );
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -198,9 +201,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.updateAvailability(magicItemMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -209,9 +212,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.updateAvailability(magicItemMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -220,9 +223,9 @@ describe('Services :: DungeonsAndDragons5e :: MagicItemsServices', () => {
             try {
                 await MagicItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

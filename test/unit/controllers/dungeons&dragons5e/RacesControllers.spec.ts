@@ -31,9 +31,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findAll').mockResolvedValue([RaceMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await RacesControllersMock.findAll(request, response);
@@ -50,9 +48,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findAllDisabled').mockResolvedValue([RaceMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await RacesControllersMock.findAllDisabled(request, response);
@@ -69,9 +65,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findOne').mockResolvedValue(RaceMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };
@@ -97,9 +91,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'update').mockResolvedValue(RaceMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };
@@ -124,9 +116,7 @@ describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };

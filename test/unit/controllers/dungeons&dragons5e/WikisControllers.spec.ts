@@ -31,9 +31,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
             jest.spyOn(WikisServicesMock, 'findAll').mockResolvedValue([wikiMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await WikisControllersMock.findAll(request, response);
@@ -50,9 +48,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
             jest.spyOn(WikisServicesMock, 'findAllDisabled').mockResolvedValue([wikiMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             await WikisControllersMock.findAllDisabled(request, response);
@@ -69,9 +65,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
             jest.spyOn(WikisServicesMock, 'findOne').mockResolvedValue(wikiMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: wikiMockInstance._id as string };
@@ -97,9 +91,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
             jest.spyOn(WikisServicesMock, 'update').mockResolvedValue(wikiMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: wikiMockInstance._id as string };
@@ -124,9 +116,7 @@ describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
             jest.spyOn(WikisServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());;
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: wikiMockInstance._id as string };
