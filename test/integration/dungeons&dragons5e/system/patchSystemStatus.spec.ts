@@ -8,8 +8,8 @@ import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG system status in database', () => {
     let model: MongoModel<DnDSystem>;
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
-    const { _id: __, ...systemMockPayload } = systemMockInstance;
+    const _system = mocks.system.instance as DnDSystem & { _id: string };
+    const { _id: _, ...systemMockPayload } = _system;
 
     let documentId: string;
 
@@ -36,7 +36,7 @@ describe('Patch RPG system status in database', () => {
             documentId = response._id;
 
             const { body } = await requester
-                .patch(`/dnd5e/system/${documentId}?aviability=false`)
+                .patch(`/dnd5e/system/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('message');
@@ -50,7 +50,7 @@ describe('Patch RPG system status in database', () => {
             documentId = response._id;
 
             const { body } = await requester
-                .patch(`/dnd5e/system/${documentId}?aviability=false`)
+                .patch(`/dnd5e/system/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
             expect(body).toHaveProperty('message');

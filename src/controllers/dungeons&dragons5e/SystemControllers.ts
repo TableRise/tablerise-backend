@@ -50,12 +50,13 @@ export default class SystemControllers {
     }
 
     public async updateAvailability(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [updateAvailability] made to system');
+        this._logger('warn', 'Request [updateAvailability] made to systems');
         const { id: _id } = req.params;
         const { availability } = req.query;
         const query = availability === 'true';
 
         const request = await this._service.updateAvailability(_id, query);
+        
         return res.status(HttpStatusCode.OK).json(request);
     }
 }
