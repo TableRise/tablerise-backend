@@ -1,34 +1,37 @@
-import { DnDRealm, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class RealmsServices implements Service<Internacional<DnDRealm>> {
+export default class RealmsServices implements Service<Internacional<Realm>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDRealm>>,
+        private readonly _model: MongoModel<Internacional<Realm>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDRealm>>> {
+    public async findAll(): Promise<Array<Internacional<Realm>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All realm entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDRealm>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Realm>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All realm entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDRealm>> {
+    public async findOne(_id: string): Promise<Internacional<Realm>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Realm entity found with success');
@@ -36,7 +39,7 @@ export default class RealmsServices implements Service<Internacional<DnDRealm>> 
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDRealm>): Promise<Internacional<DnDRealm>> {
+    public async update(_id: string, payload: Internacional<Realm>): Promise<Internacional<Realm>> {
         const { helpers, realmZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(realmZod), payload);
 

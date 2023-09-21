@@ -1,20 +1,22 @@
-import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: FeatsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: FeatsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
     const ValidateDataMock = new ValidateData(logger);
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
 
-    const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
+    const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const { _id: _, ...featMockPayload } = featMockInstance;
 
     describe('When the recover all feats service is called', () => {
@@ -87,14 +89,14 @@ describe('Services :: FeatsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await FeatsServicesMock.update(
                 featMockID,
-                featMockPayloadWithoutActive as Internacional<DnDFeat>
+                featMockPayloadWithoutActive as Internacional<Feat>
             );
             expect(responseTest).toBe(featMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await FeatsServicesMock.update(featMockID, featMockPayloadWrong as Internacional<DnDFeat>);
+                await FeatsServicesMock.update(featMockID, featMockPayloadWrong as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
@@ -106,7 +108,7 @@ describe('Services :: FeatsServices', () => {
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<DnDFeat>);
+                await FeatsServicesMock.update('inexistent_id', featMockPayload as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -117,7 +119,7 @@ describe('Services :: FeatsServices', () => {
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<DnDFeat>);
+                await FeatsServicesMock.update('inexistent_id', featMockPayloadWithoutActive as Internacional<Feat>);
             } catch (error) {
                 const err = error as Error;
                 expect(err.message).toBe('NotFound an object with provided ID');

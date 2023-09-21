@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDArmor, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Put RPG armors in database', () => {
-    let model: MongoModel<Internacional<DnDArmor>>;
-    const armor = mocks.armor.instance as Internacional<DnDArmor>;
+    let model: MongoModel<Internacional<Armor>>;
+    const armor = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorPayload } = armor;
 
     const newArmorPayload = {
@@ -70,7 +72,7 @@ describe('Put RPG armors in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await requester
                 .put(`/dnd5e/armors/${documentId}`)
-                .send({ data: null } as unknown as Internacional<DnDArmor>)
+                .send({ data: null } as unknown as Internacional<Armor>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');

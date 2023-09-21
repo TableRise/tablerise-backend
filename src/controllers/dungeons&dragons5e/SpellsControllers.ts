@@ -1,5 +1,6 @@
-import { DnDSpell, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
@@ -39,7 +40,7 @@ export default class SpellsControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to spells');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<DnDSpell>;
+        const payload = req.body as Internacional<Spell>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);

@@ -15,4 +15,5 @@ module.exports = {
         'wiki',
         'system',
     ],
+    user: ['user', 'userDetails'],
 };

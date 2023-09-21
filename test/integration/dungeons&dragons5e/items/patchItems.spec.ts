@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Patch RPG items in database', () => {
-    let model: MongoModel<Internacional<DnDItem>>;
-    const item = mocks.item.instance as Internacional<DnDItem>;
+    let model: MongoModel<Internacional<Item>>;
+    const item = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemPayload } = item;
 
     let documentId: string;

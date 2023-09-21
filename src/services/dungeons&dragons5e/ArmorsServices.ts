@@ -1,34 +1,37 @@
-import { DnDArmor, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { SchemasDnDType } from 'src/schemas';
 
-export default class ArmorsServices implements Service<Internacional<DnDArmor>> {
+export default class ArmorsServices implements Service<Internacional<Armor>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDArmor>>,
+        private readonly _model: MongoModel<Internacional<Armor>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDArmor>>> {
+    public async findAll(): Promise<Array<Internacional<Armor>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All armor entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDArmor>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Armor>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All armor entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDArmor>> {
+    public async findOne(_id: string): Promise<Internacional<Armor>> {
         const response = await this._model.findOne(_id);
 
         if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
@@ -38,7 +41,7 @@ export default class ArmorsServices implements Service<Internacional<DnDArmor>> 
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDArmor>): Promise<Internacional<DnDArmor>> {
+    public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
         const { helpers, armorZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(armorZod), payload);
 

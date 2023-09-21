@@ -1,5 +1,6 @@
-import { DnDWeapon, Internacional } from '@tablerise/database-management';
 import { Request, Response } from 'express';
+import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
@@ -39,7 +40,7 @@ export default class WeaponsControllers {
     public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request [update] made to weapons');
         const { id: _id } = req.params;
-        const payload = req.body as Internacional<DnDWeapon>;
+        const payload = req.body as Internacional<Weapon>;
 
         const request = await this._service.update(_id, payload);
         return res.status(HttpStatusCode.OK).json(request);

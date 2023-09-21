@@ -8,4 +8,5 @@ export enum HttpStatusCode {
     NOT_FOUND = 404,
     UNPROCESSABLE_ENTITY = 422,
     INTERNAL_SERVER = 500,
+    EXTERNAL_ERROR = 502,
 }

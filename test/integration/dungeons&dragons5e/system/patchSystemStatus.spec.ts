@@ -1,14 +1,15 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSystem, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 describe('Patch RPG system status in database', () => {
-    let model: MongoModel<DnDSystem>;
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
+    let model: MongoModel<System>;
+    const systemMockInstance = mocks.system.instance as System & { _id: string };
     const { _id: __, ...systemMockPayload } = systemMockInstance;
 
     let documentId: string;
@@ -39,7 +40,7 @@ describe('Patch RPG system status in database', () => {
                 ...systemMockPayload,
                 active: false,
             };
-            const response = (await model.create(systemMockPayloadNoActive)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayloadNoActive)) as System & { _id: string };
             documentId = response._id;
 
             const { text } = await requester.patch(`/dnd5e/system/activate/${documentId}`).expect(HttpStatusCode.OK);
@@ -48,7 +49,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail when is already active', async () => {
-            const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester
@@ -75,7 +76,7 @@ describe('Patch RPG system status in database', () => {
 
     describe('When toggle the status of the rpg system to deactivated', () => {
         it('should return successfull confirmation', async () => {
-            const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { text } = await requester.patch(`/dnd5e/system/deactivate/${documentId}`).expect(HttpStatusCode.OK);
@@ -88,7 +89,7 @@ describe('Patch RPG system status in database', () => {
                 ...systemMockPayload,
                 active: false,
             };
-            const response = (await model.create(systemMockPayloadNoActive)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayloadNoActive)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester

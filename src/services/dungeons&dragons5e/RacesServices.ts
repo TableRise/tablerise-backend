@@ -1,34 +1,37 @@
-import { DnDRace, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
-export default class RacesServices implements Service<Internacional<DnDRace>> {
+export default class RacesServices implements Service<Internacional<Race>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDRace>>,
+        private readonly _model: MongoModel<Internacional<Race>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDRace>>> {
+    public async findAll(): Promise<Array<Internacional<Race>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All race entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDRace>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Race>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All race entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDRace>> {
+    public async findOne(_id: string): Promise<Internacional<Race>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Race entity found with success');
@@ -37,7 +40,7 @@ export default class RacesServices implements Service<Internacional<DnDRace>> {
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDRace>): Promise<Internacional<DnDRace>> {
+    public async update(_id: string, payload: Internacional<Race>): Promise<Internacional<Race>> {
         const { helpers, raceZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(raceZod), payload);
 
