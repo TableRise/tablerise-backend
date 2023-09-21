@@ -9,7 +9,7 @@ export default function userSerializer(
     userProfile: Google.Profile | Facebook.Profile | Discord.Profile
 ): UserSerialized {
     const user: UserSerialized = {
-        external_id: userProfile.id,
+        providerId: userProfile.id,
         email: '',
         name: '',
     };
@@ -42,6 +42,7 @@ export function postUserSerializer({
     email = null,
     password = null,
     nickname = null,
+    tag = null,
     picture = null,
     createdAt = null,
     updatedAt = null
@@ -51,6 +52,7 @@ export function postUserSerializer({
         email,
         password,
         nickname,
+        tag,
         picture,
         createdAt,
         updatedAt
@@ -64,9 +66,9 @@ export function postUserDetailsSerializer({
     pronoun = null,
     secretQuestion = null,
     birthday = null,
-    gameInfo = null,
+    gameInfo = { campaigns: [], characters: [], badges: [] },
     biography = null,
-    role = null
+    role = 'user'
 }: any): UserDetail {
     return {
         userId,

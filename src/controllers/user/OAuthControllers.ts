@@ -1,3 +1,5 @@
+import Facebook from 'passport-facebook';
+import Google from 'passport-google-oauth20';
 import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
@@ -17,8 +19,8 @@ export default class OAuthControllers {
 
         const { user } = req;
 
-        const request = await this._service.google(user);
-        return res.status(HttpStatusCode.OK).json(request);
+        const request = await this._service.google(user as Google.Profile);
+        return res.status(HttpStatusCode.CREATED).json(request);
     }
 
     public async facebook(req: Request, res: Response): Promise<Response> {
@@ -26,7 +28,7 @@ export default class OAuthControllers {
 
         const { user } = req;
 
-        const request = await this._service.facebook(user);
-        return res.status(HttpStatusCode.OK).json(request);
+        const request = await this._service.facebook(user as Facebook.Profile);
+        return res.status(HttpStatusCode.CREATED).json(request);
     }
 }

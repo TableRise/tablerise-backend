@@ -12,6 +12,7 @@ const secretQuestionZodSchema = z.object({
 });
 
 const userDetailsZodSchema = z.object({
+    _id: z.string().length(24).optional(),
     userId: z.string().length(24).optional(),
     firstName: z.string().max(16).or(z.null()),
     lastName: z.string().max(80).or(z.null()),

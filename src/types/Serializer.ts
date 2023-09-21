@@ -1,5 +1,5 @@
 export interface UserSerialized {
-    external_id: string;
+    providerId: string;
     email: string;
     name: string;
 }
