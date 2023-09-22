@@ -124,9 +124,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
         const systemMockID = systemMockInstance._id;
         const entityMockQuery = 'races';
         const { method: __, ...updateContentWithoutMethod } = updateContentMockInstance;
-        const updateResult = `New ID ${newID} was ${
-            method
-        } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
+        const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
         beforeAll(() => {
             jest.spyOn(SystemsModelMock, 'findOne')
@@ -151,9 +149,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
                 newID: systemMockInstance.content.races[0],
             };
             const { method, newID } = updateContentMockInstanceRemove;
-            const updateResult = `New ID ${newID} was ${
-                method
-            } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
+            const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
             const responseTest = await SystemsServicesMock.updateContent(
                 systemMockID,

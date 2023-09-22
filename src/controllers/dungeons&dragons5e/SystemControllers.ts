@@ -57,7 +57,7 @@ export default class SystemControllers {
         const query = availability === 'true';
 
         const request = await this._service.updateAvailability(_id, query);
-        
+
         return res.status(HttpStatusCode.OK).json(request);
     }
 }
