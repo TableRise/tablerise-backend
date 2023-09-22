@@ -23,7 +23,6 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     );
 
     const systemMockInstance = mocks.system.instance as System & { _id: string };
-    const systemMockInstanceNoActive = { ...systemMockInstance, active: false };
     const { content: _, _id: __, ...systemMockPayload } = systemMockInstance;
 
     const updateContentMockInstance = mocks.updateSystemContent.instance as UpdateContent;
@@ -125,9 +124,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
         const systemMockID = systemMockInstance._id;
         const entityMockQuery = 'races';
         const { method: __, ...updateContentWithoutMethod } = updateContentMockInstance;
-        const updateResult = `New ID ${newID} was ${
-            method as string
-        } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
+        const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
         beforeAll(() => {
             jest.spyOn(SystemsModelMock, 'findOne')
@@ -152,9 +149,7 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
                 newID: systemMockInstance.content.races[0],
             };
             const { method, newID } = updateContentMockInstanceRemove;
-            const updateResult = `New ID ${newID} was ${
-                method as string
-            } to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
+            const updateResult = `New ID ${newID} was ${method} to array of entities ${entityMockQuery} - system ID: ${systemMockInstance._id}`;
 
             const responseTest = await SystemsServicesMock.updateContent(
                 systemMockID,
@@ -210,33 +205,54 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     });
 
     describe('When service for activate a system is called', () => {
+        const systemMockID = systemMockInstance._id;
+        const systemMockUpdateInstance = {
+            _id: systemMockID,
+            active: false,
+        };
+
+        const systemMockFindInstance = {
+            _id: systemMockID,
+            active: true,
+        };
+
+        const responseMessageMockActivated = {
+            message: `System ${systemMockID} was activated`,
+            name: 'success',
+        };
+
+        const responseMessageMockDeactivated = {
+            message: `System ${systemMockID} was deactivated`,
+            name: 'success',
+        };
+
         beforeAll(() => {
             jest.spyOn(SystemsModelMock, 'findOne')
-                .mockResolvedValueOnce(systemMockInstanceNoActive)
-                .mockResolvedValueOnce(null)
-                .mockResolvedValue(systemMockInstanceNoActive);
-            jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
+                .mockResolvedValueOnce(systemMockFindInstance)
+                .mockResolvedValueOnce({ ...systemMockFindInstance, active: false })
+                .mockResolvedValueOnce({ ...systemMockFindInstance, active: true })
+                .mockResolvedValueOnce(systemMockUpdateInstance)
+                .mockResolvedValueOnce(null);
+
+            jest.spyOn(SystemsModelMock, 'update')
+                .mockResolvedValue(systemMockUpdateInstance)
+                .mockResolvedValue(systemMockUpdateInstance)
+                .mockResolvedValue(null);
         });
 
-        it('should return a confirmation of activation', async () => {
-            const responseTest = await SystemsServicesMock.activate(systemMockInstance._id);
-            expect(responseTest).toBe(`System ${systemMockInstance._id} was activated`);
+        it('should return correct success message - disable', async () => {
+            const responseTest = await SystemsServicesMock.updateAvailability(systemMockID, false);
+            expect(responseTest).toStrictEqual(responseMessageMockDeactivated);
         });
 
-        it('should throw an error when ID is inexistent', async () => {
+        it('should return correct success message - enable', async () => {
+            const responseTest = await SystemsServicesMock.updateAvailability(systemMockID, true);
+            expect(responseTest).toStrictEqual(responseMessageMockActivated);
+        });
+
+        it('should throw an error when the realm is already enabled', async () => {
             try {
-                await SystemsServicesMock.activate(systemMockInstance._id);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.code).toBe(404);
-                expect(err.name).toBe('NotFound');
-            }
-        });
-
-        it('should throw an error when system is already active', async () => {
-            try {
-                await SystemsServicesMock.activate(systemMockInstance._id);
+                await SystemsServicesMock.updateAvailability(systemMockID, true);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
@@ -244,41 +260,26 @@ describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
                 expect(err.name).toBe('BadRequest');
             }
         });
-    });
 
-    describe('When service for deactivate a system is called', () => {
-        beforeAll(() => {
-            jest.spyOn(SystemsModelMock, 'findOne')
-                .mockResolvedValueOnce(systemMockInstanceNoActive)
-                .mockResolvedValueOnce(null)
-                .mockResolvedValue(systemMockInstanceNoActive);
-            jest.spyOn(SystemsModelMock, 'update').mockResolvedValue(systemMockInstance);
-        });
-
-        it('should return a confirmation of deactivation', async () => {
-            const responseTest = await SystemsServicesMock.deactivate(systemMockInstance._id);
-            expect(responseTest).toBe(`System ${systemMockInstance._id} was deactivated`);
-        });
-
-        it('should throw an error when ID is inexistent', async () => {
+        it('should throw an error when the realm is already disabled', async () => {
             try {
-                await SystemsServicesMock.deactivate('inexistent_id');
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.code).toBe(404);
-                expect(err.name).toBe('NotFound');
-            }
-        });
-
-        it('should throw an error when system is already deactivated', async () => {
-            try {
-                await SystemsServicesMock.deactivate(systemMockInstance._id);
+                await SystemsServicesMock.updateAvailability(systemMockID, false);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
                 expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw an error when ID is inexistent', async () => {
+            try {
+                await SystemsServicesMock.updateAvailability('inexistent_id', false);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.message).toBe('NotFound an object with provided ID');
+                expect(err.code).toBe(404);
+                expect(err.name).toBe('NotFound');
             }
         });
     });

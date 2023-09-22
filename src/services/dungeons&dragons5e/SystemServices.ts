@@ -3,6 +3,7 @@ import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
@@ -98,8 +99,8 @@ export default class SystemServices implements Service<System> {
         return response;
     }
 
-    public async activate(_id: string): Promise<string> {
-        const response = (await this._model.findOne(_id)) as System & { _id: string };
+    public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
+        const response = await this._model.findOne(_id);
 
         if (!response)
             throw new HttpRequestErrors({
@@ -108,33 +109,17 @@ export default class SystemServices implements Service<System> {
                 name: getErrorName(HttpStatusCode.NOT_FOUND),
             });
 
-        this._validate.existance(response.active, ErrorMessage.BAD_REQUEST);
+        this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 
-        response.active = true;
-
+        response.active = query;
         await this._model.update(_id, response);
 
-        this._logger('info', 'System entity activated with success');
+        const responseMessage = {
+            message: `System ${_id} was ${query ? 'activated' : 'deactivated'}`,
+            name: 'success',
+        };
 
-        return `System ${response._id} was activated`;
-    }
-
-    public async deactivate(_id: string): Promise<string> {
-        const response = (await this._model.findOne(_id)) as System & { _id: string };
-
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
-
-        this._validate.existance(!response.active, ErrorMessage.BAD_REQUEST);
-
-        response.active = true;
-        await this._model.update(_id, response);
-
-        this._logger('info', 'System entity deactivated with success');
-        return `System ${response._id} was deactivated`;
+        this._logger('info', `System availability ${query ? 'activated' : 'deactivated'} with success`);
+        return responseMessage;
     }
 }

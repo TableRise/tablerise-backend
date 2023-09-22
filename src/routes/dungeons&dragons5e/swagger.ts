@@ -73,8 +73,14 @@ export default [
         updateSystemInstance.instance,
         false,
     ],
-    ['/dnd5e/system/activate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
-    ['/dnd5e/system/deactivate/{_id}', 'system', 'patch', generateIDParam(), null, null, false],
+    [
+        '/dnd5e/system/{_id}',
+        'system',
+        'patch',
+        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+        null,
+        false,
+    ],
 
     ['/dnd5e/realms', 'realms', 'get', null, null, false],
     ['/dnd5e/realms/disabled', 'realms', 'get', null, null, false],
