@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
@@ -6,18 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: ArmorsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: ArmorsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
+    const ArmorsServicesMock = new ArmorsServices(
+        ArmorsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const ArmorsControllersMock = new ArmorsControllers(ArmorsServicesMock, logger);
 
-    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
+    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +36,7 @@ describe('Services :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findAll').mockResolvedValue([armorMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ArmorsControllersMock.findAll(request, response);
@@ -48,9 +53,7 @@ describe('Services :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findAllDisabled').mockResolvedValue([armorMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ArmorsControllersMock.findAllDisabled(request, response);
@@ -67,9 +70,7 @@ describe('Services :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'findOne').mockResolvedValue(armorMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };
@@ -95,9 +96,7 @@ describe('Services :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'update').mockResolvedValue(armorMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };
@@ -122,9 +121,7 @@ describe('Services :: ArmorsControllers', () => {
             jest.spyOn(ArmorsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: armorMockInstance._id as string };

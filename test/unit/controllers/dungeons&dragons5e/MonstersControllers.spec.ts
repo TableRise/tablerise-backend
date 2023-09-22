@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDMonster, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
@@ -6,18 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: MonstersControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: MonstersControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const MonstersModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Monsters');
-    const MonstersSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const MonstersServicesMock = new MonstersServices(MonstersModelMock, logger, ValidateDataMock, MonstersSchemaMock);
+    const MonstersServicesMock = new MonstersServices(
+        MonstersModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const MonstersControllersMock = new MonstersControllers(MonstersServicesMock, logger);
 
-    const monsterMockInstance = mocks.monster.instance as Internacional<DnDMonster>;
+    const monsterMockInstance = mocks.monster.instance as Internacional<Monster>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +36,7 @@ describe('Services :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findAll').mockResolvedValue([monsterMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MonstersControllersMock.findAll(request, response);
@@ -48,9 +53,7 @@ describe('Services :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findAllDisabled').mockResolvedValue([monsterMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MonstersControllersMock.findAllDisabled(request, response);
@@ -67,9 +70,7 @@ describe('Services :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'findOne').mockResolvedValue(monsterMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };
@@ -95,9 +96,7 @@ describe('Services :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'update').mockResolvedValue(monsterMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };
@@ -122,9 +121,7 @@ describe('Services :: MonstersControllers', () => {
             jest.spyOn(MonstersServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: monsterMockInstance._id as string };

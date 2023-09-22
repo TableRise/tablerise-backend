@@ -1,8 +1,8 @@
-import { DnDItem } from '@tablerise/database-management';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const itemMockEn: DnDItem = {
+const itemMockEn: Item = {
   name: 'History of Valley',
   description: 'contains maps od the valley',
   cost: {
@@ -22,7 +22,7 @@ const itemMockEn: DnDItem = {
   }
 };
 
-const itemMockPt: DnDItem = {
+const itemMockPt: Item = {
   name: 'História do Vale',
   description: 'contém todos os mapas do vale',
   cost: {

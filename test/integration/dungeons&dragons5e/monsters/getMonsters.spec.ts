@@ -1,15 +1,17 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDMonster, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Get RPG monsters from database', () => {
-    let model: MongoModel<Internacional<DnDMonster>>;
+    let model: MongoModel<Internacional<Monster>>;
     const monster = mocks.monster.instance;
-    const { _id: _, ...monsterMockPayload } = monster as Internacional<DnDMonster>;
+    const { _id: _, ...monsterMockPayload } = monster as Internacional<Monster>;
 
     let documentId: string;
 

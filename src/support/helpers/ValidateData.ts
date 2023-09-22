@@ -1,37 +1,39 @@
+import { ZodIssue } from 'zod';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import { Logger } from 'src/types/Logger';
 import getErrorName from './getErrorName';
+import HttpRequestErrors from './HttpRequestErrors';
 
 export default class ValidateData {
     entry: (zodSchema: any, payload: unknown) => void;
     existance: (payload: boolean | null | undefined, errorMessage: string) => void;
 
-    constructor(private readonly _logger: Logger) {
+    constructor() {
         this.entry = this.validateEntry;
         this.existance = this.validateExistance;
     }
 
-    public _generateError(code: number, errorMessage: string): Error {
-        const error = new Error(errorMessage);
-        error.stack = code.toString();
-        error.name = getErrorName(code);
-
-        this._logger('error', errorMessage);
-
-        return error;
-    }
-
     protected validateEntry(zodSchema: any, payload: unknown): void {
         const verify = zodSchema.safeParse(payload);
-        if (!verify.success) {
-            const errorMessage = JSON.stringify(verify.error.issues);
-            throw this._generateError(HttpStatusCode.UNPROCESSABLE_ENTITY, errorMessage);
-        }
+
+        if (!verify.success)
+            throw new HttpRequestErrors({
+                message: 'Schema error',
+                code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+                name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
+                details: verify.error.issues.map((err: ZodIssue) => ({
+                    attribute: err.path.length > 1 ? err.path : err.path[0],
+                    reason: err.message,
+                    path: 'payload',
+                })),
+            });
     }
 
     protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
-        if (noQueryOrActiveProperty) {
-            throw this._generateError(HttpStatusCode.BAD_REQUEST, errorMessage);
-        }
+        if (noQueryOrActiveProperty)
+            throw new HttpRequestErrors({
+                message: errorMessage,
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
     }
 }

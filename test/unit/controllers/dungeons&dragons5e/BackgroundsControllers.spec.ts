@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
@@ -6,23 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: BackgroundsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
-    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,
         logger,
         ValidateDataMock,
-        BackgroundsSchemaMock
+        schema['dungeons&dragons5e']
     );
     const BackgroundsControllersMock = new BackgroundsControllers(BackgroundsServicesMock, logger);
 
-    const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;
+    const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -34,9 +36,7 @@ describe('Services :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findAll').mockResolvedValue([backgroundMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await BackgroundsControllersMock.findAll(request, response);
@@ -54,9 +54,7 @@ describe('Services :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findAllDisabled').mockResolvedValue([backgroundMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await BackgroundsControllersMock.findAllDisabled(request, response);
@@ -73,9 +71,7 @@ describe('Services :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'findOne').mockResolvedValue(backgroundMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };
@@ -101,9 +97,7 @@ describe('Services :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'update').mockResolvedValue(backgroundMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };
@@ -128,9 +122,7 @@ describe('Services :: BackgroundsControllers', () => {
             jest.spyOn(BackgroundsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: backgroundMockInstance._id as string };

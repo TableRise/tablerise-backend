@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDClass, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import ClassesControllers from 'src/controllers/dungeons&dragons5e/ClassesControllers';
@@ -6,18 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: ClassesControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: ClassesControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes');
-    const ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+    const ClassesServicesMock = new ClassesServices(
+        ClassesModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const ClassesControllersMock = new ClassesControllers(ClassesServicesMock, logger);
 
-    const classMockInstance = mocks.class.instance as Internacional<DnDClass>;
+    const classMockInstance = mocks.class.instance as Internacional<Class>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +36,7 @@ describe('Services :: ClassesControllers', () => {
             jest.spyOn(ClassesServicesMock, 'findAll').mockResolvedValue([classMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ClassesControllersMock.findAll(request, response);
@@ -49,9 +54,7 @@ describe('Services :: ClassesControllers', () => {
             jest.spyOn(ClassesServicesMock, 'findAllDisabled').mockResolvedValue([classMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await ClassesControllersMock.findAllDisabled(request, response);
@@ -68,9 +71,7 @@ describe('Services :: ClassesControllers', () => {
             jest.spyOn(ClassesServicesMock, 'findOne').mockResolvedValue(classMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: classMockInstance._id as string };
@@ -96,9 +97,7 @@ describe('Services :: ClassesControllers', () => {
             jest.spyOn(ClassesServicesMock, 'update').mockResolvedValue(classMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: classMockInstance._id as string };
@@ -123,9 +122,7 @@ describe('Services :: ClassesControllers', () => {
             jest.spyOn(ClassesServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: classMockInstance._id as string };

@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDSystem, UpdateContent } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemsControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
@@ -6,18 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import schema from 'src/schemas';
 
-describe('Services :: SystemsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: SystemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
-    const SystemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const SystemsServicesMock = new SystemsServices(SystemsModelMock, logger, ValidateDataMock, SystemsSchemaMock);
+    const SystemsServicesMock = new SystemsServices(
+        SystemsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const SystemsControllersMock = new SystemsControllers(SystemsServicesMock, logger);
 
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
+    const systemMockInstance = mocks.system.instance as System & { _id: string };
     const systemUpdateContentMockInsatnce = mocks.updateSystemContent.instance as UpdateContent;
     const request = {} as Request;
     const response = {} as Response;
@@ -30,9 +37,7 @@ describe('Services :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'findAll').mockResolvedValue([systemMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SystemsControllersMock.findAll(request, response);
@@ -49,9 +54,7 @@ describe('Services :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'findOne').mockResolvedValue(systemMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -73,9 +76,7 @@ describe('Services :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'update').mockResolvedValue(systemMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -90,7 +91,7 @@ describe('Services :: SystemsControllers', () => {
     describe('When a request is made to update one content system by ID', () => {
         const { method, newID } = systemUpdateContentMockInsatnce;
         const entityMockQuery = 'races';
-        const updateResult = `New ID ${newID as string} was ${
+        const updateResult = `New ID ${newID} was ${
             method as string
         } to array of entities ${entityMockQuery} - systemID: ${systemMockInstance._id}`;
 
@@ -101,9 +102,7 @@ describe('Services :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'updateContent').mockResolvedValue(updateResult);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 201', async () => {
             request.params = { _id: systemMockInstance._id };
@@ -129,9 +128,7 @@ describe('Services :: SystemsControllers', () => {
             jest.spyOn(SystemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: systemMockInstance._id };

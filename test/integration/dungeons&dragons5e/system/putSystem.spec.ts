@@ -1,14 +1,15 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSystem, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 describe('Put RPG systems in database', () => {
-    let model: MongoModel<DnDSystem>;
-    const system = mocks.system.instance as DnDSystem & { _id: string };
+    let model: MongoModel<System>;
+    const system = mocks.system.instance as System & { _id: string };
     const { _id: _, ...systemPayload } = system;
 
     const newSystemPayload = { ...systemPayload, name: 'D&D', active: false };
@@ -35,7 +36,7 @@ describe('Put RPG systems in database', () => {
 
     describe('When update one rpg system', () => {
         it('should return updated system', async () => {
-            const response = (await model.create(systemPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester
@@ -53,13 +54,13 @@ describe('Put RPG systems in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await requester
                 .put(`/dnd5e/system/${documentId}`)
-                .send({ data: null } as unknown as DnDSystem)
+                .send({ data: null } as unknown as System)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
-            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('details');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('name');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
+            expect(body.details[0].attribute).toBe('name');
+            expect(body.details[0].reason).toBe('Required');
             expect(body.name).toBe('ValidationError');
         });
 

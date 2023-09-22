@@ -1,20 +1,28 @@
-import DatabaseManagement, { DnDArmor, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-describe('Services :: ArmorsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
-    const ArmorsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ArmorsServicesMock = new ArmorsServices(ArmorsModelMock, logger, ValidateDataMock, ArmorsSchemaMock);
+    const ArmorsServicesMock = new ArmorsServices(
+        ArmorsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
-    const armorMockInstance = mocks.armor.instance as Internacional<DnDArmor>;
+    const armorMockInstance = mocks.armor.instance as Internacional<Armor>;
     const { _id: _, ...armorMockPayload } = armorMockInstance;
 
     describe('When the recover all enabled armors service is called', () => {
@@ -55,9 +63,9 @@ describe('Services :: ArmorsServices', () => {
             try {
                 await ArmorsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -88,44 +96,43 @@ describe('Services :: ArmorsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ArmorsServicesMock.update(
                 armorMockID,
-                armorMockPayloadWithoutActive as Internacional<DnDArmor>
+                armorMockPayloadWithoutActive as Internacional<Armor>
             );
             expect(responseTest).toBe(armorMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<DnDArmor>);
+                await ArmorsServicesMock.update(armorMockID, armorMockPayloadWrong as Internacional<Armor>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<DnDArmor>);
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayload as Internacional<Armor>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ArmorsServicesMock.update(
-                    'inexistent_id',
-                    armorMockPayloadWithoutActive as Internacional<DnDArmor>
-                );
+                await ArmorsServicesMock.update('inexistent_id', armorMockPayloadWithoutActive as Internacional<Armor>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -185,9 +192,9 @@ describe('Services :: ArmorsServices', () => {
             try {
                 await ArmorsServicesMock.updateAvailability(armorMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -196,9 +203,9 @@ describe('Services :: ArmorsServices', () => {
             try {
                 await ArmorsServicesMock.updateAvailability(armorMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -207,9 +214,9 @@ describe('Services :: ArmorsServices', () => {
             try {
                 await ArmorsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

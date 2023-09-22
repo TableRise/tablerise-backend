@@ -1,14 +1,15 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSystem, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 describe('Patch RPG system status in database', () => {
-    let model: MongoModel<DnDSystem>;
-    const _system = mocks.system.instance as DnDSystem & { _id: string };
+    let model: MongoModel<System>;
+    const _system = mocks.system.instance as System & { _id: string };
     const { _id: _, ...systemMockPayload } = _system;
 
     let documentId: string;
@@ -32,7 +33,7 @@ describe('Patch RPG system status in database', () => {
 
     describe('When toggle the status of the rpg system to active', () => {
         it('should return a string with updated system id', async () => {
-            const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester
@@ -46,7 +47,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail when availability already enabled', async () => {
-            const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester

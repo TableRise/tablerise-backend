@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDItem, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Put RPG Items in database', () => {
-    let model: MongoModel<Internacional<DnDItem>>;
-    const item = mocks.item.instance as Internacional<DnDItem>;
+    let model: MongoModel<Internacional<Item>>;
+    const item = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemPayload } = item;
 
     const newItemPayload = {
@@ -61,13 +63,13 @@ describe('Put RPG Items in database', () => {
         it('should fail when data is wrong', async () => {
             const { body } = await requester
                 .put(`/dnd5e/items/${documentId}`)
-                .send({ data: null } as unknown as Internacional<DnDItem>)
+                .send({ data: null } as unknown as Internacional<Item>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('en');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
+            expect(body.details[0].attribute).toBe('en');
+            expect(body.details[0].reason).toBe('Required');
             expect(body.name).toBe('ValidationError');
         });
 

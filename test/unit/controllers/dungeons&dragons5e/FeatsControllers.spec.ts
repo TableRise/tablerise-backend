@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDFeat, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsControllers';
@@ -6,18 +6,20 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: FeatsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: FeatsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const FeatsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Feats');
-    const FeatsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, FeatsSchemaMock);
+    const FeatsServicesMock = new FeatsServices(FeatsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
     const FeatsControllersMock = new FeatsControllers(FeatsServicesMock, logger);
 
-    const featMockInstance = mocks.feat.instance as Internacional<DnDFeat>;
+    const featMockInstance = mocks.feat.instance as Internacional<Feat>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +31,7 @@ describe('Services :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findAll').mockResolvedValue([featMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await FeatsControllersMock.findAll(request, response);
@@ -49,9 +49,7 @@ describe('Services :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findAllDisabled').mockResolvedValue([featMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await FeatsControllersMock.findAllDisabled(request, response);
@@ -68,9 +66,7 @@ describe('Services :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'findOne').mockResolvedValue(featMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };
@@ -96,9 +92,7 @@ describe('Services :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'update').mockResolvedValue(featMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };
@@ -123,9 +117,7 @@ describe('Services :: FeatsControllers', () => {
             jest.spyOn(FeatsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: featMockInstance._id as string };

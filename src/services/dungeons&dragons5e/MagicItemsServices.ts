@@ -1,43 +1,53 @@
-import { DnDMagicItem, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import getErrorName from 'src/support/helpers/getErrorName';
 
-export default class MagicItemsServices implements Service<Internacional<DnDMagicItem>> {
+export default class MagicItemsServices implements Service<Internacional<MagicItem>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDMagicItem>>,
+        private readonly _model: MongoModel<Internacional<MagicItem>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDMagicItem>>> {
+    public async findAll(): Promise<Array<Internacional<MagicItem>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All magic item entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDMagicItem>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<MagicItem>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All magic item entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDMagicItem>> {
+    public async findOne(_id: string): Promise<Internacional<MagicItem>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Magic item entity found with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDMagicItem>): Promise<Internacional<DnDMagicItem>> {
+    public async update(_id: string, payload: Internacional<MagicItem>): Promise<Internacional<MagicItem>> {
         const { helpers, magicItemZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(magicItemZod), payload);
 
@@ -46,7 +56,12 @@ export default class MagicItemsServices implements Service<Internacional<DnDMagi
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Magic item entity updated with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -54,7 +69,12 @@ export default class MagicItemsServices implements Service<Internacional<DnDMagi
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

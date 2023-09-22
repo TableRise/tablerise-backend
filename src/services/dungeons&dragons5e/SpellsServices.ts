@@ -1,43 +1,53 @@
-import { DnDSpell, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import getErrorName from 'src/support/helpers/getErrorName';
 
-export default class SpellsServices implements Service<Internacional<DnDSpell>> {
+export default class SpellsServices implements Service<Internacional<Spell>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDSpell>>,
+        private readonly _model: MongoModel<Internacional<Spell>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDSpell>>> {
+    public async findAll(): Promise<Array<Internacional<Spell>>> {
         const response = await this._model.findAll({ active: true });
 
         this._logger('info', 'All spell entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDSpell>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Spell>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All spell entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDSpell>> {
+    public async findOne(_id: string): Promise<Internacional<Spell>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Spell entity found with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDSpell>): Promise<Internacional<DnDSpell>> {
+    public async update(_id: string, payload: Internacional<Spell>): Promise<Internacional<Spell>> {
         const { helpers, spellZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(spellZod), payload);
 
@@ -46,7 +56,12 @@ export default class SpellsServices implements Service<Internacional<DnDSpell>> 
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Spell entity updated with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -54,7 +69,12 @@ export default class SpellsServices implements Service<Internacional<DnDSpell>> 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

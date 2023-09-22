@@ -1,19 +1,22 @@
-import DatabaseManagement, { DnDItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 import logger from '@tablerise/dynamic-logger';
+import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-describe('Services :: ItemsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: ItemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const ItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Items');
-    const ItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, ItemsSchemaMock);
+    const ItemsServicesMock = new ItemsServices(ItemsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
 
-    const itemsMockInstance = mocks.item.instance as Internacional<DnDItem>;
+    const itemsMockInstance = mocks.item.instance as Internacional<Item>;
     const { _id: _, ...itemsMockPayload } = itemsMockInstance;
 
     describe('When the recover all item service is called', () => {
@@ -53,9 +56,9 @@ describe('Services :: ItemsServices', () => {
             try {
                 await ItemsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -85,41 +88,43 @@ describe('Services :: ItemsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ItemsServicesMock.update(
                 itemMockID,
-                itemMockPayloadWithoutActive as Internacional<DnDItem>
+                itemMockPayloadWithoutActive as Internacional<Item>
             );
             expect(responseTest).toBe(itemMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<DnDItem>);
+                await ItemsServicesMock.update(itemMockID, itemMockPayloadWrong as Internacional<Item>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<DnDItem>);
+                await ItemsServicesMock.update('inexistent_id', itemsMockPayload as Internacional<Item>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<DnDItem>);
+                await ItemsServicesMock.update('inexistent_id', itemMockPayloadWithoutActive as Internacional<Item>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -179,9 +184,9 @@ describe('Services :: ItemsServices', () => {
             try {
                 await ItemsServicesMock.updateAvailability(itemMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -190,9 +195,9 @@ describe('Services :: ItemsServices', () => {
             try {
                 await ItemsServicesMock.updateAvailability(itemMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -201,9 +206,9 @@ describe('Services :: ItemsServices', () => {
             try {
                 await ItemsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

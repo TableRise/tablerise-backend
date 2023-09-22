@@ -1,8 +1,8 @@
-import { DnDArmor } from '@tablerise/database-management';
+import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import Mock from 'src/types/Mock';
 
-const armorMockEn: DnDArmor = {
+const armorMockEn: Armor = {
     type: 'Light Armor',
     name: 'Padded',
     description: 'A simple padded',
@@ -16,7 +16,7 @@ const armorMockEn: DnDArmor = {
     stealthPenalty: true,
 };
 
-const armorMockPt: DnDArmor = {
+const armorMockPt: Armor = {
     type: 'Armadura Leve',
     name: 'Acolchoada',
     description: 'Uma simples armadura acolchoada',

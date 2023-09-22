@@ -1,25 +1,29 @@
-import DatabaseManagement, { DnDBackground, Internacional } from '@tablerise/database-management';
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import DatabaseManagement from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-describe('Services :: BackgroundsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: BackgroundsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const BackgroundsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Backgrounds');
-    const BackgroundsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const BackgroundsServicesMock = new BackgroundsServices(
         BackgroundsModelMock,
         logger,
         ValidateDataMock,
-        BackgroundsSchemaMock
+        schema['dungeons&dragons5e']
     );
 
-    const backgroundMockInstance = mocks.background.instance as Internacional<DnDBackground>;
+    const backgroundMockInstance = mocks.background.instance as Internacional<Background>;
     const { _id: _, ...backgroundMockPayload } = backgroundMockInstance;
 
     describe('When the recover all backgrounds service is called', () => {
@@ -62,9 +66,9 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -96,7 +100,7 @@ describe('Services :: BackgroundsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await BackgroundsServicesMock.update(
                 backgroundMockID,
-                backgroundMockPayloadWithoutActive as Internacional<DnDBackground>
+                backgroundMockPayloadWithoutActive as Internacional<Background>
             );
             expect(responseTest).toBe(backgroundMockUpdateInstance);
         });
@@ -105,13 +109,15 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     backgroundMockID,
-                    backgroundMockPayloadWrong as Internacional<DnDBackground>
+                    backgroundMockPayloadWrong as Internacional<Background>
                 );
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
@@ -120,12 +126,12 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     'inexistent_id',
-                    backgroundMockPayload as Internacional<DnDBackground>
+                    backgroundMockPayload as Internacional<Background>
                 );
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -134,12 +140,12 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.update(
                     'inexistent_id',
-                    backgroundMockPayloadWithoutActive as Internacional<DnDBackground>
+                    backgroundMockPayloadWithoutActive as Internacional<Background>
                 );
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -199,9 +205,9 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.updateAvailability(backgroundMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -210,9 +216,9 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.updateAvailability(backgroundMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -221,9 +227,9 @@ describe('Services :: BackgroundsServices', () => {
             try {
                 await BackgroundsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

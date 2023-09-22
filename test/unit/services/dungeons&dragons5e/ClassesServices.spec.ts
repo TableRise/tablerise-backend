@@ -1,20 +1,28 @@
-import DatabaseManagement, { DnDClass, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-describe('Services :: ClassesServices', () => {
+describe('Services :: DungeonsAndDragons5e :: ClassesServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const ClassesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Classes');
-    const ClassesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const ClassesServicesMock = new ClassesServices(ClassesModelMock, logger, ValidateDataMock, ClassesSchemaMock);
+    const ClassesServicesMock = new ClassesServices(
+        ClassesModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
-    const classMockInstance = mocks.class.instance as Internacional<DnDClass>;
+    const classMockInstance = mocks.class.instance as Internacional<Class>;
     const { _id: _, ...classMockPayload } = classMockInstance;
 
     describe('When the recover all enabled classes service is called', () => {
@@ -55,9 +63,9 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -88,30 +96,32 @@ describe('Services :: ClassesServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await ClassesServicesMock.update(
                 classMockID,
-                classMockPayloadWithoutActive as Internacional<DnDClass>
+                classMockPayloadWithoutActive as Internacional<Class>
             );
             expect(responseTest).toBe(classMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await ClassesServicesMock.update(classMockID, classMockPayloadWrong as Internacional<DnDClass>);
+                await ClassesServicesMock.update(classMockID, classMockPayloadWrong as Internacional<Class>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<DnDClass>);
+                await ClassesServicesMock.update('inexistent_id', classMockPayload as Internacional<Class>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -120,12 +130,12 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.update(
                     'inexistent_id',
-                    classMockPayloadWithoutActive as Internacional<DnDClass>
+                    classMockPayloadWithoutActive as Internacional<Class>
                 );
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -185,9 +195,9 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.updateAvailability(classMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -196,9 +206,9 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.updateAvailability(classMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -207,9 +217,9 @@ describe('Services :: ClassesServices', () => {
             try {
                 await ClassesServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDMagicItem, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import MagicItemsControllers from 'src/controllers/dungeons&dragons5e/MagicItemsControllers';
@@ -6,23 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: MagicItemsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
-    const MagicItemsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
     const MagicItemsServicesMock = new MagicItemsServices(
         MagicItemsModelMock,
         logger,
         ValidateDataMock,
-        MagicItemsSchemaMock
+        schema['dungeons&dragons5e']
     );
     const MagicItemsControllersMock = new MagicItemsControllers(MagicItemsServicesMock, logger);
 
-    const magicItemMockInstance = mocks.magicItems.instance as Internacional<DnDMagicItem>;
+    const magicItemMockInstance = mocks.magicItems.instance as Internacional<MagicItem>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -34,9 +36,7 @@ describe('Services :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findAll').mockResolvedValue([magicItemMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MagicItemsControllersMock.findAll(request, response);
@@ -54,9 +54,7 @@ describe('Services :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findAllDisabled').mockResolvedValue([magicItemMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await MagicItemsControllersMock.findAllDisabled(request, response);
@@ -73,9 +71,7 @@ describe('Services :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'findOne').mockResolvedValue(magicItemMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };
@@ -101,9 +97,7 @@ describe('Services :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'update').mockResolvedValue(magicItemMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };
@@ -128,9 +122,7 @@ describe('Services :: MagicItemsControllers', () => {
             jest.spyOn(MagicItemsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: magicItemMockInstance._id as string };

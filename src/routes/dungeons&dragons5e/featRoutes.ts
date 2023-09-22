@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
+
+import schema from 'src/schemas';
 import FeatsServices from 'src/services/dungeons&dragons5e/FeatsServices';
 import FeatsControllers from 'src/controllers/dungeons&dragons5e/FeatsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
@@ -8,13 +11,12 @@ import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMidd
 
 import logger from '@tablerise/dynamic-logger';
 
-const validateData = new ValidateData(logger);
+const validateData = new ValidateData();
 const DM = new DatabaseManagement();
 
 const model = DM.modelInstance('dungeons&dragons5e', 'Feats');
-const schema = DM.schemaInstance('dungeons&dragons5e');
 
-const services = new FeatsServices(model, logger, validateData, schema);
+const services = new FeatsServices(model, logger, validateData, schema['dungeons&dragons5e']);
 const controllers = new FeatsControllers(services, logger);
 
 const router = Router();

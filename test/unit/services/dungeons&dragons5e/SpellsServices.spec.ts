@@ -1,20 +1,28 @@
-import DatabaseManagement, { DnDSpell, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
-describe('Services :: SpellsServices', () => {
+describe('Services :: DungeonsAndDragons5e :: SpellsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
-    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
+    const SpellsServicesMock = new SpellsServices(
+        SpellsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
 
-    const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
+    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const { _id: _, ...spellMockPayload } = spellMockInstance;
 
     describe('When the recover all enabled spells service is called', () => {
@@ -55,9 +63,9 @@ describe('Services :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.findOne('inexistent_id');
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -88,44 +96,43 @@ describe('Services :: SpellsServices', () => {
         it('should return correct data with updated values', async () => {
             const responseTest = await SpellsServicesMock.update(
                 spellMockID,
-                spellMockPayloadWithoutActive as Internacional<DnDSpell>
+                spellMockPayloadWithoutActive as Internacional<Spell>
             );
             expect(responseTest).toBe(spellMockUpdateInstance);
         });
 
         it('should throw an error when payload is incorrect', async () => {
             try {
-                await SpellsServicesMock.update(spellMockID, spellMockPayloadWrong as Internacional<DnDSpell>);
+                await SpellsServicesMock.update(spellMockID, spellMockPayloadWrong as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
-                expect(JSON.parse(err.message)[0].path).toStrictEqual(['en', 'name']);
-                expect(JSON.parse(err.message)[0].message).toBe('Required');
-                expect(err.stack).toBe('422');
+                const err = error as HttpRequestErrors;
+                expect(err.details).toHaveLength(2);
+                expect(err.details[0].attribute[0]).toBe('en');
+                expect(err.details[0].attribute[1]).toBe('name');
+                expect(err.details[0].reason).toBe('Required');
+                expect(err.code).toBe(422);
                 expect(err.name).toBe('ValidationError');
             }
         });
 
         it('should throw an error when try to update availability', async () => {
             try {
-                await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<DnDSpell>);
+                await SpellsServicesMock.update('inexistent_id', spellMockPayload as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
 
         it('should throw an error when ID is inexistent', async () => {
             try {
-                await SpellsServicesMock.update(
-                    'inexistent_id',
-                    spellMockPayloadWithoutActive as Internacional<DnDSpell>
-                );
+                await SpellsServicesMock.update('inexistent_id', spellMockPayloadWithoutActive as Internacional<Spell>);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });
@@ -185,9 +192,9 @@ describe('Services :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability(spellMockID, true);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -196,9 +203,9 @@ describe('Services :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability(spellMockID, false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('Not possible to change availability through this route');
-                expect(err.stack).toBe('400');
+                expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
             }
         });
@@ -207,9 +214,9 @@ describe('Services :: SpellsServices', () => {
             try {
                 await SpellsServicesMock.updateAvailability('inexistent_id', false);
             } catch (error) {
-                const err = error as Error;
+                const err = error as HttpRequestErrors;
                 expect(err.message).toBe('NotFound an object with provided ID');
-                expect(err.stack).toBe('404');
+                expect(err.code).toBe(404);
                 expect(err.name).toBe('NotFound');
             }
         });

@@ -1,14 +1,15 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSystem, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 describe('Get RPG system from database', () => {
-    let model: MongoModel<DnDSystem>;
-    const system = mocks.system.instance as DnDSystem & { _id: string };
+    let model: MongoModel<System>;
+    const system = mocks.system.instance as System & { _id: string };
     const { _id: _, ...systemPayload } = system;
 
     let documentId: string;
@@ -32,7 +33,7 @@ describe('Get RPG system from database', () => {
 
     describe('When request all rpg systems', () => {
         it('should return an array with systems', async () => {
-            const response = (await model.create(systemPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemPayload)) as System & { _id: string };
             documentId = response._id;
 
             const { body } = await requester.get('/dnd5e/system').expect(HttpStatusCode.OK);

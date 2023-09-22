@@ -1,14 +1,16 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDGod, Internacional, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
 describe('Patch RPG gods in database', () => {
-    let model: MongoModel<Internacional<DnDGod>>;
-    const _god = mocks.god.instance as Internacional<DnDGod>;
+    let model: MongoModel<Internacional<God>>;
+    const _god = mocks.god.instance as Internacional<God>;
     const { _id: _, ...godPayload } = _god;
 
     let documentId: string;

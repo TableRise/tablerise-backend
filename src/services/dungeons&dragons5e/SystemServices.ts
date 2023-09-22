@@ -1,42 +1,57 @@
-import { DnDSystem, MongoModel, SchemasDnDType, UpdateContent, SystemContent } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import getErrorName from 'src/support/helpers/getErrorName';
 
-export default class SystemServices implements Service<DnDSystem> {
+export default class SystemServices implements Service<System> {
     constructor(
-        private readonly _model: MongoModel<DnDSystem>,
+        private readonly _model: MongoModel<System>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<DnDSystem[]> {
+    public async findAll(): Promise<System[]> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All system entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<DnDSystem> {
+    public async findOne(_id: string): Promise<System> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'System entity found with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
 
-    public async update(_id: string, payload: any): Promise<DnDSystem> {
+    public async update(_id: string, payload: any): Promise<System> {
         const { systemZod } = this._schema;
         this._validate.entry(systemZod.systemPayloadZodSchema, payload);
         this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
         const response = await this._model.update(_id, payload);
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
         this._logger('info', 'System entity updated with success');
 
         return response;
@@ -50,13 +65,18 @@ export default class SystemServices implements Service<DnDSystem> {
 
         const { method, newID } = payload as UpdateContent;
 
-        const recoverSystem = (await this._model.findOne(_id)) as DnDSystem & { _id: string };
+        const recoverSystem = (await this._model.findOne(_id)) as System & { _id: string };
 
-        if (!recoverSystem) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!recoverSystem)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         if (recoverSystem && method === 'add') {
             // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
-            recoverSystem.content[entityQuery as keyof SystemContent].push(newID as string);
+            recoverSystem.content[entityQuery as keyof SystemContent].push(newID);
         }
 
         if (recoverSystem && method === 'remove') {
@@ -71,9 +91,9 @@ export default class SystemServices implements Service<DnDSystem> {
 
         await this._model.update(_id, recoverSystem);
 
-        const response = `New ID ${newID as string} was ${
-            method as string
-        } to array of entities ${entityQuery} - system ID: ${recoverSystem._id}`;
+        const response = `New ID ${newID} was ${method as string} to array of entities ${entityQuery} - system ID: ${
+            recoverSystem._id
+        }`;
 
         this._logger('info', 'Content of the system entity updated with success');
         return response;
@@ -82,7 +102,12 @@ export default class SystemServices implements Service<DnDSystem> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

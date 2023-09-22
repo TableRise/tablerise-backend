@@ -1,43 +1,53 @@
-import { DnDRace, MongoModel, Internacional, SchemasDnDType } from '@tablerise/database-management';
+import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import ValidateData from 'src/support/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { SchemasDnDType } from 'src/schemas';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import getErrorName from 'src/support/helpers/getErrorName';
 
-export default class RacesServices implements Service<Internacional<DnDRace>> {
+export default class RacesServices implements Service<Internacional<Race>> {
     constructor(
-        private readonly _model: MongoModel<Internacional<DnDRace>>,
+        private readonly _model: MongoModel<Internacional<Race>>,
         private readonly _logger: Logger,
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasDnDType
     ) {}
 
-    public async findAll(): Promise<Array<Internacional<DnDRace>>> {
+    public async findAll(): Promise<Array<Internacional<Race>>> {
         const response = await this._model.findAll();
 
         this._logger('info', 'All race entities found with success');
         return response;
     }
 
-    public async findAllDisabled(): Promise<Array<Internacional<DnDRace>>> {
+    public async findAllDisabled(): Promise<Array<Internacional<Race>>> {
         const response = await this._model.findAll({ active: false });
 
         this._logger('info', 'All race entities found with success');
         return response;
     }
 
-    public async findOne(_id: string): Promise<Internacional<DnDRace>> {
+    public async findOne(_id: string): Promise<Internacional<Race>> {
         const response = await this._model.findOne(_id);
 
         this._logger('info', 'Race entity found with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
 
-    public async update(_id: string, payload: Internacional<DnDRace>): Promise<Internacional<DnDRace>> {
+    public async update(_id: string, payload: Internacional<Race>): Promise<Internacional<Race>> {
         const { helpers, raceZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(raceZod), payload);
 
@@ -46,7 +56,12 @@ export default class RacesServices implements Service<Internacional<DnDRace>> {
         const response = await this._model.update(_id, payload);
 
         this._logger('info', 'Race entity updated with success');
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         return response;
     }
@@ -54,7 +69,12 @@ export default class RacesServices implements Service<Internacional<DnDRace>> {
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
         const response = await this._model.findOne(_id);
 
-        if (!response) throw this._validate._generateError(HttpStatusCode.NOT_FOUND, ErrorMessage.NOT_FOUND_BY_ID);
+        if (!response)
+            throw new HttpRequestErrors({
+                message: ErrorMessage.NOT_FOUND_BY_ID,
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

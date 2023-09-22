@@ -3,16 +3,15 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import { ErrorMessage } from 'src/support/helpers/errorMessage';
 import getErrorName from 'src/support/helpers/getErrorName';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-
-import logger from '@tablerise/dynamic-logger';
+import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
 describe('Helpers :: ValidateData', () => {
-    const testToThrowError = (err: Error, errMessage: string, code: number): void => {
+    const testToThrowError = (err: HttpRequestErrors, errMessage: string, code: number): void => {
         expect(err).toHaveProperty('message');
-        expect(err).toHaveProperty('stack');
+        expect(err).toHaveProperty('code');
         expect(err).toHaveProperty('name');
         expect(err.message).toStrictEqual(errMessage);
-        expect(err.stack).toBe(code.toString());
+        expect(err.code).toBe(code);
         expect(err.name).toBe(getErrorName(code));
     };
 
@@ -24,7 +23,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { value: 10 };
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(true);
             } catch (error) {
@@ -34,16 +33,6 @@ describe('Helpers :: ValidateData', () => {
     });
 
     describe('when a zod validate.entry fail', () => {
-        const zodErrorObject = [
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                message: 'Required',
-                path: ['value'],
-                received: 'undefined',
-            },
-        ];
-
         it('should throw an error', () => {
             try {
                 const testZodSchema = z.object({
@@ -51,13 +40,13 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { noNumber: '10' };
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(false);
             } catch (error) {
-                const zodError = error as Error;
+                const zodError = error as HttpRequestErrors;
                 testToThrowError(zodError, zodError.message, HttpStatusCode.UNPROCESSABLE_ENTITY);
-                expect(JSON.parse(zodError.message)).toStrictEqual(zodErrorObject);
+                expect(zodError.message).toStrictEqual('Schema error');
             }
         });
     });
@@ -66,11 +55,11 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = true;
         it('should throw a an error', () => {
             try {
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
                 expect(validate.existance).toThrow(Error);
             } catch (error) {
-                const notFoundError = error as Error;
+                const notFoundError = error as HttpRequestErrors;
                 testToThrowError(notFoundError, ErrorMessage.BAD_REQUEST, HttpStatusCode.BAD_REQUEST);
             }
         });
@@ -80,7 +69,7 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = false;
         it('should not throw an error', () => {
             try {
-                const validate = new ValidateData(logger);
+                const validate = new ValidateData();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
             } catch (error) {
                 expect(error).toBeUndefined();

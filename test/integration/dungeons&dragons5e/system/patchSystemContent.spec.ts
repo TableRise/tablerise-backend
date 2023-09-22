@@ -1,16 +1,18 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { DnDSystem, UpdateContent, mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
+import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import { UpdateContent } from 'src/schemas/updateContentSchema';
 
 describe('Patch RPG systems in database', () => {
-    let model: MongoModel<DnDSystem>;
+    let model: MongoModel<System>;
     const contentPayload = mocks.updateSystemContent.instance as UpdateContent;
 
-    const systemMockInstance = mocks.system.instance as DnDSystem & { _id: string };
+    const systemMockInstance = mocks.system.instance as System & { _id: string };
     const { _id: __, ...systemMockPayload } = systemMockInstance;
 
     let documentId: string;
@@ -34,10 +36,10 @@ describe('Patch RPG systems in database', () => {
 
     describe('When update the content of the rpg system', () => {
         it('should return successfull confirmation', async () => {
-            const response = (await model.create(systemMockPayload)) as DnDSystem & { _id: string };
+            const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
-            const updateResult = `New ID ${contentPayload.newID as string} was ${
+            const updateResult = `New ID ${contentPayload.newID} was ${
                 contentPayload.method as string
             } to array of entities races - system ID: ${documentId}`;
 
@@ -57,8 +59,8 @@ describe('Patch RPG systems in database', () => {
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
-            expect(JSON.parse(body.message)[0].path[0]).toBe('method');
-            expect(JSON.parse(body.message)[0].message).toBe('Required');
+            expect(body.details[0].attribute).toBe('method');
+            expect(body.details[0].reason).toBe('Required');
             expect(body.name).toBe('ValidationError');
         });
 

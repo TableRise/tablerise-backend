@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDRace, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import RacesControllers from 'src/controllers/dungeons&dragons5e/RacesControllers';
@@ -6,18 +6,20 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: RacesControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
-    const RacesSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, RacesSchemaMock);
+    const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
     const RacesControllersMock = new RacesControllers(RacesServicesMock, logger);
 
-    const RaceMockInstance = mocks.race.instance as Internacional<DnDRace>;
+    const RaceMockInstance = mocks.race.instance as Internacional<Race>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +31,7 @@ describe('Services :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findAll').mockResolvedValue([RaceMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await RacesControllersMock.findAll(request, response);
@@ -48,9 +48,7 @@ describe('Services :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findAllDisabled').mockResolvedValue([RaceMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await RacesControllersMock.findAllDisabled(request, response);
@@ -67,9 +65,7 @@ describe('Services :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'findOne').mockResolvedValue(RaceMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };
@@ -95,9 +91,7 @@ describe('Services :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'update').mockResolvedValue(RaceMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };
@@ -122,9 +116,7 @@ describe('Services :: RacesControllers', () => {
             jest.spyOn(RacesServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: RaceMockInstance._id as string };

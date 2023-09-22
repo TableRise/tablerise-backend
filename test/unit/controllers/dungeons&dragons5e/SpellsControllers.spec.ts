@@ -1,4 +1,4 @@
-import DatabaseManagement, { DnDSpell, Internacional } from '@tablerise/database-management';
+import DatabaseManagement from '@tablerise/database-management';
 import { Request, Response } from 'express';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import SpellsControllers from 'src/controllers/dungeons&dragons5e/SpellsControllers';
@@ -6,18 +6,25 @@ import mocks from 'src/support/mocks/dungeons&dragons5e';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
+import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import schema from 'src/schemas';
 
-describe('Services :: SpellsControllers', () => {
+describe('Services :: DungeonsAndDragons5e :: SpellsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData(logger);
+    const ValidateDataMock = new ValidateData();
 
     const SpellsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Spells');
-    const SpellsSchemaMock = DM_MOCK.schemaInstance('dungeons&dragons5e');
-    const SpellsServicesMock = new SpellsServices(SpellsModelMock, logger, ValidateDataMock, SpellsSchemaMock);
+    const SpellsServicesMock = new SpellsServices(
+        SpellsModelMock,
+        logger,
+        ValidateDataMock,
+        schema['dungeons&dragons5e']
+    );
     const SpellsControllersMock = new SpellsControllers(SpellsServicesMock, logger);
 
-    const spellMockInstance = mocks.spell.instance as Internacional<DnDSpell>;
+    const spellMockInstance = mocks.spell.instance as Internacional<Spell>;
     const request = {} as Request;
     const response = {} as Response;
 
@@ -29,9 +36,7 @@ describe('Services :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findAll').mockResolvedValue([spellMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SpellsControllersMock.findAll(request, response);
@@ -49,9 +54,7 @@ describe('Services :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findAllDisabled').mockResolvedValue([spellMockInstance]);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             await SpellsControllersMock.findAllDisabled(request, response);
@@ -68,9 +71,7 @@ describe('Services :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'findOne').mockResolvedValue(spellMockInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };
@@ -96,9 +97,7 @@ describe('Services :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'update').mockResolvedValue(spellMockUpdateInstance);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };
@@ -123,9 +122,7 @@ describe('Services :: SpellsControllers', () => {
             jest.spyOn(SpellsServicesMock, 'updateAvailability').mockResolvedValue(responseMessageMock);
         });
 
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
+        afterAll(() => jest.clearAllMocks());
 
         it('should return correct data in response json with status 200', async () => {
             request.params = { _id: spellMockInstance._id as string };
