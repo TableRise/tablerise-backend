@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import Discord from 'passport-discord';
 import passport from 'passport';
+import Discord from 'passport-discord';
 
 const DiscordStrategy = Discord.Strategy;
 const { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET } = process.env;
@@ -10,9 +10,9 @@ passport.use(
         {
             clientID: (DISCORD_CLIENT_ID as string) || 'default',
             clientSecret: (DISCORD_CLIENT_SECRET as string) || 'secret',
+            scope: ['identify', 'email', 'guilds', 'guilds.join'],
             callbackURL: 'http://localhost:3001/auth/discord/callback',
             passReqToCallback: true,
-            scope: ['identify', 'guilds'],
         },
         (request, accessToken, refreshToken, profile, done) => {
             done(null, profile);
