@@ -13,6 +13,7 @@ const registerUserPayloadSchema = {
 };
 
 export default [
+    ['/auth/discord', 'auth', 'get', null, null, false],
     ['/auth/google', 'auth', 'get', null, null, false],
     ['/auth/facebook', 'auth', 'get', null, null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],

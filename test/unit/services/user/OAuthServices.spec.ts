@@ -18,6 +18,7 @@ describe('Services :: User :: OAuthServices', () => {
 
     const userProvidedGoogle = mock.googleProfile;
     const userProvidedFacebook = mock.facebookProfile;
+    const userProvidedDiscord = mock.discordProfile;
 
     const userResponse = {
         ...userInstanceMock,
@@ -77,6 +78,37 @@ describe('Services :: User :: OAuthServices', () => {
         it('should not register the user in database and should throw an error', async () => {
             try {
                 await OAuthServicesMock.facebook(userProvidedFacebook);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('Email already exists in database');
+                expect(err.code).toBe(400);
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+    });
+
+    describe('When a signup is made through discord', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findAll').mockResolvedValue([]);
+            jest.spyOn(model, 'create').mockResolvedValue({ _doc: userInstanceMock });
+            jest.spyOn(modelDetails, 'create').mockResolvedValue(userDetailsInstanceMock);
+        });
+
+        it('should correctly register the user in database', async () => {
+            const result = await OAuthServicesMock.discord(userProvidedDiscord);
+            expect(result).toStrictEqual(userResponse);
+        });
+    });
+
+    describe('When a signup is made through discord - email already exist', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
+        });
+
+        it('should not register the user in database and should throw an error', async () => {
+            try {
+                await OAuthServicesMock.discord(userProvidedDiscord);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);

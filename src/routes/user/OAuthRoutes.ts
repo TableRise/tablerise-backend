@@ -1,3 +1,4 @@
+import 'src/services/authentication/DiscordStrategy';
 import 'src/services/authentication/GoogleStrategy';
 import 'src/services/authentication/FacebookStrategy';
 
@@ -39,6 +40,17 @@ route.get(
     })
 );
 route.get('/facebook/register', controllers.facebook);
+
+route.get('/discord', passport.authenticate('discord'));
+route.get(
+    '/discord/callback',
+    passport.authenticate('discord', {
+        successRedirect: '/auth/discord/register',
+        failureRedirect: '/auth/error',
+    })
+);
+route.get('/discord/register', controllers.discord);
+
 route.get('/error', AuthErrorMiddleware);
 
 export default route;

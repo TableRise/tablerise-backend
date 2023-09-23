@@ -21,6 +21,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
 
     const userProvidedGoogle = mock.googleProfile;
     const userProvidedFacebook = mock.facebookProfile;
+    const userProvidedDiscord = mock.discordProfile;
 
     const userResponse = {
         ...userInstanceMock,
@@ -62,6 +63,25 @@ describe('Controllers :: User :: OAuthControllers', () => {
         it('should return correct data in response json with status 201', async () => {
             request.user = userProvidedFacebook;
             await OAuthControllersMock.facebook(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
+            expect(response.json).toHaveBeenCalledWith(userResponse);
+        });
+    });
+
+    describe('When a request is made to authenticate with discord', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(OAuthServicesMock, 'discord').mockResolvedValue(userResponse);
+        });
+
+        afterAll(() => jest.clearAllMocks());
+
+        it('should return correct data in response json with status 201', async () => {
+            request.user = userProvidedDiscord;
+            await OAuthControllersMock.discord(request, response);
 
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
             expect(response.json).toHaveBeenCalledWith(userResponse);
