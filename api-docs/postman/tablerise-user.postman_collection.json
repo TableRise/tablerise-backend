@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "8f7602cc-2675-4895-a155-be3c7077d32a",
+		"name": "tablerise-user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29842545"
+	},
+	"item": [
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "Create new user ( internal )",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@email.com\",\r\n  \"password\": \"secret-secret\",\r\n  \"nickname\": \"userTop\",\r\n  \"picture\": \"https://imgbb.com\",\r\n  \"details\": {\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"pronoun\": \"he/his\",\r\n    \"secretQuestion\": {\r\n      \"question\": \"What does the fox say?\",\r\n      \"answer\": \"kikiki\"\r\n    },\r\n    \"birthday\": \"2000/10/10\",\r\n    \"gameInfo\": {\r\n      \"campaigns\": [],\r\n      \"characters\": [],\r\n      \"badges\": []\r\n    },\r\n    \"biography\": \"I do not have anything interesting to tell\",\r\n    \"role\": \"user\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/profile/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"profile",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
