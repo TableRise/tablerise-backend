@@ -66,7 +66,7 @@ export default [
     ['/dnd5e/system/{_id}', 'system', 'get', generateIDParam(), null, false],
     ['/dnd5e/system/{_id}', 'system', 'put', generateIDParam(), systemWithoutContent, false],
     [
-        '/dnd5e/system/{_id}',
+        '/dnd5e/system/content/{_id}',
         'system',
         'patch',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])],

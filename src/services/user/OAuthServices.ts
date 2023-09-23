@@ -121,7 +121,7 @@ export default class OAuthServices {
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
         this._logger('info', 'Registration in the database made with Facebook was successful');
-
+        
         return {
             ...userRegistered._doc,
             details: userDetailsRegistered,
