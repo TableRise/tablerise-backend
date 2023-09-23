@@ -77,7 +77,7 @@ describe('Services :: User :: OAuthServices', () => {
 
         it('should not register the user in database and should throw an error', async () => {
             try {
-                await OAuthServicesMock.discord(userProvidedDiscord);
+                await OAuthServicesMock.facebook(userProvidedFacebook);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
