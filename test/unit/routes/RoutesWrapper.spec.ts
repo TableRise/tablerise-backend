@@ -9,7 +9,7 @@ describe('Routes :: RoutesWrapper', () => {
         it('should return an array with 71 arrays inside - dungeons&dragons5e', () => {
             routesDeclared = RoutesWrapper.declareRoutes()['dungeons&dragons5e'];
             expect(routesDeclared).toBeInstanceOf(Array);
-            expect(routesDeclared.length).toBe(71);
+            expect(routesDeclared.length).toBe(70);
         });
 
         it('should return an array with 1 arrays inside - user', () => {

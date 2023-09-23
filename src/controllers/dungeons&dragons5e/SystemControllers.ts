@@ -14,8 +14,7 @@ export default class SystemControllers {
         this.findOne = this.findOne.bind(this);
         this.update = this.update.bind(this);
         this.updateContent = this.updateContent.bind(this);
-        this.activate = this.activate.bind(this);
-        this.deactivate = this.deactivate.bind(this);
+        this.updateAvailability = this.updateAvailability.bind(this);
     }
 
     public async findAll(_req: Request, res: Response): Promise<Response> {
@@ -51,19 +50,14 @@ export default class SystemControllers {
         return res.status(HttpStatusCode.CREATED).send(request);
     }
 
-    public async activate(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [activate] made to system');
+    public async updateAvailability(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request [updateAvailability] made to systems');
         const { id: _id } = req.params;
+        const { availability } = req.query;
+        const query = availability === 'true';
 
-        const request = await this._service.activate(_id);
-        return res.status(HttpStatusCode.OK).send(request);
-    }
+        const request = await this._service.updateAvailability(_id, query);
 
-    public async deactivate(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request [deactivate] made to system');
-        const { id: _id } = req.params;
-
-        const request = await this._service.deactivate(_id);
-        return res.status(HttpStatusCode.OK).send(request);
+        return res.status(HttpStatusCode.OK).json(request);
     }
 }

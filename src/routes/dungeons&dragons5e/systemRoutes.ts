@@ -9,6 +9,7 @@ import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import ValidateData from 'src/support/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
+import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 const validateData = new ValidateData();
 const DM = new DatabaseManagement();
@@ -23,8 +24,7 @@ const router = Router();
 router.get('/', controllers.findAll);
 router.get('/:id', VerifyIdMiddleware, controllers.findOne);
 router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.patch('/:id', VerifyIdMiddleware, controllers.updateContent);
-router.patch('/activate/:id', VerifyIdMiddleware, controllers.activate);
-router.patch('/deactivate/:id', VerifyIdMiddleware, controllers.deactivate);
+router.patch('/content/:id', VerifyIdMiddleware, controllers.updateContent);
+router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
 
 export default router;
