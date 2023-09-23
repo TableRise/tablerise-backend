@@ -6,7 +6,7 @@ describe('Routes :: RoutesWrapper', () => {
     describe('When declare routes method is called', () => {
         let routesDeclared: RouteWrapperDeclared[][];
 
-        it('should return an array with 71 arrays inside - dungeons&dragons5e', () => {
+        it('should return an array with 70 arrays inside - dungeons&dragons5e', () => {
             routesDeclared = RoutesWrapper.declareRoutes()['dungeons&dragons5e'];
             expect(routesDeclared).toBeInstanceOf(Array);
             expect(routesDeclared.length).toBe(70);
