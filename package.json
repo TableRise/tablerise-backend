@@ -19,6 +19,7 @@
         "check-cov": "node scripts/checkCoverage.js",
         "populate": "npx @tablerise/database-seeder@4.5.6",
         "circular": "npx dpdm --no-warning --no-tree src/server.ts",
+        "reset": "rm -rf node_modules && rm package-lock.json && npm install",
         "prepare": "husky install"
     },
     "_moduleAliases": {
