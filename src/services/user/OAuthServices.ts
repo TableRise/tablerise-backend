@@ -48,7 +48,7 @@ export default class OAuthServices {
         this._logger('info', 'User details saved on database');
         this._logger('info', 'Registration in the database made with Google was successful');
 
-        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null }
+        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null };
 
         return {
             ...userRegistered._doc,
@@ -87,7 +87,7 @@ export default class OAuthServices {
         this._logger('info', 'User details saved on database');
         this._logger('info', 'Registration in the database made with Facebook was successful');
 
-        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null }
+        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null };
 
         return {
             ...userRegistered._doc,
@@ -126,7 +126,7 @@ export default class OAuthServices {
         this._logger('info', 'User details saved on database');
         this._logger('info', 'Registration in the database made with Discord was successful');
 
-        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null }
+        userRegistered._doc.inProgress = { status: 'wait_to_complete', code: null };
 
         return {
             ...userRegistered._doc,

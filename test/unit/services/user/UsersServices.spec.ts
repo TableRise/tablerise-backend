@@ -58,9 +58,13 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should return the new user registered', async () => {
                 const result = await UsersServicesMock.register(userPayload as RegisterUserPayload);
-                
-                userResponseKeys.forEach((key) => { expect(result).toHaveProperty(key) });
-                userDetailsResponseKeys.forEach((key) => { expect(result.details).toHaveProperty(key) });
+
+                userResponseKeys.forEach((key) => {
+                    expect(result).toHaveProperty(key);
+                });
+                userDetailsResponseKeys.forEach((key) => {
+                    expect(result.details).toHaveProperty(key);
+                });
                 expect(result.inProgress).toHaveProperty('status');
                 // @ts-expect-error assertion made above in loop.
                 expect(result.inProgress.status).toBe('wait_to_confirm');

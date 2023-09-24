@@ -38,8 +38,12 @@ describe('Services :: User :: OAuthServices', () => {
         it('should correctly register the user in database', async () => {
             const result = await OAuthServicesMock.google(userProvidedGoogle);
 
-            userResponseKeys.forEach((key) => { expect(result).toHaveProperty(key) });
-            userDetailsResponseKeys.forEach((key) => { expect(result.details).toHaveProperty(key) });
+            userResponseKeys.forEach((key) => {
+                expect(result).toHaveProperty(key);
+            });
+            userDetailsResponseKeys.forEach((key) => {
+                expect(result.details).toHaveProperty(key);
+            });
             expect(result.inProgress).toHaveProperty('status');
             expect(result.inProgress.status).toBe('wait_to_complete');
         });
@@ -73,9 +77,13 @@ describe('Services :: User :: OAuthServices', () => {
 
         it('should correctly register the user in database', async () => {
             const result = await OAuthServicesMock.facebook(userProvidedFacebook);
-            
-            userResponseKeys.forEach((key) => { expect(result).toHaveProperty(key) });
-            userDetailsResponseKeys.forEach((key) => { expect(result.details).toHaveProperty(key) });
+
+            userResponseKeys.forEach((key) => {
+                expect(result).toHaveProperty(key);
+            });
+            userDetailsResponseKeys.forEach((key) => {
+                expect(result.details).toHaveProperty(key);
+            });
             expect(result.inProgress).toHaveProperty('status');
             expect(result.inProgress.status).toBe('wait_to_complete');
         });
@@ -108,9 +116,13 @@ describe('Services :: User :: OAuthServices', () => {
 
         it('should correctly register the user in database', async () => {
             const result = await OAuthServicesMock.discord(userProvidedDiscord);
-            
-            userResponseKeys.forEach((key) => { expect(result).toHaveProperty(key) });
-            userDetailsResponseKeys.forEach((key) => { expect(result.details).toHaveProperty(key) });
+
+            userResponseKeys.forEach((key) => {
+                expect(result).toHaveProperty(key);
+            });
+            userDetailsResponseKeys.forEach((key) => {
+                expect(result.details).toHaveProperty(key);
+            });
             expect(result.inProgress).toHaveProperty('status');
             expect(result.inProgress.status).toBe('wait_to_complete');
         });
