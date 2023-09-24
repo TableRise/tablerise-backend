@@ -16,7 +16,7 @@ const characteristicsZodSchema = z.object({
 const backgroundZodSchema = z.object({
     name: z.string(),
     description: z.string(),
-    skillProficiences: z.array(z.string()),
+    skillProficiencies: z.array(z.string()),
     languages: z.array(z.string()),
     equipment: z.array(z.string()),
     characteristics: characteristicsZodSchema,

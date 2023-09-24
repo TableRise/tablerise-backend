@@ -35,7 +35,7 @@ const raceMockEn: Race = {
             ],
         },
     ],
-    skillProficiences: ['Perception'],
+    skillProficiencies: ['Perception'],
     characterstics: [
         {
             name: 'Keen Senses',
@@ -78,7 +78,7 @@ const raceMockPt: Race = {
             ],
         },
     ],
-    skillProficiences: ['Percepção'],
+    skillProficiencies: ['Percepção'],
     characterstics: [
         {
             name: 'Sentios Aguçados',

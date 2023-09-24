@@ -42,7 +42,7 @@ describe('Put RPG backgrounds in database', () => {
             const keysToTest = [
                 'name',
                 'description',
-                'skillProficiences',
+                'skillProficiencies',
                 'languages',
                 'equipment',
                 'characteristics',
