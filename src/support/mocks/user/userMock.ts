@@ -3,6 +3,7 @@ import { User } from "src/schemas/user/usersValidationSchema"
 
 
 const userMock: User = {
+    inProgress: { status: 'wait_to_confirm', code: 1447 },
     providerId: '39dbb501-d973-4362-9005-fbc3750b83d3',
     email: 'user@email.com',
     password: 'secret-secret',
