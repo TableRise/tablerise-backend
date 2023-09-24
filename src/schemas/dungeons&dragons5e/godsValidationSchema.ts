@@ -5,7 +5,7 @@ const godZodSchema = z.object({
     alignment: z.string(),
     suggestedDomains: z.string(),
     symbol: z.string(),
-    phanteon: z.string(),
+    pantheon: z.string(),
 });
 
 export type God = z.infer<typeof godZodSchema>;

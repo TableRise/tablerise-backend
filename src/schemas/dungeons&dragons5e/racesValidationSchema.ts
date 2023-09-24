@@ -27,8 +27,8 @@ const raceZodSchema = z.object({
     speed: z.tuple([z.number(), z.string()]),
     language: z.array(z.string()),
     subRaces: z.array(subRacesZodSchema),
-    skillProficiences: z.array(z.string()),
-    characterstics: z.array(characteristicsZodSchema),
+    skillProficiencies: z.array(z.string()),
+    characteristics: z.array(characteristicsZodSchema),
     weightMax: z.number(),
 });
 
