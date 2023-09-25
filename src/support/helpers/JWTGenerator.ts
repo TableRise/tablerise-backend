@@ -10,7 +10,7 @@ export default class JWTGenerator {
             username: `${user.nickname as string}${user.tag as string}`,
         };
 
-        const token = JWT.sign(payload, process.env.JWT_SECRET as string, {
+        const token = JWT.sign(payload, (process.env.JWT_SECRET as string) || 'secret', {
             algorithm: 'HS256',
             expiresIn: '1d',
         });
