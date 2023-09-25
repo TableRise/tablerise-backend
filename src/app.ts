@@ -2,6 +2,7 @@
 import 'module-alias/register';
 import 'express-async-errors';
 import 'dotenv/config';
+import 'src/services/authentication/BearerStrategy';
 
 import express, { Application, Request, Response } from 'express';
 import session from 'express-session';
@@ -26,9 +27,9 @@ const app: Application = express();
 app.use(express.json())
     .use(
         session({
-            secret: 'cats',
+            secret: process.env.COOKIE_SECRET as string,
             resave: false,
-            saveUninitialized: true,
+            saveUninitialized: false,
             cookie: { maxAge: COOKIE_AGE },
         })
     )
@@ -36,8 +37,9 @@ app.use(express.json())
     .use(cors())
     .use(helmet())
     .use('/health', (req, res) => res.send('OK!'))
-    .use(DungeonsAndDragonsRouteMiddleware)
     .use(UserRouteMiddleware)
+    .use(passport.authenticate('bearer', { session: false }))
+    .use(DungeonsAndDragonsRouteMiddleware)
     .use(ErrorMiddleware);
 
 if (process.env.NODE_ENV === 'develop') {

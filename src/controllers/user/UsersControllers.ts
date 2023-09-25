@@ -10,6 +10,7 @@ export default class UsersControllers {
         private readonly _logger: Logger
     ) {
         this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -19,5 +20,15 @@ export default class UsersControllers {
 
         const request = await this._service.register(payload);
         return res.status(HttpStatusCode.CREATED).json(request);
+    }
+
+    public async login(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'User successfully logged in');
+
+        const { user: token } = req;
+        
+        return res.status(HttpStatusCode.OK).json({
+            token,
+        });
     }
 }

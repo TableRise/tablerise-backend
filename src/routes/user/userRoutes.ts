@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import 'src/services/authentication/LocalStrategy';
+import 'src/services/authentication/BearerStrategy';
+
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
+import passport from 'passport';
 
 import schema from 'src/schemas';
 import logger from '@tablerise/dynamic-logger';
@@ -21,5 +25,8 @@ const controllers = new UserControllers(services, logger);
 const router = Router();
 
 router.post('/register', controllers.register);
+router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
+
+router.use(passport.authenticate('bearer', { session: false }));
 
 export default router;
