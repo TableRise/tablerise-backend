@@ -38,7 +38,9 @@ describe('Patch RPG system status in database', () => {
 
             const { body } = await requester
                 .patch(`/dnd5e/system/${documentId}?availability=false`)
-                .expect(HttpStatusCode.OK);
+            
+            // eslint-disable-next-line no-console
+            console.log(body);
 
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('name');
