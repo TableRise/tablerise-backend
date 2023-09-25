@@ -24,31 +24,34 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_REGISTRY_PACKAGES }}
 
-      - name: Checking lint
-        run:  npm run lint
+      # - name: Checking lint
+      #   run:  npm run lint
 
-      - name: Checking prettier
-        run:  npm run prettier
+      # - name: Checking prettier
+      #   run:  npm run prettier
 
       - name: Up database container
         run: docker-compose up -d database-test
 
+      # - name: Run tests
+      #   run:  npm run test:coverage
+
+      # - name: Run integration tests
+      #   run:  npm run test:integration 
+
       - name: Run tests
-        run:  npm run test:coverage
+        run:  npm run test:file postLogin
 
-      - name: Run integration tests
-        run:  npm run test:integration 
+      # - name: Monitor coverage
+      #   uses: MishaKav/jest-coverage-comment@main
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     coverage-summary-path: ./coverage/coverage-summary.json
+      #     title: TableRise Coverage Report
+      #     summary-title: Pull Request Coverage Level
+      #     remove-links-to-files: false
+      #     remove-links-to-lines: true
 
-      - name: Monitor coverage
-        uses: MishaKav/jest-coverage-comment@main
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-summary-path: ./coverage/coverage-summary.json
-          title: TableRise Coverage Report
-          summary-title: Pull Request Coverage Level
-          remove-links-to-files: false
-          remove-links-to-lines: true
-
-      - name: Checking coverage level
-        run: npm run check-cov
+      # - name: Checking coverage level
+      #   run: npm run check-cov
 

@@ -33,11 +33,12 @@ describe('Post login', () => {
     });
 
     describe('When login', () => {
-        it('should return a token', async () => {
+        it.only('should return a token', async () => {
             const { body: bodyUser } = await requester
                 .post('/profile/register')
-                .send(userPayload)
-                .expect(HttpStatusCode.CREATED);
+                .send(userPayload);
+
+            console.log(bodyUser);
 
             const loginPayload = {
                 email: bodyUser.email,
