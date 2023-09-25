@@ -28,7 +28,7 @@ const app: Application = express();
 app.use(express.json())
     .use(
         session({
-            secret: process.env.COOKIE_SECRET as string,
+            secret: process.env.COOKIE_SECRET as string || 'catfish',
             resave: false,
             saveUninitialized: false,
             cookie: { maxAge: COOKIE_AGE },
