@@ -36,9 +36,8 @@ describe('Patch RPG system status in database', () => {
             const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
-            const { body } = await requester
-                .patch(`/dnd5e/system/${documentId}?availability=false`)
-            
+            const { body } = await requester.patch(`/dnd5e/system/${documentId}?availability=false`);
+
             // eslint-disable-next-line no-console
             console.log(body);
 
