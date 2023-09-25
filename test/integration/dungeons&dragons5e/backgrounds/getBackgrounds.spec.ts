@@ -37,7 +37,7 @@ describe('Get RPG backgrounds from database', () => {
             const keysToTest = [
                 'name',
                 'description',
-                'skillProficiences',
+                'skillProficiencies',
                 'languages',
                 'equipment',
                 'characteristics',
@@ -63,7 +63,7 @@ describe('Get RPG backgrounds from database', () => {
             const keysToTest = [
                 'name',
                 'description',
-                'skillProficiences',
+                'skillProficiencies',
                 'languages',
                 'equipment',
                 'characteristics',
@@ -94,7 +94,7 @@ describe('Get RPG backgrounds from database', () => {
             const keysToTest = [
                 'name',
                 'description',
-                'skillProficiences',
+                'skillProficiencies',
                 'languages',
                 'equipment',
                 'characteristics',

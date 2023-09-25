@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "f93e4859-ade8-48cc-88f7-a0a94df62795",
+		"name": "tablerise-rpg",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29842545"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "Get all content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/realms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"realms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all content disabled",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/realms/disabled",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"realms",
+								"disabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get content by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/realms/{_id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"realms",
+								"{_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "Update a content",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/realms/{_id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"realms",
+								"{_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PATCH",
+			"item": [
+				{
+					"name": "Change availability",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/realms/{_id}?availability=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"realms",
+								"{_id}"
+							],
+							"query": [
+								{
+									"key": "availability",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add or remove content",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"method\": \"add\",  // options = add / remove\r\n    \"newID\": \"{_id}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/dnd5e/system/content/{_id}?entity=realms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"dnd5e",
+								"system",
+								"content",
+								"{_id}"
+							],
+							"query": [
+								{
+									"key": "entity",
+									"value": "realms"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

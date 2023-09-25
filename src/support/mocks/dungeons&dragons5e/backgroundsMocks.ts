@@ -5,7 +5,7 @@ import Mock from 'src/types/Mock';
 const backgroundMockEn: Background = {
     name: 'Insane',
     description: 'Someone that lost his mental health',
-    skillProficiences: ['perception', 'wisdom'],
+    skillProficiencies: ['perception', 'wisdom'],
     characteristics: {
         name: 'Crazy Defensor',
         description: 'A crazy defensor is a creature that defends the crazyness',
@@ -23,7 +23,7 @@ const backgroundMockEn: Background = {
 const backgroundMockPt: Background = {
     name: 'Insano',
     description: 'Alguem que perdeu sua sanidade',
-    skillProficiences: ['percepção', 'sabedoria'],
+    skillProficiencies: ['percepção', 'sabedoria'],
     characteristics: {
         name: 'Defensor Louco',
         description: 'Um defensor louco é uma criatura que defende a loucura',

@@ -7,7 +7,7 @@ const godInstanceEn: God = {
     alignment: 'Neutral and Evil',
     suggestedDomains: 'Olympo',
     symbol: 'Lightning',
-    phanteon: 'Greek',
+    pantheon: 'Greek',
 };
 
 const godInstancePt: God = {
@@ -15,7 +15,7 @@ const godInstancePt: God = {
     alignment: 'Neutro e Mal',
     suggestedDomains: 'Olympo',
     symbol: 'Raio',
-    phanteon: 'Grego',
+    pantheon: 'Grego',
 };
 
 const god: Mock = {

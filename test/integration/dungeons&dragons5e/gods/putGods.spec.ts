@@ -39,7 +39,7 @@ describe('Put RPG gods in database', () => {
 
     describe('When update one rpg god', () => {
         it('should return updated god', async () => {
-            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'phanteon'];
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'pantheon'];
 
             const response = await model.create(godPayload);
             documentId = response._id as string;
