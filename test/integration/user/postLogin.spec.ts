@@ -34,15 +34,15 @@ describe('Post login', () => {
 
     describe('When login', () => {
         it.only('should return a token', async () => {
-            const { body: bodyUser } = await requester
+            const request = await requester
                 .post('/profile/register')
                 .send(userPayload);
 
-            console.log(bodyUser);
+            console.log(request);
 
             const loginPayload = {
-                email: bodyUser.email,
-                password: bodyUser.password,
+                email: request.body.email,
+                password: request.body.password,
             };
 
             const response = await requester.post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
