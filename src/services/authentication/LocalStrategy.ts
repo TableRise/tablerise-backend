@@ -48,7 +48,7 @@ passport.use(
             if (!user.length)
                 return done(
                     new HttpRequestErrors({
-                        message: 'User with provided email do not exist in database',
+                        message: 'Incorrect email or password. Try again.',
                         code: HttpStatusCode.NOT_FOUND,
                         name: getErrorName(HttpStatusCode.NOT_FOUND),
                     })
@@ -59,7 +59,7 @@ passport.use(
             if (!isPasswordValid)
                 return done(
                     new HttpRequestErrors({
-                        message: 'Incorrect password',
+                        message: 'Incorrect email or password. Try again.',
                         code: HttpStatusCode.UNAUTHORIZED,
                         name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                     })
