@@ -1,5 +1,5 @@
 import { UserDetail } from "src/schemas/user/userDetailsValidationSchema"
-import { User } from "src/schemas/user/usersValidationSchema"
+import { User, UserLogin } from "src/schemas/user/usersValidationSchema"
 
 
 const userMock: User = {
@@ -33,7 +33,13 @@ const userDetailsMock: UserDetail = {
     role: 'user'
 }
 
+const userLoginMock: UserLogin = {
+    email: 'email@email.com',
+    password: 'secret-secret'
+}
+
 export default {
     user: userMock,
-    userDetails: userDetailsMock
+    userDetails: userDetailsMock,
+    userLogin: userLoginMock
 }

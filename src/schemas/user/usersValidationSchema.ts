@@ -5,6 +5,11 @@ const inProgressZodSchema = z.object({
     code: z.number(),
 });
 
+export const userLoginZodSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8).max(16),
+});
+
 const usersZodSchema = z.object({
     _id: z.string().length(24).optional(),
     inProgress: inProgressZodSchema.optional(),
@@ -19,5 +24,6 @@ const usersZodSchema = z.object({
 });
 
 export type User = z.infer<typeof usersZodSchema>;
+export type UserLogin = z.infer<typeof userLoginZodSchema>;
 
 export default usersZodSchema;

@@ -10,6 +10,8 @@ export default (code: number): string => {
             return 'ValidationError';
         case HttpStatusCode.FORBIDDEN:
             return 'ForbiddenRequest';
+        case HttpStatusCode.UNAUTHORIZED:
+            return 'Unauthorized';
         default:
             throw new Error(`This ${code} is not valid, check the code List at HttpStatusCode.`);
     }

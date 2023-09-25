@@ -12,9 +12,12 @@ const registerUserPayloadSchema = {
     details: userDetailsPayload,
 };
 
+const loginUserPayloadSchema = mocks.user.userLogin;
+
 export default [
     ['/auth/discord', 'auth', 'get', null, null, false],
     ['/auth/google', 'auth', 'get', null, null, false],
     ['/auth/facebook', 'auth', 'get', null, null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
+    ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
 ] as routeOriginal;

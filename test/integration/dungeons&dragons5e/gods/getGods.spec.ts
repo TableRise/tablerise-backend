@@ -34,7 +34,7 @@ describe('Get RPG gods from database', () => {
 
     describe('When request all rpg gods', () => {
         it('should return an array with gods', async () => {
-            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'pantheon'];
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol'];
 
             const response = await model.create(godMockPayload);
             documentId = response._id as string;
@@ -53,7 +53,7 @@ describe('Get RPG gods from database', () => {
 
     describe('When request all disabled rpg gods', () => {
         it('should return an array with disabled gods', async () => {
-            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'pantheon'];
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol'];
 
             const godMockCopy = {
                 active: false,
@@ -78,7 +78,7 @@ describe('Get RPG gods from database', () => {
 
     describe('When request one rpg god', () => {
         it('should return a god instance', async () => {
-            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol', 'pantheon'];
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol'];
 
             await model.create(godMockPayload);
 
