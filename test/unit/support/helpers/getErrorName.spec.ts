@@ -8,6 +8,7 @@ describe('Helpers :: getErrorName', () => {
             expect(getErrorName(HttpStatusCode.BAD_REQUEST)).toBe('BadRequest');
             expect(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)).toBe('ValidationError');
             expect(getErrorName(HttpStatusCode.FORBIDDEN)).toBe('ForbiddenRequest');
+            expect(getErrorName(HttpStatusCode.UNAUTHORIZED)).toBe('Unauthorized');
         });
 
         it('should throw an Error', () => {

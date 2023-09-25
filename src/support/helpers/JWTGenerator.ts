@@ -3,7 +3,7 @@ import JWT from 'jsonwebtoken';
 import { User } from 'src/schemas/user/usersValidationSchema';
 
 export default class JWTGenerator {
-    static generate(user: User): any {
+    static generate(user: User): string {
         const payload = {
             userId: user._id,
             providerId: user.providerId,
@@ -18,7 +18,7 @@ export default class JWTGenerator {
         return token;
     }
 
-    static verify(token: string): any {
+    static verify(token: string): JWT.JwtPayload | boolean {
         try {
             const payload = JWT.verify(token, process.env.JWT_SECRET as string);
             return payload as JWT.JwtPayload;

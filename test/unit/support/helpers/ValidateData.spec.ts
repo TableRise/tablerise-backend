@@ -51,6 +51,32 @@ describe('Helpers :: ValidateData', () => {
         });
     });
 
+    describe('when a zod validate.entryReturn is successfull', () => {
+        it('should return null', () => {
+            const testZodSchema = z.object({
+                value: z.number().min(5),
+            });
+
+            const testObject = { value: 10 };
+            const validate = new ValidateData();
+            const schema = validate.entryReturn(testZodSchema, testObject);
+            expect(schema).toBeNull();
+        });
+    });
+
+    describe('when a zod validate.entryReturn fail', () => {
+        it('should return errors', () => {
+            const testZodSchema = z.object({
+                value: z.number().min(5),
+            });
+
+            const testObject = { noNumber: '10' };
+            const validate = new ValidateData();
+            const schema = validate.entryReturn(testZodSchema, testObject);
+            expect(!schema).toBe(false);
+        });
+    });
+
     describe('when validate.existance fail', () => {
         const errorCondition = true;
         it('should throw a an error', () => {
