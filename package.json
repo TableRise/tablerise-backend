@@ -17,8 +17,9 @@
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
         "check-cov": "node scripts/checkCoverage.js",
-        "populate": "npx @tablerise/database-seeder@4.5.5",
+        "populate": "npx @tablerise/database-seeder@4.5.6",
         "circular": "npx dpdm --no-warning --no-tree src/server.ts",
+        "reset": "rm -rf node_modules && rm package-lock.json && npm install",
         "prepare": "husky install"
     },
     "_moduleAliases": {
@@ -62,7 +63,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "2.2.1",
-        "@tablerise/database-management": "3.0.2",
+        "@tablerise/database-management": "3.1.0",
         "@tablerise/dynamic-logger": "1.4.0",
         "cors": "2.8.5",
         "dotenv": "16.0.3",

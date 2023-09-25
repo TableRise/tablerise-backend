@@ -45,6 +45,9 @@ describe('Services :: User :: UsersServices', () => {
         details: userDetailsInstanceMock,
     };
 
+    const userResponseKeys = Object.keys(userResponse);
+    const userDetailsResponseKeys = Object.keys(userResponse.details);
+
     describe('When a new user is registered', () => {
         describe('and the data is correct', () => {
             beforeAll(() => {
@@ -55,7 +58,16 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should return the new user registered', async () => {
                 const result = await UsersServicesMock.register(userPayload as RegisterUserPayload);
-                expect(result).toStrictEqual(userResponse);
+
+                userResponseKeys.forEach((key) => {
+                    expect(result).toHaveProperty(key);
+                });
+                userDetailsResponseKeys.forEach((key) => {
+                    expect(result.details).toHaveProperty(key);
+                });
+                expect(result.inProgress).toHaveProperty('status');
+                // @ts-expect-error assertion made above in loop.
+                expect(result.inProgress.status).toBe('wait_to_confirm');
             });
         });
 

@@ -64,6 +64,8 @@ export default class RegisterServices {
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
+        userRegistered._doc.inProgress = { status: 'wait_to_confirm', code: null };
+
         return {
             ...userRegistered._doc,
             details: userDetailsRegistered,
