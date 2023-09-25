@@ -7,7 +7,7 @@ const inProgressZodSchema = z.object({
 
 export const userLoginZodSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8).max(16)
+    password: z.string().min(8).max(16),
 });
 
 const usersZodSchema = z.object({

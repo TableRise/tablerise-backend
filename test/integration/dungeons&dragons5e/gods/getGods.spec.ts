@@ -78,7 +78,7 @@ describe('Get RPG gods from database', () => {
 
     describe('When request one rpg god', () => {
         it('should return a god instance', async () => {
-            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol',];
+            const keysToTest = ['name', 'alignment', 'suggestedDomains', 'symbol'];
 
             await model.create(godMockPayload);
 

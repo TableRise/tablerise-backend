@@ -41,8 +41,10 @@ app.use(express.json())
     .use(UserRouteMiddleware)
     .use(
         VALID_ENVS_TO_AUTHENTICATE.includes(process.env.NODE_ENV as string)
-        ? passport.authenticate('bearer', { session: false })
-        : (req: Request, res: Response, next: NextFunction) => { next() }
+            ? passport.authenticate('bearer', { session: false })
+            : (req: Request, res: Response, next: NextFunction) => {
+                  next();
+              }
     )
     .use(DungeonsAndDragonsRouteMiddleware)
     .use(ErrorMiddleware);

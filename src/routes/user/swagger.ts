@@ -19,5 +19,5 @@ export default [
     ['/auth/google', 'auth', 'get', null, null, false],
     ['/auth/facebook', 'auth', 'get', null, null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
-    ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false]
+    ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
 ] as routeOriginal;

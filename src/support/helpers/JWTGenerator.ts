@@ -7,12 +7,12 @@ export default class JWTGenerator {
         const payload = {
             userId: user._id,
             providerId: user.providerId,
-            username: `${user.nickname as string}${user.tag as string}`
+            username: `${user.nickname as string}${user.tag as string}`,
         };
 
         const token = JWT.sign(payload, process.env.JWT_SECRET as string, {
             algorithm: 'HS256',
-            expiresIn: '1d'
+            expiresIn: '1d',
         });
 
         return token;
@@ -25,5 +25,5 @@ export default class JWTGenerator {
         } catch (error) {
             return false;
         }
-    } 
+    }
 }

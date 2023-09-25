@@ -26,7 +26,7 @@ export default class UsersControllers {
         this._logger('warn', 'User successfully logged in');
 
         const { user: token } = req;
-        
+
         return res.status(HttpStatusCode.OK).json({
             token,
         });

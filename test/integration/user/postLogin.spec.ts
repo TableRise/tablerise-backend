@@ -41,13 +41,10 @@ describe('Post login', () => {
 
             const loginPayload = {
                 email: bodyUser.email,
-                password: bodyUser.password
-            }
+                password: bodyUser.password,
+            };
 
-            const response = await requester
-                .post('/profile/login')
-                .send(loginPayload)
-                .expect(HttpStatusCode.OK)
+            const response = await requester.post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('token');
             expect(typeof response.body.token).toBe('string');

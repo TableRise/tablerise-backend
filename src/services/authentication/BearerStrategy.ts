@@ -16,11 +16,14 @@ passport.use(
 
         const payload = JWTGenerator.verify(token);
 
-        if (!payload) return done(new HttpRequestErrors({
-            message: 'Invalid token',
-            code: HttpStatusCode.UNAUTHORIZED,
-            name: getErrorName(HttpStatusCode.UNAUTHORIZED)
-        }));
+        if (!payload)
+            return done(
+                new HttpRequestErrors({
+                    message: 'Invalid token',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                })
+            );
 
         logger('warn', 'Operation authorized');
         done(null, payload);
