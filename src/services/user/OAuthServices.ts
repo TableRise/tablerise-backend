@@ -30,11 +30,12 @@ export default class OAuthServices {
         if (user.length) {
             const isProviderIdValid = user[0].providerId === userSerialized.providerId;
 
-            if (!isProviderIdValid) throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+            if (!isProviderIdValid)
+                throw new HttpRequestErrors({
+                    message: 'Email already exists in database',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
 
             this._logger('info', 'User logged in');
             return JWTGenerator.generate(user[0]);

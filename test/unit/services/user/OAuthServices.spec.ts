@@ -37,7 +37,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.google(userProvidedGoogle) as RegisterUserResponse;
+            const result = (await OAuthServicesMock.google(userProvidedGoogle)) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
