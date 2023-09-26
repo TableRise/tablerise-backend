@@ -5,6 +5,7 @@ import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import DatabaseManagement from '@tablerise/database-management';
 import mock from 'src/support/mocks/user';
+import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Controllers :: User :: OAuthControllers', () => {
     const DM = new DatabaseManagement();
@@ -36,7 +37,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(OAuthServicesMock, 'google').mockResolvedValue(userResponse); // change to user's mock when done
+            jest.spyOn(OAuthServicesMock, 'google').mockResolvedValue(userResponse as RegisterUserResponse);
         });
 
         afterAll(() => jest.clearAllMocks());
@@ -55,7 +56,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(OAuthServicesMock, 'facebook').mockResolvedValue(userResponse);
+            jest.spyOn(OAuthServicesMock, 'facebook').mockResolvedValue(userResponse as RegisterUserResponse);
         });
 
         afterAll(() => jest.clearAllMocks());
@@ -74,7 +75,7 @@ describe('Controllers :: User :: OAuthControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(OAuthServicesMock, 'discord').mockResolvedValue(userResponse);
+            jest.spyOn(OAuthServicesMock, 'discord').mockResolvedValue(userResponse as RegisterUserResponse);
         });
 
         afterAll(() => jest.clearAllMocks());

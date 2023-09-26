@@ -9,6 +9,8 @@ import { Logger } from 'src/types/Logger';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import getErrorName from 'src/support/helpers/getErrorName';
+import { RegisterUserResponse } from 'src/types/Response';
+import JWTGenerator from 'src/support/helpers/JWTGenerator';
 
 export default class OAuthServices {
     constructor(
@@ -17,20 +19,26 @@ export default class OAuthServices {
         private readonly _logger: Logger
     ) {}
 
-    public async google(profile: Google.Profile): Promise<any> {
+    public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
         const externalUserInfo = userSerializer(profile);
 
         const userSerialized = postUserSerializer(externalUserInfo);
         const userDetailsSerialized = postUserDetailsSerializer({});
 
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        const user = await this._model.findAll({ email: userSerialized.email });
 
-        if (emailAlreadyExist.length)
-            throw new HttpRequestErrors({
+        if (user.length) {
+            const isProviderIdValid = user[0].providerId === userSerialized.providerId;
+
+            if (!isProviderIdValid) throw new HttpRequestErrors({
                 message: 'Email already exists in database',
                 code: HttpStatusCode.BAD_REQUEST,
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
+
+            this._logger('info', 'User logged in');
+            return JWTGenerator.generate(user[0]);
+        }
 
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
@@ -56,7 +64,7 @@ export default class OAuthServices {
         };
     }
 
-    public async facebook(profile: Facebook.Profile): Promise<any> {
+    public async facebook(profile: Facebook.Profile): Promise<RegisterUserResponse> {
         const externalUserInfo = userSerializer(profile);
 
         const userSerialized = postUserSerializer(externalUserInfo);
@@ -95,7 +103,7 @@ export default class OAuthServices {
         };
     }
 
-    public async discord(profile: Discord.Profile): Promise<any> {
+    public async discord(profile: Discord.Profile): Promise<RegisterUserResponse> {
         const externalUserInfo = userSerializer(profile);
 
         const userSerialized = postUserSerializer(externalUserInfo);

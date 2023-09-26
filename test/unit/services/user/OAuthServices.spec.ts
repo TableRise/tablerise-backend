@@ -3,6 +3,7 @@ import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import mock from 'src/support/mocks/user';
+import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Services :: User :: OAuthServices', () => {
     const DM = new DatabaseManagement();
@@ -36,7 +37,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.google(userProvidedGoogle);
+            const result = await OAuthServicesMock.google(userProvidedGoogle) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
