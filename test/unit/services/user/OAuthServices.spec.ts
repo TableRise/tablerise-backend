@@ -50,22 +50,14 @@ describe('Services :: User :: OAuthServices', () => {
         });
     });
 
-    describe('When a signup is made through google - email already exist', () => {
+    describe('When a signup is made through google - login', () => {
         beforeAll(() => {
-            jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '1128493523316590413556' }]);
         });
 
-        it('should not register the user in database and should throw an error', async () => {
-            try {
-                await OAuthServicesMock.google(userProvidedGoogle);
-                expect('it should not be here').toBe(true);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err).toBeInstanceOf(HttpRequestErrors);
-                expect(err.message).toBe('Email already exists in database');
-                expect(err.code).toBe(400);
-                expect(err.name).toBe('BadRequest');
-            }
+        it('should not register the user but should complete login', async () => {
+            const token = await OAuthServicesMock.google(userProvidedGoogle);
+            expect(typeof token).toBe('string');
         });
     });
 
@@ -90,7 +82,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
     });
 
-    describe('When a signup is made through facebook - email already exist', () => {
+    describe('When a signup is made through facebook - login', () => {
         beforeAll(() => {
             jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
         });
