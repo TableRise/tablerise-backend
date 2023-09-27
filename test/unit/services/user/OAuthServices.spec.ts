@@ -87,7 +87,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.facebook(userProvidedFacebook);
+            const result = (await OAuthServicesMock.facebook(userProvidedFacebook)) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
