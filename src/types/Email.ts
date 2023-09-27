@@ -2,6 +2,7 @@ export type EmailSenderType = 'confirmation' | 'newsletter' | 'common';
 
 export interface CommonContent {
     username?: string;
+    verificationCode?: string;
     subject: string;
     body: string;
 }
