@@ -66,7 +66,9 @@ describe('Controllers :: User :: OAuthControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(OAuthServicesMock, 'facebook').mockResolvedValue(userResponse as RegisterUserResponse);
+            jest.spyOn(OAuthServicesMock, 'facebook')
+                .mockResolvedValueOnce(userResponse as RegisterUserResponse)
+                .mockResolvedValue('token');
         });
 
         afterAll(() => jest.clearAllMocks());
@@ -77,6 +79,14 @@ describe('Controllers :: User :: OAuthControllers', () => {
 
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
             expect(response.json).toHaveBeenCalledWith(userResponse);
+        });
+
+        it('should return correct data in response json with status 201 - when login - return token', async () => {
+            request.user = userProvidedFacebook;
+            await OAuthControllersMock.facebook(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
+            expect(response.json).toHaveBeenCalledWith({ token: 'token' });
         });
     });
 
