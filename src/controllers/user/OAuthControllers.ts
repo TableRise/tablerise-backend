@@ -46,6 +46,12 @@ export default class OAuthControllers {
         const { user } = req;
 
         const request = await this._service.facebook(user as Facebook.Profile);
-        return res.status(HttpStatusCode.CREATED).json(request);
+        return res.status(HttpStatusCode.CREATED).json(
+            typeof request === 'string'
+                ? {
+                      token: request,
+                  }
+                : request
+        );
     }
 }
