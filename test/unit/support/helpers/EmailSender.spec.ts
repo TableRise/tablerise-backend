@@ -28,6 +28,7 @@ describe('Support :: Helpers :: EmailSender', () => {
             it('should return true when the process is done with success', async () => {
                 const testContent = {
                     username: 'userTest',
+                    verificationCode: '123456',
                     subject: 'Test',
                     body: '',
                 };
@@ -41,6 +42,7 @@ describe('Support :: Helpers :: EmailSender', () => {
             it('should return true when the process is done with success without the username', async () => {
                 const testContent = {
                     subject: 'Test',
+                    verificationCode: '123456',
                     body: '',
                 };
 
