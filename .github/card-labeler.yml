@@ -3,6 +3,8 @@ Board of Development:
     - 'backlog'
   Priorities:
     - 'important'
+  ReadyToDevelopment:
+    - 'waiting-start'
   Development:
     - 'in progress'
   Test:
