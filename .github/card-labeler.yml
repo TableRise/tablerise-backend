@@ -4,7 +4,7 @@ Board of Development:
   Priorities:
     - 'important'
   ReadyToDevelopment:
-    - 'waiting-start'
+    - 'waiting-development'
   Development:
     - 'in progress'
   Test:
