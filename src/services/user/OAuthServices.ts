@@ -19,6 +19,20 @@ export default class OAuthServices {
         private readonly _logger: Logger
     ) {}
 
+    private login(userFromDb: User[], userSerialized: User): string {
+        const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
+
+        if (!isProviderIdValid)
+            throw new HttpRequestErrors({
+                message: 'Email already exists in database',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        this._logger('info', 'User logged in');
+        return JWTGenerator.generate(userFromDb[0]);
+    }
+
     public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
         const externalUserInfo = userSerializer(profile);
 
@@ -27,19 +41,7 @@ export default class OAuthServices {
 
         const user = await this._model.findAll({ email: userSerialized.email });
 
-        if (user.length) {
-            const isProviderIdValid = user[0].providerId === userSerialized.providerId;
-
-            if (!isProviderIdValid)
-                throw new HttpRequestErrors({
-                    message: 'Email already exists in database',
-                    code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                });
-
-            this._logger('info', 'User logged in');
-            return JWTGenerator.generate(user[0]);
-        }
+        if (user.length) return this.login(user, userSerialized);
 
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
