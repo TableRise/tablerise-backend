@@ -11,5 +11,10 @@ export interface RegisterUserPayload {
 }
 
 export interface RegisterUserResponse extends User {
+    inProgress: { status: 'wait_to_confirm' | 'wait_to_complete'; code: number };
     details: UserDetail;
+}
+
+export interface LoginResponse {
+    token: string;
 }

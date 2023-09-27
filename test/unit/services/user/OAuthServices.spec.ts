@@ -3,6 +3,7 @@ import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import mock from 'src/support/mocks/user';
+import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Services :: User :: OAuthServices', () => {
     const DM = new DatabaseManagement();
@@ -36,7 +37,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.google(userProvidedGoogle);
+            const result = (await OAuthServicesMock.google(userProvidedGoogle)) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
@@ -49,15 +50,25 @@ describe('Services :: User :: OAuthServices', () => {
         });
     });
 
-    describe('When a signup is made through google - email already exist', () => {
+    describe('When a signup is made through google - login', () => {
         beforeAll(() => {
-            jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '1128493523316590413556' }]);
+        });
+
+        it('should not register the user but should complete login', async () => {
+            const token = await OAuthServicesMock.google(userProvidedGoogle);
+            expect(typeof token).toBe('string');
+        });
+    });
+
+    describe('When a signup is made through google - email already registered but not by google', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '11284935' }]);
         });
 
         it('should not register the user in database and should throw an error', async () => {
             try {
                 await OAuthServicesMock.google(userProvidedGoogle);
-                expect('it should not be here').toBe(true);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
@@ -89,7 +100,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
     });
 
-    describe('When a signup is made through facebook - email already exist', () => {
+    describe('When a signup is made through facebook - login', () => {
         beforeAll(() => {
             jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
         });
