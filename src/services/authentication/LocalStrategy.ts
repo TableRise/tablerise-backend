@@ -11,11 +11,11 @@ import JWTGenerator from 'src/support/helpers/JWTGenerator';
 import ValidateData from 'src/support/helpers/ValidateData';
 import getErrorName from 'src/support/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
+import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
 
 const LocalStrategy = Local.Strategy;
 
 const UsersModel = new DatabaseManagement().modelInstance('user', 'Users') as MongoModel<User>;
-const verifyMock = (password: string, other: string): any => password === other;
 
 passport.use(
     new LocalStrategy(
@@ -54,7 +54,7 @@ passport.use(
                     })
                 );
 
-            const isPasswordValid = await verifyMock(password, user[0].password);
+            const isPasswordValid = await SecurePasswordHandler.comparePassword(password, user[0].password);
 
             if (!isPasswordValid)
                 return done(

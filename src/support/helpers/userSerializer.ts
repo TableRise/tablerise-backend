@@ -1,4 +1,4 @@
-import { UserSerialized } from 'src/types/Serializer';
+import { UserSerialize } from 'src/types/Serializer';
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
@@ -7,8 +7,8 @@ import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 
 export default function userSerializer(
     userProfile: Google.Profile | Facebook.Profile | Discord.Profile
-): UserSerialized {
-    const user: UserSerialized = {
+): UserSerialize {
+    const user: UserSerialize = {
         providerId: userProfile.id,
         email: '',
         name: '',

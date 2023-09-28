@@ -87,7 +87,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.facebook(userProvidedFacebook);
+            const result = (await OAuthServicesMock.facebook(userProvidedFacebook)) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
@@ -102,7 +102,18 @@ describe('Services :: User :: OAuthServices', () => {
 
     describe('When a signup is made through facebook - login', () => {
         beforeAll(() => {
-            jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '6413033402083491' }]);
+        });
+
+        it('should not register the user but should complete login', async () => {
+            const token = await OAuthServicesMock.facebook(userProvidedFacebook);
+            expect(typeof token).toBe('string');
+        });
+    });
+
+    describe('When a signup is made through facebook - email already registered but not by facebook', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '641303' }]);
         });
 
         it('should not register the user in database and should throw an error', async () => {
