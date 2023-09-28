@@ -84,6 +84,10 @@ export default class RegisterServices {
         };
     }
 
+    private _cryptographer(password: string): string {
+        return password;
+    }
+
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
         const userInfo = await this._model.findOne(id);
 
