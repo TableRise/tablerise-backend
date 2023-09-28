@@ -11,6 +11,7 @@ import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import getErrorName from 'src/support/helpers/getErrorName';
 import EmailSender from 'src/support/helpers/EmailSender';
 import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
+import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
 
 export default class RegisterServices {
     constructor(
@@ -20,10 +21,6 @@ export default class RegisterServices {
         private readonly _validate: ValidateData,
         private readonly _schema: SchemasUserType
     ) {}
-
-    private _cryptographer(param: any): any {
-        return param;
-    }
 
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
@@ -62,6 +59,7 @@ export default class RegisterServices {
             status: 'wait_to_confirm',
             code: verificationCode,
         };
+        userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
