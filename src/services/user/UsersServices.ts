@@ -54,12 +54,11 @@ export default class RegisterServices {
         userSerialized.tag = tag;
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = this._cryptographer(userSerialized.password);
+        userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
         userSerialized.inProgress = {
             status: 'wait_to_confirm',
             code: verificationCode,
         };
-        userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
