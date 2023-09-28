@@ -31,7 +31,13 @@ export default class OAuthControllers {
         const { user } = req;
 
         const request = await this._service.google(user as Google.Profile);
-        return res.status(HttpStatusCode.CREATED).json(request);
+        return res.status(HttpStatusCode.CREATED).json(
+            typeof request === 'string'
+                ? {
+                      token: request,
+                  }
+                : request
+        );
     }
 
     public async facebook(req: Request, res: Response): Promise<Response> {

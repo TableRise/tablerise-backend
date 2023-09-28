@@ -7,6 +7,7 @@ import ValidateData from 'src/support/helpers/ValidateData';
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/user';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Controllers :: User :: UsersControllers', () => {
     const DM = new DatabaseManagement();
@@ -53,7 +54,7 @@ describe('Controllers :: User :: UsersControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(UsersServicesMock, 'register').mockResolvedValue(userResponse);
+            jest.spyOn(UsersServicesMock, 'register').mockResolvedValue(userResponse as RegisterUserResponse);
         });
 
         it('should return correct data in response json with status 201', async () => {

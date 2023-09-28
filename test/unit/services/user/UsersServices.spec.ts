@@ -67,7 +67,6 @@ describe('Services :: User :: UsersServices', () => {
                     expect(result.details).toHaveProperty(key);
                 });
                 expect(result.inProgress).toHaveProperty('status');
-                // @ts-expect-error assertion made above in loop.
                 expect(result.inProgress.status).toBe('wait_to_confirm');
             });
         });
