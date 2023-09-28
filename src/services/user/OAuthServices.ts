@@ -67,20 +67,15 @@ export default class OAuthServices {
         };
     }
 
-    public async facebook(profile: Facebook.Profile): Promise<RegisterUserResponse> {
+    public async facebook(profile: Facebook.Profile): Promise<RegisterUserResponse | string> {
         const externalUserInfo = userSerializer(profile);
 
         const userSerialized = postUserSerializer(externalUserInfo);
         const userDetailsSerialized = postUserDetailsSerializer({});
 
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        const user = await this._model.findAll({ email: userSerialized.email });
 
-        if (emailAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (user.length) return this.login(user, userSerialized);
 
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
