@@ -51,6 +51,8 @@ route.get(
 );
 route.get('/discord/register', controllers.discord);
 
+route.post('/two-factor/:id', controllers.twoFactor);
+
 route.get('/error', AuthErrorMiddleware);
 
 export default route;

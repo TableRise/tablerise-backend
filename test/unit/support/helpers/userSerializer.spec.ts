@@ -35,6 +35,7 @@ describe('Helpers :: userSerializer', () => {
                 nickname: null,
                 tag: null,
                 picture: null,
+                twoFactorSecret: null,
                 createdAt: null,
                 updatedAt: null,
             });

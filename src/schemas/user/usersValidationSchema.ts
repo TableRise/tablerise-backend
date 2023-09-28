@@ -10,6 +10,12 @@ export const userLoginZodSchema = z.object({
     password: z.string().min(8).max(16),
 });
 
+const twoFactorSecretZodSchema = z.object({
+    code: z.string().optional(),
+    qrcode: z.string().optional(),
+    active: z.boolean().optional(),
+});
+
 const usersZodSchema = z.object({
     _id: z.string().length(24).optional(),
     inProgress: inProgressZodSchema.optional(),
@@ -19,6 +25,7 @@ const usersZodSchema = z.object({
     nickname: z.string().max(16).optional(),
     tag: z.string().length(5).optional(),
     picture: z.string().max(120).or(z.null()),
+    twoFactorSecret: twoFactorSecretZodSchema.optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });

@@ -1,3 +1,4 @@
+import speakeasy from 'speakeasy';
 import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
@@ -138,5 +139,43 @@ export default class OAuthServices {
             ...userRegistered._doc,
             details: userDetailsRegistered,
         };
+    }
+
+    public async validateTwoFactor(userId: string, token: string): Promise<boolean> {
+        const user = await this._model.findOne(userId);
+
+        if (!user)
+            throw new HttpRequestErrors({
+                message: 'User does not exist',
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
+
+        if (!user.twoFactorSecret)
+            throw new HttpRequestErrors({
+                message: '2FA not enabled for this user',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        if (user.twoFactorSecret.qrcode) {
+            delete user.twoFactorSecret.qrcode;
+            await this._model.update(user._id as string, user);
+        }
+
+        const validateSecret = speakeasy.totp.verify({
+            secret: user.twoFactorSecret.code as string,
+            encoding: 'base32',
+            token,
+        });
+
+        if (!validateSecret)
+            throw new HttpRequestErrors({
+                message: 'Two factor code did not match',
+                code: HttpStatusCode.UNAUTHORIZED,
+                name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+            });
+
+        return validateSecret;
     }
 }
