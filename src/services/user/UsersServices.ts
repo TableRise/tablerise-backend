@@ -98,7 +98,7 @@ export default class RegisterServices {
                 name: getErrorName(HttpStatusCode.NOT_FOUND),
             });
 
-        if (userInfo.inProgress?.code !== code)
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
             throw new HttpRequestErrors({
                 message: 'Invalid code',
                 code: HttpStatusCode.BAD_REQUEST,
@@ -117,7 +117,7 @@ export default class RegisterServices {
             });
 
         return {
-            status: userUpdated?.inProgress?.status,
+            status: userUpdated.inProgress.status,
         };
     }
 }
