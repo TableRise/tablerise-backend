@@ -2,6 +2,7 @@ import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
 import confirmEmailTemplate from 'src/support/templates/confirmEmailTemplate';
+import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 
@@ -42,11 +43,7 @@ export default class EmailSender {
     }
 
     private async sendConfirmation(content: CommonContent, target: string): Promise<ResponseEmailSender> {
-        const { verificationCode } = content;
-        if (!verificationCode) {
-            return { success: false };
-        }
-
+        const verificationCode = generateVerificationCode(6);
         const username = content.username ?? target;
         content.body = confirmEmailTemplate(verificationCode, username);
 
