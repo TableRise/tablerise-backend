@@ -51,7 +51,7 @@ route.get(
 );
 route.get('/discord/register', controllers.discord);
 
-route.post('/two-factor/:id', controllers.twoFactor);
+route.post('/two-factor/:id', passport.authenticate('bearer', { session: false }), controllers.twoFactor);
 
 route.get('/error', AuthErrorMiddleware);
 
