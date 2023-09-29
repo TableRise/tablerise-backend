@@ -1,3 +1,4 @@
+import speakeasy from 'speakeasy';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
@@ -175,6 +176,100 @@ describe('Services :: User :: OAuthServices', () => {
                 expect(err.message).toBe('Email already exists in database');
                 expect(err.code).toBe(400);
                 expect(err.name).toBe('BadRequest');
+            }
+        });
+    });
+
+    describe('When 2FA authentication is made', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findOne').mockResolvedValue(userInstanceMock);
+            jest.spyOn(model, 'update').mockResolvedValue({});
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return true when token is valid', async () => {
+            const result = await OAuthServicesMock.validateTwoFactor('', '');
+            expect(result).toBe(true);
+        });
+    });
+
+    describe('When 2FA authentication is made - without QR code', () => {
+        beforeAll(() => {
+            delete userInstanceMock.twoFactorSecret?.qrcode;
+            jest.spyOn(model, 'findOne').mockResolvedValue(userInstanceMock);
+            jest.spyOn(model, 'update').mockResolvedValue({});
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return true when token is valid', async () => {
+            const result = await OAuthServicesMock.validateTwoFactor('', '');
+            expect(result).toBe(true);
+        });
+    });
+
+    describe('When 2FA authentication is made - user do not exist', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findOne').mockResolvedValue(null);
+            jest.spyOn(model, 'update').mockResolvedValue({});
+        });
+
+        it('should throw an error', async () => {
+            try {
+                await OAuthServicesMock.validateTwoFactor('', '');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('User does not exist');
+                expect(err.code).toBe(404);
+                expect(err.name).toBe('NotFound');
+            }
+        });
+    });
+
+    describe('When 2FA authentication is made - TwoFactorSecret field inexistent', () => {
+        beforeAll(() => {
+            const { twoFactorSecret, ...userWithoutTwoFactor } = userInstanceMock;
+            jest.spyOn(model, 'findOne').mockResolvedValue(userWithoutTwoFactor);
+            jest.spyOn(model, 'update').mockResolvedValue({});
+        });
+
+        it('should throw an error', async () => {
+            try {
+                await OAuthServicesMock.validateTwoFactor('', '');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('2FA not enabled for this user');
+                expect(err.code).toBe(400);
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+    });
+
+    describe('When 2FA authentication is made - failed token', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findOne').mockResolvedValue(userInstanceMock);
+            jest.spyOn(model, 'update').mockResolvedValue({});
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(false);
+        });
+
+        it('should throw an error', async () => {
+            try {
+                await OAuthServicesMock.validateTwoFactor('', '');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('Two factor code did not match');
+                expect(err.code).toBe(401);
+                expect(err.name).toBe('Unauthorized');
             }
         });
     });

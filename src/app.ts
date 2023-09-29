@@ -37,17 +37,7 @@ app.use(express.json())
     .use(passport.session())
     .use(cors())
     .use(helmet())
-    .use('/health', (req, res) => res.send('OK!'))
-    .use(UserRouteMiddleware)
-    .use(
-        VALID_ENVS_TO_AUTHENTICATE.includes(process.env.NODE_ENV as string)
-            ? passport.authenticate('bearer', { session: false })
-            : (req: Request, res: Response, next: NextFunction) => {
-                  next();
-              }
-    )
-    .use(DungeonsAndDragonsRouteMiddleware)
-    .use(ErrorMiddleware);
+    .use('/health', (req, res) => res.send('OK!'));
 
 if (process.env.NODE_ENV === 'develop') {
     autoSwagger(RoutesWrapper.declareRoutes()['dungeons&dragons5e'], { title: 'dungeons&dragons5e' })
@@ -75,6 +65,17 @@ app.use('/api-docs/user', swaggerUI.serve, (req: Request, res: Response) => {
     const html = swaggerUI.generateHTML(SwaggerDocumentUser);
     res.send(html);
 });
+
+app.use(UserRouteMiddleware)
+    .use(
+        VALID_ENVS_TO_AUTHENTICATE.includes(process.env.NODE_ENV as string)
+            ? passport.authenticate('bearer', { session: false })
+            : (req: Request, res: Response, next: NextFunction) => {
+                  next();
+              }
+    )
+    .use(DungeonsAndDragonsRouteMiddleware)
+    .use(ErrorMiddleware);
 
 logger('info', 'App started');
 

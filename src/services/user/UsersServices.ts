@@ -1,3 +1,5 @@
+import speakeasy from 'speakeasy';
+import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
@@ -51,6 +53,23 @@ export default class RegisterServices {
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
         userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
+
+        if (userSerialized.twoFactorSecret?.active) {
+            const secret = speakeasy.generateSecret();
+            const url = speakeasy.otpauthURL({
+                secret: secret.base32,
+                label: `TableRise 2FA (${userSerialized.email})`,
+                issuer: 'TableRise',
+                encoding: 'base32',
+            });
+
+            userDetailsSerialized.secretQuestion = null;
+            userSerialized.twoFactorSecret = { code: secret.base32, qrcode: url };
+            userSerialized.twoFactorSecret.qrcode = await qrcode.toDataURL(
+                userSerialized.twoFactorSecret.qrcode as string
+            );
+            delete userSerialized.twoFactorSecret.active;
+        }
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);

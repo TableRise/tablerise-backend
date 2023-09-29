@@ -15,6 +15,7 @@ describe('Post login', () => {
 
     const userPayload = {
         ...userInstanceMockPayload,
+        twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
     };
 
@@ -33,7 +34,7 @@ describe('Post login', () => {
     });
 
     describe('When login', () => {
-        it.only('should return a token', async () => {
+        it('should return a token', async () => {
             await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
 
             const loginPayload = {
