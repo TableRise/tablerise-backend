@@ -9,7 +9,6 @@ import { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpe
 import ValidateData from 'src/support/helpers/ValidateData';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import getErrorName from 'src/support/helpers/getErrorName';
-import EmailSender from 'src/support/helpers/EmailSender';
 import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
 
@@ -69,22 +68,10 @@ export default class RegisterServices {
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
-        const emailSender = new EmailSender();
-        const content = {
-            username: userRegistered.nickname,
-            subject: 'Tablerise confirmation code',
-            body: '',
-        };
-        await emailSender.send('confirmation', content, userRegistered.email);
-
         return {
             ...userRegistered._doc,
             details: userDetailsRegistered,
         };
-    }
-
-    private _cryptographer(password: string): string {
-        return password;
     }
 
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
