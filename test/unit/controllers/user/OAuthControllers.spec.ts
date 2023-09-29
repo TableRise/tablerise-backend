@@ -95,17 +95,27 @@ describe('Controllers :: User :: OAuthControllers', () => {
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
 
-            jest.spyOn(OAuthServicesMock, 'discord').mockResolvedValue(userResponse as RegisterUserResponse);
+            jest.spyOn(OAuthServicesMock, 'discord')
+                .mockResolvedValueOnce(userResponse as RegisterUserResponse)
+                .mockResolvedValue('token');
         });
 
         afterAll(() => jest.clearAllMocks());
 
-        it('should return correct data in response json with status 201', async () => {
+        it('should return correct data in response json with status 201 - when login - return token', async () => {
             request.user = userProvidedDiscord;
             await OAuthControllersMock.discord(request, response);
 
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
             expect(response.json).toHaveBeenCalledWith(userResponse);
+        });
+
+        it('should return correct data in response json with status 201 - when login - return token', async () => {
+            request.user = userProvidedDiscord;
+            await OAuthControllersMock.discord(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.CREATED);
+            expect(response.json).toHaveBeenCalledWith({ token: 'token' });
         });
     });
 });
