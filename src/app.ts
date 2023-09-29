@@ -37,8 +37,7 @@ app.use(express.json())
     .use(passport.session())
     .use(cors())
     .use(helmet())
-    .use('/health', (req, res) => res.send('OK!'))
-
+    .use('/health', (req, res) => res.send('OK!'));
 
 if (process.env.NODE_ENV === 'develop') {
     autoSwagger(RoutesWrapper.declareRoutes()['dungeons&dragons5e'], { title: 'dungeons&dragons5e' })

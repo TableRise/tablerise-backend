@@ -21,8 +21,12 @@ export default [
     ['/auth/facebook', 'auth', 'get', null, null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
-    ['/profile/two-factor/{_id}', 'profile', 'post', [
-        ...generateIDParam(),
-        ...generateQueryParam(1, [{ name: 'token', type: 'string' }])
-    ], null, false],
+    [
+        '/profile/two-factor/{_id}',
+        'profile',
+        'post',
+        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
+        null,
+        false,
+    ],
 ] as routeOriginal;
