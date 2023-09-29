@@ -14,6 +14,7 @@ export default class OAuthControllers {
         this.discord = this.discord.bind(this);
         this.google = this.google.bind(this);
         this.facebook = this.facebook.bind(this);
+        this.twoFactor = this.twoFactor.bind(this);
     }
 
     public async discord(req: Request, res: Response): Promise<Response> {
@@ -53,5 +54,16 @@ export default class OAuthControllers {
                   }
                 : request
         );
+    }
+
+    public async twoFactor(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to validate two factor token');
+
+        const { id } = req.params;
+        const { token } = req.query;
+
+        const request = await this._service.validateTwoFactor(id, token as string);
+
+        return res.status(HttpStatusCode.OK).json({ twoFactorCode: request && 'authenticated' });
     }
 }
