@@ -28,7 +28,6 @@ describe('Support :: Helpers :: EmailSender', () => {
             it('should return true when the process is done with success', async () => {
                 const testContent = {
                     username: 'userTest',
-                    verificationCode: '123456',
                     subject: 'Test',
                     body: '',
                 };
@@ -42,7 +41,6 @@ describe('Support :: Helpers :: EmailSender', () => {
             it('should return true when the process is done with success without the username', async () => {
                 const testContent = {
                     subject: 'Test',
-                    verificationCode: '123456',
                     body: '',
                 };
 
@@ -50,16 +48,6 @@ describe('Support :: Helpers :: EmailSender', () => {
                 expect(sendEmailTest.success).toBe(true);
                 expect(typeof sendEmailTest.verificationCode).toBe('string');
                 expect(sendEmailTest.verificationCode?.length).toBe(6);
-            });
-
-            it('should return false when the process is done with success without the verification code', async () => {
-                const testContent = {
-                    subject: 'Test',
-                    body: '',
-                };
-
-                const sendEmailTest = await emailSender.send('confirmation', testContent, 'test@email.com');
-                expect(sendEmailTest.success).toBe(false);
             });
         });
     });
