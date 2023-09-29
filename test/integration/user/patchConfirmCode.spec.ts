@@ -15,6 +15,7 @@ describe('Post user in database', () => {
 
     const userPayload = {
         ...userInstanceMockPayload,
+        twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
     };
 
