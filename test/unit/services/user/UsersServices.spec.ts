@@ -7,6 +7,10 @@ import { RegisterUserPayload } from 'src/types/Response';
 import schema from 'src/schemas';
 import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 
+jest.mock('qrcode', () => ({
+    toDataURL: () => '',
+}));
+
 describe('Services :: User :: UsersServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
@@ -38,6 +42,7 @@ describe('Services :: User :: UsersServices', () => {
 
     const userPayload = {
         ...userInstanceMockPayload,
+        twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
     };
 
@@ -58,7 +63,8 @@ describe('Services :: User :: UsersServices', () => {
             });
 
             it('should return the new user registered', async () => {
-                const result = await UsersServicesMock.register(userPayload as RegisterUserPayload);
+                const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
+                const result = await UsersServicesMock.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
 
                 userResponseKeys.forEach((key) => {
                     expect(result).toHaveProperty(key);
@@ -68,6 +74,32 @@ describe('Services :: User :: UsersServices', () => {
                 });
                 expect(result.inProgress).toHaveProperty('status');
                 expect(result.inProgress.status).toBe('wait_to_confirm');
+            });
+        });
+
+        describe('and the data is correct - 2FA', () => {
+            beforeAll(() => {
+                jest.spyOn(UsersModelMock, 'findAll').mockResolvedValue([]);
+                jest.spyOn(UsersModelMock, 'create').mockResolvedValue({ _doc: userInstanceMock });
+                jest.spyOn(UsersDetailsModelMock, 'create').mockResolvedValue(userDetailsInstanceMock);
+            });
+
+            it('should return the new user registered', async () => {
+                const result = await UsersServicesMock.register(userPayload as RegisterUserPayload);
+
+                userResponseKeys.forEach((key) => {
+                    expect(result).toHaveProperty(key);
+                });
+                userDetailsResponseKeys.forEach((key) => {
+                    expect(result.details).toHaveProperty(key);
+                });
+
+                expect(result.inProgress).toHaveProperty('status');
+                expect(result.inProgress.status).toBe('wait_to_confirm');
+                expect(result.twoFactorSecret).toHaveProperty('code');
+                expect(result.twoFactorSecret).toHaveProperty('qrcode');
+
+                expect(Object.prototype.hasOwnProperty.call(result, 'active')).toBe(false);
             });
         });
 

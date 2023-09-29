@@ -44,6 +44,7 @@ export function postUserSerializer({
     nickname = null,
     tag = null,
     picture = null,
+    twoFactorSecret = null,
     createdAt = null,
     updatedAt = null,
 }: any): User {
@@ -54,6 +55,7 @@ export function postUserSerializer({
         nickname,
         tag,
         picture,
+        twoFactorSecret,
         createdAt,
         updatedAt,
     };
