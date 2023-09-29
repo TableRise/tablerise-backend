@@ -4,7 +4,11 @@ module.exports = {
     testEnvironment: 'node',
     modulePathIgnorePatterns: ['build'],
     coverageReporters: ['clover', 'json-summary', 'lcov', ['text', { skipFull: true }]],
-    coveragePathIgnorePatterns: ['src/app.ts', 'src/services/authentication'],
+    coveragePathIgnorePatterns: [
+        'src/app.ts',
+        'src/services/authentication',
+        'src/support/helpers/swaggerGenerator.ts',
+    ],
     rootDir: './',
     modulePaths: ['<rootDir>'],
     setupFiles: ['<rootDir>/test/support/environmentVariables.js'],
