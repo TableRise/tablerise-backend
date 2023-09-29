@@ -8,7 +8,7 @@ import { User, userLoginZodSchema } from 'src/schemas/user/usersValidationSchema
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import getErrorName from 'src/services/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
@@ -26,7 +26,7 @@ passport.use(
         async (email, password, done) => {
             logger('warn', ' Request made to login');
 
-            const isDataInvalid = new ValidateData().entryReturn(userLoginZodSchema, { email, password }) as ZodError;
+            const isDataInvalid = new SchemaValidator().entryReturn(userLoginZodSchema, { email, password }) as ZodError;
 
             if (isDataInvalid)
                 return done(

@@ -24,8 +24,8 @@ describe('Get RPG realms from database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Realms');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Realms');
     });
 
     afterAll(async () => {

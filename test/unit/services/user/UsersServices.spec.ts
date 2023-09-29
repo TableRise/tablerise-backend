@@ -1,7 +1,7 @@
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import mock from 'src/support/mocks/user';
 import { RegisterUserPayload } from 'src/types/Response';
 import schema from 'src/schemas';
@@ -14,7 +14,7 @@ jest.mock('qrcode', () => ({
 describe('Services :: User :: UsersServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const UsersModelMock = DM_MOCK.modelInstance('user', 'Users');
     const UsersDetailsModelMock = DM_MOCK.modelInstance('user', 'UserDetails');

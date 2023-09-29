@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import RealmsServices from 'src/services/dungeons&dragons5e/RealmsServices';
 import RealmsControllers from 'src/controllers/dungeons&dragons5e/RealmsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: RealmsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const RealmsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Realms');
     const RealmsServicesMock = new RealmsServices(

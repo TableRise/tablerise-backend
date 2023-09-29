@@ -3,7 +3,7 @@ import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { ErrorMessage } from 'src/services/helpers/errorMessage';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';

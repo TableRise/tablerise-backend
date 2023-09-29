@@ -29,8 +29,8 @@ describe('Put RPG magic items in database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'MagicItems');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'MagicItems');
     });
 
     afterAll(async () => {

@@ -11,11 +11,10 @@ import OAuthServices from 'src/services/user/OAuthServices';
 import AuthErrorMiddleware from 'src/middlewares/AuthErrorMiddleware';
 import DatabaseManagement from '@tablerise/database-management';
 
-const DM = new DatabaseManagement();
+const database = new DatabaseManagement();
 
-const modelUser = DM.modelInstance('user', 'Users');
-const modelUserDetails = DM.modelInstance('user', 'UserDetails');
-
+const modelUser = database.modelInstance('user', 'Users');
+const modelUserDetails = database.modelInstance('user', 'UserDetails');
 const services = new OAuthServices(modelUser, modelUserDetails, logger);
 const controllers = new OAuthControllers(services, logger);
 

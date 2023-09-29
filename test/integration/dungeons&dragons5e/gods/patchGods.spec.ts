@@ -24,8 +24,8 @@ describe('Patch RPG gods in database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Gods');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Gods');
     });
 
     afterAll(async () => {

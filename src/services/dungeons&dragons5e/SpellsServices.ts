@@ -2,7 +2,7 @@ import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';

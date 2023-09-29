@@ -1,7 +1,7 @@
 import DatabaseManagement from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
@@ -12,7 +12,7 @@ import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const ArmorsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Armors');
     const ArmorsServicesMock = new ArmorsServices(

@@ -24,8 +24,8 @@ describe('Patch RPG backgrounds in database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Backgrounds');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Backgrounds');
     });
 
     afterAll(async () => {

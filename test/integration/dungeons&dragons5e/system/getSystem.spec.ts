@@ -23,8 +23,8 @@ describe('Get RPG system from database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'System');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'System');
     });
 
     afterAll(async () => {

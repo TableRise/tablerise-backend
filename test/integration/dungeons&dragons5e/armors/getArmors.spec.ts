@@ -24,8 +24,8 @@ describe('Get RPG armors from database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Armors');
     });
     beforeAll(() => {
         DatabaseManagement.connect(true)
@@ -36,8 +36,8 @@ describe('Get RPG armors from database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Armors');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Armors');
     });
 
     afterAll(async () => {

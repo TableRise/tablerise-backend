@@ -7,10 +7,10 @@ import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Services :: User :: OAuthServices', () => {
-    const DM = new DatabaseManagement();
+    const database = new DatabaseManagement();
 
-    const model = DM.modelInstance('user', 'Users');
-    const modelDetails = DM.modelInstance('user', 'UserDetails');
+    const model = database.modelInstance('user', 'Users');
+    const modelDetails = database.modelInstance('user', 'UserDetails');
     const OAuthServicesMock = new OAuthServices(model, modelDetails, logger);
 
     const userInstanceMock = mock.user.user;

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/services/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: WikisControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const WikisModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const WikisServicesMock = new WikisServices(WikisModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);
