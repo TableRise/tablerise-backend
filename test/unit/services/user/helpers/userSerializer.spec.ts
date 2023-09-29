@@ -1,5 +1,8 @@
-import userSerializer, { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpers/userSerializer';
-import userProfileMocks from '../../../../src/support/mocks/user';
+import userSerializer, {
+    postUserDetailsSerializer,
+    postUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
+import userProfileMocks from 'src/support/mocks/user';
 
 describe('Helpers :: userSerializer', () => {
     describe('When called', () => {

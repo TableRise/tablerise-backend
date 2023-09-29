@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';

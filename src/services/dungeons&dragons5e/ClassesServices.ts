@@ -2,14 +2,14 @@ import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { Logger } from 'src/types/Logger';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import ValidateData from 'src/services/helpers/ValidateData';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { SchemasDnDType } from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class ClassesServices implements Service<Internacional<Class>> {
     constructor(

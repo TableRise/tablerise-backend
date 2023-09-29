@@ -2,13 +2,13 @@
 import DatabaseManagement from '@tablerise/database-management';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: BackgroundsServices', () => {
     const DM_MOCK = new DatabaseManagement();

@@ -3,15 +3,15 @@ import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpers/userSerializer';
-import ValidateData from 'src/support/helpers/ValidateData';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
-import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
+import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import ValidateData from 'src/services/helpers/ValidateData';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
+import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 
 export default class RegisterServices {
     constructor(

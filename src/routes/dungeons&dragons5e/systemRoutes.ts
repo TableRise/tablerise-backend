@@ -6,7 +6,7 @@ import schema from 'src/schemas';
 import SystemServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';

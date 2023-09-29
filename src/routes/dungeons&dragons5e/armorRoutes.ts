@@ -8,7 +8,7 @@ import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 

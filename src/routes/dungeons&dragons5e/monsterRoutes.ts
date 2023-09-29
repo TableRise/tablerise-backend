@@ -6,7 +6,7 @@ import schema from 'src/schemas';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 import logger from '@tablerise/dynamic-logger';

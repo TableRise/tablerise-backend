@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class ItemsControllers {

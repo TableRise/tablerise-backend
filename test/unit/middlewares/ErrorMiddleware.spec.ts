@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 
 describe('Middlewares :: ErrorMiddleware', () => {
     describe('When error is throwed by request', () => {

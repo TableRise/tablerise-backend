@@ -11,7 +11,7 @@ import logger from '@tablerise/dynamic-logger';
 
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 const validateData = new ValidateData();
 const DM = new DatabaseManagement();

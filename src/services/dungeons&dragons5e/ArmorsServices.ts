@@ -2,14 +2,14 @@ import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import ValidateData from 'src/services/helpers/ValidateData';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { SchemasDnDType } from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class ArmorsServices implements Service<Internacional<Armor>> {
     constructor(

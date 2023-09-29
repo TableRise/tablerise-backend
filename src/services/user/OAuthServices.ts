@@ -5,13 +5,16 @@ import Google from 'passport-google-oauth20';
 import { MongoModel } from '@tablerise/database-management';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import userSerializer, { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpers/userSerializer';
+import userSerializer, {
+    postUserDetailsSerializer,
+    postUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
 import { Logger } from 'src/types/Logger';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import getErrorName from 'src/services/helpers/getErrorName';
 import { RegisterUserResponse } from 'src/types/Response';
-import JWTGenerator from 'src/support/helpers/JWTGenerator';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 
 export default class OAuthServices {
     constructor(

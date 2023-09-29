@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';

@@ -1,4 +1,4 @@
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 
 describe('Helpers :: HttpStatusCode', () => {
     describe('When the enum is called', () => {

@@ -1,13 +1,13 @@
 import DatabaseManagement from '@tablerise/database-management';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: RacesServices', () => {
     const DM_MOCK = new DatabaseManagement();

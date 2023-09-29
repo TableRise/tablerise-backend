@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload } from 'src/types/Response';

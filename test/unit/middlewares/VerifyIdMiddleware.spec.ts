@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 describe('Middlewares :: VerifyIdMiddleware', () => {

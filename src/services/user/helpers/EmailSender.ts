@@ -2,7 +2,7 @@ import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
 import confirmEmailTemplate from 'src/support/templates/confirmEmailTemplate';
-import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
+import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 

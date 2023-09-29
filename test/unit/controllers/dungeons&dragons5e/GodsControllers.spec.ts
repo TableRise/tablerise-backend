@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import GodsControllers from 'src/controllers/dungeons&dragons5e/GodsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';

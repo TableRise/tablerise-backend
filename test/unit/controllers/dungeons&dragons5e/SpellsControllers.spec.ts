@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import SpellsServices from 'src/services/dungeons&dragons5e/SpellsServices';
 import SpellsControllers from 'src/controllers/dungeons&dragons5e/SpellsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';

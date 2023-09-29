@@ -10,6 +10,7 @@ import passport from 'passport';
 import cors from 'cors';
 import helmet from 'helmet';
 import logger from '@tablerise/dynamic-logger';
+
 import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAndDragonsRouteMiddleware';
 import UserRouteMiddleware from 'src/routes/middlewares/UserRouteMiddleware';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';

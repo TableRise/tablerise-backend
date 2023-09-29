@@ -1,4 +1,4 @@
-import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
+import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 
 describe('Helpers :: SecurePasswordHandler', () => {
     describe('when the class is called', () => {

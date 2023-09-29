@@ -1,15 +1,15 @@
 import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import { Logger } from 'src/types/Logger';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class SystemServices implements Service<System> {
     constructor(

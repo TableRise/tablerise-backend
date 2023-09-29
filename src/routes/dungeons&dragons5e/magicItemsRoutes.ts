@@ -6,7 +6,7 @@ import schema from 'src/schemas';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import MagicItemsControllers from 'src/controllers/dungeons&dragons5e/MagicItemsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 import logger from '@tablerise/dynamic-logger';

@@ -1,11 +1,11 @@
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import mock from 'src/support/mocks/user';
 import { RegisterUserPayload } from 'src/types/Response';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',

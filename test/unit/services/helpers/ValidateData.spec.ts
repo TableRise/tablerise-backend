@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import getErrorName from 'src/support/helpers/getErrorName';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import ValidateData from 'src/services/helpers/ValidateData';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import getErrorName from 'src/services/helpers/getErrorName';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Helpers :: ValidateData', () => {
     const testToThrowError = (err: HttpRequestErrors, errMessage: string, code: number): void => {

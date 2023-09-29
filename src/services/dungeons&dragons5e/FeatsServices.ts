@@ -1,15 +1,15 @@
 import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import ValidateData from 'src/services/helpers/ValidateData';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { SchemasDnDType } from 'src/schemas';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class FeatsServices implements Service<Internacional<Feat>> {
     constructor(

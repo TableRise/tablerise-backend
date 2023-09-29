@@ -2,7 +2,7 @@ import speakeasy from 'speakeasy';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';
 

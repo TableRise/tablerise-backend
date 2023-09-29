@@ -6,7 +6,7 @@ import schema from 'src/schemas';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 
 import logger from '@tablerise/dynamic-logger';

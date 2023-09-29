@@ -8,7 +8,7 @@ import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
 import ClassesControllers from 'src/controllers/dungeons&dragons5e/ClassesControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 
 import logger from '@tablerise/dynamic-logger';
 

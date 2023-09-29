@@ -3,7 +3,7 @@ import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import UsersServices from 'src/services/user/UsersServices';
 import UsersControllers from 'src/controllers/user/UsersControllers';
-import ValidateData from 'src/support/helpers/ValidateData';
+import ValidateData from 'src/services/helpers/ValidateData';
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';
