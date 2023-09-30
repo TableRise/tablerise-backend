@@ -169,13 +169,13 @@ export default class OAuthServices {
 
         // @ts-expect-error Assertion made in line 168
         if (user.twoFactorSecret.qrcode) {
-        // @ts-expect-error Assertion made in line 168
+            // @ts-expect-error Assertion made in line 168
             delete user.twoFactorSecret.qrcode;
             await this._model.update(user._id as string, user);
         }
 
         const validateSecret = speakeasy.totp.verify({
-        // @ts-expect-error Assertion made in line 168
+            // @ts-expect-error Assertion made in line 168
             secret: user.twoFactorSecret.code as string,
             encoding: 'base32',
             token,

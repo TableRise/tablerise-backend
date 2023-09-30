@@ -1,8 +1,8 @@
-import HttpRequestErrors from "src/services/helpers/HttpRequestErrors";
-import { HttpStatusCode } from "src/services/helpers/HttpStatusCode";
-import { ErrorMessage } from "src/services/helpers/errorMessage";
-import getErrorName from "src/services/helpers/getErrorName";
-import { ErrorTypes } from "src/types/Errors";
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import getErrorName from 'src/services/helpers/getErrorName';
+import { ErrorTypes } from 'src/types/Errors';
 
 describe('Services :: Helpers :: HttpRequestErrors', () => {
     describe('When throw class', () => {
@@ -11,8 +11,8 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 throw new HttpRequestErrors({
                     message: 'test error',
                     code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST)
-                })
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
