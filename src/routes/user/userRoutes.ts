@@ -26,6 +26,7 @@ const router = Router();
 
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
+router.patch('/confirm/:id', controllers.confirmCode);
 
 router.use(passport.authenticate('bearer', { session: false }));
 
