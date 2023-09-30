@@ -11,6 +11,7 @@ import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import getErrorName from 'src/services/helpers/getErrorName';
+import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 
 export default class RegisterServices {
@@ -49,10 +50,16 @@ export default class RegisterServices {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
 
+        const verificationCode = generateVerificationCode(6);
+
         userSerialized.tag = tag;
         userSerialized.createdAt = new Date().toISOString();
         userSerialized.updatedAt = new Date().toISOString();
         userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
+        userSerialized.inProgress = {
+            status: 'wait_to_confirm',
+            code: verificationCode,
+        };
 
         if (userSerialized.twoFactorSecret?.active) {
             const secret = speakeasy.generateSecret();
@@ -80,11 +87,35 @@ export default class RegisterServices {
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
-        userRegistered._doc.inProgress = { status: 'wait_to_confirm', code: null };
-
         return {
             ...userRegistered._doc,
             details: userDetailsRegistered,
+        };
+    }
+
+    public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
+        const userInfo = await this._model.findOne(id);
+
+        if (!userInfo)
+            throw new HttpRequestErrors({
+                message: 'User not found in database',
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
+            throw new HttpRequestErrors({
+                message: 'Invalid code',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        userInfo.inProgress.status = 'done';
+
+        await this._model.update(id, userInfo);
+
+        return {
+            status: 'done',
         };
     }
 }
