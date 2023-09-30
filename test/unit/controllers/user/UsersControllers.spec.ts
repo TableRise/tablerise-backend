@@ -6,7 +6,6 @@ import UsersControllers from 'src/controllers/user/UsersControllers';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/user';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Controllers :: User :: UsersControllers', () => {
@@ -94,21 +93,6 @@ describe('Controllers :: User :: UsersControllers', () => {
             await UsersControllersMock.confirmCode(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith(confirmCodeResponse);
-        });
-
-        it('should throw 400 error - Invalide code', async () => {
-            request.params = { id: '65075e05ca9f0d3b2485194f' };
-            request.query = { code: ['1447ab'] };
-            try {
-                await UsersControllersMock.confirmCode(request, response);
-                expect('it should not be here').toBe(true);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-
-                expect(err.message).toStrictEqual('Query must be a string');
-                expect(err.name).toBe('BadRequest');
-                expect(err.code).toBe(400);
-            }
         });
     });
 });

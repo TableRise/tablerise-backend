@@ -2,7 +2,7 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
@@ -10,9 +10,10 @@ import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import getErrorName from 'src/services/helpers/getErrorName';
-import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
+import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSerialized } from './types/Register';
+import { HttpStatusCode } from '../helpers/HttpStatusCode';
 
 export default class RegisterServices {
     constructor(
@@ -33,7 +34,7 @@ export default class RegisterServices {
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
         if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
 
-        return { userSerialized, userDetailsSerialized }
+        return { userSerialized, userDetailsSerialized };
     }
 
     private async _enrichUser({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
@@ -64,9 +65,7 @@ export default class RegisterServices {
 
             userDetails.secretQuestion = null;
             user.twoFactorSecret = { code: secret.base32, qrcode: url };
-            user.twoFactorSecret.qrcode = await qrcode.toDataURL(
-                user.twoFactorSecret.qrcode as string
-            );
+            user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
             delete user.twoFactorSecret.active;
         }
 
@@ -76,23 +75,23 @@ export default class RegisterServices {
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
-        const userSerialized = await this._validateAndSerializeData({
+        const userPreSerialized = await this._validateAndSerializeData({
             user,
-            userDetails
+            userDetails,
         });
 
-        const userEnriched = await this._enrichUser({
-            user: userSerialized.userSerialized,
-            userDetails: userSerialized.userDetailsSerialized
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
+            user: userPreSerialized.userSerialized,
+            userDetails: userPreSerialized.userDetailsSerialized,
         });
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
-        userEnriched.userDetailsSerialized.userId = userRegistered._id;
+        userDetailsSerialized.userId = userRegistered._id;
 
-        const userDetailsRegistered = await this._modelDetails.create(userEnriched.userDetailsSerialized);
+        const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
         return {
@@ -102,14 +101,10 @@ export default class RegisterServices {
     }
 
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
-        const userInfo = await this._model.findOne(id);
+        const userInfo = (await this._model.findOne(id)) as User;
 
-        if (!userInfo)
-            throw new HttpRequestErrors({
-                message: 'User not found in database',
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!userInfo) HttpRequestErrors.throwError('user');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code)
             throw new HttpRequestErrors({
@@ -122,8 +117,6 @@ export default class RegisterServices {
 
         await this._model.update(id, userInfo);
 
-        return {
-            status: 'done',
-        };
+        return { status: userInfo.inProgress.status };
     }
 }

@@ -4,12 +4,10 @@ import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import { Logger } from 'src/types/Logger';
 import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class MonstersService implements Service<Internacional<Monster>> {
     constructor(
@@ -27,15 +25,10 @@ export default class MonstersService implements Service<Internacional<Monster>> 
     }
 
     public async findOne(_id: string): Promise<Internacional<Monster>> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Monster>;
 
         this._logger('info', 'Monster entity found with success');
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         return response;
     }
@@ -53,28 +46,18 @@ export default class MonstersService implements Service<Internacional<Monster>> 
 
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
-        const response = await this._model.update(_id, payload);
+        const response = (await this._model.update(_id, payload)) as Internacional<Monster>;
 
         this._logger('info', 'Monster entity updated with success');
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Monster>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

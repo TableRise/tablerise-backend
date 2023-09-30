@@ -3,8 +3,6 @@ import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload } from 'src/types/Response';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
 
 export default class UsersControllers {
     constructor(
@@ -41,14 +39,7 @@ export default class UsersControllers {
         const { id: _id } = req.params;
         const { code } = req.query;
 
-        if (typeof code !== 'string') {
-            throw new HttpRequestErrors({
-                message: 'Query must be a string',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
-        }
-        const request = await this._service.confirmCode(_id, code);
+        const request = await this._service.confirmCode(_id, code as string);
 
         return res.status(HttpStatusCode.OK).json(request);
     }

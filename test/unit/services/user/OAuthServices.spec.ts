@@ -267,7 +267,7 @@ describe('Services :: User :: OAuthServices', () => {
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
-                expect(err.message).toBe('Two factor code did not match');
+                expect(err.message).toBe('Two factor code does not match');
                 expect(err.code).toBe(401);
                 expect(err.name).toBe('Unauthorized');
             }

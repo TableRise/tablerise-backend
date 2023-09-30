@@ -4,12 +4,10 @@ import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { SchemasDnDType } from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class ArmorsServices implements Service<Internacional<Armor>> {
     constructor(
@@ -34,14 +32,9 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     }
 
     public async findOne(_id: string): Promise<Internacional<Armor>> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Armor>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'Armor entity updated with success');
 
@@ -51,16 +44,11 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     public async update(_id: string, payload: Internacional<Armor>): Promise<Internacional<Armor>> {
         const { helpers, armorZod } = this._schema;
         this._validate.entry(helpers.languagesWrapperSchema(armorZod), payload);
-
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
-        const response = await this._model.update(_id, payload);
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        const response = (await this._model.update(_id, payload)) as Internacional<Armor>;
+
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'Armor entity updated with success');
 
@@ -68,14 +56,9 @@ export default class ArmorsServices implements Service<Internacional<Armor>> {
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Armor>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

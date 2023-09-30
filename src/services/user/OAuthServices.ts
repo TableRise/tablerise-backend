@@ -11,8 +11,6 @@ import userExternalSerializer, {
 } from 'src/services/user/helpers/userSerializer';
 import { Logger } from 'src/types/Logger';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import getErrorName from 'src/services/helpers/getErrorName';
 import { RegisterUserResponse } from 'src/types/Response';
 import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 import { UserPayload, __UserSerialized } from './types/Register';
@@ -41,7 +39,7 @@ export default class OAuthServices {
 
         if (userAlreadyExist.length) return this._login(userAlreadyExist, userSerialized);
 
-        return { userSerialized, userDetailsSerialized }
+        return { userSerialized, userDetailsSerialized };
     }
 
     private async _enrichUser({ user, userDetails }: UserPayload, provider: string): Promise<__UserSerialized> {
@@ -60,15 +58,18 @@ export default class OAuthServices {
 
         const userPreSerialized = await this._validateAndSerializeData({
             user: externalUserInfo as unknown as User,
-            userDetails: {} as UserDetail
+            userDetails: {} as UserDetail,
         });
 
         if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
-            user: userPreSerialized.userSerialized,
-            userDetails: userPreSerialized.userDetailsSerialized
-        }, 'google');
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'google'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
@@ -93,15 +94,18 @@ export default class OAuthServices {
 
         const userPreSerialized = await this._validateAndSerializeData({
             user: externalUserInfo as unknown as User,
-            userDetails: {} as UserDetail
+            userDetails: {} as UserDetail,
         });
 
         if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
-            user: userPreSerialized.userSerialized,
-            userDetails: userPreSerialized.userDetailsSerialized
-        }, 'facebook');
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'facebook'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
@@ -126,15 +130,18 @@ export default class OAuthServices {
 
         const userPreSerialized = await this._validateAndSerializeData({
             user: externalUserInfo as unknown as User,
-            userDetails: {} as UserDetail
+            userDetails: {} as UserDetail,
         });
 
         if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
-            user: userPreSerialized.userSerialized,
-            userDetails: userPreSerialized.userDetailsSerialized
-        }, 'discord');
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'discord'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
@@ -155,34 +162,23 @@ export default class OAuthServices {
     }
 
     public async validateTwoFactor(userId: string, token: string): Promise<boolean> {
-        const user = await this._model.findOne(userId);
+        const user = (await this._model.findOne(userId)) as User;
 
-        if (!user) throw HttpRequestErrors.throwError('user');
+        if (!user) HttpRequestErrors.throwError('user');
+        if (!user.twoFactorSecret) HttpRequestErrors.throwError('2fa');
 
-        if (!user.twoFactorSecret)
-            throw new HttpRequestErrors({
-                message: '2FA not enabled for this user',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
-
-        if (user.twoFactorSecret.qrcode) {
+        if (user.twoFactorSecret?.qrcode) {
             delete user.twoFactorSecret.qrcode;
             await this._model.update(user._id as string, user);
         }
 
         const validateSecret = speakeasy.totp.verify({
-            secret: user.twoFactorSecret.code as string,
+            secret: user.twoFactorSecret?.code as string,
             encoding: 'base32',
             token,
         });
 
-        if (!validateSecret)
-            throw new HttpRequestErrors({
-                message: 'Two factor code did not match',
-                code: HttpStatusCode.UNAUTHORIZED,
-                name: getErrorName(HttpStatusCode.UNAUTHORIZED),
-            });
+        if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
         return validateSecret;
     }

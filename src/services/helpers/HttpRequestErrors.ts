@@ -2,6 +2,7 @@ import logger from '@tablerise/dynamic-logger';
 import { ErrorDetails, ErrorTypes, Errors } from 'src/types/Errors';
 import { HttpStatusCode } from './HttpStatusCode';
 import getErrorName from './getErrorName';
+import { ErrorMessage } from './errorMessage';
 
 export default class HttpRequestErrors extends Error {
     code: number;
@@ -30,7 +31,42 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
-        
+
+            case 'user':
+                throw new HttpRequestErrors({
+                    message: 'User does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+
+            case '2fa':
+                throw new HttpRequestErrors({
+                    message: '2FA not enabled for this user',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case '2fa-incorrect':
+                throw new HttpRequestErrors({
+                    message: 'Two factor code does not match',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                });
+
+            case 'rpg-not-found-id':
+                throw new HttpRequestErrors({
+                    message: ErrorMessage.NOT_FOUND_BY_ID,
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+
+            case 'query-string':
+                throw new HttpRequestErrors({
+                    message: 'Query must be a string',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             default:
                 break;
         }

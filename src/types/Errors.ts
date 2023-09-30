@@ -11,4 +11,12 @@ export interface Errors {
     details?: ErrorDetails[];
 }
 
-export type ErrorTypes = 'email' | 'tag';
+export type ErrorTypes =
+    | 'email'
+    | 'tag'
+    | 'user'
+    | '2fa'
+    | '2fa-incorrect'
+    | 'rpg-not-found-id'
+    | 'query-string'
+    | 'login';
