@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Wiki } from 'src/schemas/dungeons&dragons5e/wikisValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class WikisControllers {

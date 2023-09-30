@@ -2,16 +2,16 @@ import { Response, Request } from 'express';
 import OAuthServices from 'src/services/user/OAuthServices';
 import logger from '@tablerise/dynamic-logger';
 import OAuthControllers from 'src/controllers/user/OAuthControllers';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import DatabaseManagement from '@tablerise/database-management';
 import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Controllers :: User :: OAuthControllers', () => {
-    const DM = new DatabaseManagement();
+    const database = new DatabaseManagement();
 
-    const model = DM.modelInstance('user', 'Users');
-    const modelDetails = DM.modelInstance('user', 'UserDetails');
+    const model = database.modelInstance('user', 'Users');
+    const modelDetails = database.modelInstance('user', 'UserDetails');
     const OAuthServicesMock = new OAuthServices(model, modelDetails, logger);
     const OAuthControllersMock = new OAuthControllers(OAuthServicesMock, logger);
 

@@ -1,21 +1,19 @@
 import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import { Logger } from 'src/types/Logger';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 export default class GodsServices implements Service<Internacional<God>> {
     constructor(
         private readonly _model: MongoModel<Internacional<God>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 
@@ -34,14 +32,9 @@ export default class GodsServices implements Service<Internacional<God>> {
     }
 
     public async findOne(_id: string): Promise<Internacional<God>> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<God>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'God entity found with success');
         return response;
@@ -53,14 +46,9 @@ export default class GodsServices implements Service<Internacional<God>> {
 
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
-        const response = await this._model.update(_id, payload);
+        const response = (await this._model.update(_id, payload)) as Internacional<God>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'God entity updated with success');
 
@@ -68,14 +56,9 @@ export default class GodsServices implements Service<Internacional<God>> {
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<God>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

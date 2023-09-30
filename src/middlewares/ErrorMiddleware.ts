@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import logger from '@tablerise/dynamic-logger';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 function ErrorMiddleware(err: HttpRequestErrors | Error, _req: Request, res: Response, _next: NextFunction): Response {
     if (!(err instanceof HttpRequestErrors)) {

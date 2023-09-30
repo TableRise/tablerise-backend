@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import ClassesServices from 'src/services/dungeons&dragons5e/ClassesServices';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class ClassesControllers {

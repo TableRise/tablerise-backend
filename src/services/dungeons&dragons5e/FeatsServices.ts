@@ -1,21 +1,19 @@
 import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import { Logger } from 'src/types/Logger';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { SchemasDnDType } from 'src/schemas';
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 export default class FeatsServices implements Service<Internacional<Feat>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Feat>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 
@@ -34,15 +32,10 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
     }
 
     public async findOne(_id: string): Promise<Internacional<Feat>> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Feat>;
 
         this._logger('info', 'Feat entity found with success');
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         return response;
     }
@@ -53,27 +46,17 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
 
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
-        const response = await this._model.update(_id, payload);
+        const response = (await this._model.update(_id, payload)) as Internacional<Feat>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
         this._logger('info', 'Feat entity updated with success');
         return response;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Feat>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

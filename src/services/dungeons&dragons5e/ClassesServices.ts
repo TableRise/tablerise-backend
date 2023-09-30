@@ -2,20 +2,18 @@ import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
 import UpdateResponse from 'src/types/UpdateResponse';
 import { Logger } from 'src/types/Logger';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import { Class } from 'src/schemas/dungeons&dragons5e/classesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { SchemasDnDType } from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 export default class ClassesServices implements Service<Internacional<Class>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Class>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 
@@ -34,14 +32,9 @@ export default class ClassesServices implements Service<Internacional<Class>> {
     }
 
     public async findOne(_id: string): Promise<Internacional<Class>> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Class>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'Class entity found with success');
         return response;
@@ -53,28 +46,18 @@ export default class ClassesServices implements Service<Internacional<Class>> {
 
         this._validate.existance(payload.active, ErrorMessage.BAD_REQUEST);
 
-        const updatedResponse = await this._model.update(_id, payload);
+        const updatedResponse = (await this._model.update(_id, payload)) as Internacional<Class>;
 
-        if (!updatedResponse)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!updatedResponse) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._logger('info', 'Class entity updated with success');
         return updatedResponse;
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as Internacional<Class>;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

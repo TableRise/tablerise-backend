@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import logger from '@tablerise/dynamic-logger';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 
 function AuthErrorMiddleware(_req: Request, res: Response): Response {
     logger('error', `error ocurred during authentication`);

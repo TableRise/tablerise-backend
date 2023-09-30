@@ -1,5 +1,5 @@
-import getErrorName from 'src/support/helpers/getErrorName';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import getErrorName from 'src/services/helpers/getErrorName';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 
 describe('Helpers :: getErrorName', () => {
     describe('When the getErrorName is called', () => {
@@ -9,6 +9,7 @@ describe('Helpers :: getErrorName', () => {
             expect(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)).toBe('ValidationError');
             expect(getErrorName(HttpStatusCode.FORBIDDEN)).toBe('ForbiddenRequest');
             expect(getErrorName(HttpStatusCode.UNAUTHORIZED)).toBe('Unauthorized');
+            expect(getErrorName(HttpStatusCode.INTERNAL_SERVER)).toBe('InternalServerError');
         });
 
         it('should throw an Error', () => {

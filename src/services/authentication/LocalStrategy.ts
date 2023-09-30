@@ -5,13 +5,13 @@ import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
 
 import { User, userLoginZodSchema } from 'src/schemas/user/usersValidationSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import JWTGenerator from 'src/support/helpers/JWTGenerator';
-import ValidateData from 'src/support/helpers/ValidateData';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import getErrorName from 'src/services/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
-import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
+import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 
 const LocalStrategy = Local.Strategy;
 
@@ -26,7 +26,10 @@ passport.use(
         async (email, password, done) => {
             logger('warn', ' Request made to login');
 
-            const isDataInvalid = new ValidateData().entryReturn(userLoginZodSchema, { email, password }) as ZodError;
+            const isDataInvalid = new SchemaValidator().entryReturn(userLoginZodSchema, {
+                email,
+                password,
+            }) as ZodError;
 
             if (isDataInvalid)
                 return done(

@@ -12,6 +12,8 @@ export default (code: number): string => {
             return 'ForbiddenRequest';
         case HttpStatusCode.UNAUTHORIZED:
             return 'Unauthorized';
+        case HttpStatusCode.INTERNAL_SERVER:
+            return 'InternalServerError';
         default:
             throw new Error(`This ${code} is not valid, check the code List at HttpStatusCode.`);
     }

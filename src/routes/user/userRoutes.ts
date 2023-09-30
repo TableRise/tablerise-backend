@@ -5,21 +5,19 @@ import 'src/services/authentication/BearerStrategy';
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 import passport from 'passport';
-
-import schema from 'src/schemas';
 import logger from '@tablerise/dynamic-logger';
 
+import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
-const validateData = new ValidateData();
-const DM = new DatabaseManagement();
+const schemaValidator = new SchemaValidator();
+const database = new DatabaseManagement();
 
-const model = DM.modelInstance('user', 'Users');
-const modelUserDetails = DM.modelInstance('user', 'UserDetails');
-
-const services = new UserServices(model, modelUserDetails, logger, validateData, schema.user);
+const model = database.modelInstance('user', 'Users');
+const modelUserDetails = database.modelInstance('user', 'UserDetails');
+const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
 
 const router = Router();

@@ -1,9 +1,9 @@
 import { ZodError, ZodIssue } from 'zod';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import getErrorName from './getErrorName';
 import HttpRequestErrors from './HttpRequestErrors';
 
-export default class ValidateData {
+export default class SchemaValidator {
     entry: (zodSchema: any, payload: unknown) => void;
     entryReturn: (zodSchema: any, payload: unknown) => ZodError | null;
     existance: (payload: boolean | null | undefined, errorMessage: string) => void;

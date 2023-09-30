@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import MagicItemsServices from 'src/services/dungeons&dragons5e/MagicItemsServices';
 import MagicItemsControllers from 'src/controllers/dungeons&dragons5e/MagicItemsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { MagicItem } from 'src/schemas/dungeons&dragons5e/magicItemsValidationSchema';
@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: MagicItemsControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const MagicItemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'MagicItems');
     const MagicItemsServicesMock = new MagicItemsServices(

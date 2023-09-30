@@ -2,81 +2,88 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { RegisterUserPayload, RegisterUserResponse, ConfirmCodeResponse } from 'src/types/Response';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpers/userSerializer';
-import ValidateData from 'src/support/helpers/ValidateData';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
-import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
-import { SecurePasswordHandler } from 'src/support/helpers/SecurePasswordHandler';
+import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
+import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
+import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
+import { UserPayload, __UserSerialized } from './types/Register';
+import { HttpStatusCode } from '../helpers/HttpStatusCode';
 
 export default class RegisterServices {
     constructor(
         private readonly _model: MongoModel<User>,
         private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasUserType
     ) {}
 
-    public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
-        const { details: userDetails, ...user } = payload;
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         this._validate.entry(this._schema.userZod, user);
         this._validate.entry(this._schema.userDetailZod, userDetails);
 
-        const userSerialized = postUserSerializer(payload);
-        const userDetailsSerialized = postUserDetailsSerializer(payload.details);
+        const userSerialized = postUserSerializer(user);
+        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
 
-        if (emailAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        return { userSerialized, userDetailsSerialized };
+    }
 
+    private async _enrichUser({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagAlreadyExist = await this._model.findAll({ tag, nickname: userSerialized.nickname });
+        const tagAlreadyExist = await this._model.findAll({ tag, nickname: user.nickname });
 
-        if (tagAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'User already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
 
         const verificationCode = generateVerificationCode(6);
 
-        userSerialized.tag = tag;
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
-        userSerialized.inProgress = {
+        user.tag = tag;
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = await SecurePasswordHandler.hashPassword(user.password);
+        user.inProgress = {
             status: 'wait_to_confirm',
             code: verificationCode,
         };
 
-        if (userSerialized.twoFactorSecret?.active) {
+        if (user.twoFactorSecret?.active) {
             const secret = speakeasy.generateSecret();
             const url = speakeasy.otpauthURL({
                 secret: secret.base32,
-                label: `TableRise 2FA (${userSerialized.email})`,
+                label: `TableRise 2FA (${user.email})`,
                 issuer: 'TableRise',
                 encoding: 'base32',
             });
 
-            userDetailsSerialized.secretQuestion = null;
-            userSerialized.twoFactorSecret = { code: secret.base32, qrcode: url };
-            userSerialized.twoFactorSecret.qrcode = await qrcode.toDataURL(
-                userSerialized.twoFactorSecret.qrcode as string
-            );
-            delete userSerialized.twoFactorSecret.active;
+            userDetails.secretQuestion = null;
+            user.twoFactorSecret = { code: secret.base32, qrcode: url };
+            user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
+            delete user.twoFactorSecret.active;
         }
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
+    }
+
+    public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
+        const { details: userDetails, ...user } = payload;
+
+        const userPreSerialized = await this._validateAndSerializeData({
+            user,
+            userDetails,
+        });
+
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
+            user: userPreSerialized.userSerialized,
+            userDetails: userPreSerialized.userDetailsSerialized,
+        });
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
@@ -94,14 +101,10 @@ export default class RegisterServices {
     }
 
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
-        const userInfo = await this._model.findOne(id);
+        const userInfo = (await this._model.findOne(id)) as User;
 
-        if (!userInfo)
-            throw new HttpRequestErrors({
-                message: 'User not found in database',
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!userInfo) HttpRequestErrors.throwError('user');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code)
             throw new HttpRequestErrors({
@@ -114,8 +117,6 @@ export default class RegisterServices {
 
         await this._model.update(id, userInfo);
 
-        return {
-            status: 'done',
-        };
+        return { status: userInfo.inProgress.status };
     }
 }

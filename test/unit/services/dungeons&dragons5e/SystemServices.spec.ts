@@ -1,18 +1,18 @@
 import DatabaseManagement from '@tablerise/database-management';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: SystemsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const SystemsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'System');
     const SystemsServicesMock = new SystemsServices(

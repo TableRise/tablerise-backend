@@ -5,13 +5,15 @@ import Google from 'passport-google-oauth20';
 import { MongoModel } from '@tablerise/database-management';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import userSerializer, { postUserDetailsSerializer, postUserSerializer } from 'src/support/helpers/userSerializer';
+import userExternalSerializer, {
+    postUserDetailsSerializer,
+    postUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
 import { Logger } from 'src/types/Logger';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { RegisterUserResponse } from 'src/types/Response';
-import JWTGenerator from 'src/support/helpers/JWTGenerator';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
+import { UserPayload, __UserSerialized } from './types/Register';
 
 export default class OAuthServices {
     constructor(
@@ -20,41 +22,60 @@ export default class OAuthServices {
         private readonly _logger: Logger
     ) {}
 
-    private login(userFromDb: User[], userSerialized: User): string {
+    private _login(userFromDb: User[], userSerialized: User): string {
         const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
 
-        if (!isProviderIdValid)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!isProviderIdValid) HttpRequestErrors.throwError('email');
 
         this._logger('info', 'User logged in');
         return JWTGenerator.generate(userFromDb[0]);
     }
 
-    public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
-        const externalUserInfo = userSerializer(profile);
-
-        const userSerialized = postUserSerializer(externalUserInfo);
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized | string> {
+        const userSerialized = postUserSerializer(user);
         const userDetailsSerialized = postUserDetailsSerializer({});
 
-        const user = await this._model.findAll({ email: userSerialized.email });
+        const userAlreadyExist = await this._model.findAll({ email: userSerialized.email });
 
-        if (user.length) return this.login(user, userSerialized);
+        if (userAlreadyExist.length) return this._login(userAlreadyExist, userSerialized);
 
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        return { userSerialized, userDetailsSerialized };
+    }
+
+    private async _enrichUser({ user, userDetails }: UserPayload, provider: string): Promise<__UserSerialized> {
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = 'oauth';
+        user.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+
+        userDetails.secretQuestion = { question: 'oauth', answer: provider };
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
+    }
+
+    public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
+        const externalUserInfo = userExternalSerializer(profile);
+
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail,
+        });
+
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
+
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'google'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'google' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -69,26 +90,28 @@ export default class OAuthServices {
     }
 
     public async facebook(profile: Facebook.Profile): Promise<RegisterUserResponse | string> {
-        const externalUserInfo = userSerializer(profile);
+        const externalUserInfo = userExternalSerializer(profile);
 
-        const userSerialized = postUserSerializer(externalUserInfo);
-        const userDetailsSerialized = postUserDetailsSerializer({});
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail,
+        });
 
-        const user = await this._model.findAll({ email: userSerialized.email });
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        if (user.length) return this.login(user, userSerialized);
-
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'facebook'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'facebook' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -103,26 +126,28 @@ export default class OAuthServices {
     }
 
     public async discord(profile: Discord.Profile): Promise<RegisterUserResponse | string> {
-        const externalUserInfo = userSerializer(profile);
+        const externalUserInfo = userExternalSerializer(profile);
 
-        const userSerialized = postUserSerializer(externalUserInfo);
-        const userDetailsSerialized = postUserDetailsSerializer({});
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail,
+        });
 
-        const user = await this._model.findAll({ email: userSerialized.email });
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        if (user.length) return this.login(user, userSerialized);
-
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser(
+            {
+                user: userPreSerialized.userSerialized,
+                userDetails: userPreSerialized.userDetailsSerialized,
+            },
+            'discord'
+        );
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'discord' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -137,39 +162,26 @@ export default class OAuthServices {
     }
 
     public async validateTwoFactor(userId: string, token: string): Promise<boolean> {
-        const user = await this._model.findOne(userId);
+        const user = (await this._model.findOne(userId)) as User;
 
-        if (!user)
-            throw new HttpRequestErrors({
-                message: 'User does not exist',
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!user) HttpRequestErrors.throwError('user');
+        if (!user.twoFactorSecret) HttpRequestErrors.throwError('2fa');
 
-        if (!user.twoFactorSecret)
-            throw new HttpRequestErrors({
-                message: '2FA not enabled for this user',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
-
+        // @ts-expect-error Assertion made in line 168
         if (user.twoFactorSecret.qrcode) {
+            // @ts-expect-error Assertion made in line 168
             delete user.twoFactorSecret.qrcode;
             await this._model.update(user._id as string, user);
         }
 
         const validateSecret = speakeasy.totp.verify({
+            // @ts-expect-error Assertion made in line 168
             secret: user.twoFactorSecret.code as string,
             encoding: 'base32',
             token,
         });
 
-        if (!validateSecret)
-            throw new HttpRequestErrors({
-                message: 'Two factor code did not match',
-                code: HttpStatusCode.UNAUTHORIZED,
-                name: getErrorName(HttpStatusCode.UNAUTHORIZED),
-            });
+        if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
         return validateSecret;
     }

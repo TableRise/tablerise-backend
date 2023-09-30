@@ -1,11 +1,11 @@
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import mock from 'src/support/mocks/user';
 import { RegisterUserPayload } from 'src/types/Response';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
@@ -14,7 +14,7 @@ jest.mock('qrcode', () => ({
 describe('Services :: User :: UsersServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const UsersModelMock = DM_MOCK.modelInstance('user', 'Users');
     const UsersDetailsModelMock = DM_MOCK.modelInstance('user', 'UserDetails');
@@ -116,7 +116,7 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('User already exists in database');
+                    expect(err.message).toStrictEqual('User with this tag already exists in database');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
@@ -212,7 +212,7 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('User not found in database');
+                    expect(err.message).toStrictEqual('User does not exist');
                     expect(err.name).toBe('NotFound');
                     expect(err.code).toBe(404);
                 }
@@ -224,7 +224,7 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
             });
 
-            it('should throw 400 error - Invalide code', async () => {
+            it('should throw 400 error - Wrong code', async () => {
                 try {
                     await UsersServicesMock.confirmCode('65075e05ca9f0d3b2485194f', 'abcdef');
                     expect('it should not be here').toBe(true);
@@ -232,6 +232,19 @@ describe('Services :: User :: UsersServices', () => {
                     const err = error as HttpRequestErrors;
 
                     expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+
+            it('should throw 400 error - Invalid code', async () => {
+                try {
+                    await UsersServicesMock.confirmCode('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Query must be a string');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class ArmorsControllers {

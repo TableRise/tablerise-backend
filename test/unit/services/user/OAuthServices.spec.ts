@@ -2,15 +2,15 @@ import speakeasy from 'speakeasy';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Services :: User :: OAuthServices', () => {
-    const DM = new DatabaseManagement();
+    const database = new DatabaseManagement();
 
-    const model = DM.modelInstance('user', 'Users');
-    const modelDetails = DM.modelInstance('user', 'UserDetails');
+    const model = database.modelInstance('user', 'Users');
+    const modelDetails = database.modelInstance('user', 'UserDetails');
     const OAuthServicesMock = new OAuthServices(model, modelDetails, logger);
 
     const userInstanceMock = mock.user.user;
@@ -267,7 +267,7 @@ describe('Services :: User :: OAuthServices', () => {
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
-                expect(err.message).toBe('Two factor code did not match');
+                expect(err.message).toBe('Two factor code does not match');
                 expect(err.code).toBe(401);
                 expect(err.name).toBe('Unauthorized');
             }

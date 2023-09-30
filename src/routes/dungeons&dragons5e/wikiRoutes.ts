@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
+import logger from '@tablerise/dynamic-logger';
 
-import schema from 'src/schemas';
 import WikisServices from 'src/services/dungeons&dragons5e/WikisService';
 import WikisControllers from 'src/controllers/dungeons&dragons5e/WikisControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import schema from 'src/schemas';
 
-import logger from '@tablerise/dynamic-logger';
+const schemaValidator = new SchemaValidator();
+const database = new DatabaseManagement();
 
-const validateData = new ValidateData();
-const DM = new DatabaseManagement();
-
-const model = DM.modelInstance('dungeons&dragons5e', 'Wikis');
-
-const services = new WikisServices(model, logger, validateData, schema['dungeons&dragons5e']);
+const model = database.modelInstance('dungeons&dragons5e', 'Wikis');
+const services = new WikisServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new WikisControllers(services, logger);
 
 const router = Router();

@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import ValidateData from 'src/support/helpers/ValidateData';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
-import getErrorName from 'src/support/helpers/getErrorName';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import getErrorName from 'src/services/helpers/getErrorName';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
-describe('Helpers :: ValidateData', () => {
+describe('Helpers :: SchemaValidator', () => {
     const testToThrowError = (err: HttpRequestErrors, errMessage: string, code: number): void => {
         expect(err).toHaveProperty('message');
         expect(err).toHaveProperty('code');
@@ -23,7 +23,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { value: 10 };
-                const validate = new ValidateData();
+                const validate = new SchemaValidator();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(true);
             } catch (error) {
@@ -40,7 +40,7 @@ describe('Helpers :: ValidateData', () => {
                 });
 
                 const testObject = { noNumber: '10' };
-                const validate = new ValidateData();
+                const validate = new SchemaValidator();
                 validate.entry(testZodSchema, testObject);
                 expect(true).toBe(false);
             } catch (error) {
@@ -58,7 +58,7 @@ describe('Helpers :: ValidateData', () => {
             });
 
             const testObject = { value: 10 };
-            const validate = new ValidateData();
+            const validate = new SchemaValidator();
             const schema = validate.entryReturn(testZodSchema, testObject);
             expect(schema).toBeNull();
         });
@@ -71,7 +71,7 @@ describe('Helpers :: ValidateData', () => {
             });
 
             const testObject = { noNumber: '10' };
-            const validate = new ValidateData();
+            const validate = new SchemaValidator();
             const schema = validate.entryReturn(testZodSchema, testObject);
             expect(!schema).toBe(false);
         });
@@ -81,7 +81,7 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = true;
         it('should throw a an error', () => {
             try {
-                const validate = new ValidateData();
+                const validate = new SchemaValidator();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
                 expect(validate.existance).toThrow(Error);
             } catch (error) {
@@ -95,7 +95,7 @@ describe('Helpers :: ValidateData', () => {
         const errorCondition = false;
         it('should not throw an error', () => {
             try {
-                const validate = new ValidateData();
+                const validate = new SchemaValidator();
                 validate.existance(errorCondition, ErrorMessage.BAD_REQUEST);
             } catch (error) {
                 expect(error).toBeUndefined();

@@ -1,21 +1,19 @@
 import { MongoModel } from '@tablerise/database-management';
 import Service from 'src/types/Service';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import { Logger } from 'src/types/Logger';
-import { ErrorMessage } from 'src/support/helpers/errorMessage';
+import { ErrorMessage } from 'src/services/helpers/errorMessage';
 import UpdateResponse from 'src/types/UpdateResponse';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
 import { SchemasDnDType } from 'src/schemas';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
-import getErrorName from 'src/support/helpers/getErrorName';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 export default class SystemServices implements Service<System> {
     constructor(
         private readonly _model: MongoModel<System>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 
@@ -27,15 +25,10 @@ export default class SystemServices implements Service<System> {
     }
 
     public async findOne(_id: string): Promise<System> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as System;
 
         this._logger('info', 'System entity found with success');
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         return response;
     }
@@ -45,13 +38,8 @@ export default class SystemServices implements Service<System> {
         this._validate.entry(systemZod.systemPayloadZodSchema, payload);
         this._validate.existance(!!payload.content, ErrorMessage.BAD_REQUEST);
 
-        const response = await this._model.update(_id, payload);
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        const response = (await this._model.update(_id, payload)) as System;
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
         this._logger('info', 'System entity updated with success');
 
         return response;
@@ -67,12 +55,7 @@ export default class SystemServices implements Service<System> {
 
         const recoverSystem = (await this._model.findOne(_id)) as System & { _id: string };
 
-        if (!recoverSystem)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!recoverSystem) HttpRequestErrors.throwError('rpg-not-found-id');
 
         if (recoverSystem && method === 'add') {
             // @ts-expect-error => The SystemContent is possible undefined when import from lib but will never be undefined
@@ -100,14 +83,9 @@ export default class SystemServices implements Service<System> {
     }
 
     public async updateAvailability(_id: string, query: boolean): Promise<UpdateResponse> {
-        const response = await this._model.findOne(_id);
+        const response = (await this._model.findOne(_id)) as System;
 
-        if (!response)
-            throw new HttpRequestErrors({
-                message: ErrorMessage.NOT_FOUND_BY_ID,
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!response) HttpRequestErrors.throwError('rpg-not-found-id');
 
         this._validate.existance(response.active === query, ErrorMessage.BAD_REQUEST);
 

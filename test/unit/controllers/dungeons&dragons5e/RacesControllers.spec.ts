@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import RacesControllers from 'src/controllers/dungeons&dragons5e/RacesControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
@@ -13,7 +13,7 @@ import schema from 'src/schemas';
 describe('Services :: DungeonsAndDragons5e :: RacesControllers', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const RacesModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Races');
     const RacesServicesMock = new RacesServices(RacesModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);

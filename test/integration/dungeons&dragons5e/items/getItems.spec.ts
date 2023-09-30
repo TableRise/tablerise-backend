@@ -1,7 +1,7 @@
 import requester from '../../../support/requester';
 import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import logger from '@tablerise/dynamic-logger';
@@ -24,8 +24,8 @@ describe('Get RPG Items from database', () => {
                 logger('error', 'Test database connection failed');
             });
 
-        const DM = new DatabaseManagement();
-        model = DM.modelInstance('dungeons&dragons5e', 'Items');
+        const database = new DatabaseManagement();
+        model = database.modelInstance('dungeons&dragons5e', 'Items');
     });
 
     afterAll(async () => {

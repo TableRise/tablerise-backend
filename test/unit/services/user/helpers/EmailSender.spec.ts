@@ -1,4 +1,4 @@
-import EmailSender from 'src/support/helpers/EmailSender';
+import EmailSender from 'src/services/user/helpers/EmailSender';
 
 jest.mock('nodemailer', () => ({
     createTransport: jest.fn().mockReturnValue({

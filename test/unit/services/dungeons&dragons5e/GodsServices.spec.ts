@@ -1,18 +1,18 @@
 import DatabaseManagement from '@tablerise/database-management';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: GodsServices', () => {
     const DM_MOCK = new DatabaseManagement();
 
-    const ValidateDataMock = new ValidateData();
+    const ValidateDataMock = new SchemaValidator();
 
     const GodsModelMock = DM_MOCK.modelInstance('dungeons&dragons5e', 'Gods');
     const GodsServicesMock = new GodsServices(GodsModelMock, logger, ValidateDataMock, schema['dungeons&dragons5e']);

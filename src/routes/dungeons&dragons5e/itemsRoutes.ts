@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
+import logger from '@tablerise/dynamic-logger';
 
-import schema from 'src/schemas';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import ItemsControllers from 'src/controllers/dungeons&dragons5e/ItemsControllers';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import schema from 'src/schemas';
 
-import logger from '@tablerise/dynamic-logger';
+const schemaValidator = new SchemaValidator();
+const database = new DatabaseManagement();
 
-const validateData = new ValidateData();
-const DM = new DatabaseManagement();
-
-const model = DM.modelInstance('dungeons&dragons5e', 'Items');
-
-const services = new ItemsServices(model, logger, validateData, schema['dungeons&dragons5e']);
+const model = database.modelInstance('dungeons&dragons5e', 'Items');
+const services = new ItemsServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new ItemsControllers(services, logger);
 
 const router = Router();

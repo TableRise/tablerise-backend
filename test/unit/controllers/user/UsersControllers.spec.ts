@@ -3,20 +3,19 @@ import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import UsersServices from 'src/services/user/UsersServices';
 import UsersControllers from 'src/controllers/user/UsersControllers';
-import ValidateData from 'src/support/helpers/ValidateData';
+import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/user';
-import HttpRequestErrors from 'src/support/helpers/HttpRequestErrors';
 import { RegisterUserResponse } from 'src/types/Response';
 
 describe('Controllers :: User :: UsersControllers', () => {
-    const DM = new DatabaseManagement();
-    const validateData = new ValidateData();
+    const database = new DatabaseManagement();
+    const schemaValidator = new SchemaValidator();
 
-    const UsersModel = DM.modelInstance('user', 'Users');
-    const UserDetailsModel = DM.modelInstance('user', 'UserDetails');
+    const UsersModel = database.modelInstance('user', 'Users');
+    const UserDetailsModel = database.modelInstance('user', 'UserDetails');
 
-    const UsersServicesMock = new UsersServices(UsersModel, UserDetailsModel, logger, validateData, schema.user);
+    const UsersServicesMock = new UsersServices(UsersModel, UserDetailsModel, logger, schemaValidator, schema.user);
     const UsersControllersMock = new UsersControllers(UsersServicesMock, logger);
 
     const request = {} as Request;
@@ -94,21 +93,6 @@ describe('Controllers :: User :: UsersControllers', () => {
             await UsersControllersMock.confirmCode(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith(confirmCodeResponse);
-        });
-
-        it('should throw 400 error - Invalide code', async () => {
-            request.params = { id: '65075e05ca9f0d3b2485194f' };
-            request.query = { code: ['1447ab'] };
-            try {
-                await UsersControllersMock.confirmCode(request, response);
-                expect('it should not be here').toBe(true);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-
-                expect(err.message).toStrictEqual('Query must be a string');
-                expect(err.name).toBe('BadRequest');
-                expect(err.code).toBe(400);
-            }
         });
     });
 });

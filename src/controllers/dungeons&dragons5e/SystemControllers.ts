@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 import { UpdateContent } from 'src/schemas/updateContentSchema';
 import SystemServices from 'src/services/dungeons&dragons5e/SystemServices';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class SystemControllers {

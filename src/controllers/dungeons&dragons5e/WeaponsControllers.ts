@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Weapon } from 'src/schemas/dungeons&dragons5e/weaponsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 import WeaponsServices from 'src/services/dungeons&dragons5e/WeaponsServices';
-import { HttpStatusCode } from 'src/support/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 
 export default class WeaponsControllers {
