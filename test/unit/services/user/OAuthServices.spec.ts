@@ -138,7 +138,7 @@ describe('Services :: User :: OAuthServices', () => {
         });
 
         it('should correctly register the user in database', async () => {
-            const result = await OAuthServicesMock.discord(userProvidedDiscord);
+            const result = (await OAuthServicesMock.discord(userProvidedDiscord)) as RegisterUserResponse;
 
             userResponseKeys.forEach((key) => {
                 expect(result).toHaveProperty(key);
@@ -151,9 +151,20 @@ describe('Services :: User :: OAuthServices', () => {
         });
     });
 
+    describe('When a signup is made through Discord - login', () => {
+        beforeAll(() => {
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '784950523351513502' }]);
+        });
+
+        it('should not register the user but should complete login', async () => {
+            const token = await OAuthServicesMock.discord(userProvidedDiscord);
+            expect(typeof token).toBe('string');
+        });
+    });
+
     describe('When a signup is made through discord - email already exist', () => {
         beforeAll(() => {
-            jest.spyOn(model, 'findAll').mockResolvedValue([{}]);
+            jest.spyOn(model, 'findAll').mockResolvedValue([{ providerId: '7849505' }]);
         });
 
         it('should not register the user in database and should throw an error', async () => {
