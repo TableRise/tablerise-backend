@@ -15,7 +15,7 @@ export default class BackgroundsServices implements Service<Internacional<Backgr
     constructor(
         private readonly _model: MongoModel<Internacional<Background>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

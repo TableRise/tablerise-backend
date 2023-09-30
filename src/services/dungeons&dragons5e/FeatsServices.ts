@@ -15,7 +15,7 @@ export default class FeatsServices implements Service<Internacional<Feat>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Feat>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

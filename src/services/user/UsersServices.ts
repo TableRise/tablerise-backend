@@ -18,7 +18,7 @@ export default class RegisterServices {
         private readonly _model: MongoModel<User>,
         private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasUserType
     ) {}
 

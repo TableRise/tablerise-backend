@@ -15,7 +15,7 @@ export default class WikisServices implements Service<Internacional<Wiki>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Wiki>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

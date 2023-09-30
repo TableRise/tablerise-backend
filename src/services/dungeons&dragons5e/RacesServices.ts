@@ -15,7 +15,7 @@ export default class RacesServices implements Service<Internacional<Race>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Race>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

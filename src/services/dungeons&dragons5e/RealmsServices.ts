@@ -15,7 +15,7 @@ export default class RealmsServices implements Service<Internacional<Realm>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Realm>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

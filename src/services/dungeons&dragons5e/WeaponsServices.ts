@@ -15,7 +15,7 @@ export default class WeaponsServices implements Service<Internacional<Weapon>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Weapon>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

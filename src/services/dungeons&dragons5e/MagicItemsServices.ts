@@ -15,7 +15,7 @@ export default class MagicItemsServices implements Service<Internacional<MagicIt
     constructor(
         private readonly _model: MongoModel<Internacional<MagicItem>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

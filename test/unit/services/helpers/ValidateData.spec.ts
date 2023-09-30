@@ -5,7 +5,7 @@ import getErrorName from 'src/services/helpers/getErrorName';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
-describe('Helpers :: ValidateData', () => {
+describe('Helpers :: SchemaValidator', () => {
     const testToThrowError = (err: HttpRequestErrors, errMessage: string, code: number): void => {
         expect(err).toHaveProperty('message');
         expect(err).toHaveProperty('code');

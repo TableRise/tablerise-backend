@@ -15,7 +15,7 @@ export default class ItemsServices implements Service<Internacional<Item>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Item>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

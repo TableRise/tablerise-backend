@@ -15,7 +15,7 @@ export default class SpellsServices implements Service<Internacional<Spell>> {
     constructor(
         private readonly _model: MongoModel<Internacional<Spell>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

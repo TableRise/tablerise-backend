@@ -15,7 +15,7 @@ export default class GodsServices implements Service<Internacional<God>> {
     constructor(
         private readonly _model: MongoModel<Internacional<God>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

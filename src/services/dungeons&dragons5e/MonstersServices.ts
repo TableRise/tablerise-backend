@@ -15,7 +15,7 @@ export default class MonstersService implements Service<Internacional<Monster>> 
     constructor(
         private readonly _model: MongoModel<Internacional<Monster>>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 

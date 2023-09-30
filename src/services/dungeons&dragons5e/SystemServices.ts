@@ -15,7 +15,7 @@ export default class SystemServices implements Service<System> {
     constructor(
         private readonly _model: MongoModel<System>,
         private readonly _logger: Logger,
-        private readonly _validate: ValidateData,
+        private readonly _validate: SchemaValidator,
         private readonly _schema: SchemasDnDType
     ) {}
 
