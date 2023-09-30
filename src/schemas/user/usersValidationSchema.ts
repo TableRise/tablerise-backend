@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 const inProgressZodSchema = z.object({
-    status: z.enum(['wait_to_confirm', 'wait_to_complete']),
-    code: z.number(),
+    status: z.enum(['wait_to_confirm', 'wait_to_complete', 'done']),
+    code: z.string(),
 });
 
 export const userLoginZodSchema = z.object({

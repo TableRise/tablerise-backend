@@ -9,6 +9,8 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import getErrorName from 'src/services/helpers/getErrorName';
+import generateVerificationCode from 'src/support/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSerialized } from './types/Register';
 
@@ -40,10 +42,16 @@ export default class RegisterServices {
 
         if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
 
+        const verificationCode = generateVerificationCode(6);
+
         user.tag = tag;
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
+        user.inProgress = {
+            status: 'wait_to_confirm',
+            code: verificationCode,
+        };
 
         if (user.twoFactorSecret?.active) {
             const secret = speakeasy.generateSecret();
@@ -87,11 +95,35 @@ export default class RegisterServices {
         const userDetailsRegistered = await this._modelDetails.create(userEnriched.userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
-        userRegistered._doc.inProgress = { status: 'wait_to_confirm', code: null };
-
         return {
             ...userRegistered._doc,
             details: userDetailsRegistered,
+        };
+    }
+
+    public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
+        const userInfo = await this._model.findOne(id);
+
+        if (!userInfo)
+            throw new HttpRequestErrors({
+                message: 'User not found in database',
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
+            throw new HttpRequestErrors({
+                message: 'Invalid code',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        userInfo.inProgress.status = 'done';
+
+        await this._model.update(id, userInfo);
+
+        return {
+            status: 'done',
         };
     }
 }

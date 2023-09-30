@@ -1,6 +1,6 @@
 import { routeOriginal } from '@tablerise/auto-swagger';
 import mocks from 'src/support/mocks/user';
-import generateIDParam, { generateQueryParam } from '../parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 
 const userInstance = mocks.user.user;
 const { providerId: _, tag: _1, createdAt: _2, updatedAt: _3, ...userPayload } = userInstance;
@@ -22,6 +22,10 @@ export default [
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
     [
+        '/profile/confirm/{_id}',
+        'profile',
+        'patch',
+        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
         '/profile/two-factor/{_id}',
         'profile',
         'post',

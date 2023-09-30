@@ -121,32 +121,26 @@ export default class OAuthServices {
         };
     }
 
-    public async discord(profile: Discord.Profile): Promise<RegisterUserResponse> {
+    public async discord(profile: Discord.Profile): Promise<RegisterUserResponse | string> {
         const externalUserInfo = userExternalSerializer(profile);
 
-        const userSerialized = postUserSerializer(externalUserInfo);
-        const userDetailsSerialized = postUserDetailsSerializer({});
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail
+        });
 
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        if (emailAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
-
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
+            user: userPreSerialized.userSerialized,
+            userDetails: userPreSerialized.userDetailsSerialized
+        }, 'discord');
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'discord' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -163,12 +157,7 @@ export default class OAuthServices {
     public async validateTwoFactor(userId: string, token: string): Promise<boolean> {
         const user = await this._model.findOne(userId);
 
-        if (!user)
-            throw new HttpRequestErrors({
-                message: 'User does not exist',
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        if (!user) throw HttpRequestErrors.throwError('user');
 
         if (!user.twoFactorSecret)
             throw new HttpRequestErrors({
