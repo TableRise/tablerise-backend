@@ -68,7 +68,11 @@ export default class HttpRequestErrors extends Error {
                 });
 
             default:
-                break;
+                throw new HttpRequestErrors({
+                    message: 'Some error not specified ocurred',
+                    code: HttpStatusCode.INTERNAL_SERVER,
+                    name: getErrorName(HttpStatusCode.INTERNAL_SERVER),
+                });
         }
     }
 }

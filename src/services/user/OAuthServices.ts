@@ -33,7 +33,7 @@ export default class OAuthServices {
 
     private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized | string> {
         const userSerialized = postUserSerializer(user);
-        const userDetailsSerialized = postUserDetailsSerializer(userDetails ?? {});
+        const userDetailsSerialized = postUserDetailsSerializer({});
 
         const userAlreadyExist = await this._model.findAll({ email: userSerialized.email });
 
@@ -167,13 +167,16 @@ export default class OAuthServices {
         if (!user) HttpRequestErrors.throwError('user');
         if (!user.twoFactorSecret) HttpRequestErrors.throwError('2fa');
 
-        if (user.twoFactorSecret?.qrcode) {
+        // @ts-expect-error Assertion made in line 168
+        if (user.twoFactorSecret.qrcode) {
+        // @ts-expect-error Assertion made in line 168
             delete user.twoFactorSecret.qrcode;
             await this._model.update(user._id as string, user);
         }
 
         const validateSecret = speakeasy.totp.verify({
-            secret: user.twoFactorSecret?.code as string,
+        // @ts-expect-error Assertion made in line 168
+            secret: user.twoFactorSecret.code as string,
             encoding: 'base32',
             token,
         });
