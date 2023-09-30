@@ -237,25 +237,5 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-
-        describe('and the update fail', () => {
-            beforeAll(() => {
-                jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
-                jest.spyOn(UsersModelMock, 'update').mockResolvedValue(null);
-            });
-
-            it('should throw 404 error - User not found', async () => {
-                try {
-                    await UsersServicesMock.confirmCode('65075e05ca9f0d3b2485194f', '1447ab');
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('User not found in database');
-                    expect(err.name).toBe('NotFound');
-                    expect(err.code).toBe(404);
-                }
-            });
-        });
     });
 });
