@@ -10,7 +10,6 @@ import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 import schema from 'src/schemas';
 
-
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
 

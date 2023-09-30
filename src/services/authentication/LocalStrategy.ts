@@ -26,7 +26,10 @@ passport.use(
         async (email, password, done) => {
             logger('warn', ' Request made to login');
 
-            const isDataInvalid = new SchemaValidator().entryReturn(userLoginZodSchema, { email, password }) as ZodError;
+            const isDataInvalid = new SchemaValidator().entryReturn(userLoginZodSchema, {
+                email,
+                password,
+            }) as ZodError;
 
             if (isDataInvalid)
                 return done(
