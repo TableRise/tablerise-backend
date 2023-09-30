@@ -3,15 +3,14 @@ import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
+import { UserPayload, __UserSerialized } from './types/Register';
 
 export default class RegisterServices {
     constructor(
@@ -22,62 +21,70 @@ export default class RegisterServices {
         private readonly _schema: SchemasUserType
     ) {}
 
-    public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
-        const { details: userDetails, ...user } = payload;
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         this._validate.entry(this._schema.userZod, user);
         this._validate.entry(this._schema.userDetailZod, userDetails);
 
-        const userSerialized = postUserSerializer(payload);
-        const userDetailsSerialized = postUserDetailsSerializer(payload.details);
+        const userSerialized = postUserSerializer(user);
+        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
 
-        if (emailAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        return { userSerialized, userDetailsSerialized }
+    }
 
+    private async _enrichUser({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagAlreadyExist = await this._model.findAll({ tag, nickname: userSerialized.nickname });
+        const tagAlreadyExist = await this._model.findAll({ tag, nickname: user.nickname });
 
-        if (tagAlreadyExist.length)
-            throw new HttpRequestErrors({
-                message: 'User already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
 
-        userSerialized.tag = tag;
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = await SecurePasswordHandler.hashPassword(userSerialized.password);
+        user.tag = tag;
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = await SecurePasswordHandler.hashPassword(user.password);
 
-        if (userSerialized.twoFactorSecret?.active) {
+        if (user.twoFactorSecret?.active) {
             const secret = speakeasy.generateSecret();
             const url = speakeasy.otpauthURL({
                 secret: secret.base32,
-                label: `TableRise 2FA (${userSerialized.email})`,
+                label: `TableRise 2FA (${user.email})`,
                 issuer: 'TableRise',
                 encoding: 'base32',
             });
 
-            userDetailsSerialized.secretQuestion = null;
-            userSerialized.twoFactorSecret = { code: secret.base32, qrcode: url };
-            userSerialized.twoFactorSecret.qrcode = await qrcode.toDataURL(
-                userSerialized.twoFactorSecret.qrcode as string
+            userDetails.secretQuestion = null;
+            user.twoFactorSecret = { code: secret.base32, qrcode: url };
+            user.twoFactorSecret.qrcode = await qrcode.toDataURL(
+                user.twoFactorSecret.qrcode as string
             );
-            delete userSerialized.twoFactorSecret.active;
+            delete user.twoFactorSecret.active;
         }
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
+    }
+
+    public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
+        const { details: userDetails, ...user } = payload;
+
+        const userSerialized = await this._validateAndSerializeData({
+            user,
+            userDetails
+        });
+
+        const userEnriched = await this._enrichUser({
+            user: userSerialized.userSerialized,
+            userDetails: userSerialized.userDetailsSerialized
+        });
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
-        userDetailsSerialized.userId = userRegistered._id;
+        userEnriched.userDetailsSerialized.userId = userRegistered._id;
 
-        const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
+        const userDetailsRegistered = await this._modelDetails.create(userEnriched.userDetailsSerialized);
         this._logger('info', 'User details saved on database');
 
         userRegistered._doc.inProgress = { status: 'wait_to_confirm', code: null };

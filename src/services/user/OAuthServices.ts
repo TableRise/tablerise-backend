@@ -5,7 +5,7 @@ import Google from 'passport-google-oauth20';
 import { MongoModel } from '@tablerise/database-management';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import userSerializer, {
+import userExternalSerializer, {
     postUserDetailsSerializer,
     postUserSerializer,
 } from 'src/services/user/helpers/userSerializer';
@@ -15,6 +15,7 @@ import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import getErrorName from 'src/services/helpers/getErrorName';
 import { RegisterUserResponse } from 'src/types/Response';
 import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
+import { UserPayload, __UserSerialized } from './types/Register';
 
 export default class OAuthServices {
     constructor(
@@ -23,41 +24,57 @@ export default class OAuthServices {
         private readonly _logger: Logger
     ) {}
 
-    private login(userFromDb: User[], userSerialized: User): string {
+    private _login(userFromDb: User[], userSerialized: User): string {
         const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
 
-        if (!isProviderIdValid)
-            throw new HttpRequestErrors({
-                message: 'Email already exists in database',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!isProviderIdValid) HttpRequestErrors.throwError('email');
 
         this._logger('info', 'User logged in');
         return JWTGenerator.generate(userFromDb[0]);
     }
 
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized | string> {
+        const userSerialized = postUserSerializer(user);
+        const userDetailsSerialized = postUserDetailsSerializer(userDetails ?? {});
+
+        const userAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+
+        if (userAlreadyExist.length) return this._login(userAlreadyExist, userSerialized);
+
+        return { userSerialized, userDetailsSerialized }
+    }
+
+    private async _enrichUser({ user, userDetails }: UserPayload, provider: string): Promise<__UserSerialized> {
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = 'oauth';
+        user.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+
+        userDetails.secretQuestion = { question: 'oauth', answer: provider };
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
+    }
+
     public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
-        const externalUserInfo = userSerializer(profile);
+        const externalUserInfo = userExternalSerializer(profile);
 
-        const userSerialized = postUserSerializer(externalUserInfo);
-        const userDetailsSerialized = postUserDetailsSerializer({});
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail
+        });
 
-        const user = await this._model.findAll({ email: userSerialized.email });
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        if (user.length) return this.login(user, userSerialized);
-
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
+            user: userPreSerialized.userSerialized,
+            userDetails: userPreSerialized.userDetailsSerialized
+        }, 'google');
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'google' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -72,26 +89,25 @@ export default class OAuthServices {
     }
 
     public async facebook(profile: Facebook.Profile): Promise<RegisterUserResponse | string> {
-        const externalUserInfo = userSerializer(profile);
+        const externalUserInfo = userExternalSerializer(profile);
 
-        const userSerialized = postUserSerializer(externalUserInfo);
-        const userDetailsSerialized = postUserDetailsSerializer({});
+        const userPreSerialized = await this._validateAndSerializeData({
+            user: externalUserInfo as unknown as User,
+            userDetails: {} as UserDetail
+        });
 
-        const user = await this._model.findAll({ email: userSerialized.email });
+        if (typeof userPreSerialized === 'string') return userPreSerialized;
 
-        if (user.length) return this.login(user, userSerialized);
-
-        userSerialized.createdAt = new Date().toISOString();
-        userSerialized.updatedAt = new Date().toISOString();
-        userSerialized.password = 'oauth';
-        userSerialized.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const { userSerialized, userDetailsSerialized } = await this._enrichUser({
+            user: userPreSerialized.userSerialized,
+            userDetails: userPreSerialized.userDetailsSerialized
+        }, 'facebook');
 
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
 
         userDetailsSerialized.userId = userRegistered._id;
-        userDetailsSerialized.secretQuestion = { question: 'oauth', answer: 'facebook' };
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
         this._logger('info', 'User details saved on database');
@@ -106,7 +122,7 @@ export default class OAuthServices {
     }
 
     public async discord(profile: Discord.Profile): Promise<RegisterUserResponse> {
-        const externalUserInfo = userSerializer(profile);
+        const externalUserInfo = userExternalSerializer(profile);
 
         const userSerialized = postUserSerializer(externalUserInfo);
         const userDetailsSerialized = postUserDetailsSerializer({});

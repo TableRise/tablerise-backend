@@ -10,3 +10,5 @@ export interface Errors {
     name?: string;
     details?: ErrorDetails[];
 }
+
+export type ErrorTypes = 'email' | 'tag';
