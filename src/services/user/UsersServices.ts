@@ -112,17 +112,10 @@ export default class RegisterServices {
 
         userInfo.inProgress.status = 'done';
 
-        const userUpdated = await this._model.update(id, userInfo);
-
-        if (!userUpdated?.inProgress)
-            throw new HttpRequestErrors({
-                message: 'User not found in database',
-                code: HttpStatusCode.NOT_FOUND,
-                name: getErrorName(HttpStatusCode.NOT_FOUND),
-            });
+        await this._model.update(id, userInfo);
 
         return {
-            status: userUpdated.inProgress.status,
+            status: 'done',
         };
     }
 }
