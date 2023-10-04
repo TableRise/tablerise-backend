@@ -66,6 +66,6 @@
         "jsonwebtoken": "9.0.0",
         "module-alias": "2.2.3",
         "swagger-ui-express": "4.6.3",
-        "zod": "3.21.4"
+        "zod": "3.22.3"
     }
 }
