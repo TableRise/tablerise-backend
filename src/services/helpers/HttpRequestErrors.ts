@@ -67,6 +67,20 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'verification-email':
+                throw new HttpRequestErrors({
+                    message: 'Some problem ocurred in email sending',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case 'invalid-user-status':
+                throw new HttpRequestErrors({
+                    message: 'User status is invalid to perform this operation',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',
