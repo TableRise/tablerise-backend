@@ -74,11 +74,11 @@ export default class RegisterServices {
     }
 
     public async emailVerify(id: string): Promise<void> {
-        const user = await this._model.findOne(id) as User;
+        const user = (await this._model.findOne(id)) as User;
 
         if (!user) HttpRequestErrors.throwError('email');
 
-        if (user.inProgress?.status !== 'done') HttpRequestErrors.throwError('invalid-user-status'); 
+        if (user.inProgress?.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
 
         const sendEmail = new EmailSender('verification');
         const verificationCode = await sendEmail.send({ subject: 'Email de verificação - TableRise' }, user.email);
@@ -87,7 +87,7 @@ export default class RegisterServices {
 
         user.inProgress = {
             status: 'wait_to_verify',
-            code: verificationCode.verificationCode as string
+            code: verificationCode.verificationCode as string,
         };
 
         user.updatedAt = new Date().toISOString();
