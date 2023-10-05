@@ -98,8 +98,7 @@ describe('Controllers :: User :: UsersControllers', () => {
 
     describe('When a request is made to delete a user', () => {
         beforeAll(() => {
-            response.status = jest.fn().mockReturnValue(response);
-            response.json = jest.fn().mockReturnValue({});
+            response.sendStatus = jest.fn().mockReturnValue(response);
 
             jest.spyOn(UsersServicesMock, 'delete').mockResolvedValue(undefined);
         });
@@ -108,7 +107,7 @@ describe('Controllers :: User :: UsersControllers', () => {
             request.params = { id: '65075e05ca9f0d3b2485194f' };
             request.query = { code: '1447ab' };
             await UsersControllersMock.delete(request, response);
-            expect(response.status).toHaveBeenCalledWith(204);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
         });
     });
 });
