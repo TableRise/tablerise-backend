@@ -41,7 +41,7 @@ describe('Post user in database', () => {
                 .expect(HttpStatusCode.CREATED);
 
             const userId: string = userResponse.body._id;
-            const code: string = userResponse.body.TwoFactorSecret.code;
+            const code: string = userResponse.body.twoFactorSecret.code;
 
             const response = await requester
                 .delete(`/profile/delete/${userId}?code=${code}`)
