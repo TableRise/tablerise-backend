@@ -119,4 +119,17 @@ export default class RegisterServices {
 
         return { status: userInfo.inProgress.status };
     }
+
+    public async delete(id: string, code?: string): Promise<void> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
+        if (userInfo.twoFactorSecret && userInfo.twoFactorSecret.code !== code) {
+            HttpRequestErrors.throwError('2fa-incorrect');
+        }
+
+        await this._model.delete(id);
+        this._logger('info', 'User deleted from database');
+    }
 }

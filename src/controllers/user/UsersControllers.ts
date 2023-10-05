@@ -12,6 +12,7 @@ export default class UsersControllers {
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.confirmCode = this.confirmCode.bind(this);
+        this.delete = this.delete.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -42,5 +43,15 @@ export default class UsersControllers {
         const request = await this._service.confirmCode(_id, code as string);
 
         return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async delete(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to delete a user');
+        const { id: _id } = req.params;
+        const { code } = req.query;
+
+        await this._service.delete(_id, code as string | undefined);
+
+        return res.sendStatus(HttpStatusCode.DELETED);
     }
 }

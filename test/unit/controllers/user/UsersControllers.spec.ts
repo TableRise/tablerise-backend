@@ -95,4 +95,19 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.json).toHaveBeenCalledWith(confirmCodeResponse);
         });
     });
+
+    describe('When a request is made to delete a user', () => {
+        beforeAll(() => {
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(UsersServicesMock, 'delete').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            request.query = { code: '1447ab' };
+            await UsersControllersMock.delete(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
 });

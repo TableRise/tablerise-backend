@@ -10,7 +10,7 @@ const userMock: User = {
     nickname: 'userTop',
     tag: '#5547',
     picture: 'https://imgbb.com',
-    twoFactorSecret: { code: '', qrcode: 'test' },
+    twoFactorSecret: { code: 'testCode', qrcode: 'test' },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
 }
