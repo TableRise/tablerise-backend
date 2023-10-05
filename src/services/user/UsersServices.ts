@@ -125,8 +125,9 @@ export default class RegisterServices {
 
         if (!userInfo) HttpRequestErrors.throwError('user');
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
-        if (userInfo.twoFactorSecret?.active && userInfo.twoFactorSecret.code !== code)
+        if (userInfo.twoFactorSecret && userInfo.twoFactorSecret.code !== code) {
             HttpRequestErrors.throwError('2fa-incorrect');
+        }
 
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
