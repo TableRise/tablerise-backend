@@ -60,6 +60,15 @@ describe('Services :: User :: UsersServices', () => {
         twoFactorSecret: { active: true, code: 'testCode', qrcode: 'test' },
     };
 
+    const deleteUserDetailsMock = {
+        ...userDetailsInstanceMock,
+        gameInfo: {
+            campaigns: ['dungeons and dragons'],
+            characters: ['Frodo'],
+            badges: [],
+        },
+    };
+
     const userResponseKeys = Object.keys(userResponse);
     const userDetailsResponseKeys = Object.keys(userResponse.details);
 
@@ -265,6 +274,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
+                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(userDetailsInstanceMock);
                 jest.spyOn(UsersModelMock, 'delete').mockResolvedValue(deleteResponse);
             });
 
@@ -273,9 +283,30 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
+        describe('and there is a campaign or a character in game info', () => {
+            beforeAll(() => {
+                jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
+                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(deleteUserDetailsMock);
+            });
+
+            it('should throw 401 error - There is a campaign or a character linked to this user', async () => {
+                try {
+                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'testCode');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
+                    expect(err.name).toBe('Unauthorized');
+                    expect(err.code).toBe(401);
+                }
+            });
+        });
+
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(null);
+                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(null);
             });
 
             it('should throw 404 error - user do not exist', async () => {
@@ -295,6 +326,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(deleteUserMock);
+                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(userDetailsInstanceMock);
             });
 
             it('should throw 401 error - Wrong code', async () => {
@@ -310,7 +342,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
 
-            it('should throw 400 error - Invalid code', async () => {
+            it('should throw 400 error - Invalid type of code', async () => {
                 try {
                     await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
                     expect('it should not be here').toBe(true);
