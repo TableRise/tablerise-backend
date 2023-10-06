@@ -274,7 +274,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
-                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(userDetailsInstanceMock);
+                jest.spyOn(UsersDetailsModelMock, 'findAll').mockResolvedValue([userDetailsInstanceMock]);
                 jest.spyOn(UsersModelMock, 'delete').mockResolvedValue(deleteResponse);
             });
 
@@ -286,7 +286,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and there is a campaign or a character in game info', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(userInstanceMock);
-                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(deleteUserDetailsMock);
+                jest.spyOn(UsersDetailsModelMock, 'findAll').mockResolvedValue([deleteUserDetailsMock]);
             });
 
             it('should throw 401 error - There is a campaign or a character linked to this user', async () => {
@@ -306,7 +306,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(null);
-                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(null);
+                jest.spyOn(UsersDetailsModelMock, 'findAll').mockResolvedValue([]);
             });
 
             it('should throw 404 error - user do not exist', async () => {
@@ -326,7 +326,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
                 jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(deleteUserMock);
-                jest.spyOn(UsersDetailsModelMock, 'findOne').mockResolvedValue(userDetailsInstanceMock);
+                jest.spyOn(UsersDetailsModelMock, 'findAll').mockResolvedValue([userDetailsInstanceMock]);
             });
 
             it('should throw 401 error - Wrong code', async () => {
