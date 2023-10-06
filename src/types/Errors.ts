@@ -19,4 +19,5 @@ export type ErrorTypes =
     | '2fa-incorrect'
     | 'rpg-not-found-id'
     | 'query-string'
-    | 'login';
+    | 'login'
+    | 'linked-data';

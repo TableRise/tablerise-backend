@@ -67,6 +67,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'linked-data':
+                throw new HttpRequestErrors({
+                    message: 'There is a campaing or character linked to this user',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',
