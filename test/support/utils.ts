@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker';
 
 const newUUID = (): string => v4();
 const dataGenerator = {
@@ -9,10 +9,10 @@ const dataGenerator = {
     picture: faker.internet.avatar,
     name: { first: faker.person.firstName, last: faker.person.lastName },
     birthday: faker.date.birthdate,
-    biography: faker.person.bio
-} 
+    biography: faker.person.bio,
+};
 
 export default {
     newUUID,
-    dataGenerator
-}
+    dataGenerator,
+};

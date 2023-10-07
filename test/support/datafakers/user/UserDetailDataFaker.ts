@@ -15,14 +15,14 @@ function createUserDetailFaker({ _id = newUUID() }: UserDetail): UserDetail {
         birthday: dataGenerator.birthday().toISOString(),
         gameInfo: { campaigns: [], characters: [], badges: [] },
         biography: dataGenerator.biography(),
-        role: 'user'
-    }
+        role: 'user',
+    };
 }
 
 export function generateUserDetailFaker({ count, _id }: UserDetailFaker): UserDetail[] {
     const users: UserDetail[] = [];
 
-    for (let index = 0; index <= count; index+=1 ) {
+    for (let index = 0; index <= count; index += 1) {
         users.push(createUserDetailFaker({ _id } as UserDetail));
     }
 

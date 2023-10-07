@@ -15,13 +15,13 @@ function createUserFaker({ _id = newUUID() }: User): User {
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
         picture: dataGenerator.picture(),
         twoFactorSecret: { active: true },
-    }
+    };
 }
 
 export function generateUserFaker({ count, _id }: UserFaker): User[] {
     const users: User[] = [];
 
-    for (let index = 0; index <= count; index+=1 ) {
+    for (let index = 0; index <= count; index += 1) {
         users.push(createUserFaker({ _id } as User));
     }
 
