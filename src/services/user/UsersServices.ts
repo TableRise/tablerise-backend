@@ -31,9 +31,6 @@ export default class RegisterServices {
         const userSerialized = postUserSerializer(user);
         const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
-
         return { userSerialized, userDetailsSerialized };
     }
 
@@ -79,6 +76,9 @@ export default class RegisterServices {
             user,
             userDetails,
         });
+
+        const emailAlreadyExist = await this._model.findAll({ email: user.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
 
         const { userSerialized, userDetailsSerialized } = await this._enrichUser({
             user: userPreSerialized.userSerialized,
@@ -137,4 +137,14 @@ export default class RegisterServices {
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
     }
+
+/*     public async update(id: string, payload: RegisterUserPayload): Promise<RegisterUserPayload> {
+        const userInfo = await this._model.findOne(id) as User;
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+
+
+        const userUpdated = await this._model.update(id, payload);
+        this._logger('info', 'User updated at database');
+        return userUpdated as RegisterUserPayload;
+    } */
 }
