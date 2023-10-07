@@ -19,6 +19,8 @@ describe('Services :: User :: UsersServices', () => {
         updatedInProgressToVerify: User,
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse;
+        deleteResponse: any;
+        deleteUser: User
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -27,6 +29,20 @@ describe('Services :: User :: UsersServices', () => {
     const userDetailsInstanceMock = mock.user.userDetails;
     userInstanceMock._id = '65075e05ca9f0d3b2485194f';
     const { userId: _5, ...userDetailsInstanceMockPayload } = userDetailsInstanceMock;
+
+    const userPayload = {
+        ...userInstanceMockPayload,
+        twoFactorSecret: { active: true },
+        details: userDetailsInstanceMockPayload,
+    };
+
+    const userResponse = {
+        ...userInstanceMock,
+        details: userDetailsInstanceMock,
+    };
+
+    const userResponseKeys = Object.keys(userResponse);
+    const userDetailsResponseKeys = Object.keys(userResponse.details);
 
     describe('When a new user is registered', () => {
         beforeAll(() => {
@@ -302,9 +318,9 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     expect(error).toBeUndefined();
                 }
-            });
-        });
-
+            )};
+        )};
+        
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(null);
@@ -323,7 +339,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-
+      
         describe('and the params is incorrect - email send', () => {
             const userStatusValid = { ...userInstanceMock, inProgress: { status: 'done' } };
 
@@ -344,7 +360,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-
+      
         describe('and the params is incorrect - user status', () => {
             const userStatusInvalid = { ...userInstanceMock, inProgress: { status: 'wait_to_complete' } };
 
@@ -359,10 +375,72 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).toStrictEqual('User status is invalid to perform this operation');
+            )};
+        )};
+     });
+
+    describe('When delete a user', () => {
+        describe('and the params is correct', () => {
+            beforeAll(() => {
+                deleteResponse = { deleteCount: 1 };
+                jest.spyOn(User, 'findOne').mockResolvedValue(userInstanceMock);
+                jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
+            });
+
+            it('should return nothing', async () => {
+                await userServices.delete('65075e05ca9f0d3b2485194f', 'testCode');
+            });
+        });
+      
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.delete('', '1447ab');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+  
+        describe('and the params are incorrect - code', () => {
+            beforeAll(() => {
+                jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(deleteUserMock);
+            });
+
+            it('should throw 401 error - Wrong code', async () => {
+                try {
+                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'abcdef');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Two factor code does not match');
+                    expect(err.name).toBe('Unauthorized');
+                    expect(err.code).toBe(401);
+                }
+            });
+
+            it('should throw 400 error - Invalid code', async () => {
+                try {
+                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Query must be a string');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
             });
-        });
+         });
     });
 });
