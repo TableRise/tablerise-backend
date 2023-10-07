@@ -308,7 +308,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-        
+
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(null);
@@ -327,7 +327,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-      
+
         describe('and the params is incorrect - email send', () => {
             const userStatusValid = { ...userInstanceMock, inProgress: { status: 'done' } };
 
@@ -348,7 +348,7 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-      
+
         describe('and the params is incorrect - user status', () => {
             const userStatusInvalid = { ...userInstanceMock, inProgress: { status: 'wait_to_complete' } };
 
@@ -384,7 +384,7 @@ describe('Services :: User :: UsersServices', () => {
                 await userServices.delete('65075e05ca9f0d3b2485194f', 'testCode');
             });
         });
-      
+
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(null);
@@ -403,12 +403,12 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
-  
+
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
                 deleteUser = {
                     ...userInstanceMock,
-                    twoFactorSecret: { code: '', qrcode: '', active: true }
+                    twoFactorSecret: { code: '', qrcode: '', active: true },
                 };
 
                 jest.spyOn(User, 'findOne').mockResolvedValue(deleteUser);
