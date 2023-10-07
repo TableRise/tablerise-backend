@@ -111,7 +111,7 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.end).toHaveBeenCalled();
         });
-     });
+    });
 
     describe('When a request is made to delete a user', () => {
         beforeAll(() => {

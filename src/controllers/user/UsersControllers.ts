@@ -53,7 +53,7 @@ export default class UsersControllers {
 
         return res.status(HttpStatusCode.OK).end();
     }
-    
+
     public async delete(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to delete a user');
         const { id: _id } = req.params;

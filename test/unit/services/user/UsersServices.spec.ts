@@ -18,9 +18,9 @@ describe('Services :: User :: UsersServices', () => {
         updatedInProgressToDone: User,
         updatedInProgressToVerify: User,
         userPayload: RegisterUserPayload,
-        userResponse: RegisterUserResponse;
-        deleteResponse: any;
-        deleteUser: User
+        userResponse: RegisterUserResponse,
+        deleteResponse: any,
+        deleteUser: User;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -29,20 +29,6 @@ describe('Services :: User :: UsersServices', () => {
     const userDetailsInstanceMock = mock.user.userDetails;
     userInstanceMock._id = '65075e05ca9f0d3b2485194f';
     const { userId: _5, ...userDetailsInstanceMockPayload } = userDetailsInstanceMock;
-
-    const userPayload = {
-        ...userInstanceMockPayload,
-        twoFactorSecret: { active: true },
-        details: userDetailsInstanceMockPayload,
-    };
-
-    const userResponse = {
-        ...userInstanceMock,
-        details: userDetailsInstanceMock,
-    };
-
-    const userResponseKeys = Object.keys(userResponse);
-    const userDetailsResponseKeys = Object.keys(userResponse.details);
 
     describe('When a new user is registered', () => {
         beforeAll(() => {
@@ -297,7 +283,9 @@ describe('Services :: User :: UsersServices', () => {
     });
 
     describe('When a verify code is send by email', () => {
-        userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
 
         describe('and the params are correct', () => {
             beforeAll(() => {
@@ -318,8 +306,8 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     expect(error).toBeUndefined();
                 }
-            )};
-        )};
+            });
+        });
         
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
@@ -375,11 +363,16 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).toStrictEqual('User status is invalid to perform this operation');
-            )};
-        )};
-     });
+                }
+            });
+        });
+    });
 
     describe('When delete a user', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
         describe('and the params is correct', () => {
             beforeAll(() => {
                 deleteResponse = { deleteCount: 1 };
@@ -413,12 +406,17 @@ describe('Services :: User :: UsersServices', () => {
   
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
-                jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(deleteUserMock);
+                deleteUser = {
+                    ...userInstanceMock,
+                    twoFactorSecret: { code: '', qrcode: '', active: true }
+                };
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(deleteUser);
             });
 
             it('should throw 401 error - Wrong code', async () => {
                 try {
-                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'abcdef');
+                    await userServices.delete('65075e05ca9f0d3b2485194f', 'abcdef');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -431,7 +429,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 400 error - Invalid code', async () => {
                 try {
-                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
+                    await userServices.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -441,6 +439,6 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.code).toBe(400);
                 }
             });
-         });
+        });
     });
 });
