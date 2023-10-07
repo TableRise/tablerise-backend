@@ -40,9 +40,7 @@ describe('Post user in database', () => {
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            await requester
-                .get(`/profile/${userResponse.body._id as string}/email-verify`)
-                .expect(HttpStatusCode.OK);
+            await requester.get(`/profile/${userResponse.body._id as string}/email-verify`).expect(HttpStatusCode.OK);
         });
     });
 });

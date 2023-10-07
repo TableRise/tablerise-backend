@@ -10,6 +10,6 @@ export default {
     mongoose,
     models: {
         User,
-        UserDetails
-    }
-}
+        UserDetails,
+    },
+};

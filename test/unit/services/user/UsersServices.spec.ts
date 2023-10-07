@@ -15,10 +15,10 @@ jest.mock('qrcode', () => ({
 
 describe('Services :: User :: UsersServices', () => {
     let userServices: UsersServices,
-    updatedInProgressToDone: User,
-    updatedInProgressToVerify: User,
-    userPayload: RegisterUserPayload,
-    userResponse: RegisterUserResponse;
+        updatedInProgressToDone: User,
+        updatedInProgressToVerify: User,
+        userPayload: RegisterUserPayload,
+        userResponse: RegisterUserResponse;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -30,13 +30,7 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When a new user is registered', () => {
         beforeAll(() => {
-            userServices = new UsersServices(
-                User,
-                UserDetails,
-                logger,
-                ValidateDataMock,
-                schema.user
-            );
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
         describe('and the data is correct', () => {
@@ -49,7 +43,7 @@ describe('Services :: User :: UsersServices', () => {
                     nickname: 'test',
                     picture: 'test',
                     details: userDetailsInstanceMockPayload,
-                }
+                };
 
                 userResponse = {
                     ...userInstanceMock,
@@ -90,7 +84,7 @@ describe('Services :: User :: UsersServices', () => {
                     nickname: 'test',
                     picture: 'test',
                     details: userDetailsInstanceMockPayload,
-                }
+                };
 
                 userResponse = {
                     ...userInstanceMock,
@@ -215,13 +209,7 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When a confirmation code is verified', () => {
         beforeAll(() => {
-            userServices = new UsersServices(
-                User,
-                UserDetails,
-                logger,
-                ValidateDataMock,
-                schema.user
-            );
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
         describe('and the params are correct', () => {
@@ -293,21 +281,17 @@ describe('Services :: User :: UsersServices', () => {
     });
 
     describe('When a verify code is send by email', () => {
-        userServices = new UsersServices(
-            User,
-            UserDetails,
-            logger,
-            ValidateDataMock,
-            schema.user
-        );
+        userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
 
         describe('and the params are correct', () => {
             beforeAll(() => {
-                updatedInProgressToVerify = { ...userInstanceMock, inProgress: { status: 'wait_to_verify', code: '1447ab' } };
+                updatedInProgressToVerify = {
+                    ...userInstanceMock,
+                    inProgress: { status: 'wait_to_verify', code: '1447ab' },
+                };
 
-                jest.spyOn(User, 'findOne').mockResolvedValueOnce(userInstanceMock)
-                    .mockResolvedValue(null);
-                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: '' })
+                jest.spyOn(User, 'findOne').mockResolvedValueOnce(userInstanceMock).mockResolvedValue(null);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: '' });
                 jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToVerify);
             });
 
@@ -345,7 +329,7 @@ describe('Services :: User :: UsersServices', () => {
 
             beforeAll(() => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(userStatusValid);
-                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: false, verificationCode: '' })
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: false, verificationCode: '' });
             });
 
             it('should throw 400 error - email send failed', async () => {
