@@ -50,5 +50,34 @@ describe('Support :: Helpers :: EmailSender', () => {
                 expect(sendEmailTest.verificationCode?.length).toBe(6);
             });
         });
+
+        describe('And type is verification', () => {
+            const emailSender = new EmailSender('verification');
+
+            it('should return true when the process is done with success', async () => {
+                const testContent = {
+                    username: 'userTest',
+                    subject: 'Test',
+                    body: '',
+                };
+
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
+                expect(sendEmailTest.success).toBe(true);
+                expect(typeof sendEmailTest.verificationCode).toBe('string');
+                expect(sendEmailTest.verificationCode?.length).toBe(6);
+            });
+
+            it('should return true when the process is done with success without the username', async () => {
+                const testContent = {
+                    subject: 'Test',
+                    body: '',
+                };
+
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
+                expect(sendEmailTest.success).toBe(true);
+                expect(typeof sendEmailTest.verificationCode).toBe('string');
+                expect(sendEmailTest.verificationCode?.length).toBe(6);
+            });
+        });
     });
 });

@@ -95,4 +95,21 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.json).toHaveBeenCalledWith(confirmCodeResponse);
         });
     });
+
+    describe('When a request is made to verify an email', () => {
+        beforeAll(() => {
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+            response.end = jest.fn();
+
+            jest.spyOn(UsersServicesMock, 'emailVerify').mockResolvedValue();
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            await UsersControllersMock.verifyEmail(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.end).toHaveBeenCalled();
+        });
+    });
 });

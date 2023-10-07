@@ -25,6 +25,54 @@ export default class RegisterServices {
         private readonly _schema: SchemasUserType
     ) {}
 
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
+        this._validate.entry(this._schema.userZod, user);
+        this._validate.entry(this._schema.userDetailZod, userDetails);
+
+        const userSerialized = postUserSerializer(user);
+        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
+
+        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
+
+        return { userSerialized, userDetailsSerialized };
+    }
+
+    private async _enrichUser({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
+        const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+        const tagAlreadyExist = await this._model.findAll({ tag, nickname: user.nickname });
+
+        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
+
+        const verificationCode = generateVerificationCode(6);
+
+        user.tag = tag;
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = await SecurePasswordHandler.hashPassword(user.password);
+        user.inProgress = {
+            status: 'wait_to_confirm',
+            code: verificationCode,
+        };
+
+        if (user.twoFactorSecret?.active) {
+            const secret = speakeasy.generateSecret();
+            const url = speakeasy.otpauthURL({
+                secret: secret.base32,
+                label: `TableRise 2FA (${user.email})`,
+                issuer: 'TableRise',
+                encoding: 'base32',
+            });
+
+            userDetails.secretQuestion = null;
+            user.twoFactorSecret = { code: secret.base32, qrcode: url };
+            user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
+            delete user.twoFactorSecret.active;
+        }
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
+    }
+
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
@@ -76,9 +124,10 @@ export default class RegisterServices {
     public async emailVerify(id: string): Promise<void> {
         const user = (await this._model.findOne(id)) as User;
 
-        if (!user) HttpRequestErrors.throwError('email');
+        if (!user) HttpRequestErrors.throwError('user');
 
-        if (user.inProgress?.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
+        // @ts-expect-error In progress will exist below
+        if (user.inProgress.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
 
         const sendEmail = new EmailSender('verification');
         const verificationCode = await sendEmail.send({ subject: 'Email de verificação - TableRise' }, user.email);
@@ -93,53 +142,5 @@ export default class RegisterServices {
         user.updatedAt = new Date().toISOString();
 
         await this._model.update(id, user);
-    }
-
-    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
-        this._validate.entry(this._schema.userZod, user);
-        this._validate.entry(this._schema.userDetailZod, userDetails);
-
-        const userSerialized = postUserSerializer(user);
-        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
-
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
-
-        return { userSerialized, userDetailsSerialized };
-    }
-
-    private async _enrichUser({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
-        const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagAlreadyExist = await this._model.findAll({ tag, nickname: user.nickname });
-
-        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
-
-        const verificationCode = generateVerificationCode(6);
-
-        user.tag = tag;
-        user.createdAt = new Date().toISOString();
-        user.updatedAt = new Date().toISOString();
-        user.password = await SecurePasswordHandler.hashPassword(user.password);
-        user.inProgress = {
-            status: 'wait_to_confirm',
-            code: verificationCode,
-        };
-
-        if (user.twoFactorSecret?.active) {
-            const secret = speakeasy.generateSecret();
-            const url = speakeasy.otpauthURL({
-                secret: secret.base32,
-                label: `TableRise 2FA (${user.email})`,
-                issuer: 'TableRise',
-                encoding: 'base32',
-            });
-
-            userDetails.secretQuestion = null;
-            user.twoFactorSecret = { code: secret.base32, qrcode: url };
-            user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
-            delete user.twoFactorSecret.active;
-        }
-
-        return { userSerialized: user, userDetailsSerialized: userDetails };
     }
 }
