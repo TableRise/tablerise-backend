@@ -436,6 +436,8 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 deleteResponse = { deleteCount: 1 };
+                // @ts-expect-error Will not be undefined
+                user.twoFactorSecret.code = 'testCode';
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
                 jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
                 jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);

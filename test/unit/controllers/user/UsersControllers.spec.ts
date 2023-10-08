@@ -28,7 +28,7 @@ describe('Controllers :: User :: UsersControllers', () => {
 
     describe('When a request is made to register a new user', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserFaker({} as UserFaker).map((user) => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
                 delete user.providerId;
@@ -37,7 +37,13 @@ describe('Controllers :: User :: UsersControllers', () => {
                 return user;
             })[0];
 
-            userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
 
