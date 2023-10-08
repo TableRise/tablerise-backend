@@ -145,14 +145,14 @@ describe('Services :: User :: UsersServices', () => {
                     delete user._id;
                     delete user.tag;
                     delete user.providerId;
-    
+
                     return user;
                 })[0];
-    
+
                 userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
                     delete detail._id;
                     delete detail.userId;
-    
+
                     return detail;
                 })[0];
 
@@ -237,7 +237,7 @@ describe('Services :: User :: UsersServices', () => {
                 delete detail.userId;
 
                 return detail;
-            })[0]
+            })[0];
 
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
@@ -327,7 +327,7 @@ describe('Services :: User :: UsersServices', () => {
                 delete detail.userId;
 
                 return detail;
-            })[0]
+            })[0];
 
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
@@ -428,7 +428,7 @@ describe('Services :: User :: UsersServices', () => {
                 delete detail.userId;
 
                 return detail;
-            })[0]
+            })[0];
 
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
