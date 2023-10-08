@@ -22,7 +22,7 @@ export default [
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
     [
-        '/profile/confirm/{_id}',
+        '/profile/{_id}/confirm',
         'profile',
         'patch',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
@@ -38,7 +38,7 @@ export default [
         false,
     ],
     [
-        '/profile/delete/{_id}',
+        '/profile/{_id}/delete',
         'profile',
         'delete',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],

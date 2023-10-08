@@ -22,11 +22,11 @@ const controllers = new UserControllers(services, logger);
 
 const router = Router();
 
-router.get('/:id/email-verify', controllers.verifyEmail);
+router.get('/:id/verify', controllers.verifyEmail);
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
-router.patch('/confirm/:id', controllers.confirmCode);
-router.delete('/delete/:id', controllers.delete);
+router.patch('/:id/confirm', controllers.confirmCode);
+router.delete('/:id/delete', controllers.delete);
 
 router.use(passport.authenticate('bearer', { session: false }));
 

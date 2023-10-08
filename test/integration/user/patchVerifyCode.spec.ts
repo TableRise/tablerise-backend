@@ -34,7 +34,7 @@ describe('Add verify code in database', () => {
             userInstanceMock.inProgress.status = 'done';
             userInstanceMock._id = generateNewMongoID();
             const userTest = await new DatabaseManagement().modelInstance('user', 'Users').create(userInstanceMock);
-            await requester.get(`/profile/${userTest._id as string}/email-verify`).expect(HttpStatusCode.OK);
+            await requester.get(`/profile/${userTest._id as string}/verify`).expect(HttpStatusCode.OK);
         });
     });
 });
