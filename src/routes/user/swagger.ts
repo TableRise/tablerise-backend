@@ -30,14 +30,6 @@ export default [
         false,
     ],
     [
-        '/profile/two-factor/{_id}',
-        'profile',
-        'post',
-        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
-        null,
-        false,
-    ],
-    [
         '/profile/delete/{_id}',
         'profile',
         'delete',

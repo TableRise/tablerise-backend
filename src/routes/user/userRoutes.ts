@@ -11,11 +11,12 @@ import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import TwoFactorMiddleware from 'src/middlewares/TwoFactorMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
 
-const model = database.modelInstance('user', 'Users');
+export const model = database.modelInstance('user', 'Users');
 const modelUserDetails = database.modelInstance('user', 'UserDetails');
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
@@ -25,7 +26,7 @@ const router = Router();
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
 router.patch('/confirm/:id', controllers.confirmCode);
-router.delete('/delete/:id', controllers.delete);
+router.delete('/delete/:id', TwoFactorMiddleware, controllers.delete);
 
 router.use(passport.authenticate('bearer', { session: false }));
 

@@ -120,18 +120,12 @@ export default class RegisterServices {
         return { status: userInfo.inProgress.status };
     }
 
-    public async delete(id: string, code?: string): Promise<void> {
-        const userInfo = (await this._model.findOne(id)) as User;
+    public async delete(id: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
 
-        if (!userInfo || !userDetailsInfo) HttpRequestErrors.throwError('user');
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user');
         if (userDetailsInfo.gameInfo.campaigns.length || userDetailsInfo.gameInfo.characters.length) {
             HttpRequestErrors.throwError('linked-data');
-        }
-
-        if (userInfo) if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
-        if (userInfo.twoFactorSecret && userInfo.twoFactorSecret.code !== code) {
-            HttpRequestErrors.throwError('2fa-incorrect');
         }
 
         await this._model.delete(id);
