@@ -55,11 +55,6 @@ describe('Services :: User :: UsersServices', () => {
         deleteCount: 1,
     };
 
-    const deleteUserMock = {
-        ...userInstanceMock,
-        twoFactorSecret: { active: true, code: 'testCode', qrcode: 'test' },
-    };
-
     const deleteUserDetailsMock = {
         ...userDetailsInstanceMock,
         gameInfo: {
@@ -279,7 +274,7 @@ describe('Services :: User :: UsersServices', () => {
             });
 
             it('should return nothing', async () => {
-                await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'testCode');
+                await UsersServicesMock.delete('65075e05ca9f0d3b2485194f');
             });
         });
 
@@ -291,7 +286,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 401 error - There is a campaign or a character linked to this user', async () => {
                 try {
-                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'testCode');
+                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -311,7 +306,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await UsersServicesMock.delete('', '1447ab');
+                    await UsersServicesMock.delete('');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -319,39 +314,6 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('User does not exist');
                     expect(err.name).toBe('NotFound');
                     expect(err.code).toBe(404);
-                }
-            });
-        });
-
-        describe('and the params are incorrect - code', () => {
-            beforeAll(() => {
-                jest.spyOn(UsersModelMock, 'findOne').mockResolvedValue(deleteUserMock);
-                jest.spyOn(UsersDetailsModelMock, 'findAll').mockResolvedValue([userDetailsInstanceMock]);
-            });
-
-            it('should throw 401 error - Wrong code', async () => {
-                try {
-                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', 'abcdef');
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('Two factor code does not match');
-                    expect(err.name).toBe('Unauthorized');
-                    expect(err.code).toBe(401);
-                }
-            });
-
-            it('should throw 400 error - Invalid type of code', async () => {
-                try {
-                    await UsersServicesMock.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('Query must be a string');
-                    expect(err.name).toBe('BadRequest');
-                    expect(err.code).toBe(400);
                 }
             });
         });
