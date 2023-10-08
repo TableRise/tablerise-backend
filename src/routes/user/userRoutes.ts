@@ -22,6 +22,7 @@ const controllers = new UserControllers(services, logger);
 
 const router = Router();
 
+router.get('/:id/email-verify', controllers.verifyEmail);
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
 router.patch('/confirm/:id', controllers.confirmCode);

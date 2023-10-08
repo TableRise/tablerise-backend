@@ -12,6 +12,7 @@ export default class UsersControllers {
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.confirmCode = this.confirmCode.bind(this);
+        this.verifyEmail = this.verifyEmail.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -43,6 +44,14 @@ export default class UsersControllers {
         const request = await this._service.confirmCode(_id, code as string);
 
         return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async verifyEmail(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        await this._service.emailVerify(id);
+
+        return res.status(HttpStatusCode.OK).end();
     }
 
     public async delete(req: Request, res: Response): Promise<Response> {

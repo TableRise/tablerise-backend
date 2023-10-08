@@ -90,6 +90,6 @@
         "qrcode": "1.5.3",
         "speakeasy": "2.0.0",
         "swagger-ui-express": "4.6.3",
-        "zod": "3.21.4"
+        "zod": "3.22.3"
     }
 }

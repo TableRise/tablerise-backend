@@ -14,6 +14,7 @@ import generateVerificationCode from 'src/services/user/helpers/generateVerifica
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSerialized } from './types/Register';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
+import EmailSender from './helpers/EmailSender';
 
 export default class RegisterServices {
     constructor(
@@ -118,6 +119,29 @@ export default class RegisterServices {
         await this._model.update(id, userInfo);
 
         return { status: userInfo.inProgress.status };
+    }
+
+    public async emailVerify(id: string): Promise<void> {
+        const user = (await this._model.findOne(id)) as User;
+
+        if (!user) HttpRequestErrors.throwError('user');
+
+        // @ts-expect-error In progress will exist below
+        if (user.inProgress.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
+
+        const sendEmail = new EmailSender('verification');
+        const verificationCode = await sendEmail.send({ subject: 'Email de verificação - TableRise' }, user.email);
+
+        if (!verificationCode.success) HttpRequestErrors.throwError('verification-email');
+
+        user.inProgress = {
+            status: 'wait_to_verify',
+            code: verificationCode.verificationCode as string,
+        };
+
+        user.updatedAt = new Date().toISOString();
+
+        await this._model.update(id, user);
     }
 
     public async delete(id: string, code?: string): Promise<void> {

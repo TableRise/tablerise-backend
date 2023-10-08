@@ -2,6 +2,7 @@ import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
 import confirmEmailTemplate from 'src/support/templates/confirmEmailTemplate';
+import verifyEmailTemplate from 'src/support/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
@@ -25,7 +26,7 @@ export default class EmailSender {
         const message: EmailMessage = {
             from: 'TableRise <tablerise@gmail.com>',
             to: target,
-            subject: content.subject,
+            subject: content.subject as string,
         };
 
         if (contentType === 'html') message.html = content.body;
@@ -51,14 +52,24 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    public async send(type: EmailSenderType, content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    private async sendVerification(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+        const verificationCode = generateVerificationCode(6);
+        const username = content.username ?? target;
+        content.body = verifyEmailTemplate(verificationCode, username);
+
+        const sendEmailResult = await EmailSender.handleEmail('html', content, target);
+        return { success: sendEmailResult, verificationCode };
+    }
+
+    public async send(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,
+            verification: this.sendVerification,
         };
 
         // @ts-expect-error :: The options below will with sure match with the string passed in arg type;
-        const result = await options[type](content, target);
+        const result = await options[this.type](content, target);
         return result;
     }
 }

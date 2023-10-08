@@ -22,37 +22,6 @@ export default class OAuthServices {
         private readonly _logger: Logger
     ) {}
 
-    private _login(userFromDb: User[], userSerialized: User): string {
-        const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
-
-        if (!isProviderIdValid) HttpRequestErrors.throwError('email');
-
-        this._logger('info', 'User logged in');
-        return JWTGenerator.generate(userFromDb[0]);
-    }
-
-    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized | string> {
-        const userSerialized = postUserSerializer(user);
-        const userDetailsSerialized = postUserDetailsSerializer({});
-
-        const userAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-
-        if (userAlreadyExist.length) return this._login(userAlreadyExist, userSerialized);
-
-        return { userSerialized, userDetailsSerialized };
-    }
-
-    private async _enrichUser({ user, userDetails }: UserPayload, provider: string): Promise<__UserSerialized> {
-        user.createdAt = new Date().toISOString();
-        user.updatedAt = new Date().toISOString();
-        user.password = 'oauth';
-        user.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-
-        userDetails.secretQuestion = { question: 'oauth', answer: provider };
-
-        return { userSerialized: user, userDetailsSerialized: userDetails };
-    }
-
     public async google(profile: Google.Profile): Promise<RegisterUserResponse | string> {
         const externalUserInfo = userExternalSerializer(profile);
 
@@ -184,5 +153,36 @@ export default class OAuthServices {
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
         return validateSecret;
+    }
+
+    private _login(userFromDb: User[], userSerialized: User): string {
+        const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
+
+        if (!isProviderIdValid) HttpRequestErrors.throwError('email');
+
+        this._logger('info', 'User logged in');
+        return JWTGenerator.generate(userFromDb[0]);
+    }
+
+    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized | string> {
+        const userSerialized = postUserSerializer(user);
+        const userDetailsSerialized = postUserDetailsSerializer({});
+
+        const userAlreadyExist = await this._model.findAll({ email: userSerialized.email });
+
+        if (userAlreadyExist.length) return this._login(userAlreadyExist, userSerialized);
+
+        return { userSerialized, userDetailsSerialized };
+    }
+
+    private async _enrichUser({ user, userDetails }: UserPayload, provider: string): Promise<__UserSerialized> {
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+        user.password = 'oauth';
+        user.tag = `#${Math.floor(Math.random() * 9999) + 1}`;
+
+        userDetails.secretQuestion = { question: 'oauth', answer: provider };
+
+        return { userSerialized: user, userDetailsSerialized: userDetails };
     }
 }
