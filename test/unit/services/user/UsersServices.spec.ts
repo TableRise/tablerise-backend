@@ -1,3 +1,4 @@
+import speakeasy from 'speakeasy';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
@@ -30,16 +31,21 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When a new user is registered', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserFaker({} as UserFaker).map((user) => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
                 delete user.providerId;
-                delete user.inProgress;
 
                 return user;
             })[0];
 
-            userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
@@ -47,6 +53,8 @@ describe('Services :: User :: UsersServices', () => {
             beforeAll(() => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+                // @ts-expect-error Intentional error
+                user.inProgress?.status = 'wait_to_confirm';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
                 jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
@@ -75,6 +83,12 @@ describe('Services :: User :: UsersServices', () => {
             beforeAll(() => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+                // @ts-expect-error Intentional error
+                user.inProgress?.status = 'wait_to_confirm';
+                // @ts-expect-error Intentional error
+                user.twoFactorSecret?.code = 'test';
+                // @ts-expect-error Intentional error
+                user.twoFactorSecret?.qrcode = 'test';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
                 jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
@@ -127,6 +141,21 @@ describe('Services :: User :: UsersServices', () => {
 
         describe('and the data is incorrect - schema and email', () => {
             beforeAll(() => {
+                user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                    delete user._id;
+                    delete user.tag;
+                    delete user.providerId;
+    
+                    return user;
+                })[0];
+    
+                userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                    delete detail._id;
+                    delete detail.userId;
+    
+                    return detail;
+                })[0];
+
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
 
@@ -140,6 +169,19 @@ describe('Services :: User :: UsersServices', () => {
 
             afterAll(() => {
                 jest.clearAllMocks();
+            });
+
+            it('should throw 400 error - email already exist', async () => {
+                try {
+                    await userServices.register(userPayload);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toBe('Email already exists in database');
+                    expect(err.code).toBe(400);
+                    expect(err.name).toBe('BadRequest');
+                }
             });
 
             it('should throw 422 error - user schema', async () => {
@@ -177,40 +219,34 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.name).toBe('ValidationError');
                 }
             });
-
-            it('should throw 400 error - email already exist', async () => {
-                try {
-                    await userServices.register(userPayload);
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toBe('Email already exists in database');
-                    expect(err.code).toBe(400);
-                    expect(err.name).toBe('BadRequest');
-                }
-            });
         });
     });
 
     describe('When a confirmation code is verified', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserFaker({} as UserFaker).map((user) => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
                 delete user.providerId;
-                delete user.inProgress;
 
                 return user;
             })[0];
 
-            userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0]
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
         describe('and the params are correct', () => {
             beforeAll(() => {
                 updatedInProgressToDone = { ...user, inProgress: { status: 'done', code: '1447ab' } };
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = '1447ab';
 
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
                 jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToDone);
@@ -278,22 +314,29 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When a verify code is send by email', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserFaker({} as UserFaker).map((user) => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
                 delete user.providerId;
-                delete user.inProgress;
 
                 return user;
             })[0];
 
-            userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0]
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
         describe('and the params are correct', () => {
             beforeAll(() => {
                 updatedInProgressToVerify = { ...user, inProgress: { status: 'wait_to_verify', code: '1447ab' } };
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = '1447ab';
 
                 jest.spyOn(User, 'findOne').mockResolvedValueOnce(user).mockResolvedValue(null);
                 jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: '' });
@@ -371,7 +414,7 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When delete a user', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserFaker({} as UserFaker).map((user) => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
                 delete user.providerId;
@@ -380,7 +423,13 @@ describe('Services :: User :: UsersServices', () => {
                 return user;
             })[0];
 
-            userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0]
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
         });
 
@@ -389,6 +438,7 @@ describe('Services :: User :: UsersServices', () => {
                 deleteResponse = { deleteCount: 1 };
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
                 jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
+                jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
             });
 
             it('should return nothing', async () => {
