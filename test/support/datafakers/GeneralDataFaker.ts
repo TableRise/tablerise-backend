@@ -14,5 +14,5 @@ function generateUserDetailsFaker({ count = 1, _id }: UserDetailFaker): UserDeta
 
 export default {
     generateUserFaker,
-    generateUserDetailsFaker
-}
+    generateUserDetailsFaker,
+};

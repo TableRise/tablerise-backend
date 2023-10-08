@@ -40,7 +40,7 @@ describe('Controllers :: User :: UsersControllers', () => {
             userDetails = GeneralDataFaker.generateUserDetailsFaker({} as UserDetailFaker);
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
-            
+
             userPayload = { ...user, details: userDetails } as RegisterUserPayload;
             userResponse = { ...user, details: userDetails } as RegisterUserResponse;
 

@@ -27,7 +27,6 @@ describe('Services :: User :: UsersServices', () => {
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
-    
 
     describe('When a new user is registered', () => {
         beforeAll(() => {
