@@ -1,28 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import mock from 'src/support/mocks/user';
 import TwoFactorMiddleware, { modelUser } from 'src/middlewares/TwoFactorMiddleware';
 import speakeasy from 'speakeasy';
+import { User } from 'src/schemas/user/usersValidationSchema';
+import GeneralDataFaker, { UserFaker } from '../../support/datafakers/GeneralDataFaker';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
 }));
 
 describe('Middlewares :: TwoFactorMiddleware', () => {
-    const userInstanceMock = mock.user.user;
-    const updatedUserInstanceMock = { ...userInstanceMock, inProgress: { status: 'done', code: '1447ab' } };
-    userInstanceMock._id = '65075e05ca9f0d3b2485194f';
-
-    const { twoFactorSecret, ...userWithoutTwoFactor } = userInstanceMock;
+    let user: User, updatedInProgressToDone: User;
 
     const request = {} as Request;
     const response = {} as Response;
     let next: NextFunction;
 
+    beforeAll(() => {
+        user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+            delete user._id;
+            delete user.tag;
+            delete user.providerId;
+            delete user.inProgress;
+
+            return user;
+        })[0];
+    });
+
     describe('When a request is made for verify two factor auth - success', () => {
         beforeAll(() => {
-            jest.spyOn(modelUser, 'findOne').mockResolvedValue(userInstanceMock);
-            jest.spyOn(modelUser, 'update').mockResolvedValue(updatedUserInstanceMock);
+            jest.spyOn(modelUser, 'findOne').mockResolvedValue(user);
+            jest.spyOn(modelUser, 'update').mockResolvedValue(updatedInProgressToDone);
             jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
             next = jest.fn();
         });
@@ -63,6 +71,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
         describe('and the two factor auth is deactivated', () => {
             beforeAll(() => {
+                const { twoFactorSecret, ...userWithoutTwoFactor } = user;
                 jest.spyOn(modelUser, 'findOne').mockResolvedValue(userWithoutTwoFactor);
                 next = jest.fn();
             });
@@ -77,8 +86,8 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
-                jest.spyOn(modelUser, 'findOne').mockResolvedValue(userInstanceMock);
-                jest.spyOn(modelUser, 'update').mockResolvedValue(updatedUserInstanceMock);
+                jest.spyOn(modelUser, 'findOne').mockResolvedValue(user);
+                jest.spyOn(modelUser, 'update').mockResolvedValue(updatedInProgressToDone);
                 jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(false);
             });
 

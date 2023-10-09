@@ -434,7 +434,7 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 deleteResponse = { deleteCount: 1 };
-                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([user]);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
                 jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
             });
 
@@ -458,6 +458,27 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('User does not exist');
                     expect(err.name).toBe('NotFound');
                     expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and theres is a campaign or a character linked to the user', () => {
+            beforeAll(() => {
+                userDetails.gameInfo.campaigns = ['123456789123456789123456'];
+                userDetails.gameInfo.characters = ['123456789123456789123456'];
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.delete('123456789123456789123456');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
+                    expect(err.name).toBe('Unauthorized');
+                    expect(err.code).toBe(401);
                 }
             });
         });
