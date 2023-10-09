@@ -1,10 +1,10 @@
-export type EmailSenderType = 'confirmation' | 'newsletter' | 'common';
+export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verification';
 
 export interface CommonContent {
     username?: string;
     verificationCode?: string;
-    subject: string;
-    body: string;
+    subject?: string;
+    body?: string;
 }
 
 export interface ResponseEmailSender {

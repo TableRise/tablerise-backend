@@ -17,13 +17,13 @@ describe('Support :: Helpers :: EmailSender', () => {
                     body: 'Test',
                 };
 
-                const sendEmailTest = await emailSender.send('common', testContent, 'test@email.com');
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest).toStrictEqual({ success: true });
             });
         });
 
         describe('And type is confirmation', () => {
-            const emailSender = new EmailSender();
+            const emailSender = new EmailSender('confirmation');
 
             it('should return true when the process is done with success', async () => {
                 const testContent = {
@@ -32,7 +32,7 @@ describe('Support :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send('confirmation', testContent, 'test@email.com');
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).toBe(true);
                 expect(typeof sendEmailTest.verificationCode).toBe('string');
                 expect(sendEmailTest.verificationCode?.length).toBe(6);
@@ -44,7 +44,36 @@ describe('Support :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send('confirmation', testContent, 'test@email.com');
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
+                expect(sendEmailTest.success).toBe(true);
+                expect(typeof sendEmailTest.verificationCode).toBe('string');
+                expect(sendEmailTest.verificationCode?.length).toBe(6);
+            });
+        });
+
+        describe('And type is verification', () => {
+            const emailSender = new EmailSender('verification');
+
+            it('should return true when the process is done with success', async () => {
+                const testContent = {
+                    username: 'userTest',
+                    subject: 'Test',
+                    body: '',
+                };
+
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
+                expect(sendEmailTest.success).toBe(true);
+                expect(typeof sendEmailTest.verificationCode).toBe('string');
+                expect(sendEmailTest.verificationCode?.length).toBe(6);
+            });
+
+            it('should return true when the process is done with success without the username', async () => {
+                const testContent = {
+                    subject: 'Test',
+                    body: '',
+                };
+
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).toBe(true);
                 expect(typeof sendEmailTest.verificationCode).toBe('string');
                 expect(sendEmailTest.verificationCode?.length).toBe(6);

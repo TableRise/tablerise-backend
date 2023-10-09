@@ -108,7 +108,31 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
             }
         });
 
-        it('should throw error - tag', () => {
+        it('should throw error - verification-email', () => {
+            try {
+                HttpRequestErrors.throwError('verification-email');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('Some problem ocurred in email sending');
+                expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw error - invalid-user-status', () => {
+            try {
+                HttpRequestErrors.throwError('invalid-user-status');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('User status is invalid to perform this operation');
+                expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw error - internal', () => {
             try {
                 HttpRequestErrors.throwError(null as unknown as ErrorTypes);
             } catch (error) {
