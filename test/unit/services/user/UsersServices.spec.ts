@@ -80,7 +80,9 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(UsersDetailsModelMock, 'create').mockResolvedValue(userDetailsInstanceMock);
             });
 
-            it('should return the new user registered', async () => {
+            it.only('should return the new user registered', async () => {
+                console.log(userPayload);
+                console.log(Object.keys(userPayload));
                 const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
                 const result = await UsersServicesMock.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
 

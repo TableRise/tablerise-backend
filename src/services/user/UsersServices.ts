@@ -14,6 +14,7 @@ import generateVerificationCode from 'src/services/user/helpers/generateVerifica
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSerialized } from './types/Register';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
+import { ErrorTypes } from 'src/types/Errors';
 
 export default class RegisterServices {
     constructor(
@@ -24,7 +25,7 @@ export default class RegisterServices {
         private readonly _schema: SchemasUserType
     ) {}
 
-    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
+    private async _serializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         this._validate.entry(this._schema.userZod, user);
         this._validate.entry(this._schema.userDetailZod, userDetails);
 
@@ -72,7 +73,7 @@ export default class RegisterServices {
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
-        const userPreSerialized = await this._validateAndSerializeData({
+        const userPreSerialized = await this._serializeData({
             user,
             userDetails,
         });
@@ -88,7 +89,8 @@ export default class RegisterServices {
         // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
         const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
         this._logger('info', 'User saved on database');
-
+        console.log('userREGISTERED', userRegistered);
+        console.log('QUERY', await this._model.create(userSerialized))
         userDetailsSerialized.userId = userRegistered._id;
 
         const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
@@ -138,13 +140,28 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
-/*     public async update(id: string, payload: RegisterUserPayload): Promise<RegisterUserPayload> {
-        const userInfo = await this._model.findOne(id) as User;
-        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+    public async update(id: string, payload: RegisterUserPayload): Promise<RegisterUserPayload> {
 
+        const { details: userDetails, ...user } = payload;
 
-        const userUpdated = await this._model.update(id, payload);
+        const data = await this._serializeData({ user, userDetails });
+
+        const userFieldError = ['email','password','tag','createdAt','updatedAt','inProgress','providerId']
+        const userDetailsFieldError = [ 'userId', 'secretQuestion', 'gameInfo', 'role'];
+
+        userFieldError.forEach(fieldError => {
+            if (fieldError in Object.keys(data.userSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
+        });
+
+        userDetailsFieldError.forEach(fieldError => {
+            if (fieldError in Object.keys(data.userDetailsSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
+        });
+
+        const userUpdated = await this._model.update(id, data.userSerialized);
         this._logger('info', 'User updated at database');
-        return userUpdated as RegisterUserPayload;
-    } */
+
+        const userDetailsUpdated = await this._modelDetails.update(id, data.userDetailsSerialized);
+        this._logger('info', 'UserDetails updated at database');
+        return {...userUpdated , details: userDetailsUpdated} as RegisterUserPayload;
+    }
 }

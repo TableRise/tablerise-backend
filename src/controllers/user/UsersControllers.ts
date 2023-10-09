@@ -55,13 +55,13 @@ export default class UsersControllers {
         return res.sendStatus(HttpStatusCode.DELETED);
     }
 
-/*     public async update(req: Request, res: Response): Promise<Response> {
+    public async update(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to update a user');
         const { id: _id } = req.params;
-        const { code } = req.query;
+        const payload = req.body as RegisterUserPayload;
 
         const request = await this._service.update(_id, payload);
 
-        return res.status(HttpStatusCode.UPDATED).json(request);
-    } */
+        return res.status(HttpStatusCode.OK).json(request);
+    }
 }
