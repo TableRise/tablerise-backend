@@ -20,6 +20,7 @@ export const model = database.modelInstance('user', 'Users');
 const modelUserDetails = database.modelInstance('user', 'UserDetails');
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
+const twoFactorMiddleware = new TwoFactorMiddleware(model, logger);
 
 const router = Router();
 
@@ -27,7 +28,7 @@ router.get('/:id/verify', controllers.verifyEmail);
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
 router.patch('/:id/confirm', controllers.confirmCode);
-router.delete('/:id/delete', TwoFactorMiddleware, controllers.delete);
+router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 
 router.use(passport.authenticate('bearer', { session: false }));
 
