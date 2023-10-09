@@ -1,4 +1,3 @@
-import speakeasy from 'speakeasy';
 import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
@@ -159,30 +158,5 @@ export default class OAuthServices {
             ...userRegistered._doc,
             details: userDetailsRegistered,
         };
-    }
-
-    public async validateTwoFactor(userId: string, token: string): Promise<boolean> {
-        const user = (await this._model.findOne(userId)) as User;
-
-        if (!user) HttpRequestErrors.throwError('user');
-        if (!user.twoFactorSecret) HttpRequestErrors.throwError('2fa');
-
-        // @ts-expect-error Assertion made in line 168
-        if (user.twoFactorSecret.qrcode) {
-            // @ts-expect-error Assertion made in line 168
-            delete user.twoFactorSecret.qrcode;
-            await this._model.update(user._id as string, user);
-        }
-
-        const validateSecret = speakeasy.totp.verify({
-            // @ts-expect-error Assertion made in line 168
-            secret: user.twoFactorSecret.code as string,
-            encoding: 'base32',
-            token,
-        });
-
-        if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
-
-        return validateSecret;
     }
 }

@@ -1,4 +1,3 @@
-import speakeasy from 'speakeasy';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
@@ -23,8 +22,7 @@ describe('Services :: User :: UsersServices', () => {
         updatedInProgressToVerify: User,
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse,
-        deleteResponse: any,
-        deleteUser: User;
+        deleteResponse: any;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -436,26 +434,23 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 deleteResponse = { deleteCount: 1 };
-                // @ts-expect-error Will not be undefined
-                user.twoFactorSecret.code = 'testCode';
-                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
                 jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
-                jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
             });
 
             it('should return nothing', async () => {
-                await userServices.delete('65075e05ca9f0d3b2485194f', 'testCode');
+                await userServices.delete('65075e05ca9f0d3b2485194f');
             });
         });
 
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
-                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
             });
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.delete('', '1447ab');
+                    await userServices.delete('');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -467,35 +462,23 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
-        describe('and the params are incorrect - code', () => {
+        describe('and theres is a campaign or a character linked to the user', () => {
             beforeAll(() => {
-                deleteUser = { ...user, twoFactorSecret: { code: '', qrcode: '', active: true } };
-                jest.spyOn(User, 'findOne').mockResolvedValue(deleteUser);
+                userDetails.gameInfo.campaigns = ['123456789123456789123456'];
+                userDetails.gameInfo.characters = ['123456789123456789123456'];
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
             });
 
-            it('should throw 401 error - Wrong code', async () => {
+            it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.delete('65075e05ca9f0d3b2485194f', 'abcdef');
+                    await userServices.delete('123456789123456789123456');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Two factor code does not match');
+                    expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
                     expect(err.name).toBe('Unauthorized');
                     expect(err.code).toBe(401);
-                }
-            });
-
-            it('should throw 400 error - Invalid code', async () => {
-                try {
-                    await userServices.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('Query must be a string');
-                    expect(err.name).toBe('BadRequest');
-                    expect(err.code).toBe(400);
                 }
             });
         });
