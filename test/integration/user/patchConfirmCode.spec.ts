@@ -43,7 +43,7 @@ describe('Post user in database', () => {
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
 
-            const response = await requester.patch(`/profile/confirm/${userId}?code=${code}`).expect(HttpStatusCode.OK);
+            const response = await requester.patch(`/profile/${userId}/confirm?code=${code}`).expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('status');
             expect(response.body.status).toBe('done');

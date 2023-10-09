@@ -20,4 +20,6 @@ export type ErrorTypes =
     | 'rpg-not-found-id'
     | 'query-string'
     | 'login'
-    | 'linked-data';
+    | 'linked-data'
+    | 'verification-email'
+    | 'invalid-user-status';
