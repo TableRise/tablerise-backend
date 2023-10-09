@@ -136,7 +136,6 @@ describe('Controllers :: User :: UsersControllers', () => {
 
         it('should return correct status 204', async () => {
             request.params = { id: '65075e05ca9f0d3b2485194f' };
-            request.query = { code: '1447ab' };
             await userControllers.delete(request, response);
             expect(response.sendStatus).toHaveBeenCalledWith(204);
         });
