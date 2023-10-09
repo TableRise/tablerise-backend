@@ -1,16 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import TwoFactorMiddleware, { modelUser } from 'src/middlewares/TwoFactorMiddleware';
+import TwoFactorMiddleware from 'src/middlewares/TwoFactorMiddleware';
 import speakeasy from 'speakeasy';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker } from '../../support/datafakers/GeneralDataFaker';
+import Database from '../../support/Database';
+import logger from '@tablerise/dynamic-logger';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
 }));
 
 describe('Middlewares :: TwoFactorMiddleware', () => {
-    let user: User, updatedInProgressToDone: User;
+    let user: User, updatedInProgressToDone: User, twoFactorMiddleware: TwoFactorMiddleware;
+
+    const { User } = Database.models;
 
     const request = {} as Request;
     const response = {} as Response;
@@ -25,12 +29,18 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
             return user;
         })[0];
+
+        twoFactorMiddleware = new TwoFactorMiddleware(User, logger);
     });
 
     describe('When a request is made for verify two factor auth - success', () => {
         beforeAll(() => {
-            jest.spyOn(modelUser, 'findOne').mockResolvedValue(user);
-            jest.spyOn(modelUser, 'update').mockResolvedValue(updatedInProgressToDone);
+            // @ts-expect-error Intentional error
+            user.twoFactorSecret?.code = 'test';
+            // @ts-expect-error Intentional error
+            user.twoFactorSecret?.qrcode = 'test';
+            jest.spyOn(User, 'findOne').mockResolvedValue(user);
+            jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToDone);
             jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
             next = jest.fn();
         });
@@ -42,7 +52,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
         it('should be successfull if is a valid code', async () => {
             request.query = { code: '123456' };
             request.params = { id: '123456789123456789123456' };
-            await TwoFactorMiddleware(request, response, next);
+            await twoFactorMiddleware.authenticate(request, response, next);
 
             expect(next).toHaveBeenCalled();
         });
@@ -50,14 +60,14 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
     describe('and the params are incorrect - userId', () => {
         beforeAll(() => {
-            jest.spyOn(modelUser, 'findOne').mockResolvedValue(null);
+            jest.spyOn(User, 'findOne').mockResolvedValue(null);
         });
 
         it('should throw 404 error - Not Found', async () => {
             try {
                 request.query = { code: '123456' };
                 request.params = { id: '' };
-                await TwoFactorMiddleware(request, response, next);
+                await twoFactorMiddleware.authenticate(request, response, next);
 
                 expect('it should not be here').toBe(true);
             } catch (error) {
@@ -72,13 +82,13 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
         describe('and the two factor auth is deactivated', () => {
             beforeAll(() => {
                 const { twoFactorSecret, ...userWithoutTwoFactor } = user;
-                jest.spyOn(modelUser, 'findOne').mockResolvedValue(userWithoutTwoFactor);
+                jest.spyOn(User, 'findOne').mockResolvedValue(userWithoutTwoFactor);
                 next = jest.fn();
             });
 
             it('should call next', async () => {
                 request.params = { id: '123456789123456789123456' };
-                await TwoFactorMiddleware(request, response, next);
+                await twoFactorMiddleware.authenticate(request, response, next);
 
                 expect(next).toHaveBeenCalled();
             });
@@ -86,8 +96,8 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
         describe('and the params are incorrect - code', () => {
             beforeAll(() => {
-                jest.spyOn(modelUser, 'findOne').mockResolvedValue(user);
-                jest.spyOn(modelUser, 'update').mockResolvedValue(updatedInProgressToDone);
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToDone);
                 jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(false);
             });
 
@@ -95,7 +105,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
                 try {
                     request.query = { code: '123456' };
                     request.params = { id: '123456789123456789123456' };
-                    await TwoFactorMiddleware(request, response, next);
+                    await twoFactorMiddleware.authenticate(request, response, next);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -111,7 +121,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             try {
                 request.query = { code: ['123456'] };
                 request.params = { id: '123456789123456789123456' };
-                await TwoFactorMiddleware(request, response, next);
+                await twoFactorMiddleware.authenticate(request, response, next);
                 expect('it should not be here').toBe(true);
             } catch (error) {
                 const err = error as HttpRequestErrors;
