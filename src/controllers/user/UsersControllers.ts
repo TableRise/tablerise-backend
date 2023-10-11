@@ -60,9 +60,9 @@ export default class UsersControllers {
 
         const { id: _id } = req.params;
         const { code } = req.query;
-        const { email } = req.body as emailUpdatePayload;
+        const payload = req.body as emailUpdatePayload;
 
-        await this._service.updateEmail(_id, code as string, email);
+        await this._service.updateEmail(_id, code as string, payload);
 
         return res.sendStatus(HttpStatusCode.NO_CONTENT);
     }

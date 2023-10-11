@@ -30,6 +30,10 @@ const usersZodSchema = z.object({
     updatedAt: z.string().optional(),
 });
 
+export const emailUpdateZodSchema = z.object({
+    email: z.string().email(),
+});
+
 export type User = z.infer<typeof usersZodSchema>;
 export type UserLogin = z.infer<typeof userLoginZodSchema>;
 

@@ -2,18 +2,16 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { User, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSerialized } from './types/Register';
-import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import EmailSender from './helpers/EmailSender';
 
 export default class RegisterServices {
@@ -107,12 +105,9 @@ export default class RegisterServices {
         if (!userInfo) HttpRequestErrors.throwError('user');
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
-        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
-            throw new HttpRequestErrors({
-                message: 'Invalid code',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-code');
+        }
 
         userInfo.inProgress.status = 'done';
 
@@ -144,21 +139,24 @@ export default class RegisterServices {
         await this._model.update(id, user);
     }
 
-    public async updateEmail(id: string, code: string, email: string): Promise<void> {
+    public async updateEmail(id: string, code: string, payload: emailUpdatePayload): Promise<void> {
+        this._validate.entry(emailUpdateZodSchema, payload);
+        const { email } = payload;
         const userInfo = (await this._model.findOne(id)) as User;
 
         if (!userInfo) HttpRequestErrors.throwError('user');
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
-        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
-            throw new HttpRequestErrors({
-                message: 'Invalid code',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-code');
+        }
+
+        const emailAlreadyExist = await this._model.findAll({ email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
 
         userInfo.email = email;
         userInfo.inProgress.status = 'email_change';
+        userInfo.updatedAt = new Date().toISOString();
 
         await this._model.update(id, userInfo);
         this._logger('info', 'User email updated');
