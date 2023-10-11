@@ -9,6 +9,7 @@ import Database from '../../../support/Database';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
@@ -51,12 +52,21 @@ describe('Services :: User :: UsersServices', () => {
             beforeAll(() => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
-                // @ts-expect-error Intentional error
-                user.inProgress?.status = 'wait_to_confirm';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
-                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(User, 'create').mockResolvedValue({
+                    _doc: {
+                        ...user,
+                        inProgress: { status: 'wait_to_confirm', code: 'KIIOL41' },
+                        _id: generateNewMongoID(),
+                    },
+                });
+                jest.spyOn(User, 'update').mockResolvedValue({});
                 jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({
+                    success: true,
+                    verificationCode: 'KKI450',
+                });
             });
 
             it('should return the new user registered', async () => {
@@ -82,15 +92,24 @@ describe('Services :: User :: UsersServices', () => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
                 // @ts-expect-error Intentional error
-                user.inProgress?.status = 'wait_to_confirm';
-                // @ts-expect-error Intentional error
                 user.twoFactorSecret?.code = 'test';
                 // @ts-expect-error Intentional error
                 user.twoFactorSecret?.qrcode = 'test';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
-                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(User, 'create').mockResolvedValue({
+                    _doc: {
+                        ...user,
+                        inProgress: { status: 'wait_to_confirm', code: 'KIIOL41' },
+                        _id: generateNewMongoID(),
+                    },
+                });
+                jest.spyOn(User, 'update').mockResolvedValue({});
                 jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({
+                    success: true,
+                    verificationCode: 'KKI450',
+                });
             });
 
             it('should return the new user registered', async () => {
@@ -215,6 +234,46 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.details[0].reason).toBe('Invalid input');
                     expect(err.code).toBe(422);
                     expect(err.name).toBe('ValidationError');
+                }
+            });
+        });
+
+        describe('and email sending fails', () => {
+            beforeAll(() => {
+                user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                    delete user._id;
+                    delete user.tag;
+                    delete user.providerId;
+
+                    return user;
+                })[0];
+
+                userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                    delete detail._id;
+                    delete detail.userId;
+
+                    return detail;
+                })[0];
+
+                userPayload = { ...user, details: userDetails } as RegisterUserPayload;
+                userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+
+                jest.spyOn(User, 'findAll').mockResolvedValue([]);
+                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: false });
+            });
+
+            it('should throw 400 error', async () => {
+                try {
+                    const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
+                    await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('Some problem ocurred in email sending');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });
