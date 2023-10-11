@@ -144,6 +144,26 @@ export default class RegisterServices {
         await this._model.update(id, user);
     }
 
+    public async updateEmail(id: string, code: string, email: string): Promise<void> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
+            throw new HttpRequestErrors({
+                message: 'Invalid code',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        userInfo.email = email;
+        userInfo.inProgress.status = 'email_change';
+
+        await this._model.update(id, userInfo);
+        this._logger('info', 'User email updated');
+    }
+
     public async delete(id: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
 
