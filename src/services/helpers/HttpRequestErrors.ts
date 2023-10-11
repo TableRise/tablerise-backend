@@ -16,7 +16,7 @@ export default class HttpRequestErrors extends Error {
         this.name = name as string;
     }
 
-    static throwError(errorType: ErrorTypes): void {
+    static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
             case 'email':
                 throw new HttpRequestErrors({
@@ -84,6 +84,13 @@ export default class HttpRequestErrors extends Error {
             case 'invalid-user-status':
                 throw new HttpRequestErrors({
                     message: 'User status is invalid to perform this operation',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case 'invalid-code':
+                throw new HttpRequestErrors({
+                    message: 'Invalid code',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });

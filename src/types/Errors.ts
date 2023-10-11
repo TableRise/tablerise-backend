@@ -22,4 +22,5 @@ export type ErrorTypes =
     | 'login'
     | 'linked-data'
     | 'verification-email'
-    | 'invalid-user-status';
+    | 'invalid-user-status'
+    | 'invalid-code';
