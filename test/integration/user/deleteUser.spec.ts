@@ -55,7 +55,7 @@ describe('Post user in database', () => {
 
             const response = await requester
                 .delete(`/profile/${userId}/delete?code=${code}`)
-                .expect(HttpStatusCode.DELETED);
+                .expect(HttpStatusCode.NO_CONTENT);
 
             expect(response.status).toBe(204);
         });
