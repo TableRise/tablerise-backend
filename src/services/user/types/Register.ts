@@ -10,3 +10,8 @@ export interface __UserSerialized {
     userSerialized: User;
     userDetailsSerialized: UserDetail;
 }
+
+export interface __UserSaved {
+    userSaved: User;
+    userDetailsSaved: UserDetail;
+}

@@ -9,9 +9,8 @@ import { User, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSche
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import generateVerificationCode from 'src/services/user/helpers/generateVerificationCode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
-import { UserPayload, __UserSerialized } from './types/Register';
+import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
 
 export default class RegisterServices {
@@ -42,15 +41,13 @@ export default class RegisterServices {
 
         if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
 
-        const verificationCode = generateVerificationCode(6);
-
         user.tag = tag;
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
         user.inProgress = {
             status: 'wait_to_confirm',
-            code: verificationCode,
+            code: '',
         };
 
         if (user.twoFactorSecret?.active) {
@@ -71,6 +68,36 @@ export default class RegisterServices {
         return { userSerialized: user, userDetailsSerialized: userDetails };
     }
 
+    private async _saveUser({ user, userDetails }: UserPayload): Promise<__UserSaved> {
+        const userRegister = (await this._model.create(user)) as User & { _doc: User };
+        const { _doc: userDoc } = userRegister;
+
+        userDetails.userId = userDoc._id;
+        const userDetailsRegister = await this._modelDetails.create(userDetails);
+
+        this._logger('info', 'User saved on database');
+        this._logger('info', 'User details saved on database');
+
+        return { userSaved: userDoc, userDetailsSaved: userDetailsRegister };
+    }
+
+    private async _emailSendToConfirmUser(user: User): Promise<void> {
+        const confirmEmail = await new EmailSender('confirmation').send(
+            {
+                username: user.nickname,
+                subject: 'TableRise - Precisamos confirmar seu email',
+            },
+            user.email
+        );
+
+        if (!confirmEmail.success) HttpRequestErrors.throwError('verification-email');
+
+        // @ts-expect-error inProgress will exist below
+        user.inProgress.code = confirmEmail.verificationCode as string;
+
+        await this._model.update(user._id as string, user);
+    }
+
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
@@ -84,19 +111,15 @@ export default class RegisterServices {
             userDetails: userPreSerialized.userDetailsSerialized,
         });
 
-        // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
-        const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
-        this._logger('info', 'User saved on database');
+        const { userSaved, userDetailsSaved } = await this._saveUser({
+            user: userSerialized,
+            userDetails: userDetailsSerialized,
+        });
 
-        userDetailsSerialized.userId = userRegistered._id;
+        await this._emailSendToConfirmUser(userSaved);
 
-        const userDetailsRegistered = await this._modelDetails.create(userDetailsSerialized);
-        this._logger('info', 'User details saved on database');
-
-        return {
-            ...userRegistered._doc,
-            details: userDetailsRegistered,
-        };
+        // @ts-expect-error inProgress will exist below
+        return { ...userSaved, details: userDetailsSaved };
     }
 
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
