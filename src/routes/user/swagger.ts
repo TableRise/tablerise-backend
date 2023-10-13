@@ -15,6 +15,8 @@ const registerUserPayloadSchema = {
 
 const loginUserPayloadSchema = mocks.user.userLogin;
 
+const emailUpdatePayloadSchema = mocks.user.userEmailUpdate;
+
 export default [
     ['/auth/discord', 'auth', 'get', null, null, false],
     ['/auth/google', 'auth', 'get', null, null, false],
@@ -27,6 +29,14 @@ export default [
         'patch',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
         null,
+        false,
+    ],
+    [
+        '/profile/{_id}/update/email',
+        'profile',
+        'patch',
+        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        emailUpdatePayloadSchema,
         false,
     ],
     [
