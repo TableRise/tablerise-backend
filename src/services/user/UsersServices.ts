@@ -2,7 +2,7 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse, TwoFactorSecret } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
@@ -177,5 +177,42 @@ export default class RegisterServices {
 
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
+    }
+
+    public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user');
+
+        if (!userInfo.twoFactorSecret?.active) HttpRequestErrors.throwError('2fa');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            throw new HttpRequestErrors({
+                message: 'Invalid code',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+        }
+
+        const secret = speakeasy.generateSecret();
+        const url = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `TableRise 2FA (${userInfo.email})`,
+            issuer: 'TableRise',
+            encoding: 'base32',
+        });
+
+        userInfo.inProgress.status = 'done';
+        userInfo.twoFactorSecret = {
+            code: secret.base32,
+            qrcode: await qrcode.toDataURL(url),
+        };
+
+        await this._model.update(id, userInfo);
+
+        return {
+            qrcode: userInfo.twoFactorSecret.qrcode as string,
+            active: userInfo.twoFactorSecret.active as boolean,
+        };
     }
 }
