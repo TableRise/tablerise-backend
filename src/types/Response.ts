@@ -2,9 +2,9 @@ import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
 
 export interface TwoFactorSecret {
-    code: string;
+    code?: string;
     qrcode?: string;
-    active?: boolean;
+    active: boolean;
 }
 
 export interface RegisterUserPayload {
