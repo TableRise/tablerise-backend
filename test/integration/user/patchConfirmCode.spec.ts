@@ -42,10 +42,8 @@ describe('Post user in database', () => {
         it('should return correct data and status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
-                .send(userPayload);
-            
-            // eslint-disable-next-line no-console
-            console.log(userResponse.body);
+                .send(userPayload)
+                .expect(HttpStatusCode.CREATED);
 
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;

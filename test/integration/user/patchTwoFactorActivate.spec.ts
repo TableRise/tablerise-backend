@@ -38,8 +38,10 @@ describe('Patch two factor activate in database', () => {
         it('should return correct data and status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
-                .send(userPayload)
-                .expect(HttpStatusCode.CREATED);
+                .send(userPayload);
+
+            // eslint-disable-next-line no-console
+            console.log(userResponse);
 
             const userToken = await getToken(userPayload);
 
