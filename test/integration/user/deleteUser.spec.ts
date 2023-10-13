@@ -1,8 +1,10 @@
+import speakeasy from 'speakeasy';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import EmailSender from 'src/services/user/helpers/EmailSender';
 
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
@@ -19,6 +21,8 @@ describe('Post user in database', () => {
         details: userDetailsInstanceMockPayload,
     };
 
+    // const { twoFactorSecret, ...userWithoutTwoFactorSecret } = userPayload;
+
     beforeAll(async () => {
         DatabaseManagement.connect(true)
             .then(() => {
@@ -34,6 +38,14 @@ describe('Post user in database', () => {
     });
 
     describe('When delete a user', () => {
+        beforeAll(() => {
+            jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
         it('should return correct status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
@@ -41,7 +53,7 @@ describe('Post user in database', () => {
                 .expect(HttpStatusCode.CREATED);
 
             const userId: string = userResponse.body._id;
-            const code: string = userResponse.body.twoFactorSecret.code;
+            const code: string = '123456';
 
             const response = await requester
                 .delete(`/profile/${userId}/delete?code=${code}`)

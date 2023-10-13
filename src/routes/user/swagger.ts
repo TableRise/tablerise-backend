@@ -19,6 +19,7 @@ export default [
     ['/auth/discord', 'auth', 'get', null, null, false],
     ['/auth/google', 'auth', 'get', null, null, false],
     ['/auth/facebook', 'auth', 'get', null, null, false],
+    ['/profile/{_id}/verify', 'profile', 'get', [...generateIDParam()], null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
     [
@@ -26,14 +27,6 @@ export default [
         'profile',
         'patch',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-        null,
-        false,
-    ],
-    [
-        '/profile/two-factor/{_id}',
-        'profile',
-        'post',
-        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
         null,
         false,
     ],

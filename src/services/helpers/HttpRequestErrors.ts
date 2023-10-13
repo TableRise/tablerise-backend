@@ -73,7 +73,7 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.UNAUTHORIZED,
                     name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });
-                
+
             case 'verification-email':
                 throw new HttpRequestErrors({
                     message: 'Some problem ocurred in email sending',

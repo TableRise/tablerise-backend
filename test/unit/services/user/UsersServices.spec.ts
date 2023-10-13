@@ -1,4 +1,3 @@
-import speakeasy from 'speakeasy';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
@@ -10,6 +9,7 @@ import Database from '../../../support/Database';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
@@ -23,8 +23,7 @@ describe('Services :: User :: UsersServices', () => {
         updatedInProgressToVerify: User,
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse,
-        deleteResponse: any,
-        deleteUser: User;
+        deleteResponse: any;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -53,12 +52,21 @@ describe('Services :: User :: UsersServices', () => {
             beforeAll(() => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
-                // @ts-expect-error Intentional error
-                user.inProgress?.status = 'wait_to_confirm';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
-                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(User, 'create').mockResolvedValue({
+                    _doc: {
+                        ...user,
+                        inProgress: { status: 'wait_to_confirm', code: 'KIIOL41' },
+                        _id: generateNewMongoID(),
+                    },
+                });
+                jest.spyOn(User, 'update').mockResolvedValue({});
                 jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({
+                    success: true,
+                    verificationCode: 'KKI450',
+                });
             });
 
             it('should return the new user registered', async () => {
@@ -84,15 +92,24 @@ describe('Services :: User :: UsersServices', () => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
                 // @ts-expect-error Intentional error
-                user.inProgress?.status = 'wait_to_confirm';
-                // @ts-expect-error Intentional error
                 user.twoFactorSecret?.code = 'test';
                 // @ts-expect-error Intentional error
                 user.twoFactorSecret?.qrcode = 'test';
 
                 jest.spyOn(User, 'findAll').mockResolvedValue([]);
-                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(User, 'create').mockResolvedValue({
+                    _doc: {
+                        ...user,
+                        inProgress: { status: 'wait_to_confirm', code: 'KIIOL41' },
+                        _id: generateNewMongoID(),
+                    },
+                });
+                jest.spyOn(User, 'update').mockResolvedValue({});
                 jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({
+                    success: true,
+                    verificationCode: 'KKI450',
+                });
             });
 
             it('should return the new user registered', async () => {
@@ -217,6 +234,46 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.details[0].reason).toBe('Invalid input');
                     expect(err.code).toBe(422);
                     expect(err.name).toBe('ValidationError');
+                }
+            });
+        });
+
+        describe('and email sending fails', () => {
+            beforeAll(() => {
+                user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                    delete user._id;
+                    delete user.tag;
+                    delete user.providerId;
+
+                    return user;
+                })[0];
+
+                userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                    delete detail._id;
+                    delete detail.userId;
+
+                    return detail;
+                })[0];
+
+                userPayload = { ...user, details: userDetails } as RegisterUserPayload;
+                userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+
+                jest.spyOn(User, 'findAll').mockResolvedValue([]);
+                jest.spyOn(User, 'create').mockResolvedValue({ _doc: user });
+                jest.spyOn(UserDetails, 'create').mockResolvedValue(userDetails);
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: false });
+            });
+
+            it('should throw 400 error', async () => {
+                try {
+                    const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
+                    await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('Some problem ocurred in email sending');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });
@@ -436,26 +493,23 @@ describe('Services :: User :: UsersServices', () => {
         describe('and the params is correct', () => {
             beforeAll(() => {
                 deleteResponse = { deleteCount: 1 };
-                // @ts-expect-error Will not be undefined
-                user.twoFactorSecret.code = 'testCode';
-                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
                 jest.spyOn(User, 'delete').mockResolvedValue(deleteResponse);
-                jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
             });
 
             it('should return nothing', async () => {
-                await userServices.delete('65075e05ca9f0d3b2485194f', 'testCode');
+                await userServices.delete('65075e05ca9f0d3b2485194f');
             });
         });
 
         describe('and the params is incorrect - user id', () => {
             beforeAll(() => {
-                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
             });
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.delete('', '1447ab');
+                    await userServices.delete('');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -467,35 +521,23 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
-        describe('and the params are incorrect - code', () => {
+        describe('and theres is a campaign or a character linked to the user', () => {
             beforeAll(() => {
-                deleteUser = { ...user, twoFactorSecret: { code: '', qrcode: '', active: true } };
-                jest.spyOn(User, 'findOne').mockResolvedValue(deleteUser);
+                userDetails.gameInfo.campaigns = ['123456789123456789123456'];
+                userDetails.gameInfo.characters = ['123456789123456789123456'];
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
             });
 
-            it('should throw 401 error - Wrong code', async () => {
+            it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.delete('65075e05ca9f0d3b2485194f', 'abcdef');
+                    await userServices.delete('123456789123456789123456');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Two factor code does not match');
+                    expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
                     expect(err.name).toBe('Unauthorized');
                     expect(err.code).toBe(401);
-                }
-            });
-
-            it('should throw 400 error - Invalid type of code', async () => {
-                try {
-                    await userServices.delete('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('Query must be a string');
-                    expect(err.name).toBe('BadRequest');
-                    expect(err.code).toBe(400);
                 }
             });
         });
