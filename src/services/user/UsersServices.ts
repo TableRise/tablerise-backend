@@ -52,7 +52,7 @@ export default class RegisterServices {
             code: '',
         };
 
-        if (user.twoFactorSecret?.active) {
+        if (user.twoFactorSecret.active) {
             const secret = speakeasy.generateSecret();
             const url = speakeasy.otpauthURL({
                 secret: secret.base32,
