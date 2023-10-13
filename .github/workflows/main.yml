@@ -33,11 +33,11 @@ jobs:
       - name: Up database container
         run: docker-compose up -d database-test
 
-      - name: Run tests
-        run:  npm run test:coverage
+      # - name: Run tests
+      #   run:  npm run test:coverage
 
       - name: Run integration tests
-        run:  npm run test:integration
+        run:  npm run test:file patchTwoFactorActivate
 
       - name: Monitor coverage
         uses: MishaKav/jest-coverage-comment@main

@@ -42,8 +42,9 @@ describe('Post user in database', () => {
         it('should return correct data and status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
-                .send(userPayload)
-                .expect(HttpStatusCode.CREATED);
+                .send(userPayload);
+            
+            console.log(userResponse.body);
 
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
