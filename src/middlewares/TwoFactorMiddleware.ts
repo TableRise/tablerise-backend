@@ -36,7 +36,7 @@ export default class TwoFactorMiddleware {
         const validateSecret = speakeasy.totp.verify({
             secret: user.twoFactorSecret.code as string,
             encoding: 'base32',
-            token: code as string,
+            token: code,
         });
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
