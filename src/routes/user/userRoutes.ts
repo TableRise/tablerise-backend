@@ -28,7 +28,7 @@ router.get('/:id/verify', controllers.verifyEmail);
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
 router.patch('/confirm/:id', controllers.confirmCode);
-router.put('/:id/update/', controllers.update);
+router.put('/update/:id', controllers.update);
 router.patch('/:id/confirm', controllers.confirmCode);
 router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 

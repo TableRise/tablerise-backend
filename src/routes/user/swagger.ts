@@ -38,12 +38,12 @@ export default [
         null,
         false,
     ],
-    [
-        '/profile/update/{_id}',
-        'profile',
-        'update',
-        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-        null,
-        false,
-    ],
+    // [
+    //     '/profile/update/{_id}',
+    //     'profile',
+    //     'update',
+    //     [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+    //     null,
+    //     false,
+    // ],
 ] as routeOriginal;

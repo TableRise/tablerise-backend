@@ -13,11 +13,8 @@ import getErrorName from 'src/services/helpers/getErrorName';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
-<<<<<<< HEAD
 import { ErrorTypes } from 'src/types/Errors';
-=======
 import EmailSender from './helpers/EmailSender';
->>>>>>> 217d40d152ee96b912230438cd2fa52d2bf5b29f
 
 export default class RegisterServices {
     constructor(
@@ -117,21 +114,12 @@ export default class RegisterServices {
             userDetails: userPreSerialized.userDetailsSerialized,
         });
 
-<<<<<<< HEAD
-        // @ts-expect-error The object here is retuned from mongo, the entity is inside _doc field
-        const userRegistered: User & { _doc: any } = await this._model.create(userSerialized);
-        this._logger('info', 'User saved on database');
-        console.log('userREGISTERED', userRegistered);
-        console.log('QUERY', await this._model.create(userSerialized))
-        userDetailsSerialized.userId = userRegistered._id;
-=======
         const { userSaved, userDetailsSaved } = await this._saveUser({
             user: userSerialized,
             userDetails: userDetailsSerialized,
         });
 
         await this._emailSendToConfirmUser(userSaved);
->>>>>>> 215bfbb8656a377dbc94cc7341b2e5468ef63b56
 
         // @ts-expect-error inProgress will exist below
         return { ...userSaved, details: userDetailsSaved };
@@ -193,27 +181,29 @@ export default class RegisterServices {
     }
 
     public async update(id: string, payload: RegisterUserPayload): Promise<RegisterUserPayload> {
+        // this._logger('info', 'prepare to update user info');
 
-        const { details: userDetails, ...user } = payload;
+        const { details: userDetails, ...userPayload } = payload;
 
-        const data = await this._serializeData({ user, userDetails });
+        const userSerialized = postUserSerializer(userPayload);
+        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
         const userFieldError = ['email','password','tag','createdAt','updatedAt','inProgress','providerId']
         const userDetailsFieldError = [ 'userId', 'secretQuestion', 'gameInfo', 'role'];
 
-        userFieldError.forEach(fieldError => {
-            if (fieldError in Object.keys(data.userSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
-        });
+        // userFieldError.forEach(fieldError => {
+        //     if (fieldError in Object.keys(userSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
+        // });
 
-        userDetailsFieldError.forEach(fieldError => {
-            if (fieldError in Object.keys(data.userDetailsSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
-        });
+        // userDetailsFieldError.forEach(fieldError => {
+        //     if (fieldError in Object.keys(userDetailsSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
+        // });
+        const userUpdated = await this._model.update(id, userSerialized);
+        // this._logger('info', 'User updated at database');
 
-        const userUpdated = await this._model.update(id, data.userSerialized);
-        this._logger('info', 'User updated at database');
+        const userDetailsUpdated = await this._modelDetails.update(id, userDetailsSerialized);
+        // this._logger('info', 'UserDetails updated at database');
 
-        const userDetailsUpdated = await this._modelDetails.update(id, data.userDetailsSerialized);
-        this._logger('info', 'UserDetails updated at database');
         return {...userUpdated , details: userDetailsUpdated} as RegisterUserPayload;
     }
 }

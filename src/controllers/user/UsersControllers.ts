@@ -14,6 +14,7 @@ export default class UsersControllers {
         this.confirmCode = this.confirmCode.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.delete = this.delete.bind(this);
+        this.update = this.update.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -64,11 +65,9 @@ export default class UsersControllers {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
-        this._logger('warn', 'Request to update a user');
-        const { id: _id } = req.params;
+        const { id } = req.params;
         const payload = req.body as RegisterUserPayload;
-
-        const request = await this._service.update(_id, payload);
+        const request = await this._service.update(id, payload);
 
         return res.status(HttpStatusCode.OK).json(request);
     }
