@@ -4,6 +4,7 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import getToken from '../../support/getToken';
+import EmailSender from 'src/services/user/helpers/EmailSender';
 
 describe('Patch two factor activate in database', () => {
     const userInstanceMock = mock.user.user;
@@ -35,16 +36,17 @@ describe('Patch two factor activate in database', () => {
     });
 
     describe('When 2FA is turned to active true', () => {
+        beforeAll(() => {
+            jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+        });
+
         it('should return correct data and status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
-                .send(userPayload);
-
-            // eslint-disable-next-line no-console
-            console.log(userResponse);
+                .send(userPayload)
+                .expect(HttpStatusCode.CREATED);
 
             const userToken = await getToken(userPayload);
-
             const userId: string = userResponse.body._id;
 
             const response = await requester
