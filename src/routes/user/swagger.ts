@@ -23,6 +23,14 @@ export default [
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
     [
+        '/profile/{_id}/2fa/reset',
+        'profile',
+        'patch',
+        [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        null,
+        true,
+    ],
+    [
         '/profile/{_id}/confirm',
         'profile',
         'patch',
