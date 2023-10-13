@@ -37,7 +37,7 @@ jobs:
         run:  npm run test:coverage
 
       - name: Run integration tests
-        run:  npm run test:file patchTwoFactorActivate
+        run:  npm run test:integration
 
       - name: Monitor coverage
         uses: MishaKav/jest-coverage-comment@main
