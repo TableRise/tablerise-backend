@@ -13,6 +13,7 @@ export default class UsersControllers {
         this.login = this.login.bind(this);
         this.confirmCode = this.confirmCode.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
+        this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -52,6 +53,14 @@ export default class UsersControllers {
         await this._service.emailVerify(id);
 
         return res.status(HttpStatusCode.OK).end();
+    }
+
+    public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to activate two factor authentication');
+        const { id } = req.params;
+
+        const result = await this._service.activateTwoFactor(id);
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async delete(req: Request, res: Response): Promise<Response> {

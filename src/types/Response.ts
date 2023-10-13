@@ -4,7 +4,7 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 export interface TwoFactorSecret {
     code: string;
     qrcode?: string;
-    active?: boolean;
+    active: boolean;
 }
 
 export interface RegisterUserPayload {
@@ -13,7 +13,7 @@ export interface RegisterUserPayload {
     password: string;
     nickname: string;
     picture: string;
-    twoFactorSecret?: TwoFactorSecret;
+    twoFactorSecret: TwoFactorSecret;
     details: UserDetail;
 }
 

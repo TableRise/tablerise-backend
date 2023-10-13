@@ -1,14 +1,11 @@
-import speakeasy from 'speakeasy';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import EmailSender from 'src/services/user/helpers/EmailSender';
-import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 import getToken from '../../support/getToken';
 
-describe('Post user in database', () => {
+describe('Patch two factor activate in database', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
 
@@ -19,11 +16,9 @@ describe('Post user in database', () => {
 
     const userPayload = {
         ...userInstanceMockPayload,
-        twoFactorSecret: { active: true },
+        twoFactorSecret: { active: false },
         details: userDetailsInstanceMockPayload,
     };
-
-    // const { twoFactorSecret, ...userWithoutTwoFactorSecret } = userPayload;
 
     beforeAll(async () => {
         DatabaseManagement.connect(true)
@@ -39,32 +34,25 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When delete a user', () => {
-        beforeAll(() => {
-            jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
-            jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
-            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
-        });
-
-        afterAll(() => {
-            jest.clearAllMocks();
-        });
-        it('should return correct status', async () => {
+    describe('When 2FA is turned to active true', () => {
+        it('should return correct data and status', async () => {
             const userResponse = await requester
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            const tokenJWT = await getToken(userPayload);
+            const userToken = await getToken(userPayload);
+
             const userId: string = userResponse.body._id;
-            const token: string = '123456';
 
             const response = await requester
-                .delete(`/profile/${userId}/delete?token=${token}`)
-                .set('Authorization', `Bearer ${tokenJWT}`)
-                .expect(HttpStatusCode.DELETED);
+                .patch(`/profile/${userId}/2fa/activate`)
+                .set('Authorization', `Bearer ${userToken}`)
+                .expect(HttpStatusCode.OK);
 
-            expect(response.status).toBe(204);
+            expect(response.body).toHaveProperty('qrcode');
+            expect(response.body).toHaveProperty('active');
+            expect(response.body.active).toBe(true);
         });
     });
 });

@@ -73,8 +73,7 @@ describe('Services :: User :: UsersServices', () => {
                 const userResponseKeys = Object.keys(userResponse);
                 const userDetailsResponseKeys = Object.keys(userResponse.details);
 
-                const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
-                const result = await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                const result = await userServices.register(userPayload);
 
                 userResponseKeys.forEach((key) => {
                     expect(result).toHaveProperty(key);
@@ -266,8 +265,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 400 error', async () => {
                 try {
-                    const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
-                    await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                    await userServices.register(userPayload);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -464,6 +462,116 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).toStrictEqual('User status is invalid to perform this operation');
+                }
+            });
+        });
+    });
+
+    describe('When 2FA is activated', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params are correct', () => {
+            beforeAll(() => {
+                user.twoFactorSecret = { active: false };
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(User, 'update').mockResolvedValue({
+                    ...user,
+                    twoFactorSecret: {
+                        secret: 'test',
+                        qrcode: 'testCode',
+                        active: true,
+                    },
+                });
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({ ...userDetails, secretQuestion: null });
+            });
+
+            it('should update the user to have 2FA activated', async () => {
+                const result = await userServices.activateTwoFactor(user._id as string);
+
+                expect(result).toHaveProperty('qrcode');
+                expect(result).toHaveProperty('active');
+                expect(result.qrcode).toBe('');
+                expect(result.active).toBe(true);
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateTwoFactor('');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - user details id', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateTwoFactor('');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the user already have 2FA', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = true;
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - 2fa already activated', async () => {
+                try {
+                    await userServices.activateTwoFactor(user._id as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('2FA is already enabled for this user');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });
