@@ -44,6 +44,7 @@ describe('Post user in database', () => {
                 .post('/profile/register')
                 .send(userPayload);
             
+            // eslint-disable-next-line no-console
             console.log(userResponse.body);
 
             const userId: string = userResponse.body._id;
