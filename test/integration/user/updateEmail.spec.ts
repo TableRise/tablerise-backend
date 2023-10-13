@@ -1,8 +1,10 @@
+import speakeasy from 'speakeasy';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import EmailSender from 'src/services/user/helpers/EmailSender';
 
 describe('Update user email in database', () => {
     const userInstanceMock = mock.user.user;
@@ -37,6 +39,15 @@ describe('Update user email in database', () => {
     });
 
     describe('When updating user email', () => {
+        beforeAll(() => {
+            jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
         it('should save the updated email in the database', async () => {
             const userResponse = await requester
                 .post('/profile/register')
