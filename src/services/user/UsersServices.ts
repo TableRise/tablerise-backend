@@ -242,11 +242,7 @@ export default class RegisterServices {
         if (!userInfo.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-no-active');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
-            throw new HttpRequestErrors({
-                message: 'Invalid code',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+            HttpRequestErrors.throwError('invalid-email-verify-code');
         }
 
         const secret = speakeasy.generateSecret();
