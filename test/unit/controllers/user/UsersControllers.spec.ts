@@ -159,4 +159,29 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.sendStatus).toHaveBeenCalledWith(204);
         });
     });
+
+    describe('When a request is made to reset the two factor', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'resetTwoFactor').mockResolvedValue({
+                qrcode: '',
+                active: true,
+            });
+        });
+
+        it('should return correct status 200', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            await userControllers.resetTwoFactor(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith({
+                qrcode: '',
+                active: true,
+            });
+        });
+    });
 });
