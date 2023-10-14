@@ -652,7 +652,7 @@ describe('Services :: User :: UsersServices', () => {
         });
     });
 
-    describe('When reset two factor', () => {
+    describe('When reset 2FA', () => {
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
@@ -660,13 +660,6 @@ describe('Services :: User :: UsersServices', () => {
                 delete user.providerId;
 
                 return user;
-            })[0];
-
-            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
-                delete detail._id;
-                delete detail.userId;
-
-                return detail;
             })[0];
 
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
@@ -677,20 +670,15 @@ describe('Services :: User :: UsersServices', () => {
                 // @ts-expect-error InProgress will exist;
                 user.inProgress?.code = 'confirmCode';
                 user.twoFactorSecret = {
-                    secret: 'secret34',
-                    qrcode: 'antes',
+                    secret: 'old_secret',
+                    qrcode: '',
                     active: true,
                 };
 
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
-                jest.spyOn(speakeasy, 'generateSecret').mockReturnValue({ base32: 'secret34' } as never);
+                jest.spyOn(speakeasy, 'generateSecret').mockReturnValue({ base32: 'secret' } as never);
                 jest.spyOn(User, 'update').mockResolvedValue({
                     ...user,
-                    twoFactorSecret: {
-                        secret: 'secret2',
-                        qrcode: '',
-                        active: false,
-                    },
                 });
             });
 
@@ -699,9 +687,9 @@ describe('Services :: User :: UsersServices', () => {
                 const result = await userServices.resetTwoFactor(user._id as string, code);
 
                 expect(result).toHaveProperty('qrcode');
+                expect(result.qrcode).toBe('');
                 expect(result).toHaveProperty('active');
                 expect(result.active).toBe(true);
-                expect(result.qrcode).toBe('');
             });
         });
 
@@ -724,13 +712,13 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
-        describe('and the 2fa is disabled', () => {
+        describe('and the 2FA is disabled', () => {
             beforeAll(() => {
                 user.twoFactorSecret.active = false;
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
             });
 
-            it('should throw 400 error - 2fa not activate', async () => {
+            it('should throw 400 error - 2FA not activate', async () => {
                 try {
                     await userServices.resetTwoFactor(user._id as string, user.inProgress?.code as string);
                     expect('it should not be here').toBe(true);
