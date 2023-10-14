@@ -10,6 +10,7 @@ import EmailSender from 'src/services/user/helpers/EmailSender';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import speakeasy from 'speakeasy';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
@@ -646,6 +647,118 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
                     expect(err.name).toBe('Unauthorized');
                     expect(err.code).toBe(401);
+                }
+            });
+        });
+    });
+
+    describe('When reset two factor', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params are correct', () => {
+            beforeAll(() => {
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = 'confirmCode';
+                user.twoFactorSecret = {
+                    secret: 'secret34',
+                    qrcode: 'antes',
+                    active: true,
+                };
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(speakeasy, 'generateSecret').mockReturnValue({ base32: 'secret34' } as never);
+                jest.spyOn(User, 'update').mockResolvedValue({
+                    ...user,
+                    twoFactorSecret: {
+                        secret: 'secret2',
+                        qrcode: '',
+                        active: false,
+                    },
+                });
+            });
+
+            it('should reset the 2FA', async () => {
+                const code = 'confirmCode';
+                const result = await userServices.resetTwoFactor(user._id as string, code);
+
+                expect(result).toHaveProperty('qrcode');
+                expect(result).toHaveProperty('active');
+                expect(result.active).toBe(true);
+                expect(result.qrcode).toBe('');
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user not found ', async () => {
+                try {
+                    await userServices.resetTwoFactor('', '1447ab');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the 2fa is disabled', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+            });
+
+            it('should throw 400 error - 2fa not activate', async () => {
+                try {
+                    await userServices.resetTwoFactor(user._id as string, user.inProgress?.code as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('2FA not enabled for this user');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - code', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = true;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+            });
+
+            it('should throw 400 error - Wrong code', async () => {
+                try {
+                    await userServices.resetTwoFactor(user._id as string, 'abcdef');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });
