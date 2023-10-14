@@ -198,15 +198,15 @@ export default class RegisterServices {
         const { email } = payload;
         const userInfo = (await this._model.findOne(id)) as User;
 
-        if (!userInfo) HttpRequestErrors.throwError('user');
-        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
             HttpRequestErrors.throwError('invalid-email-verify-code');
         }
 
         const emailAlreadyExist = await this._model.findAll({ email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         userInfo.email = email;
         userInfo.inProgress.status = 'email_change';
