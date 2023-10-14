@@ -5,6 +5,8 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
+import getToken from '../../support/getToken';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 
 describe('Update user email in database', () => {
     const userInstanceMock = mock.user.user;
@@ -38,9 +40,10 @@ describe('Update user email in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When updating user email', () => {
+    describe('When update user email', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+            jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
             jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
         });
 
@@ -54,22 +57,14 @@ describe('Update user email in database', () => {
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
+            const tokenJWT = await getToken(userPayload);
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
-
-            const loginPayload = {
-                email: userPayload.email,
-                password: userPayload.password,
-            };
-
-            const loginResponse = await requester.post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
-
-            const token: string = loginResponse.body.token;
 
             const response = await requester
                 .patch(`/profile/${userId}/update/email?code=${code}`)
                 .send(emailUpdatePayload)
-                .set('Authorization', `Bearer ${token}`)
+                .set('Authorization', `Bearer ${tokenJWT}`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             expect(response.status).toBe(204);
