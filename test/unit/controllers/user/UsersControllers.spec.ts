@@ -160,7 +160,7 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
-    describe('When a request is made to reset the two factor', () => {
+    describe('When a request is made to reset the 2FA', () => {
         beforeAll(() => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
@@ -174,9 +174,10 @@ describe('Controllers :: User :: UsersControllers', () => {
             });
         });
 
-        it('should return correct status 200', async () => {
+        it('should return correct status 200 with correct response', async () => {
             request.params = { id: '65075e05ca9f0d3b2485194f' };
             await userControllers.resetTwoFactor(request, response);
+
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith({
                 qrcode: '',
