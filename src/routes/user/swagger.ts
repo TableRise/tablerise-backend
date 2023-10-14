@@ -22,6 +22,7 @@ export default [
     ['/profile/{_id}/verify', 'profile', 'get', [...generateIDParam()], null, false],
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
+    ['/profile/{_id}/2fa/activate', 'profile', 'patch', [...generateIDParam()], null, true],
     [
         '/profile/{_id}/confirm',
         'profile',
@@ -36,6 +37,6 @@ export default [
         'delete',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
         null,
-        false,
+        true,
     ],
 ] as routeOriginal;

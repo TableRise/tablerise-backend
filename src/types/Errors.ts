@@ -12,14 +12,15 @@ export interface Errors {
 }
 
 export type ErrorTypes =
-    | 'email'
-    | 'tag'
-    | 'user'
-    | '2fa'
+    | 'email-already-exist'
+    | 'tag-already-exist'
+    | 'user-inexistent'
+    | '2fa-no-active'
+    | '2fa-already-active'
     | '2fa-incorrect'
     | 'rpg-not-found-id'
-    | 'query-string'
+    | 'query-string-incorrect'
     | 'login'
-    | 'linked-data'
-    | 'verification-email'
+    | 'linked-mandatory-data-when-delete'
+    | 'verification-email-send-fail'
     | 'invalid-user-status';

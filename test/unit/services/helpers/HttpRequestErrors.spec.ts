@@ -26,7 +26,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
     describe('When throw defined errors', () => {
         it('should throw error - email', () => {
             try {
-                HttpRequestErrors.throwError('email');
+                HttpRequestErrors.throwError('email-already-exist');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
@@ -38,7 +38,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
 
         it('should throw error - tag', () => {
             try {
-                HttpRequestErrors.throwError('tag');
+                HttpRequestErrors.throwError('tag-already-exist');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
@@ -50,7 +50,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
 
         it('should throw error - user', () => {
             try {
-                HttpRequestErrors.throwError('user');
+                HttpRequestErrors.throwError('user-inexistent');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
@@ -62,11 +62,23 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
 
         it('should throw error - 2fa', () => {
             try {
-                HttpRequestErrors.throwError('2fa');
+                HttpRequestErrors.throwError('2fa-no-active');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('2FA not enabled for this user');
+                expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                expect(err.name).toBe('BadRequest');
+            }
+        });
+
+        it('should throw error - 2fa exists', () => {
+            try {
+                HttpRequestErrors.throwError('2fa-already-active');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('2FA is already enabled for this user');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
                 expect(err.name).toBe('BadRequest');
             }
@@ -98,7 +110,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
 
         it('should throw error - query-string', () => {
             try {
-                HttpRequestErrors.throwError('query-string');
+                HttpRequestErrors.throwError('query-string-incorrect');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
@@ -110,7 +122,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
 
         it('should throw error - verification-email', () => {
             try {
-                HttpRequestErrors.throwError('verification-email');
+                HttpRequestErrors.throwError('verification-email-send-fail');
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).toBeInstanceOf(HttpRequestErrors);
