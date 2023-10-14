@@ -213,9 +213,9 @@ export default class RegisterServices {
     public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
         const userInfo = (await this._model.findOne(id)) as User;
 
-        if (!userInfo) HttpRequestErrors.throwError('user');
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
 
-        if (!userInfo.twoFactorSecret?.active) HttpRequestErrors.throwError('2fa');
+        if (!userInfo.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-no-active');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
             throw new HttpRequestErrors({
@@ -235,15 +235,16 @@ export default class RegisterServices {
 
         userInfo.inProgress.status = 'done';
         userInfo.twoFactorSecret = {
-            code: secret.base32,
+            secret: secret.base32,
             qrcode: await qrcode.toDataURL(url),
+            active: true,
         };
 
         await this._model.update(id, userInfo);
 
         return {
-            qrcode: userInfo.twoFactorSecret.qrcode as string,
-            active: userInfo.twoFactorSecret.active as boolean,
+            qrcode: userInfo.twoFactorSecret.qrcode,
+            active: userInfo.twoFactorSecret.active,
         };
     }
 }
