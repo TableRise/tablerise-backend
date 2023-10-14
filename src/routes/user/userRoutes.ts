@@ -28,9 +28,9 @@ router.get('/:id/verify', controllers.verifyEmail);
 router.post('/register', controllers.register);
 router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
 router.patch('/:id/confirm', controllers.confirmCode);
-router.patch('/:id/update/email', controllers.updateEmail);
 router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 
 router.use(passport.authenticate('bearer', { session: false }));
+router.patch('/:id/update/email', controllers.updateEmail);
 
 export default router;
