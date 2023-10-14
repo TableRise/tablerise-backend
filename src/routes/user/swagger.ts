@@ -38,7 +38,7 @@ export default [
         'patch',
         [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
         emailUpdatePayloadSchema,
-        false,
+        true,
     ],
     [
         '/profile/{_id}/delete',
