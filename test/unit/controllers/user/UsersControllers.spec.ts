@@ -143,6 +143,25 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
+    describe('When a request is made to update an email', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'updateEmail').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.params = { id: utils.newUUID() };
+            request.query = { code: 'IQSMPW' };
+            request.body = { email: 'new-email@email.com' };
+            await userControllers.updateEmail(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
+
     describe('When a request is made to delete a user', () => {
         beforeAll(() => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);

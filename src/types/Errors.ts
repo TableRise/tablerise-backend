@@ -21,6 +21,10 @@ export type ErrorTypes =
     | 'rpg-not-found-id'
     | 'query-string-incorrect'
     | 'login'
+    | 'linked-data'
+    | 'verification-email'
+    | 'invalid-user-status'
+    | 'invalid-email-verify-code'
     | 'linked-mandatory-data-when-delete'
     | 'verification-email-send-fail'
     | 'invalid-user-status';

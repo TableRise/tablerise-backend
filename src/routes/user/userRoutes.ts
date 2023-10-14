@@ -30,6 +30,7 @@ router.post('/login', passport.authenticate('local', { session: false }), contro
 router.patch('/:id/confirm', controllers.confirmCode);
 
 router.use(passport.authenticate('bearer', { session: false }));
+router.patch('/:id/update/email', controllers.updateEmail);
 router.patch('/:id/2fa/activate', controllers.activateTwoFactor);
 router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 
