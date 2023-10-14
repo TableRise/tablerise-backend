@@ -334,20 +334,20 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
             });
 
-            it('should throw 400 error - Wrong code', async () => {
+            it('should throw 400 error - Invalid email verify code', async () => {
                 try {
                     await userServices.confirmCode('65075e05ca9f0d3b2485194f', 'abcdef');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
             });
 
-            it('should throw 400 error - Invalid code', async () => {
+            it('should throw 400 error - Query must be a string', async () => {
                 try {
                     await userServices.confirmCode('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
                     expect('it should not be here').toBe(true);
@@ -516,20 +516,20 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
 
-            it('should throw 400 error - Wrong code', async () => {
+            it('should throw 400 error - Invalid email verify code', async () => {
                 try {
                     await userServices.updateEmail('65075e05ca9f0d3b2485194f', 'WRONG_CODE', emailRequest);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
             });
 
-            it('should throw 400 error - Invalid code', async () => {
+            it('should throw 400 error - Query must be a string', async () => {
                 try {
                     await userServices.updateEmail(
                         '65075e05ca9f0d3b2485194f',

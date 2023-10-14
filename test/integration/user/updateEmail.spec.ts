@@ -57,9 +57,19 @@ describe('Update user email in database', () => {
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
 
+            const loginPayload = {
+                email: userPayload.email,
+                password: userPayload.password,
+            };
+
+            const loginResponse = await requester.post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
+
+            const token: string = loginResponse.body.token;
+
             const response = await requester
                 .patch(`/profile/${userId}/update/email?code=${code}`)
                 .send(emailUpdatePayload)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             expect(response.status).toBe(204);
