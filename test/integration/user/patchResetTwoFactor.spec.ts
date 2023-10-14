@@ -50,16 +50,11 @@ describe('Post user in database', () => {
             const userId: string = userResponse.body._id;
 
             const code: string = userResponse.body.inProgress.code;
-            console.log(userId);
-            console.log(code);
-            console.log(`/profile/${userId}/2fa/reset?code=${code}`);
 
             const response = await requester
                 .patch(`/profile/${userId}/2fa/reset?code=${code}`)
                 .set('Authorization', `Bearer ${userToken}`)
                 .expect(HttpStatusCode.OK);
-
-            console.log(response);
 
             expect(response.body).toHaveProperty('qrcode');
             expect(response.body).toHaveProperty('active');
