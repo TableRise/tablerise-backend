@@ -845,7 +845,7 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
