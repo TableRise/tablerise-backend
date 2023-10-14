@@ -29,3 +29,7 @@ export interface ConfirmCodeResponse {
 export interface LoginResponse {
     token: string;
 }
+
+export interface emailUpdatePayload {
+    email: string;
+}

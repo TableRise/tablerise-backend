@@ -5,10 +5,10 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
-import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 import getToken from '../../support/getToken';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 
-describe('Post user in database', () => {
+describe('Update user email in database', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
 
@@ -23,7 +23,8 @@ describe('Post user in database', () => {
         details: userDetailsInstanceMockPayload,
     };
 
-    // const { twoFactorSecret, ...userWithoutTwoFactorSecret } = userPayload;
+    const emailUpdatePayload = mock.user.userEmailUpdate;
+    emailUpdatePayload.email = `${Math.random()}${emailUpdatePayload.email}`;
 
     beforeAll(async () => {
         DatabaseManagement.connect(true)
@@ -39,7 +40,7 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When delete a user', () => {
+    describe('When update user email', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
             jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
@@ -49,7 +50,8 @@ describe('Post user in database', () => {
         afterAll(() => {
             jest.clearAllMocks();
         });
-        it('should return correct status', async () => {
+
+        it('should save the updated email in the database', async () => {
             const userResponse = await requester
                 .post('/profile/register')
                 .send(userPayload)
@@ -57,10 +59,11 @@ describe('Post user in database', () => {
 
             const tokenJWT = await getToken(userPayload);
             const userId: string = userResponse.body._id;
-            const token: string = '123456';
+            const code: string = userResponse.body.inProgress.code;
 
             const response = await requester
-                .delete(`/profile/${userId}/delete?token=${token}`)
+                .patch(`/profile/${userId}/update/email?code=${code}`)
+                .send(emailUpdatePayload)
                 .set('Authorization', `Bearer ${tokenJWT}`)
                 .expect(HttpStatusCode.NO_CONTENT);
 

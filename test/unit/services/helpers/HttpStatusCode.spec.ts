@@ -6,7 +6,7 @@ describe('Helpers :: HttpStatusCode', () => {
             const enumKeys = [
                 'OK',
                 'CREATED',
-                'DELETED',
+                'NO_CONTENT',
                 'BAD_REQUEST',
                 'UNAUTHORIZED',
                 'FORBIDDEN',

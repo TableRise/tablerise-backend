@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
-import { RegisterUserPayload } from 'src/types/Response';
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
 
 export default class UsersControllers {
     constructor(
@@ -14,6 +14,7 @@ export default class UsersControllers {
         this.confirmCode = this.confirmCode.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
         this.delete = this.delete.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
     }
@@ -64,13 +65,25 @@ export default class UsersControllers {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
+    public async updateEmail(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to update user email');
+
+        const { id: _id } = req.params;
+        const { code } = req.query;
+        const payload = req.body as emailUpdatePayload;
+
+        await this._service.updateEmail(_id, code as string, payload);
+
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
+    }
+
     public async delete(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to delete a user');
         const { id: _id } = req.params;
 
         await this._service.delete(_id);
 
-        return res.sendStatus(HttpStatusCode.DELETED);
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
     }
 
     public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
