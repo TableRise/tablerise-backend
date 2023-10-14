@@ -14,6 +14,7 @@ export default class UsersControllers {
         this.confirmCode = this.confirmCode.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.delete = this.delete.bind(this);
+        this.addBadge = this.addBadge.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -61,5 +62,17 @@ export default class UsersControllers {
         await this._service.delete(_id);
 
         return res.sendStatus(HttpStatusCode.DELETED);
+    }
+
+    public async addBadge(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to add user badge');
+        const { id: _idUser } = req.params;
+        const { id: _idBadge } = req.query;
+
+        if (!_idBadge) return res.sendStatus(HttpStatusCode.OK);
+
+        await this._service.addBadge(_idUser, _idBadge as string);
+
+        return res.sendStatus(HttpStatusCode.OK);
     }
 }

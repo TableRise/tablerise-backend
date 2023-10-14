@@ -178,4 +178,19 @@ export default class RegisterServices {
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
     }
+
+    public async addBadge(idUser: string, idBadge: string): Promise<void> {
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
+
+        if(!userDetailsInfo) HttpRequestErrors.throwError('user');
+
+        const hasBadge = userDetailsInfo.gameInfo.badges
+            .filter(badge => badge === idBadge).length > 0;
+
+        if (!hasBadge) {
+            userDetailsInfo.gameInfo.badges.push(idBadge);
+
+            await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
+        }
+    }
 }
