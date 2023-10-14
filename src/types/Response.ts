@@ -13,7 +13,7 @@ export interface RegisterUserPayload {
     password: string;
     nickname: string;
     picture: string;
-    twoFactorSecret?: TwoFactorSecret;
+    twoFactorSecret: TwoFactorSecret;
     details: UserDetail;
 }
 

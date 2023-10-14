@@ -32,5 +32,7 @@ router.patch('/:id/2fa/reset', controllers.resetTwoFactor);
 router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 
 router.use(passport.authenticate('bearer', { session: false }));
+router.patch('/:id/2fa/activate', controllers.activateTwoFactor);
+router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
 
 export default router;
