@@ -18,30 +18,37 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
-            case 'email':
+            case 'email-already-exist':
                 throw new HttpRequestErrors({
                     message: 'Email already exists in database',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
-            case 'tag':
+            case 'tag-already-exist':
                 throw new HttpRequestErrors({
                     message: 'User with this tag already exists in database',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
-            case 'user':
+            case 'user-inexistent':
                 throw new HttpRequestErrors({
                     message: 'User does not exist',
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
 
-            case '2fa':
+            case '2fa-no-active':
                 throw new HttpRequestErrors({
                     message: '2FA not enabled for this user',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case '2fa-already-active':
+                throw new HttpRequestErrors({
+                    message: '2FA is already enabled for this user',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
@@ -60,21 +67,21 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
 
-            case 'query-string':
+            case 'query-string-incorrect':
                 throw new HttpRequestErrors({
                     message: 'Query must be a string',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
-            case 'linked-data':
+            case 'linked-mandatory-data-when-delete':
                 throw new HttpRequestErrors({
                     message: 'There is a campaing or character linked to this user',
                     code: HttpStatusCode.UNAUTHORIZED,
                     name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });
 
-            case 'verification-email':
+            case 'verification-email-send-fail':
                 throw new HttpRequestErrors({
                     message: 'Some problem ocurred in email sending',
                     code: HttpStatusCode.BAD_REQUEST,

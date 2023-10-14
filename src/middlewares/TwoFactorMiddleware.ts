@@ -17,16 +17,16 @@ export default class TwoFactorMiddleware {
         this._logger('warn', 'Request to validate two factor token');
 
         const { id } = req.params;
-        const { code } = req.query;
+        const { token } = req.query;
 
         const user = (await this._model.findOne(id)) as User;
 
-        if (!user) HttpRequestErrors.throwError('user');
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
         if (!user.twoFactorSecret) {
             next();
             return;
         }
-        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
+        if (typeof token !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
 
         if (user.twoFactorSecret.qrcode) {
             delete user.twoFactorSecret.qrcode;
@@ -34,9 +34,9 @@ export default class TwoFactorMiddleware {
         }
 
         const validateSecret = speakeasy.totp.verify({
-            secret: user.twoFactorSecret.code as string,
+            secret: user.twoFactorSecret.secret as string,
             encoding: 'base32',
-            token: code,
+            token,
         });
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
