@@ -129,7 +129,7 @@ export default class RegisterServices {
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
-            HttpRequestErrors.throwError('invalid-code');
+            HttpRequestErrors.throwError('invalid-email-verify-code');
         }
 
         userInfo.inProgress.status = 'done';
@@ -171,7 +171,7 @@ export default class RegisterServices {
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
 
         if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
-            HttpRequestErrors.throwError('invalid-code');
+            HttpRequestErrors.throwError('invalid-email-verify-code');
         }
 
         const emailAlreadyExist = await this._model.findAll({ email });

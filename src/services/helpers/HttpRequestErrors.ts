@@ -88,9 +88,9 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
-            case 'invalid-code':
+            case 'invalid-email-verify-code':
                 throw new HttpRequestErrors({
-                    message: 'Invalid code',
+                    message: 'Invalid email verify code',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
