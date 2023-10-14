@@ -2,7 +2,13 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse, TwoFactorSecret, emailUpdatePayload } from 'src/types/Response';
+import {
+    ConfirmCodeResponse,
+    RegisterUserPayload,
+    RegisterUserResponse,
+    TwoFactorSecret,
+    emailUpdatePayload,
+} from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
