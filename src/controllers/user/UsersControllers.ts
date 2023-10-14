@@ -16,6 +16,7 @@ export default class UsersControllers {
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.delete = this.delete.bind(this);
+        this.resetTwoFactor = this.resetTwoFactor.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -83,5 +84,13 @@ export default class UsersControllers {
         await this._service.delete(_id);
 
         return res.sendStatus(HttpStatusCode.NO_CONTENT);
+    }
+
+    public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { code } = req.query;
+
+        const request = await this._service.resetTwoFactor(id, code as string);
+        return res.status(HttpStatusCode.OK).json(request);
     }
 }

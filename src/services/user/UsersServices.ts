@@ -2,7 +2,13 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
+import {
+    ConfirmCodeResponse,
+    RegisterUserPayload,
+    RegisterUserResponse,
+    TwoFactorSecret,
+    emailUpdatePayload,
+} from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
@@ -226,5 +232,39 @@ export default class RegisterServices {
 
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
+    }
+
+    public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        if (!userInfo.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-no-active');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        const secret = speakeasy.generateSecret();
+        const url = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `TableRise 2FA (${userInfo.email})`,
+            issuer: 'TableRise',
+            encoding: 'base32',
+        });
+
+        userInfo.inProgress.status = 'done';
+        userInfo.twoFactorSecret = {
+            secret: secret.base32,
+            qrcode: await qrcode.toDataURL(url),
+            active: true,
+        };
+
+        await this._model.update(id, userInfo);
+
+        return {
+            qrcode: userInfo.twoFactorSecret.qrcode,
+            active: userInfo.twoFactorSecret.active,
+        };
     }
 }
