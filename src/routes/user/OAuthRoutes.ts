@@ -5,6 +5,7 @@ import 'src/services/authentication/FacebookStrategy';
 import { Router } from 'express';
 import passport from 'passport';
 import logger from '@tablerise/dynamic-logger';
+import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 
 import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import OAuthServices from 'src/services/user/OAuthServices';
@@ -18,38 +19,119 @@ const modelUserDetails = database.modelInstance('user', 'UserDetails');
 const services = new OAuthServices(modelUser, modelUserDetails, logger);
 const controllers = new OAuthControllers(services, logger);
 
-const route = Router();
+const router = Router();
+const BASE_PATH = '/oauth';
 
-route.get('/google', passport.authenticate('google'));
-route.get(
-    '/google/callback',
-    passport.authenticate('google', {
-        successRedirect: '/auth/google/register',
-        failureRedirect: '/auth/error',
-    })
-);
-route.get('/google/register', controllers.google);
+export const routes = [
+    {
+        method: 'get',
+        path: `${BASE_PATH}/google`,
+        options: {
+            middlewares: [passport.authenticate('google')],
+            authentication: false,
+            tag: 'auth',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/google/callback`,
+        options: {
+            middlewares: [passport.authenticate('google', {
+                successRedirect: '/auth/google/register',
+                failureRedirect: '/auth/error',
+            })],
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/google/register`,
+        controller: controllers.google,
+        options: {
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/facebook`,
+        options: {
+            middlewares: [passport.authenticate('facebook')],
+            authentication: false,
+            tag: 'auth',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/facebook/callback`,
+        options: {
+            middlewares: [passport.authenticate('facebook', {
+                successRedirect: '/auth/facebook/register',
+                failureRedirect: '/auth/error',
+            })],
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/facebook/register`,
+        controller: controllers.facebook,
+        options: {
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/discord`,
+        options: {
+            middlewares: [passport.authenticate('discord')],
+            authentication: false,
+            tag: 'auth',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/discord/callback`,
+        options: {
+            middlewares: [passport.authenticate('discord', {
+                successRedirect: '/auth/discord/register',
+                failureRedirect: '/auth/error',
+            })],
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/discord/register`,
+        controller: controllers.discord,
+        options: {
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/error`,
+        options: {
+            middlewares: [AuthErrorMiddleware],
+            authentication: false,
+            tag: 'auth',
+        },
+        hide: true
+    }
+] as routeInstance[];
 
-route.get('/facebook', passport.authenticate('facebook'));
-route.get(
-    '/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect: '/auth/facebook/register',
-        failureRedirect: '/auth/error',
-    })
-);
-route.get('/facebook/register', controllers.facebook);
-
-route.get('/discord', passport.authenticate('discord'));
-route.get(
-    '/discord/callback',
-    passport.authenticate('discord', {
-        successRedirect: '/auth/discord/register',
-        failureRedirect: '/auth/error',
-    })
-);
-route.get('/discord/register', controllers.discord);
-
-route.get('/error', AuthErrorMiddleware);
-
-export default route;
+export default {
+    routerExpress: buildRouter(routes, router),
+    routesSwagger: routes
+}

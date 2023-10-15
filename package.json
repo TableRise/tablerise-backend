@@ -69,7 +69,7 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/auto-swagger": "2.2.1",
+        "@tablerise/auto-swagger": "^3.0.0",
         "@tablerise/database-management": "3.2.5",
         "@tablerise/dynamic-logger": "1.4.0",
         "bcrypt": "5.1.1",

@@ -11,7 +11,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import logger from '@tablerise/dynamic-logger';
 
-import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAndDragonsRouteMiddleware';
+// import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAndDragonsRouteMiddleware';
 import UserRouteMiddleware from 'src/routes/middlewares/UserRouteMiddleware';
 import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
 import swaggerGenerator from './support/helpers/swaggerGenerator';
@@ -44,7 +44,7 @@ app.use(express.json())
                   next();
               }
     )
-    .use(DungeonsAndDragonsRouteMiddleware)
+    // .use(DungeonsAndDragonsRouteMiddleware)
     .use(ErrorMiddleware);
 
 logger('info', 'App started');
