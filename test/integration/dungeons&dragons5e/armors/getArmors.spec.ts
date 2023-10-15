@@ -26,18 +26,7 @@ describe('Get RPG armors from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Armors');
-    });
-    beforeAll(() => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-
-        const database = new DatabaseManagement();
-        model = database.modelInstance('dungeons&dragons5e', 'Armors');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

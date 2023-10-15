@@ -104,5 +104,5 @@ export const routes = [
 
 export default {
     routerExpress: buildRouter(routes, router),
-    routesSwagger: routes
-}
+    routesSwagger: routes,
+};

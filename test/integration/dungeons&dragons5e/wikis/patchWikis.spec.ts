@@ -26,6 +26,7 @@ describe('Patch RPG wikis in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Wikis');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

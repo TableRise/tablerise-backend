@@ -36,14 +36,16 @@ export const routes = [
         method: 'get',
         path: `${BASE_PATH}/google/callback`,
         options: {
-            middlewares: [passport.authenticate('google', {
-                successRedirect: '/auth/google/register',
-                failureRedirect: '/auth/error',
-            })],
+            middlewares: [
+                passport.authenticate('google', {
+                    successRedirect: '/auth/google/register',
+                    failureRedirect: '/auth/error',
+                }),
+            ],
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -53,7 +55,7 @@ export const routes = [
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -68,14 +70,16 @@ export const routes = [
         method: 'get',
         path: `${BASE_PATH}/facebook/callback`,
         options: {
-            middlewares: [passport.authenticate('facebook', {
-                successRedirect: '/auth/facebook/register',
-                failureRedirect: '/auth/error',
-            })],
+            middlewares: [
+                passport.authenticate('facebook', {
+                    successRedirect: '/auth/facebook/register',
+                    failureRedirect: '/auth/error',
+                }),
+            ],
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -85,7 +89,7 @@ export const routes = [
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -100,14 +104,16 @@ export const routes = [
         method: 'get',
         path: `${BASE_PATH}/discord/callback`,
         options: {
-            middlewares: [passport.authenticate('discord', {
-                successRedirect: '/auth/discord/register',
-                failureRedirect: '/auth/error',
-            })],
+            middlewares: [
+                passport.authenticate('discord', {
+                    successRedirect: '/auth/discord/register',
+                    failureRedirect: '/auth/error',
+                }),
+            ],
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -117,7 +123,7 @@ export const routes = [
             authentication: false,
             tag: 'auth',
         },
-        hide: true
+        hide: true,
     },
     {
         method: 'get',
@@ -127,11 +133,11 @@ export const routes = [
             authentication: false,
             tag: 'auth',
         },
-        hide: true
-    }
+        hide: true,
+    },
 ] as routeInstance[];
 
 export default {
     routerExpress: buildRouter(routes, router),
-    routesSwagger: routes
-}
+    routesSwagger: routes,
+};

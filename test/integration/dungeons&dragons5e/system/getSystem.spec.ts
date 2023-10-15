@@ -25,6 +25,7 @@ describe('Get RPG system from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'System');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

@@ -26,6 +26,7 @@ describe('Patch RPG feats in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Feats');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
