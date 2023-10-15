@@ -556,7 +556,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.addBadge('', '');
+                    await userServices.addBadge('', '65296fb813fa0e3d68a4a969');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -564,6 +564,25 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('User does not exist');
                     expect(err.name).toBe('NotFound');
                     expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the query is incorrect - badge id', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - query must not be empty', async () => {
+                try {
+                    await userServices.addBadge('', '');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Query must not be empty');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });
