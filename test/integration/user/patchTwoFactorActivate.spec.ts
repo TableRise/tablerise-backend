@@ -48,9 +48,7 @@ describe('Patch two factor activate in database', () => {
 
             const userId: string = userResponse.body._id;
 
-            const response = await requester
-                .patch(`/profile/${userId}/2fa/activate`)
-                .expect(HttpStatusCode.OK);
+            const response = await requester.patch(`/profile/${userId}/2fa/activate`).expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('qrcode');
             expect(response.body).toHaveProperty('active');
