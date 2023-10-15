@@ -67,6 +67,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'query-missing':
+                throw new HttpRequestErrors({
+                    message: 'Query must not be empty',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             case 'linked-data':
                 throw new HttpRequestErrors({
                     message: 'There is a campaing or character linked to this user',

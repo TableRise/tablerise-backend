@@ -19,6 +19,7 @@ export type ErrorTypes =
     | '2fa-incorrect'
     | 'rpg-not-found-id'
     | 'query-string'
+    | 'query-missing'
     | 'login'
     | 'linked-data'
     | 'verification-email'

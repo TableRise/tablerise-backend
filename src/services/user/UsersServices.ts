@@ -182,6 +182,8 @@ export default class RegisterServices {
     public async addBadge(idUser: string, idBadge: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
 
+        if(idBadge.length === 0) HttpRequestErrors.throwError('query-missing');
+
         if(!userDetailsInfo) HttpRequestErrors.throwError('user');
 
         const hasBadge = userDetailsInfo.gameInfo.badges
