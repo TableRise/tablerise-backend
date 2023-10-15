@@ -2,7 +2,7 @@ import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
 
 export interface TwoFactorSecret {
-    code?: string;
+    secret?: string;
     qrcode?: string;
     active: boolean;
 }
@@ -28,4 +28,8 @@ export interface ConfirmCodeResponse {
 
 export interface LoginResponse {
     token: string;
+}
+
+export interface emailUpdatePayload {
+    email: string;
 }

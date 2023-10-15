@@ -4,8 +4,9 @@ import autoSwagger from '@tablerise/auto-swagger';
 import logger from '@tablerise/dynamic-logger';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
 import swaggerUI from 'swagger-ui-express';
-import SwaggerDocumentDnD5E from '../../../api-docs/swagger-doc-dungeons&dragons5e.json';
-import SwaggerDocumentUser from '../../../api-docs/swagger-doc-user.json';
+
+const SwaggerDocumentDnD5E = require('../../../api-docs/swagger-doc-dungeons&dragons5e.json');
+const SwaggerDocumentUser = require('../../../api-docs/swagger-doc-user.json');
 
 export default (env: string): Router => {
     const router = Router();

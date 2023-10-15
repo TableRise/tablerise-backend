@@ -86,6 +86,17 @@ export const routes = [
         },
     },
     {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/2fa/reset`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        controller: controllers.resetTwoFactor,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+    {
         method: 'delete',
         path: `${BASE_PATH}/:id/delete`,
         parameters: [...generateIDParam()],

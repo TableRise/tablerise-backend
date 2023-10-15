@@ -1,6 +1,6 @@
-import { UserDetail } from "src/schemas/user/userDetailsValidationSchema"
-import { User, UserLogin } from "src/schemas/user/usersValidationSchema"
-import { RegisterUserPayload } from "src/types/Response"
+import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema'
+import { User, UserLogin } from 'src/schemas/user/usersValidationSchema'
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response'
 
 
 const userMock: User = {
@@ -58,9 +58,14 @@ const userPayloadMock: RegisterUserPayload = {
     }
 }
 
+const userEmailUpdateMock: emailUpdatePayload = {
+    email: 'new-email@email.com'
+}
+
 export default {
     user: userMock,
     userDetails: userDetailsMock,
     userLogin: userLoginMock,
-    userPayload: userPayloadMock
+    userPayload: userPayloadMock,
+    userEmailUpdate: userEmailUpdateMock
 }

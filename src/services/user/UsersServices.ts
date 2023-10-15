@@ -2,17 +2,21 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import {
+    ConfirmCodeResponse,
+    RegisterUserPayload,
+    RegisterUserResponse,
+    TwoFactorSecret,
+    emailUpdatePayload,
+} from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User, UserTwoFactor } from 'src/schemas/user/usersValidationSchema';
+import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
-import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import EmailSender from './helpers/EmailSender';
 
 export default class RegisterServices {
@@ -129,12 +133,9 @@ export default class RegisterServices {
         if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
 
-        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
-            throw new HttpRequestErrors({
-                message: 'Invalid code',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
 
         userInfo.inProgress.status = 'done';
 
@@ -198,6 +199,29 @@ export default class RegisterServices {
         return { qrcode: user.twoFactorSecret.qrcode, active: user.twoFactorSecret.active };
     }
 
+    public async updateEmail(id: string, code: string, payload: emailUpdatePayload): Promise<void> {
+        this._validate.entry(emailUpdateZodSchema, payload);
+        const { email } = payload;
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        const emailAlreadyExist = await this._model.findAll({ email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
+
+        userInfo.email = email;
+        userInfo.inProgress.status = 'email_change';
+        userInfo.updatedAt = new Date().toISOString();
+
+        await this._model.update(id, userInfo);
+        this._logger('info', 'User email updated');
+    }
+
     public async delete(id: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
 
@@ -208,5 +232,39 @@ export default class RegisterServices {
 
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
+    }
+
+    public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        if (!userInfo.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-no-active');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        const secret = speakeasy.generateSecret();
+        const url = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `TableRise 2FA (${userInfo.email})`,
+            issuer: 'TableRise',
+            encoding: 'base32',
+        });
+
+        userInfo.inProgress.status = 'done';
+        userInfo.twoFactorSecret = {
+            secret: secret.base32,
+            qrcode: await qrcode.toDataURL(url),
+            active: true,
+        };
+
+        await this._model.update(id, userInfo);
+
+        return {
+            qrcode: userInfo.twoFactorSecret.qrcode,
+            active: userInfo.twoFactorSecret.active,
+        };
     }
 }
