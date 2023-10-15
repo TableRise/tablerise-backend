@@ -17,6 +17,17 @@ export default class UsersControllers {
         this.update = this.update.bind(this);
     }
 
+    public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to update a user');
+
+        const { id } = req.params;
+        const payload = req.body as RegisterUserPayload;
+
+        const request = await this._service.update(id, payload);
+        console.log('request update : \n', request);
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
     public async register(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to register a new user');
 
@@ -62,13 +73,5 @@ export default class UsersControllers {
         await this._service.delete(_id);
 
         return res.sendStatus(HttpStatusCode.DELETED);
-    }
-
-    public async update(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as RegisterUserPayload;
-        const request = await this._service.update(id, payload);
-
-        return res.status(HttpStatusCode.OK).json(request);
     }
 }

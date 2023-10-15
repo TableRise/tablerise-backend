@@ -40,7 +40,6 @@ describe('Post login', () => {
         });
 
         it('should return a token', async () => {
-            console.log(userPayload);
             await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
 
             const loginPayload = {

@@ -84,3 +84,51 @@ export function postUserDetailsSerializer({
         role,
     };
 }
+
+export function putUserSerializer({
+    providerId = null,
+    email = null,
+    password = null,
+    nickname = null,
+    tag = null,
+    picture = null,
+    twoFactorSecret = null,
+    createdAt = null,
+    updatedAt = null,
+}: any, user: User): User {
+    return {
+        providerId: providerId || user.providerId ,
+        email: email || user.email,
+        password: password || user.password,
+        nickname: nickname || user.nickname,
+        tag: tag || user.tag,
+        picture: picture || user.picture,
+        twoFactorSecret: twoFactorSecret || user.twoFactorSecret,
+        createdAt: createdAt || user.createdAt,
+        updatedAt: updatedAt || user.updatedAt,
+    };
+}
+
+export function putUserDetailsSerializer({
+    userId = null,
+    firstName = null,
+    lastName = null,
+    pronoun = null,
+    secretQuestion = null,
+    birthday = null,
+    gameInfo = { campaigns: [], characters: [], badges: [] },
+    biography = null,
+    role = 'user',
+}: any, userDetail: UserDetail): UserDetail {
+    return {
+        userId: userId || userDetail.userId,
+        firstName: firstName || userDetail.firstName,
+        lastName: lastName || userDetail.lastName,
+        pronoun: pronoun || userDetail.pronoun,
+        secretQuestion: secretQuestion || userDetail.secretQuestion,
+        birthday: birthday || userDetail.birthday,
+        gameInfo: gameInfo || userDetail.gameInfo,
+        biography: biography || userDetail.biography,
+        role,
+    };
+}

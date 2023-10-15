@@ -41,7 +41,6 @@ describe('Post user in database', () => {
 
         it('should return correct data and status', async () => {
             const response = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
-            console.log('L44 TEst payload:',userPayload,'# \n # response: ' , response.body);
             expect(response.body).toHaveProperty('_id');
             expect(response.body).toHaveProperty('tag');
             expect(response.body).toHaveProperty('createdAt');

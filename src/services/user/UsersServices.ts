@@ -6,15 +6,15 @@ import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from '
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import { postUserDetailsSerializer, postUserSerializer, putUserDetailsSerializer, putUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import getErrorName from 'src/services/helpers/getErrorName';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
-import { ErrorTypes } from 'src/types/Errors';
 import EmailSender from './helpers/EmailSender';
+import { formatDbQuery } from './helpers/formatDbQuery';
 
 export default class RegisterServices {
     constructor(
@@ -180,30 +180,52 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
-    public async update(id: string, payload: RegisterUserPayload): Promise<RegisterUserPayload> {
-        // this._logger('info', 'prepare to update user info');
+    public async update(id: string, payload: RegisterUserPayload): Promise<any> {
+        this._logger('info', 'prepare to update user info');
 
         const { details: userDetails, ...userPayload } = payload;
 
-        const userSerialized = postUserSerializer(userPayload);
-        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
+        Object.keys(userPayload).forEach((field) => {
+            const forbiddenField = ['email', 'password', 'tag', 'createdAt', 'updatedAt', 'inProgress', 'providerId'];
+            if (forbiddenField.includes(field)) {
+                throw new HttpRequestErrors({
+                    message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request `,
+                    code: HttpStatusCode.FORBIDDEN,
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
+                });
+            }
+        });
 
-        const userFieldError = ['email','password','tag','createdAt','updatedAt','inProgress','providerId']
-        const userDetailsFieldError = [ 'userId', 'secretQuestion', 'gameInfo', 'role'];
+        Object.keys(userDetails).forEach((field) => {
+            const forbiddenField  = ['userId', 'gameInfo', 'secretQuestion', 'role'];            
+            if (forbiddenField.includes(field)) {
+                throw new HttpRequestErrors({
+                    message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request `,
+                    code: HttpStatusCode.FORBIDDEN,
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
+                });
+            }
+        });
 
-        // userFieldError.forEach(fieldError => {
-        //     if (fieldError in Object.keys(userSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
-        // });
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user');
 
-        // userDetailsFieldError.forEach(fieldError => {
-        //     if (fieldError in Object.keys(userDetailsSerialized)) HttpRequestErrors.throwError(fieldError as ErrorTypes);
-        // });
-        const userUpdated = await this._model.update(id, userSerialized);
-        // this._logger('info', 'User updated at database');
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user');
+        console.log('L221', userDetailsInfo);
+        const userSerialized = putUserSerializer(userPayload, userInfo);
+        const userDetailsSerialized = putUserDetailsSerializer(userDetails, userDetailsInfo);
 
-        const userDetailsUpdated = await this._modelDetails.update(id, userDetailsSerialized);
-        // this._logger('info', 'UserDetails updated at database');
+        userSerialized.createdAt = new Date().toISOString();
+        console.log('userSerialized \n', userSerialized, '\n Keys:',Object.keys(userSerialized));
+        console.log('userDetails:\n', userDetailsSerialized, '\n Keys:',Object.keys(userDetailsSerialized));
 
-        return {...userUpdated , details: userDetailsUpdated} as RegisterUserPayload;
+        const userUpdated = formatDbQuery(await this._model.update(id, userSerialized)) as User;
+        this._logger('info', 'User updated at database');
+
+        const userDetailsUpdated = await this._modelDetails.update(userDetailsInfo._id as string , userDetailsSerialized) as UserDetail;
+        this._logger('info', 'UserDetails updated at database');
+        console.log({ ...userUpdated, details: userDetailsUpdated});
+        return { ...userUpdated, details: userDetailsUpdated};
     }
 }
