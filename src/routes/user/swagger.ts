@@ -23,6 +23,14 @@ export default [
     ['/profile/register', 'profile', 'post', null, registerUserPayloadSchema, false],
     ['/profile/login', 'profile', 'post', null, loginUserPayloadSchema, false],
     [
+        '/:id/update/badges',
+        'profile',
+        'patch',
+        [...generateIDParam(), generateQueryParam(1, [{name: 'id', type: 'string'}])],
+        null,
+        false
+    ],
+    [
         '/profile/{_id}/confirm',
         'profile',
         'patch',
