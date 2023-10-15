@@ -140,4 +140,23 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.sendStatus).toHaveBeenCalledWith(204);
         });
     });
+
+    describe('When a request is made to add user badge', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'addBadge').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 200', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            request.query = { id: '65296fb813fa0e3d68a4a969' };
+            await userControllers.addBadge(request, response);
+
+            expect(response.sendStatus).toHaveBeenCalledWith(200);
+        })
+    });
 });
