@@ -189,7 +189,7 @@ export default class RegisterServices {
             const forbiddenField = ['email', 'password', 'tag', 'createdAt', 'updatedAt', 'inProgress', 'providerId'];
             if (forbiddenField.includes(field)) {
                 throw new HttpRequestErrors({
-                    message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request `,
+                    message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request`,
                     code: HttpStatusCode.FORBIDDEN,
                     name: getErrorName(HttpStatusCode.FORBIDDEN),
                 });
@@ -200,7 +200,7 @@ export default class RegisterServices {
             const forbiddenField  = ['userId', 'gameInfo', 'secretQuestion', 'role'];            
             if (forbiddenField.includes(field)) {
                 throw new HttpRequestErrors({
-                    message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request `,
+                    message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
                     code: HttpStatusCode.FORBIDDEN,
                     name: getErrorName(HttpStatusCode.FORBIDDEN),
                 });
@@ -225,7 +225,7 @@ export default class RegisterServices {
 
         const userDetailsUpdated = await this._modelDetails.update(userDetailsInfo._id as string , userDetailsSerialized) as UserDetail;
         this._logger('info', 'UserDetails updated at database');
-        console.log({ ...userUpdated, details: userDetailsUpdated});
+        console.log('228',{ ...userUpdated, details: userDetailsUpdated});
         return { ...userUpdated, details: userDetailsUpdated};
     }
 }

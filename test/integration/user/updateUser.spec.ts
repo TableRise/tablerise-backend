@@ -4,10 +4,6 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
-import { toIncludeSameMembers } from 'jest-extended'
-expect.extend({ toIncludeSameMembers });
-import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import user from 'src/schemas/user';
 
 describe('Update an user in database', () => {
     const userInstanceMock = mock.user.user;
@@ -28,14 +24,10 @@ describe('Update an user in database', () => {
 
     const userUpdateRequest = {
         nickname: 'mock_user_update_test',
-        twoFactorSecret: { "active": true },
-        picture: 'https://imgbb.com/mock_test',
+        picture: 'https://imgbb.com/mock_test_update',
         details: {
-          firstName: 'mock_test',
-          lastName: 'update_test',
-          pronoun: 'he/his',
-          birthday: '2000/10/10',
-          biography: 'I am a mock update test, do not trust me',
+          firstName: 'mock_test_update_fn',
+          lastName: 'mock_test_update_ln',
         }
     }
 
@@ -60,37 +52,50 @@ describe('Update an user in database', () => {
         });
 
         it('should return user updated infos', async () => {
-            const id = userDetailsInstanceMock.userId as string;
             const userResponse = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
-            console.log('ID:', userResponse.body, userResponse.body._id);
-            const response = await requester.put(`/profile/${userResponse.body._id as string}/update`).send(userUpdateRequest).expect(HttpStatusCode.OK);
 
-            const responseProps = Object.keys(response.body);
-            const userProps = Object.keys({...userInstanceMock, details: userDetailsInstanceMock});
-            console.log('test 59',response.body, responseProps, userProps);
-            expect((responseProps).toIncludeAllMembers([
-                '_id',        'inProgress',
-                'providerId', 'email',
-                'password',   'nickname',
-                'tag',        'picture',
-                'createdAt',  'updatedAt',
-                'details'
-              ]));
-            // expect(response.body).toHaveProperty('tag');
-            // expect(response.body).toHaveProperty('createdAt');
-            // expect(response.body).toHaveProperty('updatedAt');
-            // expect(response.body).toHaveProperty('details');
-            // expect(response.body).toHaveProperty('nickname');
-            // expect(response.body).toHaveProperty('picture');
-            // expect(response.body).toHaveProperty('details');
-            // expect(response.body.details).toHaveProperty('userId');
-            // expect(response.body.details).toHaveProperty('firstName');
-            // expect(response.body.details).toHaveProperty('lastName');
-            // expect(response.body.email).toBe(userPayload.email);
-            // expect(response.body.nickname).toBe(userPayload.nickname);
+            const { body } = await requester.put(`/profile/${userResponse.body._id as string}/update`).send(userUpdateRequest).expect(HttpStatusCode.OK);
 
+            const responseProps = Object.keys(body);
+            const userProps = ['_id','inProgress','providerId','email','password','nickname','tag', 'picture','twoFactorSecret','createdAt', 'updatedAt','details'];
 
-            // const userResponseProps = Object.keys(response);
+            expect(responseProps).toEqual(userProps);
+            expect(body.nickname).toBe(userUpdateRequest.nickname);
+            expect(body.picture).toBe(userUpdateRequest.picture);
+            expect(body.details.firstName).toBe(userUpdateRequest.details.firstName);
+            expect(body.details.lastName).toBe(userUpdateRequest.details.lastName);
+        });
+
+        it('should throw an error when user.details has a forbidden field', async () => {
+            userPayload.email = `${Math.random()}${userInstanceMock.email}`;
+        
+            const userUpdateRequestForbidden = { ...userUpdateRequest,  details: { secretQuestion: "mock_fail", role: 'mock' } };
+            const firstForbiddenField = Object.keys(userUpdateRequestForbidden.details)
+                .find((field) => (field === 'secretQuestion' || field === 'role' ));
+
+            const userResponse = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            const { body } = await requester.put(`/profile/${userResponse.body._id as string}/update`).send(userUpdateRequestForbidden).expect(HttpStatusCode.FORBIDDEN);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe(`Update UserDetails Info - ${firstForbiddenField as string} is a forbidden field  and cannot be updated through this request`);
+            expect(body.name).toBe('ForbiddenRequest');
+        });
+
+        it('should throw an error when user has a forbidden field', async () => {
+            userPayload.email = `${Math.random()}${userInstanceMock.email}`;
+
+            const userUpdateRequestForbidden = { ...userUpdateRequest,  email:"mock_update@fail", password:'mock_fail', };
+            const firstForbiddenField = Object.keys(userUpdateRequestForbidden)
+                .find((field) => (field === 'password' || field === 'email' ));
+
+            const userResponse = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            const { body } = await requester.put(`/profile/${userResponse.body._id as string}/update`).send(userUpdateRequestForbidden).expect(HttpStatusCode.FORBIDDEN);
+
+            expect(body).toHaveProperty('message');
+            expect(body).toHaveProperty('name');
+            expect(body.message).toBe(`Update User Info - ${firstForbiddenField as string} is a forbidden field  and cannot be updated through this request`);
+            expect(body.name).toBe('ForbiddenRequest');
         });
     });
 });

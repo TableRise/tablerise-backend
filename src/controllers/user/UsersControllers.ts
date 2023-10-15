@@ -24,7 +24,6 @@ export default class UsersControllers {
         const payload = req.body as RegisterUserPayload;
 
         const request = await this._service.update(id, payload);
-        console.log('request update : \n', request);
         return res.status(HttpStatusCode.OK).json(request);
     }
 
