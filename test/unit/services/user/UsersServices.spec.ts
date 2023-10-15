@@ -542,4 +542,48 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
     });
+
+    describe('When adds a badge', () => {
+        beforeAll(() => {
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.addBadge('', '');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is correct', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should return nothing', async () => {
+                UserDetails.update = jest.fn().mockReturnValue(undefined);
+
+                await userServices.addBadge('65075e05ca9f0d3b2485194f', '65296fb813fa0e3d68a4a969');
+
+                const result = userDetails;
+                result.gameInfo.badges.push('65296fb813fa0e3d68a4a969');
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            })
+        });
+    });
 });
