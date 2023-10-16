@@ -10,6 +10,8 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import Database from '../../../support/Database';
 import utils from '../../../support/utils';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Controllers :: User :: UsersControllers', () => {
     let user: User,
@@ -212,15 +214,43 @@ describe('Controllers :: User :: UsersControllers', () => {
 
             response.sendStatus = jest.fn().mockReturnValue(response);
 
-            jest.spyOn(userServices, 'addBadge').mockResolvedValue(undefined);
+            jest.spyOn(userServices, 'updateGameInfo').mockResolvedValue(undefined);
         });
 
         it('should return correct status 200', async () => {
-            request.params = { id: '65075e05ca9f0d3b2485194f' };
-            request.query = { id: '65296fb813fa0e3d68a4a969' };
-            await userControllers.addBadge(request, response);
+            request.params = { id: generateNewMongoID() };
+            request.query = { id: generateNewMongoID(), info: 'badges', operation: 'add' };
+            await userControllers.updateGameInfo(request, response);
 
             expect(response.sendStatus).toHaveBeenCalledWith(200);
+        });
+
+        it('but the query is invalid', async () => {
+            request.params = { id: generateNewMongoID() };
+            request.query = {};
+
+            try {
+                await userControllers.updateGameInfo(request, response);
+                expect('it should not be here').toBe(true);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+
+                expect(err.code).toBe(400);
+            }
+        });
+
+        it('but the selected game info is invalid', async () => {
+            request.params = { id: generateNewMongoID() };
+            request.query = { id: generateNewMongoID(), info: 'test' };
+
+            try {
+                await userControllers.updateGameInfo(request, response);
+                expect('it should not be here').toBe(true);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+
+                expect(err.code).toBe(400);
+            }
         })
     });
 });

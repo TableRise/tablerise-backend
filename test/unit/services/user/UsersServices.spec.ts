@@ -853,7 +853,7 @@ describe('Services :: User :: UsersServices', () => {
         });
     });
 
-    describe('When adds a badge', () => {
+    describe('When edit game info', () => {
         beforeAll(() => {
             userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
@@ -866,7 +866,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.addBadge('', '65296fb813fa0e3d68a4a969');
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'badges', 'add');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -878,41 +878,38 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
-        describe('and the query is incorrect - badge id', () => {
-            beforeAll(() => {
-                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
-            });
-
-            it('should throw 400 error - query must not be empty', async () => {
-                try {
-                    await userServices.addBadge('', '');
-                    expect('it should not be here').toBe(true);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-
-                    expect(err.message).toStrictEqual('Query must not be empty');
-                    expect(err.name).toBe('BadRequest');
-                    expect(err.code).toBe(400);
-                }
-            });
-        });
-
         describe('and the params is correct', () => {
+            let infoId: string;
             beforeAll(() => {
+                infoId = generateNewMongoID();
+                userDetails.gameInfo.badges.push(infoId);
                 jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                UserDetails.update = jest.fn().mockReturnValue(undefined);
             });
 
-            it('should return nothing', async () => {
-                UserDetails.update = jest.fn().mockReturnValue(undefined);
+            afterEach(() => {
+                jest.clearAllMocks();
+            });
 
-                await userServices.addBadge('65075e05ca9f0d3b2485194f', '65296fb813fa0e3d68a4a969');
+            it('adds new game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'campaigns', 'add');
+
+                const expectedResult = userDetails;
+                expectedResult.gameInfo.campaigns.push(infoId);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(expectedResult._id, expectedResult);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('remove requested game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'remove');
 
                 const result = userDetails;
-                result.gameInfo.badges.push('65296fb813fa0e3d68a4a969');
+                result.gameInfo.badges = userDetails.gameInfo.badges.filter(badge => badge !== infoId);
 
                 expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
                 expect(UserDetails.update).toHaveBeenCalledTimes(1);
-            })
+            });
         });
     });
 });

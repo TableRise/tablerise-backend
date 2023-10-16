@@ -18,6 +18,7 @@ import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
+import { GameInfoOptions } from 'src/types/GameInfo';
 
 export default class RegisterServices {
     constructor(
@@ -240,21 +241,24 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
-    public async addBadge(idUser: string, idBadge: string): Promise<void> {
+    public async updateGameInfo(idUser: string, dataId: string, gameInfo: GameInfoOptions, operation: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
-
-        if(idBadge.length === 0) HttpRequestErrors.throwError('query-missing');
+        let hasInfo = false;
 
         if(!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 
-        const hasBadge = userDetailsInfo.gameInfo.badges
-            .filter(badge => badge === idBadge).length > 0;
-
-        if (!hasBadge) {
-            userDetailsInfo.gameInfo.badges.push(idBadge);
-
-            await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
+        switch (operation) {
+            case 'remove':
+                userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo
+                    .gameInfo[gameInfo].filter(data => data !== dataId);
+                break;
+            default:
+                hasInfo = userDetailsInfo.gameInfo[gameInfo].filter(data => data === dataId).length > 0;
+                if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
+                break;
         }
+
+        await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
     }
 
     public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
