@@ -12,21 +12,21 @@ export default class AuthorizationMiddleware {
         private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger
     ) {
-        this.checkRole = this.checkRole.bind(this);
+        this.checkAdminRole = this.checkAdminRole.bind(this);
         this.twoFactor = this.twoFactor.bind(this);
     }
 
-    public async checkRole(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
         // this._logger('warn', 'Request to check role');
 
         const { id } = req.params;
 
         const [userDetails] = await this._modelDetails.findAll({ userId: id });
 
-        if (userDetails.role === 'user') {
-            HttpRequestErrors.throwError('unauthorized');
-        } else {
+        if (userDetails.role === 'admin') {
             next();
+        } else {
+            HttpRequestErrors.throwError('unauthorized');
         }
     }
 
