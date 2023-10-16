@@ -100,7 +100,7 @@ export const routes = [
         method: 'patch',
         path: `${BASE_PATH}/:id/update/email`,
         parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-        controller: controllers.resetTwoFactor,
+        controller: controllers.updateEmail,
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
