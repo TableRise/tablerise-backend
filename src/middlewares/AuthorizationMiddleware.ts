@@ -17,15 +17,16 @@ export default class AuthorizationMiddleware {
     }
 
     public async checkRole(req: Request, res: Response, next: NextFunction): Promise<void> {
+        // this._logger('warn', 'Request to check role');
+
         const { id } = req.params;
 
-        const userDetails = await this._modelDetails.findOne(id);
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
 
-        if (userDetails?.role === 'user') {
-            console.log('user >> ', userDetails?.role);
-        }
-        if (userDetails?.role === 'admin') {
-            console.log('admin >> ', userDetails?.role);
+        if (userDetails.role === 'user') {
+            HttpRequestErrors.throwError('unauthorized');
+        } else {
+            next();
         }
     }
 
