@@ -31,6 +31,7 @@ describe('Put RPG magic items in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'MagicItems');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

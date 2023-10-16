@@ -26,6 +26,7 @@ describe('Get RPG spells from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Spells');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

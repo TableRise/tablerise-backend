@@ -4,7 +4,6 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
-import getToken from '../../support/getToken';
 
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
@@ -29,6 +28,7 @@ describe('Post user in database', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -46,14 +46,12 @@ describe('Post user in database', () => {
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            const userToken = await getToken(userPayload);
             const userId: string = userResponse.body._id;
 
             const code: string = userResponse.body.inProgress.code;
 
             const response = await requester
                 .patch(`/profile/${userId}/2fa/reset?code=${code}`)
-                .set('Authorization', `Bearer ${userToken}`)
                 .expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('qrcode');

@@ -10,6 +10,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
             body {
                 padding: 0;
                 margin: 0;
+                font-family: sans-serif;
             }
 
             .confirm-section {
@@ -36,7 +37,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
     
             .goblin-warn {
                 display: flex;
-                font-weight: 700;
+                font-weight: 500;
                 font-size: 1.1rem;
                 width: fit-content;
                 margin: auto;
@@ -49,7 +50,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
     
             .header-content {
                 display: flex;
-                font-size: 1.1rem;
+                font-size: 0.9rem;
                 width: fit-content;
                 margin: auto;
                 text-align: center;
@@ -89,26 +90,21 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
         <div class="gray-bg">
             <section class="confirm-section">
                 <header>
-                    <h1>Seja bem vindo(a) ao TableRise</h1>
                     <div class="img-bg"></div>
-                    <h2>Precisamos confirmar sua identidade!</h2>
+                    <h2>Precisamos confirmar seu cadastro!</h2>
                     <div class="goblin-warn">
-                        <span align="left">Afinal vai que você é um <br />goblin mal intencionado querendo roubar nosso ouro?</span>
-                        <img src="https://i.ibb.co/jMtpSV4/pngegg.png" alt="bad-goblin">
+                        <span align="center">Afinal vai que você é um <br />goblin mal intencionado querendo roubar nosso ouro?</span>
                     </div>
-                    <br />
                     <br />
                 </header>
                 <div>
                     <div class="header-content">
-                        <img src="https://i.ibb.co/4pWLymg/327-3271131-mage-rpg-mage-class-1.png" alt="mage-woman">
-                        <p align="right">
+                        <p align="center">
                             Este email tem o uso excluivo de enviar emails de comunicação<br />
                             Para obter suporte, por favor, entre em contato no endereço abaixo:<br />
                             tablerise@outlook.com
                         </p>
                     </div>
-                    <br />
                     <p>Faça login no TableRise e utilize o código abaixo para confirmar sua conta</p>
                     <p>Usuário: ${usernameUser}</p>
                     <span class="verify-code">${verifyCode}</span>

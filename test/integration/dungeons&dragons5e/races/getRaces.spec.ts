@@ -26,6 +26,7 @@ describe('Get RPG Races from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Races');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

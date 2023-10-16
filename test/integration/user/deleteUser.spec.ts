@@ -6,7 +6,6 @@ import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
-import getToken from '../../support/getToken';
 
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
@@ -33,6 +32,7 @@ describe('Post user in database', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -55,13 +55,11 @@ describe('Post user in database', () => {
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            const tokenJWT = await getToken(userPayload);
             const userId: string = userResponse.body._id;
             const token: string = '123456';
 
             const response = await requester
                 .delete(`/profile/${userId}/delete?token=${token}`)
-                .set('Authorization', `Bearer ${tokenJWT}`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             expect(response.status).toBe(204);

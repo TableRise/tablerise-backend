@@ -9,6 +9,10 @@ import SystemControllers from 'src/controllers/dungeons&dragons5e/SystemControll
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
+import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
+import mock from 'src/support/mocks/dungeons&dragons5e';
+import passport from 'passport';
+import generateIDParam, { generateQueryParam } from '../parametersWrapper';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -18,11 +22,73 @@ const services = new SystemServices(model, logger, schemaValidator, schema['dung
 const controllers = new SystemControllers(services, logger);
 
 const router = Router();
+const BASE_PATH = '/dnd5e/system';
 
-router.get('/', controllers.findAll);
-router.get('/:id', VerifyIdMiddleware, controllers.findOne);
-router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.patch('/content/:id', VerifyIdMiddleware, controllers.updateContent);
-router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
+const routes = [
+    {
+        method: 'get',
+        path: `${BASE_PATH}`,
+        controller: controllers.findAll,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'system',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam()],
+        controller: controllers.findOne,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'system',
+        },
+    },
+    {
+        method: 'put',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam()],
+        controller: controllers.update,
+        schema: mock.system.instance.en,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'system',
+        },
+    },
 
-export default router;
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/content/:id`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])],
+        controller: controllers.updateContent,
+        schema: mock.updateSystemContent.instance.en,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'system',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+        controller: controllers.updateAvailability,
+        options: {
+            middlewares: [
+                VerifyIdMiddleware,
+                VerifyBooleanQueryMiddleware,
+                passport.authenticate('bearer', { session: false }),
+            ],
+            authentication: true,
+            tag: 'system',
+        },
+    },
+] as routeInstance[];
+
+export default {
+    routerExpress: buildRouter(routes, router),
+    routesSwagger: routes,
+};

@@ -6,12 +6,16 @@ import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 import passport from 'passport';
 import logger from '@tablerise/dynamic-logger';
+import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 
 import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
+import generateIDParam, { generateQueryParam } from '../parametersWrapper';
+import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import mock from 'src/support/mocks/user';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -24,16 +28,103 @@ const authorizationMiddleware = new AuthorizationMiddleware(model, modelUserDeta
 
 const router = Router();
 
-router.get('/:id/verify', controllers.verifyEmail);
-router.post('/register', controllers.register);
-router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
-router.patch('/:id/confirm', controllers.confirmCode);
-router.patch('/:id/2fa/reset', controllers.resetTwoFactor);
-router.delete('/:id/delete', authorizationMiddleware.twoFactor, controllers.delete);
+const BASE_PATH = '/profile';
 
-router.use(passport.authenticate('bearer', { session: false }));
-router.patch('/:id/update/email', controllers.updateEmail);
-router.patch('/:id/2fa/activate', controllers.activateTwoFactor);
-router.delete('/:id/delete', authorizationMiddleware.twoFactor, controllers.delete);
+export const routes = [
+    {
+        method: 'get',
+        path: `${BASE_PATH}/:id/verify`,
+        parameters: [...generateIDParam()],
+        controller: controllers.verifyEmail,
+        options: {
+            middlewares: [VerifyIdMiddleware],
+            authentication: false,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'post',
+        path: `${BASE_PATH}/register`,
+        controller: controllers.register,
+        schema: mock.user.userPayload,
+        options: {
+            authentication: false,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'post',
+        path: `${BASE_PATH}/login`,
+        controller: controllers.login,
+        schema: mock.user.userLogin,
+        options: {
+            middlewares: [passport.authenticate('local', { session: false })],
+            authentication: false,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/confirm`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        controller: controllers.confirmCode,
+        options: {
+            middlewares: [VerifyIdMiddleware],
+            authentication: false,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/2fa/activate`,
+        parameters: [...generateIDParam()],
+        controller: controllers.activateTwoFactor,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/2fa/reset`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        controller: controllers.resetTwoFactor,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/update/email`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+        controller: controllers.updateEmail,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'delete',
+        path: `${BASE_PATH}/:id/delete`,
+        parameters: [...generateIDParam()],
+        controller: controllers.delete,
+        options: {
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.twoFactor,
+            ],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+] as routeInstance[];
 
-export default router;
+export default {
+    routerExpress: buildRouter(routes, router),
+    routesSwagger: routes,
+};
