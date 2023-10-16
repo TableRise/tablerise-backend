@@ -26,6 +26,7 @@ describe('Patch RPG armors in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Armors');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

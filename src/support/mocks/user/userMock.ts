@@ -1,6 +1,6 @@
-import { UserDetail } from "src/schemas/user/userDetailsValidationSchema"
-import { User, UserLogin } from "src/schemas/user/usersValidationSchema"
-import { emailUpdatePayload } from 'src/types/Response'
+import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema'
+import { User, UserLogin } from 'src/schemas/user/usersValidationSchema'
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response'
 
 
 const userMock: User = {
@@ -40,6 +40,24 @@ const userLoginMock: UserLogin = {
     password: 'secret-secret'
 }
 
+const userPayloadMock: RegisterUserPayload = {
+    email: userMock.email,
+    password: userMock.password,
+    twoFactorSecret: { active: false },
+    nickname: userMock.nickname as string,
+    picture: userMock.picture as string,
+    details: {
+        firstName: userDetailsMock.firstName,
+        lastName: userDetailsMock.lastName,
+        pronoun: userDetailsMock.pronoun as "he/his" | "she/her" | "they/them" | "he/his - she/her" | "any",
+        secretQuestion: userDetailsMock.secretQuestion,
+        birthday: userDetailsMock.firstName,
+        gameInfo: userDetailsMock.gameInfo,
+        biography: userDetailsMock.firstName,
+        role: userDetailsMock.role
+    }
+}
+
 const userEmailUpdateMock: emailUpdatePayload = {
     email: 'new-email@email.com'
 }
@@ -48,5 +66,6 @@ export default {
     user: userMock,
     userDetails: userDetailsMock,
     userLogin: userLoginMock,
+    userPayload: userPayloadMock,
     userEmailUpdate: userEmailUpdateMock
 }

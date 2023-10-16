@@ -1,14 +1,15 @@
 import { User } from 'src/schemas/user/usersValidationSchema';
 import { UserFaker } from '../GeneralDataFaker';
 import utils from '../../utils';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-const { newUUID, dataGenerator } = utils;
+const { dataGenerator } = utils;
 
-function createUserFaker({ _id = newUUID() }: User): User {
+function createUserFaker({ _id = generateNewMongoID() }: User): User {
     return {
         _id,
         inProgress: { status: 'done', code: '' },
-        providerId: newUUID(),
+        providerId: generateNewMongoID(),
         email: dataGenerator.email(),
         password: '@Password61',
         nickname: dataGenerator.nickname(),
