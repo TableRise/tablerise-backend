@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import TwoFactorMiddleware from 'src/middlewares/TwoFactorMiddleware';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 import speakeasy from 'speakeasy';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker } from '../../support/datafakers/GeneralDataFaker';
@@ -11,10 +11,10 @@ jest.mock('qrcode', () => ({
     toDataURL: () => '',
 }));
 
-describe('Middlewares :: TwoFactorMiddleware', () => {
-    let user: User, updatedInProgressToDone: User, twoFactorMiddleware: TwoFactorMiddleware;
+describe('Middlewares :: AuthorizationMiddleware', () => {
+    let user: User, updatedInProgressToDone: User, authorizationMiddleware: AuthorizationMiddleware;
 
-    const { User } = Database.models;
+    const { User, UserDetails } = Database.models;
 
     const request = {} as Request;
     const response = {} as Response;
@@ -30,7 +30,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             return user;
         })[0];
 
-        twoFactorMiddleware = new TwoFactorMiddleware(User, logger);
+        authorizationMiddleware = new AuthorizationMiddleware(User, UserDetails, logger);
     });
 
     describe('When a request is made for verify two factor auth - success', () => {
@@ -52,7 +52,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
         it('should be successfull if is a valid token', async () => {
             request.query = { token: '123456' };
             request.params = { id: '123456789123456789123456' };
-            await twoFactorMiddleware.authenticate(request, response, next);
+            await authorizationMiddleware.twoFactor(request, response, next);
 
             expect(next).toHaveBeenCalled();
         });
@@ -67,7 +67,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             try {
                 request.query = { code: '123456' };
                 request.params = { id: '' };
-                await twoFactorMiddleware.authenticate(request, response, next);
+                await authorizationMiddleware.twoFactor(request, response, next);
 
                 expect('it should not be here').toBe(true);
             } catch (error) {
@@ -88,7 +88,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
             it('should call next', async () => {
                 request.params = { id: '123456789123456789123456' };
-                await twoFactorMiddleware.authenticate(request, response, next);
+                await authorizationMiddleware.twoFactor(request, response, next);
 
                 expect(next).toHaveBeenCalled();
             });
@@ -105,7 +105,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
                 try {
                     request.query = { token: '123456' };
                     request.params = { id: '123456789123456789123456' };
-                    await twoFactorMiddleware.authenticate(request, response, next);
+                    await authorizationMiddleware.twoFactor(request, response, next);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -121,7 +121,7 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             try {
                 request.query = { code: ['123456'] };
                 request.params = { id: '123456789123456789123456' };
-                await twoFactorMiddleware.authenticate(request, response, next);
+                await authorizationMiddleware.twoFactor(request, response, next);
                 expect('it should not be here').toBe(true);
             } catch (error) {
                 const err = error as HttpRequestErrors;
