@@ -39,7 +39,7 @@ export const routes = [
         options: {
             middlewares: [VerifyIdMiddleware],
             authentication: false,
-            tag: 'profile',
+            tag: 'authentication',
         },
     },
     {
@@ -49,7 +49,7 @@ export const routes = [
         schema: mock.user.userPayload,
         options: {
             authentication: false,
-            tag: 'profile',
+            tag: 'register',
         },
     },
     {
@@ -60,7 +60,7 @@ export const routes = [
         options: {
             middlewares: [passport.authenticate('local', { session: false })],
             authentication: false,
-            tag: 'profile',
+            tag: 'authentication',
         },
     },
     {
@@ -71,7 +71,7 @@ export const routes = [
         options: {
             middlewares: [VerifyIdMiddleware],
             authentication: false,
-            tag: 'profile',
+            tag: 'register',
         },
     },
     {
@@ -82,7 +82,7 @@ export const routes = [
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
     {
@@ -93,7 +93,7 @@ export const routes = [
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
     {
@@ -104,13 +104,13 @@ export const routes = [
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
     {
         method: 'delete',
         path: `${BASE_PATH}/:id/delete`,
-        parameters: [...generateIDParam()],
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
         controller: controllers.delete,
         options: {
             middlewares: [
@@ -119,7 +119,7 @@ export const routes = [
                 twoFactorMiddleware.authenticate,
             ],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
 ] as routeInstance[];
