@@ -12,6 +12,6 @@ This helper is used to clean moongose documents extra_propetiers when using obje
                 }
 */
 
-export function formatDbQuery ( queryObj: any | null ) : any {
+export function formatDbQuery(queryObj: any | null): any {
     return JSON.parse(JSON.stringify(queryObj));
 }

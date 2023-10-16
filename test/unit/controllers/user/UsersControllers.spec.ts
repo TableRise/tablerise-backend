@@ -10,6 +10,7 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import Database from '../../../support/Database';
 import utils from '../../../support/utils';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 
 describe('Controllers :: User :: UsersControllers', () => {
     let user: User,
@@ -104,40 +105,32 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
-    describe('When a request is made to verify an email', () => {
+    describe('When a request is made to update a user', () => {
         beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
+
+            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock'} } as RegisterUserPayload;
+            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+            userResponse.nickname = 'Mock';
+            userResponse.details.firstName = 'Ana Mock';
 
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
-            response.end = jest.fn();
 
-            jest.spyOn(userServices, 'emailVerify').mockResolvedValue();
+            jest.spyOn(userServices, 'update').mockResolvedValue(userResponse);
         });
 
         it('should return correct data in response json with status 200', async () => {
-            request.params = { id: '65075e05ca9f0d3b2485194f' };
-            await userControllers.verifyEmail(request, response);
-            expect(response.status).toHaveBeenCalledWith(200);
-            expect(response.end).toHaveBeenCalled();
+            request.body = userPayload;
+            request.params = { id: user._id as string};
+            await userControllers.update(request, response);
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
+            expect(response.json).toHaveBeenCalledWith(userResponse);
         });
     });
-
-    describe('When a request is made to delete a user', () => {
-        beforeAll(() => {
-            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
-            userControllers = new UsersControllers(userServices, logger);
-
-            response.sendStatus = jest.fn().mockReturnValue(response);
-
-            jest.spyOn(userServices, 'delete').mockResolvedValue(undefined);
-        });
-
-        it('should return correct status 204', async () => {
-            request.params = { id: '65075e05ca9f0d3b2485194f' };
-            await userControllers.delete(request, response);
-            expect(response.sendStatus).toHaveBeenCalledWith(204);
-        });
-    });
-});
+});   

@@ -85,19 +85,22 @@ export function postUserDetailsSerializer({
     };
 }
 
-export function putUserSerializer({
-    providerId = null,
-    email = null,
-    password = null,
-    nickname = null,
-    tag = null,
-    picture = null,
-    twoFactorSecret = null,
-    createdAt = null,
-    updatedAt = null,
-}: any, user: User): User {
+export function putUserSerializer(
+    {
+        providerId = null,
+        email = null,
+        password = null,
+        nickname = null,
+        tag = null,
+        picture = null,
+        twoFactorSecret = null,
+        createdAt = null,
+        updatedAt = null,
+    }: any,
+    user: User
+): User {
     return {
-        providerId: providerId || user.providerId ,
+        providerId: providerId || user.providerId,
         email: email || user.email,
         password: password || user.password,
         nickname: nickname || user.nickname,
@@ -109,17 +112,20 @@ export function putUserSerializer({
     };
 }
 
-export function putUserDetailsSerializer({
-    userId = null,
-    firstName = null,
-    lastName = null,
-    pronoun = null,
-    secretQuestion = null,
-    birthday = null,
-    gameInfo = { campaigns: [], characters: [], badges: [] },
-    biography = null,
-    role = 'user',
-}: any, userDetail: UserDetail): UserDetail {
+export function putUserDetailsSerializer(
+    {
+        userId = null,
+        firstName = null,
+        lastName = null,
+        pronoun = null,
+        secretQuestion = null,
+        birthday = null,
+        gameInfo = { campaigns: [], characters: [], badges: [] },
+        biography = null,
+        role = 'user',
+    }: any,
+    userDetail: UserDetail
+): UserDetail {
     return {
         userId: userId || userDetail.userId,
         firstName: firstName || userDetail.firstName,

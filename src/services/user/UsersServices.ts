@@ -6,7 +6,12 @@ import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from '
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer, putUserDetailsSerializer, putUserSerializer } from 'src/services/user/helpers/userSerializer';
+import {
+    postUserDetailsSerializer,
+    postUserSerializer,
+    putUserDetailsSerializer,
+    putUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import getErrorName from 'src/services/helpers/getErrorName';
@@ -14,7 +19,6 @@ import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordH
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import EmailSender from './helpers/EmailSender';
-import { formatDbQuery } from './helpers/formatDbQuery';
 
 export default class RegisterServices {
     constructor(
@@ -197,7 +201,7 @@ export default class RegisterServices {
         });
 
         Object.keys(userDetails).forEach((field) => {
-            const forbiddenField  = ['userId', 'gameInfo', 'secretQuestion', 'role'];            
+            const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
             if (forbiddenField.includes(field)) {
                 throw new HttpRequestErrors({
                     message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
@@ -212,20 +216,22 @@ export default class RegisterServices {
 
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
         if (!userDetailsInfo) HttpRequestErrors.throwError('user');
-        console.log('L221', userDetailsInfo);
+
         const userSerialized = putUserSerializer(userPayload, userInfo);
         const userDetailsSerialized = putUserDetailsSerializer(userDetails, userDetailsInfo);
 
         userSerialized.createdAt = new Date().toISOString();
-        console.log('userSerialized \n', userSerialized, '\n Keys:',Object.keys(userSerialized));
-        console.log('userDetails:\n', userDetailsSerialized, '\n Keys:',Object.keys(userDetailsSerialized));
 
-        const userUpdated = formatDbQuery(await this._model.update(id, userSerialized)) as User;
+        // JSON.parse(JSON.stringify(data)) remove moongose extra-properties from data , example _doc:{}
+        const userUpdated = JSON.parse(JSON.stringify(await this._model.update(id, userSerialized))) as User;
         this._logger('info', 'User updated at database');
 
-        const userDetailsUpdated = await this._modelDetails.update(userDetailsInfo._id as string , userDetailsSerialized) as UserDetail;
+        const userDetailsUpdated = (await this._modelDetails.update(
+            userDetailsInfo._id as string,
+            userDetailsSerialized
+        )) as UserDetail;
         this._logger('info', 'UserDetails updated at database');
-        console.log('228',{ ...userUpdated, details: userDetailsUpdated});
-        return { ...userUpdated, details: userDetailsUpdated};
+
+        return { ...userUpdated, details: userDetailsUpdated };
     }
 }

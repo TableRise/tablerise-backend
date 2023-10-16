@@ -1,6 +1,8 @@
 import userSerializer, {
     postUserDetailsSerializer,
     postUserSerializer,
+    putUserDetailsSerializer,
+    putUserSerializer,
 } from 'src/services/user/helpers/userSerializer';
 import userProfileMocks from 'src/support/mocks/user';
 
@@ -56,6 +58,27 @@ describe('Helpers :: userSerializer', () => {
                 biography: null,
                 role: 'user',
             });
+        });
+
+        it('should return the correct user data when put request is required', () => {
+            const userInstanceMock = userProfileMocks.user.user;
+            delete userInstanceMock.inProgress;
+            const userPayload = { nickname: 'update_request' };
+
+            const userSerialized = putUserSerializer(userPayload, userInstanceMock);
+            userInstanceMock.nickname = 'update_request';
+
+            expect(userSerialized).toStrictEqual(userInstanceMock);
+        });
+
+        it('should return the correct userDetails when put request is required', () => {
+            const userDetailsInstanceMock = userProfileMocks.user.userDetails;
+            const userPayload = { firstName: 'update_request_fn' };
+
+            const userDetailsSerialized = putUserDetailsSerializer(userPayload, userDetailsInstanceMock);
+            userDetailsInstanceMock.firstName = 'update_request_fn';
+
+            expect(userDetailsSerialized).toStrictEqual(userDetailsInstanceMock);
         });
     });
 });
