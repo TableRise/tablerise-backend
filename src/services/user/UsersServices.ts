@@ -90,7 +90,7 @@ export default class RegisterServices {
         const confirmEmail = await new EmailSender('confirmation').send(
             {
                 username: user.nickname,
-                subject: 'TableRise - Precisamos confirmar seu email',
+                subject: 'Email de confirmação - TableRise',
             },
             user.email
         );
@@ -153,7 +153,13 @@ export default class RegisterServices {
         if (user.inProgress.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
 
         const sendEmail = new EmailSender('verification');
-        const verificationCode = await sendEmail.send({ subject: 'Email de verificação - TableRise' }, user.email);
+        const verificationCode = await sendEmail.send(
+            {
+                subject: 'Email de verificação - TableRise',
+                username: user.nickname,
+            },
+            user.email
+        );
 
         if (!verificationCode.success) HttpRequestErrors.throwError('verification-email-send-fail');
 
