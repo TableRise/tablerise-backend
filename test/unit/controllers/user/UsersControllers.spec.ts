@@ -124,6 +124,44 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
+    describe('When a request is made to activate 2FA', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'activateTwoFactor').mockResolvedValue({ qrcode: '', active: true });
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            await userControllers.activateTwoFactor(request, response);
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith({ qrcode: '', active: true });
+        });
+    });
+
+    describe('When a request is made to update an email', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'updateEmail').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.params = { id: utils.newUUID() };
+            request.query = { code: 'IQSMPW' };
+            request.body = { email: 'new-email@email.com' };
+            await userControllers.updateEmail(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
+
     describe('When a request is made to delete a user', () => {
         beforeAll(() => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
@@ -138,6 +176,32 @@ describe('Controllers :: User :: UsersControllers', () => {
             request.params = { id: '65075e05ca9f0d3b2485194f' };
             await userControllers.delete(request, response);
             expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
+
+    describe('When a request is made to reset the 2FA', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'resetTwoFactor').mockResolvedValue({
+                qrcode: '',
+                active: true,
+            });
+        });
+
+        it('should return correct status 200 with correct response', async () => {
+            request.params = { id: '65075e05ca9f0d3b2485194f' };
+            await userControllers.resetTwoFactor(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith({
+                qrcode: '',
+                active: true,
+            });
         });
     });
 

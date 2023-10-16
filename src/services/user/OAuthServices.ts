@@ -24,7 +24,7 @@ export default class OAuthServices {
     private _login(userFromDb: User[], userSerialized: User): string {
         const isProviderIdValid = userFromDb[0].providerId === userSerialized.providerId;
 
-        if (!isProviderIdValid) HttpRequestErrors.throwError('email');
+        if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist');
 
         this._logger('info', 'User logged in');
         return JWTGenerator.generate(userFromDb[0]);

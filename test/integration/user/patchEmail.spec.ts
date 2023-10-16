@@ -1,11 +1,13 @@
+import speakeasy from 'speakeasy';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 
-describe('Post user in database', () => {
+describe('Update user email in database', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
 
@@ -19,6 +21,9 @@ describe('Post user in database', () => {
         twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
     };
+
+    const emailUpdatePayload = mock.user.userEmailUpdate;
+    emailUpdatePayload.email = `${Math.random()}${emailUpdatePayload.email}`;
 
     beforeAll(async () => {
         DatabaseManagement.connect(true)
@@ -35,12 +40,18 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When validate a confirmation code', () => {
+    describe('When update user email', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+            jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
         });
 
-        it('should return correct data and status', async () => {
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should save the updated email in the database', async () => {
             const userResponse = await requester
                 .post('/profile/register')
                 .send(userPayload)
@@ -49,10 +60,12 @@ describe('Post user in database', () => {
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
 
-            const response = await requester.patch(`/profile/${userId}/confirm?code=${code}`).expect(HttpStatusCode.OK);
+            const response = await requester
+                .patch(`/profile/${userId}/update/email?code=${code}`)
+                .send(emailUpdatePayload)
+                .expect(HttpStatusCode.NO_CONTENT);
 
-            expect(response.body).toHaveProperty('status');
-            expect(response.body.status).toBe('done');
+            expect(response.status).toBe(204);
         });
     });
 });

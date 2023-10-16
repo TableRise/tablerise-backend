@@ -4,8 +4,8 @@ import logger from '@tablerise/dynamic-logger';
 
 const router = Router();
 
-router.use('/auth', RoutesWrapper.routes().user.OAuth);
-router.use('/profile', RoutesWrapper.routes().user.profile);
+router.use(RoutesWrapper.routes().user.OAuth);
+router.use(RoutesWrapper.routes().user.profile);
 
 logger('info', 'Routes reading process - User - DONE');
 

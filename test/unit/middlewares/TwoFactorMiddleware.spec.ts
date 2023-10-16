@@ -49,8 +49,8 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             jest.clearAllMocks();
         });
 
-        it('should be successfull if is a valid code', async () => {
-            request.query = { code: '123456' };
+        it('should be successfull if is a valid token', async () => {
+            request.query = { token: '123456' };
             request.params = { id: '123456789123456789123456' };
             await twoFactorMiddleware.authenticate(request, response, next);
 
@@ -94,16 +94,16 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
             });
         });
 
-        describe('and the params are incorrect - code', () => {
+        describe('and the params are incorrect - token', () => {
             beforeAll(() => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
                 jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToDone);
                 jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(false);
             });
 
-            it('should throw 401 error - Wrong code', async () => {
+            it('should throw 401 error - Wrong token', async () => {
                 try {
-                    request.query = { code: '123456' };
+                    request.query = { token: '123456' };
                     request.params = { id: '123456789123456789123456' };
                     await twoFactorMiddleware.authenticate(request, response, next);
                     expect('it should not be here').toBe(true);

@@ -1,6 +1,5 @@
-import { routeOriginal } from '@tablerise/auto-swagger';
+import { routeInstance } from '@tablerise/auto-swagger';
 import { Router } from 'express';
-import Mock from 'src/types/Mock';
 
 export default interface Route {
     'dungeons&dragons5e': {
@@ -26,8 +25,8 @@ export default interface Route {
 }
 
 export interface RouteDeclarations {
-    'dungeons&dragons5e': routeOriginal;
-    user: routeOriginal;
+    'dungeons&dragons5e': routeInstance[];
+    user: routeInstance[];
 }
 
 export interface RouteDeclareParams {
@@ -42,4 +41,4 @@ export interface ParamName {
     type: string;
 }
 
-export type RouteWrapperDeclared = string | null | RouteDeclareParams[] | Mock | boolean | unknown;
+export type RouteWrapperDeclared = routeInstance;

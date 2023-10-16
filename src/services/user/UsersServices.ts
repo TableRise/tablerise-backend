@@ -2,17 +2,21 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { MongoModel } from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
-import { ConfirmCodeResponse, RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import {
+    ConfirmCodeResponse,
+    RegisterUserPayload,
+    RegisterUserResponse,
+    TwoFactorSecret,
+    emailUpdatePayload,
+} from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import getErrorName from 'src/services/helpers/getErrorName';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
-import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import EmailSender from './helpers/EmailSender';
 
 export default class RegisterServices {
@@ -32,7 +36,7 @@ export default class RegisterServices {
         const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
         const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email');
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }
@@ -41,7 +45,7 @@ export default class RegisterServices {
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
         const tagAlreadyExist = await this._model.findAll({ tag, nickname: user.nickname });
 
-        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag');
+        if (tagAlreadyExist.length) HttpRequestErrors.throwError('tag-already-exist');
 
         user.tag = tag;
         user.createdAt = new Date().toISOString();
@@ -52,7 +56,7 @@ export default class RegisterServices {
             code: '',
         };
 
-        if (user.twoFactorSecret?.active) {
+        if (user.twoFactorSecret.active) {
             const secret = speakeasy.generateSecret();
             const url = speakeasy.otpauthURL({
                 secret: secret.base32,
@@ -62,9 +66,8 @@ export default class RegisterServices {
             });
 
             userDetails.secretQuestion = null;
-            user.twoFactorSecret = { code: secret.base32, qrcode: url };
+            user.twoFactorSecret = { secret: secret.base32, qrcode: url, active: true };
             user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
-            delete user.twoFactorSecret.active;
         }
 
         return { userSerialized: user, userDetailsSerialized: userDetails };
@@ -87,12 +90,12 @@ export default class RegisterServices {
         const confirmEmail = await new EmailSender('confirmation').send(
             {
                 username: user.nickname,
-                subject: 'TableRise - Precisamos confirmar seu email',
+                subject: 'Email de confirmação - TableRise',
             },
             user.email
         );
 
-        if (!confirmEmail.success) HttpRequestErrors.throwError('verification-email');
+        if (!confirmEmail.success) HttpRequestErrors.throwError('verification-email-send-fail');
 
         // @ts-expect-error inProgress will exist below
         user.inProgress.code = confirmEmail.verificationCode as string;
@@ -127,15 +130,12 @@ export default class RegisterServices {
     public async confirmCode(id: string, code: string): Promise<ConfirmCodeResponse> {
         const userInfo = (await this._model.findOne(id)) as User;
 
-        if (!userInfo) HttpRequestErrors.throwError('user');
-        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string');
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
 
-        if (!userInfo.inProgress || userInfo.inProgress.code !== code)
-            throw new HttpRequestErrors({
-                message: 'Invalid code',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
 
         userInfo.inProgress.status = 'done';
 
@@ -147,15 +147,21 @@ export default class RegisterServices {
     public async emailVerify(id: string): Promise<void> {
         const user = (await this._model.findOne(id)) as User;
 
-        if (!user) HttpRequestErrors.throwError('user');
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
 
         // @ts-expect-error In progress will exist below
         if (user.inProgress.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
 
         const sendEmail = new EmailSender('verification');
-        const verificationCode = await sendEmail.send({ subject: 'Email de verificação - TableRise' }, user.email);
+        const verificationCode = await sendEmail.send(
+            {
+                subject: 'Email de verificação - TableRise',
+                username: user.nickname,
+            },
+            user.email
+        );
 
-        if (!verificationCode.success) HttpRequestErrors.throwError('verification-email');
+        if (!verificationCode.success) HttpRequestErrors.throwError('verification-email-send-fail');
 
         user.inProgress = {
             status: 'wait_to_verify',
@@ -167,12 +173,67 @@ export default class RegisterServices {
         await this._model.update(id, user);
     }
 
+    public async activateTwoFactor(id: string): Promise<UserTwoFactor> {
+        const user = (await this._model.findOne(id)) as User;
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
+        if (user.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-already-active');
+
+        const userDetail = await this._modelDetails.findAll({ userId: user._id });
+        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
+
+        const secret = speakeasy.generateSecret();
+        const url = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `TableRise 2FA (${user.email})`,
+            issuer: 'TableRise',
+            encoding: 'base32',
+        });
+
+        user.twoFactorSecret = {
+            secret: secret.base32,
+            qrcode: await qrcode.toDataURL(url),
+            active: true,
+        };
+
+        userDetail[0].secretQuestion = null;
+
+        await this._model.update(id, user);
+        await this._modelDetails.update(userDetail[0]._id as string, userDetail[0]);
+
+        this._logger('info', `Two Factor Authorization added to user ${user._id as string}`);
+
+        return { qrcode: user.twoFactorSecret.qrcode, active: user.twoFactorSecret.active };
+    }
+
+    public async updateEmail(id: string, code: string, payload: emailUpdatePayload): Promise<void> {
+        this._validate.entry(emailUpdateZodSchema, payload);
+        const { email } = payload;
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        const emailAlreadyExist = await this._model.findAll({ email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
+
+        userInfo.email = email;
+        userInfo.inProgress.status = 'email_change';
+        userInfo.updatedAt = new Date().toISOString();
+
+        await this._model.update(id, userInfo);
+        this._logger('info', 'User email updated');
+    }
+
     public async delete(id: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
 
-        if (!userDetailsInfo) HttpRequestErrors.throwError('user');
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
         if (userDetailsInfo.gameInfo.campaigns.length || userDetailsInfo.gameInfo.characters.length) {
-            HttpRequestErrors.throwError('linked-data');
+            HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 
         await this._model.delete(id);
@@ -184,7 +245,7 @@ export default class RegisterServices {
 
         if(idBadge.length === 0) HttpRequestErrors.throwError('query-missing');
 
-        if(!userDetailsInfo) HttpRequestErrors.throwError('user');
+        if(!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 
         const hasBadge = userDetailsInfo.gameInfo.badges
             .filter(badge => badge === idBadge).length > 0;
@@ -194,5 +255,39 @@ export default class RegisterServices {
 
             await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
         }
+    }
+
+    public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
+        const userInfo = (await this._model.findOne(id)) as User;
+
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        if (!userInfo.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-no-active');
+
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        const secret = speakeasy.generateSecret();
+        const url = speakeasy.otpauthURL({
+            secret: secret.base32,
+            label: `TableRise 2FA (${userInfo.email})`,
+            issuer: 'TableRise',
+            encoding: 'base32',
+        });
+
+        userInfo.inProgress.status = 'done';
+        userInfo.twoFactorSecret = {
+            secret: secret.base32,
+            qrcode: await qrcode.toDataURL(url),
+            active: true,
+        };
+
+        await this._model.update(id, userInfo);
+
+        return {
+            qrcode: userInfo.twoFactorSecret.qrcode,
+            active: userInfo.twoFactorSecret.active,
+        };
     }
 }

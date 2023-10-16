@@ -9,6 +9,10 @@ import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
+import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
+import mock from 'src/support/mocks/dungeons&dragons5e';
+import passport from 'passport';
+import generateIDParam, { generateQueryParam } from '../parametersWrapper';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -18,11 +22,70 @@ const services = new ArmorsServices(model, logger, schemaValidator, schema['dung
 const controllers = new ArmorsControllers(services, logger);
 
 const router = Router();
+const BASE_PATH = '/dnd5e/armors';
 
-router.get('/', controllers.findAll);
-router.get('/disabled', controllers.findAllDisabled);
-router.get('/:id', VerifyIdMiddleware, controllers.findOne);
-router.put('/:id', VerifyIdMiddleware, controllers.update);
-router.patch('/:id', VerifyIdMiddleware, VerifyBooleanQueryMiddleware, controllers.updateAvailability);
+const routes = [
+    {
+        method: 'get',
+        path: `${BASE_PATH}`,
+        controller: controllers.findAll,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'armors',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/disabled`,
+        controller: controllers.findAllDisabled,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'armors',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam()],
+        controller: controllers.findOne,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'armors',
+        },
+    },
+    {
+        method: 'put',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam()],
+        controller: controllers.update,
+        schema: mock.armor.instance.en,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'armors',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+        controller: controllers.updateAvailability,
+        options: {
+            middlewares: [
+                VerifyIdMiddleware,
+                VerifyBooleanQueryMiddleware,
+                passport.authenticate('bearer', { session: false }),
+            ],
+            authentication: true,
+            tag: 'armors',
+        },
+    },
+] as routeInstance[];
 
-export default router;
+export default {
+    routerExpress: buildRouter(routes, router),
+    routesSwagger: routes,
+};

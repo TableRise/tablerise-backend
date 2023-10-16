@@ -35,24 +35,28 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When validate a confirmation code', () => {
+    describe('When 2FA is reset', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
         });
 
-        it('should return correct data and status', async () => {
+        it('should return correct new QRCode and Active', async () => {
             const userResponse = await requester
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
             const userId: string = userResponse.body._id;
+
             const code: string = userResponse.body.inProgress.code;
 
-            const response = await requester.patch(`/profile/${userId}/confirm?code=${code}`).expect(HttpStatusCode.OK);
+            const response = await requester
+                .patch(`/profile/${userId}/2fa/reset?code=${code}`)
+                .expect(HttpStatusCode.OK);
 
-            expect(response.body).toHaveProperty('status');
-            expect(response.body.status).toBe('done');
+            expect(response.body).toHaveProperty('qrcode');
+            expect(response.body).toHaveProperty('active');
+            expect(response.body.active).toBe(true);
         });
     });
 });
