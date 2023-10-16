@@ -14,6 +14,7 @@ import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 import mock from 'src/support/mocks/dungeons&dragons5e';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -21,6 +22,11 @@ const database = new DatabaseManagement();
 const model = database.modelInstance('dungeons&dragons5e', 'Monsters');
 const services = new MonstersServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new MonstersControllers(services, logger);
+
+const userModel = database.modelInstance('user', 'Users');
+const userModelDetails = database.modelInstance('user', 'UserDetails');
+
+const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/monsters';
@@ -64,7 +70,11 @@ const routes = [
         controller: controllers.update,
         schema: mock.monster.instance.en,
         options: {
-            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            middlewares: [
+                authorizationMiddleware.checkAdminRole,
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+            ],
             authentication: true,
             tag: 'monsters',
         },
@@ -76,6 +86,7 @@ const routes = [
         controller: controllers.updateAvailability,
         options: {
             middlewares: [
+                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),

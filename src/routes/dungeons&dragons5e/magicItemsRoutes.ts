@@ -13,6 +13,7 @@ import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 import passport from 'passport';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -20,6 +21,11 @@ const database = new DatabaseManagement();
 const model = database.modelInstance('dungeons&dragons5e', 'MagicItems');
 const services = new MagicItemsServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new MagicItemsControllers(services, logger);
+
+const userModel = database.modelInstance('user', 'Users');
+const userModelDetails = database.modelInstance('user', 'UserDetails');
+
+const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/magicItems';
@@ -63,7 +69,11 @@ const routes = [
         controller: controllers.update,
         schema: mock.magicItems.instance.en,
         options: {
-            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            middlewares: [
+                authorizationMiddleware.checkAdminRole,
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+            ],
             authentication: true,
             tag: 'magicItems',
         },
@@ -75,6 +85,7 @@ const routes = [
         controller: controllers.updateAvailability,
         options: {
             middlewares: [
+                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),
