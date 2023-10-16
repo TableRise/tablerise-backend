@@ -241,19 +241,25 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
-    public async updateGameInfo(idUser: string, dataId: string, gameInfo: GameInfoOptions, operation: string): Promise<void> {
+    public async updateGameInfo(
+        idUser: string,
+        dataId: string,
+        gameInfo: GameInfoOptions,
+        operation: string
+    ): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
         let hasInfo = false;
 
-        if(!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 
         switch (operation) {
             case 'remove':
-                userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo
-                    .gameInfo[gameInfo].filter(data => data !== dataId);
+                userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo.gameInfo[gameInfo].filter(
+                    (data) => data !== dataId
+                );
                 break;
             default:
-                hasInfo = userDetailsInfo.gameInfo[gameInfo].filter(data => data === dataId).length > 0;
+                hasInfo = userDetailsInfo.gameInfo[gameInfo].filter((data) => data === dataId).length > 0;
                 if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
                 break;
         }

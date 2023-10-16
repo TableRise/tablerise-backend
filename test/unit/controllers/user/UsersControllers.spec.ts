@@ -251,6 +251,6 @@ describe('Controllers :: User :: UsersControllers', () => {
 
                 expect(err.code).toBe(400);
             }
-        })
+        });
     });
 });

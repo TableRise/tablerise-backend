@@ -126,11 +126,14 @@ export const routes = [
         method: 'patch',
         path: `${BASE_PATH}/:id/update/game-info`,
         controller: controllers.updateGameInfo,
-        parameters: [...generateIDParam(), ...generateQueryParam(3, [
-            { name: 'id', type: 'string' },
-            { name: 'info', type: '"badges" | "campaigns" | "characters"' },
-            { name: 'operation', type: '"add" | "remove"' }
-        ])],
+        parameters: [
+            ...generateIDParam(),
+            ...generateQueryParam(3, [
+                { name: 'id', type: 'string' },
+                { name: 'info', type: '"badges" | "campaigns" | "characters"' },
+                { name: 'operation', type: '"add" | "remove"' },
+            ]),
+        ],
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,

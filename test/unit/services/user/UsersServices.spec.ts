@@ -905,7 +905,7 @@ describe('Services :: User :: UsersServices', () => {
                 await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'remove');
 
                 const result = userDetails;
-                result.gameInfo.badges = userDetails.gameInfo.badges.filter(badge => badge !== infoId);
+                result.gameInfo.badges = userDetails.gameInfo.badges.filter((badge) => badge !== infoId);
 
                 expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
                 expect(UserDetails.update).toHaveBeenCalledTimes(1);

@@ -107,15 +107,21 @@ export default class UsersControllers {
         const { id: _idUser } = req.params;
         const { id: _dataId, info: _gameInfo, operation: _operation } = req.query;
 
-        if(!_dataId || !_gameInfo) HttpRequestErrors.throwError('query-missing');
+        if (!_dataId || !_gameInfo) HttpRequestErrors.throwError('query-missing');
 
-        if(!this.isGameInfo(_gameInfo as string)) throw new HttpRequestErrors({
-            message: 'Selected game info is invalid',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST),
-        });
+        if (!this.isGameInfo(_gameInfo as string))
+            throw new HttpRequestErrors({
+                message: 'Selected game info is invalid',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
-        await this._service.updateGameInfo(_idUser, _dataId as string, _gameInfo as GameInfoOptions, _operation as string);
+        await this._service.updateGameInfo(
+            _idUser,
+            _dataId as string,
+            _gameInfo as GameInfoOptions,
+            _operation as string
+        );
 
         return res.sendStatus(HttpStatusCode.OK);
     }
