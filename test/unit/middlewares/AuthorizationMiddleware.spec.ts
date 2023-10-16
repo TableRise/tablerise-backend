@@ -84,6 +84,8 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
 
         describe('When a request is made for verify two factor auth - success', () => {
             beforeAll(() => {
+                user.twoFactorSecret.qrcode = 'test';
+
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
                 jest.spyOn(User, 'update').mockResolvedValue(updatedInProgressToDone);
                 jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
