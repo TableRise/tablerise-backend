@@ -70,9 +70,9 @@ const routes = [
         schema: mock.spell.instance.en,
         options: {
             middlewares: [
-                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'spells',
@@ -85,10 +85,10 @@ const routes = [
         controller: controllers.updateAvailability,
         options: {
             middlewares: [
-                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'spells',

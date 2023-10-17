@@ -71,9 +71,9 @@ const routes = [
         schema: mock.monster.instance.en,
         options: {
             middlewares: [
-                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'monsters',
@@ -86,10 +86,10 @@ const routes = [
         controller: controllers.updateAvailability,
         options: {
             middlewares: [
-                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'monsters',
