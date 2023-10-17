@@ -61,14 +61,6 @@ describe('Add user badges', () => {
             await requester
                 .patch(`/profile/${userId}/update/game-info?id=${infoId}&info=badges&operation=add`)
                 .expect(HttpStatusCode.OK);
-
-            // userDetailsInstanceMock._id = generateNewMongoID();
-            // userDetailsInstanceMock.userId = generateNewMongoID();
-
-            // const testUser = await new DatabaseManagement().modelInstance('user', 'UserDetails').create(userDetailsInstanceMock);
-
-            // await requester.patch(`/profile/${testUser.userId as string}/update/game-info?id=${badgeId}&info=badges&operation=add`)
-            //     .expect(HttpStatusCode.OK);
         });
     });
 });
