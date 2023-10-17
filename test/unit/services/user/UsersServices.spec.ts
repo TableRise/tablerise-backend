@@ -2,7 +2,12 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import { RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
+import {
+    RegisterUserPayload,
+    RegisterUserResponse,
+    emailUpdatePayload,
+    secretQuestionPayload,
+} from 'src/types/Response';
 import schema from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
@@ -25,7 +30,8 @@ describe('Services :: User :: UsersServices', () => {
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse,
         deleteResponse: any,
-        emailRequest: emailUpdatePayload;
+        emailRequest: emailUpdatePayload,
+        secretQuestionRequest: secretQuestionPayload;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -677,6 +683,28 @@ describe('Services :: User :: UsersServices', () => {
                 }
             });
         });
+
+        describe('and the data is incorrect - schema', () => {
+            it('should throw 422 error - email update schema', async () => {
+                const wrongEmailUpdatePayload = { invalidField: '' };
+                try {
+                    await userServices.updateEmail(
+                        '65075e05ca9f0d3b2485194f',
+                        'IQSMPW',
+                        wrongEmailUpdatePayload as unknown as emailUpdatePayload
+                    );
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.details).toHaveLength(1);
+                    expect(err.details[0].attribute).toBe('email');
+                    expect(err.details[0].reason).toBe('Required');
+                    expect(err.code).toBe(422);
+                    expect(err.name).toBe('ValidationError');
+                }
+            });
+        });
     });
 
     describe('When delete a user', () => {
@@ -848,6 +876,102 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
+                }
+            });
+        });
+    });
+
+    describe('When activate secret question', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+
+            secretQuestionRequest = { question: 'What does the fox say?', answer: 'kikiki' };
+        });
+
+        describe('and the params is correct', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(User, 'update').mockResolvedValue({});
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({});
+            });
+
+            it('should return nothing', async () => {
+                await userServices.activateSecretQuestion('65075e05ca9f0d3b2485194f', secretQuestionRequest);
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateSecretQuestion('', secretQuestionRequest);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - user details id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateTwoFactor('');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the data is incorrect - schema', () => {
+            it('should throw 422 error - secret question schema', async () => {
+                const wrongSecretQuestionPayload = { answer: '' };
+                try {
+                    await userServices.activateSecretQuestion(
+                        '65075e05ca9f0d3b2485194f',
+                        wrongSecretQuestionPayload as secretQuestionPayload
+                    );
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.details).toHaveLength(1);
+                    expect(err.details[0].attribute).toBe('question');
+                    expect(err.details[0].reason).toBe('Required');
+                    expect(err.code).toBe(422);
+                    expect(err.name).toBe('ValidationError');
                 }
             });
         });

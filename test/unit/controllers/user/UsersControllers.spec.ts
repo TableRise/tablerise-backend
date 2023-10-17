@@ -204,4 +204,23 @@ describe('Controllers :: User :: UsersControllers', () => {
             });
         });
     });
+
+    describe('When a request is made to activate secret question', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'activateSecretQuestion').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.params = { id: utils.newUUID() };
+            request.query = { token: '123456' };
+            request.body = { question: 'What does the fox say?', answer: 'kikiki' };
+            await userControllers.activateSecretQuestion(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
 });
