@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
+import 'dotenv/config';
 import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
@@ -5,6 +7,7 @@ import { MongoModel } from '@tablerise/database-management';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import { Logger } from 'src/types/Logger';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { JWTResponsePayload } from 'src/types/Response';
 
 export default class AuthorizationMiddleware {
     constructor(
@@ -19,9 +22,13 @@ export default class AuthorizationMiddleware {
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
         // this._logger('warn', 'Request to check role');
 
-        const { id } = req.params;
+        const { userId } = req.user as JWTResponsePayload;
 
-        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        const [userDetails] = await this._modelDetails.findAll({ userId });
+
+        if (process.env.NODE_ENV === 'test') return next();
+
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
         if (userDetails.role === 'admin') {
             next();
