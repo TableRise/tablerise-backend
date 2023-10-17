@@ -943,7 +943,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 404 error - user do not exist', async () => {
                 try {
-                    await userServices.activateTwoFactor('');
+                    await userServices.activateSecretQuestion('65075e05ca9f0d3b2485194f', secretQuestionRequest);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
