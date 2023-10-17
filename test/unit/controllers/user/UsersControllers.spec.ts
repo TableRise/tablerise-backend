@@ -207,7 +207,7 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
-    describe('When a request is made to add user badge', () => {
+    describe('When a request is made to edit game info', () => {
         beforeAll(() => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);

@@ -910,6 +910,24 @@ describe('Services :: User :: UsersServices', () => {
                 expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
                 expect(UserDetails.update).toHaveBeenCalledTimes(1);
             });
+
+            it('tries to add the info twice', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'add');
+
+                expect(UserDetails.update).toHaveBeenCalledWith(userDetails._id, userDetails);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('adds new badge to array', async () => {
+                const newBadge = generateNewMongoID();
+                await userServices.updateGameInfo(generateNewMongoID(), newBadge, 'badges', 'add');
+
+                const result = userDetails;
+                result.gameInfo.badges.push(newBadge);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
         });
     });
 });

@@ -248,20 +248,15 @@ export default class RegisterServices {
         operation: string
     ): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
-        let hasInfo = false;
 
         if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 
-        switch (operation) {
-            case 'remove':
-                userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo.gameInfo[gameInfo].filter(
-                    (data) => data !== dataId
-                );
-                break;
-            default:
-                hasInfo = userDetailsInfo.gameInfo[gameInfo].filter((data) => data === dataId).length > 0;
-                if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
-                break;
+        if (operation === 'remove')
+            userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo.gameInfo[gameInfo].filter((data) => data !== dataId);
+
+        if (operation === 'add') {
+            const hasInfo = userDetailsInfo.gameInfo[gameInfo].filter((data) => data === dataId).length > 0;
+            if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
         }
 
         await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
