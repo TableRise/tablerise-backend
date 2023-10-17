@@ -64,7 +64,7 @@ const routes = [
         path: `${BASE_PATH}/content/:id`,
         parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'entity', type: 'string' }])],
         controller: controllers.updateContent,
-        schema: mock.updateSystemContent.instance.en,
+        schema: mock.updateSystemContent.instance,
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
