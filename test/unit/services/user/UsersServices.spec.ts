@@ -878,6 +878,25 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
+        describe('and the params is incorrect - game info', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - selected game info is invalid', async () => {
+                try {
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'test', 'add');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Selected game info is invalid');
+                    expect(err.code).toBe(400);
+                    expect(err.name).toBe('BadRequest');
+                }
+            });
+        });
+
         describe('and the params is correct', () => {
             let infoId: string;
             beforeAll(() => {

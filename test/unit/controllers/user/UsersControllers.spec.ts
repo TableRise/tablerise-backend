@@ -238,19 +238,5 @@ describe('Controllers :: User :: UsersControllers', () => {
                 expect(err.code).toBe(400);
             }
         });
-
-        it('but the selected game info is invalid', async () => {
-            request.params = { id: generateNewMongoID() };
-            request.query = { id: generateNewMongoID(), info: 'test' };
-
-            try {
-                await userControllers.updateGameInfo(request, response);
-                expect('it should not be here').toBe(true);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-
-                expect(err.code).toBe(400);
-            }
-        });
     });
 });

@@ -19,6 +19,8 @@ import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordH
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
 import { GameInfoOptions } from 'src/types/GameInfo';
+import { HttpStatusCode } from '../helpers/HttpStatusCode';
+import getErrorName from '../helpers/getErrorName';
 
 export default class RegisterServices {
     constructor(
@@ -241,13 +243,19 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
-    public async updateGameInfo(
-        idUser: string,
-        dataId: string,
-        gameInfo: GameInfoOptions,
-        operation: string
-    ): Promise<void> {
+    private isGameInfo(keyInput: string): keyInput is GameInfoOptions {
+        return ['badges', 'campaigns', 'characters'].includes(keyInput);
+    }
+
+    public async updateGameInfo(idUser: string, dataId: string, gameInfo: string, operation: string): Promise<void> {
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
+
+        if (!this.isGameInfo(gameInfo))
+            throw new HttpRequestErrors({
+                message: 'Selected game info is invalid',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
 
         if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 

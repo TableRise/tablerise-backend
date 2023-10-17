@@ -5,7 +5,6 @@ import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { GameInfoOptions } from 'src/types/GameInfo';
-import getErrorName from 'src/services/helpers/getErrorName';
 
 export default class UsersControllers {
     constructor(
@@ -98,23 +97,12 @@ export default class UsersControllers {
         return res.status(HttpStatusCode.OK).json(request);
     }
 
-    private isGameInfo(keyInput: string): keyInput is GameInfoOptions {
-        return ['badges', 'campaigns', 'characters'].includes(keyInput);
-    }
-
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request edit users game info');
         const { id: _idUser } = req.params;
         const { id: _dataId, info: _gameInfo, operation: _operation } = req.query;
 
         if (!_dataId || !_gameInfo) HttpRequestErrors.throwError('query-missing');
-
-        if (!this.isGameInfo(_gameInfo as string))
-            throw new HttpRequestErrors({
-                message: 'Selected game info is invalid',
-                code: HttpStatusCode.BAD_REQUEST,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            });
 
         await this._service.updateGameInfo(
             _idUser,
