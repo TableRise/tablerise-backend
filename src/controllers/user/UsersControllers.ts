@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
-import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
+import { RegisterUserPayload, emailUpdatePayload, secretQuestionPayload } from 'src/types/Response';
 
 export default class UsersControllers {
     constructor(
@@ -17,6 +17,7 @@ export default class UsersControllers {
         this.updateEmail = this.updateEmail.bind(this);
         this.delete = this.delete.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
+        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -92,5 +93,13 @@ export default class UsersControllers {
 
         const request = await this._service.resetTwoFactor(id, code as string);
         return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as secretQuestionPayload;
+
+        await this._service.activateSecretQuestion(id, payload);
+        return res.status(HttpStatusCode.NO_CONTENT);
     }
 }

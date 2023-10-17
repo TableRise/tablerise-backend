@@ -22,7 +22,7 @@ export default class TwoFactorMiddleware {
         const user = (await this._model.findOne(id)) as User;
 
         if (!user) HttpRequestErrors.throwError('user-inexistent');
-        if (!user.twoFactorSecret) {
+        if (!user.twoFactorSecret.active) {
             next();
             return;
         }
