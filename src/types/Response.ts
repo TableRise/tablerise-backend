@@ -33,3 +33,8 @@ export interface LoginResponse {
 export interface emailUpdatePayload {
     email: string;
 }
+
+export interface secretQuestionPayload {
+    question: string;
+    answer: string;
+}
