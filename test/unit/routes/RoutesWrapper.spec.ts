@@ -15,7 +15,7 @@ describe('Routes :: RoutesWrapper', () => {
         it('should return an array with 18 routes inside - user', () => {
             routesDeclared = RoutesWrapper.declareRoutes().user;
             expect(routesDeclared).toBeInstanceOf(Array);
-            expect(routesDeclared.length).toBe(18);
+            expect(routesDeclared.length).toBe(19);
         });
     });
 

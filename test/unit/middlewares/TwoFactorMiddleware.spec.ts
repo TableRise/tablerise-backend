@@ -81,7 +81,8 @@ describe('Middlewares :: TwoFactorMiddleware', () => {
 
         describe('and the two factor auth is deactivated', () => {
             beforeAll(() => {
-                const { twoFactorSecret, ...userWithoutTwoFactor } = user;
+                const userWithoutTwoFactor = JSON.parse(JSON.stringify(user));
+                userWithoutTwoFactor.twoFactorSecret.active = false;
                 jest.spyOn(User, 'findOne').mockResolvedValue(userWithoutTwoFactor);
                 next = jest.fn();
             });
