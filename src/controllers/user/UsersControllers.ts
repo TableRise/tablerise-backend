@@ -100,6 +100,6 @@ export default class UsersControllers {
         const payload = req.body as secretQuestionPayload;
 
         await this._service.activateSecretQuestion(id, payload);
-        return res.status(HttpStatusCode.NO_CONTENT);
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
     }
 }

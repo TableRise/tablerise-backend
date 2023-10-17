@@ -285,6 +285,8 @@ export default class RegisterServices {
         const [userDetails] = await this._modelDetails.findAll({ userId: id });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
+        delete userInfo.twoFactorSecret.qrcode;
+        delete userInfo.twoFactorSecret.secret;
         userInfo.twoFactorSecret.active = false;
         userDetails.secretQuestion = { question, answer };
 
