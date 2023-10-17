@@ -37,9 +37,14 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
                 return detail;
             })[0];
 
-            request.params = { id: '123456789123456789123456' };
+            request.user = {
+                userId: '123456789123456789123456',
+                providerId: null,
+                username: 'test',
+                iat: 1234,
+                exp: 1234,
+            };
 
-            jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
             next = jest.fn();
         });
 
@@ -47,26 +52,51 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
             jest.clearAllMocks();
         });
 
-        it('should be return successful if role is admin', async () => {
-            userDetails.role = 'admin';
+        describe('and the userDetails is correct', () => {
+            beforeAll(() => {
+                userDetails.role = 'admin';
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
 
-            await authorizationMiddleware.checkAdminRole(request, response, next);
-            expect(next).toHaveBeenCalled();
+            it('should be return successful if role is admin', async () => {
+                await authorizationMiddleware.checkAdminRole(request, response, next);
+                expect(next).toHaveBeenCalled();
+            });
         });
 
-        it('should be return error if role is not admin', async () => {
-            try {
+        describe('and the userDetails are incorrect', () => {
+            it('should return error if userDetails is not found', async () => {
+                // @ts-expect-error Expect error
+                userDetails = [];
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+
+                try {
+                    await authorizationMiddleware.checkAdminRole(request, response, next);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+
+            it('should be return error if role is not admin', async () => {
                 userDetails.role = 'user';
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
 
-                await authorizationMiddleware.checkAdminRole(request, response, next);
-                expect('it should not be here').toBe(true);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
+                try {
+                    await authorizationMiddleware.checkAdminRole(request, response, next);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
 
-                expect(err.message).toStrictEqual('Unauthorized');
-                expect(err.name).toBe('Unauthorized');
-                expect(err.code).toBe(401);
-            }
+                    expect(err.message).toStrictEqual('Unauthorized');
+                    expect(err.name).toBe('Unauthorized');
+                    expect(err.code).toBe(401);
+                }
+            });
         });
     });
 
