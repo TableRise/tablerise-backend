@@ -24,13 +24,11 @@ export default class AuthorizationMiddleware {
 
         const { userId } = req.user as JWTResponsePayload;
 
-        const [userDetails] = await this._modelDetails.findAll({ userId });
+        const [{ role }] = await this._modelDetails.findAll({ userId });
 
-        if (process.env.NODE_ENV === 'test') return next();
+        if (!role) HttpRequestErrors.throwError('user-inexistent');
 
-        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
-
-        if (userDetails.role === 'admin') {
+        if (role === 'admin') {
             next();
         } else {
             HttpRequestErrors.throwError('unauthorized');
