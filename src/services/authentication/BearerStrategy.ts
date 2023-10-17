@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import 'dotenv/config';
 import logger from '@tablerise/dynamic-logger';
 import passport from 'passport';
 import Bearer from 'passport-http-bearer';

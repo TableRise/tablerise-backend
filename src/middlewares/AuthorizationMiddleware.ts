@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import 'dotenv/config';
 import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';

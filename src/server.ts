@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+import 'dotenv/config';
 import DatabaseManagement from '@tablerise/database-management';
 import app from './app';
 
