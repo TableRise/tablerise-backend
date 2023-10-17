@@ -31,6 +31,7 @@ describe('Add user badges', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
