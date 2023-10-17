@@ -15,7 +15,10 @@ passport.use(
     new BearerStrategy((token, done) => {
         logger('warn', 'Request made to authorize operation in server');
 
-        if (process.env.NODE_ENV === 'test') return done(null, {});
+        if (process.env.NODE_ENV === 'test')
+            return done(null, {
+                userId: '',
+            });
 
         const payload = JWTGenerator.verify(token);
 
