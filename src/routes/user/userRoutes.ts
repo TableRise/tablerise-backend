@@ -130,8 +130,8 @@ export const routes = [
             ...generateIDParam(),
             ...generateQueryParam(3, [
                 { name: 'id', type: 'string' },
-                { name: 'info', type: '"badges" | "campaigns" | "characters"' },
-                { name: 'operation', type: '"add" | "remove"' },
+                { name: 'info', type: 'string' },
+                { name: 'operation', type: 'string' },
             ]),
         ],
         options: {
