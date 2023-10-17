@@ -20,7 +20,7 @@ const services = new OAuthServices(modelUser, modelUserDetails, logger);
 const controllers = new OAuthControllers(services, logger);
 
 const router = Router();
-const BASE_PATH = '/oauth';
+const BASE_PATH = '/auth';
 
 export const routes = [
     {
@@ -29,7 +29,7 @@ export const routes = [
         options: {
             middlewares: [passport.authenticate('google')],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
     },
     {
@@ -43,7 +43,7 @@ export const routes = [
                 }),
             ],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -53,7 +53,7 @@ export const routes = [
         controller: controllers.google,
         options: {
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -63,7 +63,7 @@ export const routes = [
         options: {
             middlewares: [passport.authenticate('facebook')],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
     },
     {
@@ -77,7 +77,7 @@ export const routes = [
                 }),
             ],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -87,7 +87,7 @@ export const routes = [
         controller: controllers.facebook,
         options: {
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -97,7 +97,7 @@ export const routes = [
         options: {
             middlewares: [passport.authenticate('discord')],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
     },
     {
@@ -111,7 +111,7 @@ export const routes = [
                 }),
             ],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -121,7 +121,7 @@ export const routes = [
         controller: controllers.discord,
         options: {
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
@@ -131,7 +131,7 @@ export const routes = [
         options: {
             middlewares: [AuthErrorMiddleware],
             authentication: false,
-            tag: 'auth',
+            tag: 'external',
         },
         hide: true,
     },
