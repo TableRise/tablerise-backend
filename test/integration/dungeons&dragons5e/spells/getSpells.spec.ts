@@ -1,11 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Spell } from 'src/schemas/dungeons&dragons5e/spellsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG spells from database', () => {
     let model: MongoModel<Internacional<Spell>>;
@@ -15,8 +16,20 @@ describe('Get RPG spells from database', () => {
     let documentId: string;
 
     beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Spells');
+    });
+
+    afterAll(async() => {
+        await mongoose.connection.close();
     });
 
     describe('When request all rpg spells', () => {

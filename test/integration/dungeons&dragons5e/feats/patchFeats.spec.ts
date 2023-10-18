@@ -1,11 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Feat } from 'src/schemas/dungeons&dragons5e/featsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG feats in database', () => {
     let model: MongoModel<Internacional<Feat>>;
@@ -15,8 +16,20 @@ describe('Patch RPG feats in database', () => {
     let documentId: string;
 
     beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Feats');
+    });
+
+    afterAll(async() => {
+        await mongoose.connection.close();
     });
 
     describe('When update availability one rpg feat', () => {

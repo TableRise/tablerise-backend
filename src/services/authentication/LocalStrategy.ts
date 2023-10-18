@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import passport from 'passport';
 import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';

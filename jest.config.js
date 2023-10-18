@@ -11,6 +11,7 @@ module.exports = {
     ],
     rootDir: './',
     modulePaths: ['<rootDir>'],
-    setupFiles: ['<rootDir>/test/support/environmentVariables.js', '<rootDir>/test/support/globalSetup.js'],
+    setupFiles: ['<rootDir>/test/support/environmentVariables.js'],
+    globalSetup: '<rootDir>/test/support/globalSetup.js',
     globalTeardown: '<rootDir>/test/support/globalTeardown.js',
 };

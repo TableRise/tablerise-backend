@@ -1,10 +1,11 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG systems in database', () => {
     let model: MongoModel<System>;
@@ -17,8 +18,20 @@ describe('Put RPG systems in database', () => {
     let documentId: string;
 
     beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'System');
+    });
+
+    afterAll(async() => {
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg system', () => {

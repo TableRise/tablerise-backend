@@ -1,11 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG monsters in database', () => {
     let model: MongoModel<Internacional<Monster>>;
@@ -20,8 +21,20 @@ describe('Put RPG monsters in database', () => {
     let documentId: string;
 
     beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Monsters');
+    });
+
+    afterAll(async() => {
+        await mongoose.connection.close();
     });
 
     describe('When update one rpg monster', () => {
