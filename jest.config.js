@@ -8,6 +8,7 @@ module.exports = {
         'src/app.ts',
         'src/services/authentication',
         'src/support/helpers/swaggerGenerator.ts',
+        'test/support'
     ],
     rootDir: './',
     modulePaths: ['<rootDir>'],
