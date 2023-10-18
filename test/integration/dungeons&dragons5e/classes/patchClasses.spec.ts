@@ -28,7 +28,7 @@ describe('Patch RPG classes in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Classes');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

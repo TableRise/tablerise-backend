@@ -28,7 +28,7 @@ describe('Get RPG armors from database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Armors');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

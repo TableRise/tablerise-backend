@@ -28,7 +28,7 @@ describe('Patch RPG armors in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Armors');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

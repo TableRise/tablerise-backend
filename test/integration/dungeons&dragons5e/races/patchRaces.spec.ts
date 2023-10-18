@@ -28,7 +28,7 @@ describe('Patch RPG races in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Races');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

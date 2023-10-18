@@ -28,7 +28,7 @@ describe('Get RPG gods from database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Gods');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

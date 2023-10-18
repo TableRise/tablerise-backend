@@ -28,7 +28,7 @@ describe('Patch RPG monsters in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Monsters');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

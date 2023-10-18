@@ -28,7 +28,7 @@ describe('Patch RPG realms in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Realms');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

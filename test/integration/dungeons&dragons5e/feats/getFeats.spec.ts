@@ -28,7 +28,7 @@ describe('Get RPG feats from database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Feats');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

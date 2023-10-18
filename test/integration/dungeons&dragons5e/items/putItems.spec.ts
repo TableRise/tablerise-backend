@@ -33,7 +33,7 @@ describe('Put RPG Items in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Items');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

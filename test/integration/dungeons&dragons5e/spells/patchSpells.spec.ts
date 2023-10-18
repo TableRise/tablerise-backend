@@ -28,7 +28,7 @@ describe('Patch RPG spells in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Spells');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

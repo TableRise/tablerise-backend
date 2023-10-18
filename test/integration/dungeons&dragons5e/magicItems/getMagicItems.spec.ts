@@ -28,7 +28,7 @@ describe('Get RPG magic items from database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'MagicItems');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

@@ -27,7 +27,7 @@ describe('Patch RPG system status in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'System');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 

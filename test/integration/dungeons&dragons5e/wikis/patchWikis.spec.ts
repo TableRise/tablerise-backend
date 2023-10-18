@@ -28,7 +28,7 @@ describe('Patch RPG wikis in database', () => {
         model = database.modelInstance('dungeons&dragons5e', 'Wikis');
     });
 
-    afterAll(async() => {
+    afterAll(async () => {
         await mongoose.connection.close();
     });
 
