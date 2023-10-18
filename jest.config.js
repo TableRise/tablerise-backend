@@ -8,8 +8,11 @@ module.exports = {
         'src/app.ts',
         'src/services/authentication',
         'src/support/helpers/swaggerGenerator.ts',
+        'test/support',
     ],
     rootDir: './',
     modulePaths: ['<rootDir>'],
     setupFiles: ['<rootDir>/test/support/environmentVariables.js'],
+    globalSetup: '<rootDir>/test/support/globalSetup.js',
+    globalTeardown: '<rootDir>/test/support/globalTeardown.js',
 };

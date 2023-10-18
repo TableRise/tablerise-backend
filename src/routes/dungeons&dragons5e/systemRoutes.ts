@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import 'src/services/authentication/BearerStrategy';
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
@@ -13,6 +14,7 @@ import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 import passport from 'passport';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -20,6 +22,11 @@ const database = new DatabaseManagement();
 const model = database.modelInstance('dungeons&dragons5e', 'System');
 const services = new SystemServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new SystemControllers(services, logger);
+
+const userModel = database.modelInstance('user', 'Users');
+const userModelDetails = database.modelInstance('user', 'UserDetails');
+
+const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/system';
@@ -53,7 +60,11 @@ const routes = [
         controller: controllers.update,
         schema: mock.system.instance.en,
         options: {
-            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
+            ],
             authentication: true,
             tag: 'system',
         },
@@ -66,7 +77,11 @@ const routes = [
         controller: controllers.updateContent,
         schema: mock.updateSystemContent.instance,
         options: {
-            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
+            ],
             authentication: true,
             tag: 'system',
         },
@@ -81,6 +96,7 @@ const routes = [
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'system',

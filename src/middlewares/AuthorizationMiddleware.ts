@@ -3,17 +3,37 @@ import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { MongoModel } from '@tablerise/database-management';
 import { User } from 'src/schemas/user/usersValidationSchema';
+import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { Logger } from 'src/types/Logger';
+import { JWTResponsePayload } from 'src/types/Response';
 
-export default class TwoFactorMiddleware {
+export default class AuthorizationMiddleware {
     constructor(
         private readonly _model: MongoModel<User>,
+        private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger
     ) {
-        this.authenticate = this.authenticate.bind(this);
+        this.checkAdminRole = this.checkAdminRole.bind(this);
+        this.twoFactor = this.twoFactor.bind(this);
     }
 
-    public async authenticate(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
+        this._logger('warn', 'Request to check role');
+
+        const { userId } = req.user as JWTResponsePayload;
+
+        const userDetail = await this._modelDetails.findAll({ userId });
+
+        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
+
+        if (userDetail[0].role === 'admin') {
+            next();
+        } else {
+            HttpRequestErrors.throwError('unauthorized');
+        }
+    }
+
+    public async twoFactor(req: Request, _res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'Request to validate two factor token');
 
         const { id } = req.params;

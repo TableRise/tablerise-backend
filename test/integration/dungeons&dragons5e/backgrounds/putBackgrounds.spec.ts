@@ -1,12 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG backgrounds in database', () => {
     let model: MongoModel<Internacional<Background>>;
@@ -31,7 +31,6 @@ describe('Put RPG backgrounds in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Backgrounds');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -52,7 +51,7 @@ describe('Put RPG backgrounds in database', () => {
             const response = await model.create(backgroundPayload);
             documentId = response._id as string;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/backgrounds/${documentId}`)
                 .send(newBackgroundPayload)
                 .expect(HttpStatusCode.OK);
@@ -69,7 +68,7 @@ describe('Put RPG backgrounds in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/backgrounds/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Background>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -82,7 +81,7 @@ describe('Put RPG backgrounds in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/backgrounds/${generateNewMongoID()}`)
                 .send({ active: true, ...newBackgroundPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -94,7 +93,7 @@ describe('Put RPG backgrounds in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/backgrounds/${generateNewMongoID()}`)
                 .send(newBackgroundPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

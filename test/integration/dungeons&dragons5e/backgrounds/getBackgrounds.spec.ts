@@ -1,12 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG backgrounds from database', () => {
     let model: MongoModel<Internacional<Background>>;
@@ -26,7 +26,6 @@ describe('Get RPG backgrounds from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Backgrounds');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -47,7 +46,7 @@ describe('Get RPG backgrounds from database', () => {
             const response = await model.create(backgroundMockPayload);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/backgrounds').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/backgrounds').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -78,7 +77,7 @@ describe('Get RPG backgrounds from database', () => {
             const response = await model.create(backgroundMockCopy);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/backgrounds/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/backgrounds/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -103,7 +102,7 @@ describe('Get RPG backgrounds from database', () => {
 
             await model.create(backgroundMockPayload);
 
-            const { body } = await requester.get(`/dnd5e/backgrounds/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/dnd5e/backgrounds/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -116,7 +115,7 @@ describe('Get RPG backgrounds from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .get(`/dnd5e/backgrounds/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

@@ -33,3 +33,11 @@ export interface LoginResponse {
 export interface emailUpdatePayload {
     email: string;
 }
+
+export interface JWTResponsePayload {
+    userId: string;
+    providerId: string | null;
+    username: string;
+    iat: number;
+    exp: number;
+}
