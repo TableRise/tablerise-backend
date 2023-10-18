@@ -114,7 +114,7 @@ describe('Controllers :: User :: UsersControllers', () => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
 
-            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock'} } as RegisterUserPayload;
+            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock' } } as RegisterUserPayload;
             userResponse = { ...user, details: userDetails } as RegisterUserResponse;
             userResponse.nickname = 'Mock';
             userResponse.details.firstName = 'Ana Mock';
@@ -127,10 +127,10 @@ describe('Controllers :: User :: UsersControllers', () => {
 
         it('should return correct data in response json with status 200', async () => {
             request.body = userPayload;
-            request.params = { id: user._id as string};
+            request.params = { id: user._id as string };
             await userControllers.update(request, response);
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
             expect(response.json).toHaveBeenCalledWith(userResponse);
         });
     });
-});   
+});
