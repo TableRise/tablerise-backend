@@ -68,6 +68,8 @@ passport.use(
                     })
                 );
 
+            if (user[0].inProgress?.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
+
             const token = JWTGenerator.generate(user[0]);
 
             done(null, token);
