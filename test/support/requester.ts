@@ -3,9 +3,6 @@
 import supertest from 'supertest';
 import jwt from 'jsonwebtoken';
 import app from '../../src/app';
-import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-
-export const authUserId = generateNewMongoID();
 
 interface CustomRequester {
     post: (url: string) => supertest.Test;
@@ -19,7 +16,7 @@ const requester = (): CustomRequester => {
     const request = supertest(app);
     const token = jwt.sign(
         {
-            userId: authUserId,
+            userId: '6530214e4006e8046e11b723',
             providerId: null,
             username: 'test-user',
         },

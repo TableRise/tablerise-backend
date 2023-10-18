@@ -1,6 +1,5 @@
 const { default: DatabaseManagement } = require('@tablerise/database-management');
 const Database = require('./Database').default;
-const { authUserId } = require('./requester');
 const utils = require('./utils').default;
 
 const { dataGenerator } = utils;
@@ -18,7 +17,7 @@ async function setup() {
     await DatabaseManagement.connect(true);
 
     const user = {
-        _id: authUserId,
+        _id: '6530214e4006e8046e11b723',
         inProgress: { status: 'done', code: '' },
         providerId: null,
         email: dataGenerator.email(),
@@ -32,7 +31,8 @@ async function setup() {
     };
 
     const details = {
-        userId: authUserId,
+        _id: '653021554006e8046e11b727',
+        userId: '6530214e4006e8046e11b723',
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
         pronoun: 'she/her',

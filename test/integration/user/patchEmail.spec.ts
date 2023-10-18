@@ -4,6 +4,8 @@ import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
+import DatabaseManagement, { mongoose } from '@tablerise/database-management';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Update user email in database', () => {
     const userInstanceMock = mock.user.user;
@@ -22,6 +24,20 @@ describe('Update user email in database', () => {
 
     const emailUpdatePayload = mock.user.userEmailUpdate;
     emailUpdatePayload.email = `${Math.random()}${emailUpdatePayload.email}`;
+
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+    });
+
+    afterAll(async () => {
+        await mongoose.connection.close();
+    });
 
     describe('When update user email', () => {
         beforeAll(() => {

@@ -2,6 +2,8 @@ import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
+import DatabaseManagement, { mongoose } from '@tablerise/database-management';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
@@ -17,6 +19,20 @@ describe('Post user in database', () => {
         twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
     };
+
+    beforeAll(() => {
+        DatabaseManagement.connect(true)
+            .then(() => {
+                logger('info', 'Test database connection instanciated');
+            })
+            .catch(() => {
+                logger('error', 'Test database connection failed');
+            });
+    });
+
+    afterAll(async () => {
+        await mongoose.connection.close();
+    });
 
     describe('When register a new user', () => {
         beforeAll(() => {
