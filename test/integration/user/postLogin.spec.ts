@@ -1,3 +1,4 @@
+import { User } from 'src/schemas/user/usersValidationSchema';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
@@ -41,7 +42,13 @@ describe('Post login', () => {
         });
 
         it('should return a token', async () => {
-            await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            const user: User = await requester
+                .post('/profile/register')
+                .send(userPayload)
+                .expect(HttpStatusCode.CREATED);
+            if (user._id) {
+                await requester.patch(`/profile/${user._id}/confirm?code=XRFS78`).expect(HttpStatusCode.OK);
+            }
 
             const loginPayload = {
                 email: userPayload.email,
