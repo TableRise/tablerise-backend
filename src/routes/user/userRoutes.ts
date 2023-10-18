@@ -22,9 +22,10 @@ const database = new DatabaseManagement();
 
 export const model = database.modelInstance('user', 'Users');
 const modelUserDetails = database.modelInstance('user', 'UserDetails');
+
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
-const authorizationMiddleware = new AuthorizationMiddleware(model, modelUserDetails, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(model, undefined, logger);
 
 const router = Router();
 

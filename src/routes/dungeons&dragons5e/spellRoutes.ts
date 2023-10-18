@@ -22,10 +22,9 @@ const model = database.modelInstance('dungeons&dragons5e', 'Spells');
 const services = new SpellsServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new SpellsControllers(services, logger);
 
-const userModel = database.modelInstance('user', 'Users');
 const userModelDetails = database.modelInstance('user', 'UserDetails');
 
-const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(undefined, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/spells';
