@@ -22,9 +22,10 @@ const model = database.modelInstance('dungeons&dragons5e', 'Items');
 const services = new ItemsServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new ItemsControllers(services, logger);
 
+const userModel = database.modelInstance('user', 'Users');
 const userModelDetails = database.modelInstance('user', 'UserDetails');
 
-const authorizationMiddleware = new AuthorizationMiddleware(undefined, userModelDetails, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/items';

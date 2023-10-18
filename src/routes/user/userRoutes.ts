@@ -25,7 +25,7 @@ const modelUserDetails = database.modelInstance('user', 'UserDetails');
 
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
-const authorizationMiddleware = new AuthorizationMiddleware(model, undefined, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(model, modelUserDetails, logger);
 
 const router = Router();
 

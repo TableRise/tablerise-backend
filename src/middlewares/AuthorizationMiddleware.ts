@@ -9,8 +9,8 @@ import { JWTResponsePayload } from 'src/types/Response';
 
 export default class AuthorizationMiddleware {
     constructor(
-        private readonly _model: MongoModel<User> | undefined,
-        private readonly _modelDetails: MongoModel<UserDetail> | undefined,
+        private readonly _model: MongoModel<User>,
+        private readonly _modelDetails: MongoModel<UserDetail>,
         private readonly _logger: Logger
     ) {
         this.checkAdminRole = this.checkAdminRole.bind(this);
@@ -22,9 +22,9 @@ export default class AuthorizationMiddleware {
 
         const { userId } = req.user as JWTResponsePayload;
 
-        const userDetail = await this._modelDetails?.findAll({ userId });
+        const userDetail = await this._modelDetails.findAll({ userId });
 
-        if (!userDetail?.length) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
 
         if (userDetail[0].role === 'admin') {
             next();
@@ -39,7 +39,7 @@ export default class AuthorizationMiddleware {
         const { id } = req.params;
         const { token } = req.query;
 
-        const user = (await this._model?.findOne(id)) as User;
+        const user = (await this._model.findOne(id)) as User;
 
         if (!user) HttpRequestErrors.throwError('user-inexistent');
         if (!user.twoFactorSecret) {
@@ -50,7 +50,7 @@ export default class AuthorizationMiddleware {
 
         if (user.twoFactorSecret.qrcode) {
             delete user.twoFactorSecret.qrcode;
-            await this._model?.update(user._id as string, user);
+            await this._model.update(user._id as string, user);
         }
 
         const validateSecret = speakeasy.totp.verify({
