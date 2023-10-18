@@ -24,14 +24,12 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
     const response = {} as Response;
     let next: NextFunction;
 
-    // beforeAll(() => {
-    //     authorizationMiddleware = new AuthorizationMiddleware(User, UserDetails, logger);
-    // });
+    beforeAll(() => {
+        authorizationMiddleware = new AuthorizationMiddleware(User, UserDetails, logger);
+    });
 
     describe('Method checkAdminRole - Request is made for verify the role', () => {
         beforeAll(() => {
-            authorizationMiddleware = new AuthorizationMiddleware(undefined, UserDetails, logger);
-
             userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
                 delete detail._id;
                 delete detail.userId;
@@ -62,27 +60,11 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
 
             it('should be return successful if role is admin', async () => {
                 await authorizationMiddleware.checkAdminRole(request, response, next);
-
-                expect(userDetails).not.toBeNull();
                 expect(next).toHaveBeenCalled();
             });
         });
 
-        describe.only('and the userDetails are incorrect', () => {
-            it('should handle undefined _modelDetails', async () => {
-                // // @ts-expect-error Error
-                // jest.spyOn(userDetails, 'findAll').mockResolvedValue(null);
-                // try {
-                //     await authorizationMiddleware.checkAdminRole(request, response, next);
-                //     expect('it should not be here').toBe(true);
-                // } catch (error) {
-                //     const err = error as HttpRequestErrors;
-                //     expect(err.message).toStrictEqual('User does not exist');
-                //     expect(err.name).toBe('NotFound');
-                //     expect(err.code).toBe(404);
-                // }
-            });
-
+        describe('and the userDetails are incorrect', () => {
             it('should return error if userDetails is not found', async () => {
                 jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
 
@@ -118,8 +100,6 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
 
     describe('Method twoFactor - Request is made for verify the two factor', () => {
         beforeAll(() => {
-            authorizationMiddleware = new AuthorizationMiddleware(User, undefined, logger);
-
             user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
                 delete user.tag;
@@ -149,7 +129,6 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
                 request.params = { id: '123456789123456789123456' };
                 await authorizationMiddleware.twoFactor(request, response, next);
 
-                expect(user).not.toBeNull();
                 expect(next).toHaveBeenCalled();
             });
         });
