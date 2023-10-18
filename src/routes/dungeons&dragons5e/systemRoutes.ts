@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import 'src/services/authentication/BearerStrategy';
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';
@@ -60,9 +61,9 @@ const routes = [
         schema: mock.system.instance.en,
         options: {
             middlewares: [
-                authorizationMiddleware.checkAdminRole,
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'system',

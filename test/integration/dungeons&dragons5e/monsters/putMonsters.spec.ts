@@ -1,10 +1,9 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Monster } from 'src/schemas/dungeons&dragons5e/monstersValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
@@ -21,21 +20,8 @@ describe('Put RPG monsters in database', () => {
     let documentId: string;
 
     beforeAll(() => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Monsters');
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
     });
 
     describe('When update one rpg monster', () => {
@@ -45,7 +31,7 @@ describe('Put RPG monsters in database', () => {
             const response = await model.create(monsterPayload);
             documentId = response._id as string;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/monsters/${documentId}`)
                 .send(newMonsterPayload)
                 .expect(HttpStatusCode.OK);
@@ -62,7 +48,7 @@ describe('Put RPG monsters in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/monsters/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Monster>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -75,7 +61,7 @@ describe('Put RPG monsters in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/monsters/${generateNewMongoID()}`)
                 .send({ active: true, ...newMonsterPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -87,7 +73,7 @@ describe('Put RPG monsters in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/monsters/${generateNewMongoID()}`)
                 .send(newMonsterPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

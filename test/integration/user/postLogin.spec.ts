@@ -1,5 +1,3 @@
-import DatabaseManagement, { mongoose } from '@tablerise/database-management';
-import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
@@ -20,35 +18,20 @@ describe('Post login', () => {
         details: userDetailsInstanceMockPayload,
     };
 
-    beforeAll(async () => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
-    });
-
     describe('When login', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
         });
 
         it('should return a token', async () => {
-            await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            await requester().post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
 
             const loginPayload = {
                 email: userPayload.email,
                 password: userPayload.password,
             };
 
-            const response = await requester.post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
+            const response = await requester().post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('token');
             expect(typeof response.body.token).toBe('string');

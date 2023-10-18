@@ -1,5 +1,3 @@
-import DatabaseManagement, { mongoose } from '@tablerise/database-management';
-import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
@@ -20,28 +18,16 @@ describe('Post user in database', () => {
         details: userDetailsInstanceMockPayload,
     };
 
-    beforeAll(async () => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
-    });
-
     describe('When register a new user', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
         });
 
         it('should return correct data and status', async () => {
-            const response = await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            const response = await requester()
+                .post('/profile/register')
+                .send(userPayload)
+                .expect(HttpStatusCode.CREATED);
 
             expect(response.body).toHaveProperty('_id');
             expect(response.body).toHaveProperty('tag');

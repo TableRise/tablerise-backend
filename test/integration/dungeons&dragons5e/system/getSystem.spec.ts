@@ -1,10 +1,9 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
 
 describe('Get RPG system from database', () => {
@@ -15,21 +14,8 @@ describe('Get RPG system from database', () => {
     let documentId: string;
 
     beforeAll(() => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'System');
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
     });
 
     describe('When request all rpg systems', () => {
@@ -37,7 +23,7 @@ describe('Get RPG system from database', () => {
             const response = (await model.create(systemPayload)) as System & { _id: string };
             documentId = response._id;
 
-            const { body } = await requester.get('/dnd5e/system').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/system').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -52,7 +38,7 @@ describe('Get RPG system from database', () => {
         it('should return a system instance', async () => {
             await model.create(systemPayload);
 
-            const { body } = await requester.get(`/dnd5e/system/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/dnd5e/system/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
             expect(body).toHaveProperty('name');
@@ -63,7 +49,7 @@ describe('Get RPG system from database', () => {
         });
 
         it('should fail with id NotFound', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .get(`/dnd5e/system/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

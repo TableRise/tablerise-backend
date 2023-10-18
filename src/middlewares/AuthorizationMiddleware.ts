@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
+import 'dotenv/config';
 import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
@@ -19,15 +20,15 @@ export default class AuthorizationMiddleware {
     }
 
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        // this._logger('warn', 'Request to check role');
+        this._logger('warn', 'Request to check role');
 
         const { userId } = req.user as JWTResponsePayload;
 
-        const [{ role }] = await this._modelDetails.findAll({ userId });
+        const userDetail = await this._modelDetails.findAll({ userId });
 
-        if (!role) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
 
-        if (role === 'admin') {
+        if (userDetail[0].role === 'admin') {
             next();
         } else {
             HttpRequestErrors.throwError('unauthorized');

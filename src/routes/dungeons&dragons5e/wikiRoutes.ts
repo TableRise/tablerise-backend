@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+import 'src/services/authentication/BearerStrategy';
 import { Router } from 'express';
 import DatabaseManagement from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';

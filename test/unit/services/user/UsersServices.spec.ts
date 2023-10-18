@@ -12,10 +12,6 @@ import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/d
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import speakeasy from 'speakeasy';
 
-jest.mock('qrcode', () => ({
-    toDataURL: () => '',
-}));
-
 describe('Services :: User :: UsersServices', () => {
     let user: User,
         userDetails: UserDetail,
@@ -503,7 +499,6 @@ describe('Services :: User :: UsersServices', () => {
 
                 expect(result).toHaveProperty('qrcode');
                 expect(result).toHaveProperty('active');
-                expect(result.qrcode).toBe('');
                 expect(result.active).toBe(true);
             });
         });
@@ -788,7 +783,6 @@ describe('Services :: User :: UsersServices', () => {
                 const result = await userServices.resetTwoFactor(user._id as string, code);
 
                 expect(result).toHaveProperty('qrcode');
-                expect(result.qrcode).toBe('');
                 expect(result).toHaveProperty('active');
                 expect(result.active).toBe(true);
             });

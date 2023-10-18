@@ -1,10 +1,9 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
 
@@ -16,21 +15,8 @@ describe('Get RPG gods from database', () => {
     let documentId: string;
 
     beforeAll(() => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Gods');
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
     });
 
     describe('When request all rpg gods', () => {
@@ -40,7 +26,7 @@ describe('Get RPG gods from database', () => {
             const response = await model.create(godMockPayload);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/gods').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/gods').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -65,7 +51,7 @@ describe('Get RPG gods from database', () => {
             const response = await model.create(godMockCopy);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/gods/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/gods/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -83,7 +69,7 @@ describe('Get RPG gods from database', () => {
 
             await model.create(godMockPayload);
 
-            const { body } = await requester.get(`/dnd5e/gods/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/dnd5e/gods/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -96,7 +82,7 @@ describe('Get RPG gods from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .get(`/dnd5e/gods/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

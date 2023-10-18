@@ -66,9 +66,7 @@ describe('Middlewares :: AuthorizationMiddleware', () => {
 
         describe('and the userDetails are incorrect', () => {
             it('should return error if userDetails is not found', async () => {
-                // @ts-expect-error Expect error
-                userDetails = [];
-                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
 
                 try {
                     await authorizationMiddleware.checkAdminRole(request, response, next);

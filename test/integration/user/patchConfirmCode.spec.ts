@@ -1,5 +1,3 @@
-import DatabaseManagement, { mongoose } from '@tablerise/database-management';
-import logger from '@tablerise/dynamic-logger';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
@@ -20,28 +18,13 @@ describe('Post user in database', () => {
         details: userDetailsInstanceMockPayload,
     };
 
-    beforeAll(async () => {
-        DatabaseManagement.connect(true)
-            .then(() => {
-                logger('info', 'Test database connection instanciated');
-            })
-            .catch(() => {
-                logger('error', 'Test database connection failed');
-            });
-        requester.set('Authorization', 'Bearer test');
-    });
-
-    afterAll(async () => {
-        await mongoose.connection.close();
-    });
-
     describe('When validate a confirmation code', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
         });
 
         it('should return correct data and status', async () => {
-            const userResponse = await requester
+            const userResponse = await requester()
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
@@ -49,7 +32,9 @@ describe('Post user in database', () => {
             const userId: string = userResponse.body._id;
             const code: string = userResponse.body.inProgress.code;
 
-            const response = await requester.patch(`/profile/${userId}/confirm?code=${code}`).expect(HttpStatusCode.OK);
+            const response = await requester()
+                .patch(`/profile/${userId}/confirm?code=${code}`)
+                .expect(HttpStatusCode.OK);
 
             expect(response.body).toHaveProperty('status');
             expect(response.body.status).toBe('done');
