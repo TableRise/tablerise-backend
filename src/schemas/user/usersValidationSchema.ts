@@ -18,7 +18,7 @@ const twoFactorSecretZodSchema = z.object({
 
 const usersZodSchema = z.object({
     _id: z.string().length(24).optional(),
-    inProgress: inProgressZodSchema.optional(),
+    inProgress: inProgressZodSchema,
     providerId: z.string().or(z.null()).optional(),
     email: z.string().email(),
     password: z.string().min(8).max(16),

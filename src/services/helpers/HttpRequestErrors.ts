@@ -8,15 +8,15 @@ export default class HttpRequestErrors extends Error {
     code: number;
     details: ErrorDetails[];
 
-    constructor({ message, code, details, name }: Errors) {
+    constructor({ message = '', code = 0, details = [], name = '' }: Errors) {
         logger('error', `${message} - ${code}`);
         super(message);
         this.code = code;
-        this.details = details as ErrorDetails[];
-        this.name = name as string;
+        this.details = details;
+        this.name = name;
     }
 
-    static throwError(errorType: ErrorTypes): never {
+    public throwError(errorType: ErrorTypes): never {
         switch (errorType) {
             case 'email-already-exist':
                 throw new HttpRequestErrors({
@@ -42,6 +42,13 @@ export default class HttpRequestErrors extends Error {
             case '2fa-no-active':
                 throw new HttpRequestErrors({
                     message: '2FA not enabled for this user',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case '2fa-and-secret-question-no-active':
+                throw new HttpRequestErrors({
+                    message: '2FA not enabled for this user neither secretQuestion',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });

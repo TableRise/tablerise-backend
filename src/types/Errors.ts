@@ -16,6 +16,7 @@ export type ErrorTypes =
     | 'tag-already-exist'
     | 'user-inexistent'
     | '2fa-no-active'
+    | '2fa-and-secret-question-no-active'
     | '2fa-already-active'
     | '2fa-incorrect'
     | 'rpg-not-found-id'

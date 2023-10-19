@@ -1,6 +1,9 @@
+/* eslint-disable import/first */
+import setup from './container';
+setup();
+
 import DatabaseManagement from '@tablerise/database-management';
 import app from './app';
-
 import logger from '@tablerise/dynamic-logger';
 
 const port = process.env.PORT as string;

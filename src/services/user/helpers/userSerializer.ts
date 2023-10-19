@@ -40,6 +40,7 @@ function isFacebookProfile(obj: any): obj is Facebook.Profile {
 export function postUserSerializer({
     providerId = null,
     email = null,
+    inProgress = null,
     password = null,
     nickname = null,
     tag = null,
@@ -51,6 +52,7 @@ export function postUserSerializer({
     return {
         providerId,
         email,
+        inProgress,
         password,
         nickname,
         tag,

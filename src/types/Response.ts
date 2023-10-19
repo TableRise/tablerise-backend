@@ -18,7 +18,7 @@ export interface RegisterUserPayload {
 }
 
 export interface RegisterUserResponse extends User {
-    inProgress: { status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'done'; code: string };
+    inProgress: { status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'email_change' | 'done'; code: string };
     details: UserDetail;
 }
 
