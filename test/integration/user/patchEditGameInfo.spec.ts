@@ -31,7 +31,6 @@ describe('Add user badges', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -50,7 +49,7 @@ describe('Add user badges', () => {
         });
 
         it('should return correct status', async () => {
-            const userResponse = await requester
+            const userResponse = await requester()
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
@@ -58,7 +57,7 @@ describe('Add user badges', () => {
             const userId: string = userResponse.body._id;
             const infoId = generateNewMongoID();
 
-            await requester
+            await requester()
                 .patch(`/profile/${userId}/update/game-info?id=${infoId}&info=badges&operation=add`)
                 .expect(HttpStatusCode.OK);
         });
