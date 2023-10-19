@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import DatabaseManagement from '@tablerise/database-management';
 import app from './app';
 

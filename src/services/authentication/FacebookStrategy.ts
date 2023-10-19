@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import Facebook from 'passport-facebook';
 import passport from 'passport';
 

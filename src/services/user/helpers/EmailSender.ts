@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
 import confirmEmailTemplate from 'src/support/templates/confirmEmailTemplate';

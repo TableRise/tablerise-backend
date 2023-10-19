@@ -109,6 +109,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'unauthorized':
+                throw new HttpRequestErrors({
+                    message: 'Unauthorized',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',

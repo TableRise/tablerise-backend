@@ -13,6 +13,7 @@ import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMidd
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();
@@ -20,6 +21,11 @@ const database = new DatabaseManagement();
 const model = database.modelInstance('dungeons&dragons5e', 'Races');
 const services = new RacesServices(model, logger, schemaValidator, schema['dungeons&dragons5e']);
 const controllers = new RacesControllers(services, logger);
+
+const userModel = database.modelInstance('user', 'Users');
+const userModelDetails = database.modelInstance('user', 'UserDetails');
+
+const authorizationMiddleware = new AuthorizationMiddleware(userModel, userModelDetails, logger);
 
 const router = Router();
 const BASE_PATH = '/dnd5e/races';
@@ -63,7 +69,11 @@ const routes = [
         controller: controllers.update,
         schema: mock.race.instance.en,
         options: {
-            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
+            ],
             authentication: true,
             tag: 'races',
         },
@@ -78,6 +88,7 @@ const routes = [
                 VerifyIdMiddleware,
                 VerifyBooleanQueryMiddleware,
                 passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.checkAdminRole,
             ],
             authentication: true,
             tag: 'races',

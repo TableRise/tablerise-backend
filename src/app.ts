@@ -1,6 +1,5 @@
 import 'module-alias/register';
 import 'express-async-errors';
-import 'dotenv/config';
 import 'src/services/authentication/BearerStrategy';
 
 import express, { Application } from 'express';

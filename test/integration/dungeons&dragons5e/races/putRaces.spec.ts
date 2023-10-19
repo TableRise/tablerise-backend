@@ -1,12 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Race } from 'src/schemas/dungeons&dragons5e/racesValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG Races in database', () => {
     let model: MongoModel<Internacional<Race>>;
@@ -31,7 +31,6 @@ describe('Put RPG Races in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Races');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -45,7 +44,7 @@ describe('Put RPG Races in database', () => {
             const response = await model.create(racePayload);
             documentId = response._id as string;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/races/${documentId}`)
                 .send(newRacePayload)
                 .expect(HttpStatusCode.OK);
@@ -62,7 +61,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/races/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Race>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -75,7 +74,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/races/${generateNewMongoID()}`)
                 .send({ active: true, ...newRacePayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -87,7 +86,7 @@ describe('Put RPG Races in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/races/${generateNewMongoID()}`)
                 .send(newRacePayload)
                 .expect(HttpStatusCode.NOT_FOUND);

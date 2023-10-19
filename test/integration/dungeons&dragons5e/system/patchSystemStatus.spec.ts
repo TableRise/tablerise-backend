@@ -1,11 +1,11 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG system status in database', () => {
     let model: MongoModel<System>;
@@ -25,7 +25,6 @@ describe('Patch RPG system status in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'System');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -37,7 +36,7 @@ describe('Patch RPG system status in database', () => {
             const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .patch(`/dnd5e/system/${documentId}?availability=false`)
                 .expect(HttpStatusCode.OK);
 
@@ -51,7 +50,7 @@ describe('Patch RPG system status in database', () => {
             const response = (await model.create(systemMockPayload)) as System & { _id: string };
             documentId = response._id;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .patch(`/dnd5e/system/${documentId}?availability=true`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -62,9 +61,9 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail when availability already disabled', async () => {
-            await requester.patch(`/dnd5e/system/${documentId}?availability=false`);
+            await requester().patch(`/dnd5e/system/${documentId}?availability=false`);
 
-            const { body } = await requester
+            const { body } = await requester()
                 .patch(`/dnd5e/system/${documentId}?availability=false`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -75,7 +74,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail when query is wrong', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .patch(`/dnd5e/system/${documentId}?availability=wrongQuery`)
                 .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -86,7 +85,7 @@ describe('Patch RPG system status in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .patch(`/dnd5e/system/${generateNewMongoID()}?availability=false`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

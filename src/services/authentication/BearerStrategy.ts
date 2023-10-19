@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import 'dotenv/config';
 import logger from '@tablerise/dynamic-logger';
 import passport from 'passport';
 import Bearer from 'passport-http-bearer';
@@ -14,8 +13,6 @@ const BearerStrategy = Bearer.Strategy;
 passport.use(
     new BearerStrategy((token, done) => {
         logger('warn', 'Request made to authorize operation in server');
-
-        if (process.env.NODE_ENV === 'test') return done(null, {});
 
         const payload = JWTGenerator.verify(token);
 
