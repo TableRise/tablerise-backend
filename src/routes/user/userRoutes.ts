@@ -136,9 +136,11 @@ export const routes = [
             ]),
         ],
         options: {
+            description:
+                'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
 ] as routeInstance[];
