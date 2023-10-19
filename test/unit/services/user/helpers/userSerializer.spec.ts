@@ -69,6 +69,7 @@ describe('Helpers :: userSerializer', () => {
             userInstanceMock.nickname = 'update_request';
 
             expect(userSerialized).toStrictEqual(userInstanceMock);
+            expect(putUserSerializer({}, userInstanceMock)).toStrictEqual(userInstanceMock);
         });
 
         it('should return the correct userDetails when put request is required', () => {
@@ -79,6 +80,7 @@ describe('Helpers :: userSerializer', () => {
             userDetailsInstanceMock.firstName = 'update_request_fn';
 
             expect(userDetailsSerialized).toStrictEqual(userDetailsInstanceMock);
+            expect(putUserDetailsSerializer({}, userDetailsInstanceMock)).toStrictEqual(userDetailsInstanceMock);
         });
     });
 });

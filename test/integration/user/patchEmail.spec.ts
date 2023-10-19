@@ -23,6 +23,7 @@ describe('Update user email in database', () => {
     };
 
     const emailUpdatePayload = mock.user.userEmailUpdate;
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     emailUpdatePayload.email = `${Math.random()}${emailUpdatePayload.email}`;
 
     beforeAll(() => {

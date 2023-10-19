@@ -872,6 +872,10 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(global, 'Date').mockReturnValue(mockDateUpdate);
             });
 
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
             it('should return the updated user', async () => {
                 userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock' } } as RegisterUserPayload;
                 const userWithoutMoogoseDocProps = postUserSerializer(user);
@@ -928,6 +932,52 @@ describe('Services :: User :: UsersServices', () => {
                     );
                     expect(err.name).toBe(getErrorName(HttpStatusCode.FORBIDDEN));
                     expect(err.code).toBe(HttpStatusCode.FORBIDDEN);
+                }
+            });
+        });
+
+        describe('When user is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserModelDB - user-inexistent', async () => {
+                userPayload = { nickname: 'fail' } as RegisterUserPayload;
+
+                try {
+                    await userServices.update('ID_NOT_FOUND', userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        describe('When userDetails is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserDetailsModelDB - user-inexistent', async () => {
+                userPayload = { nickname: 'fail' } as RegisterUserPayload;
+
+                try {
+                    await userServices.update('ID_NOT_FOUND', userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
                 }
             });
         });

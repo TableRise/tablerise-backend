@@ -120,7 +120,7 @@ export function putUserDetailsSerializer(
         pronoun = null,
         secretQuestion = null,
         birthday = null,
-        gameInfo = { campaigns: [], characters: [], badges: [] },
+        gameInfo = null,
         biography = null,
         role = 'user',
     }: any,

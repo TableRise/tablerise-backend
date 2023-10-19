@@ -42,9 +42,6 @@ export default class RegisterServices {
         const userSerialized = postUserSerializer(user);
         const userDetailsSerialized = postUserDetailsSerializer(userDetails);
 
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
-
         return { userSerialized, userDetailsSerialized };
     }
 
@@ -289,30 +286,41 @@ export default class RegisterServices {
 
         const { details: userDetails, ...userPayload } = payload;
 
-        Object.keys(userPayload).forEach((field) => {
-            const forbiddenField = ['email', 'password', 'tag', 'createdAt', 'updatedAt', 'inProgress', 'providerId'];
-            if (forbiddenField.includes(field)) {
-                throw new HttpRequestErrors({
-                    message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request`,
-                    code: HttpStatusCode.FORBIDDEN,
-                    name: getErrorName(HttpStatusCode.FORBIDDEN),
-                });
-            }
-        });
-        Object.keys(userDetails).forEach((field) => {
-            const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
-            if (forbiddenField.includes(field)) {
-                throw new HttpRequestErrors({
-                    message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
-                    code: HttpStatusCode.FORBIDDEN,
-                    name: getErrorName(HttpStatusCode.FORBIDDEN),
-                });
-            }
-        });
+        userPayload &&
+            Object.keys(userPayload).forEach((field) => {
+                const forbiddenField = [
+                    'email',
+                    'password',
+                    'tag',
+                    'createdAt',
+                    'updatedAt',
+                    'inProgress',
+                    'providerId',
+                ];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
+
+        userDetails &&
+            Object.keys(userDetails).forEach((field) => {
+                const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
 
         const userInfo = (await this._model.findOne(id)) as User;
         if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
-
+        
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
         if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 

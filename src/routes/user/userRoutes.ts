@@ -123,6 +123,17 @@ export const routes = [
             tag: 'management',
         },
     },
+    {
+        method: 'put',
+        path: `${BASE_PATH}/:id/update`,
+        parameters: [...generateIDParam()],
+        controller: controllers.update,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
 ] as routeInstance[];
 
 export default {
