@@ -27,4 +27,5 @@ export type ErrorTypes =
     | 'invalid-email-verify-code'
     | 'linked-mandatory-data-when-delete'
     | 'verification-email-send-fail'
-    | 'invalid-user-status';
+    | 'invalid-user-status'
+    | 'unauthorized';

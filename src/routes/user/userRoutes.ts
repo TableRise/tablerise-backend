@@ -28,16 +28,7 @@ const twoFactorMiddleware = new TwoFactorMiddleware(model, logger);
 
 const router = Router();
 
-<<<<<<< HEAD
-router.get('/:id/verify', controllers.verifyEmail);
-router.post('/register', controllers.register);
-router.post('/login', passport.authenticate('local', { session: false }), controllers.login);
-router.put('/:id/update', controllers.update);
-router.patch('/:id/confirm', controllers.confirmCode);
-router.delete('/:id/delete', twoFactorMiddleware.authenticate, controllers.delete);
-=======
 const BASE_PATH = '/profile';
->>>>>>> 0068efac3ab4608263d4656ce411b2d2ec7fe7fe
 
 export const routes = [
     {

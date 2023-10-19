@@ -105,24 +105,16 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
-    describe('When a request is made to update a user', () => {
+    describe('When a request is made to verify an email', () => {
         beforeAll(() => {
-            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
-
-            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
-
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
             userControllers = new UsersControllers(userServices, logger);
 
-            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock' } } as RegisterUserPayload;
-            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
-            userResponse.nickname = 'Mock';
-            userResponse.details.firstName = 'Ana Mock';
-
             response.status = jest.fn().mockReturnValue(response);
             response.json = jest.fn().mockReturnValue({});
+            response.end = jest.fn();
 
-            jest.spyOn(userServices, 'update').mockResolvedValue(userResponse);
+            jest.spyOn(userServices, 'emailVerify').mockResolvedValue();
         });
 
         it('should return correct data in response json with status 200', async () => {
@@ -185,11 +177,6 @@ describe('Controllers :: User :: UsersControllers', () => {
             request.params = { id: '65075e05ca9f0d3b2485194f' };
             await userControllers.delete(request, response);
             expect(response.sendStatus).toHaveBeenCalledWith(204);
-            request.body = userPayload;
-            request.params = { id: user._id as string };
-            await userControllers.update(request, response);
-            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
-            expect(response.json).toHaveBeenCalledWith(userResponse);
         });
     });
 
@@ -216,6 +203,35 @@ describe('Controllers :: User :: UsersControllers', () => {
                 qrcode: '',
                 active: true,
             });
+        });
+    });
+
+    describe('When a request is made to update a user', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock'} } as RegisterUserPayload;
+            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+            userResponse.nickname = 'Mock';
+            userResponse.details.firstName = 'Ana Mock';
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'update').mockResolvedValue(userResponse);
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            request.body = userPayload;
+            request.params = { id: user._id as string};
+            await userControllers.update(request, response);
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
+            expect(response.json).toHaveBeenCalledWith(userResponse);
         });
     });
 });

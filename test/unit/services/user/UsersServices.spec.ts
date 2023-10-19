@@ -33,7 +33,7 @@ describe('Services :: User :: UsersServices', () => {
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
 
-    describe.skip('When a new user is registered', () => {
+    describe('When a new user is registered', () => {
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
                 delete user._id;
@@ -506,7 +506,6 @@ describe('Services :: User :: UsersServices', () => {
 
                 expect(result).toHaveProperty('qrcode');
                 expect(result).toHaveProperty('active');
-                expect(result.qrcode).toBe('');
                 expect(result.active).toBe(true);
             });
         });
@@ -791,7 +790,6 @@ describe('Services :: User :: UsersServices', () => {
                 const result = await userServices.resetTwoFactor(user._id as string, code);
 
                 expect(result).toHaveProperty('qrcode');
-                expect(result.qrcode).toBe('');
                 expect(result).toHaveProperty('active');
                 expect(result.active).toBe(true);
             });

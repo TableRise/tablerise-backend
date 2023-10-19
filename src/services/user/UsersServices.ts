@@ -299,7 +299,6 @@ export default class RegisterServices {
                 });
             }
         });
-        console.log('L202', userDetails);
         Object.keys(userDetails).forEach((field) => {
             const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
             if (forbiddenField.includes(field)) {
@@ -316,25 +315,20 @@ export default class RegisterServices {
 
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
         if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
-        console.log('L219 userInfo:', id, userInfo);
-        console.log('L220 userDetailInfo:', id, userDetailsInfo);
 
         const userSerialized = putUserSerializer(userPayload, userInfo);
         const userDetailsSerialized = putUserDetailsSerializer(userDetails, userDetailsInfo);
-        console.log('L224 userSerialized', userSerialized);
-        console.log('L225 userDetailsSerialized', userDetailsSerialized);
         userSerialized.createdAt = new Date().toISOString();
-        console.log('227', userSerialized.createdAt, userSerialized, userInfo, userInfo._id, id);
+
         const userUpdated = (await this._model.update(id, userSerialized)) as User;
         this._logger('info', 'User updated at database');
-        console.log('L231', 'usedetailsID', userDetailsInfo._id, userDetailsSerialized);
+
         const userDetailsUpdated = await this._modelDetails.update(
             userDetailsInfo._id as string,
             userDetailsSerialized
         );
         this._logger('info', 'UserDetails updated at database');
-        console.log('233', userUpdated);
-        console.log('L234', { ...postUserSerializer(userUpdated), details: userDetailsUpdated });
+
         return { ...postUserSerializer(userUpdated), details: userDetailsUpdated };
     }
 }
