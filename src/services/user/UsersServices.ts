@@ -320,7 +320,7 @@ export default class RegisterServices {
 
         const userInfo = (await this._model.findOne(id)) as User;
         if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
-        
+
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
         if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
 
