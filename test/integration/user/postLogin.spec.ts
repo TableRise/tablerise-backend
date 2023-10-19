@@ -28,6 +28,7 @@ describe('Post login', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -40,7 +41,14 @@ describe('Post login', () => {
         });
 
         it('should return a token', async () => {
-            await requester.post('/profile/register').send(userPayload).expect(HttpStatusCode.CREATED);
+            const userResponse = await requester
+                .post('/profile/register')
+                .send(userPayload)
+                .expect(HttpStatusCode.CREATED);
+
+            const userId: string = userResponse.body._id;
+
+            await requester.patch(`/profile/${userId}/confirm?code=XRFS78`).expect(HttpStatusCode.OK);
 
             const loginPayload = {
                 email: userPayload.email,

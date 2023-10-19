@@ -26,6 +26,7 @@ describe('Get RPG gods from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Gods');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

@@ -25,6 +25,7 @@ describe('Patch RPG system status in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'System');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

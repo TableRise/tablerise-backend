@@ -4,7 +4,7 @@ import Route, { RouteWrapperDeclared } from 'src/types/Route';
 
 describe('Routes :: RoutesWrapper', () => {
     describe('When declare routes method is called', () => {
-        let routesDeclared: RouteWrapperDeclared[][];
+        let routesDeclared: RouteWrapperDeclared[];
 
         it('should return an array with 70 arrays inside - dungeons&dragons5e', () => {
             routesDeclared = RoutesWrapper.declareRoutes()['dungeons&dragons5e'];
@@ -12,10 +12,10 @@ describe('Routes :: RoutesWrapper', () => {
             expect(routesDeclared.length).toBe(70);
         });
 
-        it('should return an array with 9 arrays inside - user', () => {
+        it('should return an array with 18 routes inside - user', () => {
             routesDeclared = RoutesWrapper.declareRoutes().user;
             expect(routesDeclared).toBeInstanceOf(Array);
-            expect(routesDeclared.length).toBe(9);
+            expect(routesDeclared.length).toBe(18);
         });
     });
 

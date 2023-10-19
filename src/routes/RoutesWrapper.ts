@@ -1,7 +1,5 @@
-import dungeonsAndDragonsRoutes from 'src/routes/dungeons&dragons5e';
-import dungeonsAndDragonsSwagger from 'src/routes/dungeons&dragons5e/swagger';
-import userRoutes from 'src/routes/user';
-import userSwagger from 'src/routes/user/swagger';
+import dungeonsAndDragonsRoutes, { dungeonsAndDragonsSwagger } from 'src/routes/dungeons&dragons5e';
+import userRoutes, { userSwagger } from 'src/routes/user';
 import Route, { RouteDeclarations } from 'src/types/Route';
 
 export default class RoutesWrapper {

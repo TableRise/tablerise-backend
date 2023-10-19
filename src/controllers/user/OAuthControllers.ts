@@ -14,7 +14,6 @@ export default class OAuthControllers {
         this.discord = this.discord.bind(this);
         this.google = this.google.bind(this);
         this.facebook = this.facebook.bind(this);
-        // this.twoFactor = this.twoFactor.bind(this);
     }
 
     public async discord(req: Request, res: Response): Promise<Response> {

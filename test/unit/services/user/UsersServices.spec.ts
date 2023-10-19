@@ -2,7 +2,7 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
+import { RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
 import schema from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
@@ -13,6 +13,7 @@ import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import getErrorName from 'src/services/helpers/getErrorName';
+import speakeasy from 'speakeasy';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',
@@ -26,7 +27,8 @@ describe('Services :: User :: UsersServices', () => {
         updatedInProgressToVerify: User,
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse,
-        deleteResponse: any;
+        deleteResponse: any,
+        emailRequest: emailUpdatePayload;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -76,8 +78,7 @@ describe('Services :: User :: UsersServices', () => {
                 const userResponseKeys = Object.keys(userResponse);
                 const userDetailsResponseKeys = Object.keys(userResponse.details);
 
-                const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
-                const result = await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                const result = await userServices.register(userPayload);
 
                 userResponseKeys.forEach((key) => {
                     expect(result).toHaveProperty(key);
@@ -179,16 +180,8 @@ describe('Services :: User :: UsersServices', () => {
                 userPayload = { ...user, details: userDetails } as RegisterUserPayload;
                 userResponse = { ...user, details: userDetails } as RegisterUserResponse;
 
-                jest.spyOn(User, 'findAll')
-                    .mockResolvedValueOnce([{ email: userPayload.email }])
-                    .mockResolvedValueOnce([])
-                    .mockResolvedValueOnce([])
-                    .mockResolvedValueOnce([{}]);
+                jest.spyOn(User, 'findAll').mockResolvedValue([{ email: userPayload.email }]);
                 jest.spyOn(User, 'create').mockResolvedValue(userResponse);
-            });
-
-            afterAll(() => {
-                jest.clearAllMocks();
             });
 
             it('should throw 400 error - email already exist', async () => {
@@ -269,8 +262,7 @@ describe('Services :: User :: UsersServices', () => {
 
             it('should throw 400 error', async () => {
                 try {
-                    const { twoFactorSecret, ...userPayloadWithoutTwoFactor } = userPayload;
-                    await userServices.register(userPayloadWithoutTwoFactor as RegisterUserPayload);
+                    await userServices.register(userPayload);
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -344,20 +336,20 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
             });
 
-            it('should throw 400 error - Wrong code', async () => {
+            it('should throw 400 error - Invalid email verify code', async () => {
                 try {
                     await userServices.confirmCode('65075e05ca9f0d3b2485194f', 'abcdef');
                     expect('it should not be here').toBe(true);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
 
-                    expect(err.message).toStrictEqual('Invalid code');
+                    expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
                 }
             });
 
-            it('should throw 400 error - Invalid code', async () => {
+            it('should throw 400 error - Query must be a string', async () => {
                 try {
                     await userServices.confirmCode('65075e05ca9f0d3b2485194f', ['abcdef'] as unknown as string);
                     expect('it should not be here').toBe(true);
@@ -472,6 +464,224 @@ describe('Services :: User :: UsersServices', () => {
         });
     });
 
+    describe('When 2FA is activated', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params are correct', () => {
+            beforeAll(() => {
+                user.twoFactorSecret = { active: false };
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(User, 'update').mockResolvedValue({
+                    ...user,
+                    twoFactorSecret: {
+                        secret: 'test',
+                        qrcode: 'testCode',
+                        active: true,
+                    },
+                });
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({ ...userDetails, secretQuestion: null });
+            });
+
+            it('should update the user to have 2FA activated', async () => {
+                const result = await userServices.activateTwoFactor(user._id as string);
+
+                expect(result).toHaveProperty('qrcode');
+                expect(result).toHaveProperty('active');
+                expect(result.qrcode).toBe('');
+                expect(result.active).toBe(true);
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateTwoFactor('');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - user details id', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.activateTwoFactor('');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the user already have 2FA', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = true;
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - 2fa already activated', async () => {
+                try {
+                    await userServices.activateTwoFactor(user._id as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('2FA is already enabled for this user');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+        });
+    });
+
+    describe('When update user email', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+
+            emailRequest = { email: 'new-email@email.com' };
+        });
+
+        describe('and the params is correct', () => {
+            beforeAll(() => {
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = 'IQSMPW';
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(User, 'findAll').mockResolvedValue([]);
+                jest.spyOn(User, 'update').mockResolvedValue({});
+            });
+
+            it('should return nothing', async () => {
+                await userServices.updateEmail('65075e05ca9f0d3b2485194f', 'IQSMPW', emailRequest);
+            });
+        });
+
+        describe('and the params are incorrect - user id and code', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValueOnce(null).mockResolvedValue(user);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.updateEmail('', 'IQSMPW', emailRequest);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+
+            it('should throw 400 error - Invalid email verify code', async () => {
+                try {
+                    await userServices.updateEmail('65075e05ca9f0d3b2485194f', 'WRONG_CODE', emailRequest);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Invalid email verify code');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+
+            it('should throw 400 error - Query must be a string', async () => {
+                try {
+                    await userServices.updateEmail(
+                        '65075e05ca9f0d3b2485194f',
+                        ['NOT_A_STRING'] as unknown as string,
+                        emailRequest
+                    );
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Query must be a string');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+        });
+
+        describe('and the email requested already exists in the database - email', () => {
+            beforeAll(() => {
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = 'IQSMPW';
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(User, 'findAll').mockResolvedValue([{}]);
+            });
+
+            it('should throw 400 error - email already exist', async () => {
+                try {
+                    await userServices.updateEmail('65075e05ca9f0d3b2485194f', 'IQSMPW', emailRequest);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Email already exists in database');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+        });
+    });
+
     describe('When delete a user', () => {
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
@@ -531,7 +741,7 @@ describe('Services :: User :: UsersServices', () => {
                 jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
             });
 
-            it('should throw 404 error - user do not exist', async () => {
+            it('should throw 401 error - Unauthorized', async () => {
                 try {
                     await userServices.delete('123456789123456789123456');
                     expect('it should not be here').toBe(true);
@@ -541,6 +751,106 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('There is a campaing or character linked to this user');
                     expect(err.name).toBe('Unauthorized');
                     expect(err.code).toBe(401);
+                }
+            });
+        });
+    });
+
+    describe('When reset 2FA', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+
+                return user;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params are correct', () => {
+            beforeAll(() => {
+                // @ts-expect-error InProgress will exist;
+                user.inProgress?.code = 'confirmCode';
+                user.twoFactorSecret = {
+                    secret: 'old_secret',
+                    qrcode: '',
+                    active: true,
+                };
+
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(speakeasy, 'generateSecret').mockReturnValue({ base32: 'secret' } as never);
+                jest.spyOn(User, 'update').mockResolvedValue({
+                    ...user,
+                });
+            });
+
+            it('should reset the 2FA', async () => {
+                const code = 'confirmCode';
+                const result = await userServices.resetTwoFactor(user._id as string, code);
+
+                expect(result).toHaveProperty('qrcode');
+                expect(result.qrcode).toBe('');
+                expect(result).toHaveProperty('active');
+                expect(result.active).toBe(true);
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user not found ', async () => {
+                try {
+                    await userServices.resetTwoFactor('', '1447ab');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the 2FA is disabled', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+            });
+
+            it('should throw 400 error - 2FA not activate', async () => {
+                try {
+                    await userServices.resetTwoFactor(user._id as string, user.inProgress?.code as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('2FA not enabled for this user');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - code', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = true;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+            });
+
+            it('should throw 400 error - Wrong code', async () => {
+                try {
+                    await userServices.resetTwoFactor(user._id as string, 'abcdef');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Invalid email verify code');
+                    expect(err.name).toBe('BadRequest');
+                    expect(err.code).toBe(400);
                 }
             });
         });

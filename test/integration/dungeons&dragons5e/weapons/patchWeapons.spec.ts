@@ -26,6 +26,7 @@ describe('Patch RPG weapons in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Weapons');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

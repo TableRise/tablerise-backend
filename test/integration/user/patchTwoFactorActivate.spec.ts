@@ -5,7 +5,7 @@ import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 
-describe('Post user in database', () => {
+describe('Patch two factor activate in database', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
 
@@ -16,7 +16,7 @@ describe('Post user in database', () => {
 
     const userPayload = {
         ...userInstanceMockPayload,
-        twoFactorSecret: { active: true },
+        twoFactorSecret: { active: false },
         details: userDetailsInstanceMockPayload,
     };
 
@@ -35,7 +35,7 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When validate a confirmation code', () => {
+    describe('When 2FA is turned to active true', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
         });
@@ -47,12 +47,12 @@ describe('Post user in database', () => {
                 .expect(HttpStatusCode.CREATED);
 
             const userId: string = userResponse.body._id;
-            const code: string = userResponse.body.inProgress.code;
 
-            const response = await requester.patch(`/profile/${userId}/confirm?code=${code}`).expect(HttpStatusCode.OK);
+            const response = await requester.patch(`/profile/${userId}/2fa/activate`).expect(HttpStatusCode.OK);
 
-            expect(response.body).toHaveProperty('status');
-            expect(response.body.status).toBe('done');
+            expect(response.body).toHaveProperty('qrcode');
+            expect(response.body).toHaveProperty('active');
+            expect(response.body.active).toBe(true);
         });
     });
 });

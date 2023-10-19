@@ -18,6 +18,7 @@ describe('Add verify code in database', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

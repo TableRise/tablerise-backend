@@ -26,6 +26,7 @@ describe('Patch RPG items in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Items');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {

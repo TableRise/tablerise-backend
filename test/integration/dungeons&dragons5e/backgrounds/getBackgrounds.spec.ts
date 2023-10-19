@@ -26,6 +26,7 @@ describe('Get RPG backgrounds from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Backgrounds');
+        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
