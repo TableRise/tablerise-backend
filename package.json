@@ -63,14 +63,13 @@
         "jest": "29.5.0",
         "nodemon": "3.0.1",
         "prettier": "3.0.0",
-        "superagent-defaults": "0.1.14",
         "supertest": "6.3.3",
         "ts-jest": "29.1.0",
         "ts-node": "10.9.1",
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/auto-swagger": "3.0.0",
+        "@tablerise/auto-swagger": "3.0.5",
         "@tablerise/database-management": "3.2.5",
         "@tablerise/dynamic-logger": "1.4.0",
         "bcrypt": "5.1.1",

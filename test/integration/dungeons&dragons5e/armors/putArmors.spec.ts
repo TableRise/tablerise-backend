@@ -1,12 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG armors in database', () => {
     let model: MongoModel<Internacional<Armor>>;
@@ -31,7 +31,6 @@ describe('Put RPG armors in database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Armors');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -54,7 +53,7 @@ describe('Put RPG armors in database', () => {
             const response = await model.create(armorPayload);
             documentId = response._id as string;
 
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/armors/${documentId}`)
                 .send(newArmorPayload)
                 .expect(HttpStatusCode.OK);
@@ -71,7 +70,7 @@ describe('Put RPG armors in database', () => {
         });
 
         it('should fail when data is wrong', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/armors/${documentId}`)
                 .send({ data: null } as unknown as Internacional<Armor>)
                 .expect(HttpStatusCode.UNPROCESSABLE_ENTITY);
@@ -84,7 +83,7 @@ describe('Put RPG armors in database', () => {
         });
 
         it('should fail when try to change availability', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/armors/${generateNewMongoID()}`)
                 .send({ active: true, ...newArmorPayload })
                 .expect(HttpStatusCode.BAD_REQUEST);
@@ -96,7 +95,7 @@ describe('Put RPG armors in database', () => {
         });
 
         it('should fail with inexistent ID', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .put(`/dnd5e/armors/${generateNewMongoID()}`)
                 .send(newArmorPayload)
                 .expect(HttpStatusCode.NOT_FOUND);

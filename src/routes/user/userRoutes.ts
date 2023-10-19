@@ -12,7 +12,7 @@ import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import TwoFactorMiddleware from 'src/middlewares/TwoFactorMiddleware';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import mock from 'src/support/mocks/user';
@@ -22,9 +22,10 @@ const database = new DatabaseManagement();
 
 export const model = database.modelInstance('user', 'Users');
 const modelUserDetails = database.modelInstance('user', 'UserDetails');
+
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
-const twoFactorMiddleware = new TwoFactorMiddleware(model, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(model, modelUserDetails, logger);
 
 const router = Router();
 
@@ -116,7 +117,7 @@ export const routes = [
             middlewares: [
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
-                twoFactorMiddleware.authenticate,
+                authorizationMiddleware.twoFactor,
             ],
             authentication: true,
             tag: 'management',

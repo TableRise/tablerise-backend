@@ -15,10 +15,6 @@ import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import getErrorName from 'src/services/helpers/getErrorName';
 import speakeasy from 'speakeasy';
 
-jest.mock('qrcode', () => ({
-    toDataURL: () => '',
-}));
-
 describe('Services :: User :: UsersServices', () => {
     let user: User,
         userDetails: UserDetail,
