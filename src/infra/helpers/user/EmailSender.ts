@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
-import generateVerificationCode from 'src/infra/helpers/generateVerificationCode';
+import generateVerificationCode from 'src/infra/helpers/user/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 

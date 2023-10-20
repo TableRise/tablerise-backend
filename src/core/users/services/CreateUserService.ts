@@ -1,22 +1,22 @@
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
-import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
-import { postUserSerializer, postUserDetailsSerializer } from 'src/services/user/helpers/userSerializer';
-import { FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/services/user/types/Register';
-import { RegisterUserPayload } from 'src/types/requests/Response';
+import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/requests/Response';
+import { RegisterUserPayload } from 'src/types/requests/Payload';
 import { CreateUserServiceContract } from 'src/types/contracts/users/CreateUser';
+import { SecurePasswordHandler } from 'src/infra/helpers/user/SecurePasswordHandler';
 
 export default class CreateUserService extends CreateUserServiceContract {
-    constructor({ logger, usersModel, usersDetailsModel, httpRequestErrors, emailSender }: CreateUserServiceContract) {
+    constructor({ logger, usersModel, usersDetailsModel, httpRequestErrors, emailSender, serializer }: CreateUserServiceContract) {
         super();
         this.usersModel = usersModel;
         this.usersDetailsModel = usersDetailsModel;
         this.httpRequestErrors = httpRequestErrors;
         this.emailSender = emailSender;
+        this.serializer = serializer;
         this.logger = logger;
     }
 
-    private async _createTwoFactor({ user, userDetails }: FullUser): Promise<FullUser> {
+    private async _createTwoFactor({ user, userDetails }: __FullUser): Promise<__FullUser> {
         this.logger('info', '[CreateTwoFactor - Enrichment - CreateUserService]');
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
@@ -36,8 +36,8 @@ export default class CreateUserService extends CreateUserServiceContract {
     public async serialize(user: RegisterUserPayload): Promise<__UserSerialized> {
         this.logger('info', '[Serialize - CreateUserService]');
         const { details: userDetails, ...userMain } = user;
-        const userSerialized = postUserSerializer(userMain);
-        const userDetailsSerialized = postUserDetailsSerializer(userDetails);
+        const userSerialized = this.serializer.postUser(userMain);
+        const userDetailsSerialized = this.serializer.postUserDetails(userDetails);
 
         const userInDb = await this.usersModel.findAll({ email: userSerialized.email });
 
@@ -49,7 +49,7 @@ export default class CreateUserService extends CreateUserServiceContract {
         return { userSerialized, userDetailsSerialized };
     }
 
-    public async enrichment({ user, userDetails }: FullUser): Promise<__UserEnriched> {
+    public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this.logger('info', '[Enrichment - CreateUserService]');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
         const tagInDb = await this.usersModel.findAll({ tag, nickname: user.nickname });
@@ -83,7 +83,7 @@ export default class CreateUserService extends CreateUserServiceContract {
         };
     }
 
-    public async saveUser({ user, userDetails }: FullUser): Promise<__UserSaved> {
+    public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
         this.logger('info', '[SaveUser - CreateUserService]');
         const userSaved = await this.usersModel.create(user);
         const userDetailsSaved = await this.usersDetailsModel.create(userDetails);

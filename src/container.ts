@@ -1,14 +1,15 @@
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
-import SchemaValidator from './infra/helpers/SchemaValidator';
+import SchemaValidator from './infra/helpers/common/SchemaValidator';
 import schemas from './domains/user/schemas';
-import HttpRequestErrors from './infra/helpers/HttpRequestErrors';
-import EmailSender from './infra/helpers/EmailSender';
-import { HttpStatusCode } from './infra/helpers/HttpStatusCode';
-import swaggerGenerator from './infra/helpers/swaggerGenerator';
+import HttpRequestErrors from './infra/helpers/common/HttpRequestErrors';
+import EmailSender from './infra/helpers/user/EmailSender';
+import { HttpStatusCode } from './infra/helpers/common/HttpStatusCode';
+import swaggerGenerator from './infra/helpers/common/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
-import { SecurePasswordHandler } from './infra/helpers/SecurePasswordHandler';
+import { SecurePasswordHandler } from './infra/helpers/user/SecurePasswordHandler';
+import Serializer from './infra/helpers/user/Serializer';
 
 const Database = new DatabaseManagement();
 
@@ -18,22 +19,23 @@ export const container = createContainer({
 
 export default function setup(): void {
     container.loadModules([
-        'src/core/**/*.ts',
-        'src/authentication/**/*.ts',
-        'src/interface/**/*.ts'
-    ], { resolverOptions: { injectionMode: InjectionMode.PROXY } });
+        './core/**/*.ts',
+        './authentication/**/*.ts',
+        './interface/**/*.ts'
+    ], { formatName: 'camelCase', resolverOptions: { injectionMode: InjectionMode.PROXY }, cwd: __dirname });
 
     container.register({
         schemaValidator: asClass(SchemaValidator),
         emailSender: asClass(EmailSender),
+        httpRequestErrors: asClass(HttpRequestErrors),
+        usersRoutesMiddleware: asClass(UsersRoutesMiddleware),
+        securePasswordHandler: asClass(SecurePasswordHandler),
+        serializer: asClass(Serializer),
         swaggerGenerator: asFunction(swaggerGenerator),
+        logger: asFunction(logger),
         usersModel: asValue(Database.modelInstance('user', 'Users')),
         usersDetailsModel: asValue(Database.modelInstance('user', 'UserDetails')),
         usersSchema: asValue(schemas),
-        logger: asFunction(logger),
-        httpRequestErrors: asClass(HttpRequestErrors),
-        httpStatusCode: asValue(HttpStatusCode),
-        usersRoutesMiddleware: asClass(UsersRoutesMiddleware),
-        securePasswordHandler: asClass(SecurePasswordHandler)
+        httpStatusCode: asValue(HttpStatusCode)
     });
 };

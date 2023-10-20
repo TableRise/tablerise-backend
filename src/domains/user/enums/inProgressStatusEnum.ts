@@ -1,4 +1,4 @@
-import returnEnumValues from 'src/infra/helpers/returnEnumValues';
+import returnEnumValues from 'src/infra/helpers/common/returnEnumValues';
 
 enum InProgressStatusEnum {
     WAIT_TO_CONFIRM = 'wait_to_confirm',

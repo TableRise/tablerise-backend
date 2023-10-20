@@ -1,8 +1,8 @@
 import { mongoose } from '@tablerise/database-management';
 import { NextFunction, Request, Response } from 'express';
-import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import logger from '@tablerise/dynamic-logger';
-import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 
 export default function VerifyIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
     const { id } = req.params;

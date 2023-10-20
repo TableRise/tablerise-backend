@@ -2,16 +2,16 @@
 import { Router, Request, Response } from 'express';
 import autoSwagger from '@tablerise/auto-swagger';
 import logger from '@tablerise/dynamic-logger';
-import RoutesWrapper from 'src/routes/RoutesWrapper';
+import RoutesWrapper from 'src/interface/users/RoutesWrapper';
 import swaggerUI from 'swagger-ui-express';
-import SwaggerDocumentDnD5E from '../../../api-docs/swagger-doc-dungeons&dragons5e.json';
-import SwaggerDocumentUser from '../../../api-docs/swagger-doc-user.json';
+import SwaggerDocumentDnD5E from '../../../../api-docs/swagger-doc-dungeons&dragons5e.json';
+import SwaggerDocumentUser from '../../../../api-docs/swagger-doc-user.json';
 
-export default (env: string): Router => {
+export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => {
     const router = Router();
 
-    if (env === 'develop') {
-        autoSwagger(RoutesWrapper.declareRoutes()['dungeons&dragons5e'], { title: 'dungeons&dragons5e' })
+    if (process.env.NODE_ENV === 'develop') {
+        autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], { title: 'dungeons&dragons5e' })
             .then((_result: any) => {
                 logger('info', 'Swagger - dungeons&dragons5e - document generated');
             })
@@ -19,7 +19,7 @@ export default (env: string): Router => {
                 console.log(error);
             });
 
-        autoSwagger(RoutesWrapper.declareRoutes().user, { title: 'user' })
+        autoSwagger(routesWrapper.declareRoutes().user, { title: 'user' })
             .then((_result: any) => {
                 logger('info', 'Swagger - user - document generated');
             })

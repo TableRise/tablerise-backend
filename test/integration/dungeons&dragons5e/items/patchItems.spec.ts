@@ -1,11 +1,11 @@
 import requester from '../../../support/requester';
 import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
-import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import mocks from 'src/infra/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
-import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
+import { Internacional } from 'src/infra/helpers/common/languagesWrapperZod';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Patch RPG items in database', () => {

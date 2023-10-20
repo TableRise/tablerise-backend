@@ -1,10 +1,10 @@
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import requester from '../../support/requester';
 import mock from 'src/infra/mocks/user';
-import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
-import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import EmailSender from 'src/infra/helpers/EmailSender';
+import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import EmailSender from 'src/infra/helpers/user/EmailSender';
 import logger from '@tablerise/dynamic-logger';
+import newUUID from 'src/infra/helpers/user/newUUID';
 
 describe('Add verify code in database', () => {
     const userInstanceMock = mock.user.user;
@@ -30,9 +30,8 @@ describe('Add verify code in database', () => {
         });
 
         it('should return correct status', async () => {
-            // @ts-expect-error In progress will exist below
             userInstanceMock.inProgress.status = 'done';
-            userInstanceMock._id = generateNewMongoID();
+            userInstanceMock.userId = newUUID();
             const userTest = await new DatabaseManagement().modelInstance('user', 'Users').create(userInstanceMock);
             await requester()
                 .get(`/profile/${userTest._id as string}/verify`)

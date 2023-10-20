@@ -1,12 +1,12 @@
 import JWT from 'jsonwebtoken';
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 
 export default class JWTGenerator {
-    static generate(user: User): string {
+    static generate(user: UserInstance): string {
         const payload = {
-            userId: user._id,
+            userId: user.userId,
             providerId: user.providerId,
-            username: `${user.nickname as string}${user.tag as string}`,
+            username: `${user.nickname}${user.tag}`,
         };
 
         const token = JWT.sign(payload, (process.env.JWT_SECRET as string) || 'secret', {

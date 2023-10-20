@@ -25,3 +25,23 @@ export interface JWTResponse {
     iat: number;
     exp: number;
 }
+
+export interface __FullUser {
+    user: UserInstance;
+    userDetails: UserDetailInstance;
+}
+
+export interface __UserEnriched {
+    userEnriched: UserInstance;
+    userDetailsEnriched: UserDetailInstance;
+}
+
+export interface __UserSerialized {
+    userSerialized: UserInstance;
+    userDetailsSerialized: UserDetailInstance;
+}
+
+export interface __UserSaved {
+    userSaved: UserInstance;
+    userDetailsSaved: UserDetailInstance;
+}

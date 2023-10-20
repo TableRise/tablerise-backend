@@ -1,8 +1,8 @@
 import requester from './requester';
-import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
+import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 
-export default async function getToken({ email, password }: User): Promise<string> {
+export default async function getToken({ email, password }: UserInstance): Promise<string> {
     const userLogin = await requester().post('/profile/login').send({ email, password }).expect(HttpStatusCode.OK);
 
     return userLogin.body.token;

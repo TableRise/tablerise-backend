@@ -1,4 +1,4 @@
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import { VerifyEmailServiceContract } from 'src/types/contracts/users/VerifyEmail';
 
 export abstract class VerifyEmailService extends VerifyEmailServiceContract {
@@ -10,7 +10,7 @@ export abstract class VerifyEmailService extends VerifyEmailServiceContract {
         this.logger = logger;
     }
 
-    private async _send(user: User): Promise<User> {
+    private async _send(user: UserInstance): Promise<UserInstance> {
         this.logger('info', '[Send - SendEmail - VerifyEmailService]');
         this.emailSender.type = 'verification';
 

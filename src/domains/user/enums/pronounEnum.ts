@@ -1,4 +1,4 @@
-import returnEnumValues from 'src/infra/helpers/returnEnumValues';
+import returnEnumValues from 'src/infra/helpers/common/returnEnumValues';
 
 enum PronounEnum {
     HE_HIS = 'he/his',

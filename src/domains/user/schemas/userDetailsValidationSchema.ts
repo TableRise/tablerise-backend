@@ -16,7 +16,7 @@ const userDetailsZodSchema = z.object({
     firstName: z.string().max(16),
     lastName: z.string().max(80),
     pronoun: z.enum(PronounEnum.values),
-    secretQuestion: secretQuestionZodSchema,
+    secretQuestion: secretQuestionZodSchema.or(z.null()),
     birthday: z.string(),
     gameInfo: gameInfoZodSchema,
     biography: z.string().max(500),
