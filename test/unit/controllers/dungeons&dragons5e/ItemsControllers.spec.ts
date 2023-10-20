@@ -3,11 +3,11 @@ import { Request, Response } from 'express';
 import ItemsServices from 'src/services/dungeons&dragons5e/ItemsServices';
 import ItemsControllers from 'src/controllers/dungeons&dragons5e/ItemsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Item } from 'src/schemas/dungeons&dragons5e/itemsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: ItemsControllers', () => {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 
 describe('Middlewares :: VerifyBooleanQueryMiddleware', () => {
     describe('When a request is made with the query availability', () => {

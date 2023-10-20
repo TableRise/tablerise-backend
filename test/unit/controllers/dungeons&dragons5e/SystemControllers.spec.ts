@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import SystemsServices from 'src/services/dungeons&dragons5e/SystemServices';
 import SystemsControllers from 'src/controllers/dungeons&dragons5e/SystemControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { System } from 'src/schemas/dungeons&dragons5e/systemValidationSchema';

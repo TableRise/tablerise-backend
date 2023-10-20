@@ -1,11 +1,11 @@
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
-import SchemaValidator from './services/helpers/SchemaValidator';
+import SchemaValidator from './infra/helpers/SchemaValidator';
 import schemas from './schemas';
-import HttpRequestErrors from './services/helpers/HttpRequestErrors';
+import HttpRequestErrors from './infra/helpers/HttpRequestErrors';
 import EmailSender from './services/user/helpers/EmailSender';
-import { HttpStatusCode } from './services/helpers/HttpStatusCode';
+import { HttpStatusCode } from './infra/helpers/HttpStatusCode';
 import swaggerGenerator from './support/helpers/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
 

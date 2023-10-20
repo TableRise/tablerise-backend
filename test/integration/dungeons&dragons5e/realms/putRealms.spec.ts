@@ -1,11 +1,11 @@
 import requester from '../../../support/requester';
 import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Put RPG realms in database', () => {

@@ -1,10 +1,10 @@
 import { User } from 'src/interface/users/schemas/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 import { RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';

@@ -5,11 +5,11 @@ import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
 
 import { User, userLoginZodSchema } from 'src/interface/users/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import getErrorName from 'src/services/helpers/getErrorName';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
+import JWTGenerator from 'src/infra/helpers/JWTGenerator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
+import getErrorName from 'src/infra/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import AuthErrorMiddleware from 'src/interface/users/middlewares/AuthErrorMiddleware';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 
 describe('Middlewares :: AuthErrorMiddleware', () => {
     describe('When called', () => {

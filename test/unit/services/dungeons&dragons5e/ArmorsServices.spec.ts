@@ -1,13 +1,13 @@
 import DatabaseManagement from '@tablerise/database-management';
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import schema from 'src/schemas';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 
 describe('Services :: DungeonsAndDragons5e :: ArmorsServices', () => {
     const DM_MOCK = new DatabaseManagement();

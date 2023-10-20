@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import speakeasy from 'speakeasy';
 import { User } from 'src/interface/users/schemas/usersValidationSchema';

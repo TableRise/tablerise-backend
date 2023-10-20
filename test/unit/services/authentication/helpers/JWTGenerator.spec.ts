@@ -1,4 +1,4 @@
-import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
+import JWTGenerator from 'src/infra/helpers/JWTGenerator';
 import mock from 'src/support/mocks/user';
 
 describe('Support :: Helpers :: JWTGenerator', () => {

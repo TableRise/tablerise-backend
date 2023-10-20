@@ -1,6 +1,6 @@
 import schema from 'src/schemas';
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import languagesWrapperSchema, { Internacional } from 'src/schemas/languagesWrapperSchema';
+import languagesWrapperSchema, { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 
 describe('Schemas :: DungeonsAndDragons5e :: ArmorsValidationSchema', () => {

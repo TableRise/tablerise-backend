@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 
 export default function VerifyBooleanQueryMiddleware(req: Request, _res: Response, next: NextFunction): void {
     const { availability } = req.query;

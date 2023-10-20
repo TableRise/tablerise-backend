@@ -1,4 +1,4 @@
-import { ErrorMessage } from 'src/services/helpers/errorMessage';
+import { ErrorMessage } from 'src/infra/helpers/errorMessage';
 
 describe('Helpers :: errorMessage', () => {
     describe('When the errorMessage is called', () => {

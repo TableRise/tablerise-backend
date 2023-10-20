@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import { ErrorMessage } from 'src/services/helpers/errorMessage';
-import getErrorName from 'src/services/helpers/getErrorName';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
+import { ErrorMessage } from 'src/infra/helpers/errorMessage';
+import getErrorName from 'src/infra/helpers/getErrorName';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 
 describe('Helpers :: SchemaValidator', () => {
     const testToThrowError = (err: HttpRequestErrors, errMessage: string, code: number): void => {

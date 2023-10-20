@@ -1,6 +1,6 @@
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';

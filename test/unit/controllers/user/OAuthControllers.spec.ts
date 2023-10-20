@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import OAuthServices from 'src/services/user/OAuthServices';
 import logger from '@tablerise/dynamic-logger';
 import OAuthControllers from 'src/controllers/user/OAuthControllers';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import DatabaseManagement from '@tablerise/database-management';
 import mock from 'src/support/mocks/user';
 import { RegisterUserResponse } from 'src/types/Response';

@@ -1,7 +1,7 @@
-import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import { ErrorMessage } from 'src/services/helpers/errorMessage';
-import getErrorName from 'src/services/helpers/getErrorName';
+import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
+import { ErrorMessage } from 'src/infra/helpers/errorMessage';
+import getErrorName from 'src/infra/helpers/getErrorName';
 import { ErrorTypes } from 'src/types/Errors';
 
 describe('Services :: Helpers :: HttpRequestErrors', () => {

@@ -1,5 +1,5 @@
 import requester from './requester';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import { User } from 'src/interface/users/schemas/usersValidationSchema';
 
 export default async function getToken({ email, password }: User): Promise<string> {

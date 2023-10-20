@@ -2,11 +2,11 @@ import logger from '@tablerise/dynamic-logger';
 import requester from '../../../support/requester';
 import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
 import { Armor } from 'src/schemas/dungeons&dragons5e/armorsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 
 describe('Get RPG armors from database', () => {
     let model: MongoModel<Internacional<Armor>>;

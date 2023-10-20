@@ -3,11 +3,11 @@ import { Request, Response } from 'express';
 import BackgroundsServices from 'src/services/dungeons&dragons5e/BackgroundsServices';
 import BackgroundsControllers from 'src/controllers/dungeons&dragons5e/BackgroundsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { Background } from 'src/schemas/dungeons&dragons5e/backgroundsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: BackgroundsControllers', () => {

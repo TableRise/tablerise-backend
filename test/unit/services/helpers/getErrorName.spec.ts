@@ -1,5 +1,5 @@
-import getErrorName from 'src/services/helpers/getErrorName';
-import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import getErrorName from 'src/infra/helpers/getErrorName';
+import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 
 describe('Helpers :: getErrorName', () => {
     describe('When the getErrorName is called', () => {

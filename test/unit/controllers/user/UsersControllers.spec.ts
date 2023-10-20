@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import UsersControllers from 'src/controllers/user/UsersControllers';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 import schema from 'src/schemas';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
 import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';

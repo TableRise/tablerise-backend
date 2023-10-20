@@ -3,11 +3,11 @@ import { Request, Response } from 'express';
 import GodsServices from 'src/services/dungeons&dragons5e/GodsServices';
 import GodsControllers from 'src/controllers/dungeons&dragons5e/GodsControllers';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
-import SchemaValidator from 'src/services/helpers/SchemaValidator';
+import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 
 import logger from '@tablerise/dynamic-logger';
 import { God } from 'src/schemas/dungeons&dragons5e/godsValidationSchema';
-import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import { Internacional } from 'src/infra/helpers/languagesWrapperZod';
 import schema from 'src/schemas';
 
 describe('Services :: DungeonsAndDragons5e :: GodsControllers', () => {
