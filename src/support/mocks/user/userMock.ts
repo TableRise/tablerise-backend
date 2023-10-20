@@ -1,5 +1,5 @@
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema'
-import { User, UserLogin } from 'src/schemas/user/usersValidationSchema'
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema'
+import { User, UserLogin } from 'src/interface/users/schemas/usersValidationSchema'
 import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response'
 
 

@@ -3,9 +3,9 @@ import { SchemasUserType } from 'src/schemas';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import { Logger } from '../../Logger';
 import { MongoModel } from '@tablerise/database-management';
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
 import EmailSender from 'src/services/user/helpers/EmailSender';
 
 export abstract class CreateUserOperationContract {

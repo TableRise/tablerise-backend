@@ -1,5 +1,5 @@
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
 
 export interface FullUser {
     user: User;

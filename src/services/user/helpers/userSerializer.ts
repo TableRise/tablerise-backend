@@ -2,8 +2,8 @@ import { UserExternalSerialize } from 'src/types/Serializer';
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
-import { User } from 'src/schemas/user/usersValidationSchema';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
 
 export default function userExternalSerializer(
     userProfile: Google.Profile | Facebook.Profile | Discord.Profile

@@ -12,9 +12,9 @@ import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
-import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 import mock from 'src/support/mocks/user';
 
 const schemaValidator = new SchemaValidator();

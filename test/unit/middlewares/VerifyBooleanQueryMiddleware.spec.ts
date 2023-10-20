@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Middlewares :: VerifyBooleanQueryMiddleware', () => {

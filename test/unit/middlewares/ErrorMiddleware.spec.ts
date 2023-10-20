@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
+import ErrorMiddleware from 'src/interface/common/middlewares/ErrorMiddleware';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 

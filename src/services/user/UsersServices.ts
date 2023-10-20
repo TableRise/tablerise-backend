@@ -10,8 +10,8 @@ import {
     emailUpdatePayload,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
+import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/interface/users/schemas/usersValidationSchema';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';

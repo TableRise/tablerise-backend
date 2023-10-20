@@ -1,7 +1,11 @@
 import userZod from './usersValidationSchema';
 import userDetailZod from './userDetailsValidationSchema';
 
-export default {
+const schemas = {
     userZod,
     userDetailZod,
 };
+
+export type SchemasUserType = typeof schemas;
+
+export default schemas;

@@ -7,13 +7,13 @@ import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
 
 import RacesServices from 'src/services/dungeons&dragons5e/RacesServices';
 import RacesControllers from 'src/controllers/dungeons&dragons5e/RacesControllers';
-import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import schema from 'src/schemas';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
-import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();

@@ -9,7 +9,7 @@ import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 
 import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import OAuthServices from 'src/services/user/OAuthServices';
-import AuthErrorMiddleware from 'src/middlewares/AuthErrorMiddleware';
+import AuthErrorMiddleware from 'src/interface/users/middlewares/AuthErrorMiddleware';
 import DatabaseManagement from '@tablerise/database-management';
 
 const database = new DatabaseManagement();

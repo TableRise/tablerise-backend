@@ -1,4 +1,4 @@
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
@@ -7,7 +7,7 @@ import schema from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
 import EmailSender from 'src/services/user/helpers/EmailSender';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import speakeasy from 'speakeasy';

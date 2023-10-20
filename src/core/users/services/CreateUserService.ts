@@ -6,8 +6,6 @@ import { FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/ser
 import { RegisterUserPayload } from 'src/types/Response';
 import { CreateUserServiceContract } from 'src/types/contracts/users/CreateUser';
 
-
-
 export default class CreateUserService extends CreateUserServiceContract {
     constructor({ logger, usersModel, usersDetailsModel, httpRequestErrors, emailSender }: CreateUserServiceContract) {
         super();

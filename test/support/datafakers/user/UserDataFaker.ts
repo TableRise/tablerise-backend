@@ -1,4 +1,4 @@
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
 import { UserFaker } from '../GeneralDataFaker';
 import utils from '../../utils';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 

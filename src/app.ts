@@ -10,11 +10,12 @@ import helmet from 'helmet';
 import logger from '@tablerise/dynamic-logger';
 
 import DungeonsAndDragonsRouteMiddleware from 'src/routes/middlewares/DungeonsAndDragonsRouteMiddleware';
-import UserRouteMiddleware from 'src/routes/middlewares/UserRouteMiddleware';
-import ErrorMiddleware from 'src/middlewares/ErrorMiddleware';
+import { container } from './container';
+import ErrorMiddleware from 'src/interface/common/middlewares/ErrorMiddleware';
 import swaggerGenerator from './support/helpers/swaggerGenerator';
 
 const COOKIE_AGE = 1000 * 60 * 60 * 120;
+const { usersRoutesMiddleware } = container;
 
 const app: Application = express();
 const swaggerDocs = swaggerGenerator(process.env.NODE_ENV as string);
@@ -33,7 +34,7 @@ app.use(express.json())
     .use(helmet())
     .use('/health', (req, res) => res.send('OK!'))
     .use(swaggerDocs)
-    .use(UserRouteMiddleware)
+    .use(usersRoutesMiddleware.get())
     .use(DungeonsAndDragonsRouteMiddleware)
     .use(ErrorMiddleware);
 

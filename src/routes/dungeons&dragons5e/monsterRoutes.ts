@@ -9,12 +9,12 @@ import logger from '@tablerise/dynamic-logger';
 import schema from 'src/schemas';
 import MonstersServices from 'src/services/dungeons&dragons5e/MonstersServices';
 import MonstersControllers from 'src/controllers/dungeons&dragons5e/MonstersControllers';
-import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import generateIDParam, { generateQueryParam } from 'src/routes/parametersWrapper';
 import mock from 'src/support/mocks/dungeons&dragons5e';
-import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();

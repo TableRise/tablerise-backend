@@ -5,15 +5,15 @@ import logger from '@tablerise/dynamic-logger';
 
 import ArmorsServices from 'src/services/dungeons&dragons5e/ArmorsServices';
 import ArmorsControllers from 'src/controllers/dungeons&dragons5e/ArmorsControllers';
-import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
-import VerifyBooleanQueryMiddleware from 'src/middlewares/VerifyBooleanQueryMiddleware';
+import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
+import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
 import { routeInstance, buildRouter } from '@tablerise/auto-swagger';
 import mock from 'src/support/mocks/dungeons&dragons5e';
 import passport from 'passport';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
-import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 
 const schemaValidator = new SchemaValidator();
 const database = new DatabaseManagement();

@@ -16,4 +16,12 @@ export default class UsersController extends UsersControllerContract {
         const result = await createUserOperation.execute(payload);
         return res.status(this.httpStatusCode.OK).json(result);
     }
+
+    public async verifyEmail(req: Request, res: Response): Promise<Response> {
+        const { verifyEmailOperation } = container;
+        const { id } = req.params;
+
+        const result = await verifyEmailOperation.execute(id);
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
 }

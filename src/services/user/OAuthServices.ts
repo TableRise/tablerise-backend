@@ -2,8 +2,8 @@ import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
 import { MongoModel } from '@tablerise/database-management';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
-import { User } from 'src/schemas/user/usersValidationSchema';
+import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
+import { User } from 'src/interface/users/schemas/usersValidationSchema';
 import userExternalSerializer, {
     postUserDetailsSerializer,
     postUserSerializer,
