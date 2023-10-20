@@ -11,6 +11,8 @@ import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/d
 import Database from '../../../support/Database';
 import utils from '../../../support/utils';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
 describe('Controllers :: User :: UsersControllers', () => {
     let user: User,
@@ -232,6 +234,39 @@ describe('Controllers :: User :: UsersControllers', () => {
             await userControllers.update(request, response);
             expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
             expect(response.json).toHaveBeenCalledWith(userResponse);
+        });
+    });
+
+    describe('When a request is made to edit game info', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'updateGameInfo').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 200', async () => {
+            request.params = { id: generateNewMongoID() };
+            request.query = { id: generateNewMongoID(), info: 'badges', operation: 'add' };
+            await userControllers.updateGameInfo(request, response);
+
+            expect(response.sendStatus).toHaveBeenCalledWith(200);
+        });
+
+        it('but the query is invalid', async () => {
+            request.params = { id: generateNewMongoID() };
+            request.query = {};
+
+            try {
+                await userControllers.updateGameInfo(request, response);
+                expect('it should not be here').toBe(true);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+
+                expect(err.code).toBe(400);
+            }
         });
     });
 });

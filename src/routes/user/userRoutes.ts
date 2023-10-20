@@ -134,6 +134,26 @@ export const routes = [
             tag: 'management',
         },
     },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/update/game-info`,
+        controller: controllers.updateGameInfo,
+        parameters: [
+            ...generateIDParam(),
+            ...generateQueryParam(3, [
+                { name: 'id', type: 'string' },
+                { name: 'info', type: 'string' },
+                { name: 'operation', type: 'string' },
+            ]),
+        ],
+        options: {
+            description:
+                'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
 ] as routeInstance[];
 
 export default {

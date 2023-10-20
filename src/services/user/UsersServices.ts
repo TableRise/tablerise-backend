@@ -25,6 +25,7 @@ import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import getErrorName from '../helpers/getErrorName';
+import { GameInfoOptions } from 'src/types/GameInfo';
 
 export default class RegisterServices {
     constructor(
@@ -245,6 +246,33 @@ export default class RegisterServices {
 
         await this._model.delete(id);
         this._logger('info', 'User deleted from database');
+    }
+
+    private isGameInfo(keyInput: string): keyInput is GameInfoOptions {
+        return ['badges', 'campaigns', 'characters'].includes(keyInput);
+    }
+
+    public async updateGameInfo(idUser: string, dataId: string, gameInfo: string, operation: string): Promise<void> {
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
+
+        if (!this.isGameInfo(gameInfo))
+            throw new HttpRequestErrors({
+                message: 'Selected game info is invalid',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        if (operation === 'remove')
+            userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo.gameInfo[gameInfo].filter((data) => data !== dataId);
+
+        if (operation === 'add') {
+            const hasInfo = userDetailsInfo.gameInfo[gameInfo].filter((data) => data === dataId).length > 0;
+            if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
+        }
+
+        await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
     }
 
     public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
