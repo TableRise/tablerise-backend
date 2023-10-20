@@ -1,4 +1,4 @@
-import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserDetailFaker } from '../GeneralDataFaker';
 import utils from '../../utils';
 

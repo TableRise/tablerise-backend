@@ -1,4 +1,4 @@
-import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { User } from 'src/domains/user/schemas/usersValidationSchema';
 import { VerifyEmailServiceContract } from 'src/types/contracts/users/VerifyEmail';
 
 export abstract class VerifyEmailService extends VerifyEmailServiceContract {

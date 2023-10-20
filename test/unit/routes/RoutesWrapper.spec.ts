@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import RoutesWrapper from 'src/routes/RoutesWrapper';
-import Route, { RouteWrapperDeclared } from 'src/types/Route';
+import Route, { RouteWrapperDeclared } from 'src/types/requests/Route';
 
 describe('Routes :: RoutesWrapper', () => {
     describe('When declare routes method is called', () => {

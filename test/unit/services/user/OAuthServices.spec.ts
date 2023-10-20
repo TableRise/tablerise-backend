@@ -3,7 +3,7 @@ import logger from '@tablerise/dynamic-logger';
 import OAuthServices from 'src/services/user/OAuthServices';
 import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import mock from 'src/support/mocks/user';
-import { RegisterUserResponse } from 'src/types/Response';
+import { RegisterUserResponse } from 'src/types/requests/Response';
 
 describe('Services :: User :: OAuthServices', () => {
     const database = new DatabaseManagement();

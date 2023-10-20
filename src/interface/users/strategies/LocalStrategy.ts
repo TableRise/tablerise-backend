@@ -4,7 +4,7 @@ import passport from 'passport';
 import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
 
-import { User, userLoginZodSchema } from 'src/interface/users/schemas/usersValidationSchema';
+import { User, userLoginZodSchema } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import JWTGenerator from 'src/infra/helpers/JWTGenerator';

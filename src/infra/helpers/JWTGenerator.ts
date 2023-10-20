@@ -1,5 +1,5 @@
 import JWT from 'jsonwebtoken';
-import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { User } from 'src/domains/user/schemas/usersValidationSchema';
 
 export default class JWTGenerator {
     static generate(user: User): string {

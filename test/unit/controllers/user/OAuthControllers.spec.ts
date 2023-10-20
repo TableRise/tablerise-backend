@@ -5,7 +5,7 @@ import OAuthControllers from 'src/controllers/user/OAuthControllers';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import DatabaseManagement from '@tablerise/database-management';
 import mock from 'src/support/mocks/user';
-import { RegisterUserResponse } from 'src/types/Response';
+import { RegisterUserResponse } from 'src/types/requests/Response';
 
 describe('Controllers :: User :: OAuthControllers', () => {
     const database = new DatabaseManagement();

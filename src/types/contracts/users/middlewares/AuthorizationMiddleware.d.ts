@@ -1,6 +1,6 @@
 import { MongoModel } from '@tablerise/database-management';
-import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
-import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { User } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import { Logger } from 'src/types/Logger';
 

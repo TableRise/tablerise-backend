@@ -1,5 +1,5 @@
-import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
-import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { User } from 'src/domains/user/schemas/usersValidationSchema';
 import { generateUserFaker } from './user/UserDataFaker';
 import { generateUserDetailFaker } from './user/UserDetailDataFaker';
 

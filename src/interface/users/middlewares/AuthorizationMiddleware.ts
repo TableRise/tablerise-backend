@@ -1,6 +1,6 @@
 import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
-import { JWTResponsePayload } from 'src/types/Response';
+import { JWTResponsePayload } from 'src/types/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/contracts/users/middlewares/AuthorizationMiddleware';
 
 export default class AuthorizationMiddleware extends AuthorizationMiddlewareContract {

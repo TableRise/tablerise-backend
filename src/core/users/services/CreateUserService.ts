@@ -3,7 +3,7 @@ import qrcode from 'qrcode';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { postUserSerializer, postUserDetailsSerializer } from 'src/services/user/helpers/userSerializer';
 import { FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/services/user/types/Register';
-import { RegisterUserPayload } from 'src/types/Response';
+import { RegisterUserPayload } from 'src/types/requests/Response';
 import { CreateUserServiceContract } from 'src/types/contracts/users/CreateUser';
 
 export default class CreateUserService extends CreateUserServiceContract {

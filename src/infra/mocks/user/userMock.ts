@@ -1,6 +1,6 @@
-import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema'
-import { User, UserLogin } from 'src/interface/users/schemas/usersValidationSchema'
-import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response'
+import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema'
+import { User, UserLogin } from 'src/domains/user/schemas/usersValidationSchema'
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/requests/Response'
 
 
 const userMock: User = {

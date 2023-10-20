@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import 'express-async-errors';
 import 'src/services/authentication/BearerStrategy';
 

@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import speakeasy from 'speakeasy';
-import { User } from 'src/interface/users/schemas/usersValidationSchema';
+import { User } from 'src/domains/user/schemas/usersValidationSchema';
 import GeneralDataFaker, { UserDetailFaker, UserFaker } from '../../support/datafakers/GeneralDataFaker';
 import Database from '../../support/Database';
 import logger from '@tablerise/dynamic-logger';
-import { UserDetail } from 'src/interface/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema';
 
 jest.mock('qrcode', () => ({
     toDataURL: () => '',

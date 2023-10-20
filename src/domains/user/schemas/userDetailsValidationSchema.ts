@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import PronounEnum from '../enums/pronounEnum';
 
 const gameInfoZodSchema = z.object({
     campaigns: z.array(z.string().length(24)),
@@ -12,19 +13,22 @@ const secretQuestionZodSchema = z.object({
 });
 
 const userDetailsZodSchema = z.object({
-    _id: z.string().length(24).optional(),
-    userId: z.string().length(24).optional(),
-    firstName: z.string().max(16).or(z.null()),
-    lastName: z.string().max(80).or(z.null()),
-    pronoun: z.enum(['he/his', 'she/her', 'they/them', 'he/his - she/her', 'any']).or(z.null()),
-    secretQuestion: secretQuestionZodSchema.or(z.null()),
-    birthday: z.string().or(z.null()),
+    firstName: z.string().max(16),
+    lastName: z.string().max(80),
+    pronoun: z.enum(PronounEnum.values),
+    secretQuestion: secretQuestionZodSchema,
+    birthday: z.string(),
     gameInfo: gameInfoZodSchema,
-    biography: z.string().max(500).or(z.null()),
+    biography: z.string().max(500),
     role: z.enum(['user', 'admin']),
 });
 
-export type UserDetail = z.infer<typeof userDetailsZodSchema>;
+export type UserDetailPayload = z.infer<typeof userDetailsZodSchema>;
+export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
+    userId: string,
+    userDetailId: string;
+}
+
 export type UserSecretQuestion = z.infer<typeof secretQuestionZodSchema>;
 export type UserGameInfo = z.infer<typeof gameInfoZodSchema>;
 

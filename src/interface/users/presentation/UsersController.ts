@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { container } from 'src/container';
-import { RegisterUserPayload } from 'src/types/Response';
+import { RegisterUserPayload } from 'src/types/requests/Response';
 import { UsersControllerContract } from 'src/types/contracts/users/presentation/UsersController';
 
 export default class UsersController extends UsersControllerContract {
