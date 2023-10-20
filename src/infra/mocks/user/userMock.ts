@@ -1,11 +1,12 @@
-import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema'
-import { User, UserLogin } from 'src/domains/user/schemas/usersValidationSchema'
-import { RegisterUserPayload, emailUpdatePayload } from 'src/types/requests/Response'
+import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema'
+import { UserInstance, UserLogin } from 'src/domains/user/schemas/usersValidationSchema'
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/requests/Payload'
 
 
-const userMock: User = {
-    inProgress: { status: 'wait_to_confirm', code: '1447ab' },
+const userMock: UserInstance = {
+    userId: '39dbb501-d973-4362-9005-fbc3750b83y8',
     providerId: '39dbb501-d973-4362-9005-fbc3750b83d3',
+    inProgress: { status: 'wait_to_confirm', code: '1447ab' },
     email: 'user@email.com',
     password: 'secret-secret',
     nickname: 'userTop',
@@ -16,7 +17,8 @@ const userMock: User = {
     updatedAt: new Date().toISOString(),
 }
 
-const userDetailsMock: UserDetail = {
+const userDetailsMock: UserDetailInstance = {
+    userDetailId: '6506646f2a3c5ad8d2fb7998',
     userId: '6506646f2a3c5ad8d2fb7983',
     firstName: 'John',
     lastName: 'Doe',
@@ -44,12 +46,12 @@ const userPayloadMock: RegisterUserPayload = {
     email: userMock.email,
     password: userMock.password,
     twoFactorSecret: { active: false },
-    nickname: userMock.nickname as string,
+    nickname: userMock.nickname,
     picture: userMock.picture as string,
     details: {
         firstName: userDetailsMock.firstName,
         lastName: userDetailsMock.lastName,
-        pronoun: userDetailsMock.pronoun as "he/his" | "she/her" | "they/them" | "he/his - she/her" | "any",
+        pronoun: userDetailsMock.pronoun,
         secretQuestion: userDetailsMock.secretQuestion,
         birthday: userDetailsMock.firstName,
         gameInfo: userDetailsMock.gameInfo,

@@ -1,23 +1,25 @@
-import { UserDetail } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserDetailInstance, UserDetailPayload } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserInstance, UserPayload } from 'src/domains/user/schemas/usersValidationSchema';
 import { generateUserFaker } from './user/UserDataFaker';
 import { generateUserDetailFaker } from './user/UserDetailDataFaker';
 
 export interface UserFaker {
     count: number;
-    _id?: string;
+    userId?: string;
+    mode: 'payload' | 'instance';
 }
 export interface UserDetailFaker {
     count: number;
-    _id?: string;
+    userDetailId?: string;
+    mode: 'payload' | 'instance';
 }
 
-function generateUserJSON({ count = 1, _id }: UserFaker = { count: 1 }): User[] {
-    return generateUserFaker({ count, _id } as UserFaker);
+function generateUserJSON({ count = 1, userId, mode }: UserFaker = { count: 1, mode: 'payload' }): UserInstance[] | UserPayload[] {
+    return generateUserFaker({ count, userId, mode } as UserFaker);
 }
 
-function generateUserDetailJSON({ count = 1, _id }: UserDetailFaker = { count: 1 }): UserDetail[] {
-    return generateUserDetailFaker({ count, _id } as UserDetailFaker);
+function generateUserDetailJSON({ count = 1, userDetailId, mode }: UserDetailFaker = { count: 1, mode: 'payload' }): UserDetailInstance[] | UserDetailPayload[] {
+    return generateUserDetailFaker({ count, userDetailId, mode } as UserDetailFaker);
 }
 
 export default {

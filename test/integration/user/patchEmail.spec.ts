@@ -1,8 +1,8 @@
 import speakeasy from 'speakeasy';
 import requester from '../../support/requester';
-import mock from 'src/support/mocks/user';
+import mock from 'src/infra/mocks/user';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
-import EmailSender from 'src/services/user/helpers/EmailSender';
+import EmailSender from 'src/infra/helpers/EmailSender';
 import JWTGenerator from 'src/infra/helpers/JWTGenerator';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import logger from '@tablerise/dynamic-logger';

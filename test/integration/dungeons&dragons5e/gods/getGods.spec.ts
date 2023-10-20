@@ -1,6 +1,6 @@
 import requester from '../../../support/requester';
 import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
-import mocks from 'src/support/mocks/dungeons&dragons5e';
+import mocks from 'src/infra/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 

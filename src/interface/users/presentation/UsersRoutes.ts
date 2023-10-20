@@ -1,6 +1,6 @@
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam from 'src/routes/parametersWrapper';
-import mock from 'src/support/mocks/user';
+import mock from 'src/infra/mocks/user';
 import { UsersRoutesContract } from 'src/types/contracts/users/presentation/UsersRoutes';
 
 const BASE_PATH = '/profile';

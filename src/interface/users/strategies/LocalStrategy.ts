@@ -1,21 +1,19 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
 import passport from 'passport';
 import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
 
-import { User, userLoginZodSchema } from 'src/domains/user/schemas/usersValidationSchema';
+import { userLoginZodSchema } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import JWTGenerator from 'src/infra/helpers/JWTGenerator';
 import SchemaValidator from 'src/infra/helpers/SchemaValidator';
 import getErrorName from 'src/infra/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
-import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
+import { container } from 'src/container';
 
 const LocalStrategy = Local.Strategy;
-
-const UsersModel = new DatabaseManagement().modelInstance('user', 'Users') as MongoModel<User>;
+const { UsersModel, httpRequestErrors, securePasswordHandler } = container;
 
 passport.use(
     new LocalStrategy(
@@ -33,7 +31,7 @@ passport.use(
 
             if (isDataInvalid)
                 return done(
-                    new HttpRequestErrors({
+                    httpRequestErrors({
                         message: 'Schema error',
                         code: HttpStatusCode.UNPROCESSABLE_ENTITY,
                         name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
@@ -57,18 +55,18 @@ passport.use(
                     })
                 );
 
-            const isPasswordValid = await SecurePasswordHandler.comparePassword(password, user[0].password);
+            const isPasswordValid = await securePasswordHandler.comparePassword(password, user[0].password);
 
             if (!isPasswordValid)
                 return done(
-                    new HttpRequestErrors({
+                    httpRequestErrors({
                         message: 'Incorrect email or password. Try again.',
                         code: HttpStatusCode.UNAUTHORIZED,
                         name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                     })
                 );
 
-            if (user[0].inProgress?.status !== 'done') HttpRequestErrors.throwError('invalid-user-status');
+            if (user[0].inProgress?.status !== 'done') httpRequestErrors.throwError('invalid-user-status');
 
             const token = JWTGenerator.generate(user[0]);
 

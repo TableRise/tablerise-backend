@@ -1,9 +1,9 @@
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import requester from '../../support/requester';
-import mock from 'src/support/mocks/user';
+import mock from 'src/infra/mocks/user';
 import { HttpStatusCode } from 'src/infra/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
-import EmailSender from 'src/services/user/helpers/EmailSender';
+import EmailSender from 'src/infra/helpers/EmailSender';
 import logger from '@tablerise/dynamic-logger';
 
 describe('Add verify code in database', () => {

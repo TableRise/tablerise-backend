@@ -1,13 +1,13 @@
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance, UserPayload } from 'src/domains/user/schemas/usersValidationSchema';
 import { UserFaker } from '../GeneralDataFaker';
 import utils from '../../utils';
-import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import generateNewMongoID from 'src/infra/helpers/generateNewMongoID';
 
 const { dataGenerator } = utils;
 
-function createUserFaker({ _id = generateNewMongoID() }: User): User {
-    return {
-        _id,
+function createUserFaker({ userId = generateNewMongoID(), mode }: UserFaker): UserInstance | UserPayload {
+    const instance = {
+        userId,
         inProgress: { status: 'done', code: '' },
         providerId: generateNewMongoID(),
         email: dataGenerator.email(),
@@ -16,14 +16,25 @@ function createUserFaker({ _id = generateNewMongoID() }: User): User {
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
         picture: dataGenerator.picture(),
         twoFactorSecret: { active: true },
-    };
+    } as UserInstance;
+
+    const payload = {
+        email: dataGenerator.email(),
+        password: '@Password61',
+        nickname: dataGenerator.nickname(),
+        picture: dataGenerator.picture(),
+        twoFactorSecret: { active: true },
+    } as UserPayload;
+
+    return mode === 'payload' ? payload : instance; 
 }
 
-export function generateUserFaker({ count, _id }: UserFaker): User[] {
-    const users: User[] = [];
+export function generateUserFaker({ count, userId, mode }: UserFaker): UserInstance[] | UserPayload[] {
+    const users: UserInstance[] | UserPayload[] = [];
 
     for (let index = 0; index <= count; index += 1) {
-        users.push(createUserFaker({ _id } as User));
+        // @ts-expect-error Expected error
+        users.push(createUserFaker({ userId, mode }));
     }
 
     return users;

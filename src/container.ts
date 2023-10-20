@@ -2,12 +2,13 @@ import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'aw
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './infra/helpers/SchemaValidator';
-import schemas from './schemas';
+import schemas from './domains/user/schemas';
 import HttpRequestErrors from './infra/helpers/HttpRequestErrors';
-import EmailSender from './services/user/helpers/EmailSender';
+import EmailSender from './infra/helpers/EmailSender';
 import { HttpStatusCode } from './infra/helpers/HttpStatusCode';
-import swaggerGenerator from './support/helpers/swaggerGenerator';
+import swaggerGenerator from './infra/helpers/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
+import { SecurePasswordHandler } from './infra/helpers/SecurePasswordHandler';
 
 const Database = new DatabaseManagement();
 
@@ -28,11 +29,11 @@ export default function setup(): void {
         swaggerGenerator: asFunction(swaggerGenerator),
         usersModel: asValue(Database.modelInstance('user', 'Users')),
         usersDetailsModel: asValue(Database.modelInstance('user', 'UserDetails')),
-        usersSchema: asValue(schemas.user),
-        dnd5eSchema: asValue(schemas['dungeons&dragons5e']),
+        usersSchema: asValue(schemas),
         logger: asFunction(logger),
         httpRequestErrors: asClass(HttpRequestErrors),
         httpStatusCode: asValue(HttpStatusCode),
-        usersRoutesMiddleware: asClass(UsersRoutesMiddleware)
+        usersRoutesMiddleware: asClass(UsersRoutesMiddleware),
+        securePasswordHandler: asClass(SecurePasswordHandler)
     });
 };
