@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { container } from 'src/container';
-import { RegisterUserPayload } from 'src/types/requests/Response';
+import { RegisterUserPayload } from 'src/types/requests/Payload';
 import { UsersControllerContract } from 'src/types/contracts/users/presentation/UsersController';
 
 export default class UsersController extends UsersControllerContract {
@@ -14,14 +14,29 @@ export default class UsersController extends UsersControllerContract {
         const payload = req.body as RegisterUserPayload;
 
         const result = await createUserOperation.execute(payload);
-        return res.status(this.httpStatusCode.OK).json(result);
+        return res.status(this.httpStatusCode.CREATED).json(result);
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
         const { verifyEmailOperation } = container;
-        const { id } = req.params;
+        const { userId } = req.params;
 
-        const result = await verifyEmailOperation.execute(id);
+        const result = await verifyEmailOperation.execute(userId);
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
+
+    public async login(req: Request, res: Response): Promise<Response> {
+        const { user: token } = req;
+        return res.status(this.httpStatusCode.OK).json({ token });
+    }
+
+    public async confirmCode(req: Request, res: Response): Promise<Response> {
+        const { confirmCodeOperation } = container;
+
+        const { userId } = req.params;
+        const { code } = req.query;
+
+        const result = await confirmCodeOperation.execute({ userId, code });
         return res.status(this.httpStatusCode.OK).json(result);
     }
 }

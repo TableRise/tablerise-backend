@@ -14,3 +14,8 @@ export interface emailUpdatePayload {
 export interface RegisterUserPayload extends UserPayload {
     details: UserDetailPayload;
 }
+
+export interface ConfirmCodePayload {
+    userId: string;
+    code: string;
+}

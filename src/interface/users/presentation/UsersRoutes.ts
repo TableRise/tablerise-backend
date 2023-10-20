@@ -1,5 +1,7 @@
+import 'src/interface/users/strategies/LocalStrategy';
+import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam from 'src/routes/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/infra/helpers/user/parametersWrapper';
 import mock from 'src/infra/mocks/user';
 import { UsersRoutesContract } from 'src/types/contracts/users/presentation/UsersRoutes';
 
@@ -31,6 +33,28 @@ export default class UsersRoutes extends UsersRoutesContract {
                 controller: this.usersController.register,
                 schema: mock.user.userPayload,
                 options: {
+                    authentication: false,
+                    tag: 'register',
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/login`,
+                controller: this.usersController.login,
+                schema: mock.user.userLogin,
+                options: {
+                    middlewares: [passport.authenticate('local', { session: false })],
+                    authentication: false,
+                    tag: 'authentication',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/confirm`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+                controller: this.usersController.confirmCode,
+                options: {
+                    middlewares: [this.verifyIdMiddleware],
                     authentication: false,
                     tag: 'register',
                 },
