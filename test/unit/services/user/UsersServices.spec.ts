@@ -846,4 +846,101 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
     });
+
+    describe('When edit game info', () => {
+        beforeAll(() => {
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'badges', 'add');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - game info', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - selected game info is invalid', async () => {
+                try {
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'test', 'add');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Selected game info is invalid');
+                    expect(err.code).toBe(400);
+                    expect(err.name).toBe('BadRequest');
+                }
+            });
+        });
+
+        describe('and the params is correct', () => {
+            let infoId: string;
+            beforeAll(() => {
+                infoId = generateNewMongoID();
+                userDetails.gameInfo.badges.push(infoId);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                UserDetails.update = jest.fn().mockReturnValue(undefined);
+            });
+
+            afterEach(() => {
+                jest.clearAllMocks();
+            });
+
+            it('adds new game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'campaigns', 'add');
+
+                const expectedResult = userDetails;
+                expectedResult.gameInfo.campaigns.push(infoId);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(expectedResult._id, expectedResult);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('remove requested game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'remove');
+
+                const result = userDetails;
+                result.gameInfo.badges = userDetails.gameInfo.badges.filter((badge) => badge !== infoId);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('tries to add the info twice', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'add');
+
+                expect(UserDetails.update).toHaveBeenCalledWith(userDetails._id, userDetails);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('adds new badge to array', async () => {
+                const newBadge = generateNewMongoID();
+                await userServices.updateGameInfo(generateNewMongoID(), newBadge, 'badges', 'add');
+
+                const result = userDetails;
+                result.gameInfo.badges.push(newBadge);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
 });
