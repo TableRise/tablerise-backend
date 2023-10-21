@@ -1,4 +1,5 @@
 import 'src/interface/users/strategies/LocalStrategy';
+import 'src/interface/users/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, { generateQueryParam } from 'src/infra/helpers/user/parametersWrapper';
@@ -57,6 +58,39 @@ export default class UsersRoutes extends UsersRoutesContract {
                     middlewares: [this.verifyIdMiddleware],
                     authentication: false,
                     tag: 'register',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/activate`,
+                parameters: [...generateIDParam()],
+                controller: this.usersController.activateTwoFactor,
+                options: {
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/reset`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+                controller: this.usersController.resetTwoFactor,
+                options: {
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/email`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+                controller: this.usersController.updateEmail,
+                options: {
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
                 },
             },
         ] as routeInstance[]

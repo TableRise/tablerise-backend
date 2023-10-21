@@ -1,6 +1,6 @@
 import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
-import { JWTResponsePayload } from 'src/types/requests/Response';
+import { JWTResponse } from 'src/types/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/contracts/users/middlewares/AuthorizationMiddleware';
 
 export default class AuthorizationMiddleware extends AuthorizationMiddlewareContract {
@@ -14,7 +14,7 @@ export default class AuthorizationMiddleware extends AuthorizationMiddlewareCont
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
         this.logger('warn', '[CheckAdminRole - AuthorizationMiddleware]');
 
-        const { userId } = req.user as JWTResponsePayload;
+        const { userId } = req.user as JWTResponse;
 
         const userDetail = await this.usersDetailsModel.findAll({ userId });
 
@@ -44,7 +44,7 @@ export default class AuthorizationMiddleware extends AuthorizationMiddlewareCont
             this.httpRequestErrors.throwError('user-inexistent');
         };
 
-        if (!user.twoFactorSecret) {
+        if (!user.twoFactorSecret.active) {
             next();
             return;
         }

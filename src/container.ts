@@ -17,11 +17,9 @@ export const container = createContainer({
 }) as any;
 
 export default function setup(): void {
-    // container.loadModules([
-    //     './core/**/*.ts',
-    //     './authentication/**/*.ts',
-    //     './interface/**/*.ts'
-    // ], { formatName: 'camelCase', resolverOptions: { injectionMode: InjectionMode.PROXY }, cwd: __dirname });
+    container.loadModules([
+        './core/**/*.ts'
+    ], { formatName: 'camelCase', resolverOptions: { injectionMode: InjectionMode.PROXY }, cwd: __dirname });
 
     container.register({
         // #Helpers

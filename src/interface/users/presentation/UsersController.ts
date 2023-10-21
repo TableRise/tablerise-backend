@@ -39,4 +39,42 @@ export default class UsersController extends UsersControllerContract {
         const result = await confirmCodeOperation.execute({ userId, code });
         return res.status(this.httpStatusCode.OK).json(result);
     }
+
+    public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { activateTwoFactorOperation } = container;
+
+        const { userId } = req.params;
+
+        const result = await activateTwoFactorOperation.execute(userId);
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
+
+    public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { resetTwoFactorOperation } = container;
+
+        const { userId } = req.params;
+        const { code } = req.query;
+
+        const result = await resetTwoFactorOperation.execute({ userId, code });
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
+
+    public async updateEmail(req: Request, res: Response): Promise<Response> {
+        const { updateEmailOperation } = container;
+
+        const { userId } = req.params;
+        const { code } = req.query;
+
+        const result = await updateEmailOperation.execute({ userId, code });
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
+
+    public async delete(req: Request, res: Response): Promise<Response> {
+        const { deleteUserOperation } = container;
+
+        const { userId } = req.params;
+
+        const result = await deleteUserOperation.execute(userId);
+        return res.status(this.httpStatusCode.OK).json(result);
+    }
 }

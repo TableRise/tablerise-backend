@@ -45,3 +45,8 @@ export interface __UserSaved {
     userSaved: UserInstance;
     userDetailsSaved: UserDetailInstance;
 }
+
+export interface TwoFactorResponse {
+    qrcode: string;
+    active: boolean
+}
