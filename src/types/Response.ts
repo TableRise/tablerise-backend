@@ -22,6 +22,10 @@ export interface RegisterUserResponse extends User {
     details: UserDetail;
 }
 
+export interface getUserResponse extends User {
+    details: UserDetail;
+}
+
 export interface ConfirmCodeResponse {
     status: string;
 }
