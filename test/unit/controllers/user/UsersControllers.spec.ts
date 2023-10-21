@@ -10,6 +10,7 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import Database from '../../../support/Database';
 import utils from '../../../support/utils';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 
@@ -204,6 +205,35 @@ describe('Controllers :: User :: UsersControllers', () => {
                 qrcode: '',
                 active: true,
             });
+        });
+    });
+
+    describe('When a request is made to update a user', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock' } } as RegisterUserPayload;
+            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+            userResponse.nickname = 'Mock';
+            userResponse.details.firstName = 'Ana Mock';
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'update').mockResolvedValue(userResponse);
+        });
+
+        it('should return correct data in response json with status 200', async () => {
+            request.body = userPayload;
+            request.params = { id: user._id as string };
+            await userControllers.update(request, response);
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
+            expect(response.json).toHaveBeenCalledWith(userResponse);
         });
     });
 

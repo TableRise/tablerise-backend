@@ -12,15 +12,20 @@ import {
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import {
+    postUserDetailsSerializer,
+    postUserSerializer,
+    putUserDetailsSerializer,
+    putUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
-import { GameInfoOptions } from 'src/types/GameInfo';
 import { HttpStatusCode } from '../helpers/HttpStatusCode';
 import getErrorName from '../helpers/getErrorName';
+import { GameInfoOptions } from 'src/types/GameInfo';
 
 export default class RegisterServices {
     constructor(
@@ -31,15 +36,12 @@ export default class RegisterServices {
         private readonly _schema: SchemasUserType
     ) {}
 
-    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
+    private async _serializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         this._validate.entry(this._schema.userZod, user);
         this._validate.entry(this._schema.userDetailZod, userDetails);
 
         const userSerialized = postUserSerializer(user);
         const userDetailsSerialized = postUserDetailsSerializer(userDetails);
-
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }
@@ -109,10 +111,13 @@ export default class RegisterServices {
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
-        const userPreSerialized = await this._validateAndSerializeData({
+        const userPreSerialized = await this._serializeData({
             user,
             userDetails,
         });
+
+        const emailAlreadyExist = await this._model.findAll({ email: user.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         const { userSerialized, userDetailsSerialized } = await this._enrichUser({
             user: userPreSerialized.userSerialized,
@@ -302,5 +307,64 @@ export default class RegisterServices {
             qrcode: userInfo.twoFactorSecret.qrcode,
             active: userInfo.twoFactorSecret.active,
         };
+    }
+
+    public async update(id: string, payload: RegisterUserPayload): Promise<any> {
+        this._logger('info', 'prepare to update user info');
+
+        const { details: userDetails, ...userPayload } = payload;
+
+        userPayload &&
+            Object.keys(userPayload).forEach((field) => {
+                const forbiddenField = [
+                    'email',
+                    'password',
+                    'tag',
+                    'createdAt',
+                    'updatedAt',
+                    'inProgress',
+                    'providerId',
+                ];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
+
+        userDetails &&
+            Object.keys(userDetails).forEach((field) => {
+                const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
+
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const userSerialized = putUserSerializer(userPayload, userInfo);
+        const userDetailsSerialized = putUserDetailsSerializer(userDetails, userDetailsInfo);
+        userSerialized.createdAt = new Date().toISOString();
+
+        const userUpdated = (await this._model.update(id, userSerialized)) as User;
+        this._logger('info', 'User updated at database');
+
+        const userDetailsUpdated = await this._modelDetails.update(
+            userDetailsInfo._id as string,
+            userDetailsSerialized
+        );
+        this._logger('info', 'UserDetails updated at database');
+
+        return { ...postUserSerializer(userUpdated), details: userDetailsUpdated };
     }
 }

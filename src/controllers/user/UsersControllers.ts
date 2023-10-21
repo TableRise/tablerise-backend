@@ -20,6 +20,17 @@ export default class UsersControllers {
         this.delete = this.delete.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
+        this.update = this.update.bind(this);
+    }
+
+    public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to update a user');
+
+        const { id } = req.params;
+        const payload = req.body as RegisterUserPayload;
+
+        const request = await this._service.update(id, payload);
+        return res.status(HttpStatusCode.OK).json(request);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {

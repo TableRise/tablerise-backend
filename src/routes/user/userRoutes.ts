@@ -124,6 +124,17 @@ export const routes = [
         },
     },
     {
+        method: 'put',
+        path: `${BASE_PATH}/:id/update`,
+        parameters: [...generateIDParam()],
+        controller: controllers.update,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
+    {
         method: 'patch',
         path: `${BASE_PATH}/:id/update/game-info`,
         controller: controllers.updateGameInfo,
