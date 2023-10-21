@@ -11,6 +11,8 @@ import { SecurePasswordHandler } from './infra/helpers/user/SecurePasswordHandle
 import Serializer from './infra/helpers/user/Serializer';
 import UsersRepository from './infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
+import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
+import AuthorizationMiddleware from './interface/users/middlewares/AuthorizationMiddleware';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY
@@ -41,5 +43,9 @@ export default function setup(): void {
 
         // #Libraries
         logger: asFunction(logger),
+
+        // #Middlewares
+        verifyIdMiddleware: asFunction(VerifyIdMiddleware),
+        authorizationMiddleware: asClass(AuthorizationMiddleware)
     });
 };

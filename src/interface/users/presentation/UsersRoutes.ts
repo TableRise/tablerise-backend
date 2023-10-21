@@ -9,10 +9,11 @@ import { UsersRoutesContract } from 'src/types/contracts/users/presentation/User
 const BASE_PATH = '/profile';
 
 export default class UsersRoutes extends UsersRoutesContract {
-    constructor({ usersController, verifyIdMiddleware }: UsersRoutesContract) {
+    constructor({ usersController, authorizationMiddleware, verifyIdMiddleware }: UsersRoutesContract) {
         super();
         this.usersController = usersController;
         this.verifyIdMiddleware = verifyIdMiddleware;
+        this.authorizationMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -89,6 +90,21 @@ export default class UsersRoutes extends UsersRoutesContract {
                 controller: this.usersController.updateEmail,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'delete',
+                path: `${BASE_PATH}/:id/delete`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
+                controller: this.usersController.delete,
+                options: {
+                    middlewares: [
+                        this.verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                        this.authorizationMiddleware.twoFactor,
+                    ],
                     authentication: true,
                     tag: 'management',
                 },
