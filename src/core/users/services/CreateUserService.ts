@@ -41,7 +41,7 @@ export default class CreateUserService extends CreateUserServiceContract {
 
         const userInDb = await this.usersRepository.find({ email: userSerialized.email });
 
-        if (userInDb) {
+        if (userInDb.length) {
             this.logger('error', 'Email already exists - CreateUserService');
             this.httpRequestErrors.throwError('email-already-exist');
         }

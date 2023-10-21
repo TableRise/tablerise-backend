@@ -19,3 +19,9 @@ export interface ConfirmCodePayload {
     userId: string;
     code: string;
 }
+
+export interface UpdateEmailPayload {
+    userId: string;
+    code: string;
+    email: string;
+}

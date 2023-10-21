@@ -64,8 +64,9 @@ export default class UsersController extends UsersControllerContract {
 
         const { userId } = req.params;
         const { code } = req.query;
+        const { email } = req.body;
 
-        const result = await updateEmailOperation.execute({ userId, code });
+        const result = await updateEmailOperation.execute({ userId, code, email });
         return res.status(this.httpStatusCode.OK).json(result);
     }
 
@@ -74,7 +75,7 @@ export default class UsersController extends UsersControllerContract {
 
         const { userId } = req.params;
 
-        const result = await deleteUserOperation.execute(userId);
-        return res.status(this.httpStatusCode.OK).json(result);
+        await deleteUserOperation.execute(userId);
+        return res.status(this.httpStatusCode.OK).end();
     }
 }
