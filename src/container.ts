@@ -13,6 +13,7 @@ import UsersRepository from './infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
 import AuthorizationMiddleware from './interface/users/middlewares/AuthorizationMiddleware';
+import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY
@@ -46,6 +47,7 @@ export default function setup(): void {
 
         // #Middlewares
         verifyIdMiddleware: asFunction(VerifyIdMiddleware),
-        authorizationMiddleware: asClass(AuthorizationMiddleware)
+        authorizationMiddleware: asClass(AuthorizationMiddleware),
+        errorMiddleware: asFunction(ErrorMiddleware)
     });
 };

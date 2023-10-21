@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import supertest from 'supertest';
 import jwt from 'jsonwebtoken';
-import app from '../../src/app';
+import app from '../../src/core/Application';
 
 interface CustomRequester {
     post: (url: string) => supertest.Test;

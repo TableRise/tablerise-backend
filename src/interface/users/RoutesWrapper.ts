@@ -1,4 +1,4 @@
-import dungeonsAndDragonsRoutes, { dungeonsAndDragonsSwagger } from 'src/routes/dungeons&dragons5e';
+// import dungeonsAndDragonsRoutes, { dungeonsAndDragonsSwagger } from 'src/routes/dungeons&dragons5e';
 import Route, { RouteDeclarations } from 'src/types/requests/Route';
 import { RoutesWrapperContract } from 'src/types/contracts/users/presentation/RoutesWrapper';
 
@@ -10,7 +10,7 @@ export default class RoutesWrapper extends RoutesWrapperContract {
 
     public routes(): Route {
         return {
-            'dungeons&dragons5e': dungeonsAndDragonsRoutes,
+            // 'dungeons&dragons5e': dungeonsAndDragonsRoutes,
             user: this.userRoutesBuilder.get().usersRoutes,
         };
     }
@@ -18,7 +18,7 @@ export default class RoutesWrapper extends RoutesWrapperContract {
     // prettier-ignore
     public declareRoutes(): RouteDeclarations {
     return {
-            'dungeons&dragons5e': [...dungeonsAndDragonsSwagger ],
+            // 'dungeons&dragons5e': [...dungeonsAndDragonsSwagger ],
             user: [ ...this.userRoutesBuilder.get().usersSwagger ]
         };
     }
