@@ -7,8 +7,8 @@ export default class VerifyEmailOperation extends VerifyEmailOperationContract {
         this.verifyEmailService = verifyEmailService;
     }
 
-    public async execute(id: string): Promise<void> {
+    public async execute(userId: string): Promise<void> {
         this.logger('info', '[Execute - VerifyEmailOperation]');
-        await this.verifyEmailService.sendEmail(id);
+        await this.verifyEmailService.sendEmail(userId);
     }
 }

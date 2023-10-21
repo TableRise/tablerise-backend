@@ -5,37 +5,43 @@ import SchemaValidator from './infra/helpers/common/SchemaValidator';
 import schemas from './domains/user/schemas';
 import HttpRequestErrors from './infra/helpers/common/HttpRequestErrors';
 import EmailSender from './infra/helpers/user/EmailSender';
-import { HttpStatusCode } from './infra/helpers/common/HttpStatusCode';
 import swaggerGenerator from './infra/helpers/common/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
 import { SecurePasswordHandler } from './infra/helpers/user/SecurePasswordHandler';
 import Serializer from './infra/helpers/user/Serializer';
-
-const Database = new DatabaseManagement();
+import UsersRepository from './infra/repositories/user/UsersRepository';
+import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY
 }) as any;
 
 export default function setup(): void {
-    container.loadModules([
-        './core/**/*.ts',
-        './authentication/**/*.ts',
-        './interface/**/*.ts'
-    ], { formatName: 'camelCase', resolverOptions: { injectionMode: InjectionMode.PROXY }, cwd: __dirname });
+    // container.loadModules([
+    //     './core/**/*.ts',
+    //     './authentication/**/*.ts',
+    //     './interface/**/*.ts'
+    // ], { formatName: 'camelCase', resolverOptions: { injectionMode: InjectionMode.PROXY }, cwd: __dirname });
 
     container.register({
+        // #Helpers
         schemaValidator: asClass(SchemaValidator),
         emailSender: asClass(EmailSender),
         httpRequestErrors: asClass(HttpRequestErrors),
-        usersRoutesMiddleware: asClass(UsersRoutesMiddleware),
         securePasswordHandler: asClass(SecurePasswordHandler),
+        usersRoutesMiddleware: asClass(UsersRoutesMiddleware),
         serializer: asClass(Serializer),
         swaggerGenerator: asFunction(swaggerGenerator),
-        logger: asFunction(logger),
-        usersModel: asValue(Database.modelInstance('user', 'Users')),
-        usersDetailsModel: asValue(Database.modelInstance('user', 'UserDetails')),
+
+        // #Data
+        database: asClass(DatabaseManagement),
         usersSchema: asValue(schemas),
-        httpStatusCode: asValue(HttpStatusCode)
+        
+        // #Repositories
+        usersRepository: asClass(UsersRepository),
+        usersDetialsRepository: asClass(UsersDetailsRepository),
+
+        // #Libraries
+        logger: asFunction(logger),
     });
 };

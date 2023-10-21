@@ -6,10 +6,10 @@ import { CreateUserServiceContract } from 'src/types/contracts/users/CreateUser'
 import { SecurePasswordHandler } from 'src/infra/helpers/user/SecurePasswordHandler';
 
 export default class CreateUserService extends CreateUserServiceContract {
-    constructor({ logger, usersModel, usersDetailsModel, httpRequestErrors, emailSender, serializer }: CreateUserServiceContract) {
+    constructor({ usersDetailsRepository, usersRepository, logger, httpRequestErrors, emailSender, serializer }: CreateUserServiceContract) {
         super();
-        this.usersModel = usersModel;
-        this.usersDetailsModel = usersDetailsModel;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
         this.httpRequestErrors = httpRequestErrors;
         this.emailSender = emailSender;
         this.serializer = serializer;
@@ -39,7 +39,7 @@ export default class CreateUserService extends CreateUserServiceContract {
         const userSerialized = this.serializer.postUser(userMain);
         const userDetailsSerialized = this.serializer.postUserDetails(userDetails);
 
-        const userInDb = await this.usersModel.findAll({ email: userSerialized.email });
+        const userInDb = await this.usersRepository.find({ email: userSerialized.email });
 
         if (userInDb) {
             this.logger('error', 'Email already exists - CreateUserService');
@@ -52,7 +52,7 @@ export default class CreateUserService extends CreateUserServiceContract {
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this.logger('info', '[Enrichment - CreateUserService]');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this.usersModel.findAll({ tag, nickname: user.nickname });
+        const tagInDb = await this.usersRepository.find({ tag, nickname: user.nickname });
 
         if (tagInDb) {
             this.logger('error', 'User with this tag already exists - CreateUserService');
@@ -85,8 +85,8 @@ export default class CreateUserService extends CreateUserServiceContract {
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
         this.logger('info', '[SaveUser - CreateUserService]');
-        const userSaved = await this.usersModel.create(user);
-        const userDetailsSaved = await this.usersDetailsModel.create(userDetails);
+        const userSaved = await this.usersRepository.create(user);
+        const userDetailsSaved = await this.usersDetailsRepository.create(userDetails);
 
         this.logger('info', 'User saved on database');
         this.logger('info', 'User details saved on database');
@@ -104,7 +104,7 @@ export default class CreateUserService extends CreateUserServiceContract {
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 
-        await this.usersModel.update(userSaved._id as string, user);
+        await this.usersRepository.update({ id: userSaved.userId, payload: userSaved });
 
         return { userSaved, userDetailsSaved };
     }

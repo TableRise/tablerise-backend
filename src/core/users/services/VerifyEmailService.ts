@@ -2,9 +2,9 @@ import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import { VerifyEmailServiceContract } from 'src/types/contracts/users/VerifyEmail';
 
 export abstract class VerifyEmailService extends VerifyEmailServiceContract {
-    constructor({ usersModel, httpRequestErrors, emailSender, logger }: VerifyEmailServiceContract) {
+    constructor({ usersRepository, httpRequestErrors, emailSender, logger }: VerifyEmailServiceContract) {
         super();
-        this.usersModel = usersModel;
+        this.usersRepository = usersRepository;
         this.httpRequestErrors = httpRequestErrors;
         this.emailSender = emailSender;
         this.logger = logger;
@@ -32,19 +32,14 @@ export abstract class VerifyEmailService extends VerifyEmailServiceContract {
         return user;
     }
 
-    public async sendEmail(id: string): Promise<void> {
+    public async sendEmail(userId: string): Promise<void> {
         this.logger('info', '[SendEmail - VerifyEmailService]');
-        const userInDb = await this.usersModel.findOne(id);
-
-        if (!userInDb) {
-            this.logger('error', 'User was not found on database - VerifyEmailService');
-            this.httpRequestErrors.throwError('user-inexistent');
-        }
+        const userInDb = await this.usersRepository.findOne(userId);
 
         const userToUpdate = await this._send(userInDb);
 
         userToUpdate.updatedAt = new Date().toISOString();
 
-        await this.usersModel.update(id, userToUpdate);
+        await this.usersRepository.update({ id: userInDb.userId, payload: userToUpdate });
     }
 }

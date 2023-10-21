@@ -1,8 +1,7 @@
-import { MongoModel } from '@tablerise/database-management';
 import { VerifyEmailService } from 'src/core/users/services/VerifyEmailService';
-import { User } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import EmailSender from 'src/infra/helpers/user/EmailSender';
+import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/Logger';
 
 export abstract class VerifyEmailOperationContract {
@@ -11,7 +10,7 @@ export abstract class VerifyEmailOperationContract {
 }
 
 export abstract class VerifyEmailServiceContract {
-    usersModel: MongoModel<User>;
+    usersRepository: UsersRepository;
     httpRequestErrors: HttpRequestErrors;
     emailSender: EmailSender;
     logger: Logger;

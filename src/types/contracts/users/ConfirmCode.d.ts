@@ -1,7 +1,6 @@
-import { MongoModel } from '@tablerise/database-management';
 import ConfirmCodeService from 'src/core/users/services/ConfirmCodeService';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/Logger';
 
 export abstract class ConfirmCodeOperationContract {
@@ -11,6 +10,6 @@ export abstract class ConfirmCodeOperationContract {
 
 export abstract class ConfirmCodeServiceContract {
     httpRequestErrors: HttpRequestErrors;
-    usersModel: MongoModel<UserInstance>
+    usersRepository: UsersRepository;
     logger: Logger
 }
