@@ -44,6 +44,16 @@ export const routes = [
         },
     },
     {
+        method: 'get',
+        path: `${BASE_PATH}/all`,
+        controller: controllers.getAll,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false }), authorizationMiddleware.checkAdminRole],
+            authentication: false,
+            tag: 'management',
+        },
+    },
+    {
         method: 'post',
         path: `${BASE_PATH}/register`,
         controller: controllers.register,

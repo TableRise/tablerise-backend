@@ -21,6 +21,7 @@ export default class UsersControllers {
         this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.update = this.update.bind(this);
+        this.getAll = this.getAll.bind(this);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
@@ -123,5 +124,12 @@ export default class UsersControllers {
         );
 
         return res.sendStatus(HttpStatusCode.OK);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to get all users');
+
+        const request = await this._service.getAll();
+        return res.status(HttpStatusCode.OK).json(request);
     }
 }

@@ -8,6 +8,7 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
+    getUserResponse,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
@@ -366,5 +367,25 @@ export default class RegisterServices {
         this._logger('info', 'UserDetails updated at database');
 
         return { ...postUserSerializer(userUpdated), details: userDetailsUpdated };
+    }
+
+    public async getAll(): Promise<getUserResponse[]> {
+        this._logger('info', 'request to get all users from database');
+
+        const users = await this._model.findAll();
+
+        const allUsers: getUserResponse[] = await Promise.all(
+            users.map(async (user) => {
+                const { _doc: userDoc } = user as User & { _doc: User };
+                const usersDetails = await this._modelDetails.findAll({ userId: user._id });
+
+                return {
+                    ...userDoc,
+                    details: usersDetails[0],
+                };
+            })
+        );
+
+        return allUsers;
     }
 }
