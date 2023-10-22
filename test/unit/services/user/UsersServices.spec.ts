@@ -17,7 +17,9 @@ import speakeasy from 'speakeasy';
 
 describe('Services :: User :: UsersServices', () => {
     let user: User,
+        user2: User,
         userDetails: UserDetail,
+        userDetails2: UserDetail,
         userServices: UsersServices,
         updatedInProgressToDone: User,
         updatedInProgressToVerify: User,
@@ -943,6 +945,37 @@ describe('Services :: User :: UsersServices', () => {
 
                 expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
                 expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
+
+    describe('When all users requested', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            user2 = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userDetails2 = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        describe('and is sucessfull', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findAll').mockResolvedValue([user, user2]);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails, userDetails2]);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return all users', async () => {
+                const response = await userServices.getAll();
+
+                expect(response.length).toBe(2);
             });
         });
     });

@@ -17,10 +17,13 @@ import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 describe('Controllers :: User :: UsersControllers', () => {
     let user: User,
         userDetails: UserDetail,
+        user2: User,
+        userDetails2: UserDetail,
         userServices: UsersServices,
         userControllers: UsersControllers,
         userPayload: RegisterUserPayload,
         userResponse: RegisterUserResponse,
+        userResponse2: RegisterUserResponse,
         confirmCodeResponse: any;
 
     const { User, UserDetails } = Database.models;
@@ -267,6 +270,60 @@ describe('Controllers :: User :: UsersControllers', () => {
 
                 expect(err.code).toBe(400);
             }
+        });
+    });
+
+    describe('When a request is get all users', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+                delete user.inProgress;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            user2 = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+                delete user.inProgress;
+
+                return user;
+            })[0];
+
+            userDetails2 = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+            userResponse2 = { ...user2, details: userDetails2 } as RegisterUserResponse;
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'getAll').mockResolvedValue([userResponse, userResponse2]);
+        });
+
+        it('should return correct status 200', async () => {
+            await userControllers.getAll(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith([userResponse, userResponse2]);
         });
     });
 });
