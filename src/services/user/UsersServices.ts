@@ -370,15 +370,21 @@ export default class RegisterServices {
     }
 
     public async getAll(): Promise<getUserResponse[]> {
-        const users = await this._model.findAll();
-        const usersDetails = await this._modelDetails.findAll();
+        this._logger('info', 'request to get all users from database');
 
-        const allUsers: getUserResponse[] = users.map((user) => {
-            return {
-                ...user,
-                details: usersDetails.find((userDetail) => user._id === userDetail.userId) as UserDetail,
-            };
-        });
+        const users = await this._model.findAll();
+
+        const allUsers: getUserResponse[] = await Promise.all(
+            users.map(async (user) => {
+                const { _doc: userDoc } = user as User & { _doc: User };
+                const usersDetails = await this._modelDetails.findAll({ userId: user._id });
+
+                return {
+                    ...userDoc,
+                    details: usersDetails[0],
+                };
+            })
+        );
 
         return allUsers;
     }
