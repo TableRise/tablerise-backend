@@ -5,15 +5,20 @@ import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
 import helmet from 'helmet';
-import { ApplicationContract } from '../types/contracts/Application';
+import { ApplicationContract } from 'src/types/contracts/Application';
 import DatabaseManagement from '@tablerise/database-management';
 
-export default class Application extends ApplicationContract {
-    constructor({ usersRoutesMiddleware, errorMiddleware, logger }: ApplicationContract) {
-        super();
-        this.usersRoutesMiddleware = usersRoutesMiddleware;
-        this.errorMiddleware = errorMiddleware;
-        this.logger = logger;
+export default class Application {
+    private readonly _usersRoutesMiddleware;
+    private readonly _swaggerGenerator;
+    private readonly _errorMiddleware;
+    private readonly _logger;
+
+    constructor({ usersRoutesMiddleware, errorMiddleware, swaggerGenerator, logger }: ApplicationContract) {
+        this._usersRoutesMiddleware = usersRoutesMiddleware;
+        this._swaggerGenerator = swaggerGenerator;
+        this._errorMiddleware = errorMiddleware;
+        this._logger = logger;
     }
 
     private _setupExpress(): express.Application {
@@ -33,9 +38,10 @@ export default class Application extends ApplicationContract {
             )
             .use(passport.session())
             .use('/health', (req, res) => res.send('OK!'))
-            .use(this.usersRoutesMiddleware.get())
-            .use(this.errorMiddleware);
-        
+            .use(this._swaggerGenerator)
+            .use(this._usersRoutesMiddleware.get())
+            .use(this._errorMiddleware);
+
         return app;
     }
 
@@ -45,14 +51,14 @@ export default class Application extends ApplicationContract {
 
         await DatabaseManagement.connect(true)
             .then(() => {
-                this.logger('info', '[Application - Database connection instanciated]');
+                this._logger('info', '[Application - Database connection instanciated]');
             })
             .catch(() => {
-                this.logger('error', '[Application - Database connection failed]');
+                this._logger('error', '[Application - Database connection failed]');
             });
 
         app.listen(port, () => {
-            this.logger('info', `[Application - Server started in port => ${port}]`)
+            this._logger('info', `[Application - Server started in port -> ${port}]`);
         });
     }
 }

@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { UsersRoutesMiddlewareContract } from 'src/types/contracts/users/middlewares/UsersRoutesMiddleware';
 
-export default class UsersRoutesMiddleware extends UsersRoutesMiddlewareContract {
+export default class UsersRoutesMiddleware {
+    private readonly _routesWrapper;
+
     constructor({ routesWrapper }: UsersRoutesMiddlewareContract) {
-        super();
-        this.routesWrapper = routesWrapper;
+        this._routesWrapper = routesWrapper;
     }
 
     public get(): Router {
         const router = Router();
 
-        router.use(this.routesWrapper.routes().user.profile);
+        router.use(this._routesWrapper.routes().user.profile);
 
         return router;
     }

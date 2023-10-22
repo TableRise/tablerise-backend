@@ -20,12 +20,12 @@ export function generateQueryParam(count: number, names: ParamName[]): RouteDecl
         params.push({
             name: names[index].name,
             location: 'query',
-            required: true,
+            required: names[index].required === 'off' ? false : true,
             type: names[index].type,
         });
     }
 
-    return params;
+    return params as RouteDeclareParams[];
 }
 
 export function generateHeaderParam(count: number, names: ParamName[]): RouteDeclareParams[] {

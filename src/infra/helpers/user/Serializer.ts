@@ -1,7 +1,7 @@
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
-import { UserDetailInstance, } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import { UserExternal } from 'src/types/requests/Payload';
 
@@ -24,7 +24,7 @@ export default class Serializer {
             email: '',
             name: '',
         };
-    
+
         if (this._isDiscordProfile(userProfile)) {
             user.name = userProfile.username;
             user.email = userProfile.email as string;
@@ -32,7 +32,7 @@ export default class Serializer {
             user.name = userProfile.displayName;
             user.email = userProfile._json.email;
         }
-    
+
         return user;
     }
 
@@ -61,7 +61,7 @@ export default class Serializer {
             twoFactorSecret,
             createdAt,
             updatedAt,
-        }
+        };
     }
 
     public postUserDetails({
@@ -87,6 +87,6 @@ export default class Serializer {
             gameInfo,
             biography,
             role,
-        }
+        };
     }
 }

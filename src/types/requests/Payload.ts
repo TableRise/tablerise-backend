@@ -25,3 +25,8 @@ export interface UpdateEmailPayload {
     code: string;
     email: string;
 }
+
+export interface VerifyEmailPayload {
+    userId: string;
+    email: string;
+}

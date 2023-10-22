@@ -1,28 +1,31 @@
+import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { ConfirmCodeServiceContract } from 'src/types/contracts/users/ConfirmCode';
 import { ConfirmCodePayload } from 'src/types/requests/Payload';
 import { ConfirmCodeResponse } from 'src/types/requests/Response';
 
-export default class ConfirmCodeService extends ConfirmCodeServiceContract {
-    constructor({ usersRepository, httpRequestErrors, logger }: ConfirmCodeServiceContract) {
-        super();
-        this.usersRepository = usersRepository;
-        this.httpRequestErrors = httpRequestErrors;
-        this.logger = logger;
+export default class ConfirmCodeService {
+    private readonly _usersRepository;
+    private readonly _logger;
+
+    constructor({ usersRepository, logger }: ConfirmCodeServiceContract) {
+        this._usersRepository = usersRepository;
+        this._logger = logger;
+
+        this.processCode = this.processCode.bind(this);
     }
 
     public async processCode({ userId, code }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
-        this.logger('info', '[VerifyCode - ConfirmCodeService]');
-        const userInDb = await this.usersRepository.findOne(userId);
+        this._logger('info', 'VerifyCode - ConfirmCodeService');
+        const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.code !== code) {
-            this.logger('error', 'Code is invalid - ConfirmCodeService');
-            this.httpRequestErrors.throwError('invalid-email-verify-code');
-        }
+        if (userInDb.inProgress.code !== code)
+            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         userInDb.inProgress.status = 'done';
 
-        await this.usersRepository.update({ id: userInDb.userId, payload: userInDb });
+        await this._usersRepository.update({ id: userInDb.userId, payload: userInDb });
 
+        this._logger('info', 'Code valid and processed');
         return { status: userInDb.inProgress.status };
     }
 }

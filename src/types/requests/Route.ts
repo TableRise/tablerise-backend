@@ -39,6 +39,7 @@ export interface RouteDeclareParams {
 export interface ParamName {
     name: string;
     type: string;
+    required?: 'off';
 }
 
 export type RouteWrapperDeclared = routeInstance;

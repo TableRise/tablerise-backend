@@ -2,4 +2,4 @@
 import 'module-alias/register';
 import setup, { container } from './container';
 setup();
-container.Application.start();
+container.resolve('application').start();

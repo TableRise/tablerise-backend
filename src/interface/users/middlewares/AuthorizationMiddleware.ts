@@ -2,47 +2,54 @@ import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
 import { JWTResponse } from 'src/types/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/contracts/users/middlewares/AuthorizationMiddleware';
+import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 
-export default class AuthorizationMiddleware extends AuthorizationMiddlewareContract {
-    constructor({ usersModel, usersDetailsModel, logger }: AuthorizationMiddlewareContract) {
-        super();
-        this.usersModel = usersModel;
-        this.usersDetailsModel = usersDetailsModel;
-        this.logger = logger;
+export default class AuthorizationMiddleware {
+    private readonly _usersRepository;
+    private readonly _usersDetailsRepository;
+    private readonly _logger;
+
+    constructor({ usersRepository, usersDetailsRepository, logger }: AuthorizationMiddlewareContract) {
+        this._usersRepository = usersRepository;
+        this._usersDetailsRepository = usersDetailsRepository;
+        this._logger = logger;
+
+        this.checkAdminRole = this.checkAdminRole.bind(this);
+        this.twoFactor = this.twoFactor.bind(this);
     }
 
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', '[CheckAdminRole - AuthorizationMiddleware]');
+        this._logger('warn', '[CheckAdminRole - AuthorizationMiddleware]');
 
         const { userId } = req.user as JWTResponse;
 
-        const userDetail = await this.usersDetailsModel.findAll({ userId });
+        const userDetail = await this._usersDetailsRepository.find({ userId });
 
         if (!userDetail.length) {
-            this.logger('error', 'User Detail was not found on database - AuthorizationMiddleware');
-            this.httpRequestErrors.throwError('user-inexistent');
+            this._logger('error', 'User Detail was not found on database - AuthorizationMiddleware');
+            HttpRequestErrors.throwError('user-inexistent');
         }
 
         if (userDetail[0].role === 'admin') {
             next();
         } else {
-            this.logger('error', 'User do not have authorization to perform this operation - AuthorizationMiddleware');
-            this.httpRequestErrors.throwError('unauthorized');
+            this._logger('error', 'User do not have authorization to perform this operation - AuthorizationMiddleware');
+            HttpRequestErrors.throwError('unauthorized');
         }
     }
 
     public async twoFactor(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', '[TwoFactor - AuthorizationMiddleware]');
+        this._logger('warn', '[TwoFactor - AuthorizationMiddleware]');
 
         const { id } = req.params;
         const { token } = req.query;
 
-        const user = await this.usersModel.findOne(id);
+        const user = await this._usersRepository.findOne(id);
 
         if (!user) {
-            this.logger('error', 'User was not found on database - AuthorizationMiddleware');
-            this.httpRequestErrors.throwError('user-inexistent');
-        };
+            this._logger('error', 'User was not found on database - AuthorizationMiddleware');
+            HttpRequestErrors.throwError('user-inexistent');
+        }
 
         if (!user.twoFactorSecret.active) {
             next();
@@ -56,9 +63,9 @@ export default class AuthorizationMiddleware extends AuthorizationMiddlewareCont
         });
 
         if (!validateSecret) {
-            this.logger('error', '2FA is invalid - AuthorizationMiddleware');
-            this.httpRequestErrors.throwError('2fa-incorrect');
-        };
+            this._logger('error', '2FA is invalid - AuthorizationMiddleware');
+            HttpRequestErrors.throwError('2fa-incorrect');
+        }
 
         next();
     }

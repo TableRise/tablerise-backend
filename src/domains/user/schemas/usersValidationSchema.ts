@@ -28,7 +28,7 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     userId: string;
     providerId: string;
     inProgress: {
-        status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'email_change' | 'done';
+        status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'done';
         code: string;
     };
     tag: string;

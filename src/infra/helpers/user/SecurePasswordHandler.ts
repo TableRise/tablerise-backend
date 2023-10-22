@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 
-export class SecurePasswordHandler {
+export default class SecurePasswordHandler {
     private static readonly saltRounds = 10;
 
     static async hashPassword(password: string): Promise<string> {

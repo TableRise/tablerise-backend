@@ -1,81 +1,80 @@
 import { Response, Request } from 'express';
+import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
 import { RegisterUserPayload } from 'src/types/requests/Payload';
-import { UsersControllerContract } from 'src/types/contracts/users/presentation/UsersController';
+import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 
-export default class UsersController extends UsersControllerContract {
-    constructor({ httpStatusCode }: any) {
-        super();
-        this.httpStatusCode = httpStatusCode;
-    }
-
+export default class UsersController {
     public async register(req: Request, res: Response): Promise<Response> {
-        const { createUserOperation } = container;
+        const { execute } = container.resolve('createUserOperation');
         const payload = req.body as RegisterUserPayload;
 
-        const result = await createUserOperation.execute(payload);
-        return res.status(this.httpStatusCode.CREATED).json(result);
+        const result = await execute(payload);
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
-        const { verifyEmailOperation } = container;
-        const { userId } = req.params;
+        const { execute } = container.resolve('verifyEmailOperation');
+        const { id } = req.params;
+        const { email } = req.body;
 
-        const result = await verifyEmailOperation.execute(userId);
-        return res.status(this.httpStatusCode.OK).json(result);
+        const result = await execute({ userId: id, email });
+        return res.status(HttpStatusCode.NO_CONTENT).json(result);
     }
 
     public async login(req: Request, res: Response): Promise<Response> {
+        logger('info', 'Login - UsersController');
         const { user: token } = req;
-        return res.status(this.httpStatusCode.OK).json({ token });
+        return res.status(HttpStatusCode.OK).json({ token });
     }
 
     public async confirmCode(req: Request, res: Response): Promise<Response> {
-        const { confirmCodeOperation } = container;
+        const { execute } = container.resolve('confirmCodeOperation');
+        logger('info', 'ConfirmCode - UsersController');
 
-        const { userId } = req.params;
+        const { id } = req.params;
         const { code } = req.query;
 
-        const result = await confirmCodeOperation.execute({ userId, code });
-        return res.status(this.httpStatusCode.OK).json(result);
+        const result = await execute({ userId: id, code });
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
-        const { activateTwoFactorOperation } = container;
+        const { execute } = container.resolve('activateTwoFactorOperation');
 
-        const { userId } = req.params;
+        const { id } = req.params;
 
-        const result = await activateTwoFactorOperation.execute(userId);
-        return res.status(this.httpStatusCode.OK).json(result);
+        const result = await execute(id);
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
-        const { resetTwoFactorOperation } = container;
+        const { execute } = container.resolve('resetTwoFactorOperation');
 
-        const { userId } = req.params;
+        const { id } = req.params;
         const { code } = req.query;
 
-        const result = await resetTwoFactorOperation.execute({ userId, code });
-        return res.status(this.httpStatusCode.OK).json(result);
+        const result = await execute({ userId: id, code });
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async updateEmail(req: Request, res: Response): Promise<Response> {
-        const { updateEmailOperation } = container;
+        const { execute } = container.resolve('updateEmailOperation');
 
-        const { userId } = req.params;
+        const { id } = req.params;
         const { code } = req.query;
         const { email } = req.body;
 
-        const result = await updateEmailOperation.execute({ userId, code, email });
-        return res.status(this.httpStatusCode.OK).json(result);
+        const result = await execute({ userId: id, code, email });
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async delete(req: Request, res: Response): Promise<Response> {
-        const { deleteUserOperation } = container;
+        const { execute } = container.resolve('deleteUserOperation');
 
-        const { userId } = req.params;
+        const { id } = req.params;
 
-        await deleteUserOperation.execute(userId);
-        return res.status(this.httpStatusCode.OK).end();
+        await execute(id);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 }

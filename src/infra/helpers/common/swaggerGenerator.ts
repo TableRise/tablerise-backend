@@ -21,7 +21,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
         autoSwagger(routesWrapper.declareRoutes().user, { title: 'user' })
             .then((_result: any) => {
-                logger('info', 'Swagger - user - document generated');
+                logger('info', '[SwaggerGenerator - user - document generated]');
             })
             .catch((error: any) => {
                 console.log(error);

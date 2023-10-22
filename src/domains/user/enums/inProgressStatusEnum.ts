@@ -10,5 +10,5 @@ enum InProgressStatusEnum {
 
 export default {
     enumerate: InProgressStatusEnum,
-    values: returnEnumValues(InProgressStatusEnum)
-}
+    values: returnEnumValues(InProgressStatusEnum),
+};

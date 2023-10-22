@@ -8,12 +8,15 @@ import { UsersRoutesContract } from 'src/types/contracts/users/presentation/User
 
 const BASE_PATH = '/profile';
 
-export default class UsersRoutes extends UsersRoutesContract {
+export default class UsersRoutes {
+    private readonly _usersController;
+    private readonly _verifyIdMiddleware;
+    private readonly _authorizationMiddleware;
+
     constructor({ usersController, authorizationMiddleware, verifyIdMiddleware }: UsersRoutesContract) {
-        super();
-        this.usersController = usersController;
-        this.verifyIdMiddleware = verifyIdMiddleware;
-        this.authorizationMiddleware = authorizationMiddleware;
+        this._usersController = usersController;
+        this._verifyIdMiddleware = verifyIdMiddleware;
+        this._authorizationMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -22,9 +25,9 @@ export default class UsersRoutes extends UsersRoutesContract {
                 method: 'get',
                 path: `${BASE_PATH}/:id/verify`,
                 parameters: [...generateIDParam()],
-                controller: this.usersController.verifyEmail,
+                controller: this._usersController.verifyEmail,
                 options: {
-                    middlewares: [this.verifyIdMiddleware],
+                    middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'authentication',
                 },
@@ -32,7 +35,7 @@ export default class UsersRoutes extends UsersRoutesContract {
             {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
-                controller: this.usersController.register,
+                controller: this._usersController.register,
                 schema: mock.user.userPayload,
                 options: {
                     authentication: false,
@@ -42,7 +45,7 @@ export default class UsersRoutes extends UsersRoutesContract {
             {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
-                controller: this.usersController.login,
+                controller: this._usersController.login,
                 schema: mock.user.userLogin,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
@@ -54,9 +57,9 @@ export default class UsersRoutes extends UsersRoutesContract {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/confirm`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-                controller: this.usersController.confirmCode,
+                controller: this._usersController.confirmCode,
                 options: {
-                    middlewares: [this.verifyIdMiddleware],
+                    middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'register',
                 },
@@ -65,9 +68,9 @@ export default class UsersRoutes extends UsersRoutesContract {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [...generateIDParam()],
-                controller: this.usersController.activateTwoFactor,
+                controller: this._usersController.activateTwoFactor,
                 options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
                 },
@@ -76,9 +79,9 @@ export default class UsersRoutes extends UsersRoutesContract {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/reset`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-                controller: this.usersController.resetTwoFactor,
+                controller: this._usersController.resetTwoFactor,
                 options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
                 },
@@ -86,10 +89,18 @@ export default class UsersRoutes extends UsersRoutesContract {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/email`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
-                controller: this.usersController.updateEmail,
+                parameters: [...generateIDParam(), ...generateQueryParam(2, [
+                    { name: 'code', type: 'string' },
+                    { name: 'token', type: 'string', required: 'off' }
+                ])],
+                controller: this._usersController.updateEmail,
+                schema: mock.user.userEmailUpdate,
                 options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.twoFactor
+                    ],
                     authentication: true,
                     tag: 'management',
                 },
@@ -98,17 +109,17 @@ export default class UsersRoutes extends UsersRoutesContract {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
-                controller: this.usersController.delete,
+                controller: this._usersController.delete,
                 options: {
                     middlewares: [
-                        this.verifyIdMiddleware,
+                        this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
-                        this.authorizationMiddleware.twoFactor,
+                        this._authorizationMiddleware.twoFactor,
                     ],
                     authentication: true,
                     tag: 'management',
                 },
             },
-        ] as routeInstance[]
+        ] as routeInstance[];
     }
 }

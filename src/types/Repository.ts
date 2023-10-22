@@ -1,5 +1,5 @@
 export interface QueryObj {
-    query?: any
+    query?: any;
 }
 
 export interface UpdateObj {

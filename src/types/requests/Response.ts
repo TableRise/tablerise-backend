@@ -48,5 +48,5 @@ export interface __UserSaved {
 
 export interface TwoFactorResponse {
     qrcode: string;
-    active: boolean
+    active: boolean;
 }

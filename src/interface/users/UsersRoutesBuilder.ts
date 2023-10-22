@@ -4,25 +4,26 @@ import { UsersRoutesBuilderContract } from 'src/types/contracts/users/presentati
 
 const router = Router();
 
-export default class UsersRoutesBuilder extends UsersRoutesBuilderContract {
+export default class UsersRoutesBuilder {
+    private readonly _usersRoutes;
+
     constructor({ usersRoutes }: UsersRoutesBuilderContract) {
-        super();
-        this.usersRoutes = usersRoutes;
+        this._usersRoutes = usersRoutes;
     }
 
-    private _profile(): { profileRoutes: Router, profileSwagger: routeInstance[] } {
-        const profileRoutes = buildRouter(this.usersRoutes.routes(), router);
-        const profileSwagger = this.usersRoutes.routes();
+    private _profile(): { profileRoutes: Router; profileSwagger: routeInstance[] } {
+        const profileRoutes = buildRouter(this._usersRoutes.routes(), router);
+        const profileSwagger = this._usersRoutes.routes();
 
         return { profileRoutes, profileSwagger };
     }
 
-    public get(): { usersSwagger: routeInstance[], usersRoutes: { profile: Router } } {
+    public get(): { usersSwagger: routeInstance[]; usersRoutes: { profile: Router } } {
         const usersSwagger = [...this._profile().profileSwagger];
         const usersRoutes = {
-            profile: this._profile().profileRoutes
+            profile: this._profile().profileRoutes,
         };
 
-        return { usersSwagger, usersRoutes }
+        return { usersSwagger, usersRoutes };
     }
 }

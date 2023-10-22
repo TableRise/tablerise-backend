@@ -11,9 +11,9 @@ import SchemaValidator from 'src/infra/helpers/common/SchemaValidator';
 import getErrorName from 'src/infra/helpers/common/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
+import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
 
 const LocalStrategy = Local.Strategy;
-const { UsersModel, httpRequestErrors, securePasswordHandler } = container;
 
 passport.use(
     new LocalStrategy(
@@ -22,7 +22,7 @@ passport.use(
             session: false,
         },
         async (email, password, done) => {
-            logger('warn', ' Request made to login');
+            logger('warn', 'LocalStrategy used to login the user');
 
             const isDataInvalid = new SchemaValidator().entryReturn(userLoginZodSchema, {
                 email,
@@ -31,7 +31,7 @@ passport.use(
 
             if (isDataInvalid)
                 return done(
-                    httpRequestErrors({
+                    new HttpRequestErrors({
                         message: 'Schema error',
                         code: HttpStatusCode.UNPROCESSABLE_ENTITY,
                         name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
@@ -44,7 +44,7 @@ passport.use(
                     })
                 );
 
-            const user = await UsersModel.findAll({ email });
+            const user = await container.resolve('usersRepository').find({ email });
 
             if (!user.length)
                 return done(
@@ -55,18 +55,25 @@ passport.use(
                     })
                 );
 
-            const isPasswordValid = await securePasswordHandler.comparePassword(password, user[0].password);
+            const isPasswordValid = await SecurePasswordHandler.comparePassword(password, user[0].password);
 
             if (!isPasswordValid)
                 return done(
-                    httpRequestErrors({
+                    new HttpRequestErrors({
                         message: 'Incorrect email or password. Try again.',
                         code: HttpStatusCode.UNAUTHORIZED,
                         name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                     })
                 );
 
-            if (user[0].inProgress?.status !== 'done') httpRequestErrors.throwError('invalid-user-status');
+            if (user[0].inProgress.status !== 'done')
+                    return done(
+                        new HttpRequestErrors({
+                            message: 'User status is invalid to perform this operation',
+                            code: HttpStatusCode.BAD_REQUEST,
+                            name: getErrorName(HttpStatusCode.BAD_REQUEST)
+                        })
+                );
 
             const token = JWTGenerator.generate(user[0]);
 

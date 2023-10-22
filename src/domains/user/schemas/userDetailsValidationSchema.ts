@@ -25,9 +25,9 @@ const userDetailsZodSchema = z.object({
 
 export type UserDetailPayload = z.infer<typeof userDetailsZodSchema>;
 export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
-    userId: string,
+    userId: string;
     userDetailId: string;
-}
+};
 
 export type UserSecretQuestion = z.infer<typeof secretQuestionZodSchema>;
 export type UserGameInfo = z.infer<typeof gameInfoZodSchema>;

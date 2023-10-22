@@ -16,7 +16,7 @@ export default class HttpRequestErrors extends Error {
         this.name = name;
     }
 
-    public throwError(errorType: ErrorTypes): never {
+    static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
             case 'email-already-exist':
                 throw new HttpRequestErrors({

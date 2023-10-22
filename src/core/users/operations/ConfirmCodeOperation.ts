@@ -2,16 +2,20 @@ import { ConfirmCodeOperationContract } from 'src/types/contracts/users/ConfirmC
 import { ConfirmCodePayload } from 'src/types/requests/Payload';
 import { ConfirmCodeResponse } from 'src/types/requests/Response';
 
-export default class ConfirmCodeOperation extends ConfirmCodeOperationContract {
+export default class ConfirmCodeOperation {
+    private readonly _confirmCodeService;
+    private readonly _logger;
+
     constructor({ confirmCodeService, logger }: ConfirmCodeOperationContract) {
-        super();
-        this.confirmCodeService = confirmCodeService;
-        this.logger = logger;
+        this._confirmCodeService = confirmCodeService;
+        this._logger = logger;
+
+        this.execute = this.execute.bind(this);
     }
 
     public async execute({ userId, code }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
-        this.logger('info', '[Execute - ConfirmCodeOperation]');
-        const codeProcessing = await this.confirmCodeService.processCode({ userId, code });
+        this._logger('info', 'Execute - ConfirmCodeOperation');
+        const codeProcessing = await this._confirmCodeService.processCode({ userId, code });
         return codeProcessing;
     }
 }

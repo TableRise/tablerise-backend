@@ -4,7 +4,7 @@ import userDetailZod from './userDetailsValidationSchema';
 const schemas = {
     userZod,
     userDetailZod,
-    emailUpdateZod: emailUpdateZodSchema
+    emailUpdateZod: emailUpdateZodSchema,
 };
 
 export type SchemasUserType = typeof schemas;

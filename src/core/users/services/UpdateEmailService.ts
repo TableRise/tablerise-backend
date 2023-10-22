@@ -1,43 +1,44 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { UpdateEmailServiceContract, UserEmail } from 'src/types/contracts/users/UpdateEmail';
 import { UpdateEmailPayload } from 'src/types/requests/Payload';
 
-export default class UpdateEmailService extends UpdateEmailServiceContract {
-    constructor({ usersRepository, httpRequestErrors, logger }: UpdateEmailServiceContract) {
-        super();
-        this.usersRepository = usersRepository;
-        this.httpRequestErrors = httpRequestErrors;
-        this.logger = logger;
+export default class UpdateEmailService {
+    private readonly _usersRepository;
+    private readonly _logger;
+
+    constructor({ usersRepository, logger }: UpdateEmailServiceContract) {
+        this._usersRepository = usersRepository;
+        this._logger = logger;
     }
 
     private _changeEmail({ user, email }: UserEmail): UserInstance {
-        this.logger('info', '[ChangeEmail - UpdateEmailService]');
-        
+        this._logger('info', 'ChangeEmail - UpdateEmailService');
+
         user.email = email;
-        user.inProgress.status = 'email_change';
+        user.inProgress.status = 'done';
         user.updatedAt = new Date().toISOString();
 
         return user;
     }
 
     public async update({ userId, code, email }: UpdateEmailPayload): Promise<void> {
-        this.logger('info', '[Update - UpdateEmailService]');
-        const userInDb = await this.usersRepository.findOne(userId);
+        this._logger('info', 'Update - UpdateEmailService');
+        const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.code !== code) {
-            this.logger('error', 'Code is invalid - ConfirmCodeService');
-            this.httpRequestErrors.throwError('invalid-email-verify-code');
-        }
+        if (userInDb.inProgress.status !== 'wait_to_verify')
+            HttpRequestErrors.throwError('invalid-user-status');
 
-        const emailAlreadyExist = await this.usersRepository.find({ email });
+        if (userInDb.inProgress.code !== code)
+            HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        if (emailAlreadyExist.length) {
-            this.logger('error', 'Email already exists - CreateUserService');
-            this.httpRequestErrors.throwError('email-already-exist');
-        }
+        const emailAlreadyExist = await this._usersRepository.find({ email });
+
+        if (emailAlreadyExist.length)
+            HttpRequestErrors.throwError('email-already-exist');
 
         const emailChanged = this._changeEmail({ user: userInDb, email });
 
-        await this.usersRepository.update({ id: userInDb.userId, payload: emailChanged });
+        await this._usersRepository.update({ id: userInDb.userId, payload: emailChanged });
     }
 }

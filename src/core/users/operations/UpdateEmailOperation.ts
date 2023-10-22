@@ -1,18 +1,24 @@
 import { UpdateEmailOperationContract } from 'src/types/contracts/users/UpdateEmail';
 import { UpdateEmailPayload } from 'src/types/requests/Payload';
 
-export default class UpdateEmailOperation extends UpdateEmailOperationContract {
+export default class UpdateEmailOperation {
+    private readonly _updateEmailService;
+    private readonly _schemaValidator;
+    private readonly _usersSchema;
+    private readonly _logger;
+
     constructor({ usersSchema, updateEmailService, schemaValidator, logger }: UpdateEmailOperationContract) {
-        super();
-        this.updateEmailService = updateEmailService;
-        this.schemaValidator = schemaValidator;
-        this.usersSchema = usersSchema;
-        this.logger = logger;
+        this._updateEmailService = updateEmailService;
+        this._schemaValidator = schemaValidator;
+        this._usersSchema = usersSchema;
+        this._logger = logger;
+
+        this.execute = this.execute.bind(this);
     }
 
     public async execute({ userId, code, email }: UpdateEmailPayload): Promise<void> {
-        this.logger('info', '[Execute - UpdateEmailOperation]');
-        this.schemaValidator.entry(this.usersSchema.emailUpdateZod, { email });
-        await this.updateEmailService.update({ userId, code, email });
+        this._logger('info', '[Execute - UpdateEmailOperation]');
+        this._schemaValidator.entry(this._usersSchema.emailUpdateZod, { email });
+        await this._updateEmailService.update({ userId, code, email });
     }
 }
