@@ -34,7 +34,7 @@ export default class CreateUserService {
     }
 
     private async _createTwoFactor({ user, userDetails }: __FullUser): Promise<__FullUser> {
-        this._logger('info', '[CreateTwoFactor - Enrichment - CreateUserService]');
+        this._logger('info', 'CreateTwoFactor - Enrichment - CreateUserService');
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
             secret: secret.base32,
@@ -51,7 +51,7 @@ export default class CreateUserService {
     }
 
     public async serialize(user: RegisterUserPayload): Promise<__UserSerialized> {
-        this._logger('info', '[Serialize - CreateUserService]');
+        this._logger('info', 'Serialize - CreateUserService');
         const { details: userDetails, ...userMain } = user;
         const userSerialized = this._serializer.postUser(userMain);
         const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
@@ -59,7 +59,7 @@ export default class CreateUserService {
         const userInDb = await this._usersRepository.find({ email: userSerialized.email });
 
         if (userInDb.length) {
-            this._logger('error', '[Email already exists - CreateUserService]');
+            this._logger('error', 'Email already exists - CreateUserService');
             HttpRequestErrors.throwError('email-already-exist');
         }
 
@@ -67,12 +67,12 @@ export default class CreateUserService {
     }
 
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
-        this._logger('info', '[Enrichment - CreateUserService]');
+        this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
         const tagInDb = await this._usersRepository.find({ tag, nickname: user.nickname });
 
         if (tagInDb.length) {
-            this._logger('error', '[User with this tag already exists - CreateUserService]');
+            this._logger('error', 'User with this tag already exists - CreateUserService');
             HttpRequestErrors.throwError('tag-already-exist');
         }
 
@@ -85,10 +85,8 @@ export default class CreateUserService {
             code: '',
         };
 
-        if (!user.twoFactorSecret.active && !userDetails.secretQuestion) {
-            this._logger('error', '[When 2FA is disabled, secretQuestion must be enable - CreateUserService]');
+        if (!user.twoFactorSecret.active && !userDetails.secretQuestion)
             HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
-        }
 
         const userWithTwoFactor = user.twoFactorSecret.active
             ? await this._createTwoFactor({ user, userDetails })
@@ -101,7 +99,7 @@ export default class CreateUserService {
     }
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this._logger('info', '[SaveUser - CreateUserService]');
+        this._logger('info', 'SaveUser - CreateUserService');
         const userSaved = await this._usersRepository.create({
             ...user,
             userId: newUUID(),
@@ -125,10 +123,8 @@ export default class CreateUserService {
             userSaved.email
         );
 
-        if (!emailSended.success) {
-            this._logger('error', '[Some error ocurred in email sending - CreateUserService]');
+        if (!emailSended.success)
             HttpRequestErrors.throwError('verification-email-send-fail');
-        }
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 

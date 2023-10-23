@@ -13,7 +13,7 @@ export default class VerifyEmailOperation {
     }
 
     public async execute({ userId, email }: VerifyEmailPayload): Promise<void> {
-        this._logger('info', '[Execute - VerifyEmailOperation]');
+        this._logger('info', 'Execute - VerifyEmailOperation');
         await this._verifyEmailService.sendEmail({ userId, email });
     }
 }

@@ -12,7 +12,7 @@ export default class DeleteUserOperation {
     }
 
     public async execute(userId: string): Promise<void> {
-        this._logger('info', '[Execute - UpdateEmailOperation]');
+        this._logger('info', 'Execute - UpdateEmailOperation');
         await this._usersRepository.delete(userId);
     }
 }

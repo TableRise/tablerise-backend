@@ -37,10 +37,8 @@ export default class UsersDetailsRepository {
 
         const request = await this._model.findOne({ userDetailId: id });
 
-        if (!request) {
-            this._logger('error', 'User was not found on database - UsersDetailsRepository');
+        if (!request)
             HttpRequestErrors.throwError('user-inexistent');
-        }
 
         return this._formatAndSerializeData(request);
     }
@@ -50,10 +48,8 @@ export default class UsersDetailsRepository {
 
         const request = await this._model.update({ userDetailId: id }, payload);
 
-        if (!request) {
-            this._logger('error', 'User was not found on database - UsersDetailsRepository');
+        if (!request)
             HttpRequestErrors.throwError('user-inexistent');
-        }
 
         return this._formatAndSerializeData(request);
     }

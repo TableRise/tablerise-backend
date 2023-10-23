@@ -23,6 +23,20 @@ export default class UsersRoutes {
         return [
             {
                 method: 'get',
+                path: `${BASE_PATH}/all`,
+                controller: this._usersController.getUsers,
+                options: {
+                    middlewares: [
+                        passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.checkAdminRole
+                    ],
+                    authentication: true,
+                    tag: 'management',
+                    description: 'This route returns all users registered in database'
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/:id/verify`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.verifyEmail,

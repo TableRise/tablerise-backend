@@ -116,6 +116,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });
 
+            case 'user-database-critical-errror':
+                throw new HttpRequestErrors({
+                    message: 'User database is not according with User Details database',
+                    code: HttpStatusCode.INTERNAL_SERVER,
+                    name: getErrorName(HttpStatusCode.INTERNAL_SERVER),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',

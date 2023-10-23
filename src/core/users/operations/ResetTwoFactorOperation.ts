@@ -14,7 +14,7 @@ export default class ResetTwoFactorOperation {
     }
 
     public async execute({ userId, code }: ConfirmCodePayload): Promise<TwoFactorResponse> {
-        this._logger('info', '[Execute - ResetTwoFactorOperation]');
+        this._logger('info', 'Execute - ResetTwoFactorOperation');
         const twoFactorReset = await this._resetTwoFactorService.reset({ userId, code });
         return twoFactorReset;
     }

@@ -19,21 +19,18 @@ export default class AuthorizationMiddleware {
     }
 
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this._logger('warn', '[CheckAdminRole - AuthorizationMiddleware]');
+        this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
         const { userId } = req.user as JWTResponse;
 
         const userDetail = await this._usersDetailsRepository.find({ userId });
 
-        if (!userDetail.length) {
-            this._logger('error', 'User Detail was not found on database - AuthorizationMiddleware');
+        if (!userDetail.length)
             HttpRequestErrors.throwError('user-inexistent');
-        }
 
         if (userDetail[0].role === 'admin') {
             next();
         } else {
-            this._logger('error', 'User do not have authorization to perform this operation - AuthorizationMiddleware');
             HttpRequestErrors.throwError('unauthorized');
         }
     }
@@ -46,10 +43,8 @@ export default class AuthorizationMiddleware {
 
         const user = await this._usersRepository.findOne(id);
 
-        if (!user) {
-            this._logger('error', 'User was not found on database - AuthorizationMiddleware');
+        if (!user)
             HttpRequestErrors.throwError('user-inexistent');
-        }
 
         if (!user.twoFactorSecret.active) {
             next();
@@ -62,10 +57,8 @@ export default class AuthorizationMiddleware {
             token: token as string,
         });
 
-        if (!validateSecret) {
-            this._logger('error', '2FA is invalid - AuthorizationMiddleware');
+        if (!validateSecret)
             HttpRequestErrors.throwError('2fa-incorrect');
-        }
 
         next();
     }

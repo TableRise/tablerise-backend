@@ -18,7 +18,7 @@ export default class CreateUserOperation {
     }
 
     public async execute(user: RegisterUserPayload): Promise<RegisterUserResponse> {
-        this._logger('info', '[Execute - CreateUserOperation]');
+        this._logger('info', 'Execute - CreateUserOperation');
         this._schemaValidator.entry(this._usersSchema.userZod, user);
         this._schemaValidator.entry(this._usersSchema.userDetailZod, user.details);
 

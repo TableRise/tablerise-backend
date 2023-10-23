@@ -29,4 +29,5 @@ export type ErrorTypes =
     | 'linked-mandatory-data-when-delete'
     | 'verification-email-send-fail'
     | 'invalid-user-status'
+    | 'user-database-critical-errror'
     | 'unauthorized';

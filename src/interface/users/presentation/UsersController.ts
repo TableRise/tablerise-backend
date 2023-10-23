@@ -22,6 +22,12 @@ export default class UsersController {
         return res.status(HttpStatusCode.NO_CONTENT).json(result);
     }
 
+    public async getUsers(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('getUsersOperation');
+        const result = await execute();
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
     public async login(req: Request, res: Response): Promise<Response> {
         logger('info', 'Login - UsersController');
         const { user: token } = req;
