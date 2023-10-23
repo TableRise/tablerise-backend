@@ -30,6 +30,9 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'authentication',
+                    description: 'This route receives an userId and send an email to verify the user. ' +
+                        'The user status is changed and is necessary to confirm the email using the code ' +
+                        'send in the email message to perform any further operations.'
                 },
             },
             {
@@ -40,6 +43,7 @@ export default class UsersRoutes {
                 options: {
                     authentication: false,
                     tag: 'register',
+                    description: 'Route for user registration, after register email confirmation is needed.'
                 },
             },
             {
@@ -51,6 +55,7 @@ export default class UsersRoutes {
                     middlewares: [passport.authenticate('local', { session: false })],
                     authentication: false,
                     tag: 'authentication',
+                    description: 'Route for user login'
                 },
             },
             {
@@ -62,6 +67,8 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'register',
+                    description: 'This route must be used to confirm an account that was recently created ' +
+                        'the route receives the param "code", that was send to the user email in the signup.'
                 },
             },
             {
@@ -73,6 +80,7 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
+                    description: 'Route for 2FA activation'
                 },
             },
             {
@@ -84,6 +92,7 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
+                    description: 'Route for 2FA reset, verification code send to user email is needed.'
                 },
             },
             {
@@ -103,12 +112,14 @@ export default class UsersRoutes {
                     ],
                     authentication: true,
                     tag: 'management',
+                    description: 'Route for email update, verification code send to user email is needed. ' +
+                        'If the user has 2FA enabled the 2FA token will be needed as well.'
                 },
             },
             {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string', required: 'off' }])],
                 controller: this._usersController.delete,
                 options: {
                     middlewares: [
@@ -118,8 +129,9 @@ export default class UsersRoutes {
                     ],
                     authentication: true,
                     tag: 'management',
+                    description: 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.'
                 },
             },
-        ] as routeInstance[];
+        ] as unknown as routeInstance[];
     }
 }
