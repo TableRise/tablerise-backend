@@ -117,7 +117,7 @@ export const routes = [
             middlewares: [
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
-                twoFactorMiddleware.authenticate,
+                authorizationMiddleware.twoFactor,
             ],
             authentication: true,
             tag: 'profile',

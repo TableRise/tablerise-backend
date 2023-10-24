@@ -32,7 +32,6 @@ describe('Patch secret question activate in database', () => {
             .catch(() => {
                 logger('error', 'Test database connection failed');
             });
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -51,7 +50,7 @@ describe('Patch secret question activate in database', () => {
         });
 
         it('should return correct status', async () => {
-            const userResponse = await requester
+            const userResponse = await requester()
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
@@ -59,7 +58,7 @@ describe('Patch secret question activate in database', () => {
             const userId: string = userResponse.body._id;
             const token: string = '123456';
 
-            const response = await requester
+            const response = await requester()
                 .patch(`/profile/${userId}/question/activate?token=${token}`)
                 .send(emailUpdatePayload)
                 .expect(HttpStatusCode.NO_CONTENT);
