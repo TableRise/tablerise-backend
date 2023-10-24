@@ -109,9 +109,26 @@ export const routes = [
     },
     {
         method: 'patch',
+        path: `${BASE_PATH}/:id/question/activate`,
+        parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
+        controller: controllers.activateSecretQuestion,
+        schema: mock.user.activateSecretQuestion,
+        options: {
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.twoFactor,
+            ],
+            authentication: true,
+            tag: 'profile',
+        },
+    },
+    {
+        method: 'patch',
         path: `${BASE_PATH}/:id/update/email`,
         parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
         controller: controllers.updateEmail,
+        schema: mock.user.userEmailUpdate,
         options: {
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,

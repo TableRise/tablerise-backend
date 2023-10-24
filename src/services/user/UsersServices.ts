@@ -8,10 +8,11 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
+    secretQuestionPayload,
     getUserResponse,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail, secretQuestionZodSchema } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import {
     postUserDetailsSerializer,
@@ -308,6 +309,26 @@ export default class RegisterServices {
             qrcode: userInfo.twoFactorSecret.qrcode,
             active: userInfo.twoFactorSecret.active,
         };
+    }
+
+    public async activateSecretQuestion(id: string, payload: secretQuestionPayload): Promise<void> {
+        this._validate.entry(secretQuestionZodSchema, payload);
+        const { question, answer } = payload;
+
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        delete userInfo.twoFactorSecret.qrcode;
+        delete userInfo.twoFactorSecret.secret;
+        userInfo.twoFactorSecret.active = false;
+        userDetails.secretQuestion = { question, answer };
+
+        await this._model.update(id, userInfo);
+        await this._modelDetails.update(userDetails._id as string, userDetails);
+        this._logger('info', `Secret question added to user ${id}`);
     }
 
     public async update(id: string, payload: RegisterUserPayload): Promise<any> {

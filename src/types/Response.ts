@@ -38,6 +38,11 @@ export interface emailUpdatePayload {
     email: string;
 }
 
+export interface secretQuestionPayload {
+    question: string;
+    answer: string;
+}
+
 export interface JWTResponsePayload {
     userId: string;
     providerId: string | null;
