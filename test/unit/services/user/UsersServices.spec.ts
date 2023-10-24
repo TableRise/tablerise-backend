@@ -15,15 +15,16 @@ import EmailSender from 'src/services/user/helpers/EmailSender';
 import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
+import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
+import getErrorName from 'src/services/helpers/getErrorName';
 import speakeasy from 'speakeasy';
-
-jest.mock('qrcode', () => ({
-    toDataURL: () => '',
-}));
 
 describe('Services :: User :: UsersServices', () => {
     let user: User,
+        user2: User,
         userDetails: UserDetail,
+        userDetails2: UserDetail,
         userServices: UsersServices,
         updatedInProgressToDone: User,
         updatedInProgressToVerify: User,
@@ -509,7 +510,6 @@ describe('Services :: User :: UsersServices', () => {
 
                 expect(result).toHaveProperty('qrcode');
                 expect(result).toHaveProperty('active');
-                expect(result.qrcode).toBe('');
                 expect(result.active).toBe(true);
             });
         });
@@ -816,7 +816,6 @@ describe('Services :: User :: UsersServices', () => {
                 const result = await userServices.resetTwoFactor(user._id as string, code);
 
                 expect(result).toHaveProperty('qrcode');
-                expect(result.qrcode).toBe('');
                 expect(result).toHaveProperty('active');
                 expect(result.active).toBe(true);
             });
@@ -876,6 +875,267 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('Invalid email verify code');
                     expect(err.name).toBe('BadRequest');
                     expect(err.code).toBe(400);
+                }
+            });
+        });
+    });
+
+    describe('When edit game info', () => {
+        beforeAll(() => {
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'badges', 'add');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+
+        describe('and the params is incorrect - game info', () => {
+            beforeAll(() => {
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+            });
+
+            it('should throw 400 error - selected game info is invalid', async () => {
+                try {
+                    await userServices.updateGameInfo(generateNewMongoID(), generateNewMongoID(), 'test', 'add');
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('Selected game info is invalid');
+                    expect(err.code).toBe(400);
+                    expect(err.name).toBe('BadRequest');
+                }
+            });
+        });
+
+        describe('and the params is correct', () => {
+            let infoId: string;
+            beforeAll(() => {
+                infoId = generateNewMongoID();
+                userDetails.gameInfo.badges.push(infoId);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                UserDetails.update = jest.fn().mockReturnValue(undefined);
+            });
+
+            afterEach(() => {
+                jest.clearAllMocks();
+            });
+
+            it('adds new game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'campaigns', 'add');
+
+                const expectedResult = userDetails;
+                expectedResult.gameInfo.campaigns.push(infoId);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(expectedResult._id, expectedResult);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('remove requested game info', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'remove');
+
+                const result = userDetails;
+                result.gameInfo.badges = userDetails.gameInfo.badges.filter((badge) => badge !== infoId);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('tries to add the info twice', async () => {
+                await userServices.updateGameInfo(generateNewMongoID(), infoId, 'badges', 'add');
+
+                expect(UserDetails.update).toHaveBeenCalledWith(userDetails._id, userDetails);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+
+            it('adds new badge to array', async () => {
+                const newBadge = generateNewMongoID();
+                await userServices.updateGameInfo(generateNewMongoID(), newBadge, 'badges', 'add');
+
+                const result = userDetails;
+                result.gameInfo.badges.push(newBadge);
+
+                expect(UserDetails.update).toHaveBeenCalledWith(result._id, result);
+                expect(UserDetails.update).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
+
+    describe('When all users requested', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            user2 = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userDetails2 = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        describe('and is sucessfull', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findAll').mockResolvedValue([user, user2]);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails, userDetails2]);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return all users', async () => {
+                const response = await userServices.getAll();
+
+                expect(response.length).toBe(2);
+            });
+        });
+    });
+
+    describe('When a user is updated', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        describe('and query is sucessfull', () => {
+            const mockDateUpdate = new Date();
+            beforeAll(() => {
+                user.createdAt = mockDateUpdate.toISOString();
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(User, 'update').mockResolvedValue({ ...user, nickname: 'Mock' });
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({ ...userDetails, firstName: 'Ana Mock' });
+                jest.spyOn(global, 'Date').mockReturnValue(mockDateUpdate);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return the updated user', async () => {
+                userPayload = { nickname: 'Mock', details: { firstName: 'Ana Mock' } } as RegisterUserPayload;
+                const userWithoutMoogoseDocProps = postUserSerializer(user);
+                userResponse = {
+                    ...userWithoutMoogoseDocProps,
+                    nickname: 'Mock',
+                    details: {
+                        ...userDetails,
+                        firstName: 'Ana Mock',
+                    },
+                } as RegisterUserResponse;
+
+                const response = await userServices.update(user._id as string, userPayload);
+
+                expect(Object.keys(userResponse)).toStrictEqual(Object.keys(response));
+                expect(Object.values(userResponse)).toStrictEqual(Object.values(response));
+                expect(response.createdAt).toBe(mockDateUpdate.toISOString());
+            });
+        });
+
+        describe('When payload has a forbidden field', () => {
+            it('should return error 403 - userPayload', async () => {
+                userPayload = {
+                    ...postUserSerializer(user),
+                    details: { firstName: 'Ana Mock' },
+                } as RegisterUserPayload;
+                const firstForbiddenField = Object.keys(userPayload)[0];
+
+                try {
+                    await userServices.update(user._id as string, userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual(
+                        `Update User Info - ${firstForbiddenField} is a forbidden field  and cannot be updated through this request`
+                    );
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.FORBIDDEN));
+                    expect(err.code).toBe(HttpStatusCode.FORBIDDEN);
+                }
+            });
+
+            it('should return error 403 - userDetailsPayload', async () => {
+                userPayload = {
+                    nickname: 'Mock',
+                    details: { ...postUserDetailsSerializer(userDetails) },
+                } as RegisterUserPayload;
+                const firstForbiddenField = Object.keys(userPayload.details)[0];
+
+                try {
+                    await userServices.update(user._id as string, userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual(
+                        `Update UserDetails Info - ${firstForbiddenField} is a forbidden field  and cannot be updated through this request`
+                    );
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.FORBIDDEN));
+                    expect(err.code).toBe(HttpStatusCode.FORBIDDEN);
+                }
+            });
+        });
+
+        describe('When user is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserModelDB - user-inexistent', async () => {
+                userPayload = { nickname: 'fail' } as RegisterUserPayload;
+
+                try {
+                    await userServices.update('ID_NOT_FOUND', userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        describe('When userDetails is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserDetailsModelDB - user-inexistent', async () => {
+                userPayload = { nickname: 'fail' } as RegisterUserPayload;
+
+                try {
+                    await userServices.update('ID_NOT_FOUND', userPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
                 }
             });
         });

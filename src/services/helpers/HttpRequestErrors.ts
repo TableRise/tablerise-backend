@@ -74,6 +74,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'query-missing':
+                throw new HttpRequestErrors({
+                    message: 'Query must not be empty',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             case 'linked-mandatory-data-when-delete':
                 throw new HttpRequestErrors({
                     message: 'There is a campaing or character linked to this user',
@@ -100,6 +107,13 @@ export default class HttpRequestErrors extends Error {
                     message: 'Invalid email verify code',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case 'unauthorized':
+                throw new HttpRequestErrors({
+                    message: 'Unauthorized',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });
 
             default:

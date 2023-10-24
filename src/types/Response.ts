@@ -22,6 +22,10 @@ export interface RegisterUserResponse extends User {
     details: UserDetail;
 }
 
+export interface getUserResponse extends User {
+    details: UserDetail;
+}
+
 export interface ConfirmCodeResponse {
     status: string;
 }
@@ -37,4 +41,12 @@ export interface emailUpdatePayload {
 export interface secretQuestionPayload {
     question: string;
     answer: string;
+}
+
+export interface JWTResponsePayload {
+    userId: string;
+    providerId: string | null;
+    username: string;
+    iat: number;
+    exp: number;
 }

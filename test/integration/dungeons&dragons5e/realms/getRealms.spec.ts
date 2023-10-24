@@ -1,12 +1,12 @@
 import requester from '../../../support/requester';
-import DatabaseManagement, { mongoose, MongoModel } from '@tablerise/database-management';
+import DatabaseManagement, { MongoModel, mongoose } from '@tablerise/database-management';
 import mocks from 'src/support/mocks/dungeons&dragons5e';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 
-import logger from '@tablerise/dynamic-logger';
 import { Realm } from 'src/schemas/dungeons&dragons5e/realmsValidationSchema';
 import { Internacional } from 'src/schemas/languagesWrapperSchema';
+import logger from '@tablerise/dynamic-logger';
 
 describe('Get RPG realms from database', () => {
     let model: MongoModel<Internacional<Realm>>;
@@ -26,7 +26,6 @@ describe('Get RPG realms from database', () => {
 
         const database = new DatabaseManagement();
         model = database.modelInstance('dungeons&dragons5e', 'Realms');
-        requester.set('Authorization', 'Bearer test');
     });
 
     afterAll(async () => {
@@ -40,7 +39,7 @@ describe('Get RPG realms from database', () => {
             const response = await model.create(realmMockPayload);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/realms').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/realms').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -65,7 +64,7 @@ describe('Get RPG realms from database', () => {
             const response = await model.create(realmMockCopy);
             documentId = response._id as string;
 
-            const { body } = await requester.get('/dnd5e/realms/disabled').expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/dnd5e/realms/disabled').expect(HttpStatusCode.OK);
 
             expect(body).toBeInstanceOf(Array);
             expect(body[0]).toHaveProperty('_id');
@@ -83,7 +82,7 @@ describe('Get RPG realms from database', () => {
 
             await model.create(realmMockPayload);
 
-            const { body } = await requester.get(`/dnd5e/realms/${documentId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/dnd5e/realms/${documentId}`).expect(HttpStatusCode.OK);
 
             expect(body).toHaveProperty('_id');
 
@@ -96,7 +95,7 @@ describe('Get RPG realms from database', () => {
         });
 
         it('should fail when ID NotFound', async () => {
-            const { body } = await requester
+            const { body } = await requester()
                 .get(`/dnd5e/realms/${generateNewMongoID()}`)
                 .expect(HttpStatusCode.NOT_FOUND);
 

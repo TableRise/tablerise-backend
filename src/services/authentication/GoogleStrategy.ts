@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import Google from 'passport-google-oauth20';
 import passport from 'passport';
 

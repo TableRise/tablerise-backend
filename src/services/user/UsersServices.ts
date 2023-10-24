@@ -8,17 +8,26 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
+    getUserResponse,
     secretQuestionPayload,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail, secretQuestionZodSchema } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
-import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
+import {
+    postUserDetailsSerializer,
+    postUserSerializer,
+    putUserDetailsSerializer,
+    putUserSerializer,
+} from 'src/services/user/helpers/userSerializer';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { SecurePasswordHandler } from 'src/services/user/helpers/SecurePasswordHandler';
 import { UserPayload, __UserSaved, __UserSerialized } from './types/Register';
 import EmailSender from './helpers/EmailSender';
+import { HttpStatusCode } from '../helpers/HttpStatusCode';
+import getErrorName from '../helpers/getErrorName';
+import { GameInfoOptions } from 'src/types/GameInfo';
 
 export default class RegisterServices {
     constructor(
@@ -29,15 +38,12 @@ export default class RegisterServices {
         private readonly _schema: SchemasUserType
     ) {}
 
-    private async _validateAndSerializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
+    private async _serializeData({ user, userDetails }: UserPayload): Promise<__UserSerialized> {
         this._validate.entry(this._schema.userZod, user);
         this._validate.entry(this._schema.userDetailZod, userDetails);
 
         const userSerialized = postUserSerializer(user);
         const userDetailsSerialized = postUserDetailsSerializer(userDetails);
-
-        const emailAlreadyExist = await this._model.findAll({ email: userSerialized.email });
-        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }
@@ -107,10 +113,13 @@ export default class RegisterServices {
     public async register(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         const { details: userDetails, ...user } = payload;
 
-        const userPreSerialized = await this._validateAndSerializeData({
+        const userPreSerialized = await this._serializeData({
             user,
             userDetails,
         });
+
+        const emailAlreadyExist = await this._model.findAll({ email: user.email });
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         const { userSerialized, userDetailsSerialized } = await this._enrichUser({
             user: userPreSerialized.userSerialized,
@@ -241,6 +250,33 @@ export default class RegisterServices {
         this._logger('info', 'User deleted from database');
     }
 
+    private isGameInfo(keyInput: string): keyInput is GameInfoOptions {
+        return ['badges', 'campaigns', 'characters'].includes(keyInput);
+    }
+
+    public async updateGameInfo(idUser: string, dataId: string, gameInfo: string, operation: string): Promise<void> {
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: idUser });
+
+        if (!this.isGameInfo(gameInfo))
+            throw new HttpRequestErrors({
+                message: 'Selected game info is invalid',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        if (operation === 'remove')
+            userDetailsInfo.gameInfo[gameInfo] = userDetailsInfo.gameInfo[gameInfo].filter((data) => data !== dataId);
+
+        if (operation === 'add') {
+            const hasInfo = userDetailsInfo.gameInfo[gameInfo].filter((data) => data === dataId).length > 0;
+            if (!hasInfo) userDetailsInfo.gameInfo[gameInfo].push(dataId);
+        }
+
+        await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
+    }
+
     public async resetTwoFactor(id: string, code: string): Promise<TwoFactorSecret> {
         const userInfo = (await this._model.findOne(id)) as User;
 
@@ -273,25 +309,5 @@ export default class RegisterServices {
             qrcode: userInfo.twoFactorSecret.qrcode,
             active: userInfo.twoFactorSecret.active,
         };
-    }
-
-    public async activateSecretQuestion(id: string, payload: secretQuestionPayload): Promise<void> {
-        this._validate.entry(secretQuestionZodSchema, payload);
-        const { question, answer } = payload;
-
-        const userInfo = (await this._model.findOne(id)) as User;
-        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
-
-        const [userDetails] = await this._modelDetails.findAll({ userId: id });
-        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
-
-        delete userInfo.twoFactorSecret.qrcode;
-        delete userInfo.twoFactorSecret.secret;
-        userInfo.twoFactorSecret.active = false;
-        userDetails.secretQuestion = { question, answer };
-
-        await this._model.update(id, userInfo);
-        await this._modelDetails.update(userDetails._id as string, userDetails);
-        this._logger('info', `Secret question added to user ${id}`);
     }
 }

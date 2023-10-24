@@ -12,7 +12,7 @@ import schema from 'src/schemas';
 import UserControllers from 'src/controllers/user/UsersControllers';
 import UserServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import TwoFactorMiddleware from 'src/middlewares/TwoFactorMiddleware';
+import AuthorizationMiddleware from 'src/middlewares/AuthorizationMiddleware';
 import generateIDParam, { generateQueryParam } from '../parametersWrapper';
 import VerifyIdMiddleware from 'src/middlewares/VerifyIdMiddleware';
 import mock from 'src/support/mocks/user';
@@ -22,9 +22,10 @@ const database = new DatabaseManagement();
 
 export const model = database.modelInstance('user', 'Users');
 const modelUserDetails = database.modelInstance('user', 'UserDetails');
+
 const services = new UserServices(model, modelUserDetails, logger, schemaValidator, schema.user);
 const controllers = new UserControllers(services, logger);
-const twoFactorMiddleware = new TwoFactorMiddleware(model, logger);
+const authorizationMiddleware = new AuthorizationMiddleware(model, modelUserDetails, logger);
 
 const router = Router();
 
@@ -40,6 +41,16 @@ export const routes = [
             middlewares: [VerifyIdMiddleware],
             authentication: false,
             tag: 'authentication',
+        },
+    },
+    {
+        method: 'get',
+        path: `${BASE_PATH}/all`,
+        controller: controllers.getAll,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false }), authorizationMiddleware.checkAdminRole],
+            authentication: false,
+            tag: 'management',
         },
     },
     {
@@ -133,8 +144,39 @@ export const routes = [
             middlewares: [
                 VerifyIdMiddleware,
                 passport.authenticate('bearer', { session: false }),
-                twoFactorMiddleware.authenticate,
+                authorizationMiddleware.twoFactor,
             ],
+            authentication: true,
+            tag: 'management',
+        },
+    },
+    {
+        method: 'put',
+        path: `${BASE_PATH}/:id/update`,
+        parameters: [...generateIDParam()],
+        controller: controllers.update,
+        options: {
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/update/game-info`,
+        controller: controllers.updateGameInfo,
+        parameters: [
+            ...generateIDParam(),
+            ...generateQueryParam(3, [
+                { name: 'id', type: 'string' },
+                { name: 'info', type: 'string' },
+                { name: 'operation', type: 'string' },
+            ]),
+        ],
+        options: {
+            description:
+                'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
             authentication: true,
             tag: 'management',
         },

@@ -1,11 +1,14 @@
-import requester from '../../support/requester';
+import speakeasy from 'speakeasy';
+import logger from '@tablerise/dynamic-logger';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
-import EmailSender from 'src/services/user/helpers/EmailSender';
+import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
-import logger from '@tablerise/dynamic-logger';
+import requester from '../../support/requester';
+import EmailSender from 'src/services/user/helpers/EmailSender';
+import JWTGenerator from 'src/services/authentication/helpers/JWTGenerator';
 
-describe('Post user in database', () => {
+describe('Add user badges', () => {
     const userInstanceMock = mock.user.user;
     const userDetailsInstanceMock = mock.user.userDetails;
 
@@ -34,26 +37,29 @@ describe('Post user in database', () => {
         await mongoose.connection.close();
     });
 
-    describe('When register a new user', () => {
+    describe('When request to add user badge', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
+            jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
+            jest.spyOn(speakeasy.totp, 'verify').mockReturnValue(true);
         });
 
-        it('should return correct data and status', async () => {
-            const response = await requester()
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return correct status', async () => {
+            const userResponse = await requester()
                 .post('/profile/register')
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            expect(response.body).toHaveProperty('_id');
-            expect(response.body).toHaveProperty('tag');
-            expect(response.body).toHaveProperty('createdAt');
-            expect(response.body).toHaveProperty('updatedAt');
-            expect(response.body).toHaveProperty('details');
-            expect(response.body).toHaveProperty('password');
-            expect(response.body.details).toHaveProperty('userId');
-            expect(response.body.email).toBe(userPayload.email);
-            expect(response.body.nickname).toBe(userPayload.nickname);
+            const userId: string = userResponse.body._id;
+            const infoId = generateNewMongoID();
+
+            await requester()
+                .patch(`/profile/${userId}/update/game-info?id=${infoId}&info=badges&operation=add`)
+                .expect(HttpStatusCode.OK);
         });
     });
 });

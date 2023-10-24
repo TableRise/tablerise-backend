@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import JWT from 'jsonwebtoken';
 import { User } from 'src/schemas/user/usersValidationSchema';
 

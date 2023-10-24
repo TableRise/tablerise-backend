@@ -3,6 +3,8 @@ import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload, emailUpdatePayload, secretQuestionPayload } from 'src/types/Response';
+import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
+import { GameInfoOptions } from 'src/types/GameInfo';
 
 export default class UsersControllers {
     constructor(
@@ -16,7 +18,20 @@ export default class UsersControllers {
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.delete = this.delete.bind(this);
+        this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
+        this.update = this.update.bind(this);
+        this.getAll = this.getAll.bind(this);
+    }
+
+    public async update(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to update a user');
+
+        const { id } = req.params;
+        const payload = req.body as RegisterUserPayload;
+
+        const request = await this._service.update(id, payload);
+        return res.status(HttpStatusCode.OK).json(request);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
     }
 
@@ -92,6 +107,30 @@ export default class UsersControllers {
         const { code } = req.query;
 
         const request = await this._service.resetTwoFactor(id, code as string);
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async updateGameInfo(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request edit users game info');
+        const { id: _idUser } = req.params;
+        const { id: _dataId, info: _gameInfo, operation: _operation } = req.query;
+
+        if (!_dataId || !_gameInfo) HttpRequestErrors.throwError('query-missing');
+
+        await this._service.updateGameInfo(
+            _idUser,
+            _dataId as string,
+            _gameInfo as GameInfoOptions,
+            _operation as string
+        );
+
+        return res.sendStatus(HttpStatusCode.OK);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to get all users');
+
+        const request = await this._service.getAll();
         return res.status(HttpStatusCode.OK).json(request);
     }
 
