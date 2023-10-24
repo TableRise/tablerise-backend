@@ -28,7 +28,7 @@ export default class UsersDetailsRepository {
     public async find(query: any = {}): Promise<UserDetailInstance[]> {
         this._logger('info', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
-        
+
         return request.map((entity: UserDetailInstance) => this._formatAndSerializeData(entity));
     }
 
@@ -37,8 +37,7 @@ export default class UsersDetailsRepository {
 
         const request = await this._model.findOne({ userDetailId: id });
 
-        if (!request)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }
@@ -48,8 +47,7 @@ export default class UsersDetailsRepository {
 
         const request = await this._model.update({ userDetailId: id }, payload);
 
-        if (!request)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }

@@ -37,8 +37,7 @@ export default class UsersRepository {
 
         const request = await this._model.findOne({ userId: id });
 
-        if (!request)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }
@@ -48,8 +47,7 @@ export default class UsersRepository {
 
         const request = await this._model.update({ userId: id }, payload);
 
-        if (!request)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }

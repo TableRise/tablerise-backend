@@ -60,6 +60,18 @@ const userPayloadMock: RegisterUserPayload = {
     }
 }
 
+const userUpdatePayloadMock = {
+    nickname: userMock.nickname,
+    picture: userMock.picture as string,
+    details: {
+        firstName: userDetailsMock.firstName,
+        lastName: userDetailsMock.lastName,
+        pronoun: userDetailsMock.pronoun,
+        birthday: userDetailsMock.firstName,
+        biography: userDetailsMock.firstName,
+    }
+}
+
 const userEmailUpdateMock: emailUpdatePayload = {
     email: 'new-email@email.com'
 }
@@ -69,5 +81,6 @@ export default {
     userDetails: userDetailsMock,
     userLogin: userLoginMock,
     userPayload: userPayloadMock,
+    userUpdatePayload: userUpdatePayloadMock,
     userEmailUpdate: userEmailUpdateMock
 }

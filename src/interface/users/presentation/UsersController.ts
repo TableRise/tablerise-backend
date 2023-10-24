@@ -13,6 +13,16 @@ export default class UsersController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
+    public async update(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('createUserOperation');
+
+        const { id } = req.params;
+        const payload = req.body as RegisterUserPayload;
+
+        const result = await execute({ userId: id, payload });
+        return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('verifyEmailOperation');
         const { id } = req.params;

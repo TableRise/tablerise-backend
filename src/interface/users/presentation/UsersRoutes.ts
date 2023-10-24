@@ -28,11 +28,11 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('bearer', { session: false }),
-                        this._authorizationMiddleware.checkAdminRole
+                        this._authorizationMiddleware.checkAdminRole,
                     ],
                     authentication: true,
                     tag: 'management',
-                    description: 'This route returns all users registered in database'
+                    description: 'This route returns all users registered in database',
                 },
             },
             {
@@ -44,9 +44,10 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'authentication',
-                    description: 'This route receives an userId and send an email to verify the user. ' +
+                    description:
+                        'This route receives an userId and send an email to verify the user. ' +
                         'The user status is changed and is necessary to confirm the email using the code ' +
-                        'send in the email message to perform any further operations.'
+                        'send in the email message to perform any further operations.',
                 },
             },
             {
@@ -57,7 +58,7 @@ export default class UsersRoutes {
                 options: {
                     authentication: false,
                     tag: 'register',
-                    description: 'Route for user registration, after register email confirmation is needed.'
+                    description: 'Route for user registration, after register email confirmation is needed.',
                 },
             },
             {
@@ -69,7 +70,19 @@ export default class UsersRoutes {
                     middlewares: [passport.authenticate('local', { session: false })],
                     authentication: false,
                     tag: 'authentication',
-                    description: 'Route for user login'
+                    description: 'Route for user login',
+                },
+            },
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/update`,
+                parameters: [...generateIDParam()],
+                controller: this._usersController.update,
+                schema: mock.user.userUpdatePayload,
+                options: {
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
                 },
             },
             {
@@ -81,8 +94,9 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'register',
-                    description: 'This route must be used to confirm an account that was recently created ' +
-                        'the route receives the param "code", that was send to the user email in the signup.'
+                    description:
+                        'This route must be used to confirm an account that was recently created ' +
+                        'the route receives the param "code", that was send to the user email in the signup.',
                 },
             },
             {
@@ -94,7 +108,7 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for 2FA activation'
+                    description: 'Route for 2FA activation',
                 },
             },
             {
@@ -106,34 +120,41 @@ export default class UsersRoutes {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for 2FA reset, verification code send to user email is needed.'
+                    description: 'Route for 2FA reset, verification code send to user email is needed.',
                 },
             },
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/email`,
-                parameters: [...generateIDParam(), ...generateQueryParam(2, [
-                    { name: 'code', type: 'string' },
-                    { name: 'token', type: 'string', required: 'off' }
-                ])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'code', type: 'string' },
+                        { name: 'token', type: 'string', required: 'off' },
+                    ]),
+                ],
                 controller: this._usersController.updateEmail,
                 schema: mock.user.userEmailUpdate,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
-                        this._authorizationMiddleware.twoFactor
+                        this._authorizationMiddleware.twoFactor,
                     ],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for email update, verification code send to user email is needed. ' +
-                        'If the user has 2FA enabled the 2FA token will be needed as well.'
+                    description:
+                        'Route for email update, verification code send to user email is needed. ' +
+                        'If the user has 2FA enabled the 2FA token will be needed as well.',
                 },
             },
             {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string', required: 'off' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'token', type: 'string', required: 'off' }]),
+                ],
                 controller: this._usersController.delete,
                 options: {
                     middlewares: [
@@ -143,7 +164,7 @@ export default class UsersRoutes {
                     ],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.'
+                    description: 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.',
                 },
             },
         ] as unknown as routeInstance[];

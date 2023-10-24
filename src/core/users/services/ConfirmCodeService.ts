@@ -18,8 +18,7 @@ export default class ConfirmCodeService {
         this._logger('info', 'VerifyCode - ConfirmCodeService');
         const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.code !== code)
-            HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (userInDb.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
         userInDb.inProgress.status = 'done';
 

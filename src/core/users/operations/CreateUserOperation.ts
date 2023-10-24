@@ -17,12 +17,13 @@ export default class CreateUserOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(user: RegisterUserPayload): Promise<RegisterUserResponse> {
+    public async execute(payload: RegisterUserPayload): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - CreateUserOperation');
+        const { details, ...user } = payload;
         this._schemaValidator.entry(this._usersSchema.userZod, user);
-        this._schemaValidator.entry(this._usersSchema.userDetailZod, user.details);
+        this._schemaValidator.entry(this._usersSchema.userDetailZod, details);
 
-        const entitySerialized = await this._createUserService.serialize(user);
+        const entitySerialized = await this._createUserService.serialize({ ...user, details });
 
         const entityEnriched = await this._createUserService.enrichment({
             user: entitySerialized.userSerialized,

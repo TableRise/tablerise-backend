@@ -67,12 +67,12 @@ passport.use(
                 );
 
             if (user[0].inProgress.status !== 'done')
-                    return done(
-                        new HttpRequestErrors({
-                            message: 'User status is invalid to perform this operation',
-                            code: HttpStatusCode.BAD_REQUEST,
-                            name: getErrorName(HttpStatusCode.BAD_REQUEST)
-                        })
+                return done(
+                    new HttpRequestErrors({
+                        message: 'User status is invalid to perform this operation',
+                        code: HttpStatusCode.BAD_REQUEST,
+                        name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    })
                 );
 
             const token = JWTGenerator.generate(user[0]);

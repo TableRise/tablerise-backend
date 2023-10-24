@@ -26,16 +26,13 @@ export default class UpdateEmailService {
         this._logger('info', 'Update - UpdateEmailService');
         const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.status !== 'wait_to_verify')
-            HttpRequestErrors.throwError('invalid-user-status');
+        if (userInDb.inProgress.status !== 'wait_to_verify') HttpRequestErrors.throwError('invalid-user-status');
 
-        if (userInDb.inProgress.code !== code)
-            HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (userInDb.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const emailAlreadyExist = await this._usersRepository.find({ email });
 
-        if (emailAlreadyExist.length)
-            HttpRequestErrors.throwError('email-already-exist');
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         const emailChanged = this._changeEmail({ user: userInDb, email });
 

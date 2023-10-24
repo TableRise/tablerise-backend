@@ -23,13 +23,12 @@ export default class GetUsersService {
         const formatResponse = userInDb.map((user) => {
             const userDetail = userDetailInDb.find((det) => det.userId === user.userId);
 
-            if (!userDetail)
-                HttpRequestErrors.throwError('user-database-critical-errror');
-            
+            if (!userDetail) HttpRequestErrors.throwError('user-database-critical-errror');
+
             return {
                 ...user,
-                details: userDetail
-            }
+                details: userDetail,
+            };
         });
 
         return formatResponse;

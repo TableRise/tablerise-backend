@@ -7,12 +7,22 @@ export interface UserExternal {
     name: string;
 }
 
+export interface __FullUserPayload {
+    user: UserPayload;
+    userDetails: UserDetailPayload;
+}
+
 export interface emailUpdatePayload {
     email: string;
 }
 
 export interface RegisterUserPayload extends UserPayload {
     details: UserDetailPayload;
+}
+
+export interface UpdateUserPayload {
+    userId: string;
+    payload: RegisterUserPayload;
 }
 
 export interface ConfirmCodePayload {

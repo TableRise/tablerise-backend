@@ -25,8 +25,7 @@ export default class AuthorizationMiddleware {
 
         const userDetail = await this._usersDetailsRepository.find({ userId });
 
-        if (!userDetail.length)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
 
         if (userDetail[0].role === 'admin') {
             next();
@@ -43,8 +42,7 @@ export default class AuthorizationMiddleware {
 
         const user = await this._usersRepository.findOne(id);
 
-        if (!user)
-            HttpRequestErrors.throwError('user-inexistent');
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
 
         if (!user.twoFactorSecret.active) {
             next();
@@ -57,8 +55,7 @@ export default class AuthorizationMiddleware {
             token: token as string,
         });
 
-        if (!validateSecret)
-            HttpRequestErrors.throwError('2fa-incorrect');
+        if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
         next();
     }
