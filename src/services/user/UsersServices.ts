@@ -409,4 +409,19 @@ export default class RegisterServices {
 
         return allUsers;
     }
+
+    public async resetProfile(id: string): Promise<void> {
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        userDetails.gameInfo.badges = [];
+        userDetails.gameInfo.campaigns = [];
+        userDetails.gameInfo.characters = [];
+
+        await this._modelDetails.update(userDetails._id as string, userDetails);
+        this._logger('info', `Profile of user ${id} reseted`);
+    }
 }
