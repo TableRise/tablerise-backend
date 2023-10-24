@@ -1,4 +1,3 @@
-import speakeasy from 'speakeasy';
 import requester from '../../support/requester';
 import mock from 'src/support/mocks/user';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';

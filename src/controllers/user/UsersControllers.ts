@@ -22,6 +22,7 @@ export default class UsersControllers {
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.update = this.update.bind(this);
         this.getAll = this.getAll.bind(this);
+        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
@@ -32,7 +33,6 @@ export default class UsersControllers {
 
         const request = await this._service.update(id, payload);
         return res.status(HttpStatusCode.OK).json(request);
-        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {

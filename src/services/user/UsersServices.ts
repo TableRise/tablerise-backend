@@ -8,8 +8,8 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
-    getUserResponse,
     secretQuestionPayload,
+    getUserResponse,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
 import { UserDetail, secretQuestionZodSchema } from 'src/schemas/user/userDetailsValidationSchema';
@@ -309,5 +309,104 @@ export default class RegisterServices {
             qrcode: userInfo.twoFactorSecret.qrcode,
             active: userInfo.twoFactorSecret.active,
         };
+    }
+
+    public async activateSecretQuestion(id: string, payload: secretQuestionPayload): Promise<void> {
+        this._validate.entry(secretQuestionZodSchema, payload);
+        const { question, answer } = payload;
+
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        delete userInfo.twoFactorSecret.qrcode;
+        delete userInfo.twoFactorSecret.secret;
+        userInfo.twoFactorSecret.active = false;
+        userDetails.secretQuestion = { question, answer };
+
+        await this._model.update(id, userInfo);
+        await this._modelDetails.update(userDetails._id as string, userDetails);
+        this._logger('info', `Secret question added to user ${id}`);
+    }
+
+    public async update(id: string, payload: RegisterUserPayload): Promise<any> {
+        this._logger('info', 'prepare to update user info');
+
+        const { details: userDetails, ...userPayload } = payload;
+
+        userPayload &&
+            Object.keys(userPayload).forEach((field) => {
+                const forbiddenField = [
+                    'email',
+                    'password',
+                    'tag',
+                    'createdAt',
+                    'updatedAt',
+                    'inProgress',
+                    'providerId',
+                ];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update User Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
+
+        userDetails &&
+            Object.keys(userDetails).forEach((field) => {
+                const forbiddenField = ['userId', 'gameInfo', 'secretQuestion', 'role'];
+                if (forbiddenField.includes(field)) {
+                    throw new HttpRequestErrors({
+                        message: `Update UserDetails Info - ${field} is a forbidden field  and cannot be updated through this request`,
+                        code: HttpStatusCode.FORBIDDEN,
+                        name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    });
+                }
+            });
+
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const userSerialized = putUserSerializer(userPayload, userInfo);
+        const userDetailsSerialized = putUserDetailsSerializer(userDetails, userDetailsInfo);
+        userSerialized.createdAt = new Date().toISOString();
+
+        const userUpdated = (await this._model.update(id, userSerialized)) as User;
+        this._logger('info', 'User updated at database');
+
+        const userDetailsUpdated = await this._modelDetails.update(
+            userDetailsInfo._id as string,
+            userDetailsSerialized
+        );
+        this._logger('info', 'UserDetails updated at database');
+
+        return { ...postUserSerializer(userUpdated), details: userDetailsUpdated };
+    }
+
+    public async getAll(): Promise<getUserResponse[]> {
+        this._logger('info', 'request to get all users from database');
+
+        const users = await this._model.findAll();
+
+        const allUsers: getUserResponse[] = await Promise.all(
+            users.map(async (user) => {
+                const { _doc: userDoc } = user as User & { _doc: User };
+                const usersDetails = await this._modelDetails.findAll({ userId: user._id });
+
+                return {
+                    ...userDoc,
+                    details: usersDetails[0],
+                };
+            })
+        );
+
+        return allUsers;
     }
 }
