@@ -23,6 +23,7 @@ export default class UsersControllers {
         this.update = this.update.bind(this);
         this.getAll = this.getAll.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
+        this.resetProfile = this.resetProfile.bind(this);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
@@ -135,10 +136,19 @@ export default class UsersControllers {
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to activate secret question');
         const { id } = req.params;
         const payload = req.body as secretQuestionPayload;
 
         await this._service.activateSecretQuestion(id, payload);
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
+    }
+
+    public async resetProfile(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to reset user profile');
+        const { id } = req.params;
+
+        await this._service.resetProfile(id);
         return res.sendStatus(HttpStatusCode.NO_CONTENT);
     }
 }
