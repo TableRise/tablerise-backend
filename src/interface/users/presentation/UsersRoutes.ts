@@ -195,6 +195,21 @@ export default class UsersRoutes {
                 },
             },
             {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/reset`,
+                controller: this._usersController.resetProfile,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.twoFactor,
+                    ],
+                    authentication: true,
+                    tag: 'management',
+                },
+            },
+            {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [

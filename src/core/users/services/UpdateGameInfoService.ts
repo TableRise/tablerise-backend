@@ -25,8 +25,9 @@ export default class UpdateGameInfoService {
         targetInfo,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
-        const hasInfo =
-            gameInfo[targetInfo].filter((data) => data === newItemId).length > 0;
+        this._logger('info', 'AddId - UpdateGameInfoService');
+        const hasInfo = gameInfo[targetInfo]
+            .filter((data) => data === newItemId).length > 0;
 
         hasInfo
             ? gameInfo[targetInfo].push(newItemId)
@@ -44,6 +45,7 @@ export default class UpdateGameInfoService {
         targetInfo,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
+        this._logger('info', 'RemoveId - UpdateGameInfoService');
         const hasInfo = gameInfo[targetInfo].filter((data) => data !== newItemId);
 
         gameInfo[targetInfo].length > hasInfo.length
@@ -63,6 +65,7 @@ export default class UpdateGameInfoService {
         targetInfo,
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
+        this._logger('info', 'Update - UpdateGameInfoService');
         const [userDetailInDb] = await this._userDetailsRepository.find({ userId });
 
         let gameInfo = userDetailInDb.gameInfo;

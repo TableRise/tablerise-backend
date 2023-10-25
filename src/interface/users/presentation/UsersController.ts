@@ -95,6 +95,15 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
+    public async resetProfile(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('resetProfileOperation');
+
+        const { id } = req.params;
+
+        await execute(id);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
     public async delete(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('deleteUserOperation');
 

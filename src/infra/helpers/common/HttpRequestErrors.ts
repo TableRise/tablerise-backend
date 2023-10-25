@@ -18,6 +18,13 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'query-fail':
+                throw new HttpRequestErrors({
+                    message: 'Query was not found in database',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+
             case 'email-already-exist':
                 throw new HttpRequestErrors({
                     message: 'Email already exists in database',

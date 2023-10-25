@@ -19,6 +19,7 @@ export default class UpdateGameInfoOperation {
         targetInfo,
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
+        this._logger('info', 'Execute - UpdateGameInfoOperation');
         const isValidUUID = new RegExp(UUIDEnum.enum.isValid);
 
         if (!isValidUUID.test(newItemId))

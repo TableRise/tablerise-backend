@@ -29,6 +29,8 @@ export default class UsersRepository {
         this._logger('info', `Find - UsersRepository`);
         const request = await this._model.findAll(query);
 
+        if (!request.length) HttpRequestErrors.throwError('query-fail');
+
         return request.map((entity: UserInstance) =>
             this._formatAndSerializeData(entity)
         );

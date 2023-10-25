@@ -30,4 +30,5 @@ export type ErrorTypes =
     | 'verification-email-send-fail'
     | 'invalid-user-status'
     | 'user-database-critical-errror'
+    | 'query-fail'
     | 'unauthorized';
