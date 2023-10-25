@@ -14,7 +14,7 @@ export default class UsersController {
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('createUserOperation');
+        const { execute } = container.resolve('updateUserOperation');
 
         const { id } = req.params;
         const payload = req.body as RegisterUserPayload;
@@ -82,6 +82,16 @@ export default class UsersController {
         const { email } = req.body;
 
         const result = await execute({ userId: id, code, email });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateGameInfo(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('updateGameInfoOperation');
+
+        const { id } = req.params;
+        const { newItemId, targetInfo, operation } = req.query;
+
+        const result = await execute({ userId: id, newItemId, targetInfo, operation });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

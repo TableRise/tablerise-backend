@@ -50,3 +50,9 @@ export interface TwoFactorResponse {
     qrcode: string;
     active: boolean;
 }
+
+export interface UserGameInfoDoneResponse {
+    campaigns: string[];
+    characters: string[];
+    badges: string[];
+}

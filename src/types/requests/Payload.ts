@@ -40,3 +40,20 @@ export interface VerifyEmailPayload {
     userId: string;
     email: string;
 }
+
+export interface UpdateGameInfoPayload {
+    userId: string;
+    newItemId: string;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
+    operation: 'add' | 'remove';
+}
+
+export interface UpdateGameInfoProcessPayload {
+    newItemId: string;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
+    gameInfo: {
+        campaigns: string[];
+        characters: string[];
+        badges: string[];
+    };
+}

@@ -149,6 +149,26 @@ export default class UsersRoutes {
                 },
             },
             {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/game-info`,
+                controller: this._usersController.updateGameInfo,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(3, [
+                        { name: 'id', type: 'string' },
+                        { name: 'info', type: 'string' },
+                        { name: 'operation', type: 'string' },
+                    ]),
+                ],
+                options: {
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'management',
+                    description:
+                        'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
+                },
+            },
+            {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [
