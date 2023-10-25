@@ -345,4 +345,21 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.sendStatus).toHaveBeenCalledWith(204);
         });
     });
+
+    describe('When a request is made to reset profile', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'resetProfile').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.params = { id: utils.newUUID() };
+            await userControllers.resetProfile(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
 });

@@ -120,7 +120,7 @@ export const routes = [
                 authorizationMiddleware.twoFactor,
             ],
             authentication: true,
-            tag: 'profile',
+            tag: 'management',
         },
     },
     {
@@ -177,6 +177,21 @@ export const routes = [
             description:
                 'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
             middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/:id/reset`,
+        controller: controllers.resetProfile,
+        parameters: [...generateIDParam()],
+        options: {
+            middlewares: [
+                VerifyIdMiddleware,
+                passport.authenticate('bearer', { session: false }),
+                authorizationMiddleware.twoFactor,
+            ],
             authentication: true,
             tag: 'management',
         },
