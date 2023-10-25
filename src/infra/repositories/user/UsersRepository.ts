@@ -29,7 +29,9 @@ export default class UsersRepository {
         this._logger('info', `Find - UsersRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: UserInstance) => this._formatAndSerializeData(entity));
+        return request.map((entity: UserInstance) =>
+            this._formatAndSerializeData(entity)
+        );
     }
 
     public async findOne(id: string): Promise<UserInstance> {

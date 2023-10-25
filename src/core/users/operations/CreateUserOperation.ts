@@ -8,7 +8,12 @@ export default class CreateUserOperation {
     private readonly _createUserService;
     private readonly _logger;
 
-    constructor({ usersSchema, schemaValidator, createUserService, logger }: CreateUserOperationContract) {
+    constructor({
+        usersSchema,
+        schemaValidator,
+        createUserService,
+        logger,
+    }: CreateUserOperationContract) {
         this._usersSchema = usersSchema;
         this._schemaValidator = schemaValidator;
         this._createUserService = createUserService;
@@ -23,7 +28,10 @@ export default class CreateUserOperation {
         this._schemaValidator.entry(this._usersSchema.userZod, user);
         this._schemaValidator.entry(this._usersSchema.userDetailZod, details);
 
-        const entitySerialized = await this._createUserService.serialize({ ...user, details });
+        const entitySerialized = await this._createUserService.serialize({
+            ...user,
+            details,
+        });
 
         const entityEnriched = await this._createUserService.enrichment({
             user: entitySerialized.userSerialized,

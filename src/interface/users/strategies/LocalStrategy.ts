@@ -55,7 +55,10 @@ passport.use(
                     })
                 );
 
-            const isPasswordValid = await SecurePasswordHandler.comparePassword(password, user[0].password);
+            const isPasswordValid = await SecurePasswordHandler.comparePassword(
+                password,
+                user[0].password
+            );
 
             if (!isPasswordValid)
                 return done(

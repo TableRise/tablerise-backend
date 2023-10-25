@@ -7,7 +7,11 @@ export default class GetUsersService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: GetUsersServiceContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: GetUsersServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -23,7 +27,8 @@ export default class GetUsersService {
         const formatResponse = userInDb.map((user) => {
             const userDetail = userDetailInDb.find((det) => det.userId === user.userId);
 
-            if (!userDetail) HttpRequestErrors.throwError('user-database-critical-errror');
+            if (!userDetail)
+                HttpRequestErrors.throwError('user-database-critical-errror');
 
             return {
                 ...user,

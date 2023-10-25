@@ -7,7 +7,12 @@ export default class UpdateEmailOperation {
     private readonly _usersSchema;
     private readonly _logger;
 
-    constructor({ usersSchema, updateEmailService, schemaValidator, logger }: UpdateEmailOperationContract) {
+    constructor({
+        usersSchema,
+        updateEmailService,
+        schemaValidator,
+        logger,
+    }: UpdateEmailOperationContract) {
         this._updateEmailService = updateEmailService;
         this._schemaValidator = schemaValidator;
         this._usersSchema = usersSchema;

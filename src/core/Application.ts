@@ -14,7 +14,12 @@ export default class Application {
     private readonly _errorMiddleware;
     private readonly _logger;
 
-    constructor({ usersRoutesMiddleware, errorMiddleware, swaggerGenerator, logger }: ApplicationContract) {
+    constructor({
+        usersRoutesMiddleware,
+        errorMiddleware,
+        swaggerGenerator,
+        logger,
+    }: ApplicationContract) {
         this._usersRoutesMiddleware = usersRoutesMiddleware;
         this._swaggerGenerator = swaggerGenerator;
         this._errorMiddleware = errorMiddleware;

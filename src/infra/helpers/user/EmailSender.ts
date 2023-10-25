@@ -1,5 +1,10 @@
 import nodemailer from 'nodemailer';
-import { EmailSenderType, CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/Email';
+import {
+    EmailSenderType,
+    CommonContent,
+    EmailMessage,
+    ResponseEmailSender,
+} from 'src/types/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/infra/helpers/user/generateVerificationCode';
@@ -11,7 +16,11 @@ export default class EmailSender {
         this.type = type;
     }
 
-    static async handleEmail(contentType: 'html' | 'text', content: CommonContent, target: string): Promise<boolean> {
+    static async handleEmail(
+        contentType: 'html' | 'text',
+        content: CommonContent,
+        target: string
+    ): Promise<boolean> {
         const config = {
             host: 'smtp.gmail.com',
             port: 465,
@@ -37,12 +46,18 @@ export default class EmailSender {
         return true;
     }
 
-    private async sendCommon(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    private async sendCommon(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
         const sendEmailResult = await EmailSender.handleEmail('text', content, target);
         return { success: sendEmailResult };
     }
 
-    private async sendConfirmation(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    private async sendConfirmation(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
         const verificationCode = generateVerificationCode(6);
         const username = content.username ?? target;
         content.body = confirmEmailTemplate(verificationCode, username);
@@ -51,7 +66,10 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    private async sendVerification(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    private async sendVerification(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
         const verificationCode = generateVerificationCode(6);
         const username = content.username ?? target;
         content.body = verifyEmailTemplate(verificationCode, username);
@@ -60,7 +78,10 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    public async send(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    public async send(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,

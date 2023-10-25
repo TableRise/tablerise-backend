@@ -1,6 +1,9 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { UpdateEmailServiceContract, UserEmail } from 'src/types/contracts/users/UpdateEmail';
+import {
+    UpdateEmailServiceContract,
+    UserEmail,
+} from 'src/types/contracts/users/UpdateEmail';
 import { UpdateEmailPayload } from 'src/types/requests/Payload';
 
 export default class UpdateEmailService {
@@ -26,9 +29,11 @@ export default class UpdateEmailService {
         this._logger('info', 'Update - UpdateEmailService');
         const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.status !== 'wait_to_verify') HttpRequestErrors.throwError('invalid-user-status');
+        if (userInDb.inProgress.status !== 'wait_to_verify')
+            HttpRequestErrors.throwError('invalid-user-status');
 
-        if (userInDb.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (userInDb.inProgress.code !== code)
+            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const emailAlreadyExist = await this._usersRepository.find({ email });
 
@@ -36,6 +41,9 @@ export default class UpdateEmailService {
 
         const emailChanged = this._changeEmail({ user: userInDb, email });
 
-        await this._usersRepository.update({ id: userInDb.userId, payload: emailChanged });
+        await this._usersRepository.update({
+            id: userInDb.userId,
+            payload: emailChanged,
+        });
     }
 }

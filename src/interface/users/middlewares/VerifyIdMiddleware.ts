@@ -4,7 +4,11 @@ import logger from '@tablerise/dynamic-logger';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import UUIDEnum from 'src/domains/user/enums/UUIDEnum';
 
-export default function VerifyIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
+export default function VerifyIdMiddleware(
+    req: Request,
+    _res: Response,
+    next: NextFunction
+): void {
     const { id } = req.params;
 
     const isValidUUID = new RegExp(UUIDEnum.enum.isValid);

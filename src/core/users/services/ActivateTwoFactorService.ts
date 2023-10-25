@@ -10,7 +10,11 @@ export default class ActivateTwoFactorService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: ActivateTwoFactorServiceContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: ActivateTwoFactorServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -43,17 +47,28 @@ export default class ActivateTwoFactorService {
         const userInDb = await this._usersRepository.findOne(userId);
 
         if (userInDb.twoFactorSecret.active) {
-            this._logger('error', 'User already have 2FA already activated - ActivateTwoFactorService');
+            this._logger(
+                'error',
+                'User already have 2FA already activated - ActivateTwoFactorService'
+            );
             HttpRequestErrors.throwError('2fa-already-active');
         }
 
         const userWithTwoFactor = await this._generateTwoFactor(userInDb);
-        const [userDetailInDb] = await this._usersDetailsRepository.find({ userId: userInDb.userId });
+        const [userDetailInDb] = await this._usersDetailsRepository.find({
+            userId: userInDb.userId,
+        });
 
         userDetailInDb.secretQuestion = null;
 
-        await this._usersRepository.update({ id: userInDb.userId, payload: userWithTwoFactor });
-        await this._usersDetailsRepository.update({ id: userDetailInDb.userDetailId, payload: userDetailInDb });
+        await this._usersRepository.update({
+            id: userInDb.userId,
+            payload: userWithTwoFactor,
+        });
+        await this._usersDetailsRepository.update({
+            id: userDetailInDb.userDetailId,
+            payload: userDetailInDb,
+        });
 
         return {
             qrcode: userWithTwoFactor.twoFactorSecret.qrcode as string,

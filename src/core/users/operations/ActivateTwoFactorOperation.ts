@@ -5,7 +5,10 @@ export default class ActivateTwoFactorOperation {
     private readonly _activateTwoFactorService;
     private readonly _logger;
 
-    constructor({ activateTwoFactorService, logger }: ActivateTwoFactorOperationContract) {
+    constructor({
+        activateTwoFactorService,
+        logger,
+    }: ActivateTwoFactorOperationContract) {
         this._activateTwoFactorService = activateTwoFactorService;
         this._logger = logger;
 

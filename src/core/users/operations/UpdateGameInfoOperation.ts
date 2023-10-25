@@ -13,7 +13,12 @@ export default class UpdateGameInfoOperation {
         this._logger = logger;
     }
 
-    public async execute({ userId, newItemId, targetInfo, operation }: UpdateGameInfoPayload): Promise<string> {
+    public async execute({
+        userId,
+        newItemId,
+        targetInfo,
+        operation,
+    }: UpdateGameInfoPayload): Promise<string> {
         const isValidUUID = new RegExp(UUIDEnum.enum.isValid);
 
         if (!isValidUUID.test(newItemId))
@@ -23,7 +28,12 @@ export default class UpdateGameInfoOperation {
                 name: 'Invalid Entry',
             });
 
-        const gameInfoUpdated = await this._updateGameInfoService.update({ userId, newItemId, targetInfo, operation });
+        const gameInfoUpdated = await this._updateGameInfoService.update({
+            userId,
+            newItemId,
+            targetInfo,
+            operation,
+        });
         return gameInfoUpdated;
     }
 }

@@ -14,11 +14,15 @@ export default class ConfirmCodeService {
         this.processCode = this.processCode.bind(this);
     }
 
-    public async processCode({ userId, code }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
+    public async processCode({
+        userId,
+        code,
+    }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
         this._logger('info', 'VerifyCode - ConfirmCodeService');
         const userInDb = await this._usersRepository.findOne(userId);
 
-        if (userInDb.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (userInDb.inProgress.code !== code)
+            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         userInDb.inProgress.status = 'done';
 

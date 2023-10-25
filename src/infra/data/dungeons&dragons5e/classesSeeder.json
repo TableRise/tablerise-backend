@@ -14,7 +14,14 @@
                 "weapons": ["simple weapons", "martial weapons"],
                 "tools": [],
                 "savingThrows": ["strength", "constitution"],
-                "skills": ["animal handling", "athletics", "intimidation", "nature", "perception", "survival"]
+                "skills": [
+                    "animal handling",
+                    "athletics",
+                    "intimidation",
+                    "nature",
+                    "perception",
+                    "survival"
+                ]
             },
             "equipment": [
                 {
@@ -31,8 +38,12 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
+                "level": [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+                ],
+                "proficiencyBonus": [
+                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
+                ],
                 "features": [
                     "Range, Unarmored Defense",
                     "Reckless Attack, Danger Sense",
@@ -95,7 +106,9 @@
                 },
                 "Rages": {
                     "isValidToThisClass": true,
-                    "amount": [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999]
+                    "amount": [
+                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999
+                    ]
                 },
                 "RageDamage": {
                     "isValidToThisClass": true,
@@ -194,7 +207,14 @@
                 "weapons": ["armas simples", "armas marciais"],
                 "tools": [],
                 "savingThrows": ["força", "constituição"],
-                "skills": ["adestrar animais", "atletismo", "intimidação", "natureza", "percepção", "sobrevivência"]
+                "skills": [
+                    "adestrar animais",
+                    "atletismo",
+                    "intimidação",
+                    "natureza",
+                    "percepção",
+                    "sobrevivência"
+                ]
             },
             "equipment": [
                 {
@@ -211,8 +231,12 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
+                "level": [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+                ],
+                "proficiencyBonus": [
+                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
+                ],
                 "features": [
                     "Raiva, Defesa Inarmada",
                     "Ataque Despreocupado, Sentido de Perigo",
@@ -275,7 +299,9 @@
                 },
                 "Rages": {
                     "isValidToThisClass": true,
-                    "amount": [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999]
+                    "amount": [
+                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999
+                    ]
                 },
                 "RageDamage": {
                     "isValidToThisClass": true,

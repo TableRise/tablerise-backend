@@ -9,7 +9,11 @@ export default class AuthorizationMiddleware {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: AuthorizationMiddlewareContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: AuthorizationMiddlewareContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -18,7 +22,11 @@ export default class AuthorizationMiddleware {
         this.twoFactor = this.twoFactor.bind(this);
     }
 
-    public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async checkAdminRole(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
         this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
         const { userId } = req.user as JWTResponse;
@@ -34,7 +42,11 @@ export default class AuthorizationMiddleware {
         }
     }
 
-    public async twoFactor(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async twoFactor(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
         this._logger('warn', '[TwoFactor - AuthorizationMiddleware]');
 
         const { id } = req.params;

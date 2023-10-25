@@ -43,7 +43,10 @@ export default class ResetTwoFactorService {
         const userInDb = await this._usersRepository.findOne(userId);
 
         if (!userInDb.twoFactorSecret.active) {
-            this._logger('error', 'User does not have 2FA active - ResetTwoFactorService');
+            this._logger(
+                'error',
+                'User does not have 2FA active - ResetTwoFactorService'
+            );
             HttpRequestErrors.throwError('2fa-no-active');
         }
 
@@ -53,7 +56,10 @@ export default class ResetTwoFactorService {
         }
 
         const userWithTwoFactor = await this._generateTwoFactor(userInDb);
-        await this._usersRepository.update({ id: userWithTwoFactor.userId, payload: userWithTwoFactor });
+        await this._usersRepository.update({
+            id: userWithTwoFactor.userId,
+            payload: userWithTwoFactor,
+        });
 
         return {
             qrcode: userWithTwoFactor.twoFactorSecret.qrcode as string,

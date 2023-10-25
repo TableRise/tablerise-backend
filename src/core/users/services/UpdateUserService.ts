@@ -10,7 +10,11 @@ export default class UpdateUserService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: UpdateUserServiceContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: UpdateUserServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -32,7 +36,12 @@ export default class UpdateUserService {
             'inProgress',
             'providerId',
         ];
-        const userDetailsForbiddenFields = ['userId', 'gameInfo', 'secretQuestion', 'role'];
+        const userDetailsForbiddenFields = [
+            'userId',
+            'gameInfo',
+            'secretQuestion',
+            'role',
+        ];
 
         userForbiddenFields.forEach((key) => {
             if (Object.keys(user).includes(key))

@@ -1,6 +1,11 @@
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
-import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/requests/Response';
+import {
+    __FullUser,
+    __UserEnriched,
+    __UserSaved,
+    __UserSerialized,
+} from 'src/types/requests/Response';
 import { RegisterUserPayload } from 'src/types/requests/Payload';
 import { CreateUserServiceContract } from 'src/types/contracts/users/CreateUser';
 import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
@@ -33,7 +38,10 @@ export default class CreateUserService {
         this.serialize = this.serialize.bind(this);
     }
 
-    private async _createTwoFactor({ user, userDetails }: __FullUser): Promise<__FullUser> {
+    private async _createTwoFactor({
+        user,
+        userDetails,
+    }: __FullUser): Promise<__FullUser> {
         this._logger('info', 'CreateTwoFactor - Enrichment - CreateUserService');
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
@@ -45,7 +53,9 @@ export default class CreateUserService {
 
         userDetails.secretQuestion = null;
         user.twoFactorSecret = { secret: secret.base32, qrcode: url, active: true };
-        user.twoFactorSecret.qrcode = await qrcode.toDataURL(user.twoFactorSecret.qrcode as string);
+        user.twoFactorSecret.qrcode = await qrcode.toDataURL(
+            user.twoFactorSecret.qrcode as string
+        );
 
         return { user, userDetails };
     }
@@ -56,7 +66,9 @@ export default class CreateUserService {
         const userSerialized = this._serializer.postUser(userMain);
         const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
 
-        const userInDb = await this._usersRepository.find({ email: userSerialized.email });
+        const userInDb = await this._usersRepository.find({
+            email: userSerialized.email,
+        });
 
         if (userInDb.length) {
             this._logger('error', 'Email already exists - CreateUserService');
@@ -69,10 +81,16 @@ export default class CreateUserService {
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this._usersRepository.find({ tag, nickname: user.nickname });
+        const tagInDb = await this._usersRepository.find({
+            tag,
+            nickname: user.nickname,
+        });
 
         if (tagInDb.length) {
-            this._logger('error', 'User with this tag already exists - CreateUserService');
+            this._logger(
+                'error',
+                'User with this tag already exists - CreateUserService'
+            );
             HttpRequestErrors.throwError('tag-already-exist');
         }
 
@@ -123,7 +141,8 @@ export default class CreateUserService {
             userSaved.email
         );
 
-        if (!emailSended.success) HttpRequestErrors.throwError('verification-email-send-fail');
+        if (!emailSended.success)
+            HttpRequestErrors.throwError('verification-email-send-fail');
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 

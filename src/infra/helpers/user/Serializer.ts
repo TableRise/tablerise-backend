@@ -18,7 +18,9 @@ export default class Serializer {
         return 'provider' in obj && obj.provider === 'facebook';
     }
 
-    public externalUser(userProfile: Google.Profile | Facebook.Profile | Discord.Profile): UserExternal {
+    public externalUser(
+        userProfile: Google.Profile | Facebook.Profile | Discord.Profile
+    ): UserExternal {
         const user: UserExternal = {
             providerId: userProfile.id,
             email: '',
@@ -28,7 +30,10 @@ export default class Serializer {
         if (this._isDiscordProfile(userProfile)) {
             user.name = userProfile.username;
             user.email = userProfile.email as string;
-        } else if (this._isGoogleProfile(userProfile) || this._isFacebookProfile(userProfile)) {
+        } else if (
+            this._isGoogleProfile(userProfile) ||
+            this._isFacebookProfile(userProfile)
+        ) {
             user.name = userProfile.displayName;
             user.email = userProfile._json.email;
         }

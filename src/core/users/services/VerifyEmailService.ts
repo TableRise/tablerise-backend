@@ -27,7 +27,10 @@ export default class VerifyEmailService {
         );
 
         if (!emailSendResult.success) {
-            this._logger('error', 'Some error ocurred in email sending - VerifyEmailService');
+            this._logger(
+                'error',
+                'Some error ocurred in email sending - VerifyEmailService'
+            );
             HttpRequestErrors.throwError('user-inexistent');
         }
 
@@ -47,6 +50,9 @@ export default class VerifyEmailService {
 
         userToUpdate.updatedAt = new Date().toISOString();
 
-        await this._usersRepository.update({ id: userInDb.userId, payload: userToUpdate });
+        await this._usersRepository.update({
+            id: userInDb.userId,
+            payload: userToUpdate,
+        });
     }
 }

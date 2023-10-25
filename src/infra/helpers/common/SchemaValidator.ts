@@ -37,7 +37,10 @@ export default class SchemaValidator {
         return null;
     }
 
-    protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
+    protected validateExistance(
+        noQueryOrActiveProperty: boolean | undefined | null,
+        errorMessage: string
+    ): void {
         if (noQueryOrActiveProperty)
             throw new HttpRequestErrors({
                 message: errorMessage,

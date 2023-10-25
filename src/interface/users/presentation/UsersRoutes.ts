@@ -2,7 +2,9 @@ import 'src/interface/users/strategies/LocalStrategy';
 import 'src/interface/users/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, { generateQueryParam } from 'src/infra/helpers/user/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/infra/helpers/user/parametersWrapper';
 import mock from 'src/infra/mocks/user';
 import { UsersRoutesContract } from 'src/types/contracts/users/presentation/UsersRoutes';
 
@@ -13,7 +15,11 @@ export default class UsersRoutes {
     private readonly _verifyIdMiddleware;
     private readonly _authorizationMiddleware;
 
-    constructor({ usersController, authorizationMiddleware, verifyIdMiddleware }: UsersRoutesContract) {
+    constructor({
+        usersController,
+        authorizationMiddleware,
+        verifyIdMiddleware,
+    }: UsersRoutesContract) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._authorizationMiddleware = authorizationMiddleware;
@@ -58,7 +64,8 @@ export default class UsersRoutes {
                 options: {
                     authentication: false,
                     tag: 'register',
-                    description: 'Route for user registration, after register email confirmation is needed.',
+                    description:
+                        'Route for user registration, after register email confirmation is needed.',
                 },
             },
             {
@@ -80,7 +87,10 @@ export default class UsersRoutes {
                 controller: this._usersController.update,
                 schema: mock.user.userUpdatePayload,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                    ],
                     authentication: true,
                     tag: 'management',
                 },
@@ -88,7 +98,10 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/confirm`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
+                ],
                 controller: this._usersController.confirmCode,
                 options: {
                     middlewares: [this._verifyIdMiddleware],
@@ -105,7 +118,10 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.activateTwoFactor,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                    ],
                     authentication: true,
                     tag: 'management',
                     description: 'Route for 2FA activation',
@@ -114,13 +130,20 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/reset`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'code', type: 'string' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
+                ],
                 controller: this._usersController.resetTwoFactor,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                    ],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for 2FA reset, verification code send to user email is needed.',
+                    description:
+                        'Route for 2FA reset, verification code send to user email is needed.',
                 },
             },
             {
@@ -161,7 +184,10 @@ export default class UsersRoutes {
                     ]),
                 ],
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                    ],
                     authentication: true,
                     tag: 'management',
                     description:
@@ -173,7 +199,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'token', type: 'string', required: 'off' }]),
+                    ...generateQueryParam(1, [
+                        { name: 'token', type: 'string', required: 'off' },
+                    ]),
                 ],
                 controller: this._usersController.delete,
                 options: {
@@ -184,7 +212,8 @@ export default class UsersRoutes {
                     ],
                     authentication: true,
                     tag: 'management',
-                    description: 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.',
+                    description:
+                        'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.',
                 },
             },
         ] as unknown as routeInstance[];

@@ -13,9 +13,15 @@ export default class ConfirmCodeOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, code }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
+    public async execute({
+        userId,
+        code,
+    }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
         this._logger('info', 'Execute - ConfirmCodeOperation');
-        const codeProcessing = await this._confirmCodeService.processCode({ userId, code });
+        const codeProcessing = await this._confirmCodeService.processCode({
+            userId,
+            code,
+        });
         return codeProcessing;
     }
 }
