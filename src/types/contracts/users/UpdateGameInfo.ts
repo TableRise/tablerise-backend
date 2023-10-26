@@ -1,4 +1,4 @@
-import UpdateGameInfoService from 'src/core/users/services/UpdateGameInfoService';
+import UpdateGameInfoService from 'src/core/users/services/users/UpdateGameInfoService';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/Logger';
 

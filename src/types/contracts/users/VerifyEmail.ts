@@ -1,4 +1,4 @@
-import VerifyEmailService from 'src/core/users/services/VerifyEmailService';
+import VerifyEmailService from 'src/core/users/services/users/VerifyEmailService';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import EmailSender from 'src/infra/helpers/user/EmailSender';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';

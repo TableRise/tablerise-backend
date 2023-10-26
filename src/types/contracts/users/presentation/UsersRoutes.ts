@@ -1,5 +1,5 @@
 import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
-import UsersController from 'src/interface/users/presentation/UsersController';
+import UsersController from 'src/interface/users/presentation/users/UsersController';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 
 export interface UsersRoutesContract {

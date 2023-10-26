@@ -17,7 +17,7 @@ import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
 import RoutesWrapper from './interface/users/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
-import UsersRoutes from './interface/users/presentation/UsersRoutes';
+import UsersRoutes from './interface/users/presentation/users/UsersRoutes';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,

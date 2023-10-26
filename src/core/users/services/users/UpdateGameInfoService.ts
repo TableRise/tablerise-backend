@@ -26,8 +26,8 @@ export default class UpdateGameInfoService {
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
-        const hasInfo = gameInfo[targetInfo]
-            .filter((data) => data === newItemId).length > 0;
+        const hasInfo =
+            gameInfo[targetInfo].filter((data) => data === newItemId).length > 0;
 
         hasInfo
             ? gameInfo[targetInfo].push(newItemId)

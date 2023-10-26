@@ -1,4 +1,4 @@
-import ActivateTwoFactorService from 'src/core/users/services/ActivateTwoFactorService';
+import ActivateTwoFactorService from 'src/core/users/services/users/ActivateTwoFactorService';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';

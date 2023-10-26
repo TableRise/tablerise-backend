@@ -1,4 +1,4 @@
-import CreateUserService from 'src/core/users/services/CreateUserService';
+import CreateUserService from 'src/core/users/services/users/CreateUserService';
 import { SchemasUserType } from 'src/domains/user/schemas';
 import SchemaValidator from 'src/infra/helpers/common/SchemaValidator';
 import { Logger } from '../../Logger';

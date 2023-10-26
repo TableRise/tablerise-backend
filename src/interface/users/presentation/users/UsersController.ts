@@ -1,5 +1,4 @@
 import { Response, Request } from 'express';
-import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
 import { RegisterUserPayload } from 'src/types/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
@@ -39,14 +38,12 @@ export default class UsersController {
     }
 
     public async login(req: Request, res: Response): Promise<Response> {
-        logger('info', 'Login - UsersController');
         const { user: token } = req;
         return res.status(HttpStatusCode.OK).json({ token });
     }
 
     public async confirmCode(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('confirmCodeOperation');
-        logger('info', 'ConfirmCode - UsersController');
 
         const { id } = req.params;
         const { code } = req.query;

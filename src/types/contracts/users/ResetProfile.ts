@@ -1,13 +1,13 @@
-import ResetProfileService from 'src/core/users/services/ResetProfileService';
+import ResetProfileService from 'src/core/users/services/users/ResetProfileService';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/Logger';
 
 export interface ResetProfileOperationContract {
     resetProfileService: ResetProfileService;
-    logger: Logger
+    logger: Logger;
 }
 
 export interface ResetProfileServiceContract {
     userDetailsRepository: UsersDetailsRepository;
-    logger: Logger
+    logger: Logger;
 }

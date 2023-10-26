@@ -6,7 +6,7 @@ export default class ResetProfileService {
 
     constructor({ userDetailsRepository, logger }: ResetProfileServiceContract) {
         this._userDetailsRepository = userDetailsRepository;
-        this._logger= logger;
+        this._logger = logger;
 
         this.reset = this.reset.bind(this);
     }
@@ -19,6 +19,9 @@ export default class ResetProfileService {
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
-        await this._userDetailsRepository.update({ id: userDetailInDb.userDetailId, payload: userDetailInDb });
+        await this._userDetailsRepository.update({
+            id: userDetailInDb.userDetailId,
+            payload: userDetailInDb,
+        });
     }
 }

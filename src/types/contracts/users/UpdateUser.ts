@@ -1,4 +1,4 @@
-import UpdateUserService from 'src/core/users/services/UpdateUserService';
+import UpdateUserService from 'src/core/users/services/users/UpdateUserService';
 import { SchemasUserType } from 'src/domains/user/schemas';
 import SchemaValidator from 'src/infra/helpers/common/SchemaValidator';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
