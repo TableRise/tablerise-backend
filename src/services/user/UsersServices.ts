@@ -8,9 +8,11 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
+    secretQuestionPayload,
+    getUserResponse,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
-import { UserDetail, UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail, UserSecretQuestion, secretQuestionZodSchema } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import {
     postUserDetailsSerializer,
@@ -326,8 +328,26 @@ export default class RegisterServices {
         userDetailsInfo.secretQuestion = payload;
         await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
         this._logger('info', 'User secretQuestion updated at database');
+    }
 
+    public async activateSecretQuestion(id: string, payload: secretQuestionPayload): Promise<void> {
+        this._validate.entry(secretQuestionZodSchema, payload);
+        const { question, answer } = payload;
 
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        delete userInfo.twoFactorSecret.qrcode;
+        delete userInfo.twoFactorSecret.secret;
+        userInfo.twoFactorSecret.active = false;
+        userDetails.secretQuestion = { question, answer };
+
+        await this._model.update(id, userInfo);
+        await this._modelDetails.update(userDetails._id as string, userDetails);
+        this._logger('info', `Secret question added to user ${id}`);
     }
 
     public async update(id: string, payload: RegisterUserPayload): Promise<any> {
@@ -387,5 +407,40 @@ export default class RegisterServices {
         this._logger('info', 'UserDetails updated at database');
 
         return { ...postUserSerializer(userUpdated), details: userDetailsUpdated };
+    }
+
+    public async getAll(): Promise<getUserResponse[]> {
+        this._logger('info', 'request to get all users from database');
+
+        const users = await this._model.findAll();
+
+        const allUsers: getUserResponse[] = await Promise.all(
+            users.map(async (user) => {
+                const { _doc: userDoc } = user as User & { _doc: User };
+                const usersDetails = await this._modelDetails.findAll({ userId: user._id });
+
+                return {
+                    ...userDoc,
+                    details: usersDetails[0],
+                };
+            })
+        );
+
+        return allUsers;
+    }
+
+    public async resetProfile(id: string): Promise<void> {
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        const [userDetails] = await this._modelDetails.findAll({ userId: id });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
+
+        userDetails.gameInfo.badges = [];
+        userDetails.gameInfo.campaigns = [];
+        userDetails.gameInfo.characters = [];
+
+        await this._modelDetails.update(userDetails._id as string, userDetails);
+        this._logger('info', `Profile of user ${id} reseted`);
     }
 }

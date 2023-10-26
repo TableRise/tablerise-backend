@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
-import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
+import { RegisterUserPayload, emailUpdatePayload, secretQuestionPayload } from 'src/types/Response';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { GameInfoOptions } from 'src/types/GameInfo';
 import { UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
@@ -23,6 +23,9 @@ export default class UsersControllers {
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.update = this.update.bind(this);
+        this.getAll = this.getAll.bind(this);
+        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
+        this.resetProfile = this.resetProfile.bind(this);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
@@ -135,5 +138,29 @@ export default class UsersControllers {
         await this._service.updateSecretQuestion(id, code as string, secretQuestion as UserSecretQuestion);
 
         return res.sendStatus(HttpStatusCode.OK);
+    }
+    
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to get all users');
+
+        const request = await this._service.getAll();
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to activate secret question');
+        const { id } = req.params;
+        const payload = req.body as secretQuestionPayload;
+
+        await this._service.activateSecretQuestion(id, payload);
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
+    }
+
+    public async resetProfile(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to reset user profile');
+        const { id } = req.params;
+
+        await this._service.resetProfile(id);
+        return res.sendStatus(HttpStatusCode.NO_CONTENT);
     }
 }
