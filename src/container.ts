@@ -4,7 +4,6 @@ import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './infra/helpers/common/SchemaValidator';
 import schemas from './domains/user/schemas';
-import HttpRequestErrors from './infra/helpers/common/HttpRequestErrors';
 import EmailSender from './infra/helpers/user/EmailSender';
 import swaggerGenerator from './infra/helpers/common/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
@@ -18,13 +17,15 @@ import Application from './core/Application';
 import RoutesWrapper from './interface/users/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
 import UsersRoutes from './interface/users/presentation/users/UsersRoutes';
+import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
+import OAuthRoutes from './interface/users/presentation/oauth/OAuthRoutes';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
 }) as any;
 
 export default function setup(): void {
-    container.loadModules(['./core/**/*.js', './interface/users/presentation/*.js'], {
+    container.loadModules(['./core/**/*.js', './interface/users/presentation/**/*.js'], {
         formatName: 'camelCase',
         resolverOptions: { injectionMode: InjectionMode.PROXY },
         cwd: __dirname,
@@ -55,11 +56,13 @@ export default function setup(): void {
 
         // #Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
+        authErrorMiddleware: asValue(AuthErrorMiddleware),
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),
 
         // #Routes
         usersRoutes: asClass(UsersRoutes),
         usersRoutesMiddleware: asClass(UsersRoutesMiddleware).singleton(),
+        oAuthRoutes: asClass(OAuthRoutes),
     });
 }

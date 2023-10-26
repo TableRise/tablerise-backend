@@ -8,6 +8,6 @@ export interface UpdateGameInfoOperationContract {
 }
 
 export interface UpdateGameInfoServiceContract {
-    userDetailsRepository: UsersDetailsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }

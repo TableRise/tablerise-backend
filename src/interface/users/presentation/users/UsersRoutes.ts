@@ -178,8 +178,8 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(3, [
-                        { name: 'id', type: 'string' },
-                        { name: 'info', type: 'string' },
+                        { name: 'newItemId', type: 'string' },
+                        { name: 'targetInfo', type: 'string' },
                         { name: 'operation', type: 'string' },
                     ]),
                 ],

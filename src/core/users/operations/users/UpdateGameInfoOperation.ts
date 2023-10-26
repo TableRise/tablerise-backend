@@ -1,4 +1,3 @@
-import UUIDEnum from 'src/domains/user/enums/UUIDEnum';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import { UpdateGameInfoOperationContract } from 'src/types/contracts/users/UpdateGameInfo';
@@ -11,6 +10,8 @@ export default class UpdateGameInfoOperation {
     constructor({ updateGameInfoService, logger }: UpdateGameInfoOperationContract) {
         this._updateGameInfoService = updateGameInfoService;
         this._logger = logger;
+
+        this.execute = this.execute.bind(this);
     }
 
     public async execute({
@@ -20,7 +21,7 @@ export default class UpdateGameInfoOperation {
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Execute - UpdateGameInfoOperation');
-        const isValidUUID = new RegExp(UUIDEnum.enum.isValid);
+        const isValidUUID = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
         if (!isValidUUID.test(newItemId))
             throw new HttpRequestErrors({

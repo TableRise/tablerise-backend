@@ -27,6 +27,7 @@ export default class UpdateUserService {
     private _validateUpdateData({ user, userDetails }: __FullUserPayload): void {
         this._logger('info', '_ValidateUpdateData - UpdateUserService');
         const userForbiddenFields = [
+            'userId',
             'email',
             'password',
             'tag',
@@ -38,6 +39,7 @@ export default class UpdateUserService {
         ];
         const userDetailsForbiddenFields = [
             'userId',
+            'userDetailId',
             'gameInfo',
             'secretQuestion',
             'role',

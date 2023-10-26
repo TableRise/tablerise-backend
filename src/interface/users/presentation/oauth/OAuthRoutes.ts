@@ -1,23 +1,20 @@
 import 'src/interface/users/strategies/GoogleStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import { OAuthRoutesContract } from 'src/types/contracts/users/presentation/OAuthRoutes';
+import { OAuthRoutesContract } from 'src/types/contracts/oauth/presentation/OAuthRoutes';
 
 const BASE_PATH = '/oauth';
 
-export default class UsersRoutes {
+export default class OAuthRoutes {
     private readonly _oAuthController;
-    private readonly _verifyIdMiddleware;
-    private readonly _authorizationMiddleware;
+    private readonly _authErrorMiddleware;
 
     constructor({
         oAuthController,
-        authorizationMiddleware,
-        verifyIdMiddleware,
+        authErrorMiddleware
     }: OAuthRoutesContract) {
+        this._authErrorMiddleware = authErrorMiddleware
         this._oAuthController = oAuthController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
-        this._authorizationMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -51,6 +48,86 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/google/register`,
                 controller: this._oAuthController.google,
                 options: {
+                    authentication: false,
+                    tag: 'external',
+                },
+                hide: true,
+            },
+
+            {
+                method: 'get',
+                path: `${BASE_PATH}/facebook`,
+                options: {
+                    middlewares: [passport.authenticate('facebook')],
+                    authentication: false,
+                    tag: 'external',
+                },
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/facebook/callback`,
+                options: {
+                    middlewares: [
+                        passport.authenticate('facebook', {
+                            successRedirect: '/auth/facebook/register',
+                            failureRedirect: '/auth/error',
+                        }),
+                    ],
+                    authentication: false,
+                    tag: 'external',
+                },
+                hide: true,
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/facebook/register`,
+                controller: this._oAuthController.facebook,
+                options: {
+                    authentication: false,
+                    tag: 'external',
+                },
+                hide: true,
+            },
+
+            {
+                method: 'get',
+                path: `${BASE_PATH}/discord`,
+                options: {
+                    middlewares: [passport.authenticate('discord')],
+                    authentication: false,
+                    tag: 'external',
+                },
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/discord/callback`,
+                options: {
+                    middlewares: [
+                        passport.authenticate('discord', {
+                            successRedirect: '/auth/discord/register',
+                            failureRedirect: '/auth/error',
+                        }),
+                    ],
+                    authentication: false,
+                    tag: 'external',
+                },
+                hide: true,
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/discord/register`,
+                controller: this._oAuthController.discord,
+                options: {
+                    authentication: false,
+                    tag: 'external',
+                },
+                hide: true,
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/error`,
+                options: {
+                    middlewares: [this._authErrorMiddleware],
                     authentication: false,
                     tag: 'external',
                 },

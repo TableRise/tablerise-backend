@@ -9,10 +9,10 @@ import { UserGameInfoDoneResponse } from 'src/types/requests/Response';
 
 export default class UpdateGameInfoService {
     private readonly _logger;
-    private readonly _userDetailsRepository;
+    private readonly _usersDetailsRepository;
 
-    constructor({ userDetailsRepository, logger }: UpdateGameInfoServiceContract) {
-        this._userDetailsRepository = userDetailsRepository;
+    constructor({ usersDetailsRepository, logger }: UpdateGameInfoServiceContract) {
+        this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 
         this._addId = this._addId.bind(this);
@@ -26,6 +26,7 @@ export default class UpdateGameInfoService {
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
+        
         const hasInfo =
             gameInfo[targetInfo].filter((data) => data === newItemId).length > 0;
 
@@ -66,7 +67,7 @@ export default class UpdateGameInfoService {
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Update - UpdateGameInfoService');
-        const [userDetailInDb] = await this._userDetailsRepository.find({ userId });
+        const [userDetailInDb] = await this._usersDetailsRepository.find({ userId });
 
         let gameInfo = userDetailInDb.gameInfo;
 
@@ -77,7 +78,7 @@ export default class UpdateGameInfoService {
 
         userDetailInDb.gameInfo = gameInfo;
 
-        await this._userDetailsRepository.update({ id: userId, payload: userDetailInDb });
+        await this._usersDetailsRepository.update({ id: userId, payload: userDetailInDb });
 
         return `ID ${newItemId} ${operation} with success to ${targetInfo}`;
     }

@@ -19,7 +19,7 @@ export default interface Route {
     //     monsters: Router;
     // };
     user: {
-        // OAuth: Router;
+        oAuth: Router;
         profile: Router;
     };
 }

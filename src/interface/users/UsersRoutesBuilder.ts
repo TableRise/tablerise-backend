@@ -6,9 +6,11 @@ const router = Router();
 
 export default class UsersRoutesBuilder {
     private readonly _usersRoutes;
+    private readonly _oAuthRoutes;
 
-    constructor({ usersRoutes }: UsersRoutesBuilderContract) {
+    constructor({ usersRoutes, oAuthRoutes }: UsersRoutesBuilderContract) {
         this._usersRoutes = usersRoutes;
+        this._oAuthRoutes = oAuthRoutes;
     }
 
     private _profile(): { profileRoutes: Router; profileSwagger: routeInstance[] } {
@@ -18,10 +20,18 @@ export default class UsersRoutesBuilder {
         return { profileRoutes, profileSwagger };
     }
 
-    public get(): { usersSwagger: routeInstance[]; usersRoutes: { profile: Router } } {
-        const usersSwagger = [...this._profile().profileSwagger];
+    private _oAuth(): { oAuthRoutes: Router; oAuthSwagger: routeInstance[] } {
+        const oAuthRoutes = buildRouter(this._oAuthRoutes.routes(), router);
+        const oAuthSwagger = this._oAuthRoutes.routes();
+
+        return { oAuthRoutes, oAuthSwagger };
+    }
+
+    public get(): { usersSwagger: routeInstance[]; usersRoutes: { profile: Router, oAuth: Router } } {
+        const usersSwagger = [...this._oAuth().oAuthSwagger, ...this._profile().profileSwagger];
         const usersRoutes = {
             profile: this._profile().profileRoutes,
+            oAuth: this._oAuth().oAuthRoutes,
         };
 
         return { usersSwagger, usersRoutes };

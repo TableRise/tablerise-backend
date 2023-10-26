@@ -13,4 +13,26 @@ export default class OAuthController {
 
         return res.status(HttpStatusCode.OK).json(isToken ? { token: result } : result);
     }
+
+    public async facebook(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('facebookOperation');
+
+        const { user } = req;
+
+        const result = await execute(user);
+        const isToken = typeof result === 'string';
+
+        return res.status(HttpStatusCode.OK).json(isToken ? { token: result } : result);
+    }
+
+    public async discord(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('discordOperation');
+
+        const { user } = req;
+
+        const result = await execute(user);
+        const isToken = typeof result === 'string';
+
+        return res.status(HttpStatusCode.OK).json(isToken ? { token: result } : result);
+    }
 }

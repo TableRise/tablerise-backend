@@ -56,14 +56,14 @@ export default class Application {
 
         await DatabaseManagement.connect(true)
             .then(() => {
-                this._logger('info', '[Application - Database connection instanciated]');
+                this._logger('info', '[ Application - Database connection instanciated ]');
             })
             .catch(() => {
-                this._logger('error', '[Application - Database connection failed]');
+                this._logger('error', '[ Application - Database connection failed ]');
             });
 
         app.listen(port, () => {
-            this._logger('info', `[Application - Server started in port -> ${port}]`);
+            this._logger('info', `[ Application - Server started in port -> ${port} ]`);
         });
     }
 }

@@ -18,16 +18,14 @@ export default class UpdateUserOperation {
         this._schemaValidator = schemaValidator;
         this._updateUserService = updateUserService;
         this._logger = logger;
+
+        this.execute = this.execute.bind(this);
     }
 
     public async execute({
         userId,
         payload,
     }: UpdateUserPayload): Promise<RegisterUserResponse> {
-        const { details, ...userPayload } = payload;
-        this._schemaValidator.entry(this._usersSchema.userZod, userPayload);
-        this._schemaValidator.entry(this._usersSchema.userDetailZod, details);
-
         const { user, userDetails } = await this._updateUserService.update({
             userId,
             payload,
