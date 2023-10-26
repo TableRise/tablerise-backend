@@ -23,7 +23,7 @@ export default class VerifyEmailService {
                 username: user.nickname,
                 subject: 'Email de verificação - TableRise',
             },
-            email ? email : user.email
+            email || user.email
         );
 
         if (!emailSendResult.success) {
