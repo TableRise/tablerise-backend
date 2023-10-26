@@ -5,6 +5,7 @@ import UsersServices from 'src/services/user/UsersServices';
 import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { GameInfoOptions } from 'src/types/GameInfo';
+import { UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
 
 export default class UsersControllers {
     constructor(
@@ -20,6 +21,7 @@ export default class UsersControllers {
         this.delete = this.delete.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
+        this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.update = this.update.bind(this);
     }
 
@@ -121,6 +123,16 @@ export default class UsersControllers {
             _gameInfo as GameInfoOptions,
             _operation as string
         );
+
+        return res.sendStatus(HttpStatusCode.OK);
+    }
+
+    public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to edit user secret question');
+        const { id } = req.params;
+        const { code, secretQuestion } = req.query;
+
+        await this._service.updateSecretQuestion(id, code as string, secretQuestion as UserSecretQuestion);
 
         return res.sendStatus(HttpStatusCode.OK);
     }

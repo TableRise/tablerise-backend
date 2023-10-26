@@ -10,7 +10,7 @@ import {
     emailUpdatePayload,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail, UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
 import { User, UserTwoFactor, emailUpdateZodSchema } from 'src/schemas/user/usersValidationSchema';
 import {
     postUserDetailsSerializer,
@@ -307,6 +307,27 @@ export default class RegisterServices {
             qrcode: userInfo.twoFactorSecret.qrcode,
             active: userInfo.twoFactorSecret.active,
         };
+    }
+
+    public async updateSecretQuestion(id: string, code: string, payload: UserSecretQuestion): Promise<any> {
+        this._logger('info', 'prepare to update user secretQuestion');
+
+        const user = (await this._model.findOne(id)) as User;
+
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
+        if (user.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-already-active');
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
+        if(!payload.question.length || !payload.answer.length) HttpRequestErrors.throwError('blank-question-or-answer');
+
+        const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });
+        
+        if (!userDetailsInfo) HttpRequestErrors.throwError('user-inexistent');
+
+        userDetailsInfo.secretQuestion = payload;
+        await this._modelDetails.update(userDetailsInfo._id as string, userDetailsInfo);
+        this._logger('info', 'User secretQuestion updated at database');
+
+
     }
 
     public async update(id: string, payload: RegisterUserPayload): Promise<any> {

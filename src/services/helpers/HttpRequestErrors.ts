@@ -18,6 +18,13 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'blank-question-or-answer':
+                throw new HttpRequestErrors({
+                    message: 'SecretQuestion has a blank question or answer',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             case 'email-already-exist':
                 throw new HttpRequestErrors({
                     message: 'Email already exists in database',

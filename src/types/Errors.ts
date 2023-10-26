@@ -12,6 +12,7 @@ export interface Errors {
 }
 
 export type ErrorTypes =
+    | 'blank-question-or-answer'
     | 'email-already-exist'
     | 'tag-already-exist'
     | 'user-inexistent'
