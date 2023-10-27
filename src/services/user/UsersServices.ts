@@ -315,10 +315,11 @@ export default class RegisterServices {
         this._logger('info', 'prepare to update user secretQuestion');
 
         const user = (await this._model.findOne(id)) as User;
-
+        console.log('318', user, code, payload);
         if (!user) HttpRequestErrors.throwError('user-inexistent');
         if (user.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-already-active');
         if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
+        console.log('323', typeof payload);
         if(!payload.question.length || !payload.answer.length) HttpRequestErrors.throwError('blank-question-or-answer');
 
         const [userDetailsInfo] = await this._modelDetails.findAll({ userId: id });

@@ -155,5 +155,13 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err.name).toBe('InternalServerError');
             }
         });
+
+        it('should throw - blank-question-or-answer', () => {
+            try{
+                HttpRequestErrors.throwError('blank-question-or-answer');
+            }catch(error) {
+                
+            }
+         })
     });
 });

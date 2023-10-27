@@ -133,13 +133,13 @@ export default class UsersControllers {
     public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to edit user secret question');
         const { id } = req.params;
-        const { code, secretQuestion } = req.query;
-
-        await this._service.updateSecretQuestion(id, code as string, secretQuestion as UserSecretQuestion);
+        const { code, question } = req.body;
+        console.log('L 137', req.query, question);
+        await this._service.updateSecretQuestion(id, code as string, question as UserSecretQuestion);
 
         return res.sendStatus(HttpStatusCode.OK);
     }
-    
+
     public async getAll(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to get all users');
 
