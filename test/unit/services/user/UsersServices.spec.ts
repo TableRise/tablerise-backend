@@ -2,12 +2,7 @@ import { User } from 'src/schemas/user/usersValidationSchema';
 import logger from '@tablerise/dynamic-logger';
 import UsersServices from 'src/services/user/UsersServices';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
-import {
-    RegisterUserPayload,
-    RegisterUserResponse,
-    emailUpdatePayload,
-    secretQuestionPayload,
-} from 'src/types/Response';
+import { RegisterUserPayload, RegisterUserResponse, emailUpdatePayload } from 'src/types/Response';
 import schema from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
@@ -32,7 +27,7 @@ describe('Services :: User :: UsersServices', () => {
         userResponse: RegisterUserResponse,
         deleteResponse: any,
         emailRequest: emailUpdatePayload,
-        secretQuestionRequest: secretQuestionPayload;
+        secretQuestionRequest: UserSecretQuestion;
 
     const ValidateDataMock = new SchemaValidator();
     const { User, UserDetails } = Database.models;
@@ -1091,7 +1086,7 @@ describe('Services :: User :: UsersServices', () => {
                 try {
                     await userServices.activateSecretQuestion(
                         '65075e05ca9f0d3b2485194f',
-                        wrongSecretQuestionPayload as secretQuestionPayload
+                        wrongSecretQuestionPayload as UserSecretQuestion
                     );
                     expect('it should not be here').toBe(true);
                 } catch (error) {
@@ -1187,6 +1182,7 @@ describe('Services :: User :: UsersServices', () => {
 
     describe('When a user edit secretQuestion', () => {
         let payload: any;
+
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
             userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];

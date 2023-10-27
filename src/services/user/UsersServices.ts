@@ -8,7 +8,6 @@ import {
     RegisterUserResponse,
     TwoFactorSecret,
     emailUpdatePayload,
-    secretQuestionPayload,
     getUserResponse,
 } from 'src/types/Response';
 import { SchemasUserType } from 'src/schemas';
@@ -330,7 +329,7 @@ export default class RegisterServices {
         this._logger('info', 'User secretQuestion updated at database');
     }
 
-    public async activateSecretQuestion(id: string, payload: secretQuestionPayload): Promise<void> {
+    public async activateSecretQuestion(id: string, payload: UserSecretQuestion): Promise<void> {
         this._validate.entry(secretQuestionZodSchema, payload);
         const { question, answer } = payload;
 

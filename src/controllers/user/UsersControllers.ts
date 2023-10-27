@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/services/helpers/HttpStatusCode';
 import { Logger } from 'src/types/Logger';
 import UsersServices from 'src/services/user/UsersServices';
-import { RegisterUserPayload, emailUpdatePayload, secretQuestionPayload } from 'src/types/Response';
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import { GameInfoOptions } from 'src/types/GameInfo';
 import { UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
@@ -150,7 +150,7 @@ export default class UsersControllers {
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
         this._logger('warn', 'Request to activate secret question');
         const { id } = req.params;
-        const payload = req.body as secretQuestionPayload;
+        const payload = req.body as UserSecretQuestion;
 
         await this._service.activateSecretQuestion(id, payload);
         return res.sendStatus(HttpStatusCode.NO_CONTENT);

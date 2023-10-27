@@ -1,6 +1,6 @@
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema'
+import { UserDetail, UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema'
 import { User, UserLogin } from 'src/schemas/user/usersValidationSchema'
-import { RegisterUserPayload, emailUpdatePayload, secretQuestionPayload } from 'src/types/Response'
+import { RegisterUserPayload, emailUpdatePayload } from 'src/types/Response'
 
 
 const userMock: User = {
@@ -62,7 +62,7 @@ const userEmailUpdateMock: emailUpdatePayload = {
     email: 'new-email@email.com'
 }
 
-const activateSecretQuestionMock: secretQuestionPayload = {
+const activateSecretQuestionMock: UserSecretQuestion = {
     question: 'What does the fox say?',
     answer: 'kikiki'
 }
