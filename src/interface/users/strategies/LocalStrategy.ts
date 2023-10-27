@@ -13,6 +13,7 @@ import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
 import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
 
+const ALLOWED_STATUS_TO_LOGIN = ['done', 'wait_to_complete'];
 const LocalStrategy = Local.Strategy;
 
 passport.use(
@@ -69,7 +70,7 @@ passport.use(
                     })
                 );
 
-            if (user[0].inProgress.status !== 'done')
+            if (!ALLOWED_STATUS_TO_LOGIN.includes(user[0].inProgress.status))
                 return done(
                     new HttpRequestErrors({
                         message: 'User status is invalid to perform this operation',
