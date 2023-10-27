@@ -1246,7 +1246,7 @@ describe('Services :: User :: UsersServices', () => {
             });
         });
 
-        describe('When payload has a blank question field', () => {
+        describe('When payload has a wrong code or a blank question field', () => {
             beforeAll(() => {
                 user.twoFactorSecret.active = false;
                 jest.spyOn(User, 'findOne').mockResolvedValue(user);
@@ -1260,7 +1260,8 @@ describe('Services :: User :: UsersServices', () => {
             afterAll(() => {
                 jest.clearAllMocks();
             });
-            it('should return error 400 - BadRequest', async () => {
+
+            it('should return error blank-question-or-answer 400  - BadRequest', async () => {
                 payload = {
                     code: '1447ab' as string,
                     question: { question: {}, answer: {} },
@@ -1270,6 +1271,21 @@ describe('Services :: User :: UsersServices', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).toStrictEqual('SecretQuestion has a blank question or answer');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+
+            it('should return error query-string-incorrect 400 - BadRequest', async () => {
+                payload = {
+                    code: 1447,
+                    question: { question: {}, answer: {} },
+                };
+                try {
+                    await userServices.updateSecretQuestion(user._id as string, payload.code, payload.question);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('Query must be a string');
                     expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
                 }
