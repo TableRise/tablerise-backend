@@ -43,8 +43,11 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/:id/verify`,
-                parameters: [...generateIDParam()],
+                path: `${BASE_PATH}/verify`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'email', type: 'string', required: 'off' }])
+                ],
                 controller: this._usersController.verifyEmail,
                 options: {
                     middlewares: [this._verifyIdMiddleware],

@@ -25,7 +25,7 @@ export default class UsersController {
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('verifyEmailOperation');
         const { id } = req.params;
-        const { email } = req.body;
+        const { email } = req.params;
 
         const result = await execute({ userId: id, email });
         return res.status(HttpStatusCode.NO_CONTENT).json(result);
