@@ -43,13 +43,13 @@ export interface VerifyEmailPayload {
 
 export interface UpdateGameInfoPayload {
     userId: string;
-    newItemId: string;
+    infoId: string;
     targetInfo: 'campaigns' | 'badges' | 'characters';
     operation: 'add' | 'remove';
 }
 
 export interface UpdateGameInfoProcessPayload {
-    newItemId: string;
+    infoId: string;
     targetInfo: 'campaigns' | 'badges' | 'characters';
     gameInfo: {
         campaigns: string[];

@@ -21,19 +21,19 @@ export default class UpdateGameInfoService {
     }
 
     private _addId({
-        newItemId,
+        infoId,
         targetInfo,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
         
         const hasInfo =
-            gameInfo[targetInfo].filter((data) => data === newItemId).length > 0;
+            gameInfo[targetInfo].filter((data) => data === infoId).length > 0;
 
         hasInfo
-            ? gameInfo[targetInfo].push(newItemId)
+            ? gameInfo[targetInfo].push(infoId)
             : new HttpRequestErrors({
-                  message: `ID ${newItemId} was already added to ${targetInfo}`,
+                  message: `ID ${infoId} was already added to ${targetInfo}`,
                   code: HttpStatusCode.BAD_REQUEST,
                   name: 'Invalid Entry',
               });
@@ -42,17 +42,17 @@ export default class UpdateGameInfoService {
     }
 
     private _removeId({
-        newItemId,
+        infoId,
         targetInfo,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'RemoveId - UpdateGameInfoService');
-        const hasInfo = gameInfo[targetInfo].filter((data) => data !== newItemId);
+        const hasInfo = gameInfo[targetInfo].filter((data) => data !== infoId);
 
         gameInfo[targetInfo].length > hasInfo.length
-            ? gameInfo[targetInfo].push(newItemId)
+            ? gameInfo[targetInfo].push(infoId)
             : new HttpRequestErrors({
-                  message: `ID ${newItemId} was never added to ${targetInfo}`,
+                  message: `ID ${infoId} was never added to ${targetInfo}`,
                   code: HttpStatusCode.BAD_REQUEST,
                   name: 'Invalid Entry',
               });
@@ -62,7 +62,7 @@ export default class UpdateGameInfoService {
 
     public async update({
         userId,
-        newItemId,
+        infoId,
         targetInfo,
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
@@ -72,9 +72,9 @@ export default class UpdateGameInfoService {
         let gameInfo = userDetailInDb.gameInfo;
 
         if (operation === 'add')
-            gameInfo = this._addId({ newItemId, targetInfo, gameInfo });
+            gameInfo = this._addId({ infoId, targetInfo, gameInfo });
         if (operation === 'remove')
-            gameInfo = this._removeId({ newItemId, targetInfo, gameInfo });
+            gameInfo = this._removeId({ infoId, targetInfo, gameInfo });
 
         userDetailInDb.gameInfo = gameInfo;
 
@@ -83,6 +83,6 @@ export default class UpdateGameInfoService {
             payload: userDetailInDb
         });
 
-        return `ID ${newItemId} ${operation} with success to ${targetInfo}`;
+        return `ID ${infoId} ${operation} with success to ${targetInfo}`;
     }
 }

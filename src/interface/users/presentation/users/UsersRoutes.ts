@@ -181,7 +181,7 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(3, [
-                        { name: 'newItemId', type: 'string' },
+                        { name: 'infoId', type: 'string' },
                         { name: 'targetInfo', type: 'string' },
                         { name: 'operation', type: 'string' },
                     ]),
@@ -194,7 +194,7 @@ export default class UsersRoutes {
                     authentication: true,
                     tag: 'management',
                     description:
-                        'Route to update user game info. Params - id: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
+                        'Route to update user game info. Params - infoId: expects a user id. Query - id: id to add at the info; info: "badges" | "campaigns" | "characters"; operation: "add" | "remove"',
                 },
             },
             {
