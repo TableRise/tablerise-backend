@@ -1,4 +1,4 @@
-import { UpdateUserOperationContract } from 'src/types/contracts/users/UpdateUser';
+import { UpdateUserOperationContract } from 'src/types/contracts/users/core/UpdateUser';
 import { UpdateUserPayload } from 'src/types/requests/Payload';
 import { RegisterUserResponse } from 'src/types/requests/Response';
 

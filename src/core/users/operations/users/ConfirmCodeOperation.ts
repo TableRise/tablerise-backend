@@ -1,4 +1,4 @@
-import { ConfirmCodeOperationContract } from 'src/types/contracts/users/ConfirmCode';
+import { ConfirmCodeOperationContract } from 'src/types/contracts/users/core/ConfirmCode';
 import { ConfirmCodePayload } from 'src/types/requests/Payload';
 import { ConfirmCodeResponse } from 'src/types/requests/Response';
 

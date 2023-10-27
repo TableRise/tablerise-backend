@@ -1,6 +1,4 @@
-import Facebook from 'passport-facebook'
-
-export const facebookProfileMock: Facebook.Profile = {
+export default {
     id: '6413033402083491',
     displayName: 'John Doe',
     name: {

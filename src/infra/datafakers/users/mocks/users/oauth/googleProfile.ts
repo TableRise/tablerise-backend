@@ -1,6 +1,4 @@
-import Google from 'passport-google-oauth20'
-
-export const googleProfileMock: Google.Profile = {
+export default {
     id: '1128493523316590413556',
     displayName: 'John Doe',
     name: {

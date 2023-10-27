@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import { UpdateGameInfoOperationContract } from 'src/types/contracts/users/UpdateGameInfo';
+import { UpdateGameInfoOperationContract } from 'src/types/contracts/users/core/UpdateGameInfo';
 import { UpdateGameInfoPayload } from 'src/types/requests/Payload';
 
 export default class UpdateGameInfoOperation {

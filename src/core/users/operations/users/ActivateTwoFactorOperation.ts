@@ -1,4 +1,4 @@
-import { ActivateTwoFactorOperationContract } from 'src/types/contracts/users/ActivateTwoFactor';
+import { ActivateTwoFactorOperationContract } from 'src/types/contracts/users/core/ActivateTwoFactor';
 import { TwoFactorResponse } from 'src/types/requests/Response';
 
 export default class ActivateTwoFactorOperation {

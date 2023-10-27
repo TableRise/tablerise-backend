@@ -3,7 +3,7 @@ import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import {
     UpdateEmailServiceContract,
     UserEmail,
-} from 'src/types/contracts/users/UpdateEmail';
+} from 'src/types/contracts/users/core/UpdateEmail';
 import { UpdateEmailPayload } from 'src/types/requests/Payload';
 
 export default class UpdateEmailService {

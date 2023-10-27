@@ -1,4 +1,4 @@
-import { UpdateEmailOperationContract } from 'src/types/contracts/users/UpdateEmail';
+import { UpdateEmailOperationContract } from 'src/types/contracts/users/core/UpdateEmail';
 import { UpdateEmailPayload } from 'src/types/requests/Payload';
 
 export default class UpdateEmailOperation {

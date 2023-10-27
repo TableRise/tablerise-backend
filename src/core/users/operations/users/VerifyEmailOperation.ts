@@ -1,4 +1,4 @@
-import { VerifyEmailOperationContract } from 'src/types/contracts/users/VerifyEmail';
+import { VerifyEmailOperationContract } from 'src/types/contracts/users/core/VerifyEmail';
 import { VerifyEmailPayload } from 'src/types/requests/Payload';
 
 export default class VerifyEmailOperation {

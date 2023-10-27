@@ -1,4 +1,4 @@
-import { DeleteUserOperationContract } from 'src/types/contracts/users/DeleteUser';
+import { DeleteUserOperationContract } from 'src/types/contracts/users/core/DeleteUser';
 
 export default class DeleteUserOperation {
     private readonly _usersRepository;

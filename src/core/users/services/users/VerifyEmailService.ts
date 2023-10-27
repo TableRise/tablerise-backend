@@ -1,6 +1,6 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { VerifyEmailServiceContract } from 'src/types/contracts/users/VerifyEmail';
+import { VerifyEmailServiceContract } from 'src/types/contracts/users/core/VerifyEmail';
 import { VerifyEmailPayload } from 'src/types/requests/Payload';
 
 export default class VerifyEmailService {

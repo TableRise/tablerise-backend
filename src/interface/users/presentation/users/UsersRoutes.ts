@@ -5,7 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/infra/helpers/user/parametersWrapper';
-import mock from 'src/infra/mocks/user';
+import mocks from 'src/infra/datafakers/users/mocks/users';
 import { UsersRoutesContract } from 'src/types/contracts/users/presentation/UsersRoutes';
 
 const BASE_PATH = '/profile';
@@ -63,7 +63,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
                 controller: this._usersController.register,
-                schema: mock.user.userPayload,
+                schema: mocks.userPayload,
                 options: {
                     authentication: false,
                     tag: 'register',
@@ -75,7 +75,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
                 controller: this._usersController.login,
-                schema: mock.user.userLogin,
+                schema: mocks.userLogin,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
                     authentication: false,
@@ -88,7 +88,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.update,
-                schema: mock.user.userUpdatePayload,
+                schema: mocks.userUpdate,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
@@ -160,7 +160,7 @@ export default class UsersRoutes {
                     ]),
                 ],
                 controller: this._usersController.updateEmail,
-                schema: mock.user.userEmailUpdate,
+                schema: mocks.userEmailUpdate,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,

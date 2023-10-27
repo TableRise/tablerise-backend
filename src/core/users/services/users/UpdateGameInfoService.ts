@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import { UpdateGameInfoServiceContract } from 'src/types/contracts/users/UpdateGameInfo';
+import { UpdateGameInfoServiceContract } from 'src/types/contracts/users/core/UpdateGameInfo';
 import {
     UpdateGameInfoPayload,
     UpdateGameInfoProcessPayload,

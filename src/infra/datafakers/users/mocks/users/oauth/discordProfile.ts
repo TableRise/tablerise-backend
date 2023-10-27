@@ -1,6 +1,4 @@
-import Discord from 'passport-discord'
-
-export const discordProfileMock: Discord.Profile = {
+export default {
     id: '784950523351513502',
     username: 'John Doe',
     displayName: '',

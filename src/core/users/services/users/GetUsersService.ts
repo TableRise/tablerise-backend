@@ -1,4 +1,4 @@
-import { GetUsersServiceContract } from 'src/types/contracts/users/GetUsers';
+import { GetUsersServiceContract } from 'src/types/contracts/users/core/GetUsers';
 import { RegisterUserResponsePromise } from 'src/types/requests/Response';
 
 export default class GetUsersService {

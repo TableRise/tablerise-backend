@@ -1,5 +1,5 @@
 import Discord from 'passport-discord';
-import { OAuthOperationContract } from 'src/types/contracts/oauth/OAuth';
+import { OAuthOperationContract } from 'src/types/contracts/users/presentation/oauth/OAuth';
 import { RegisterUserResponse } from 'src/types/requests/Response';
 
 export default class FacebookOperation {
