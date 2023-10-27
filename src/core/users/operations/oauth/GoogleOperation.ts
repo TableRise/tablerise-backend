@@ -9,6 +9,8 @@ export default class GoogleOperation {
     constructor({ oAuthService, logger }: OAuthOperationContract) {
         this._oAuthService = oAuthService;
         this._logger = logger;
+
+        this.execute = this.execute.bind(this);
     }
 
     public async execute(

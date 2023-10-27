@@ -3,7 +3,7 @@ import { ParamName, RouteDeclareParams } from 'src/types/requests/Route';
 export default function generateIDParam(): RouteDeclareParams[] {
     return [
         {
-            name: '_id',
+            name: 'id',
             location: 'path',
             required: true,
             type: 'string',
@@ -23,7 +23,7 @@ export function generateQueryParam(
         params.push({
             name: names[index].name,
             location: 'query',
-            required: names[index].required === 'off' ? false : true,
+            required: names[index].required !== 'off',
             type: names[index].type,
         });
     }

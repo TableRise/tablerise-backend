@@ -1,5 +1,5 @@
 import { GetUsersOperationContract } from 'src/types/contracts/users/GetUsers';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { RegisterUserResponsePromise } from 'src/types/requests/Response';
 
 export default class GetUsersOperation {
     private readonly _getUsersService;
@@ -12,7 +12,7 @@ export default class GetUsersOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(): Promise<RegisterUserResponse[]> {
+    public async execute(): Promise<RegisterUserResponsePromise[]> {
         this._logger('info', 'Execute - GetUsersOperation');
         const users = await this._getUsersService.get();
         return users;

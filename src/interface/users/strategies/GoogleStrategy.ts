@@ -9,7 +9,7 @@ passport.use(
         {
             clientID: (GOOGLE_CLIENT_ID as string) || 'default',
             clientSecret: (GOOGLE_CLIENT_SECRET as string) || 'secret',
-            callbackURL: 'http://localhost:3001/auth/google/callback',
+            callbackURL: 'http://localhost:3001/oauth/google/callback',
             passReqToCallback: true,
             scope: ['profile', 'email'],
         },

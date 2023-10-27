@@ -29,6 +29,11 @@ export default class OAuthService {
         this._userDetailsRepository = usersDetailsRepository;
         this._serializer = serializer;
         this._logger = logger;
+
+        this._login = this._login.bind(this);
+        this.serialize = this.serialize.bind(this);
+        this.enrichment = this.enrichment.bind(this);
+        this.saveUser = this.saveUser.bind(this);
     }
 
     private _login(userInDb: UserInstance, userSerialized: UserInstance): string {
@@ -44,14 +49,16 @@ export default class OAuthService {
         payload: Google.Profile | Facebook.Profile | Discord.Profile
     ): Promise<__UserSerialized | string> {
         this._logger('info', 'Serialize - OAuthService');
-        const userSerialized = this._serializer.postUser(payload);
+        const userExternalSerialized = this._serializer.externalUser(payload);
+
+        const userSerialized = this._serializer.postUser(userExternalSerialized);
         const userDetailsSerialized = this._serializer.postUserDetails({});
 
-        const existentUser = await this._usersRepository.findOne({
+        const existentUser = await this._usersRepository.find({
             email: userSerialized.email,
         });
 
-        if (existentUser) return this._login(existentUser, userSerialized);
+        if (existentUser.length) return this._login(existentUser[0], userSerialized);
 
         return { userSerialized, userDetailsSerialized };
     }

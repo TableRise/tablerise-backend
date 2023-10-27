@@ -1,4 +1,7 @@
 import 'src/interface/users/strategies/GoogleStrategy';
+import 'src/interface/users/strategies/FacebookStrategy';
+import 'src/interface/users/strategies/DiscordStrategy';
+
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import { OAuthRoutesContract } from 'src/types/contracts/oauth/presentation/OAuthRoutes';

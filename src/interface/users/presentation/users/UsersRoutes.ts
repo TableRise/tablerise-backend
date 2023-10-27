@@ -43,7 +43,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/verify`,
+                path: `${BASE_PATH}/:id/verify`,
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'email', type: 'string', required: 'off' }])
