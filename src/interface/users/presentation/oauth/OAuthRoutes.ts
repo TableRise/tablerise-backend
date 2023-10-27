@@ -34,8 +34,8 @@ export default class OAuthRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('google', {
-                            successRedirect: '/auth/google/register',
-                            failureRedirect: '/auth/error',
+                            successRedirect: '/oauth/google/register',
+                            failureRedirect: '/oauth/error',
                         }),
                     ],
                     authentication: false,
@@ -69,8 +69,8 @@ export default class OAuthRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('facebook', {
-                            successRedirect: '/auth/facebook/register',
-                            failureRedirect: '/auth/error',
+                            successRedirect: '/oauth/facebook/register',
+                            failureRedirect: '/oauth/error',
                         }),
                     ],
                     authentication: false,
@@ -104,8 +104,8 @@ export default class OAuthRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('discord', {
-                            successRedirect: '/auth/discord/register',
-                            failureRedirect: '/auth/error',
+                            successRedirect: '/oauth/discord/register',
+                            failureRedirect: '/oauth/error',
                         }),
                     ],
                     authentication: false,
