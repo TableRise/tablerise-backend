@@ -134,7 +134,7 @@ export default class UsersControllers {
         this._logger('warn', 'Request to edit user secret question');
         const { id } = req.params;
         const { code, question } = req.body;
-        console.log('L 137', req.query, question);
+
         await this._service.updateSecretQuestion(id, code as string, question as UserSecretQuestion);
 
         return res.sendStatus(HttpStatusCode.OK);

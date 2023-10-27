@@ -12,7 +12,7 @@ import schema from 'src/schemas';
 import HttpRequestErrors from 'src/services/helpers/HttpRequestErrors';
 import Database from '../../../support/Database';
 import EmailSender from 'src/services/user/helpers/EmailSender';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail, UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import generateNewMongoID from 'src/support/helpers/generateNewMongoID';
 import { postUserDetailsSerializer, postUserSerializer } from 'src/services/user/helpers/userSerializer';
@@ -1180,6 +1180,145 @@ describe('Services :: User :: UsersServices', () => {
                     expect(err.message).toStrictEqual('User does not exist');
                     expect(err.name).toBe('NotFound');
                     expect(err.code).toBe(404);
+                }
+            });
+        });
+    });
+
+    describe('When a user edit secretQuestion', () => {
+        let payload: any;
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        describe('and secretQuestion is sucessfull edited', () => {
+            payload = {
+                code: '1447ab' as string,
+                question: {
+                    question: "It's a Mocked secretQuestion test?",
+                    answer: "Yes it's a mock test",
+                } as UserSecretQuestion,
+            };
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({
+                    ...userDetails,
+                    secretQuestion: payload.question,
+                });
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return the updated user', async () => {
+                await userServices.updateSecretQuestion(user._id as string, payload.code, payload.question);
+                expect(userDetails.secretQuestion).toBe(payload.question);
+            });
+        });
+
+        describe('When userDetails is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([]);
+            });
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserDetailsModelDB - user-inexistent', async () => {
+                try {
+                    await userServices.updateSecretQuestion('ID_NOT_FOUND', payload.code, payload.question);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        describe('When payload has a blank question field', () => {
+            beforeAll(() => {
+                user.twoFactorSecret.active = false;
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({
+                    ...userDetails,
+                    secretQuestion: { question: {}, answer: {} },
+                });
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+            it('should return error 400 - BadRequest', async () => {
+                payload = {
+                    code: '1447ab' as string,
+                    question: { question: {}, answer: {} },
+                };
+                try {
+                    await userServices.updateSecretQuestion(user._id as string, payload.code, payload.question);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('SecretQuestion has a blank question or answer');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
+
+        describe('When user is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserModelDB - user-inexistent', async () => {
+                try {
+                    await userServices.updateSecretQuestion('ID_NOT_FOUND', payload.code, payload.question);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        describe('When 2factor field is active', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+                jest.spyOn(UserDetails, 'update').mockResolvedValue({
+                    ...userDetails,
+                    secretQuestion: { question: {}, answer: {} },
+                });
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+            it('should return error 2fa-alreay-active - BadRequest', async () => {
+                user.twoFactorSecret.active = true;
+                try {
+                    await userServices.updateSecretQuestion(user._id as string, payload.code, payload.question);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('2FA is already enabled for this user');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
                 }
             });
         });

@@ -56,17 +56,15 @@ describe('Edit User SecretQuestion', () => {
 
             const userId: string = userResponse.body._id;
 
-            const code: string = '1447ab';
-
-            const question: UserSecretQuestion = {
-                question: "What does the fox say?",
-                answer: "kikiki"
+            const payload = {
+                code: '1447ab' as string,
+                question: {
+                    question: 'What does the fox say?',
+                    answer: 'kikiki',
+                } as UserSecretQuestion,
             };
 
-            await requester()
-                .patch(`/profile/${userId}/question/update`)
-                .send({ code, question })
-                .expect(HttpStatusCode.OK);
+            await requester().patch(`/profile/${userId}/question/update`).send(payload).expect(HttpStatusCode.OK);
         });
     });
 });

@@ -216,12 +216,9 @@ export const routes = [
             tag: 'management',
         },
     },
-
 ] as routeInstance[];
 
 export default {
     routerExpress: buildRouter(routes, router),
     routesSwagger: routes,
 };
-
-

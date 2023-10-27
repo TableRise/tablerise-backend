@@ -18,7 +18,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('test error');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
     });
@@ -32,7 +32,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('Email already exists in database');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -44,7 +44,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('User with this tag already exists in database');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -56,7 +56,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('User does not exist');
                 expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
-                expect(err.name).toBe('NotFound');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
             }
         });
 
@@ -68,7 +68,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('2FA not enabled for this user');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -80,7 +80,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('2FA is already enabled for this user');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -92,7 +92,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('Two factor code does not match');
                 expect(err.code).toBe(HttpStatusCode.UNAUTHORIZED);
-                expect(err.name).toBe('Unauthorized');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.UNAUTHORIZED));
             }
         });
 
@@ -104,7 +104,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe(ErrorMessage.NOT_FOUND_BY_ID);
                 expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
-                expect(err.name).toBe('NotFound');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
             }
         });
 
@@ -116,7 +116,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('Query must be a string');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -128,7 +128,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('Some problem ocurred in email sending');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -140,7 +140,7 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
                 expect(err).toBeInstanceOf(HttpRequestErrors);
                 expect(err.message).toBe('User status is invalid to perform this operation');
                 expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).toBe('BadRequest');
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
         });
 
@@ -157,11 +157,15 @@ describe('Services :: Helpers :: HttpRequestErrors', () => {
         });
 
         it('should throw - blank-question-or-answer', () => {
-            try{
+            try {
                 HttpRequestErrors.throwError('blank-question-or-answer');
-            }catch(error) {
-                
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).toBeInstanceOf(HttpRequestErrors);
+                expect(err.message).toBe('SecretQuestion has a blank question or answer');
+                expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
             }
-         })
+        });
     });
 });
