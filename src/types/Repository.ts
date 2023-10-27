@@ -3,6 +3,6 @@ export interface QueryObj {
 }
 
 export interface UpdateObj {
-    id: string;
+    query: any;
     payload: any;
 }

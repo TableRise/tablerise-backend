@@ -47,11 +47,11 @@ export default class OAuthService {
         const userSerialized = this._serializer.postUser(payload);
         const userDetailsSerialized = this._serializer.postUserDetails({});
 
-        const existentUser = await this._usersRepository.find({
+        const existentUser = await this._usersRepository.findOne({
             email: userSerialized.email,
         });
 
-        if (existentUser.length) return this._login(existentUser[0], userSerialized);
+        if (existentUser) return this._login(existentUser, userSerialized);
 
         return { userSerialized, userDetailsSerialized };
     }

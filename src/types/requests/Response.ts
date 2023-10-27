@@ -10,6 +10,10 @@ export interface RegisterUserResponse extends UserInstance {
     details: UserDetailInstance;
 }
 
+export interface RegisterUserResponsePromise extends UserInstance {
+    details: Promise<UserDetailInstance>;
+}
+
 export interface ConfirmCodeResponse {
     status: string;
 }

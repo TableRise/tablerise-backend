@@ -31,11 +31,11 @@ export default class AuthorizationMiddleware {
 
         const { userId } = req.user as JWTResponse;
 
-        const userDetail = await this._usersDetailsRepository.find({ userId });
+        const userDetail = await this._usersDetailsRepository.findOne({ userId });
 
-        if (!userDetail.length) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetail) HttpRequestErrors.throwError('user-inexistent');
 
-        if (userDetail[0].role === 'admin') {
+        if (userDetail.role === 'admin') {
             next();
         } else {
             HttpRequestErrors.throwError('unauthorized');
@@ -52,7 +52,7 @@ export default class AuthorizationMiddleware {
         const { id } = req.params;
         const { token } = req.query;
 
-        const user = await this._usersRepository.findOne(id);
+        const user = await this._usersRepository.findOne({ userId: id });
 
         if (!user) HttpRequestErrors.throwError('user-inexistent');
 

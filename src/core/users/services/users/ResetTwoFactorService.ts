@@ -40,7 +40,7 @@ export default class ResetTwoFactorService {
 
     public async reset({ userId, code }: ConfirmCodePayload): Promise<TwoFactorResponse> {
         this._logger('info', 'Reset - ResetTwoFactorService');
-        const userInDb = await this._usersRepository.findOne(userId);
+        const userInDb = await this._usersRepository.findOne({ userId });
 
         if (!userInDb.twoFactorSecret.active) {
             this._logger(
@@ -57,7 +57,7 @@ export default class ResetTwoFactorService {
 
         const userWithTwoFactor = await this._generateTwoFactor(userInDb);
         await this._usersRepository.update({
-            id: userWithTwoFactor.userId,
+            query: { userId: userWithTwoFactor.userId },
             payload: userWithTwoFactor,
         });
 

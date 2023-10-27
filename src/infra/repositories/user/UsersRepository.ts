@@ -34,28 +34,26 @@ export default class UsersRepository {
         );
     }
 
-    public async findOne(id: string): Promise<UserInstance> {
-        this._logger('info', `FindOne - UsersRepository - Params: ${id}`);
-
-        const request = await this._model.findOne({ userId: id });
-
-        if (!request) HttpRequestErrors.throwError('user-inexistent');
-
-        return this._formatAndSerializeData(request);
-    }
-
-    public async update({ id, payload }: UpdateObj): Promise<UserInstance> {
-        this._logger('info', `Update - UsersRepository - Params: ${id}`);
-
-        const request = await this._model.update({ userId: id }, payload);
+    public async findOne(query: any = {}): Promise<UserInstance> {
+        this._logger('info', 'FindOne - UsersRepository');
+        const request = await this._model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }
 
-    public async delete(id: string): Promise<void> {
-        this._logger('warn', `Delete - UsersRepository - Params: ${id}`);
-        await this._model.delete({ userId: id });
+    public async update({ query, payload }: UpdateObj): Promise<UserInstance> {
+        this._logger('info', 'Update - UsersRepository');
+        const request = await this._model.update(query, payload);
+
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
+
+        return this._formatAndSerializeData(request);
+    }
+
+    public async delete(query: any): Promise<void> {
+        this._logger('warn', 'Delete - UsersRepository');
+        await this._model.delete(query);
     }
 }

@@ -66,11 +66,11 @@ export default class CreateUserService {
         const userSerialized = this._serializer.postUser(userMain);
         const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
 
-        const userInDb = await this._usersRepository.find({
+        const userInDb = await this._usersRepository.findOne({
             email: userSerialized.email,
         });
 
-        if (userInDb.length) {
+        if (userInDb) {
             this._logger('error', 'Email already exists - CreateUserService');
             HttpRequestErrors.throwError('email-already-exist');
         }
@@ -81,12 +81,12 @@ export default class CreateUserService {
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this._usersRepository.find({
+        const tagInDb = await this._usersRepository.findOne({
             tag,
             nickname: user.nickname,
         });
 
-        if (tagInDb.length) {
+        if (tagInDb) {
             this._logger(
                 'error',
                 'User with this tag already exists - CreateUserService'
@@ -146,7 +146,10 @@ export default class CreateUserService {
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 
-        await this._usersRepository.update({ id: userSaved.userId, payload: userSaved });
+        await this._usersRepository.update({
+            query: { userId: userSaved.userId },
+            payload: userSaved
+        });
 
         return { userSaved, userDetailsSaved };
     }

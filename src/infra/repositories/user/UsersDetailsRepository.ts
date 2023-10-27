@@ -36,28 +36,26 @@ export default class UsersDetailsRepository {
         );
     }
 
-    public async findOne(id: string): Promise<UserDetailInstance> {
-        this._logger('info', `FindOne - UsersDetailsRepository - Params: ${id}`);
-
-        const request = await this._model.findOne({ userDetailId: id });
-
-        if (!request) HttpRequestErrors.throwError('user-inexistent');
-
-        return this._formatAndSerializeData(request);
-    }
-
-    public async update({ id, payload }: UpdateObj): Promise<UserDetailInstance> {
-        this._logger('info', `Update - UsersDetailsRepository - Params: ${id}`);
-
-        const request = await this._model.update({ userDetailId: id }, payload);
+    public async findOne(query: any = {}): Promise<UserDetailInstance> {
+        this._logger('info', 'FindOne - UsersDetailsRepository');
+        const request = await this._model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
         return this._formatAndSerializeData(request);
     }
 
-    public async delete(id: string): Promise<void> {
-        this._logger('warn', `Delete - UsersDetailsRepository - Params: ${id}`);
-        await this._model.delete({ userDetailId: id });
+    public async update({ query, payload }: UpdateObj): Promise<UserDetailInstance> {
+        this._logger('info', 'Update - UsersDetailsRepository');
+        const request = await this._model.update(query, payload);
+
+        if (!request) HttpRequestErrors.throwError('user-inexistent');
+
+        return this._formatAndSerializeData(request);
+    }
+
+    public async delete(query: any = {}): Promise<void> {
+        this._logger('warn', 'Delete - UsersDetailsRepository');
+        await this._model.delete(query);
     }
 }

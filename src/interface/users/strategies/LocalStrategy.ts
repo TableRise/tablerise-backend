@@ -44,9 +44,9 @@ passport.use(
                     })
                 );
 
-            const user = await container.resolve('usersRepository').find({ email });
+            const user = await container.resolve('usersRepository').findOne({ email });
 
-            if (!user.length)
+            if (!user)
                 return done(
                     new HttpRequestErrors({
                         message: 'Incorrect email or password. Try again.',

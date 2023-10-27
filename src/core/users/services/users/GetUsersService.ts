@@ -1,6 +1,5 @@
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { GetUsersServiceContract } from 'src/types/contracts/users/GetUsers';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { RegisterUserResponsePromise } from 'src/types/requests/Response';
 
 export default class GetUsersService {
     private readonly _logger;
@@ -19,23 +18,21 @@ export default class GetUsersService {
         this.get = this.get.bind(this);
     }
 
-    public async get(): Promise<RegisterUserResponse[]> {
+    public async get(): Promise<RegisterUserResponsePromise[]> {
         this._logger('info', 'Get - GetUsersService');
         const userInDb = await this._usersRepository.find({});
-        const userDetailInDb = await this._usersDetailsRepository.find({});
+        const response: RegisterUserResponsePromise[] = [];
 
-        const formatResponse = userInDb.map((user) => {
-            const userDetail = userDetailInDb.find((det) => det.userId === user.userId);
-
-            if (!userDetail)
-                HttpRequestErrors.throwError('user-database-critical-errror');
-
-            return {
+        userInDb.forEach((user) => {
+            const userDetailInDb = this._usersDetailsRepository.findOne({ userId: user.userId });
+            response.push({
                 ...user,
-                details: userDetail,
-            };
+                details: userDetailInDb
+            });
         });
 
-        return formatResponse;
+        await Promise.all(response);
+    
+        return response;
     }
 }

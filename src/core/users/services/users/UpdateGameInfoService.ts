@@ -67,7 +67,7 @@ export default class UpdateGameInfoService {
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Update - UpdateGameInfoService');
-        const [userDetailInDb] = await this._usersDetailsRepository.find({ userId });
+        const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
 
         let gameInfo = userDetailInDb.gameInfo;
 
@@ -78,7 +78,10 @@ export default class UpdateGameInfoService {
 
         userDetailInDb.gameInfo = gameInfo;
 
-        await this._usersDetailsRepository.update({ id: userId, payload: userDetailInDb });
+        await this._usersDetailsRepository.update({
+            query: { userDetailId: userDetailInDb.userDetailId },
+            payload: userDetailInDb
+        });
 
         return `ID ${newItemId} ${operation} with success to ${targetInfo}`;
     }

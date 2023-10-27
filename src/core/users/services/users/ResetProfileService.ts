@@ -13,14 +13,14 @@ export default class ResetProfileService {
 
     public async reset(userId: string): Promise<void> {
         this._logger('info', 'Reset - ResetProfileService');
-        const [userDetailInDb] = await this._userDetailsRepository.find({ userId });
+        const userDetailInDb = await this._userDetailsRepository.findOne({ userId });
 
         userDetailInDb.gameInfo.badges = [];
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
         await this._userDetailsRepository.update({
-            id: userDetailInDb.userDetailId,
+            query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
     }

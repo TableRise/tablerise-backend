@@ -70,8 +70,8 @@ export default class UpdateUserService {
 
         this._validateUpdateData({ user, userDetails: details });
 
-        const userInDb = await this._usersRepository.findOne(userId);
-        const [userDetailsInDb] = await this._usersDetailsRepository.find({ userId });
+        const userInDb = await this._usersRepository.findOne({ userId });
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
         const newUserToSave = {
             ...userInDb,
@@ -91,11 +91,12 @@ export default class UpdateUserService {
 
     public async save({ user, userDetails }: __FullUser): Promise<RegisterUserResponse> {
         const newUser = await this._usersRepository.update({
-            id: user.userId,
+            query: { userId: user.userId },
             payload: user,
         });
+
         const newUserDetails = await this._usersDetailsRepository.update({
-            id: userDetails.userDetailId,
+            query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
 

@@ -44,14 +44,14 @@ export default class VerifyEmailService {
 
     public async sendEmail({ userId, email }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - VerifyEmailService');
-        const userInDb = await this._usersRepository.findOne(userId);
+        const userInDb = await this._usersRepository.findOne({ userId });
 
         const userToUpdate = await this._send(userInDb, email);
 
         userToUpdate.updatedAt = new Date().toISOString();
 
         await this._usersRepository.update({
-            id: userInDb.userId,
+            query: { userId: userInDb.userId },
             payload: userToUpdate,
         });
     }

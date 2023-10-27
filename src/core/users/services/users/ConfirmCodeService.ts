@@ -26,9 +26,11 @@ export default class ConfirmCodeService {
 
         userInDb.inProgress.status = 'done';
 
-        await this._usersRepository.update({ id: userInDb.userId, payload: userInDb });
+        await this._usersRepository.update({
+            query: { userId: userInDb.userId },
+            payload: userInDb
+        });
 
-        this._logger('info', 'Code valid and processed');
         return { status: userInDb.inProgress.status };
     }
 }

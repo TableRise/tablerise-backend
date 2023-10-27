@@ -44,7 +44,7 @@ export default class ActivateTwoFactorService {
 
     public async activate(userId: string): Promise<TwoFactorResponse> {
         this._logger('info', 'Activate - ActivateTwoFactorService');
-        const userInDb = await this._usersRepository.findOne(userId);
+        const userInDb = await this._usersRepository.findOne({ userId });
 
         if (userInDb.twoFactorSecret.active) {
             this._logger(
@@ -55,19 +55,20 @@ export default class ActivateTwoFactorService {
         }
 
         const userWithTwoFactor = await this._generateTwoFactor(userInDb);
-        const [userDetailInDb] = await this._usersDetailsRepository.find({
+        const userDetailInDb = await this._usersDetailsRepository.findOne({
             userId: userInDb.userId,
         });
 
         userDetailInDb.secretQuestion = null;
 
         await this._usersRepository.update({
-            id: userInDb.userId,
-            payload: userWithTwoFactor,
+            query: { userId: userInDb.userId },
+            payload: userWithTwoFactor
         });
+
         await this._usersDetailsRepository.update({
-            id: userDetailInDb.userDetailId,
-            payload: userDetailInDb,
+            query: { userDetailId: userDetailInDb.userDetailId },
+            payload: userDetailInDb
         });
 
         return {
