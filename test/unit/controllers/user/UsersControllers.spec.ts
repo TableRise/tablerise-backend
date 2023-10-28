@@ -5,7 +5,7 @@ import UsersControllers from 'src/controllers/user/UsersControllers';
 import SchemaValidator from 'src/services/helpers/SchemaValidator';
 import schema from 'src/schemas';
 import { RegisterUserPayload, RegisterUserResponse } from 'src/types/Response';
-import { UserDetail } from 'src/schemas/user/userDetailsValidationSchema';
+import { UserDetail, UserSecretQuestion } from 'src/schemas/user/userDetailsValidationSchema';
 import { User } from 'src/schemas/user/usersValidationSchema';
 import GeneralDataFaker, { UserFaker, UserDetailFaker } from '../../../support/datafakers/GeneralDataFaker';
 import Database from '../../../support/Database';
@@ -360,6 +360,33 @@ describe('Controllers :: User :: UsersControllers', () => {
             request.params = { id: utils.newUUID() };
             await userControllers.resetProfile(request, response);
             expect(response.sendStatus).toHaveBeenCalledWith(204);
+        });
+    });
+
+    describe('When a request is made to edit a secret question', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'updateSecretQuestion').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            const payload = {
+                code: '1447ab' as string,
+                question: {
+                    question: 'What does the fox say?',
+                    answer: 'kikiki',
+                } as UserSecretQuestion,
+            };
+
+            request.body = payload;
+            request.params = { id: user._id as string };
+
+            await userControllers.updateSecretQuestion(request, response);
+            expect(response.sendStatus).toHaveBeenCalledWith(HttpStatusCode.OK);
         });
     });
 });

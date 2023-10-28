@@ -163,6 +163,26 @@ export const routes = [
     },
     {
         method: 'patch',
+        path: `${BASE_PATH}/:id/question/update`,
+        controller: controllers.updateSecretQuestion,
+        parameters: [
+            ...generateIDParam(),
+            ...generateQueryParam(3, [
+                { name: 'id', type: 'string' },
+                { name: 'code', type: 'string' },
+                { name: 'question', type: 'UserSecretQuestion' },
+            ]),
+        ],
+        options: {
+            description:
+                'Route to update user secretQuestion. Params - id: expects a user id. Query - code: email code for user verification; secretQuestion: { question: String, answer:string}',
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
+    {
+        method: 'patch',
         path: `${BASE_PATH}/:id/update/game-info`,
         controller: controllers.updateGameInfo,
         parameters: [
