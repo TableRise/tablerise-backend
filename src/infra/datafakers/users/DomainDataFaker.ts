@@ -2,7 +2,7 @@ import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import { UserDetailJSONPayload, UserJSONPayload } from 'src/types/datafakers/users/Payload';
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import generateUsersFaker from './generators/generateUsersFaker';
-import generateUserDetailsFaker from './generators/generateuserDetailsFaker';
+import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
 
 function generateUsersJSON({ count, userId }: UserJSONPayload = { count: 1 }): UserInstance[] {
     return generateUsersFaker({ count, userId });

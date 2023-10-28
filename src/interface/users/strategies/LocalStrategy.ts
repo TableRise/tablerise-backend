@@ -58,7 +58,7 @@ passport.use(
 
             const isPasswordValid = await SecurePasswordHandler.comparePassword(
                 password,
-                user[0].password
+                user.password
             );
 
             if (!isPasswordValid)
@@ -70,7 +70,7 @@ passport.use(
                     })
                 );
 
-            if (!ALLOWED_STATUS_TO_LOGIN.includes(user[0].inProgress.status))
+            if (!ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status))
                 return done(
                     new HttpRequestErrors({
                         message: 'User status is invalid to perform this operation',
@@ -79,7 +79,7 @@ passport.use(
                     })
                 );
 
-            const token = JWTGenerator.generate(user[0]);
+            const token = JWTGenerator.generate(user);
 
             done(null, token);
         }

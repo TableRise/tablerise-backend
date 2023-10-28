@@ -41,6 +41,11 @@ export interface VerifyEmailPayload {
     email: string;
 }
 
+export interface ConfirmTokenPayload {
+    userId: string;
+    token: string;
+}
+
 export interface UpdateGameInfoPayload {
     userId: string;
     infoId: string;

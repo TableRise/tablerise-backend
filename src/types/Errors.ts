@@ -31,4 +31,5 @@ export type ErrorTypes =
     | 'invalid-user-status'
     | 'user-database-critical-errror'
     | 'query-fail'
+    | 'info-already-added'
     | 'unauthorized';

@@ -1,11 +1,11 @@
 import { ResetProfileServiceContract } from 'src/types/contracts/users/core/ResetProfile';
 
 export default class ResetProfileService {
-    private readonly _userDetailsRepository;
+    private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ userDetailsRepository, logger }: ResetProfileServiceContract) {
-        this._userDetailsRepository = userDetailsRepository;
+    constructor({ usersDetailsRepository, logger }: ResetProfileServiceContract) {
+        this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 
         this.reset = this.reset.bind(this);
@@ -13,13 +13,13 @@ export default class ResetProfileService {
 
     public async reset(userId: string): Promise<void> {
         this._logger('info', 'Reset - ResetProfileService');
-        const userDetailInDb = await this._userDetailsRepository.findOne({ userId });
+        const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
 
         userDetailInDb.gameInfo.badges = [];
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
-        await this._userDetailsRepository.update({
+        await this._usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });

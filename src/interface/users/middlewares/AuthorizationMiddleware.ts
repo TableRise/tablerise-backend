@@ -47,7 +47,7 @@ export default class AuthorizationMiddleware {
         _res: Response,
         next: NextFunction
     ): Promise<void> {
-        this._logger('warn', '[TwoFactor - AuthorizationMiddleware]');
+        this._logger('warn', 'TwoFactor - AuthorizationMiddleware');
 
         const { id } = req.params;
         const { token } = req.query;

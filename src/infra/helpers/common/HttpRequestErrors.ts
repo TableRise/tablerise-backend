@@ -18,6 +18,12 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'info-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Info already added',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
             case 'query-fail':
                 throw new HttpRequestErrors({
                     message: 'Query was not found in database',

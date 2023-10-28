@@ -1,5 +1,4 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import { UpdateGameInfoServiceContract } from 'src/types/contracts/users/core/UpdateGameInfo';
 import {
     UpdateGameInfoPayload,
@@ -31,13 +30,9 @@ export default class UpdateGameInfoService {
             gameInfo[targetInfo].filter((data) => data === infoId).length > 0;
 
         hasInfo
-            ? gameInfo[targetInfo].push(infoId)
-            : new HttpRequestErrors({
-                  message: `ID ${infoId} was already added to ${targetInfo}`,
-                  code: HttpStatusCode.BAD_REQUEST,
-                  name: 'Invalid Entry',
-              });
-
+            ? HttpRequestErrors.throwError('info-already-added')
+            : gameInfo[targetInfo].push(infoId);
+        
         return gameInfo;
     }
 
@@ -49,13 +44,7 @@ export default class UpdateGameInfoService {
         this._logger('info', 'RemoveId - UpdateGameInfoService');
         const hasInfo = gameInfo[targetInfo].filter((data) => data !== infoId);
 
-        gameInfo[targetInfo].length > hasInfo.length
-            ? gameInfo[targetInfo].push(infoId)
-            : new HttpRequestErrors({
-                  message: `ID ${infoId} was never added to ${targetInfo}`,
-                  code: HttpStatusCode.BAD_REQUEST,
-                  name: 'Invalid Entry',
-              });
+        gameInfo[targetInfo] = hasInfo;
 
         return gameInfo;
     }

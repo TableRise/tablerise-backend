@@ -35,9 +35,9 @@ export default class UpdateEmailService {
         if (userInDb.inProgress.code !== code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const emailAlreadyExist = await this._usersRepository.findOne({ email });
+        const emailAlreadyExist = await this._usersRepository.find({ email });
 
-        if (emailAlreadyExist) HttpRequestErrors.throwError('email-already-exist');
+        if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
         const emailChanged = this._changeEmail({ user: userInDb, email });
 

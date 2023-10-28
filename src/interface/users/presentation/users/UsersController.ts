@@ -25,7 +25,7 @@ export default class UsersController {
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('verifyEmailOperation');
         const { id } = req.params;
-        const { email } = req.params;
+        const { email } = req.query;
 
         const result = await execute({ userId: id, email });
         return res.status(HttpStatusCode.NO_CONTENT).json(result);
@@ -86,9 +86,9 @@ export default class UsersController {
         const { execute } = container.resolve('updateGameInfoOperation');
 
         const { id } = req.params;
-        const { newItemId, targetInfo, operation } = req.query;
+        const { infoId, targetInfo, operation } = req.query;
 
-        const result = await execute({ userId: id, newItemId, targetInfo, operation });
+        const result = await execute({ userId: id, infoId, targetInfo, operation });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

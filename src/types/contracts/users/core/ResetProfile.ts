@@ -8,6 +8,6 @@ export interface ResetProfileOperationContract {
 }
 
 export interface ResetProfileServiceContract {
-    userDetailsRepository: UsersDetailsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }

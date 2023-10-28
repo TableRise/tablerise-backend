@@ -17,7 +17,7 @@ export default class VerifyEmailService {
     private async _send(user: UserInstance, email: string): Promise<UserInstance> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
-
+        
         const emailSendResult = await this._emailSender.send(
             {
                 username: user.nickname,

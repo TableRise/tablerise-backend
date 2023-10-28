@@ -1,5 +1,6 @@
+import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { GetUsersServiceContract } from 'src/types/contracts/users/core/GetUsers';
-import { RegisterUserResponsePromise } from 'src/types/requests/Response';
+import { RegisterUserResponse } from 'src/types/requests/Response';
 
 export default class GetUsersService {
     private readonly _logger;
@@ -18,16 +19,18 @@ export default class GetUsersService {
         this.get = this.get.bind(this);
     }
 
-    public async get(): Promise<RegisterUserResponsePromise[]> {
+    public async get(): Promise<RegisterUserResponse[]> {
         this._logger('info', 'Get - GetUsersService');
         const userInDb = await this._usersRepository.find({});
-        const response: RegisterUserResponsePromise[] = [];
+        const userDetailInDb = await this._usersDetailsRepository.find({});
+        const response: RegisterUserResponse[] = [];
 
         userInDb.forEach((user) => {
-            const userDetailInDb = this._usersDetailsRepository.findOne({ userId: user.userId });
+            const details = userDetailInDb.find((det) => det.userId === user.userId);
+            
             response.push({
                 ...user,
-                details: userDetailInDb
+                details: details as UserDetailInstance
             });
         });
 
