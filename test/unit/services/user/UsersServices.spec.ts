@@ -1003,6 +1003,56 @@ describe('Services :: User :: UsersServices', () => {
         });
     });
 
+    describe('When a user requested', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        describe('and is sucessfull', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue({ _doc: user });
+                jest.spyOn(UserDetails, 'findAll').mockResolvedValue([userDetails]);
+
+                userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return all users', async () => {
+                const response = await userServices.getUser(user._id as string);
+
+                expect(response).toStrictEqual(userResponse);
+            });
+        });
+
+        describe('and the params is incorrect - user id', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            it('should throw 404 error - user do not exist', async () => {
+                try {
+                    await userServices.getUser(user._id as string);
+                    expect('it should not be here').toBe(true);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe('NotFound');
+                    expect(err.code).toBe(404);
+                }
+            });
+        });
+    });
+
     describe('When activate secret question', () => {
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {

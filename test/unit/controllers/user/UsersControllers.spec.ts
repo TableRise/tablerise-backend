@@ -327,6 +327,43 @@ describe('Controllers :: User :: UsersControllers', () => {
         });
     });
 
+    describe('When a request is get a user', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker).map((user) => {
+                delete user._id;
+                delete user.tag;
+                delete user.providerId;
+                delete user.inProgress;
+
+                return user;
+            })[0];
+
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker).map((detail) => {
+                delete detail._id;
+                delete detail.userId;
+
+                return detail;
+            })[0];
+
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            userResponse = { ...user, details: userDetails } as RegisterUserResponse;
+
+            response.status = jest.fn().mockReturnValue(response);
+            response.json = jest.fn().mockReturnValue({});
+
+            jest.spyOn(userServices, 'getUser').mockResolvedValue(userResponse);
+        });
+
+        it('should return correct status 200', async () => {
+            await userControllers.getUser(request, response);
+
+            expect(response.status).toHaveBeenCalledWith(200);
+            expect(response.json).toHaveBeenCalledWith(userResponse);
+        });
+    });
+
     describe('When a request is made to activate secret question', () => {
         beforeAll(() => {
             userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
