@@ -50,8 +50,6 @@ describe('Post user in database', () => {
     describe('When delete a user', () => {
         beforeAll(() => {
             jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({ success: true, verificationCode: 'XRFS78' });
-            // jest.spyOn(JWTGenerator, 'verify').mockReturnValue(true);
-            // jest.spyOn(AuthorizationMiddleware.prototype, 'checkAdminRole').mockResolvedValue();
         });
 
         afterAll(() => {
