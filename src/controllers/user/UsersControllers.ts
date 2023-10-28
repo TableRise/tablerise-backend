@@ -24,6 +24,7 @@ export default class UsersControllers {
         this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.update = this.update.bind(this);
         this.getAll = this.getAll.bind(this);
+        this.getUser = this.getUser.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
     }
@@ -144,6 +145,14 @@ export default class UsersControllers {
         this._logger('warn', 'Request to get all users');
 
         const request = await this._service.getAll();
+        return res.status(HttpStatusCode.OK).json(request);
+    }
+
+    public async getUser(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to get user');
+        const { id } = req.params;
+
+        const request = await this._service.getUser(id);
         return res.status(HttpStatusCode.OK).json(request);
     }
 

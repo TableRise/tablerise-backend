@@ -442,4 +442,17 @@ export default class RegisterServices {
         await this._modelDetails.update(userDetails._id as string, userDetails);
         this._logger('info', `Profile of user ${id} reseted`);
     }
+
+    public async getUser(id: string): Promise<getUserResponse> {
+        this._logger('info', 'request to get user from database');
+
+        const user = (await this._model.findOne(id)) as User & { _doc: User };
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
+        const [usersDetails] = await this._modelDetails.findAll({ userId: id });
+
+        return {
+            ...user._doc,
+            details: usersDetails,
+        };
+    }
 }

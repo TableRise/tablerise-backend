@@ -9,28 +9,17 @@ import logger from '@tablerise/dynamic-logger';
 
 describe('Post user in database', () => {
     const userInstanceMock = mock.user.user;
-    const userInstanceMock2 = { ...mock.user.user };
     const userDetailsInstanceMock = mock.user.userDetails;
-    const userDetailsInstanceMock2 = { ...mock.user.userDetails };
 
     userInstanceMock.email = `${Math.random()}${userInstanceMock.email}`;
-    userInstanceMock2.email = `${Math.random()}${userInstanceMock.email}`;
 
     const { providerId: _, createdAt: _1, updatedAt: _2, tag: _4, ...userInstanceMockPayload } = userInstanceMock;
-    const { providerId: _0, createdAt: _3, updatedAt: _7, tag: _8, ...userInstanceMockPayload2 } = userInstanceMock2;
     const { userId: _5, ...userDetailsInstanceMockPayload } = userDetailsInstanceMock;
-    const { userId: _6, ...userDetailsInstanceMockPayload2 } = userDetailsInstanceMock2;
 
     const userPayload = {
         ...userInstanceMockPayload,
         twoFactorSecret: { active: true },
         details: userDetailsInstanceMockPayload,
-    };
-
-    const userPayload2 = {
-        ...userInstanceMockPayload2,
-        twoFactorSecret: { active: true },
-        details: { ...userDetailsInstanceMockPayload2, role: 'admin' },
     };
 
     beforeAll(() => {
@@ -61,19 +50,13 @@ describe('Post user in database', () => {
                 .send(userPayload)
                 .expect(HttpStatusCode.CREATED);
 
-            const userResponse2 = await requester()
-                .post('/profile/register')
-                .send(userPayload2)
-                .expect(HttpStatusCode.CREATED);
-
             const userId1: string = userResponse1.body._id;
-            const userId2: string = userResponse2.body._id;
 
-            await requester().patch(`/profile/${userId2}/confirm?code=XRFS78`).expect(HttpStatusCode.OK);
+            await requester().patch(`/profile/${userId1}/confirm?code=XRFS78`).expect(HttpStatusCode.OK);
 
             const loginPayload = {
-                email: userPayload2.email,
-                password: userPayload2.password,
+                email: userPayload.email,
+                password: userPayload.password,
             };
 
             const loginResponse = await requester().post('/profile/login').send(loginPayload).expect(HttpStatusCode.OK);
@@ -81,16 +64,20 @@ describe('Post user in database', () => {
             const token: string = loginResponse.body.token;
 
             const response = await requester()
-                .get(`/profile/all`)
+                .get(`/profile/${userId1}`)
                 .set('Authorization', `Bearer ${token}`)
                 .expect(HttpStatusCode.OK);
 
-            const user1 = response.body.find((res: { _id: string }) => res._id === userId1);
-            const user2 = response.body.find((res: { _id: string }) => res._id === userId2);
-
             expect(response.status).toBe(200);
-            expect(user1).not.toBe(undefined);
-            expect(user2).not.toBe(undefined);
+            expect(response.body).toHaveProperty('_id');
+            expect(response.body).toHaveProperty('tag');
+            expect(response.body).toHaveProperty('createdAt');
+            expect(response.body).toHaveProperty('updatedAt');
+            expect(response.body).toHaveProperty('details');
+            expect(response.body).toHaveProperty('password');
+            expect(response.body.details).toHaveProperty('userId');
+            expect(response.body.email).toBe(userPayload.email);
+            expect(response.body.nickname).toBe(userPayload.nickname);
         });
     });
 });
