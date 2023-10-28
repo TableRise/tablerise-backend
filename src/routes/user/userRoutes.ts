@@ -54,6 +54,17 @@ export const routes = [
         },
     },
     {
+        method: 'get',
+        path: `${BASE_PATH}/:id`,
+        parameters: [...generateIDParam()],
+        controller: controllers.getUser,
+        options: {
+            middlewares: [passport.authenticate('bearer', { session: false })],
+            authentication: false,
+            tag: 'management',
+        },
+    },
+    {
         method: 'post',
         path: `${BASE_PATH}/register`,
         controller: controllers.register,
