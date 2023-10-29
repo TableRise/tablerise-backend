@@ -1,4 +1,4 @@
-import { ResetProfileServiceContract } from 'src/types/contracts/users/core/ResetProfile';
+import { ResetProfileServiceContract } from 'src/types/users/contracts/core/ResetProfile';
 
 export default class ResetProfileService {
     private readonly _usersDetailsRepository;

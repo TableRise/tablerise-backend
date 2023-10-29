@@ -4,7 +4,7 @@ import 'src/interface/users/strategies/DiscordStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import { OAuthRoutesContract } from 'src/types/contracts/users/presentation/oauth/OAuthRoutes';
+import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
 
 const BASE_PATH = '/oauth';
 

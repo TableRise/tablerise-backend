@@ -5,7 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
 import helmet from 'helmet';
-import { ApplicationContract } from 'src/types/contracts/Application';
+import { ApplicationContract } from 'src/types/users/contracts/Application';
 import DatabaseManagement from '@tablerise/database-management';
 
 export default class Application {

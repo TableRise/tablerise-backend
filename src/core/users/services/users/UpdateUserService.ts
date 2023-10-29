@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import getErrorName from 'src/infra/helpers/common/getErrorName';
-import { UpdateUserServiceContract } from 'src/types/contracts/users/core/UpdateUser';
+import { UpdateUserServiceContract } from 'src/types/users/contracts/core/UpdateUser';
 import { UpdateUserPayload, __FullUserPayload } from 'src/types/requests/Payload';
 import { RegisterUserResponse, __FullUser } from 'src/types/requests/Response';
 

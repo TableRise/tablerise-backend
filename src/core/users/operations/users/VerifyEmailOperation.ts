@@ -1,4 +1,4 @@
-import { VerifyEmailOperationContract } from 'src/types/contracts/users/core/VerifyEmail';
+import { VerifyEmailOperationContract } from 'src/types/users/contracts/core/VerifyEmail';
 import { VerifyEmailPayload } from 'src/types/requests/Payload';
 
 export default class VerifyEmailOperation {
@@ -12,8 +12,8 @@ export default class VerifyEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, email }: VerifyEmailPayload): Promise<void> {
+    public async execute({ email, newEmail }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'Execute - VerifyEmailOperation');
-        await this._verifyEmailService.sendEmail({ userId, email });
+        await this._verifyEmailService.sendEmail({ email, newEmail });
     }
 }

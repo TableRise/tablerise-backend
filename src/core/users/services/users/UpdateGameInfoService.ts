@@ -1,5 +1,5 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { UpdateGameInfoServiceContract } from 'src/types/contracts/users/core/UpdateGameInfo';
+import { UpdateGameInfoServiceContract } from 'src/types/users/contracts/core/UpdateGameInfo';
 import {
     UpdateGameInfoPayload,
     UpdateGameInfoProcessPayload,

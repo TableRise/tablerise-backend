@@ -24,16 +24,25 @@ export default class UsersController {
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('verifyEmailOperation');
-        const { id } = req.params;
-        const { email } = req.query;
 
-        const result = await execute({ userId: id, email });
+        const { email, newEmail } = req.query;
+
+        const result = await execute({ email, newEmail });
         return res.status(HttpStatusCode.NO_CONTENT).json(result);
     }
 
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const { execute } = container.resolve('getUsersOperation');
         const result = await execute();
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getUserById(req: Request, res: Response): Promise<Response> {
+        const { execute } = container.resolve('getUserByIdOperation');
+
+        const { id } = req.params;
+
+        const result = await execute({ userId: id });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

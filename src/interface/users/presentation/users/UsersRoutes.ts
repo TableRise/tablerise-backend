@@ -6,7 +6,7 @@ import generateIDParam, {
     generateQueryParam,
 } from 'src/infra/helpers/user/parametersWrapper';
 import mocks from 'src/infra/datafakers/users/mocks/users';
-import { UsersRoutesContract } from 'src/types/contracts/users/presentation/UsersRoutes';
+import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 
 const BASE_PATH = '/profile';
 
@@ -14,14 +14,17 @@ export default class UsersRoutes {
     private readonly _usersController;
     private readonly _verifyIdMiddleware;
     private readonly _authorizationMiddleware;
+    private readonly _verifyEmailCodeMiddleware;
 
     constructor({
         usersController,
         authorizationMiddleware,
         verifyIdMiddleware,
+        verifyEmailCodeMiddleware
     }: UsersRoutesContract) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
+        this._verifyEmailCodeMiddleware = verifyEmailCodeMiddleware;
         this._authorizationMiddleware = authorizationMiddleware;
     }
 
@@ -37,20 +40,30 @@ export default class UsersRoutes {
                         this._authorizationMiddleware.checkAdminRole,
                     ],
                     authentication: true,
-                    tag: 'management',
+                    tag: 'recover',
                     description: 'This route returns all users registered in database',
                 },
             },
             {
                 method: 'get',
+                path: `${BASE_PATH}/:id`,
+                parameters: [...generateIDParam()],
+                controller: this._usersController.getUserById,
+                options: {
+                    middlewares: [passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'recover',
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/:id/verify`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'email', type: 'string', required: 'off' }])
-                ],
+                parameters: [...generateQueryParam(2, [
+                    { name: 'email', type: 'string' },
+                    { name: 'newEmail', type: 'string', required: 'off' }
+                ])],
                 controller: this._usersController.verifyEmail,
                 options: {
-                    middlewares: [this._verifyIdMiddleware],
                     authentication: false,
                     tag: 'authentication',
                     description:
@@ -107,7 +120,10 @@ export default class UsersRoutes {
                 ],
                 controller: this._usersController.confirmCode,
                 options: {
-                    middlewares: [this._verifyIdMiddleware],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        this._verifyEmailCodeMiddleware.verify
+                    ],
                     authentication: false,
                     tag: 'register',
                     description:
@@ -142,6 +158,7 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
+                        this._verifyEmailCodeMiddleware.verify
                     ],
                     authentication: true,
                     tag: 'management',
@@ -166,6 +183,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                         this._authorizationMiddleware.twoFactor,
+                        this._verifyEmailCodeMiddleware.verify
                     ],
                     authentication: true,
                     tag: 'management',

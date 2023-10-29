@@ -1,7 +1,7 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { UpdateObj } from 'src/types/Repository';
-import { UsersDetailsRepositoryContract } from 'src/types/contracts/users/repositories/usersDetailsRepository';
+import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/repositories/usersDetailsRepository';
 
 export default class UsersDetailsRepository {
     private readonly _model;

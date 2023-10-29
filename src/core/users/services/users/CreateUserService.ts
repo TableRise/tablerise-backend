@@ -7,7 +7,7 @@ import {
     __UserSerialized,
 } from 'src/types/requests/Response';
 import { RegisterUserPayload } from 'src/types/requests/Payload';
-import { CreateUserServiceContract } from 'src/types/contracts/users/core/CreateUser';
+import { CreateUserServiceContract } from 'src/types/users/contracts/core/CreateUser';
 import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import newUUID from 'src/infra/helpers/user/newUUID';

@@ -1,7 +1,7 @@
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { ActivateTwoFactorServiceContract } from 'src/types/contracts/users/core/ActivateTwoFactor';
+import { ActivateTwoFactorServiceContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
 import { TwoFactorResponse } from 'src/types/requests/Response';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 

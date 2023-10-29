@@ -1,5 +1,5 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { GetUsersServiceContract } from 'src/types/contracts/users/core/GetUsers';
+import { GetUsersServiceContract } from 'src/types/users/contracts/core/GetUsers';
 import { RegisterUserResponse } from 'src/types/requests/Response';
 
 export default class GetUsersService {

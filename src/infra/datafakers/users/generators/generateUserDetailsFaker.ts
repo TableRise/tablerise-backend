@@ -1,6 +1,6 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import newUUID from 'src/infra/helpers/user/newUUID';
-import { UserDetailJSONPayload } from 'src/types/datafakers/users/Payload';
+import { UserDetailJSONPayload } from 'src/types/users/datafakers/Payload';
 import dataGenerator from '../dataGenerator';
 
 function createUserDetailFaker({

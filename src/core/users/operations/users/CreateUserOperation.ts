@@ -1,6 +1,6 @@
 import { RegisterUserResponse } from 'src/types/requests/Response';
 import { RegisterUserPayload } from 'src/types/requests/Payload';
-import { CreateUserOperationContract } from 'src/types/contracts/users/core/CreateUser';
+import { CreateUserOperationContract } from 'src/types/users/contracts/core/CreateUser';
 
 export default class CreateUserOperation {
     private readonly _usersSchema;

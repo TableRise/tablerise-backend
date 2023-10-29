@@ -1,6 +1,6 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { VerifyEmailServiceContract } from 'src/types/contracts/users/core/VerifyEmail';
+import { VerifyEmailServiceContract } from 'src/types/users/contracts/core/VerifyEmail';
 import { VerifyEmailPayload } from 'src/types/requests/Payload';
 
 export default class VerifyEmailService {
@@ -14,7 +14,7 @@ export default class VerifyEmailService {
         this._logger = logger;
     }
 
-    private async _send(user: UserInstance, email: string): Promise<UserInstance> {
+    private async _send(user: UserInstance, newEmail: string): Promise<UserInstance> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
         
@@ -23,7 +23,7 @@ export default class VerifyEmailService {
                 username: user.nickname,
                 subject: 'Email de verificação - TableRise',
             },
-            email || user.email
+            newEmail || user.email
         );
 
         if (!emailSendResult.success) {
@@ -42,11 +42,11 @@ export default class VerifyEmailService {
         return user;
     }
 
-    public async sendEmail({ userId, email }: VerifyEmailPayload): Promise<void> {
+    public async sendEmail({ email, newEmail }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - VerifyEmailService');
-        const userInDb = await this._usersRepository.findOne({ userId });
+        const userInDb = await this._usersRepository.findOne({ email });
 
-        const userToUpdate = await this._send(userInDb, email);
+        const userToUpdate = await this._send(userInDb, newEmail);
 
         userToUpdate.updatedAt = new Date().toISOString();
 

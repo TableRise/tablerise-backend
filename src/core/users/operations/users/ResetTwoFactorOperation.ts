@@ -1,4 +1,4 @@
-import { ResetTwoFactorOperationContract } from 'src/types/contracts/users/core/ResetTwoFactor';
+import { ResetTwoFactorOperationContract } from 'src/types/users/contracts/core/ResetTwoFactor';
 import { ConfirmCodePayload } from 'src/types/requests/Payload';
 import { TwoFactorResponse } from 'src/types/requests/Response';
 

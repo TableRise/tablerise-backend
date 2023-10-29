@@ -5,7 +5,7 @@ import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import JWTGenerator from 'src/infra/helpers/user/JWTGenerator';
 import newUUID from 'src/infra/helpers/user/newUUID';
-import { OAuthServiceContract } from 'src/types/contracts/users/presentation/oauth/OAuth';
+import { OAuthServiceContract } from 'src/types/users/contracts/presentation/oauth/OAuth';
 import {
     __FullUser,
     __UserEnriched,

@@ -1,6 +1,6 @@
 // import dungeonsAndDragonsRoutes, { dungeonsAndDragonsSwagger } from 'src/routes/dungeons&dragons5e';
 import Route, { RouteDeclarations } from 'src/types/requests/Route';
-import { RoutesWrapperContract } from 'src/types/contracts/users/presentation/RoutesWrapper';
+import { RoutesWrapperContract } from 'src/types/users/contracts/presentation/RoutesWrapper';
 
 export default class RoutesWrapper {
     private readonly _usersRoutesBuilder;

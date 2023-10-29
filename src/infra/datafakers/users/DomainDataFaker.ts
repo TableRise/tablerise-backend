@@ -1,5 +1,5 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { UserDetailJSONPayload, UserJSONPayload } from 'src/types/datafakers/users/Payload';
+import { UserDetailJSONPayload, UserJSONPayload } from 'src/types/users/datafakers/Payload';
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';

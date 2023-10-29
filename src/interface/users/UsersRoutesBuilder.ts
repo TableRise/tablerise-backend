@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
-import { UsersRoutesBuilderContract } from 'src/types/contracts/users/presentation/BuildRoutes';
+import { UsersRoutesBuilderContract } from 'src/types/users/contracts/presentation/BuildRoutes';
 
 const router = Router();
 
