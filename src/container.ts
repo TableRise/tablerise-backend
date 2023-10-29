@@ -26,7 +26,11 @@ export const container = createContainer({
 }) as any;
 
 export default function setup(): void {
-    container.loadModules(['./core/**/*.js', './interface/users/presentation/**/*.js'], {
+    container.loadModules([
+        './core/**/*.js',
+        './interface/users/presentation/**/*.js',
+        './interface/dungeons&dragons5e/presentation/**/*.js',
+    ], {
         formatName: 'camelCase',
         resolverOptions: { injectionMode: InjectionMode.PROXY },
         cwd: __dirname,
