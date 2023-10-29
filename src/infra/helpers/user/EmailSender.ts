@@ -4,7 +4,7 @@ import {
     CommonContent,
     EmailMessage,
     ResponseEmailSender,
-} from 'src/types/Email';
+} from 'src/types/users/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/infra/helpers/user/generateVerificationCode';

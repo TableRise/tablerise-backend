@@ -1,5 +1,5 @@
 import { ActivateTwoFactorOperationContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
-import { TwoFactorResponse } from 'src/types/requests/Response';
+import { TwoFactorResponse } from 'src/types/users/requests/Response';
 
 export default class ActivateTwoFactorOperation {
     private readonly _activateTwoFactorService;

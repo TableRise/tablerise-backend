@@ -1,4 +1,4 @@
-import { ParamName, RouteDeclareParams } from 'src/types/requests/Route';
+import { ParamName, RouteDeclareParams } from 'src/types/users/requests/Route';
 
 export default function generateIDParam(): RouteDeclareParams[] {
     return [

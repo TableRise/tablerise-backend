@@ -1,6 +1,6 @@
 import { UpdateUserOperationContract } from 'src/types/users/contracts/core/UpdateUser';
-import { UpdateUserPayload } from 'src/types/requests/Payload';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { UpdateUserPayload } from 'src/types/users/requests/Payload';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class UpdateUserOperation {
     private readonly _usersSchema;

@@ -3,8 +3,8 @@ import { UpdateGameInfoServiceContract } from 'src/types/users/contracts/core/Up
 import {
     UpdateGameInfoPayload,
     UpdateGameInfoProcessPayload,
-} from 'src/types/requests/Payload';
-import { UserGameInfoDoneResponse } from 'src/types/requests/Response';
+} from 'src/types/users/requests/Payload';
+import { UserGameInfoDoneResponse } from 'src/types/users/requests/Response';
 
 export default class UpdateGameInfoService {
     private readonly _logger;

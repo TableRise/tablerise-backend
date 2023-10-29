@@ -1,5 +1,5 @@
 import { UpdateEmailOperationContract } from 'src/types/users/contracts/core/UpdateEmail';
-import { UpdateEmailPayload } from 'src/types/requests/Payload';
+import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
 
 export default class UpdateEmailOperation {
     private readonly _updateEmailService;

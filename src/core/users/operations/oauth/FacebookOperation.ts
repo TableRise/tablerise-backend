@@ -1,6 +1,6 @@
 import Facebook from 'passport-facebook';
 import { OAuthOperationContract } from 'src/types/users/contracts/presentation/oauth/OAuth';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class FacebookOperation {
     private readonly _oAuthService;

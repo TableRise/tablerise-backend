@@ -1,6 +1,6 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { UpdateObj } from 'src/types/Repository';
+import { UpdateObj } from 'src/types/users/Repository';
 import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/repositories/usersDetailsRepository';
 
 export default class UsersDetailsRepository {

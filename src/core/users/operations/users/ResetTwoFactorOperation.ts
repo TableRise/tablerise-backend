@@ -1,6 +1,6 @@
 import { ResetTwoFactorOperationContract } from 'src/types/users/contracts/core/ResetTwoFactor';
-import { ConfirmCodePayload } from 'src/types/requests/Payload';
-import { TwoFactorResponse } from 'src/types/requests/Response';
+import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
+import { TwoFactorResponse } from 'src/types/users/requests/Response';
 
 export default class ResetTwoFactorOperation {
     private readonly _resetTwoFactorService;

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import { VerifyEmailCodeMiddlewareContract } from 'src/types/contracts/users/middlewares/VerifyEmailCodeMiddleware';
+import { VerifyEmailCodeMiddlewareContract } from 'src/types/users/contracts/middlewares/VerifyEmailCodeMiddleware';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;

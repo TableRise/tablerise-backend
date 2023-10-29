@@ -1,5 +1,5 @@
 import { VerifyEmailOperationContract } from 'src/types/users/contracts/core/VerifyEmail';
-import { VerifyEmailPayload } from 'src/types/requests/Payload';
+import { VerifyEmailPayload } from 'src/types/users/requests/Payload';
 
 export default class VerifyEmailOperation {
     private readonly _logger;

@@ -1,6 +1,6 @@
 import { ConfirmCodeOperationContract } from 'src/types/users/contracts/core/ConfirmCode';
-import { ConfirmCodePayload } from 'src/types/requests/Payload';
-import { ConfirmCodeResponse } from 'src/types/requests/Response';
+import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
+import { ConfirmCodeResponse } from 'src/types/users/requests/Response';
 
 export default class ConfirmCodeOperation {
     private readonly _confirmCodeService;

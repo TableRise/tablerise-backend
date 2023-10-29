@@ -1,5 +1,5 @@
 import logger from '@tablerise/dynamic-logger';
-import { ErrorDetails, ErrorTypes, Errors } from 'src/types/Errors';
+import { ErrorDetails, ErrorTypes, Errors } from 'src/types/users/Errors';
 import { HttpStatusCode } from './HttpStatusCode';
 import getErrorName from './getErrorName';
 import { ErrorMessage } from '../dungeons&dragons5e/errorMessage';

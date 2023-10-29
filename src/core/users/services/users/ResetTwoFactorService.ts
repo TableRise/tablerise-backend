@@ -2,8 +2,8 @@ import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import { ResetTwoFactorServiceContract } from 'src/types/users/contracts/core/ResetTwoFactor';
-import { ConfirmCodePayload } from 'src/types/requests/Payload';
-import { TwoFactorResponse } from 'src/types/requests/Response';
+import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
+import { TwoFactorResponse } from 'src/types/users/requests/Response';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 
 export default class ResetTwoFactorService {

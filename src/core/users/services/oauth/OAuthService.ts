@@ -11,7 +11,7 @@ import {
     __UserEnriched,
     __UserSaved,
     __UserSerialized,
-} from 'src/types/requests/Response';
+} from 'src/types/users/requests/Response';
 
 export default class OAuthService {
     private readonly _usersRepository;

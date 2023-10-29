@@ -1,7 +1,7 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { VerifyEmailServiceContract } from 'src/types/users/contracts/core/VerifyEmail';
-import { VerifyEmailPayload } from 'src/types/requests/Payload';
+import { VerifyEmailPayload } from 'src/types/users/requests/Payload';
 
 export default class VerifyEmailService {
     private readonly _usersRepository;

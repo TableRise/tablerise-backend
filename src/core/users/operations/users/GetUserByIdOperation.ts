@@ -1,6 +1,6 @@
 import { GetUserByIdOperationContract } from 'src/types/users/contracts/core/GetUserById';
-import { GetByIdPayload } from 'src/types/requests/Payload';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { GetByIdPayload } from 'src/types/users/requests/Payload';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class GetUserByIdOperation {
     private readonly _getUserByIdService;

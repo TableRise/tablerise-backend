@@ -4,7 +4,7 @@ import {
     UpdateEmailServiceContract,
     UserEmail,
 } from 'src/types/users/contracts/core/UpdateEmail';
-import { UpdateEmailPayload } from 'src/types/requests/Payload';
+import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
 
 export default class UpdateEmailService {
     private readonly _usersRepository;

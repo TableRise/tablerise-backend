@@ -1,5 +1,5 @@
-import { RegisterUserResponse } from 'src/types/requests/Response';
-import { RegisterUserPayload } from 'src/types/requests/Payload';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { RegisterUserPayload } from 'src/types/users/requests/Payload';
 import { CreateUserOperationContract } from 'src/types/users/contracts/core/CreateUser';
 
 export default class CreateUserOperation {

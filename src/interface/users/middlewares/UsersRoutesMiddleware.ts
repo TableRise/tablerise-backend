@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { UsersRoutesMiddlewareContract } from 'src/types/contracts/users/middlewares/UsersRoutesMiddleware';
+import { UsersRoutesMiddlewareContract } from 'src/types/users/contracts/middlewares/UsersRoutesMiddleware';
 
 export default class UsersRoutesMiddleware {
     private readonly _routesWrapper;

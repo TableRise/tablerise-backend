@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { ConfirmCodeServiceContract } from 'src/types/users/contracts/core/ConfirmCode';
-import { ConfirmCodePayload } from 'src/types/requests/Payload';
-import { ConfirmCodeResponse } from 'src/types/requests/Response';
+import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
+import { ConfirmCodeResponse } from 'src/types/users/requests/Response';
 
 export default class ConfirmCodeService {
     private readonly _usersRepository;

@@ -2,8 +2,8 @@ import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import getErrorName from 'src/infra/helpers/common/getErrorName';
 import { UpdateUserServiceContract } from 'src/types/users/contracts/core/UpdateUser';
-import { UpdateUserPayload, __FullUserPayload } from 'src/types/requests/Payload';
-import { RegisterUserResponse, __FullUser } from 'src/types/requests/Response';
+import { UpdateUserPayload, __FullUserPayload } from 'src/types/users/requests/Payload';
+import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';
 
 export default class UpdateUserService {
     private readonly _usersRepository;

@@ -1,5 +1,5 @@
 import { GetUsersOperationContract } from 'src/types/users/contracts/core/GetUsers';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class GetUsersOperation {
     private readonly _getUsersService;

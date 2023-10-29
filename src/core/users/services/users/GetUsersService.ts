@@ -1,6 +1,6 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { GetUsersServiceContract } from 'src/types/users/contracts/core/GetUsers';
-import { RegisterUserResponse } from 'src/types/requests/Response';
+import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class GetUsersService {
     private readonly _logger;

@@ -5,8 +5,8 @@ import {
     __UserEnriched,
     __UserSaved,
     __UserSerialized,
-} from 'src/types/requests/Response';
-import { RegisterUserPayload } from 'src/types/requests/Payload';
+} from 'src/types/users/requests/Response';
+import { RegisterUserPayload } from 'src/types/users/requests/Payload';
 import { CreateUserServiceContract } from 'src/types/users/contracts/core/CreateUser';
 import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';

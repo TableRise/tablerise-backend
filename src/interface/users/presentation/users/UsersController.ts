@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { container } from 'src/container';
-import { RegisterUserPayload } from 'src/types/requests/Payload';
+import { RegisterUserPayload } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 
 export default class UsersController {
