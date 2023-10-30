@@ -1,6 +1,5 @@
 [
     {
-        "_id": "65032650ee24cf135be9d64f",
         "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
         "email": "admin@email.com",
         "password": "secret",
@@ -11,7 +10,6 @@
         "updatedAt": "2023-09-14T15:25:30.419Z"
     },
     {
-        "_id": "650328079dc721bbf8a88421",
         "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
         "email": "user@email.com",
         "password": "secret",

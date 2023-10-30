@@ -1,5 +1,5 @@
 import 'src/interface/users/strategies/LocalStrategy';
-import 'src/interface/users/strategies/BearerStrategy';
+import 'src/interface/common/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {

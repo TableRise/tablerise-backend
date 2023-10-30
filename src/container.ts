@@ -20,6 +20,7 @@ import UsersRoutes from './interface/users/presentation/users/UsersRoutes';
 import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
 import OAuthRoutes from './interface/users/presentation/oauth/OAuthRoutes';
 import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmailCodeMiddleware';
+import VerifyBooleanQueryMiddleware from './interface/common/middlewares/VerifyBooleanQueryMiddleware';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -62,6 +63,7 @@ export default function setup(): void {
         // #Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
         authErrorMiddleware: asValue(AuthErrorMiddleware),
+        verifyBooleanQueryMiddleware: asValue(VerifyBooleanQueryMiddleware),
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),
