@@ -1,7 +1,14 @@
 import { z } from 'zod';
 
 const inProgressZodSchema = z.object({
-    status: z.enum(['wait_to_confirm', 'wait_to_complete', 'wait_to_verify', 'email_change', 'done']),
+    status: z.enum([
+        'wait_to_confirm',
+        'wait_to_complete',
+        'wait_to_verify',
+        'email_change',
+        'done',
+        'password_change',
+    ]),
     code: z.string(),
 });
 

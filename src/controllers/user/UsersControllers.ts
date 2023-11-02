@@ -27,6 +27,17 @@ export default class UsersControllers {
         this.getUser = this.getUser.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+    }
+
+    public async updatePassword(req: Request, res: Response): Promise<Response> {
+        this._logger('warn', 'Request to update a user');
+        const { id } = req.params;
+        const { code } = req.query;
+        const { password } = req.body;
+        this._logger('info', 'prepare to update user password');
+        await this._service.updatePassword(id, code as string, password as string);
+        return res.status(HttpStatusCode.OK).end();
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
