@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/infra/helpers/user/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/infra/helpers/user/parametersWrapper';
 import { ArmorsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/ArmorsRoutes';
 
 const BASE_PATH = '/dnd5e/armors';
@@ -67,7 +65,6 @@ export default class ArmorsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        this._verifyBooleanQueryMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,

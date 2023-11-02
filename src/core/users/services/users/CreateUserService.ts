@@ -10,7 +10,6 @@ import { RegisterUserPayload } from 'src/types/users/requests/Payload';
 import { CreateUserServiceContract } from 'src/types/users/contracts/core/CreateUser';
 import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import newUUID from 'src/infra/helpers/user/newUUID';
 
 export default class CreateUserService {
     private readonly _usersRepository;
@@ -120,13 +119,11 @@ export default class CreateUserService {
         this._logger('info', 'SaveUser - CreateUserService');
         const userSaved = await this._usersRepository.create({
             ...user,
-            userId: newUUID(),
         });
 
         const userDetailsSaved = await this._usersDetailsRepository.create({
             ...userDetails,
             userId: userSaved.userId,
-            userDetailId: newUUID(),
         });
 
         this._logger('info', 'User saved on database');

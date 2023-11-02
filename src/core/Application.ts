@@ -9,17 +9,20 @@ import { ApplicationContract } from 'src/types/users/contracts/Application';
 import DatabaseManagement from '@tablerise/database-management';
 
 export default class Application {
+    private readonly _dungeonsAndDragonsRoutesMiddleware;
     private readonly _usersRoutesMiddleware;
     private readonly _swaggerGenerator;
     private readonly _errorMiddleware;
     private readonly _logger;
 
     constructor({
+        dungeonsAndDragonsRoutesMiddleware,
         usersRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
         logger,
     }: ApplicationContract) {
+        this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this._usersRoutesMiddleware = usersRoutesMiddleware;
         this._swaggerGenerator = swaggerGenerator;
         this._errorMiddleware = errorMiddleware;
@@ -45,6 +48,7 @@ export default class Application {
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
             .use(this._usersRoutesMiddleware.get())
+            .use(this._dungeonsAndDragonsRoutesMiddleware.get())
             .use(this._errorMiddleware);
 
         return app;

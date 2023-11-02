@@ -14,13 +14,14 @@ import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware
 import AuthorizationMiddleware from './interface/users/middlewares/AuthorizationMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
-import RoutesWrapper from './interface/users/RoutesWrapper';
+import RoutesWrapper from './interface/common/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
-import UsersRoutes from './interface/users/presentation/users/UsersRoutes';
 import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
-import OAuthRoutes from './interface/users/presentation/oauth/OAuthRoutes';
 import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmailCodeMiddleware';
 import VerifyBooleanQueryMiddleware from './interface/common/middlewares/VerifyBooleanQueryMiddleware';
+import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
+import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
+import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/UsersRoutesMiddleware';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -42,6 +43,7 @@ export default function setup(): void {
         application: asClass(Application).singleton(),
         routesWrapper: asClass(RoutesWrapper).singleton(),
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
+        dungeonsAndDragonsRoutesBuilder: asClass(DungeonsAndDragonsRoutesBuilder).singleton(),
         database: asClass(DatabaseManagement).singleton(),
 
         // #Helpers
@@ -54,6 +56,7 @@ export default function setup(): void {
         usersSchema: asValue(schemas),
 
         // #Repositories
+        dungeonsAndDragonsRepository: asClass(DungeonsAndDragonsRepository).singleton(),
         usersRepository: asClass(UsersRepository).singleton(),
         usersDetailsRepository: asClass(UsersDetailsRepository).singleton(),
 
@@ -67,10 +70,7 @@ export default function setup(): void {
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),
-
-        // #Routes
-        usersRoutes: asClass(UsersRoutes),
         usersRoutesMiddleware: asClass(UsersRoutesMiddleware).singleton(),
-        oAuthRoutes: asClass(OAuthRoutes),
+        dungeonsAndDragonsRoutesMiddleware: asClass(DungeonsAndDragonsRoutesMiddleware).singleton()
     });
 }

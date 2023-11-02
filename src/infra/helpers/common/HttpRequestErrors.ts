@@ -24,6 +24,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
+            case 'content-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'This content do not exist in the RPG system',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
             case 'query-fail':
                 throw new HttpRequestErrors({
                     message: 'Query was not found in database',

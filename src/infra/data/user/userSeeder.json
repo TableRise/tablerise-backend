@@ -2,7 +2,11 @@
     {
         "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
         "email": "admin@email.com",
-        "password": "secret",
+        "inProgress": {
+            "status": "done",
+            "code": ""
+        },
+        "password": "secret-secret",
         "nickname": "admin",
         "tag": "#0000",
         "picture": "https://imgbb.com/",
@@ -12,7 +16,11 @@
     {
         "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
         "email": "user@email.com",
-        "password": "secret",
+        "inProgress": {
+            "status": "done",
+            "code": ""
+        },
+        "password": "secret-secret",
         "nickname": "user",
         "tag": "#0000",
         "picture": "https://imgbb.com/",
