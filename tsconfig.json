@@ -5,12 +5,6 @@
         "target": "es2019",
         "module": "commonjs",
         "typeRoots": ["./node_modules/@types", "src/types/configs"],
-        "types": [
-            "mocha",
-            "chai",
-            "node",
-            "global"
-        ],
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,

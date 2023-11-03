@@ -1,1 +1,1 @@
-declare const expect: Chai.ExpectStatic;
+declare const expect: Chai;

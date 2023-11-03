@@ -2,13 +2,19 @@ import { Response, Request } from 'express';
 import { container } from 'src/container';
 import { RegisterUserPayload } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
 
 export default class UsersController {
+    private readonly _createUserOperation;
+
+    constructor({ createUserOperation }: UsersControllerContract) {
+        this._createUserOperation = createUserOperation;
+    }
+
     public async register(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('createUserOperation');
         const payload = req.body as RegisterUserPayload;
 
-        const result = await execute(payload);
+        const result = await this._createUserOperation.execute(payload);
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
