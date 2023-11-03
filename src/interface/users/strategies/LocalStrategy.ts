@@ -45,9 +45,10 @@ passport.use(
                     })
                 );
 
-            const user = await container.resolve('usersRepository').findOne({ email });
+            try {
+                const user = await container.resolve('usersRepository').findOne({ email });
 
-            if (!user)
+                if (!user)
                 return done(
                     new HttpRequestErrors({
                         message: 'Incorrect email or password. Try again.',
@@ -56,32 +57,35 @@ passport.use(
                     })
                 );
 
-            const isPasswordValid = await SecurePasswordHandler.comparePassword(
-                password,
-                user.password
-            );
-
-            if (!isPasswordValid)
-                return done(
-                    new HttpRequestErrors({
-                        message: 'Incorrect email or password. Try again.',
-                        code: HttpStatusCode.UNAUTHORIZED,
-                        name: getErrorName(HttpStatusCode.UNAUTHORIZED),
-                    })
+                const isPasswordValid = await SecurePasswordHandler.comparePassword(
+                    password,
+                    user.password
                 );
 
-            if (!ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status))
-                return done(
-                    new HttpRequestErrors({
-                        message: 'User status is invalid to perform this operation',
-                        code: HttpStatusCode.BAD_REQUEST,
-                        name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                    })
-                );
+                if (!isPasswordValid)
+                    return done(
+                        new HttpRequestErrors({
+                            message: 'Incorrect email or password. Try again.',
+                            code: HttpStatusCode.UNAUTHORIZED,
+                            name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                        })
+                    );
 
-            const token = JWTGenerator.generate(user);
+                if (!ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status))
+                    return done(
+                        new HttpRequestErrors({
+                            message: 'User status is invalid to perform this operation',
+                            code: HttpStatusCode.BAD_REQUEST,
+                            name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                        })
+                    );
 
-            done(null, token);
+                const token = JWTGenerator.generate(user);
+
+                done(null, token);
+            } catch (error) {
+                return done(error);
+            }
         }
     )
 );
