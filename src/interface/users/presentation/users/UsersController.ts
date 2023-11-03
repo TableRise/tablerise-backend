@@ -9,6 +9,8 @@ export default class UsersController {
 
     constructor({ createUserOperation }: UsersControllerContract) {
         this._createUserOperation = createUserOperation;
+
+        this.register = this.register.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
