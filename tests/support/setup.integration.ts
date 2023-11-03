@@ -17,7 +17,7 @@ exports.mochaHooks = {
             db_password: 'secret',
             db_host: '127.0.0.1:27018',
             db_database: 'dungeons&dragons5e?authSource=admin',
-            db_initialString: 'mongodb'
+            db_initialString: 'mongodb',
         });
 
         logger('test', 'Test database connected');
@@ -35,14 +35,17 @@ exports.mochaHooks = {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
-    
+
         const details = {
             userDetailId: '653021554006e8046e11b727',
             userId: '6530214e4006e8046e11b723',
             firstName: 'Joe',
             lastName: 'Einstein',
             pronoun: 'he/his',
-            secretQuestion: { question: 'What sound does the fox?', answer: 'Kikikikikiu' },
+            secretQuestion: {
+                question: 'What sound does the fox?',
+                answer: 'Kikikikikiu',
+            },
             birthday: '1995-10-25',
             gameInfo: { campaigns: [], characters: [], badges: [] },
             biography: 'Some bio',
@@ -50,7 +53,10 @@ exports.mochaHooks = {
         };
 
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const UserDetailsModel = new DatabaseManagement().modelInstance(
+            'user',
+            'UserDetails'
+        );
 
         await UsersModel.create(user);
         await UserDetailsModel.create(details);
@@ -59,7 +65,10 @@ exports.mochaHooks = {
 
     async afterAll() {
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const UserDetailsModel = new DatabaseManagement().modelInstance(
+            'user',
+            'UserDetails'
+        );
 
         await UsersModel.erase();
         await UserDetailsModel.erase();
@@ -67,5 +76,5 @@ exports.mochaHooks = {
 
         await mongoose.connection.close();
         logger('test', 'Test database disconnected');
-    }
+    },
 };

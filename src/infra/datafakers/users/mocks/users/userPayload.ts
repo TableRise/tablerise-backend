@@ -1,4 +1,4 @@
-import DomainDataFaker from "src/infra/datafakers/users/DomainDataFaker";
+import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 const [user] = DomainDataFaker.generateUsersJSON();
 const [details] = DomainDataFaker.generateUserDetailsJSON();
@@ -17,6 +17,6 @@ export default {
         birthday: details.firstName,
         gameInfo: details.gameInfo,
         biography: details.firstName,
-        role: details.role
-    }
-}
+        role: details.role,
+    },
+};

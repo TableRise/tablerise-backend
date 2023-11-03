@@ -27,8 +27,14 @@ export default class UsersRoutesBuilder {
         return { oAuthRoutes, oAuthSwagger };
     }
 
-    public get(): { usersSwagger: routeInstance[]; usersRoutes: { profile: Router, oAuth: Router } } {
-        const usersSwagger = [...this._oAuth().oAuthSwagger, ...this._profile().profileSwagger];
+    public get(): {
+        usersSwagger: routeInstance[];
+        usersRoutes: { profile: Router; oAuth: Router };
+    } {
+        const usersSwagger = [
+            ...this._oAuth().oAuthSwagger,
+            ...this._profile().profileSwagger,
+        ];
         const usersRoutes = {
             profile: this._profile().profileRoutes,
             oAuth: this._oAuth().oAuthRoutes,

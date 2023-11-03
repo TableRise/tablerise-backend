@@ -146,7 +146,7 @@ export default class CreateUserService {
 
         await this._usersRepository.update({
             query: { userId: userSaved.userId },
-            payload: userSaved
+            payload: userSaved,
         });
 
         return { userSaved, userDetailsSaved };

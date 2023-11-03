@@ -1,3 +1,3 @@
 export default {
-    email: 'newemail@email.com'
-}
+    email: 'newemail@email.com',
+};

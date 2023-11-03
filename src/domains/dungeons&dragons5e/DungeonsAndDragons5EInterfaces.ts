@@ -368,4 +368,3 @@ export interface Wiki {
     image: string;
     subTopics: SubTopic[];
 }
-

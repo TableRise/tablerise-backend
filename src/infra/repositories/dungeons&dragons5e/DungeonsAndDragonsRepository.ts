@@ -28,9 +28,7 @@ export default class DungeonsAndDragonsRepository {
         const model = this._model('dungeons&dragons5e', this._entity as DnDEntities);
         const request = await model.findAll(query);
 
-        return request.map((entity: unknown) =>
-            this._formatAndSerializeData(entity)
-        );
+        return request.map((entity: unknown) => this._formatAndSerializeData(entity));
     }
 
     public async findOne(query: any = {}): Promise<unknown> {

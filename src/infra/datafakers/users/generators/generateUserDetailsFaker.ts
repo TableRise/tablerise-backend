@@ -4,7 +4,7 @@ import { UserDetailJSONPayload } from 'src/types/users/datafakers/Payload';
 import dataGenerator from '../dataGenerator';
 
 function createUserDetailFaker({
-    userDetailId = newUUID()
+    userDetailId = newUUID(),
 }: UserDetailInstance): UserDetailInstance {
     return {
         userDetailId,
@@ -20,7 +20,10 @@ function createUserDetailFaker({
     } as UserDetailInstance;
 }
 
-export default function generateUserDetailsFaker({ count, userDetailId }: UserDetailJSONPayload): UserDetailInstance[] {
+export default function generateUserDetailsFaker({
+    count,
+    userDetailId,
+}: UserDetailJSONPayload): UserDetailInstance[] {
     const users: UserDetailInstance[] = [];
 
     for (let index = 0; index <= count; index += 1) {

@@ -4,10 +4,10 @@ import { Logger } from 'src/types/Logger';
 
 export interface GetArmorOperationContract {
     getArmorService: GetArmorService;
-    logger: Logger
+    logger: Logger;
 }
 
 export interface GetArmorServiceContract {
     dungeonsAndDragonsRepository: DungeonsAndDragonsRepository;
-    logger: Logger
+    logger: Logger;
 }

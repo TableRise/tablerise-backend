@@ -3,9 +3,7 @@ import newUUID from 'src/infra/helpers/user/newUUID';
 import { UserJSONPayload } from 'src/types/users/datafakers/Payload';
 import dataGenerator from '../dataGenerator';
 
-function createUserFaker({
-    userId = newUUID()
-}: UserInstance): UserInstance {
+function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
     return {
         userId,
         inProgress: { status: 'wait_to_confirm', code: 'HJS74' },
@@ -15,11 +13,14 @@ function createUserFaker({
         nickname: dataGenerator.nickname(),
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
         picture: dataGenerator.picture(),
-        twoFactorSecret: { active: false }
-    } as UserInstance
+        twoFactorSecret: { active: false },
+    } as UserInstance;
 }
 
-export default function generateUsersFaker({ count, userId }: UserJSONPayload): UserInstance[] {
+export default function generateUsersFaker({
+    count,
+    userId,
+}: UserJSONPayload): UserInstance[] {
     const users: UserInstance[] = [];
 
     for (let index = 0; index <= count; index += 1) {

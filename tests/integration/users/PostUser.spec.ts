@@ -14,7 +14,9 @@ describe('When a user is created', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             details = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            sinon.stub(EmailSender.prototype, 'send').resolves({ success: true, verificationCode: 'LOKI74' })
+            sinon
+                .stub(EmailSender.prototype, 'send')
+                .resolves({ success: true, verificationCode: 'LOKI74' });
         });
 
         it('should return correct user created with details', async () => {
@@ -22,7 +24,7 @@ describe('When a user is created', () => {
 
             const payload = {
                 ...user,
-                details
+                details,
             };
 
             const { body } = await requester()
@@ -33,7 +35,9 @@ describe('When a user is created', () => {
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
             expect(body).to.have.property('inProgress');
-            expect(body.inProgress).to.have.property('status').that.is.equal('wait_to_confirm');
+            expect(body.inProgress)
+                .to.have.property('status')
+                .that.is.equal('wait_to_confirm');
 
             expect(body).to.have.property('details');
             expect(body.details).to.have.property('userId');

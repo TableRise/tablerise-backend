@@ -7,7 +7,11 @@ export default class GetUserByIdService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: GetUserByIdServiceContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: GetUserByIdServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -22,7 +26,7 @@ export default class GetUserByIdService {
 
         return {
             ...userInDb,
-            details: userDetailInDb
-        }
+            details: userDetailInDb,
+        };
     }
 }

@@ -60,7 +60,10 @@ export default class Application {
 
         await DatabaseManagement.connect(true)
             .then(() => {
-                this._logger('info', '[ Application - Database connection instanciated ]');
+                this._logger(
+                    'info',
+                    '[ Application - Database connection instanciated ]'
+                );
             })
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');

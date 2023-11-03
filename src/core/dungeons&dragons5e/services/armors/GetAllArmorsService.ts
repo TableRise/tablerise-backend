@@ -1,6 +1,6 @@
-import { Armor } from "src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces";
-import { Internacional } from "src/domains/dungeons&dragons5e/LanguagesWrapper";
-import { GetAllArmorsServiceContract } from "src/types/dungeons&dragons5e/contracts/core/armors/GetAllArmors";
+import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { GetAllArmorsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetAllArmors';
 
 export default class GetAllArmorsService {
     private readonly _dungeonsAndDragonsRepository;
@@ -17,7 +17,9 @@ export default class GetAllArmorsService {
         this._logger('info', 'GetAll - GetAllArmorsService');
         this._dungeonsAndDragonsRepository.setEntity('Armors');
 
-        const armorsInDb = await this._dungeonsAndDragonsRepository.find({}) as Array<Internacional<Armor>>;
+        const armorsInDb = (await this._dungeonsAndDragonsRepository.find({})) as Array<
+            Internacional<Armor>
+        >;
         return armorsInDb;
     }
 }

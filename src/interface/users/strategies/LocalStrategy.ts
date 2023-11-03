@@ -46,16 +46,18 @@ passport.use(
                 );
 
             try {
-                const user = await container.resolve('usersRepository').findOne({ email });
+                const user = await container
+                    .resolve('usersRepository')
+                    .findOne({ email });
 
                 if (!user)
-                return done(
-                    new HttpRequestErrors({
-                        message: 'Incorrect email or password. Try again.',
-                        code: HttpStatusCode.NOT_FOUND,
-                        name: getErrorName(HttpStatusCode.NOT_FOUND),
-                    })
-                );
+                    return done(
+                        new HttpRequestErrors({
+                            message: 'Incorrect email or password. Try again.',
+                            code: HttpStatusCode.NOT_FOUND,
+                            name: getErrorName(HttpStatusCode.NOT_FOUND),
+                        })
+                    );
 
                 const isPasswordValid = await SecurePasswordHandler.comparePassword(
                     password,

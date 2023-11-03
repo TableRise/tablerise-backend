@@ -7,5 +7,5 @@ export default {
     userPayload,
     userUpdate,
     userLogin,
-    userEmailUpdate
+    userEmailUpdate,
 };

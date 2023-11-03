@@ -25,14 +25,13 @@ export default class UpdateGameInfoService {
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
-        
-        const hasInfo =
-            gameInfo[targetInfo].filter((data) => data === infoId).length > 0;
+
+        const hasInfo = gameInfo[targetInfo].filter((data) => data === infoId).length > 0;
 
         hasInfo
             ? HttpRequestErrors.throwError('info-already-added')
             : gameInfo[targetInfo].push(infoId);
-        
+
         return gameInfo;
     }
 
@@ -60,8 +59,7 @@ export default class UpdateGameInfoService {
 
         let gameInfo = userDetailInDb.gameInfo;
 
-        if (operation === 'add')
-            gameInfo = this._addId({ infoId, targetInfo, gameInfo });
+        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo });
         if (operation === 'remove')
             gameInfo = this._removeId({ infoId, targetInfo, gameInfo });
 
@@ -69,7 +67,7 @@ export default class UpdateGameInfoService {
 
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
-            payload: userDetailInDb
+            payload: userDetailInDb,
         });
 
         return `ID ${infoId} ${operation} with success to ${targetInfo}`;

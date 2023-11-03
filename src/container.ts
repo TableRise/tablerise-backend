@@ -29,22 +29,27 @@ export const container = createContainer({
 }) as any;
 
 export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }): void {
-    container.loadModules([
-        `./core/**/*.${loadExt}`,
-        `./interface/users/presentation/**/*.${loadExt}`,
-        `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
-    ], {
-        formatName: 'camelCase',
-        resolverOptions: { injectionMode: InjectionMode.PROXY },
-        cwd: __dirname,
-    });
+    container.loadModules(
+        [
+            `./core/**/*.${loadExt}`,
+            `./interface/users/presentation/**/*.${loadExt}`,
+            `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
+        ],
+        {
+            formatName: 'camelCase',
+            resolverOptions: { injectionMode: InjectionMode.PROXY },
+            cwd: __dirname,
+        }
+    );
 
     container.register({
         // #Setup
         application: asClass(Application).singleton(),
         routesWrapper: asClass(RoutesWrapper).singleton(),
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
-        dungeonsAndDragonsRoutesBuilder: asClass(DungeonsAndDragonsRoutesBuilder).singleton(),
+        dungeonsAndDragonsRoutesBuilder: asClass(
+            DungeonsAndDragonsRoutesBuilder
+        ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
 
         // #Helpers
@@ -72,6 +77,8 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),
         usersRoutesMiddleware: asClass(UsersRoutesMiddleware).singleton(),
-        dungeonsAndDragonsRoutesMiddleware: asClass(DungeonsAndDragonsRoutesMiddleware).singleton()
+        dungeonsAndDragonsRoutesMiddleware: asClass(
+            DungeonsAndDragonsRoutesMiddleware
+        ).singleton(),
     });
 }

@@ -26,11 +26,26 @@ const requester = (): CustomRequester => {
     const bearer = `Bearer ${token}`;
 
     const req = {
-        post: (url: string) => request.post(url).set('Authorization', bearer) as supertest.Test & { _data: any },
-        patch: (url: string) => request.patch(url).set('Authorization', bearer) as supertest.Test & { _data: any },
-        put: (url: string) => request.put(url).set('Authorization', bearer) as supertest.Test & { _data: any },
-        delete: (url: string) => request.delete(url).set('Authorization', bearer) as supertest.Test & { _data: any },
-        get: (url: string) => request.get(url).set('Authorization', bearer) as supertest.Test & { _data: any },
+        post: (url: string) =>
+            request.post(url).set('Authorization', bearer) as supertest.Test & {
+                _data: any;
+            },
+        patch: (url: string) =>
+            request.patch(url).set('Authorization', bearer) as supertest.Test & {
+                _data: any;
+            },
+        put: (url: string) =>
+            request.put(url).set('Authorization', bearer) as supertest.Test & {
+                _data: any;
+            },
+        delete: (url: string) =>
+            request.delete(url).set('Authorization', bearer) as supertest.Test & {
+                _data: any;
+            },
+        get: (url: string) =>
+            request.get(url).set('Authorization', bearer) as supertest.Test & {
+                _data: any;
+            },
     };
 
     return req;

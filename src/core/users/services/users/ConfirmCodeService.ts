@@ -28,7 +28,7 @@ export default class ConfirmCodeService {
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb
+            payload: userInDb,
         });
 
         return { status: userInDb.inProgress.status };

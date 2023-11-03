@@ -1,4 +1,4 @@
-import DomainDataFaker from "src/infra/datafakers/users/DomainDataFaker";
+import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 const [user] = DomainDataFaker.generateUsersJSON();
 const [details] = DomainDataFaker.generateUserDetailsJSON();
@@ -12,5 +12,5 @@ export default {
         pronoun: details.pronoun,
         birthday: details.firstName,
         biography: details.firstName,
-    }
-}
+    },
+};

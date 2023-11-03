@@ -18,12 +18,13 @@ export default class DungeonsAndDragonsRoutesBuilder {
         return { armorsRoutes, armorsSwagger };
     }
 
-    public get(): { dungeonsAndDragonsSwagger: routeInstance[]; dungeonsAndDragonsRoutes: {
-        armors: Router,
-    } } {
-        const dungeonsAndDragonsSwagger = [
-            ...this._armors().armorsSwagger,
-        ];
+    public get(): {
+        dungeonsAndDragonsSwagger: routeInstance[];
+        dungeonsAndDragonsRoutes: {
+            armors: Router;
+        };
+    } {
+        const dungeonsAndDragonsSwagger = [...this._armors().armorsSwagger];
 
         const dungeonsAndDragonsRoutes = {
             armors: this._armors().armorsRoutes,

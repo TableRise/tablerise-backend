@@ -1,7 +1,9 @@
 import 'src/interface/common/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, { generateQueryParam } from 'src/infra/helpers/user/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/infra/helpers/user/parametersWrapper';
 import { ArmorsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/ArmorsRoutes';
 
 const BASE_PATH = '/dnd5e/armors';
@@ -14,7 +16,7 @@ export default class ArmorsRoutes {
     constructor({
         armorsController,
         verifyIdMiddleware,
-        verifyBooleanQueryMiddleware
+        verifyBooleanQueryMiddleware,
     }: ArmorsRoutesContract) {
         this._armorsController = armorsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
@@ -26,7 +28,7 @@ export default class ArmorsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller:  this._armorsController.getAll,
+                controller: this._armorsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('bearer', { session: false })],
                     authentication: true,
@@ -50,8 +52,8 @@ export default class ArmorsRoutes {
                 controller: this._armorsController.get,
                 options: {
                     middlewares: [
-                        this._verifyIdMiddleware, 
-                        passport.authenticate('bearer', { session: false })
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,
                     tag: 'armors',
@@ -60,7 +62,10 @@ export default class ArmorsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
+                ],
                 controller: this._armorsController.toggleAvailability,
                 options: {
                     middlewares: [

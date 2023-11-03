@@ -6,14 +6,18 @@ export default class RoutesWrapper {
     private readonly _dungeonsAndDragonsRoutesBuilder;
     private readonly _usersRoutesBuilder;
 
-    constructor({ dungeonsAndDragonsRoutesBuilder, usersRoutesBuilder }: RoutesWrapperContract) {
+    constructor({
+        dungeonsAndDragonsRoutesBuilder,
+        usersRoutesBuilder,
+    }: RoutesWrapperContract) {
         this._dungeonsAndDragonsRoutesBuilder = dungeonsAndDragonsRoutesBuilder;
         this._usersRoutesBuilder = usersRoutesBuilder;
     }
 
     public routes(): Route {
         return {
-            'dungeons&dragons5e': this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
+            'dungeons&dragons5e':
+                this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
             user: this._usersRoutesBuilder.get().usersRoutes,
         };
     }

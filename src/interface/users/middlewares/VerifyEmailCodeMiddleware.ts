@@ -25,11 +25,12 @@ export default class VerifyEmailCodeMiddleware {
         if (!id) userInDb = await this._usersRepository.findOne({ email });
         if (!email) userInDb = await this._usersRepository.findOne({ userId: id });
 
-        if (!userInDb) throw new HttpRequestErrors({
-            message: 'Neither id or email was provided to validate the email code',
-            code: HttpStatusCode.BAD_REQUEST,
-            name: 'Missing parameters'
-        });
+        if (!userInDb)
+            throw new HttpRequestErrors({
+                message: 'Neither id or email was provided to validate the email code',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: 'Missing parameters',
+            });
 
         if (code !== userInDb.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');

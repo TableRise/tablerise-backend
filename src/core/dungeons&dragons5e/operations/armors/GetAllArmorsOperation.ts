@@ -1,6 +1,6 @@
 import { Internacional } from './../../../../domains/dungeons&dragons5e/LanguagesWrapper';
-import { Armor } from "src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces";
-import { GetAllArmorsOperationContract } from "src/types/dungeons&dragons5e/contracts/core/armors/GetAllArmors";
+import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
+import { GetAllArmorsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetAllArmors';
 
 export default class GetAllArmorsOperation {
     private readonly _getAllArmorsService;

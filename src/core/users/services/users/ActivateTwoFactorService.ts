@@ -63,12 +63,12 @@ export default class ActivateTwoFactorService {
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userWithTwoFactor
+            payload: userWithTwoFactor,
         });
 
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
-            payload: userDetailInDb
+            payload: userDetailInDb,
         });
 
         return {

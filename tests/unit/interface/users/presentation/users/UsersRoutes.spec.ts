@@ -5,10 +5,10 @@ import UsersRoutes from 'src/interface/users/presentation/users/UsersRoutes';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
     let usersRoutes: UsersRoutes,
-    usersController,
-    verifyIdMiddleware,
-    authorizationMiddleware,
-    verifyEmailCodeMiddleware;
+        usersController,
+        verifyIdMiddleware,
+        authorizationMiddleware,
+        verifyEmailCodeMiddleware;
 
     context('When all the routes are correctly implemented', () => {
         usersController = {} as UsersController;

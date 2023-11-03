@@ -20,7 +20,7 @@ export default class UsersRoutes {
         usersController,
         authorizationMiddleware,
         verifyIdMiddleware,
-        verifyEmailCodeMiddleware
+        verifyEmailCodeMiddleware,
     }: UsersRoutesContract) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
@@ -58,10 +58,12 @@ export default class UsersRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/:id/verify`,
-                parameters: [...generateQueryParam(2, [
-                    { name: 'email', type: 'string' },
-                    { name: 'newEmail', type: 'string', required: 'off' }
-                ])],
+                parameters: [
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'newEmail', type: 'string', required: 'off' },
+                    ]),
+                ],
                 controller: this._usersController.verifyEmail,
                 options: {
                     authentication: false,
@@ -122,7 +124,7 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        this._verifyEmailCodeMiddleware.verify
+                        this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: false,
                     tag: 'register',
@@ -158,7 +160,7 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
-                        this._verifyEmailCodeMiddleware.verify
+                        this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: true,
                     tag: 'management',
@@ -183,7 +185,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                         this._authorizationMiddleware.twoFactor,
-                        this._verifyEmailCodeMiddleware.verify
+                        this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: true,
                     tag: 'management',
@@ -219,7 +221,10 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/reset`,
                 controller: this._usersController.resetProfile,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'token', type: 'string' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
+                ],
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,

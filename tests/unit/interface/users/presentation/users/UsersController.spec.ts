@@ -6,8 +6,7 @@ import UsersController from 'src/interface/users/presentation/users/UsersControl
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
     context('#register', () => {
-        let usersController: UsersController,
-        createUserOperation: any;
+        let usersController: UsersController, createUserOperation: any;
 
         const request = {} as Request;
         const response = {} as Response;

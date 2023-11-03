@@ -27,15 +27,15 @@ export default class GetUsersService {
 
         userInDb.forEach((user) => {
             const details = userDetailInDb.find((det) => det.userId === user.userId);
-            
+
             response.push({
                 ...user,
-                details: details as UserDetailInstance
+                details: details as UserDetailInstance,
             });
         });
 
         await Promise.all(response);
-    
+
         return response;
     }
 }

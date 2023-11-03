@@ -12,11 +12,8 @@ export default class OAuthRoutes {
     private readonly _oAuthController;
     private readonly _authErrorMiddleware;
 
-    constructor({
-        oAuthController,
-        authErrorMiddleware
-    }: OAuthRoutesContract) {
-        this._authErrorMiddleware = authErrorMiddleware
+    constructor({ oAuthController, authErrorMiddleware }: OAuthRoutesContract) {
+        this._authErrorMiddleware = authErrorMiddleware;
         this._oAuthController = oAuthController;
     }
 

@@ -5,7 +5,7 @@ import { RegisterUserResponse } from 'src/types/users/requests/Response';
 export default class GetUserByIdOperation {
     private readonly _getUserByIdService;
     private readonly _logger;
-    
+
     constructor({ getUserByIdService, logger }: GetUserByIdOperationContract) {
         this._getUserByIdService = getUserByIdService;
         this._logger = logger;

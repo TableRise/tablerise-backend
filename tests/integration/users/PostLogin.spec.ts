@@ -24,7 +24,7 @@ describe('When the user is logged in', () => {
         it('should return a correct token', async () => {
             const login = {
                 email: user.email,
-                password: 'TheWorld@122'
+                password: 'TheWorld@122',
             };
 
             const { body } = await requester()
@@ -35,5 +35,5 @@ describe('When the user is logged in', () => {
             expect(body).to.have.property('token');
             expect(body.token).to.be.a('string');
         });
-    })
+    });
 });
