@@ -29,7 +29,7 @@ export default class Application {
         this._logger = logger;
     }
 
-    private _setupExpress(): express.Application {
+    public setupExpress(): express.Application {
         const COOKIE_AGE = 1000 * 60 * 60 * 120;
         const app = express();
 
@@ -56,7 +56,7 @@ export default class Application {
 
     public async start(): Promise<void> {
         const port = process.env.PORT as string;
-        const app = this._setupExpress();
+        const app = this.setupExpress();
 
         await DatabaseManagement.connect(true)
             .then(() => {

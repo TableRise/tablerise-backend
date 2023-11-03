@@ -1,5 +1,6 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import newUUID from 'src/infra/helpers/user/newUUID';
 import { UpdateObj } from 'src/types/users/Repository';
 import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/repositories/usersDetailsRepository';
 
@@ -21,6 +22,9 @@ export default class UsersDetailsRepository {
 
     public async create(payload: UserDetailInstance): Promise<UserDetailInstance> {
         this._logger('info', `Create - UsersDetailsRepository`);
+
+        payload.userDetailId = newUUID();
+
         const request = await this._model.create(payload);
         return this._formatAndSerializeData(request);
     }

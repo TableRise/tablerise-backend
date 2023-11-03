@@ -22,16 +22,17 @@ import VerifyBooleanQueryMiddleware from './interface/common/middlewares/VerifyB
 import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/UsersRoutesMiddleware';
+import { ContainerContract } from './types/contracts/container';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
 }) as any;
 
-export default function setup(): void {
+export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }): void {
     container.loadModules([
-        './core/**/*.js',
-        './interface/users/presentation/**/*.js',
-        './interface/dungeons&dragons5e/presentation/**/*.js',
+        `./core/**/*.${loadExt}`,
+        `./interface/users/presentation/**/*.${loadExt}`,
+        `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
     ], {
         formatName: 'camelCase',
         resolverOptions: { injectionMode: InjectionMode.PROXY },

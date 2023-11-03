@@ -117,6 +117,7 @@ export default class CreateUserService {
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
         this._logger('info', 'SaveUser - CreateUserService');
+
         const userSaved = await this._usersRepository.create({
             ...user,
         });
