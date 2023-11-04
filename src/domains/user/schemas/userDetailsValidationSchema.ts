@@ -7,7 +7,7 @@ const gameInfoZodSchema = z.object({
     badges: z.array(z.string().length(24)),
 });
 
-const secretQuestionZodSchema = z.object({
+export const secretQuestionZodSchema = z.object({
     question: z.string().max(120),
     answer: z.string().max(80),
 });

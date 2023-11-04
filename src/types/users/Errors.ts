@@ -12,6 +12,7 @@ export interface Errors {
 }
 
 export type ErrorTypes =
+    | 'blank-question-or-answer'
     | 'email-already-exist'
     | 'tag-already-exist'
     | 'user-inexistent'
@@ -21,6 +22,7 @@ export type ErrorTypes =
     | '2fa-incorrect'
     | 'rpg-not-found-id'
     | 'query-string-incorrect'
+    | 'query-missing'
     | 'login'
     | 'linked-data'
     | 'verification-email'
