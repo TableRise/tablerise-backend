@@ -6,10 +6,12 @@ import { UsersRepositoryContract } from 'src/types/users/contracts/repositories/
 
 export default class UsersRepository {
     private readonly _model;
+    private readonly _updateTimestampRepository;
     private readonly _serializer;
     private readonly _logger;
 
-    constructor({ database, serializer, logger }: UsersRepositoryContract) {
+    constructor({ updateTimestampRepository, database, serializer, logger }: UsersRepositoryContract) {
+        this._updateTimestampRepository = updateTimestampRepository;
         this._model = database.modelInstance('user', 'Users');
         this._serializer = serializer;
         this._logger = logger;
@@ -49,9 +51,12 @@ export default class UsersRepository {
 
     public async update({ query, payload }: UpdateObj): Promise<UserInstance> {
         this._logger('info', 'Update - UsersRepository');
+
         const request = await this._model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
+
+        await this._updateTimestampRepository.updateTimestamp(query);
 
         return this._formatAndSerializeData(request);
     }

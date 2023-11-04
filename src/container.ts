@@ -23,6 +23,7 @@ import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/UsersRoutesMiddleware';
 import { ContainerContract } from './types/contracts/container';
+import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -65,6 +66,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         dungeonsAndDragonsRepository: asClass(DungeonsAndDragonsRepository).singleton(),
         usersRepository: asClass(UsersRepository).singleton(),
         usersDetailsRepository: asClass(UsersDetailsRepository).singleton(),
+        updateTimestampRepository: asClass(UpdateTimestampRepository).singleton(),
 
         // #Libraries
         logger: asValue(logger),

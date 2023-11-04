@@ -6,10 +6,12 @@ import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/reposi
 
 export default class UsersDetailsRepository {
     private readonly _model;
+    private readonly _updateTimestampRepository;
     private readonly _serializer;
     private readonly _logger;
 
-    constructor({ database, serializer, logger }: UsersDetailsRepositoryContract) {
+    constructor({ updateTimestampRepository, database, serializer, logger }: UsersDetailsRepositoryContract) {
+        this._updateTimestampRepository = updateTimestampRepository;
         this._model = database.modelInstance('user', 'UserDetails');
         this._serializer = serializer;
         this._logger = logger;
@@ -54,6 +56,8 @@ export default class UsersDetailsRepository {
         const request = await this._model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
+
+        await this._updateTimestampRepository.updateTimestamp(query);
 
         return this._formatAndSerializeData(request);
     }

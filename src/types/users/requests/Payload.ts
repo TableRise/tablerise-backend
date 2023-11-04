@@ -16,6 +16,11 @@ export interface emailUpdatePayload {
     email: string;
 }
 
+export interface UpdateTimestampPayload {
+    userId?: string;
+    userDetailId?: string;
+}
+
 export interface RegisterUserPayload extends UserPayload {
     details: UserDetailPayload;
 }
