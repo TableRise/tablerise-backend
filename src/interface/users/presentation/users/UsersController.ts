@@ -54,7 +54,7 @@ export default class UsersController {
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
-        this.resetProfile = this.resetTwoFactor.bind(this);
+        this.resetProfile = this.resetProfile.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -123,7 +123,7 @@ export default class UsersController {
 
     public async updateEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { code } = req.query as { code: string };;
+        const { code } = req.query as { code: string };
         const { email } = req.body;
 
         await this._updateEmailOperation.execute({ userId: id, code, email });
