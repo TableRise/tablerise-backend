@@ -2,7 +2,7 @@ import Discord from 'passport-discord';
 import { OAuthOperationContract } from 'src/types/users/contracts/presentation/oauth/OAuth';
 import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
-export default class FacebookOperation {
+export default class DiscordOperation {
     private readonly _oAuthService;
     private readonly _logger;
 
