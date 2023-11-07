@@ -469,6 +469,8 @@ export default class RegisterServices {
 
         userInfo.updatedAt = new Date().toISOString();
         userInfo.password = payload;
-        userInfo.inProgress = 'password_change';
+        userInfo.inProgress.status = 'password_change';
+        await this._model.update(id, userInfo);
+        this._logger('info', `User ${userInfo.inProgress.status} at time ${userInfo.updatedAt} `);
     }
 }

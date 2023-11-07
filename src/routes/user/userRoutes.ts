@@ -229,7 +229,7 @@ export const routes = [
     },
     {
         method: 'patch',
-        path: `${BASE_PATH}/update/password/`,
+        path: `${BASE_PATH}/update/password/:id`,
         controller: controllers.updatePassword,
         parameters: [
             ...generateIDParam(),
@@ -253,4 +253,3 @@ export default {
     routerExpress: buildRouter(routes, router),
     routesSwagger: routes,
 };
-// /profile/update/password/{_id}?code=xxxxxx

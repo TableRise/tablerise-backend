@@ -35,8 +35,10 @@ export default class UsersControllers {
         const { id } = req.params;
         const { code } = req.query;
         const { password } = req.body;
+
         this._logger('info', 'prepare to update user password');
         await this._service.updatePassword(id, code as string, password as string);
+
         return res.status(HttpStatusCode.OK).end();
     }
 

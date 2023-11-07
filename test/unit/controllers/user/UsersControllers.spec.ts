@@ -426,4 +426,24 @@ describe('Controllers :: User :: UsersControllers', () => {
             expect(response.sendStatus).toHaveBeenCalledWith(HttpStatusCode.OK);
         });
     });
+
+    describe('When a request is made to edit user password', () => {
+        beforeAll(() => {
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+            userControllers = new UsersControllers(userServices, logger);
+
+            response.sendStatus = jest.fn().mockReturnValue(response);
+
+            jest.spyOn(userServices, 'updatePassword').mockResolvedValue(undefined);
+        });
+
+        it('should return correct status 204', async () => {
+            request.body = { password: '12345678' };
+            request.params = { id: utils.newUUID() };
+            request.query = { code: '1447ab' };
+
+            await userControllers.updatePassword(request, response);
+            expect(response.status).toHaveBeenCalledWith(HttpStatusCode.OK);
+        });
+    });
 });
