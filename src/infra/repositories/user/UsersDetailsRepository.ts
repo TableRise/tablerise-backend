@@ -10,7 +10,12 @@ export default class UsersDetailsRepository {
     private readonly _serializer;
     private readonly _logger;
 
-    constructor({ updateTimestampRepository, database, serializer, logger }: UsersDetailsRepositoryContract) {
+    constructor({
+        updateTimestampRepository,
+        database,
+        serializer,
+        logger,
+    }: UsersDetailsRepositoryContract) {
         this._updateTimestampRepository = updateTimestampRepository;
         this._model = database.modelInstance('user', 'UserDetails');
         this._serializer = serializer;

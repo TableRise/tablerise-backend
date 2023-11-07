@@ -1,7 +1,7 @@
 import 'src/interface/common/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import { BackgroundsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/BackgroundsRoutes';
+import { BackgroundsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/backgrounds/BackgroundsRoutes';
 
 const BASE_PATH = '/dnd5e/backgrounds';
 
@@ -31,7 +31,7 @@ export default class BackgroundRoutes {
                     authentication: true,
                     tag: 'backgrounds',
                 },
-            }
+            },
         ] as unknown as routeInstance[];
     }
 }

@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import { BackgroundsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/BackgroundsController';
+import { BackgroundsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/backgrounds/BackgroundsController';
 
 export default class BackgroundsController {
     private readonly _getAllBackgroundsOperation;

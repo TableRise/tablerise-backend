@@ -6,18 +6,18 @@ import UsersController from 'src/interface/users/presentation/users/UsersControl
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
     let usersController: UsersController,
-    createUserOperation: any,
-    updateUserOperation: any,
-    verifyEmailOperation: any,
-    getUsersOperation: any,
-    getUserByIdOperation: any,
-    confirmCodeOperation: any,
-    activateTwoFactorOperation: any,
-    resetTwoFactorOperation: any,
-    updateEmailOperation: any,
-    updateGameInfoOperation: any,
-    resetProfileOperation: any,
-    deleteUserOperation: any;
+        createUserOperation: any,
+        updateUserOperation: any,
+        verifyEmailOperation: any,
+        getUsersOperation: any,
+        getUserByIdOperation: any,
+        confirmCodeOperation: any,
+        activateTwoFactorOperation: any,
+        resetTwoFactorOperation: any,
+        updateEmailOperation: any,
+        updateGameInfoOperation: any,
+        resetProfileOperation: any,
+        deleteUserOperation: any;
 
     context('#register', () => {
         const request = {} as Request;
@@ -52,7 +52,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -99,7 +99,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -108,7 +108,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = { email: 'test20@email.com' };
             await usersController.update(request, response);
 
-            expect(updateUserOperation.execute).to.have.been.calledWith({ userId: request.params.id, payload: request.body });
+            expect(updateUserOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                payload: request.body,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
@@ -148,7 +151,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -196,7 +199,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -242,7 +245,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -250,7 +253,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.getUserById(request, response);
 
-            expect(getUserByIdOperation.execute).to.have.been.calledWith({ userId: request.params.id });
+            expect(getUserByIdOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -289,7 +294,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -335,7 +340,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -344,7 +349,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.query = { code: '123' };
             await usersController.confirmCode(request, response);
 
-            expect(confirmCodeOperation.execute).to.have.been.calledWith({ userId: request.params.id, code: request.query.code });
+            expect(confirmCodeOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                code: request.query.code,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -383,7 +391,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -391,7 +399,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.activateTwoFactor(request, response);
 
-            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
+            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -430,7 +440,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -439,7 +449,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.query = { code: '123' };
             await usersController.resetTwoFactor(request, response);
 
-            expect(resetTwoFactorOperation.execute).to.have.been.calledWith({ userId: request.params.id, code: request.query.code });
+            expect(resetTwoFactorOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                code: request.query.code,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -479,7 +492,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -489,7 +502,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = { email: 'test@email.com' };
             await usersController.updateEmail(request, response);
 
-            expect(updateEmailOperation.execute).to.have.been.calledWith({ userId: request.params.id, code: request.query.code, email: request.body.email });
+            expect(updateEmailOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                code: request.query.code,
+                email: request.body.email,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -529,7 +546,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -538,7 +555,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.query = { infoId: '123', targetInfo: 'badges', operation: 'add' };
             await usersController.updateGameInfo(request, response);
 
-            expect(updateGameInfoOperation.execute).to.have.been.calledWith({ userId: request.params.id, ...request.query });
+            expect(updateGameInfoOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                ...request.query,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -578,7 +598,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -586,7 +606,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetProfile(request, response);
 
-            expect(resetProfileOperation.execute).to.have.been.calledWith(request.params.id);
+            expect(resetProfileOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -627,7 +649,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updateEmailOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
-                deleteUserOperation
+                deleteUserOperation,
             });
         });
 
@@ -635,7 +657,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.delete(request, response);
 
-            expect(deleteUserOperation.execute).to.have.been.calledWith(request.params.id);
+            expect(deleteUserOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();

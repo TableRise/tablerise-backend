@@ -8,11 +8,11 @@ export default interface Route {
         // system: Router;
         // realms: Router;
         // gods: Router;
-        // feats: Router;
+        feats: Router;
         // weapons: Router;
         // items: Router;
         // races: Router;
-        // classes: Router;
+        classes: Router;
         // magicItems: Router;
         // spells: Router;
         // wikis: Router;

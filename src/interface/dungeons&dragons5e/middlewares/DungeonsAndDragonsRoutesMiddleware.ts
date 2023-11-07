@@ -13,6 +13,8 @@ export default class DungeonsAndDragonsRoutesMiddleware {
 
         router.use(this._routesWrapper.routes()['dungeons&dragons5e'].armors);
         router.use(this._routesWrapper.routes()['dungeons&dragons5e'].backgrounds);
+        router.use(this._routesWrapper.routes()['dungeons&dragons5e'].classes);
+        router.use(this._routesWrapper.routes()['dungeons&dragons5e'].feats);
 
         return router;
     }
