@@ -455,4 +455,22 @@ export default class RegisterServices {
             details: usersDetails,
         };
     }
+
+    public async updatePassword(id: string, code: string, payload: string): Promise<void> {
+        if (typeof code !== 'string') HttpRequestErrors.throwError('query-string-incorrect');
+
+        this._logger('info', 'request to get user from database');
+
+        const userInfo = (await this._model.findOne(id)) as User;
+        if (!userInfo) HttpRequestErrors.throwError('user-inexistent');
+        if (!userInfo.inProgress || userInfo.inProgress.code !== code) {
+            HttpRequestErrors.throwError('invalid-email-verify-code');
+        }
+
+        userInfo.updatedAt = new Date().toISOString();
+        userInfo.password = payload;
+        userInfo.inProgress.status = 'password_change';
+        await this._model.update(id, userInfo);
+        this._logger('info', `User ${userInfo.inProgress.status} at time ${userInfo.updatedAt} `);
+    }
 }

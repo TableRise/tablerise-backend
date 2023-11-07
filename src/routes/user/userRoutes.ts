@@ -227,6 +227,26 @@ export const routes = [
             tag: 'management',
         },
     },
+    {
+        method: 'patch',
+        path: `${BASE_PATH}/update/password/:id`,
+        controller: controllers.updatePassword,
+        parameters: [
+            ...generateIDParam(),
+            ...generateQueryParam(3, [
+                { name: 'id', type: 'string' },
+                { name: 'code', type: 'string' },
+                { name: 'password', type: 'string' },
+            ]),
+        ],
+        options: {
+            description:
+                'Route to update user password. Params - id: expects a user id. Query - code: email code for user verification; Body: password: newPassword',
+            middlewares: [VerifyIdMiddleware, passport.authenticate('bearer', { session: false })],
+            authentication: true,
+            tag: 'management',
+        },
+    },
 ] as routeInstance[];
 
 export default {

@@ -1386,6 +1386,98 @@ describe('Services :: User :: UsersServices', () => {
         });
     });
 
+    describe('When a user Password is updated', () => {
+        beforeAll(() => {
+            user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
+            userDetails = GeneralDataFaker.generateUserDetailJSON({} as UserDetailFaker)[0];
+            userServices = new UsersServices(User, UserDetails, logger, ValidateDataMock, schema.user);
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+        const mockDate = new Date().toISOString();
+        describe('and query is sucessfull', () => {
+            beforeAll(() => {
+                user.createdAt = mockDate;
+                user.inProgress = { status: 'done', code: 'KKI450' };
+                jest.spyOn(User, 'findOne').mockResolvedValue(user);
+                jest.spyOn(User, 'update').mockResolvedValue({ ...user, password: '12345678_mock' });
+                jest.spyOn(EmailSender.prototype, 'send').mockResolvedValue({
+                    success: true,
+                    verificationCode: 'KKI450',
+                });
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return the updated user with new password', async () => {
+                const userWithoutMoogoseDocProps = postUserSerializer(user);
+                userResponse = {
+                    ...userWithoutMoogoseDocProps,
+                    password: '12345678_mock',
+                    details: { ...userDetails },
+                } as RegisterUserResponse;
+
+                await userServices.updatePassword(user._id as string, 'KKI450', '12345678_mock');
+
+                expect(user.createdAt).toBe(mockDate);
+                expect(user.password).toBe(userResponse.password);
+            });
+        });
+
+        describe('When payload has a wrong email code', () => {
+            it('should return error 400 Bad request - - invalid-email-verify-code', async () => {
+                try {
+                    await userServices.updatePassword(user._id as string, 'wrong_code', 'password');
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('Invalid email verify code');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+
+            it('should return error 400 Bad request - query-string-incorrect', async () => {
+                try {
+                    await userServices.updatePassword(
+                        user._id as string,
+                        ['wrong_code_type'] as any as string,
+                        'password'
+                    );
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('Query must be a string');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).toBe(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
+
+        describe('When user is not found in database', () => {
+            beforeAll(() => {
+                jest.spyOn(User, 'findOne').mockResolvedValue(null);
+            });
+
+            afterAll(() => {
+                jest.clearAllMocks();
+            });
+
+            it('should return error 404 if not in UserModelDB - user-inexistent', async () => {
+                try {
+                    await userServices.updatePassword('ID_NOT_FOUND', 'code', 'password');
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).toStrictEqual('User does not exist');
+                    expect(err.name).toBe(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).toBe(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+    });
+
     describe('When a user is updated', () => {
         beforeAll(() => {
             user = GeneralDataFaker.generateUserJSON({} as UserFaker)[0];
