@@ -1,9 +1,7 @@
-import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
-import UsersRepository from 'src/infra/repositories/user/UsersRepository';
+import DatabaseManagement from '@tablerise/database-management';
 import { Logger } from 'src/types/Logger';
 
 export interface UpdateTimestampRepositoryContract {
-    usersRepository: UsersRepository;
-    usersDetailsRepository: UsersDetailsRepository;
+    database: DatabaseManagement;
     logger: Logger
 }

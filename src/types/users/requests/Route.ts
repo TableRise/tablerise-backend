@@ -4,10 +4,10 @@ import { Router } from 'express';
 export default interface Route {
     'dungeons&dragons5e': {
         armors: Router;
+        backgrounds: Router;
         // system: Router;
         // realms: Router;
         // gods: Router;
-        // backgrounds: Router;
         // feats: Router;
         // weapons: Router;
         // items: Router;

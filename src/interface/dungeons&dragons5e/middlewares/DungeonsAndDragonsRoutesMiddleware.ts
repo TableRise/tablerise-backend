@@ -12,6 +12,7 @@ export default class DungeonsAndDragonsRoutesMiddleware {
         const router = Router();
 
         router.use(this._routesWrapper.routes()['dungeons&dragons5e'].armors);
+        router.use(this._routesWrapper.routes()['dungeons&dragons5e'].backgrounds);
 
         return router;
     }
