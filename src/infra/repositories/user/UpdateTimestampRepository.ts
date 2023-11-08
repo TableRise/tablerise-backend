@@ -26,7 +26,9 @@ export default class UpdateTimestampRepository {
 
         if (query.userDetailId) {
             const userDetailInDb = await this._usersDetailsModel.findOne(query);
-            const userInDb = await this._usersModel.findOne({ userId: userDetailInDb.userId });
+            const userInDb = await this._usersModel.findOne({
+                userId: userDetailInDb.userId,
+            });
 
             userInDb.updatedAt = new Date().toISOString();
 
@@ -36,7 +38,7 @@ export default class UpdateTimestampRepository {
         throw new HttpRequestErrors({
             message: 'Query not valid or missing to update user timestamp',
             code: HttpStatusCode.BAD_REQUEST,
-            name: 'QueryInvalid'
+            name: 'QueryInvalid',
         });
     }
 }

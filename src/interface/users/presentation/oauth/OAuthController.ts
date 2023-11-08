@@ -10,7 +10,11 @@ export default class OAuthController {
     private readonly _facebookOperation;
     private readonly _discordOperation;
 
-    constructor({ googleOperation, facebookOperation, discordOperation }: OAuthControllerContract) {
+    constructor({
+        googleOperation,
+        facebookOperation,
+        discordOperation,
+    }: OAuthControllerContract) {
         this._googleOperation = googleOperation;
         this._facebookOperation = facebookOperation;
         this._discordOperation = discordOperation;

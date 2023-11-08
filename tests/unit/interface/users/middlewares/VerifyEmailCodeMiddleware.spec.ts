@@ -5,8 +5,7 @@ import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
-    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
-    usersRepository: any;
+    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware, usersRepository: any;
 
     const logger = (): unknown => ({});
 
@@ -20,16 +19,18 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
         context('And params are correct', () => {
             beforeEach(() => {
-                usersRepository = {findOne: () => ({
-                    inProgress: {
-                        status: 'wait_to_verify',
-                        code: 'KLI44'
-                    }
-                })};
+                usersRepository = {
+                    findOne: () => ({
+                        inProgress: {
+                            status: 'wait_to_verify',
+                            code: 'KLI44',
+                        },
+                    }),
+                };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -54,11 +55,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
         context('And params are incorrect', () => {
             beforeEach(() => {
-                usersRepository = {findOne: () => null};
+                usersRepository = { findOne: () => null };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -69,7 +70,9 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     await verifyEmailCodeMiddleware.verify(request, response, next);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Neither id or email was provided to validate the email code');
+                    expect(err.message).to.be.equal(
+                        'Neither id or email was provided to validate the email code'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal('BadRequest');
                 }
@@ -103,16 +106,18 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
         context('And params are correct - but code is invalid', () => {
             beforeEach(() => {
-                usersRepository = {findOne: () => ({
-                    inProgress: {
-                        status: 'wait_to_verify',
-                        code: 'KLI44'
-                    }
-                })};
+                usersRepository = {
+                    findOne: () => ({
+                        inProgress: {
+                            status: 'wait_to_verify',
+                            code: 'KLI44',
+                        },
+                    }),
+                };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -120,7 +125,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 try {
                     request.params = { id: '123' };
                     request.query = { code: 'KLI00' };
-    
+
                     await verifyEmailCodeMiddleware.verify(request, response, next);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
