@@ -1,38 +1,55 @@
 import { Response, Request } from 'express';
-import { container } from 'src/container';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { ArmorsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/armors/ArmorsController';
 
 export default class ArmorsController {
-    public async getAll(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('getAllArmorsOperation');
+    private readonly _getArmorOperation;
+    private readonly _getAllArmorsOperation;
+    private readonly _getDisabledArmorsOperation;
+    private readonly _toggleArmorsAvailabilityOperation;
 
-        const result = await execute();
+    constructor({
+        getArmorOperation,
+        getAllArmorsOperation,
+        getDisabledArmorsOperation,
+        toggleArmorsAvailabilityOperation,
+    }: ArmorsControllerContract) {
+        this._getArmorOperation = getArmorOperation;
+        this._getAllArmorsOperation = getAllArmorsOperation;
+        this._getDisabledArmorsOperation = getDisabledArmorsOperation;
+        this._toggleArmorsAvailabilityOperation = toggleArmorsAvailabilityOperation;
+
+        this.get = this.get.bind(this);
+        this.getAll = this.getAll.bind(this);
+        this.getDisabled = this.getDisabled.bind(this);
+        this.toggleAvailability = this.toggleAvailability.bind(this);
+    }
+
+    public async get(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this._getArmorOperation.execute(id);
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        const result = await this._getAllArmorsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('getDisabledArmorsOperation');
-
-        const result = await execute();
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async get(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('getArmorOperation');
-
-        const { id } = req.params;
-
-        const result = await execute(id);
+        const result = await this._getDisabledArmorsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async toggleAvailability(req: Request, res: Response): Promise<Response> {
-        const { execute } = container.resolve('toggleArmorsAvailabilityOperation');
-
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await execute({ id, availability });
+        const result = await this._toggleArmorsAvailabilityOperation.execute({
+            id,
+            availability: availability === 'true',
+        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 }
