@@ -17,7 +17,7 @@ export default function VerifyIdMiddleware(
         throw new HttpRequestErrors({
             message: 'The parameter id is invalid',
             code: HttpStatusCode.BAD_REQUEST,
-            name: 'Invalid Entry',
+            name: 'BadRequest',
         });
     }
 

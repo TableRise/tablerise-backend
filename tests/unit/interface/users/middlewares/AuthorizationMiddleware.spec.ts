@@ -61,6 +61,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 try {
                     request.user = { userId: '123' };
                     await authorizationMiddleware.checkAdminRole(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('User does not exist');
@@ -89,6 +90,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 try {
                     request.user = { userId: '123' };
                     await authorizationMiddleware.checkAdminRole(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Unauthorized');
@@ -165,6 +167,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                     request.query = { token: '123' };
     
                     await authorizationMiddleware.twoFactor(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('User does not exist');
@@ -237,6 +240,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                     request.query = { token: '123' };
     
                     await authorizationMiddleware.twoFactor(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Two factor code does not match');

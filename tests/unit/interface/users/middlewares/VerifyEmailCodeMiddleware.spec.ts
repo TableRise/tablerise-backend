@@ -67,6 +67,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     delete request.params.id;
                     request.query = { code: 'KLI44' };
                     await verifyEmailCodeMiddleware.verify(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Neither id or email was provided to validate the email code');
@@ -80,6 +81,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     request.params = { id: '123' };
                     request.query = { code: 'KLI44' };
                     await verifyEmailCodeMiddleware.verify(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('User does not exist');
@@ -92,6 +94,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 try {
                     request.query = { email: 'test@email.com', code: 'KLI44' };
                     await verifyEmailCodeMiddleware.verify(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('User does not exist');
@@ -122,6 +125,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     request.query = { code: 'KLI00' };
     
                     await verifyEmailCodeMiddleware.verify(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
