@@ -1,5 +1,9 @@
 import { Response, Request } from 'express';
-import { RegisterUserPayload, UpdateGameInfoPayload, VerifyEmailPayload } from 'src/types/users/requests/Payload';
+import {
+    RegisterUserPayload,
+    UpdateGameInfoPayload,
+    VerifyEmailPayload,
+} from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
 
@@ -29,7 +33,7 @@ export default class UsersController {
         updateEmailOperation,
         updateGameInfoOperation,
         resetProfileOperation,
-        deleteUserOperation
+        deleteUserOperation,
     }: UsersControllerContract) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
@@ -60,7 +64,7 @@ export default class UsersController {
 
     public async register(req: Request, res: Response): Promise<Response> {
         const payload = req.body as RegisterUserPayload;
- 
+
         const result = await this._createUserOperation.execute(payload);
         return res.status(HttpStatusCode.CREATED).json(result);
     }
@@ -98,7 +102,6 @@ export default class UsersController {
     }
 
     public async confirmCode(req: Request, res: Response): Promise<Response> {
-
         const { id } = req.params;
         const { code } = req.query as { code: string };
 
@@ -132,9 +135,15 @@ export default class UsersController {
 
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { infoId, targetInfo, operation } = req.query as unknown as UpdateGameInfoPayload;
+        const { infoId, targetInfo, operation } =
+            req.query as unknown as UpdateGameInfoPayload;
 
-        const result = await this._updateGameInfoOperation.execute({ userId: id, infoId, targetInfo, operation });
+        const result = await this._updateGameInfoOperation.execute({
+            userId: id,
+            infoId,
+            targetInfo,
+            operation,
+        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

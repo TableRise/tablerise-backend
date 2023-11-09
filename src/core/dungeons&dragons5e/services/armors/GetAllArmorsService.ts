@@ -17,9 +17,9 @@ export default class GetAllArmorsService {
         this._logger('info', 'GetAll - GetAllArmorsService');
         this._dungeonsAndDragonsRepository.setEntity('Armors');
 
-        const armorsInDb = (await this._dungeonsAndDragonsRepository.find({ active: true })) as Array<
-            Internacional<Armor>
-        >;
+        const armorsInDb = (await this._dungeonsAndDragonsRepository.find({
+            active: true,
+        })) as Array<Internacional<Armor>>;
         return armorsInDb;
     }
 }

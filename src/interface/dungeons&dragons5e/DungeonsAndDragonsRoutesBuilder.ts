@@ -8,7 +8,10 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _armorsRoutes;
     private readonly _backgroundsRoutes;
 
-    constructor({ armorsRoutes, backgroundsRoutes }: DungeonsAndDragonsRoutesBuilderContract) {
+    constructor({
+        armorsRoutes,
+        backgroundsRoutes,
+    }: DungeonsAndDragonsRoutesBuilderContract) {
         this._armorsRoutes = armorsRoutes;
         this._backgroundsRoutes = backgroundsRoutes;
     }
@@ -20,7 +23,10 @@ export default class DungeonsAndDragonsRoutesBuilder {
         return { armorsRoutes, armorsSwagger };
     }
 
-    private _backgrounds(): { backgroundsRoutes: Router; backgroundsSwagger: routeInstance[] } {
+    private _backgrounds(): {
+        backgroundsRoutes: Router;
+        backgroundsSwagger: routeInstance[];
+    } {
         const backgroundsRoutes = buildRouter(this._backgroundsRoutes.routes(), router);
         const backgroundsSwagger = this._backgroundsRoutes.routes();
 
@@ -36,12 +42,12 @@ export default class DungeonsAndDragonsRoutesBuilder {
     } {
         const dungeonsAndDragonsSwagger = [
             ...this._armors().armorsSwagger,
-            ...this._backgrounds().backgroundsSwagger
+            ...this._backgrounds().backgroundsSwagger,
         ];
 
         const dungeonsAndDragonsRoutes = {
             armors: this._armors().armorsRoutes,
-            backgrounds: this._backgrounds().backgroundsRoutes
+            backgrounds: this._backgrounds().backgroundsRoutes,
         };
 
         return { dungeonsAndDragonsSwagger, dungeonsAndDragonsRoutes };

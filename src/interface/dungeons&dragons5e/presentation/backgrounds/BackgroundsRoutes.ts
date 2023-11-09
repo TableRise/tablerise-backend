@@ -31,7 +31,7 @@ export default class BackgroundRoutes {
                     authentication: true,
                     tag: 'backgrounds',
                 },
-            }
+            },
         ] as unknown as routeInstance[];
     }
 }

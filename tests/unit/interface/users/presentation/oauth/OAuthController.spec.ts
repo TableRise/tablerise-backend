@@ -6,9 +6,9 @@ import OAuthController from 'src/interface/users/presentation/oauth/OAuthControl
 
 describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () => {
     let oauthController: OAuthController,
-    googleOperation: any,
-    facebookOperation: any,
-    discordOperation: any;
+        googleOperation: any,
+        facebookOperation: any,
+        discordOperation: any;
 
     context('#google', () => {
         const request = {} as Request;
@@ -25,7 +25,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
         });
 
@@ -45,7 +45,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
 
             await oauthController.google(request, response);
@@ -71,7 +71,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
         });
 
@@ -91,7 +91,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
 
             await oauthController.facebook(request, response);
@@ -118,7 +118,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
         });
 
@@ -129,7 +129,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
-                discordOperation
+                discordOperation,
             });
 
             await oauthController.discord(request, response);

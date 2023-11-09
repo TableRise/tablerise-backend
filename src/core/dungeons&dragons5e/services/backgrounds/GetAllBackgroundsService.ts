@@ -15,9 +15,9 @@ export default class GetAllBackgroundsService {
         this._logger('info', 'GetAll - GetAllBackgroundsService');
         this._dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
-        const backgrounds = await this._dungeonsAndDragonsRepository.find({ active: true }) as Array<
-            Internacional<Background>
-        >;
+        const backgrounds = (await this._dungeonsAndDragonsRepository.find({
+            active: true,
+        })) as Array<Internacional<Background>>;
 
         return backgrounds;
     }

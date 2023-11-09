@@ -4,9 +4,7 @@ import OAuthRoutes from 'src/interface/users/presentation/oauth/OAuthRoutes';
 import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
 
 describe('Interface :: Users :: Presentation :: Oauth :: OAuthRoutes', () => {
-    let oauthRoutes: OAuthRoutes,
-        oAuthController,
-        authErrorMiddleware;
+    let oauthRoutes: OAuthRoutes, oAuthController, authErrorMiddleware;
 
     context('When all the routes are correctly implemented', () => {
         oAuthController = {} as OAuthController;
@@ -14,7 +12,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthRoutes', () => {
 
         oauthRoutes = new OAuthRoutes({
             oAuthController,
-            authErrorMiddleware
+            authErrorMiddleware,
         } as unknown as OAuthRoutesContract);
 
         it('Should return the correct number of routes', () => {

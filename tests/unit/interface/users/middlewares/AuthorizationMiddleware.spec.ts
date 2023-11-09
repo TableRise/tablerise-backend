@@ -7,8 +7,8 @@ import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 
 describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
-    usersRepository: any,
-    usersDetailsRepository: any;
+        usersRepository: any,
+        usersDetailsRepository: any;
 
     const logger = (): unknown => ({});
 
@@ -23,15 +23,17 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('And the user is admin', () => {
             beforeEach(() => {
                 usersRepository = {};
-    
-                usersDetailsRepository = {findOne: () => ({
-                    role: 'admin'
-                })};
-    
+
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        role: 'admin',
+                    }),
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -47,13 +49,13 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('And the user not exist', () => {
             beforeEach(() => {
                 usersRepository = {};
-    
-                usersDetailsRepository = {findOne: () => null};
-    
+
+                usersDetailsRepository = { findOne: () => null };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -74,15 +76,17 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('And the user is not admin', () => {
             beforeEach(() => {
                 usersRepository = {};
-    
-                usersDetailsRepository = {findOne: () => ({
-                    role: 'user'
-                })};
-    
+
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        role: 'user',
+                    }),
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
             });
 
@@ -111,18 +115,20 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
         context('And the 2FA token is correct', () => {
             beforeEach(() => {
-                usersRepository = {findOne: () => ({
-                    twoFactorSecret: {
-                        active: true
-                    }
-                })}
-    
+                usersRepository = {
+                    findOne: () => ({
+                        twoFactorSecret: {
+                            active: true,
+                        },
+                    }),
+                };
+
                 usersDetailsRepository = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
 
                 sinon.stub(speakeasy.totp, 'verify').returns(true);
@@ -147,11 +153,11 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             beforeEach(() => {
                 usersRepository = { findOne: () => null };
                 usersDetailsRepository = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
 
                 sinon.stub(speakeasy.totp, 'verify').returns(true);
@@ -165,7 +171,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 try {
                     request.params = { id: '123' };
                     request.query = { token: '123' };
-    
+
                     await authorizationMiddleware.twoFactor(request, response, next);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
@@ -179,18 +185,20 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
         context('And the 2FA token is incorrect - 2FA not active', () => {
             beforeEach(() => {
-                usersRepository = usersRepository = {findOne: () => ({
-                    twoFactorSecret: {
-                        active: false
-                    }
-                })};
+                usersRepository = usersRepository = {
+                    findOne: () => ({
+                        twoFactorSecret: {
+                            active: false,
+                        },
+                    }),
+                };
 
                 usersDetailsRepository = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
 
                 sinon.stub(speakeasy.totp, 'verify').returns(true);
@@ -213,18 +221,20 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
         context('And the 2FA token is incorrect - 2FA incorrect', () => {
             beforeEach(() => {
-                usersRepository = usersRepository = {findOne: () => ({
-                    twoFactorSecret: {
-                        active: true
-                    }
-                })};
+                usersRepository = usersRepository = {
+                    findOne: () => ({
+                        twoFactorSecret: {
+                            active: true,
+                        },
+                    }),
+                };
 
                 usersDetailsRepository = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    logger
+                    logger,
                 });
 
                 sinon.stub(speakeasy.totp, 'verify').returns(false);
@@ -238,7 +248,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 try {
                     request.params = { id: '123' };
                     request.query = { token: '123' };
-    
+
                     await authorizationMiddleware.twoFactor(request, response, next);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
