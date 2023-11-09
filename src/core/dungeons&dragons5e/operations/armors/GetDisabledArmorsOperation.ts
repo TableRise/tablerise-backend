@@ -16,7 +16,7 @@ export default class GetDisabledArmorsOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(id: string): Promise<Array<Internacional<Armor>>> {
+    public async execute(): Promise<Array<Internacional<Armor>>> {
         this._logger('info', 'Execute - GetArmorOperation');
         const armors = await this._getDisabledArmorsService.getAllDisabled();
         return armors;

@@ -4,21 +4,21 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/infra/helpers/user/parametersWrapper';
-import { ArmorsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/armors/ArmorsRoutes';
+import { FeatsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/feats/FeatsRoutes';
 
-const BASE_PATH = '/dnd5e/armors';
+const BASE_PATH = '/dnd5e/feats';
 
-export default class ArmorsRoutes {
-    private readonly _armorsController;
+export default class FeatsRoutes {
+    private readonly _featsController;
     private readonly _verifyIdMiddleware;
     private readonly _verifyBooleanQueryMiddleware;
 
     constructor({
-        armorsController,
+        featsController,
         verifyIdMiddleware,
         verifyBooleanQueryMiddleware,
-    }: ArmorsRoutesContract) {
-        this._armorsController = armorsController;
+    }: FeatsRoutesContract) {
+        this._featsController = featsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
@@ -28,35 +28,35 @@ export default class ArmorsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._armorsController.getAll,
+                controller: this._featsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('bearer', { session: false })],
                     authentication: true,
-                    tag: 'armors',
+                    tag: 'feats',
                 },
             },
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._armorsController.getDisabled,
+                controller: this._featsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('bearer', { session: false })],
                     authentication: true,
-                    tag: 'armors',
+                    tag: 'feats',
                 },
             },
             {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._armorsController.get,
+                controller: this._featsController.get,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,
-                    tag: 'armors',
+                    tag: 'feats',
                 },
             },
             {
@@ -66,14 +66,14 @@ export default class ArmorsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._armorsController.toggleAvailability,
+                controller: this._featsController.toggleAvailability,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,
-                    tag: 'armors',
+                    tag: 'feats',
                 },
             },
         ] as unknown as routeInstance[];
