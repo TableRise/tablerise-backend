@@ -5,7 +5,7 @@ import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import JWTGenerator from 'src/infra/helpers/user/JWTGenerator';
 import newUUID from 'src/infra/helpers/user/newUUID';
-import { OAuthServiceContract } from 'src/types/users/contracts/presentation/oauth/OAuth';
+import { OAuthServiceContract } from 'src/types/users/contracts/core/OAuth';
 import {
     __FullUser,
     __UserEnriched,
@@ -74,6 +74,7 @@ export default class OAuthService {
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = 'oauth';
+        user.twoFactorSecret = { active: false }
         user.inProgress = {
             status: 'wait_to_complete',
             code: '',

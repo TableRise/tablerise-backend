@@ -1,19 +1,24 @@
 import 'src/interface/users/strategies/GoogleStrategy';
 import 'src/interface/users/strategies/FacebookStrategy';
 import 'src/interface/users/strategies/DiscordStrategy';
+import 'src/interface/common/strategies/BearerStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
+import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import generateIDParam from 'src/infra/helpers/user/parametersWrapper';
 
 const BASE_PATH = '/oauth';
 
 export default class OAuthRoutes {
     private readonly _oAuthController;
     private readonly _authErrorMiddleware;
+    private readonly _verifyIdMiddleware;
 
-    constructor({ oAuthController, authErrorMiddleware }: OAuthRoutesContract) {
+    constructor({ oAuthController, verifyIdMiddleware, authErrorMiddleware }: OAuthRoutesContract) {
         this._authErrorMiddleware = authErrorMiddleware;
+        this._verifyIdMiddleware = verifyIdMiddleware;
         this._oAuthController = oAuthController;
     }
 
@@ -132,6 +137,22 @@ export default class OAuthRoutes {
                     tag: 'external',
                 },
                 hide: true,
+            },
+
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/complete`,
+                parameters: [...generateIDParam()],
+                controller: this._oAuthController.complete,
+                schema: DomainDataFaker.mocks.completeUserMock,
+                options: {
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false })
+                    ],
+                    authentication: true,
+                    tag: 'register',
+                },
             },
         ] as unknown as routeInstance[];
     }

@@ -41,7 +41,7 @@ export default class EmailSender {
         if (contentType === 'text') message.text = content.body;
 
         const transporter = nodemailer.createTransport(config);
-        await transporter.sendMail(message);
+        if (process.env.NODE_ENV === 'production') await transporter.sendMail(message);
 
         return true;
     }

@@ -22,6 +22,7 @@ export default class UpdateTimestampRepository {
             userInDb.updatedAt = new Date().toISOString();
 
             await this._usersModel.update({ userId: userInDb.userId }, userInDb);
+            return;
         }
 
         if (query.userDetailId) {
@@ -33,6 +34,7 @@ export default class UpdateTimestampRepository {
             userInDb.updatedAt = new Date().toISOString();
 
             await this._usersDetailsModel.update({ userId: userInDb.userId }, userInDb);
+            return;
         }
 
         throw new HttpRequestErrors({
