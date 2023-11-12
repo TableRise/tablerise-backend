@@ -19,10 +19,20 @@ function generateUserDetailsJSON(
     return generateUserDetailsFaker({ count, userDetailId });
 }
 
-const [{ email, password }] = generateUsersJSON();
+const [{ email, password, nickname, picture }] = generateUsersJSON();
+const [{ firstName, lastName, pronoun, birthday, biography }] = generateUserDetailsJSON();
 
 const mocks = {
     loginMock: { email, password },
+    completeUserMock: {
+        nickname,
+        picture,
+        firstName,
+        lastName,
+        pronoun,
+        birthday,
+        biography,
+    },
 };
 
 export default {

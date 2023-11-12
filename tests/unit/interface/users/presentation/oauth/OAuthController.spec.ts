@@ -8,7 +8,8 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
     let oauthController: OAuthController,
         googleOperation: any,
         facebookOperation: any,
-        discordOperation: any;
+        discordOperation: any,
+        completeUserOperation: any;
 
     context('#google', () => {
         const request = {} as Request;
@@ -21,11 +22,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             googleOperation = { execute: sinon.spy(() => ({})) };
             facebookOperation = { execute: () => ({}) };
             discordOperation = { execute: () => ({}) };
+            completeUserOperation = { execute: () => ({}) };
 
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
         });
 
@@ -46,6 +49,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
 
             await oauthController.google(request, response);
@@ -67,11 +71,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             googleOperation = { execute: () => ({}) };
             facebookOperation = { execute: sinon.spy(() => ({})) };
             discordOperation = { execute: () => ({}) };
+            completeUserOperation = { execute: () => ({}) };
 
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
         });
 
@@ -92,6 +98,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
 
             await oauthController.facebook(request, response);
@@ -114,11 +121,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             googleOperation = { execute: () => ({}) };
             facebookOperation = { execute: () => ({}) };
             discordOperation = { execute: sinon.spy(() => ({})) };
+            completeUserOperation = { execute: () => ({}) };
 
             oauthController = new OAuthController({
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
         });
 
@@ -130,6 +139,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
+                completeUserOperation,
             });
 
             await oauthController.discord(request, response);

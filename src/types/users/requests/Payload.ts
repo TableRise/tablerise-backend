@@ -1,5 +1,12 @@
-import { UserDetailPayload } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { UserPayload } from 'src/domains/user/schemas/usersValidationSchema';
+import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
+import {
+    UserDetailInstance,
+    UserDetailPayload,
+} from 'src/domains/user/schemas/userDetailsValidationSchema';
+import {
+    UserInstance,
+    UserPayload,
+} from 'src/domains/user/schemas/usersValidationSchema';
 
 export interface UserExternal {
     providerId: string;
@@ -10,6 +17,11 @@ export interface UserExternal {
 export interface __FullUserPayload {
     user: UserPayload;
     userDetails: UserDetailPayload;
+}
+
+export interface CompleteOAuth {
+    userId: string;
+    payload: CompleteOAuthPayload;
 }
 
 export interface emailUpdatePayload {
@@ -49,6 +61,12 @@ export interface VerifyEmailPayload {
 export interface ConfirmTokenPayload {
     userId: string;
     token: string;
+}
+
+export interface __UserWithID {
+    userId: string;
+    user: UserInstance;
+    userDetails: UserDetailInstance;
 }
 
 export interface GetByIdPayload {
