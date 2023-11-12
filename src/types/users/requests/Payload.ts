@@ -1,6 +1,12 @@
 import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
-import { UserDetailInstance, UserDetailPayload } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { UserInstance, UserPayload } from 'src/domains/user/schemas/usersValidationSchema';
+import {
+    UserDetailInstance,
+    UserDetailPayload,
+} from 'src/domains/user/schemas/userDetailsValidationSchema';
+import {
+    UserInstance,
+    UserPayload,
+} from 'src/domains/user/schemas/usersValidationSchema';
 
 export interface UserExternal {
     providerId: string;

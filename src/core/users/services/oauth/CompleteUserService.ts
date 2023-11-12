@@ -9,7 +9,11 @@ export default class CompleteUserService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, usersDetailsRepository, logger }: CompleteUserServiceContract) {
+    constructor({
+        usersRepository,
+        usersDetailsRepository,
+        logger,
+    }: CompleteUserServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -18,7 +22,10 @@ export default class CompleteUserService {
         this.save = this.save.bind(this);
     }
 
-    public async process({ user, userDetails }: __FullUser, payload: CompleteOAuthPayload): Promise<__FullUser> {
+    public async process(
+        { user, userDetails }: __FullUser,
+        payload: CompleteOAuthPayload
+    ): Promise<__FullUser> {
         this._logger('info', 'Process - CompleteUserService');
         user.nickname = payload.nickname;
 
@@ -27,8 +34,8 @@ export default class CompleteUserService {
         try {
             nicknameExists = await this._usersRepository.findOne({
                 nickname: user.nickname,
-                tag: user.tag
-            });       
+                tag: user.tag,
+            });
         } catch (error) {
             if (nicknameExists) HttpRequestErrors.throwError('tag-already-exist');
 
@@ -39,28 +46,32 @@ export default class CompleteUserService {
             userDetails.pronoun = payload.pronoun;
             userDetails.birthday = payload.birthday;
             userDetails.biography = payload.biography;
-    
-            return { user, userDetails };   
+
+            return { user, userDetails };
         }
 
         HttpRequestErrors.throwError('tag-already-exist');
     }
 
-    public async save({ userId, user, userDetails }: __UserWithID): Promise<RegisterUserResponse> {
+    public async save({
+        userId,
+        user,
+        userDetails,
+    }: __UserWithID): Promise<RegisterUserResponse> {
         this._logger('info', 'Save - CompleteUserService');
         const userUpdated = await this._usersRepository.update({
             query: { userId },
-            payload: user
+            payload: user,
         });
 
         const userDetailsUpdated = await this._usersDetailsRepository.update({
             query: { userId },
-            payload: userDetails
+            payload: userDetails,
         });
 
         return {
             ...userUpdated,
-            details: userDetailsUpdated
-        }
+            details: userDetailsUpdated,
+        };
     }
 }

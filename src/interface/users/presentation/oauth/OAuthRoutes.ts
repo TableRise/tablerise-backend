@@ -16,7 +16,11 @@ export default class OAuthRoutes {
     private readonly _authErrorMiddleware;
     private readonly _verifyIdMiddleware;
 
-    constructor({ oAuthController, verifyIdMiddleware, authErrorMiddleware }: OAuthRoutesContract) {
+    constructor({
+        oAuthController,
+        verifyIdMiddleware,
+        authErrorMiddleware,
+    }: OAuthRoutesContract) {
         this._authErrorMiddleware = authErrorMiddleware;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._oAuthController = oAuthController;
@@ -148,7 +152,7 @@ export default class OAuthRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false })
+                        passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,
                     tag: 'register',

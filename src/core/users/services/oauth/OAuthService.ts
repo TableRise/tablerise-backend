@@ -74,7 +74,7 @@ export default class OAuthService {
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = 'oauth';
-        user.twoFactorSecret = { active: false }
+        user.twoFactorSecret = { active: false };
         user.inProgress = {
             status: 'wait_to_complete',
             code: '',

@@ -28,7 +28,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
         });
 
@@ -49,7 +49,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
 
             await oauthController.google(request, response);
@@ -77,7 +77,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
         });
 
@@ -98,7 +98,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
 
             await oauthController.facebook(request, response);
@@ -127,7 +127,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
         });
 
@@ -139,7 +139,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
 
             await oauthController.discord(request, response);

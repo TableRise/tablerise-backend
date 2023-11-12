@@ -6,7 +6,7 @@ const schemas = {
     userZod,
     userDetailZod,
     emailUpdateZod: emailUpdateZodSchema,
-    oAuthComplete: oAuthCompleteZodSchema
+    oAuthComplete: oAuthCompleteZodSchema,
 };
 
 export type SchemasUserType = typeof schemas;

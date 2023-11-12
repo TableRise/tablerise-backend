@@ -31,8 +31,8 @@ const mocks = {
         lastName,
         pronoun,
         birthday,
-        biography
-    }
+        biography,
+    },
 };
 
 export default {
