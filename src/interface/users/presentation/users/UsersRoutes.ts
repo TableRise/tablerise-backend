@@ -8,7 +8,7 @@ import generateIDParam, {
 import mocks from 'src/infra/datafakers/users/mocks/users';
 import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import desc from 'src/interface/users/presentation/users/RoutesDescriptions';
+import desc from 'src/interface/users/presentation/users/RoutesDescription';
 
 const BASE_PATH = '/profile';
 
