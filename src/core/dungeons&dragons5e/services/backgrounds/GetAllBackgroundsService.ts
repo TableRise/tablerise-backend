@@ -9,16 +9,18 @@ export default class GetAllBackgroundsService {
     constructor({ dungeonsAndDragonsRepository, logger }: GetAllArmorsServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
+
+        this.getAll = this.getAll.bind(this);
     }
 
     public async getAll(): Promise<Array<Internacional<Background>>> {
         this._logger('info', 'GetAll - GetAllBackgroundsService');
         this._dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
-        const backgrounds = (await this._dungeonsAndDragonsRepository.find({
+        const backgroundsInDb = (await this._dungeonsAndDragonsRepository.find({
             active: true,
         })) as Array<Internacional<Background>>;
 
-        return backgrounds;
+        return backgroundsInDb;
     }
 }
