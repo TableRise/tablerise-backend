@@ -1,4 +1,7 @@
-import userZod, { emailUpdateZodSchema } from './usersValidationSchema';
+import userZod, {
+    emailUpdateZodSchema,
+    passwordUpdateZodSchema,
+} from './usersValidationSchema';
 import userDetailZod from './userDetailsValidationSchema';
 import { oAuthCompleteZodSchema } from './oAuthValidationSchema';
 
@@ -6,6 +9,7 @@ const schemas = {
     userZod,
     userDetailZod,
     emailUpdateZod: emailUpdateZodSchema,
+    passwordUpdateZod: passwordUpdateZodSchema,
     oAuthComplete: oAuthCompleteZodSchema,
 };
 

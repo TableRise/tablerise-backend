@@ -33,6 +33,10 @@ const mocks = {
         birthday,
         biography,
     },
+    activateSecretQuestionMock: {
+        question: 'Why the sun is hot?',
+        answer: 'Because of nuclear fusion',
+    },
 };
 
 export default {

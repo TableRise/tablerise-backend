@@ -1,3 +1,4 @@
+import { UserSecretQuestion } from './../../../domains/user/schemas/userDetailsValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
 import {
     UserDetailInstance,
@@ -53,6 +54,12 @@ export interface UpdateEmailPayload {
     email: string;
 }
 
+export interface UpdatePasswordPayload {
+    userId: string;
+    code: string;
+    password: string;
+}
+
 export interface VerifyEmailPayload {
     email: string;
     newEmail: string;
@@ -61,6 +68,11 @@ export interface VerifyEmailPayload {
 export interface ConfirmTokenPayload {
     userId: string;
     token: string;
+}
+
+export interface ActivateSecretQuestionPayload {
+    userId: string;
+    payload: UserSecretQuestion;
 }
 
 export interface __UserWithID {

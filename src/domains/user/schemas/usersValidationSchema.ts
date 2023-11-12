@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const userLoginZodSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8).max(16),
+    password: z.string().min(8).max(32),
 });
 
 const twoFactorSecretZodSchema = z.object({
@@ -13,7 +13,7 @@ const twoFactorSecretZodSchema = z.object({
 
 const usersZodSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8).max(16),
+    password: z.string().min(8).max(32),
     nickname: z.string().max(32),
     picture: z.string().max(120).or(z.null()),
     twoFactorSecret: twoFactorSecretZodSchema,
@@ -21,6 +21,10 @@ const usersZodSchema = z.object({
 
 export const emailUpdateZodSchema = z.object({
     email: z.string().email(),
+});
+
+export const passwordUpdateZodSchema = z.object({
+    password: z.string().min(8).max(32),
 });
 
 export type UserPayload = z.infer<typeof usersZodSchema>;

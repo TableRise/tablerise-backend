@@ -8,6 +8,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import generateIDParam from 'src/infra/helpers/user/parametersWrapper';
+import desc from 'src/interface/users/presentation/oauth/RoutesDescripions';
 
 const BASE_PATH = '/oauth';
 
@@ -35,6 +36,7 @@ export default class OAuthRoutes {
                     middlewares: [passport.authenticate('google')],
                     authentication: false,
                     tag: 'external',
+                    description: desc.google
                 },
             },
             {
@@ -70,6 +72,7 @@ export default class OAuthRoutes {
                     middlewares: [passport.authenticate('facebook')],
                     authentication: false,
                     tag: 'external',
+                    description: desc.facebook
                 },
             },
             {
@@ -105,6 +108,7 @@ export default class OAuthRoutes {
                     middlewares: [passport.authenticate('discord')],
                     authentication: false,
                     tag: 'external',
+                    description: desc.discord
                 },
             },
             {
@@ -156,6 +160,7 @@ export default class OAuthRoutes {
                     ],
                     authentication: true,
                     tag: 'register',
+                    description: desc.confirmExternal
                 },
             },
         ] as unknown as routeInstance[];

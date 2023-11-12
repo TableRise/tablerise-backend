@@ -6,6 +6,7 @@ import {
 } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
+import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -14,9 +15,11 @@ export default class UsersController {
     private readonly _getUsersOperation;
     private readonly _getUserByIdOperation;
     private readonly _confirmCodeOperation;
+    private readonly _activateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
     private readonly _resetTwoFactorOperation;
     private readonly _updateEmailOperation;
+    private readonly _updatePasswordOperation;
     private readonly _updateGameInfoOperation;
     private readonly _resetProfileOperation;
     private readonly _deleteUserOperation;
@@ -28,9 +31,11 @@ export default class UsersController {
         getUsersOperation,
         getUserByIdOperation,
         confirmCodeOperation,
+        activateSecretQuestionOperation,
         activateTwoFactorOperation,
         resetTwoFactorOperation,
         updateEmailOperation,
+        updatePasswordOperation,
         updateGameInfoOperation,
         resetProfileOperation,
         deleteUserOperation,
@@ -41,9 +46,11 @@ export default class UsersController {
         this._getUsersOperation = getUsersOperation;
         this._getUserByIdOperation = getUserByIdOperation;
         this._confirmCodeOperation = confirmCodeOperation;
+        this._activateSecretQuestionOperation = activateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
         this._resetTwoFactorOperation = resetTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
+        this._updatePasswordOperation = updatePasswordOperation;
         this._updateGameInfoOperation = updateGameInfoOperation;
         this._resetProfileOperation = resetProfileOperation;
         this._deleteUserOperation = deleteUserOperation;
@@ -53,10 +60,12 @@ export default class UsersController {
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.getUserById = this.getUserById.bind(this);
+        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.confirmCode = this.confirmCode.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
         this.delete = this.delete.bind(this);
@@ -101,6 +110,15 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json({ token });
     }
 
+    public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as UserSecretQuestion;
+
+        await this._activateSecretQuestionOperation.execute({ userId: id, payload });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
     public async confirmCode(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { code } = req.query as { code: string };
@@ -130,7 +148,16 @@ export default class UsersController {
         const { email } = req.body;
 
         await this._updateEmailOperation.execute({ userId: id, code, email });
-        return res.status(HttpStatusCode.OK).end();
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async updatePassword(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { code } = req.query as { code: string };
+        const { password } = req.body;
+
+        await this._updatePasswordOperation.execute({ userId: id, code, password });
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
