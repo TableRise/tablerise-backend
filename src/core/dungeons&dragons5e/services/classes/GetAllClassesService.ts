@@ -19,9 +19,7 @@ export default class GetAllClassesService {
 
         const classesInDb = (await this._dungeonsAndDragonsRepository.find({
             active: true,
-        })) as Array<
-            Internacional<Class>
-        >;
+        })) as Array<Internacional<Class>>;
         return classesInDb;
     }
 }

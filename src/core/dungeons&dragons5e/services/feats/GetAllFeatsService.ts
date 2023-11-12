@@ -19,9 +19,7 @@ export default class GetAllFeatsService {
 
         const featsInDb = (await this._dungeonsAndDragonsRepository.find({
             active: true,
-        })) as Array<
-            Internacional<Feat>
-        >;
+        })) as Array<Internacional<Feat>>;
         return featsInDb;
     }
 }
