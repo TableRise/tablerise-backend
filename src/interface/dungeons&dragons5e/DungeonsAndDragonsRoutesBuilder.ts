@@ -9,17 +9,23 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _backgroundsRoutes;
     private readonly _classesRoutes;
     private readonly _featsRoutes;
+    private readonly _racesRoutes;
+    private readonly _realmsRoutes;
 
     constructor({
         armorsRoutes,
         backgroundsRoutes,
         classesRoutes,
         featsRoutes,
+        racesRoutes,
+        realmsRoutes,
     }: DungeonsAndDragonsRoutesBuilderContract) {
         this._armorsRoutes = armorsRoutes;
         this._backgroundsRoutes = backgroundsRoutes;
         this._classesRoutes = classesRoutes;
         this._featsRoutes = featsRoutes;
+        this._racesRoutes = racesRoutes;
+        this._realmsRoutes = realmsRoutes;
     }
 
     private _armors(): { armorsRoutes: Router; armorsSwagger: routeInstance[] } {
@@ -53,6 +59,20 @@ export default class DungeonsAndDragonsRoutesBuilder {
         return { featsRoutes, featsSwagger };
     }
 
+    private _races(): { recesRoutes: Router; racesSwagger: routeInstance[] } {
+        const recesRoutes = buildRouter(this._racesRoutes.routes(), router);
+        const racesSwagger = this._racesRoutes.routes();
+
+        return { recesRoutes, racesSwagger };
+    }
+
+    private _realms(): { realmsRoutes: Router; realmsSwagger: routeInstance[] } {
+        const realmsRoutes = buildRouter(this._realmsRoutes.routes(), router);
+        const realmsSwagger = this._realmsRoutes.routes();
+
+        return { realmsRoutes, realmsSwagger };
+    }
+
     public get(): {
         dungeonsAndDragonsSwagger: routeInstance[];
         dungeonsAndDragonsRoutes: {
@@ -60,6 +80,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             backgrounds: Router;
             classes: Router;
             feats: Router;
+            races: Router;
+            realms: Router;
         };
     } {
         const dungeonsAndDragonsSwagger = [
@@ -67,6 +89,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             ...this._backgrounds().backgroundsSwagger,
             ...this._classes().classesSwagger,
             ...this._feats().featsSwagger,
+            ...this._races().racesSwagger,
+            ...this._realms().realmsSwagger,
         ];
 
         const dungeonsAndDragonsRoutes = {
@@ -74,6 +98,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             backgrounds: this._backgrounds().backgroundsRoutes,
             classes: this._classes().classesRoutes,
             feats: this._feats().featsRoutes,
+            races: this._races().recesRoutes,
+            realms: this._realms().realmsRoutes,
         };
 
         return { dungeonsAndDragonsSwagger, dungeonsAndDragonsRoutes };
