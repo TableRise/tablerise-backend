@@ -17,7 +17,9 @@ export default class GetAllClassesService {
         this._logger('info', 'GetAll - GetAllClassesService');
         this._dungeonsAndDragonsRepository.setEntity('Classes');
 
-        const classesInDb = (await this._dungeonsAndDragonsRepository.find({})) as Array<
+        const classesInDb = (await this._dungeonsAndDragonsRepository.find({
+            active: true,
+        })) as Array<
             Internacional<Class>
         >;
         return classesInDb;

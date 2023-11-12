@@ -17,7 +17,9 @@ export default class GetAllFeatsService {
         this._logger('info', 'GetAll - GetAllFeatsService');
         this._dungeonsAndDragonsRepository.setEntity('Feats');
 
-        const featsInDb = (await this._dungeonsAndDragonsRepository.find({})) as Array<
+        const featsInDb = (await this._dungeonsAndDragonsRepository.find({
+            active: true,
+        })) as Array<
             Internacional<Feat>
         >;
         return featsInDb;
