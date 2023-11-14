@@ -11,6 +11,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _featsRoutes;
     private readonly _racesRoutes;
     private readonly _realmsRoutes;
+    private readonly _spellsRoutes;
 
     constructor({
         armorsRoutes,
@@ -19,6 +20,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
         featsRoutes,
         racesRoutes,
         realmsRoutes,
+        spellsRoutes,
     }: DungeonsAndDragonsRoutesBuilderContract) {
         this._armorsRoutes = armorsRoutes;
         this._backgroundsRoutes = backgroundsRoutes;
@@ -26,6 +28,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
         this._featsRoutes = featsRoutes;
         this._racesRoutes = racesRoutes;
         this._realmsRoutes = realmsRoutes;
+        this._spellsRoutes = spellsRoutes;
     }
 
     private _armors(): { armorsRoutes: Router; armorsSwagger: routeInstance[] } {
@@ -73,6 +76,13 @@ export default class DungeonsAndDragonsRoutesBuilder {
         return { realmsRoutes, realmsSwagger };
     }
 
+    private _spells(): { spellsRoutes: Router; spellsSwagger: routeInstance[] } {
+        const spellsRoutes = buildRouter(this._spellsRoutes.routes(), router);
+        const spellsSwagger = this._spellsRoutes.routes();
+
+        return { spellsRoutes, spellsSwagger };
+    }
+
     public get(): {
         dungeonsAndDragonsSwagger: routeInstance[];
         dungeonsAndDragonsRoutes: {
@@ -82,6 +92,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             feats: Router;
             races: Router;
             realms: Router;
+            spells: Router;
         };
     } {
         const dungeonsAndDragonsSwagger = [
@@ -91,6 +102,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             ...this._feats().featsSwagger,
             ...this._races().racesSwagger,
             ...this._realms().realmsSwagger,
+            ...this._spells().spellsSwagger,
         ];
 
         const dungeonsAndDragonsRoutes = {
@@ -100,6 +112,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             feats: this._feats().featsRoutes,
             races: this._races().recesRoutes,
             realms: this._realms().realmsRoutes,
+            spells: this._spells().spellsRoutes,
         };
 
         return { dungeonsAndDragonsSwagger, dungeonsAndDragonsRoutes };

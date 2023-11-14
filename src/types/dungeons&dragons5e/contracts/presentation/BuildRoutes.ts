@@ -4,6 +4,7 @@ import ClassRoutes from 'src/interface/dungeons&dragons5e/presentation/classes/C
 import FeatRoutes from 'src/interface/dungeons&dragons5e/presentation/feats/FeatsRoutes';
 import RacesRoutes from 'src/interface/dungeons&dragons5e/presentation/races/RacesRoutes';
 import RealmsRoutes from 'src/interface/dungeons&dragons5e/presentation/realms/RealmsRoutes';
+import SpellsRoutes from 'src/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
 
 export interface DungeonsAndDragonsRoutesBuilderContract {
     armorsRoutes: ArmorsRoutes;
@@ -12,4 +13,5 @@ export interface DungeonsAndDragonsRoutesBuilderContract {
     featsRoutes: FeatRoutes;
     racesRoutes: RacesRoutes;
     realmsRoutes: RealmsRoutes;
+    spellsRoutes: SpellsRoutes;
 }
