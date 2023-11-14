@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
+    UpdateSecretQuestion,
     VerifyEmailPayload,
 } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
@@ -19,6 +20,7 @@ export default class UsersController {
     private readonly _activateTwoFactorOperation;
     private readonly _resetTwoFactorOperation;
     private readonly _updateEmailOperation;
+    private readonly _updateSecretQuestionOperation;
     private readonly _updatePasswordOperation;
     private readonly _updateGameInfoOperation;
     private readonly _resetProfileOperation;
@@ -35,6 +37,7 @@ export default class UsersController {
         activateTwoFactorOperation,
         resetTwoFactorOperation,
         updateEmailOperation,
+        updateSecretQuestionOperation,
         updatePasswordOperation,
         updateGameInfoOperation,
         resetProfileOperation,
@@ -50,6 +53,7 @@ export default class UsersController {
         this._activateTwoFactorOperation = activateTwoFactorOperation;
         this._resetTwoFactorOperation = resetTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
+        this._updateSecretQuestionOperation = updateSecretQuestionOperation;
         this._updatePasswordOperation = updatePasswordOperation;
         this._updateGameInfoOperation = updateGameInfoOperation;
         this._resetProfileOperation = resetProfileOperation;
@@ -157,6 +161,14 @@ export default class UsersController {
         const { password } = req.body;
 
         await this._updatePasswordOperation.execute({ userId: id, code, password });
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as UpdateSecretQuestion;
+
+        await this._updateSecretQuestionOperation.execute({ userId: id, payload });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

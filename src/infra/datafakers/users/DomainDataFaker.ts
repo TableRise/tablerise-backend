@@ -6,6 +6,7 @@ import {
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
+import questionEnum from 'src/domains/user/enums/questionEnum';
 
 function generateUsersJSON(
     { count, userId }: UserJSONPayload = { count: 1 }
@@ -34,9 +35,17 @@ const mocks = {
         biography,
     },
     activateSecretQuestionMock: {
-        question: 'Why the sun is hot?',
-        answer: 'Because of nuclear fusion',
+        question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
+        answer: 'Silvera',
     },
+    updateSecretQuestionMock: {
+        question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+        answer: 'black',
+        new: {
+            question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
+            answer: 'Silvera',
+        }
+    }
 };
 
 export default {

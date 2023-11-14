@@ -10,6 +10,7 @@ import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFac
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdateGameInfoOperation from 'src/core/users/operations/users/UpdateGameInfoOperation';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
+import UpdateSecretQuestionOperation from 'src/core/users/operations/users/UpdateSecretQuestionOperation';
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 
@@ -24,6 +25,7 @@ export interface UsersControllerContract {
     activateTwoFactorOperation: ActivateTwoFactorOperation;
     resetTwoFactorOperation: ResetTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;
+    updateSecretQuestionOperation: UpdateSecretQuestionOperation;
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;
     resetProfileOperation: ResetProfileOperation;

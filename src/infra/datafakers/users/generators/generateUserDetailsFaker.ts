@@ -2,6 +2,7 @@ import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidati
 import newUUID from 'src/infra/helpers/user/newUUID';
 import { UserDetailJSONPayload } from 'src/types/users/datafakers/Payload';
 import dataGenerator from '../dataGenerator';
+import questionEnum from 'src/domains/user/enums/questionEnum';
 
 function createUserDetailFaker({
     userDetailId = newUUID(),
@@ -12,7 +13,10 @@ function createUserDetailFaker({
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
         pronoun: 'she/her',
-        secretQuestion: { question: 'What sound does the fox?', answer: 'Kikikikikiu' },
+        secretQuestion: {
+            question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+            answer: 'black'
+        },
         birthday: dataGenerator.birthday().toISOString(),
         gameInfo: { campaigns: [], characters: [], badges: [] },
         biography: dataGenerator.biography(),

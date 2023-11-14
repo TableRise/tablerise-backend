@@ -48,6 +48,20 @@ export interface ConfirmCodePayload {
     code: string;
 }
 
+export interface UpdateSecretQuestion {
+    question: string;
+    answer: string;
+    new: {
+        question: string;
+        answer: string;
+    }
+}
+
+export interface UpdateSecretQuestionPayload {
+    userId: string;
+    payload: UpdateSecretQuestion;
+}
+
 export interface UpdateEmailPayload {
     userId: string;
     code: string;

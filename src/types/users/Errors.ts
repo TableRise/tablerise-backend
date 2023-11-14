@@ -35,4 +35,5 @@ export type ErrorTypes =
     | 'query-fail'
     | 'info-already-added'
     | 'content-inexistent'
+    | 'incorrect-secret-question'
     | 'unauthorized';

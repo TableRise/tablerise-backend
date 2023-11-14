@@ -24,6 +24,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
+            case 'incorrect-secret-question':
+                throw new HttpRequestErrors({
+                    message: 'Secret question is incorrect',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                });
             case 'content-inexistent':
                 throw new HttpRequestErrors({
                     message: 'This content do not exist in the RPG system',

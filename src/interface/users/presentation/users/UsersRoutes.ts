@@ -138,6 +138,23 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/question/update`,
+                controller: this._usersController.updateSecretQuestion,
+                parameters: [...generateIDParam()],
+                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
+                options: {
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.secretQuestion
+                    ],
+                    authentication: true,
+                    tag: 'authorization',
+                    description: desc.updateSecretQuestion
+                },
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/confirm`,
                 parameters: [
                     ...generateIDParam(),

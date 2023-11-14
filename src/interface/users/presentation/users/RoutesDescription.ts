@@ -14,10 +14,12 @@ const update = 'Route for update user but only allowed fields.';
 
 const activateQuestion = 'Activate the secretQuestion - 2FA will be disabled';
 
+const updateSecretQuestion = `Route to update user secretQuestion.\n
+SecretQuestion: { question: String, answer:string }`;
+
 const confirm = `This route must be used to confirm an account that was recently created the route receives the param "code", that was send to the user email in the signup.`;
 
-const activate2FA =
-    'Route for 2FA reset, verification code send to user email is needed.';
+const activate2FA = 'Route for 2FA reset, verification code send to user email is needed.';
 
 const reset2FA = 'Route for 2FA reset, verification code send to user email is needed.';
 
@@ -38,8 +40,7 @@ Query:
 
 const resetProfile = `Route for user reset, this route erase all the content in: characters - campaings - badges`;
 
-const deleteProfile =
-    'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.';
+const deleteProfile = 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.';
 
 export default {
     get,
@@ -50,6 +51,7 @@ export default {
     update,
     activate2FA,
     activateQuestion,
+    updateSecretQuestion,
     confirm,
     reset2FA,
     updateEmail,

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { JWTResponse } from 'src/types/users/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/users/contracts/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
 
 export default class AuthorizationMiddleware {
     private readonly _usersRepository;
@@ -68,6 +69,31 @@ export default class AuthorizationMiddleware {
         });
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
+
+        next();
+    }
+
+    public async secretQuestion(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
+
+        const { id } = req.params;
+        const payload = req.body as UserSecretQuestion;
+
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+
+        if (!userDetailsInDb.secretQuestion) {
+            next();
+            return;
+        }
+
+        if (payload.question !== userDetailsInDb.secretQuestion.question)
+            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (payload.answer !== userDetailsInDb.secretQuestion.answer)
+            HttpRequestErrors.throwError('incorrect-secret-question');
 
         next();
     }

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import pronounEnum from '../enums/pronounEnum';
+import questionEnum from '../enums/questionEnum';
 
 const gameInfoZodSchema = z.object({
     campaigns: z.array(z.string().length(24)),
@@ -8,7 +9,7 @@ const gameInfoZodSchema = z.object({
 });
 
 export const secretQuestionZodSchema = z.object({
-    question: z.string().max(120),
+    question: z.enum(questionEnum.values),
     answer: z.string().max(80),
 });
 
