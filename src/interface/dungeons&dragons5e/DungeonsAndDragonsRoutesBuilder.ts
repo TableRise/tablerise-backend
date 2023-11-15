@@ -13,6 +13,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _realmsRoutes;
     private readonly _magicItemsRoutes;
     private readonly _monstersRoutes;
+    private readonly _spellsRoutes;
 
     constructor({
         armorsRoutes,
@@ -23,6 +24,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
         realmsRoutes,
         magicItemsRoutes,
         monstersRoutes,
+        spellsRoutes,
     }: DungeonsAndDragonsRoutesBuilderContract) {
         this._armorsRoutes = armorsRoutes;
         this._backgroundsRoutes = backgroundsRoutes;
@@ -32,6 +34,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
         this._realmsRoutes = realmsRoutes;
         this._magicItemsRoutes = magicItemsRoutes;
         this._monstersRoutes = monstersRoutes;
+        this._spellsRoutes = spellsRoutes;
     }
 
     private _armors(): { armorsRoutes: Router; armorsSwagger: routeInstance[] } {
@@ -94,6 +97,12 @@ export default class DungeonsAndDragonsRoutesBuilder {
         const monstersSwagger = this._monstersRoutes.routes();
 
         return { monstersRoutes, monstersSwagger };
+
+    private _spells(): { spellsRoutes: Router; spellsSwagger: routeInstance[] } {
+        const spellsRoutes = buildRouter(this._spellsRoutes.routes(), router);
+        const spellsSwagger = this._spellsRoutes.routes();
+
+        return { spellsRoutes, spellsSwagger };
     }
 
     public get(): {
@@ -107,6 +116,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             realms: Router;
             magicItems: Router;
             monsters: Router;
+            spells: Router;
         };
     } {
         const dungeonsAndDragonsSwagger = [
@@ -118,6 +128,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             ...this._realms().realmsSwagger,
             ...this._magicItems().magicItemsSwagger,
             ...this._monsters().monstersSwagger,
+            ...this._spells().spellsSwagger,
         ];
 
         const dungeonsAndDragonsRoutes = {
@@ -129,6 +140,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
             realms: this._realms().realmsRoutes,
             magicItems: this._magicItems().magicItemsRoutes,
             monsters: this._monsters().monstersRoutes,
+            spells: this._spells().spellsRoutes,
         };
 
         return { dungeonsAndDragonsSwagger, dungeonsAndDragonsRoutes };

@@ -6,6 +6,7 @@ import RacesRoutes from 'src/interface/dungeons&dragons5e/presentation/races/Rac
 import RealmsRoutes from 'src/interface/dungeons&dragons5e/presentation/realms/RealmsRoutes';
 import MagicItemsRoutes from 'src/interface/dungeons&dragons5e/presentation/magicItems/MagicItemsRoutes';
 import MonstersRoutes from 'src/interface/dungeons&dragons5e/presentation/monsters/MonstersRoutes';
+import SpellsRoutes from 'src/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
 
 export interface DungeonsAndDragonsRoutesBuilderContract {
     armorsRoutes: ArmorsRoutes;
@@ -16,4 +17,5 @@ export interface DungeonsAndDragonsRoutesBuilderContract {
     realmsRoutes: RealmsRoutes;
     magicItemsRoutes: MagicItemsRoutes;
     monstersRoutes: MonstersRoutes;
+    spellsRoutes: SpellsRoutes;
 }
