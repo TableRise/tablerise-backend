@@ -1,6 +1,6 @@
 import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
-import { ToggleArmorsAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/ToggleArmorsAvailability';
+import { ToggleArmorsAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/ToggleArmorsAvailabilityOperation';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
 
 export default class ToggleArmorsAvailabilityOperation {

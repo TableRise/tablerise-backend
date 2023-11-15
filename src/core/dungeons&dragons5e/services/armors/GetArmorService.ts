@@ -1,6 +1,6 @@
 import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
-import { GetArmorServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetArmor';
+import { GetArmorServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetArmorService';
 
 export default class GetArmorService {
     private readonly _dungeonsAndDragonsRepository;

@@ -1,12 +1,12 @@
 import { Background } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
-import { GetAllArmorsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetAllArmors';
+import { GetAllBackgroundsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/backgrounds/GetAllBackgrounds';
 
 export default class GetAllBackgroundsService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({ dungeonsAndDragonsRepository, logger }: GetAllArmorsServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: GetAllBackgroundsServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 
