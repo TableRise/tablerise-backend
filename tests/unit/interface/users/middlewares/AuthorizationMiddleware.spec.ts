@@ -292,20 +292,20 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('And question/answer are correct', () => {
             const secretQuestion = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red'
-            }
+                answer: 'red',
+            };
 
             beforeEach(() => {
                 usersRepository = {};
-    
+
                 usersDetailsRepository = {
                     findOne: () => ({
                         secretQuestion,
                     }),
                 };
-    
+
                 twoFactorHandler = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
@@ -326,23 +326,23 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('And question/answer are incorrect', () => {
             const secretQuestion = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red'
-            }
+                answer: 'red',
+            };
 
             beforeEach(() => {
                 usersRepository = {};
-    
+
                 usersDetailsRepository = {
                     findOne: () => ({
                         secretQuestion: {
                             question: questionEnum.enum.WHAT_IS_YOUR_FAVORITE_ARTIST,
                             answer: 'red',
-                        }
+                        },
                     }),
                 };
-    
+
                 twoFactorHandler = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
@@ -383,20 +383,20 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         context('Secret question is null', () => {
             const secretQuestion = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red'
-            }
+                answer: 'red',
+            };
 
             beforeEach(() => {
                 usersRepository = {};
-    
+
                 usersDetailsRepository = {
                     findOne: () => ({
-                        secretQuestion: null
+                        secretQuestion: null,
                     }),
                 };
-    
+
                 twoFactorHandler = {};
-    
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
