@@ -32,6 +32,7 @@ export default class UsersRoutes {
 
     public routes(): routeInstance[] {
         return [
+            // GET
             {
                 method: 'get',
                 path: `${BASE_PATH}/all`,
@@ -75,6 +76,7 @@ export default class UsersRoutes {
                 },
             },
 
+            // POST
             {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
@@ -99,6 +101,7 @@ export default class UsersRoutes {
                 },
             },
 
+            // PUT
             {
                 method: 'put',
                 path: `${BASE_PATH}/:id/update`,
@@ -116,6 +119,7 @@ export default class UsersRoutes {
                 },
             },
 
+            // PATCH
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/question/activate`,
@@ -174,7 +178,10 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
-                parameters: [...generateIDParam()],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'isReset', type: 'boolean' }])
+                ],
                 controller: this._usersController.activateTwoFactor,
                 options: {
                     middlewares: [
@@ -184,25 +191,6 @@ export default class UsersRoutes {
                     authentication: true,
                     tag: 'authorization',
                     description: desc.activate2FA,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/2fa/reset`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
-                ],
-                controller: this._usersController.resetTwoFactor,
-                options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
-                        this._verifyEmailCodeMiddleware.verify,
-                    ],
-                    authentication: true,
-                    tag: 'authorization',
-                    description: desc.reset2FA,
                 },
             },
             {
@@ -293,6 +281,8 @@ export default class UsersRoutes {
                     description: desc.resetProfile,
                 },
             },
+
+            // DELETE
             {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete`,

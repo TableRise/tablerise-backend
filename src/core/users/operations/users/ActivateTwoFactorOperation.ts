@@ -15,9 +15,11 @@ export default class ActivateTwoFactorOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(userId: string): Promise<TwoFactorResponse> {
+    public async execute(userId: string, isReset: boolean): Promise<TwoFactorResponse> {
         this._logger('info', 'Execute - ActivateTwoFactorOperation');
-        const twoFactorActivated = await this._activateTwoFactorService.activate(userId);
-        return twoFactorActivated;
+
+        const { user, userDetails } = await this._activateTwoFactorService.activate(userId, isReset);
+        const twoFactor = await this._activateTwoFactorService.save({ user, userDetails });
+        return twoFactor;
     }
 }

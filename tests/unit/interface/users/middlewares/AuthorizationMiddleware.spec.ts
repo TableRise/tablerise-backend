@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import speakeasy from 'speakeasy';
 import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
@@ -8,7 +7,8 @@ import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
 describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
         usersRepository: any,
-        usersDetailsRepository: any;
+        usersDetailsRepository: any,
+        twoFactorHandler: any;
 
     const logger = (): unknown => ({});
 
@@ -24,6 +24,8 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             beforeEach(() => {
                 usersRepository = {};
 
+                twoFactorHandler = {};
+
                 usersDetailsRepository = {
                     findOne: () => ({
                         role: 'admin',
@@ -33,6 +35,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
             });
@@ -52,9 +55,12 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 usersDetailsRepository = { findOne: () => null };
 
+                twoFactorHandler = {};
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
             });
@@ -77,6 +83,8 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             beforeEach(() => {
                 usersRepository = {};
 
+                twoFactorHandler = {};
+
                 usersDetailsRepository = {
                     findOne: () => ({
                         role: 'user',
@@ -86,6 +94,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
             });
@@ -125,13 +134,16 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 usersDetailsRepository = {};
 
+                twoFactorHandler = {
+                    validate: sinon.spy(() => true)
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
-
-                sinon.stub(speakeasy.totp, 'verify').returns(true);
             });
 
             afterEach(() => {
@@ -144,7 +156,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 await authorizationMiddleware.twoFactor(request, response, next);
 
-                expect(speakeasy.totp.verify).to.have.been.called();
+                expect(twoFactorHandler.validate).to.have.been.called();
                 expect(next).to.have.been.called();
             });
         });
@@ -154,13 +166,14 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 usersRepository = { findOne: () => null };
                 usersDetailsRepository = {};
 
+                twoFactorHandler = {};
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
-
-                sinon.stub(speakeasy.totp, 'verify').returns(true);
             });
 
             afterEach(() => {
@@ -195,13 +208,16 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 usersDetailsRepository = {};
 
+                twoFactorHandler = {
+                    validate: sinon.spy(() => true)
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
-
-                sinon.stub(speakeasy.totp, 'verify').returns(true);
             });
 
             afterEach(() => {
@@ -215,7 +231,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 await authorizationMiddleware.twoFactor(request, response, next);
 
                 expect(next).to.have.been.called();
-                expect(speakeasy.totp.verify).to.have.not.been.called();
+                expect(twoFactorHandler.validate).to.have.not.been.called();
             });
         });
 
@@ -231,13 +247,16 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 usersDetailsRepository = {};
 
+                twoFactorHandler = {
+                    validate: sinon.spy(() => false)
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
                     usersRepository,
                     usersDetailsRepository,
+                    twoFactorHandler,
                     logger,
                 });
-
-                sinon.stub(speakeasy.totp, 'verify').returns(false);
             });
 
             afterEach(() => {

@@ -18,7 +18,6 @@ export default class UsersController {
     private readonly _confirmCodeOperation;
     private readonly _activateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
-    private readonly _resetTwoFactorOperation;
     private readonly _updateEmailOperation;
     private readonly _updateSecretQuestionOperation;
     private readonly _updatePasswordOperation;
@@ -35,7 +34,6 @@ export default class UsersController {
         confirmCodeOperation,
         activateSecretQuestionOperation,
         activateTwoFactorOperation,
-        resetTwoFactorOperation,
         updateEmailOperation,
         updateSecretQuestionOperation,
         updatePasswordOperation,
@@ -51,7 +49,6 @@ export default class UsersController {
         this._confirmCodeOperation = confirmCodeOperation;
         this._activateSecretQuestionOperation = activateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
-        this._resetTwoFactorOperation = resetTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
         this._updateSecretQuestionOperation = updateSecretQuestionOperation;
         this._updatePasswordOperation = updatePasswordOperation;
@@ -67,7 +64,6 @@ export default class UsersController {
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.confirmCode = this.confirmCode.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
-        this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
@@ -133,16 +129,9 @@ export default class UsersController {
 
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { isReset } = req.query;
 
-        const result = await this._activateTwoFactorOperation.execute(id);
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { code } = req.query as { code: string };
-
-        const result = await this._resetTwoFactorOperation.execute({ userId: id, code });
+        const result = await this._activateTwoFactorOperation.execute(id, isReset === 'true');
         return res.status(HttpStatusCode.OK).json(result);
     }
 

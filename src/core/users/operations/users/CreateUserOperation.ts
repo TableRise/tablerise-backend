@@ -38,7 +38,7 @@ export default class CreateUserOperation {
             userDetails: entitySerialized.userDetailsSerialized,
         });
 
-        const entitySaved = await this._createUserService.saveUser({
+        const entitySaved = await this._createUserService.save({
             user: entityEnriched.userEnriched,
             userDetails: entityEnriched.userDetailsEnriched,
         });

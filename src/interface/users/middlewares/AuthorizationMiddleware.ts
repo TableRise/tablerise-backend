@@ -1,4 +1,3 @@
-import speakeasy from 'speakeasy';
 import { NextFunction, Request, Response } from 'express';
 import { JWTResponse } from 'src/types/users/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/users/contracts/middlewares/AuthorizationMiddleware';
@@ -8,15 +7,18 @@ import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidati
 export default class AuthorizationMiddleware {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _twoFactorHandler;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
+        twoFactorHandler,
         logger,
     }: AuthorizationMiddlewareContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._twoFactorHandler = twoFactorHandler;
         this._logger = logger;
 
         this.checkAdminRole = this.checkAdminRole.bind(this);
@@ -62,11 +64,10 @@ export default class AuthorizationMiddleware {
             return;
         }
 
-        const validateSecret = speakeasy.totp.verify({
+        const validateSecret = this._twoFactorHandler.validate({
             secret: user.twoFactorSecret.secret as string,
-            encoding: 'base32',
-            token: token as string,
-        });
+            token: token as string
+        })
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 

@@ -1,5 +1,3 @@
-import speakeasy from 'speakeasy';
-import qrcode from 'qrcode';
 import {
     __FullUser,
     __UserEnriched,
@@ -31,32 +29,9 @@ export default class CreateUserService {
         this._serializer = serializer;
         this._logger = logger;
 
-        this._createTwoFactor = this._createTwoFactor.bind(this);
         this.enrichment = this.enrichment.bind(this);
-        this.saveUser = this.saveUser.bind(this);
+        this.save = this.save.bind(this);
         this.serialize = this.serialize.bind(this);
-    }
-
-    private async _createTwoFactor({
-        user,
-        userDetails,
-    }: __FullUser): Promise<__FullUser> {
-        this._logger('info', 'CreateTwoFactor - Enrichment - CreateUserService');
-        const secret = speakeasy.generateSecret();
-        const url = speakeasy.otpauthURL({
-            secret: secret.base32,
-            label: `TableRise 2FA (${user.email})`,
-            issuer: 'TableRise',
-            encoding: 'base32',
-        });
-
-        userDetails.secretQuestion = null;
-        user.twoFactorSecret = { secret: secret.base32, qrcode: url, active: true };
-        user.twoFactorSecret.qrcode = await qrcode.toDataURL(
-            user.twoFactorSecret.qrcode as string
-        );
-
-        return { user, userDetails };
     }
 
     public async serialize(user: RegisterUserPayload): Promise<__UserSerialized> {
@@ -97,26 +72,19 @@ export default class CreateUserService {
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
-        user.inProgress = {
-            status: 'wait_to_confirm',
-            code: '',
-        };
+        user.inProgress = { status: 'wait_to_confirm', code: '' };
 
         if (!user.twoFactorSecret.active && !userDetails.secretQuestion)
             HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
 
-        const userWithTwoFactor = user.twoFactorSecret.active
-            ? await this._createTwoFactor({ user, userDetails })
-            : { user, userDetails };
-
         return {
-            userEnriched: userWithTwoFactor.user,
-            userDetailsEnriched: userWithTwoFactor.userDetails,
+            userEnriched: user,
+            userDetailsEnriched: userDetails,
         };
     }
 
-    public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this._logger('info', 'SaveUser - CreateUserService');
+    public async save({ user, userDetails }: __FullUser): Promise<__UserSaved> {
+        this._logger('info', 'Save - CreateUserService');
 
         const userSaved = await this._usersRepository.create({
             ...user,
@@ -126,9 +94,6 @@ export default class CreateUserService {
             ...userDetails,
             userId: userSaved.userId,
         });
-
-        this._logger('info', 'User saved on database');
-        this._logger('info', 'User details saved on database');
 
         this._emailSender.type = 'confirmation';
         const emailSended = await this._emailSender.send(

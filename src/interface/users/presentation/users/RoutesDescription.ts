@@ -19,9 +19,8 @@ SecretQuestion: { question: String, answer:string }`;
 
 const confirm = `This route must be used to confirm an account that was recently created the route receives the param "code", that was send to the user email in the signup.`;
 
-const activate2FA = 'Route for 2FA reset, verification code send to user email is needed.';
-
-const reset2FA = 'Route for 2FA reset, verification code send to user email is needed.';
+const activate2FA = `Route for 2FA reset, verification code send to user email is needed.\n
+If isReset = true the 2FA is reseted not activated`;
 
 const updateEmail = `Route for email update, verification code send to user email is needed.\n
 If the user has 2FA enabled the 2FA token will be needed as well.`;
@@ -53,7 +52,6 @@ export default {
     activateQuestion,
     updateSecretQuestion,
     confirm,
-    reset2FA,
     updateEmail,
     updatePassword,
     updateGameInfo,

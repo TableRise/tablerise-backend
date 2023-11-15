@@ -6,7 +6,6 @@ import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOpera
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
 import ResetProfileOperation from 'src/core/users/operations/users/ResetProfileOperation';
-import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFactorOperation';
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdateGameInfoOperation from 'src/core/users/operations/users/UpdateGameInfoOperation';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
@@ -23,7 +22,6 @@ export interface UsersControllerContract {
     confirmCodeOperation: ConfirmCodeOperation;
     activateSecretQuestionOperation: ActivateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
-    resetTwoFactorOperation: ResetTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;
     updateSecretQuestionOperation: UpdateSecretQuestionOperation;
     updatePasswordOperation: UpdatePasswordOperation;

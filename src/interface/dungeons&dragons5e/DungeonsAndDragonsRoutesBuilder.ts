@@ -97,6 +97,7 @@ export default class DungeonsAndDragonsRoutesBuilder {
         const monstersSwagger = this._monstersRoutes.routes();
 
         return { monstersRoutes, monstersSwagger };
+    }
 
     private _spells(): { spellsRoutes: Router; spellsSwagger: routeInstance[] } {
         const spellsRoutes = buildRouter(this._spellsRoutes.routes(), router);
