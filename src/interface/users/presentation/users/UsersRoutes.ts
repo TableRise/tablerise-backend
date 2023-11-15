@@ -125,7 +125,10 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
+                    ...generateQueryParam(2, [
+                        { name: 'token', type: 'string', required: 'off' },
+                        { name: 'isUpdate', type: 'boolean', required: 'off' }
+                    ]),
                 ],
                 controller: this._usersController.activateSecretQuestion,
                 schema: DomainDataFaker.mocks.activateSecretQuestionMock,
@@ -133,28 +136,12 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
-                        this._authorizationMiddleware.twoFactor,
+                        this._authorizationMiddleware.secretQuestion,
+                        this._authorizationMiddleware.twoFactor
                     ],
                     authentication: true,
                     tag: 'authorization',
                     description: desc.activateQuestion,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/question/update`,
-                controller: this._usersController.updateSecretQuestion,
-                parameters: [...generateIDParam()],
-                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
-                options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
-                        this._authorizationMiddleware.secretQuestion
-                    ],
-                    authentication: true,
-                    tag: 'authorization',
-                    description: desc.updateSecretQuestion
                 },
             },
             {
@@ -180,7 +167,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'isReset', type: 'boolean' }])
+                    ...generateQueryParam(1, [{ name: 'isReset', type: 'boolean', required: 'off' }])
                 ],
                 controller: this._usersController.activateTwoFactor,
                 options: {

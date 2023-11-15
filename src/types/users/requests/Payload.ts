@@ -91,7 +91,7 @@ export interface ConfirmTokenPayload {
 
 export interface ActivateSecretQuestionPayload {
     userId: string;
-    payload: UserSecretQuestion;
+    payload: UserSecretQuestion | UpdateSecretQuestion;
 }
 
 export interface __UserWithID {

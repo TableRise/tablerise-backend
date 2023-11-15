@@ -24,6 +24,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
+            case 'new-structure-secret-question-missing':
+                throw new HttpRequestErrors({
+                    message: 'Structure of new for new question and answer is missing',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'incorrect-secret-question':
                 throw new HttpRequestErrors({
                     message: 'Secret question is incorrect',

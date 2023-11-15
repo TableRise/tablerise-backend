@@ -12,15 +12,12 @@ const login = 'Route for user login';
 
 const update = 'Route for update user but only allowed fields.';
 
-const activateQuestion = 'Activate the secretQuestion - 2FA will be disabled';
-
-const updateSecretQuestion = `Route to update user secretQuestion.\n
-SecretQuestion: { question: String, answer:string }`;
+const activateQuestion = 'Activate or Update the secretQuestion - 2FA will be disabled';
 
 const confirm = `This route must be used to confirm an account that was recently created the route receives the param "code", that was send to the user email in the signup.`;
 
 const activate2FA = `Route for 2FA reset, verification code send to user email is needed.\n
-If isReset = true the 2FA is reseted not activated`;
+If isReset = true the 2FA will be reset not activated`;
 
 const updateEmail = `Route for email update, verification code send to user email is needed.\n
 If the user has 2FA enabled the 2FA token will be needed as well.`;
@@ -50,7 +47,6 @@ export default {
     update,
     activate2FA,
     activateQuestion,
-    updateSecretQuestion,
     confirm,
     updateEmail,
     updatePassword,

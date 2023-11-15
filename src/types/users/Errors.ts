@@ -36,4 +36,5 @@ export type ErrorTypes =
     | 'info-already-added'
     | 'content-inexistent'
     | 'incorrect-secret-question'
+    | 'new-structure-secret-question-missing'
     | 'unauthorized';
