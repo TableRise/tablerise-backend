@@ -13,10 +13,10 @@ export default interface Route {
         // items: Router;
         // races: Router;
         classes: Router;
-        // magicItems: Router;
+        magicItems: Router;
         // spells: Router;
         // wikis: Router;
-        // monsters: Router;
+        monsters: Router;
     };
     user: {
         oAuth: Router;

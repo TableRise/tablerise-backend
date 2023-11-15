@@ -18,7 +18,7 @@ export default class GetRealmService {
         this._dungeonsAndDragonsRepository.setEntity('Realms');
 
         const realmInDb = (await this._dungeonsAndDragonsRepository.findOne({
-            raceId: id,
+            realmId: id,
         })) as Internacional<Realm>;
 
         return realmInDb;
