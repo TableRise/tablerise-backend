@@ -414,6 +414,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
+            request.query = { isReset: 'false' }
             await usersController.activateTwoFactor(request, response);
 
             expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
@@ -474,7 +475,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 code: request.query.code,
                 email: request.body.email,
             });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
         });

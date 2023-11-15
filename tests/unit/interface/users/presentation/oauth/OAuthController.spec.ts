@@ -37,7 +37,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
 
@@ -55,7 +55,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
         });
     });
@@ -86,7 +86,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.facebook(request, response);
 
             expect(facebookOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
 
@@ -104,7 +104,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.facebook(request, response);
 
             expect(facebookOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
         });
     });
@@ -145,7 +145,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.discord(request, response);
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
         });
     });
