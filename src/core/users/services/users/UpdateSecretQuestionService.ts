@@ -1,6 +1,6 @@
-import HttpRequestErrors from "src/infra/helpers/common/HttpRequestErrors";
-import { UpdateSecretQuestionServiceContract } from "src/types/users/contracts/core/UpdateSecretQuestion";
-import { UpdateSecretQuestionPayload } from "src/types/users/requests/Payload";
+import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import { UpdateSecretQuestionServiceContract } from 'src/types/users/contracts/core/UpdateSecretQuestion';
+import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
 
 export default class UpdateSecretQuestionService {
     private readonly _usersDetailsRepository;
@@ -25,7 +25,7 @@ export default class UpdateSecretQuestionService {
 
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetailsInDb.userDetailId },
-            payload: userDetailsInDb
+            payload: userDetailsInDb,
         });
     }
 }

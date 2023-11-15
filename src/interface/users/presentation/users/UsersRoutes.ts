@@ -127,7 +127,7 @@ export default class UsersRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
                         { name: 'token', type: 'string', required: 'off' },
-                        { name: 'isUpdate', type: 'boolean', required: 'off' }
+                        { name: 'isUpdate', type: 'boolean', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.activateSecretQuestion,
@@ -137,7 +137,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                         this._authorizationMiddleware.secretQuestion,
-                        this._authorizationMiddleware.twoFactor
+                        this._authorizationMiddleware.twoFactor,
                     ],
                     authentication: true,
                     tag: 'authorization',
@@ -167,7 +167,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'isReset', type: 'boolean', required: 'off' }])
+                    ...generateQueryParam(1, [
+                        { name: 'isReset', type: 'boolean', required: 'off' },
+                    ]),
                 ],
                 controller: this._usersController.activateTwoFactor,
                 options: {

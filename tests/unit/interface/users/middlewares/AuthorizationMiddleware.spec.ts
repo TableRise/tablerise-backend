@@ -135,7 +135,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 usersDetailsRepository = {};
 
                 twoFactorHandler = {
-                    validate: sinon.spy(() => true)
+                    validate: sinon.spy(() => true),
                 };
 
                 authorizationMiddleware = new AuthorizationMiddleware({
@@ -209,7 +209,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 usersDetailsRepository = {};
 
                 twoFactorHandler = {
-                    validate: sinon.spy(() => true)
+                    validate: sinon.spy(() => true),
                 };
 
                 authorizationMiddleware = new AuthorizationMiddleware({
@@ -248,7 +248,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 usersDetailsRepository = {};
 
                 twoFactorHandler = {
-                    validate: sinon.spy(() => false)
+                    validate: sinon.spy(() => false),
                 };
 
                 authorizationMiddleware = new AuthorizationMiddleware({

@@ -1,4 +1,4 @@
-import { Logger } from "src/types/Logger";
+import { Logger } from 'src/types/Logger';
 
 const tableriseEnvironment = require('../tablerise.environment.js');
 

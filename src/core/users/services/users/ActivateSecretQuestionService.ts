@@ -1,6 +1,9 @@
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { ActivateSecretQuestionServiceContract } from 'src/types/users/contracts/core/ActivateSecretQuestion';
-import { ActivateSecretQuestionPayload, UpdateSecretQuestion } from 'src/types/users/requests/Payload';
+import {
+    ActivateSecretQuestionPayload,
+    UpdateSecretQuestion,
+} from 'src/types/users/requests/Payload';
 import { __FullUser } from 'src/types/users/requests/Response';
 
 export default class ActivateSecretQuestionService {
@@ -21,20 +24,20 @@ export default class ActivateSecretQuestionService {
         this.save = this.save.bind(this);
     }
 
-    public async activate({
-        userId,
-        payload,
-    }: ActivateSecretQuestionPayload, isUpdate: boolean = false): Promise<__FullUser> {
+    public async activate(
+        { userId, payload }: ActivateSecretQuestionPayload,
+        isUpdate: boolean = false
+    ): Promise<__FullUser> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
-        if (!userDetailsInDb.secretQuestion  && isUpdate)
+        if (!userDetailsInDb.secretQuestion && isUpdate)
             HttpRequestErrors.throwError('incorrect-secret-question');
-        
+
         const data = payload as UpdateSecretQuestion;
 
-        if(isUpdate && !data.new)
+        if (isUpdate && !data.new)
             HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
         const newQuestion = isUpdate ? data.new.question : data.question;

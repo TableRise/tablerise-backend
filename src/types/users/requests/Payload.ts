@@ -59,7 +59,7 @@ export interface UpdateSecretQuestion {
     new: {
         question: string;
         answer: string;
-    }
+    };
 }
 
 export interface UpdateSecretQuestionPayload {

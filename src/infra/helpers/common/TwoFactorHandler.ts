@@ -20,7 +20,9 @@ export default class TwoFactorHandler {
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
             secret: secret.base32,
-            label: `${this._configs.twoFactorGen.params.label as string} (${labelAttach})`,
+            label: `${
+                this._configs.twoFactorGen.params.label as string
+            } (${labelAttach})`,
             issuer: this._configs.twoFactorGen.params.issuer,
             encoding: this._configs.twoFactorGen.params.encoding,
         });
@@ -30,8 +32,8 @@ export default class TwoFactorHandler {
         return {
             active: true,
             qrcode: QRCode,
-            secret: secret.base32
-        }
+            secret: secret.base32,
+        };
     }
 
     public validate({ secret, token }: TwoFactorValidatePayload): boolean {

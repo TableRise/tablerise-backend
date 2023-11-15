@@ -9,7 +9,7 @@ enum questionEnum {
     WHAT_IS_YOUR_FAVORITE_ARTIST = 'what-is-your-favorite-artist',
     WHAT_BOOK_DO_YOU_RECOMMEND_TO_YOUR_FRIENDS = 'what-book-do-you-recommend-to-your-friends',
     WHAT_WAS_THE_NAME_OF_YOUR_FIRST_SCHOOL_TEACHER = 'what-was-the-name-of-your-first-school-teacher',
-    WHAT_YEAR_DID_YOU_ENTER_COLLEGE = 'what-year-did-you-enter-college'
+    WHAT_YEAR_DID_YOU_ENTER_COLLEGE = 'what-year-did-you-enter-college',
 }
 
 export default {

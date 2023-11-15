@@ -111,7 +111,10 @@ export default class UsersController {
         const { isUpdate } = req.query;
         const payload = req.body as UserSecretQuestion;
 
-        await this._activateSecretQuestionOperation.execute({ userId: id, payload }, isUpdate === 'true');
+        await this._activateSecretQuestionOperation.execute(
+            { userId: id, payload },
+            isUpdate === 'true'
+        );
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -128,7 +131,10 @@ export default class UsersController {
         const { id } = req.params;
         const { isReset } = req.query;
 
-        const result = await this._activateTwoFactorOperation.execute(id, isReset === 'true');
+        const result = await this._activateTwoFactorOperation.execute(
+            id,
+            isReset === 'true'
+        );
         return res.status(HttpStatusCode.OK).json(result);
     }
 

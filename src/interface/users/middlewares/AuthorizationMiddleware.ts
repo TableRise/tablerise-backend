@@ -66,8 +66,8 @@ export default class AuthorizationMiddleware {
 
         const validateSecret = this._twoFactorHandler.validate({
             secret: user.twoFactorSecret.secret as string,
-            token: token as string
-        })
+            token: token as string,
+        });
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
@@ -84,7 +84,9 @@ export default class AuthorizationMiddleware {
         const { id } = req.params;
         const payload = req.body as UserSecretQuestion;
 
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({
+            userId: id,
+        });
 
         if (!userDetailsInDb.secretQuestion) {
             next();

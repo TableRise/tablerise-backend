@@ -36,7 +36,8 @@ Query:
 
 const resetProfile = `Route for user reset, this route erase all the content in: characters - campaings - badges`;
 
-const deleteProfile = 'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.';
+const deleteProfile =
+    'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.';
 
 export default {
     get,

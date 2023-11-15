@@ -15,7 +15,7 @@ function createUserDetailFaker({
         pronoun: 'she/her',
         secretQuestion: {
             question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-            answer: 'black'
+            answer: 'black',
         },
         birthday: dataGenerator.birthday().toISOString(),
         gameInfo: { campaigns: [], characters: [], badges: [] },
