@@ -16,6 +16,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         activateTwoFactorOperation: any,
         resetTwoFactorOperation: any,
         updateEmailOperation: any,
+        updateSecretQuestionOperation: any,
         updatePasswordOperation: any,
         updateGameInfoOperation: any,
         resetProfileOperation: any,
@@ -39,6 +40,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -55,6 +57,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -90,6 +93,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -106,6 +110,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -146,6 +151,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -162,6 +168,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -198,6 +205,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -214,6 +222,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -248,6 +257,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -264,6 +274,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -301,6 +312,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -317,6 +329,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -351,6 +364,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -367,6 +381,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -406,6 +421,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: sinon.spy(() => ({})) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -422,6 +438,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -459,6 +476,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: sinon.spy(() => ({})) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -475,6 +493,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -530,6 +549,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -572,6 +592,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: sinon.spy(() => ({})) };
             resetProfileOperation = { execute: () => ({}) };
@@ -588,6 +609,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -628,6 +650,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: sinon.spy(() => ({})) };
@@ -644,6 +667,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
@@ -683,6 +707,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             activateTwoFactorOperation = { execute: () => ({}) };
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
@@ -699,6 +724,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 activateTwoFactorOperation,
                 resetTwoFactorOperation,
                 updateEmailOperation,
+                updateSecretQuestionOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
