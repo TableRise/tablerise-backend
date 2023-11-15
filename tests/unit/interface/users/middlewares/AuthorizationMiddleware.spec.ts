@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
 import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import questionEnum from 'src/domains/user/enums/questionEnum';
 
 describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
@@ -12,7 +13,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
     const logger = (): unknown => ({});
 
-    context('When the user has the role checked', () => {
+    context('When user has the role checked', () => {
         const request = {} as Request;
         const response = {} as Response;
         const next = sinon.spy(() => {}) as NextFunction;
@@ -114,7 +115,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         });
     });
 
-    context('When the user has 2FA', () => {
+    context('When user has 2FA', () => {
         const request = {} as Request;
         const response = {} as Response;
         const next = sinon.spy(() => {}) as NextFunction;
@@ -276,6 +277,140 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                     expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
                     expect(err.name).to.be.equal('Unauthorized');
                 }
+            });
+        });
+    });
+
+    context('When user has secret question', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+        const next = sinon.spy(() => {}) as NextFunction;
+
+        response.status = sinon.spy(() => response);
+        response.json = sinon.spy(() => response);
+
+        context('And question/answer are correct', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red'
+            }
+
+            beforeEach(() => {
+                usersRepository = {};
+    
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion,
+                    }),
+                };
+    
+                twoFactorHandler = {};
+    
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            it('should call next', async () => {
+                request.params = { id: '123' };
+                request.body = secretQuestion;
+                await authorizationMiddleware.secretQuestion(request, response, next);
+
+                expect(next).to.have.been.called();
+            });
+        });
+
+        context('And question/answer are incorrect', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red'
+            }
+
+            beforeEach(() => {
+                usersRepository = {};
+    
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: {
+                            question: questionEnum.enum.WHAT_IS_YOUR_FAVORITE_ARTIST,
+                            answer: 'red',
+                        }
+                    }),
+                };
+    
+                twoFactorHandler = {};
+    
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            it('should not call next and throws an error - question', async () => {
+                try {
+                    request.params = { id: '123' };
+                    request.body = secretQuestion;
+                    await authorizationMiddleware.secretQuestion(request, response, next);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Secret question is incorrect');
+                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+                    expect(err.name).to.be.equal('Unauthorized');
+                }
+            });
+
+            it('should not call next and throws an error - answer', async () => {
+                try {
+                    secretQuestion.answer = 'blue';
+
+                    request.params = { id: '123' };
+                    request.body = secretQuestion;
+                    await authorizationMiddleware.secretQuestion(request, response, next);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Secret question is incorrect');
+                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+                    expect(err.name).to.be.equal('Unauthorized');
+                }
+            });
+        });
+
+        context('Secret question is null', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red'
+            }
+
+            beforeEach(() => {
+                usersRepository = {};
+    
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: null
+                    }),
+                };
+    
+                twoFactorHandler = {};
+    
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            it('should call next', async () => {
+                request.params = { id: '123' };
+                request.body = secretQuestion;
+                await authorizationMiddleware.secretQuestion(request, response, next);
+
+                expect(next).to.have.been.called(1);
             });
         });
     });
