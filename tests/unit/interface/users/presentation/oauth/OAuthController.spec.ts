@@ -148,5 +148,59 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
         });
+
+        it('should correctly call the methods and functions - when login', async () => {
+            request.user = { email: 'test20@email.com' };
+            discordOperation = { execute: sinon.spy(() => '123') };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                facebookOperation,
+                discordOperation,
+                completeUserOperation,
+            });
+
+            await oauthController.discord(request, response);
+
+            expect(discordOperation.execute).to.have.been.calledWith(request.user);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.calledWith({ token: '123' });
+        });
+    });
+
+    context('#completeUser', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            googleOperation = { execute: () => ({}) };
+            facebookOperation = { execute: () => ({}) };
+            discordOperation = { execute: () => ({}) };
+            completeUserOperation = { execute: sinon.spy(() => ({})) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                facebookOperation,
+                discordOperation,
+                completeUserOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { isReset: 'false' };
+            request.body = {}
+            await oauthController.complete(request, response);
+
+            expect(completeUserOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                payload: request.body
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
     });
 });
