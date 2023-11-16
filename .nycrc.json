@@ -2,7 +2,10 @@
     "extends": "@istanbuljs/nyc-config-typescript",
     "check-coverage": true,
     "extenion": [".ts"],
-    "exclude": ["src/interface/users/strategies/*.ts"],
+    "exclude": [
+        "src/interface/users/strategies/*.ts",
+        "src/interface/common/strategies/*.ts"
+    ],
     "reporter": ["text", "lcov", "json-summary"],
     "branches": 100,
     "lines": 100,
