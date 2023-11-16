@@ -185,19 +185,19 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
                 googleOperation,
                 facebookOperation,
                 discordOperation,
-                completeUserOperation
+                completeUserOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
             request.query = { isReset: 'false' };
-            request.body = {}
+            request.body = {};
             await oauthController.complete(request, response);
 
             expect(completeUserOperation.execute).to.have.been.calledWith({
                 userId: request.params.id,
-                payload: request.body
+                payload: request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();

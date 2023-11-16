@@ -3,22 +3,24 @@ import UsersRoutesBuilder from 'src/interface/users/UsersRoutesBuilder';
 
 describe('Interface :: Users :: UsersRoutesBuilder', () => {
     let usersRoutesBuilder: UsersRoutesBuilder,
-    usersRoutes: any,
-    oAuthRoutes: any,
-    verifyIdMiddleware: any
+        usersRoutes: any,
+        oAuthRoutes: any,
+        verifyIdMiddleware: any;
 
     context('When profile routes are processed', () => {
         verifyIdMiddleware = () => ({});
 
         usersRoutes = {
-            routes: () => [{
-                method: 'get',
-                path: '/base/api',
-                options: {
-                    middlewares: [verifyIdMiddleware],
-                    authentication: false
-                }
-            }]
+            routes: () => [
+                {
+                    method: 'get',
+                    path: '/base/api',
+                    options: {
+                        middlewares: [verifyIdMiddleware],
+                        authentication: false,
+                    },
+                },
+            ],
         };
 
         beforeEach(() => {
@@ -38,14 +40,16 @@ describe('Interface :: Users :: UsersRoutesBuilder', () => {
         verifyIdMiddleware = () => ({});
 
         oAuthRoutes = {
-            routes: () => [{
-                method: 'get',
-                path: '/base/api',
-                options: {
-                    middlewares: [verifyIdMiddleware],
-                    authentication: false
-                }
-            }]
+            routes: () => [
+                {
+                    method: 'get',
+                    path: '/base/api',
+                    options: {
+                        middlewares: [verifyIdMiddleware],
+                        authentication: false,
+                    },
+                },
+            ],
         };
 
         beforeEach(() => {
