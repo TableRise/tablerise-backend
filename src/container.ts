@@ -18,7 +18,6 @@ import RoutesWrapper from './interface/common/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
 import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
 import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmailCodeMiddleware';
-import VerifyBooleanQueryMiddleware from './interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
@@ -78,7 +77,6 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
         authErrorMiddleware: asValue(AuthErrorMiddleware),
-        verifyBooleanQueryMiddleware: asValue(VerifyBooleanQueryMiddleware),
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),

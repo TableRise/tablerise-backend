@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/races';
 export default class RacesRoutes {
     private readonly _RacesController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        racesController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: RacesRoutesContract) {
+    constructor({ racesController, verifyIdMiddleware }: RacesRoutesContract) {
         this._RacesController = racesController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

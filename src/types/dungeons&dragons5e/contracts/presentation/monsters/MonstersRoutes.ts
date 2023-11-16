@@ -5,5 +5,4 @@ import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddlewa
 export interface MonstersRoutesContract {
     monstersController: MonstersController;
     verifyIdMiddleware: typeof VerifyIdMiddleware;
-    verifyBooleanQueryMiddleware: typeof VerifyBooleanQueryMiddleware;
 }

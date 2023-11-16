@@ -11,16 +11,13 @@ const BASE_PATH = '/dnd5e/backgrounds';
 export default class BackgroundsRoutes {
     private readonly _backgroundsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
     constructor({
         backgroundsController,
         verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
     }: BackgroundsRoutesContract) {
         this._backgroundsController = backgroundsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

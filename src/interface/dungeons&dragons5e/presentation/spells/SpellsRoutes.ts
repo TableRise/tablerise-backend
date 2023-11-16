@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/spells';
 export default class SpellsRoutes {
     private readonly _spellsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        spellsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: SpellsRoutesContract) {
+    constructor({ spellsController, verifyIdMiddleware }: SpellsRoutesContract) {
         this._spellsController = spellsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

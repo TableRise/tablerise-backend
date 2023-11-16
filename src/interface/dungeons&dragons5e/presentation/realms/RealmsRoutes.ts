@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/realms';
 export default class RealmsRoutes {
     private readonly _RealmsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        realmsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: RealmsRoutesContract) {
+    constructor({ realmsController, verifyIdMiddleware }: RealmsRoutesContract) {
         this._RealmsController = realmsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

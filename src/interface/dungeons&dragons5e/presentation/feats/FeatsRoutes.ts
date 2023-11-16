@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/feats';
 export default class FeatsRoutes {
     private readonly _featsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        featsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: FeatsRoutesContract) {
+    constructor({ featsController, verifyIdMiddleware }: FeatsRoutesContract) {
         this._featsController = featsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

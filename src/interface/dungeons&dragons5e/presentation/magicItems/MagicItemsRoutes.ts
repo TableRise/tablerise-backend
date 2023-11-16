@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/magicItems';
 export default class MagicItemsRoutes {
     private readonly _magicItemsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        magicItemsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: MagicItemsRoutesContract) {
+    constructor({ magicItemsController, verifyIdMiddleware }: MagicItemsRoutesContract) {
         this._magicItemsController = magicItemsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

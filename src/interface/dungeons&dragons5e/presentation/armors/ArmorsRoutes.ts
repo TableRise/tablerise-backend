@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/armors';
 export default class ArmorsRoutes {
     private readonly _armorsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        armorsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: ArmorsRoutesContract) {
+    constructor({ armorsController, verifyIdMiddleware }: ArmorsRoutesContract) {
         this._armorsController = armorsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {
