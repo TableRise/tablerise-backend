@@ -9,6 +9,8 @@ import RealmsRoutes from 'src/interface/dungeons&dragons5e/presentation/realms/R
 import MagicItemsRoutes from 'src/interface/dungeons&dragons5e/presentation/magicItems/MagicItemsRoutes';
 import MonstersRoutes from 'src/interface/dungeons&dragons5e/presentation/monsters/MonstersRoutes';
 import SpellsRoutes from 'src/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
+import WeaponsRoutes from 'src/interface/dungeons&dragons5e/presentation/weapons/WeaponsRoutes';
+import WikisRoutes from 'src/interface/dungeons&dragons5e/presentation/wikis/WikisRoutes';
 
 export interface DungeonsAndDragonsRoutesBuilderContract {
     armorsRoutes: ArmorsRoutes;
@@ -22,4 +24,6 @@ export interface DungeonsAndDragonsRoutesBuilderContract {
     magicItemsRoutes: MagicItemsRoutes;
     monstersRoutes: MonstersRoutes;
     spellsRoutes: SpellsRoutes;
+    weaponsRoutes: WeaponsRoutes;
+    wikisRoutes: WikisRoutes;
 }
