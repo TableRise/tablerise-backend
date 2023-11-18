@@ -9,6 +9,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _backgroundsRoutes;
     private readonly _classesRoutes;
     private readonly _featsRoutes;
+    private readonly _godsRoutes;
+    private readonly _itemsRoutes;
     private readonly _racesRoutes;
     private readonly _realmsRoutes;
     private readonly _magicItemsRoutes;
@@ -20,6 +22,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
         backgroundsRoutes,
         classesRoutes,
         featsRoutes,
+        godsRoutes,
+        itemsRoutes,
         racesRoutes,
         realmsRoutes,
         magicItemsRoutes,
@@ -30,6 +34,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
         this._backgroundsRoutes = backgroundsRoutes;
         this._classesRoutes = classesRoutes;
         this._featsRoutes = featsRoutes;
+        this._godsRoutes = godsRoutes;
+        this._itemsRoutes = itemsRoutes;
         this._racesRoutes = racesRoutes;
         this._realmsRoutes = realmsRoutes;
         this._magicItemsRoutes = magicItemsRoutes;
@@ -66,6 +72,20 @@ export default class DungeonsAndDragonsRoutesBuilder {
         const featsSwagger = this._featsRoutes.routes();
 
         return { featsRoutes, featsSwagger };
+    }
+
+    private _gods(): { godsRoutes: Router; godsSwagger: routeInstance[] } {
+        const godsRoutes = buildRouter(this._godsRoutes.routes(), router);
+        const godsSwagger = this._godsRoutes.routes();
+
+        return { godsRoutes, godsSwagger };
+    }
+
+    private _items(): { itemsRoutes: Router; itemsSwagger: routeInstance[] } {
+        const itemsRoutes = buildRouter(this._itemsRoutes.routes(), router);
+        const itemsSwagger = this._itemsRoutes.routes();
+
+        return { itemsRoutes, itemsSwagger };
     }
 
     private _races(): { racesRoutes: Router; racesSwagger: routeInstance[] } {
@@ -113,6 +133,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             backgrounds: Router;
             classes: Router;
             feats: Router;
+            gods: Router;
+            items: Router;
             races: Router;
             realms: Router;
             magicItems: Router;
@@ -125,6 +147,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             ...this._backgrounds().backgroundsSwagger,
             ...this._classes().classesSwagger,
             ...this._feats().featsSwagger,
+            ...this._gods().godsSwagger,
+            ...this._items().itemsSwagger,
             ...this._races().racesSwagger,
             ...this._realms().realmsSwagger,
             ...this._magicItems().magicItemsSwagger,
@@ -137,6 +161,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             backgrounds: this._backgrounds().backgroundsRoutes,
             classes: this._classes().classesRoutes,
             feats: this._feats().featsRoutes,
+            gods: this._gods().godsRoutes,
+            items: this._items().itemsRoutes,
             races: this._races().racesRoutes,
             realms: this._realms().realmsRoutes,
             magicItems: this._magicItems().magicItemsRoutes,
