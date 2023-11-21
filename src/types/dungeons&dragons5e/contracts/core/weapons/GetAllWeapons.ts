@@ -1,13 +1,13 @@
-import GetAllWeaponssService from 'src/core/dungeons&dragons5e/services/Weaponss/GetAllWeaponsService';
+import GetAllWeaponsService from 'src/core/dungeons&dragons5e/services/weapons/GetAllWeaponsService';
 import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import { Logger } from 'src/types/Logger';
 
 export interface GetAllWeaponsOperationContract {
-    getAllWeaponssService: GetAllWeaponssService;
+    getAllWeaponsService: GetAllWeaponsService;
     logger: Logger;
 }
 
-export interface GetAllWeaponssServiceContract {
+export interface GetAllWeaponsServiceContract {
     dungeonsAndDragonsRepository: DungeonsAndDragonsRepository;
     logger: Logger;
 }

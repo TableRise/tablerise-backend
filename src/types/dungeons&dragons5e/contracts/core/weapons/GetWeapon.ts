@@ -1,4 +1,4 @@
-import GetWeaponService from 'src/core/dungeons&dragons5e/services/Weapons/GetWeaponService';
+import GetWeaponService from 'src/core/dungeons&dragons5e/services/weapons/GetWeaponService';
 import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import { Logger } from 'src/types/Logger';
 

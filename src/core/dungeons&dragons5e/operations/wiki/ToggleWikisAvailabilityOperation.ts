@@ -1,4 +1,4 @@
-import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
+import { Wiki } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
 import { ToggleWikisAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/wikis/ToggleWikisAvailability';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
@@ -20,8 +20,8 @@ export default class ToggleWikisAvailabilityOperation {
     public async execute({
         id,
         availability,
-    }: AvailabilityPayload): Promise<Internacional<Armor>> {
-        this._logger('info', 'Execute - GetArmorOperation');
+    }: AvailabilityPayload): Promise<Internacional<Wiki>> {
+        this._logger('info', 'Execute - GetWikiOperation');
         const wikis = await this._toggleWikisAvailabilityService.toggle({
             id,
             availability,

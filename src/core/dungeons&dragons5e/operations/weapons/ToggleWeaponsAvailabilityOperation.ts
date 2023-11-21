@@ -1,4 +1,4 @@
-import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
+import { Weapon } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
 import { ToggleWeaponsAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/weapons/ToggleWeaponsAvailability';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
@@ -20,8 +20,8 @@ export default class ToggleWeaponsAvailabilityOperation {
     public async execute({
         id,
         availability,
-    }: AvailabilityPayload): Promise<Internacional<Armor>> {
-        this._logger('info', 'Execute - GetArmorOperation');
+    }: AvailabilityPayload): Promise<Internacional<Weapon>> {
+        this._logger('info', 'Execute - GetWeaponOperation');
         const weapons = await this._toggleWeaponsAvailabilityService.toggle({
             id,
             availability,

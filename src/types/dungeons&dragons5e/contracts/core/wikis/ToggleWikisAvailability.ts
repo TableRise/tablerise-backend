@@ -1,4 +1,4 @@
-import ToggleWikisAvailabilityService from 'src/core/dungeons&dragons5e/services/Wikis/ToggleWikisAvailabilityService';
+import ToggleWikisAvailabilityService from 'src/core/dungeons&dragons5e/services/wikis/ToggleWikisAvailabilityService';
 import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import { Logger } from 'src/types/Logger';
 
