@@ -6,10 +6,7 @@ export default class GetDisabledWikisOperation {
     private readonly _getDisabledWikisService;
     private readonly _logger;
 
-    constructor({
-        getDisabledWikisService,
-        logger,
-    }: GetDisabledWikisOperationContract) {
+    constructor({ getDisabledWikisService, logger }: GetDisabledWikisOperationContract) {
         this._getDisabledWikisService = getDisabledWikisService;
         this._logger = logger;
 
@@ -17,7 +14,7 @@ export default class GetDisabledWikisOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Wiki>>> {
-        this._logger('info', 'Execute - GetWikiOperation');
+        this._logger('info', 'Execute - GetDisabledWikisOperation');
         const wikis = await this._getDisabledWikisService.getAllDisabled();
         return wikis;
     }

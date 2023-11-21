@@ -21,7 +21,7 @@ export default class ToggleWikisAvailabilityOperation {
         id,
         availability,
     }: AvailabilityPayload): Promise<Internacional<Wiki>> {
-        this._logger('info', 'Execute - GetWikiOperation');
+        this._logger('info', 'Execute - ToggleWikisAvailabilityOperation');
         const wikis = await this._toggleWikisAvailabilityService.toggle({
             id,
             availability,

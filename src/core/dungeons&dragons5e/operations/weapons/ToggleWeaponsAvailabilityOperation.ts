@@ -21,7 +21,7 @@ export default class ToggleWeaponsAvailabilityOperation {
         id,
         availability,
     }: AvailabilityPayload): Promise<Internacional<Weapon>> {
-        this._logger('info', 'Execute - GetWeaponOperation');
+        this._logger('info', 'Execute - ToggleWeaponsAvailabilityOperation');
         const weapons = await this._toggleWeaponsAvailabilityService.toggle({
             id,
             availability,

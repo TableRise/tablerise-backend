@@ -17,7 +17,7 @@ export default class GetDisabledWeaponsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Weapon>>> {
-        this._logger('info', 'Execute - GetWeaponOperation');
+        this._logger('info', 'Execute - GetDisabledWeaponsOperation');
         const weapons = await this._getDisabledWeaponsService.getAllDisabled();
         return weapons;
     }
