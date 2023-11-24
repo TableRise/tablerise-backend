@@ -64,7 +64,6 @@ export default class RealmsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        this._verifyBooleanQueryMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,

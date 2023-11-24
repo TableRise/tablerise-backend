@@ -1,4 +1,3 @@
-import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import RealmsController from 'src/interface/dungeons&dragons5e/presentation/realms/RealmsController';
 import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 

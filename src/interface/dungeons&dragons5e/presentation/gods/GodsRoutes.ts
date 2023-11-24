@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/gods';
 export default class GodsRoutes {
     private readonly _godsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        godsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: GodsRoutesContract) {
+    constructor({ godsController, verifyIdMiddleware }: GodsRoutesContract) {
         this._godsController = godsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

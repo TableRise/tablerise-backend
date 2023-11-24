@@ -40,8 +40,6 @@ export default class UsersDetailsRepository {
         this._logger('info', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
 
-        if (!request.length) HttpRequestErrors.throwError('query-fail');
-
         return request.map((entity: UserDetailInstance) =>
             this._formatAndSerializeData(entity)
         );
@@ -67,7 +65,7 @@ export default class UsersDetailsRepository {
         return this._formatAndSerializeData(request);
     }
 
-    public async delete(query: any = {}): Promise<void> {
+    public async delete(query: any): Promise<void> {
         this._logger('warn', 'Delete - UsersDetailsRepository');
         await this._model.delete(query);
     }

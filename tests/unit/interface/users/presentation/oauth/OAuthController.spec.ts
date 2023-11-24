@@ -58,6 +58,24 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
         });
+
+        it('should correctly call the methods and functions - when login - register', async () => {
+            request.user = { email: 'test@email.com' };
+            googleOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                facebookOperation,
+                discordOperation,
+                completeUserOperation,
+            });
+
+            await oauthController.google(request, response);
+
+            expect(googleOperation.execute).to.have.been.calledWith(request.user);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.calledWith({ providerId: '123' });
+        });
     });
 
     context('#facebook', () => {
@@ -106,6 +124,24 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             expect(facebookOperation.execute).to.have.been.calledWith(request.user);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
+        });
+
+        it('should correctly call the methods and functions - when login - register', async () => {
+            request.user = { email: 'test@email.com' };
+            facebookOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                facebookOperation,
+                discordOperation,
+                completeUserOperation,
+            });
+
+            await oauthController.facebook(request, response);
+
+            expect(facebookOperation.execute).to.have.been.calledWith(request.user);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.calledWith({ providerId: '123' });
         });
     });
 
@@ -165,6 +201,24 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.calledWith({ token: '123' });
+        });
+
+        it('should correctly call the methods and functions - when login - register', async () => {
+            request.user = { email: 'test@email.com' };
+            discordOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                facebookOperation,
+                discordOperation,
+                completeUserOperation,
+            });
+
+            await oauthController.discord(request, response);
+
+            expect(discordOperation.execute).to.have.been.calledWith(request.user);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.calledWith({ providerId: '123' });
         });
     });
 

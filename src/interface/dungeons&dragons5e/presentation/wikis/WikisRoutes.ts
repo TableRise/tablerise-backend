@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/wikis';
 export default class WikisRoutes {
     private readonly _wikisController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        wikisController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: WikisRoutesContract) {
+    constructor({ wikisController, verifyIdMiddleware }: WikisRoutesContract) {
         this._wikisController = wikisController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -70,7 +64,6 @@ export default class WikisRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        this._verifyBooleanQueryMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,

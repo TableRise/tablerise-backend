@@ -1,4 +1,3 @@
-import VerifyBooleanQueryMiddleware from 'src/interface/common/middlewares/VerifyBooleanQueryMiddleware';
 import FeatsController from 'src/interface/dungeons&dragons5e/presentation/feats/FeatsController';
 import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 

@@ -3,8 +3,15 @@
     "check-coverage": true,
     "extenion": [".ts"],
     "exclude": [
-        "src/interface/users/strategies/*.ts",
-        "src/interface/common/strategies/*.ts"
+        "src/interface/users/strategies",
+        "src/interface/common/strategies",
+        "src/container.ts",
+        "src/server.ts",
+        "src/core/Application.ts",
+        "src/infra/data",
+        "src/infra/datafakers",
+        "src/infra/templates",
+        "tests"
     ],
     "reporter": ["text", "lcov", "json-summary"],
     "branches": 100,

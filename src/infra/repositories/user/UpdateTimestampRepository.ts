@@ -40,7 +40,7 @@ export default class UpdateTimestampRepository {
         throw new HttpRequestErrors({
             message: 'Query not valid or missing to update user timestamp',
             code: HttpStatusCode.BAD_REQUEST,
-            name: 'QueryInvalid',
+            name: 'BadRequest',
         });
     }
 }

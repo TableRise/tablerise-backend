@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/weapons';
 export default class WeaponsRoutes {
     private readonly _weaponsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        weaponsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: WeaponsRoutesContract) {
+    constructor({ weaponsController, verifyIdMiddleware }: WeaponsRoutesContract) {
         this._weaponsController = weaponsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -70,7 +64,6 @@ export default class WeaponsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        this._verifyBooleanQueryMiddleware,
                         passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,

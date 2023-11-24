@@ -11,16 +11,10 @@ const BASE_PATH = '/dnd5e/items';
 export default class ItemsRoutes {
     private readonly _itemsController;
     private readonly _verifyIdMiddleware;
-    private readonly _verifyBooleanQueryMiddleware;
 
-    constructor({
-        itemsController,
-        verifyIdMiddleware,
-        verifyBooleanQueryMiddleware,
-    }: ItemsRoutesContract) {
+    constructor({ itemsController, verifyIdMiddleware }: ItemsRoutesContract) {
         this._itemsController = itemsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
-        this._verifyBooleanQueryMiddleware = verifyBooleanQueryMiddleware;
     }
 
     public routes(): routeInstance[] {

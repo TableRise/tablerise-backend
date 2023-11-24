@@ -324,9 +324,14 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         });
 
         context('And question/answer are incorrect', () => {
-            const secretQuestion = {
+            const secretQuestionWrong = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
                 answer: 'red',
+            };
+
+            const secretQuestionAnswerWrong = {
+                question: questionEnum.enum.WHAT_IS_YOUR_FAVORITE_ARTIST,
+                answer: 'blue',
             };
 
             beforeEach(() => {
@@ -354,7 +359,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             it('should not call next and throws an error - question', async () => {
                 try {
                     request.params = { id: '123' };
-                    request.body = secretQuestion;
+                    request.body = secretQuestionWrong;
                     await authorizationMiddleware.secretQuestion(request, response, next);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -366,10 +371,8 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
             it('should not call next and throws an error - answer', async () => {
                 try {
-                    secretQuestion.answer = 'blue';
-
                     request.params = { id: '123' };
-                    request.body = secretQuestion;
+                    request.body = secretQuestionAnswerWrong;
                     await authorizationMiddleware.secretQuestion(request, response, next);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
