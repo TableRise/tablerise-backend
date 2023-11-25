@@ -5,13 +5,13 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'WAIT_TO_CONFIRM',
         'WAIT_TO_COMPLETE',
         'WAIT_TO_VERIFY',
-        'DONE'
+        'DONE',
     ];
     const enumValuesFixed = [
         'wait-to-confirm',
         'wait-to-complete',
         'wait-to-verify',
-        'done'
+        'done',
     ];
 
     context('When enum key/values', () => {
@@ -20,7 +20,9 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
 
             enumKeysFixed.forEach((key: string, index: number) => {
                 expect(enumTest).to.have.property(key);
-                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(enumValuesFixed[index]);
+                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
+                    enumValuesFixed[index]
+                );
             });
         });
     });

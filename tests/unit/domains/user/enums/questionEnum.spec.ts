@@ -10,7 +10,7 @@ describe('Domains :: User :: Enum :: QuestionEnum', () => {
         'WHAT_IS_YOUR_FAVORITE_ARTIST',
         'WHAT_BOOK_DO_YOU_RECOMMEND_TO_YOUR_FRIENDS',
         'WHAT_WAS_THE_NAME_OF_YOUR_FIRST_SCHOOL_TEACHER',
-        'WHAT_YEAR_DID_YOU_ENTER_COLLEGE'
+        'WHAT_YEAR_DID_YOU_ENTER_COLLEGE',
     ];
     const enumValuesFixed = [
         'what-is-your-grandfather-last-name',
@@ -21,7 +21,7 @@ describe('Domains :: User :: Enum :: QuestionEnum', () => {
         'what-is-your-favorite-artist',
         'what-book-do-you-recommend-to-your-friends',
         'what-was-the-name-of-your-first-school-teacher',
-        'what-year-did-you-enter-college'
+        'what-year-did-you-enter-college',
     ];
 
     context('When enum key/values', () => {
@@ -30,7 +30,9 @@ describe('Domains :: User :: Enum :: QuestionEnum', () => {
 
             enumKeysFixed.forEach((key: string, index: number) => {
                 expect(enumTest).to.have.property(key);
-                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(enumValuesFixed[index]);
+                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
+                    enumValuesFixed[index]
+                );
             });
         });
     });

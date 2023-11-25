@@ -9,7 +9,9 @@ describe('Domains :: User :: Enum :: PronounEnum', () => {
             const enumTest = pronounEnum.enum;
 
             enumKeysFixed.forEach((key: string, index: number) => {
-                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(enumValuesFixed[index]);
+                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
+                    enumValuesFixed[index]
+                );
             });
         });
     });
