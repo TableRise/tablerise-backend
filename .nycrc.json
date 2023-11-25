@@ -11,6 +11,7 @@
         "src/infra/data",
         "src/infra/datafakers",
         "src/infra/templates",
+        "src/infra/configs.ts",
         "tests"
     ],
     "reporter": ["text", "lcov", "json-summary"],

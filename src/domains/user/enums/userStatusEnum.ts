@@ -1,13 +1,13 @@
 import returnEnumValues from 'src/domains/common/helpers/returnEnumValues';
 
 enum InProgressStatusEnum {
-    WAIT_TO_CONFIRM = 'wait_to_confirm',
-    WAIT_TO_COMPLETE = 'wait_to_complete',
-    WAIT_TO_VERIFY = 'wait_to_verify',
+    WAIT_TO_CONFIRM = 'wait-to-confirm',
+    WAIT_TO_COMPLETE = 'wait-to-complete',
+    WAIT_TO_VERIFY = 'wait-to-verify',
     DONE = 'done',
 }
 
 export default {
-    enumerate: InProgressStatusEnum,
+    enum: InProgressStatusEnum,
     values: returnEnumValues(InProgressStatusEnum),
 };
