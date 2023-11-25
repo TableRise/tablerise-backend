@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Request, Response } from 'express';
 import sinon from 'sinon';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import OAuthController from 'src/interface/users/presentation/oauth/OAuthController';
 
 describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () => {

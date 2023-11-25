@@ -2,9 +2,9 @@ import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import JWTGenerator from 'src/infra/helpers/user/JWTGenerator';
-import newUUID from 'src/infra/helpers/user/newUUID';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import { OAuthServiceContract } from 'src/types/users/contracts/core/OAuth';
 import {
     __FullUser,

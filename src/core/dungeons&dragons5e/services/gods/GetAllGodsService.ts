@@ -1,5 +1,5 @@
-import { God } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetAllGodsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/gods/GetAllGodsService';
 
 export default class GetAllGodsService {

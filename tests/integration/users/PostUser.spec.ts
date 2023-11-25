@@ -2,8 +2,8 @@ import sinon from 'sinon';
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import EmailSender from 'src/infra/helpers/user/EmailSender';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import EmailSender from 'src/domains/user/helpers/EmailSender';
 import requester from 'tests/support/requester';
 
 describe('When a user is created', () => {

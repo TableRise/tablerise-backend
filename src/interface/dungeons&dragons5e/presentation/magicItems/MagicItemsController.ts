@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { MagicItemsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/magicItems/MagicItemsController';
 
 export default class MagicItemsController {

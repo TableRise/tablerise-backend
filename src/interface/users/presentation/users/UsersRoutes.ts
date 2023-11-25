@@ -4,7 +4,7 @@ import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
-} from 'src/infra/helpers/user/parametersWrapper';
+} from 'src/domains/common/helpers/parametersWrapper';
 import mocks from 'src/infra/datafakers/users/mocks/users';
 import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';

@@ -1,5 +1,5 @@
-import { MagicItem } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { MagicItem } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetMagicItemOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/magicItems/GetMagicItem';
 
 export default class GetMagicItemOperation {

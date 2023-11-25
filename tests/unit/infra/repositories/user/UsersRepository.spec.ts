@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/Logger';
 

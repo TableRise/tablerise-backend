@@ -7,7 +7,7 @@ import {
 } from 'src/types/users/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
-import generateVerificationCode from 'src/infra/helpers/user/generateVerificationCode';
+import generateVerificationCode from 'src/domains/user/helpers/generateVerificationCode';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 

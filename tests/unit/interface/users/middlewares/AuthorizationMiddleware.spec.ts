@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/user/enums/questionEnum';
 
 describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {

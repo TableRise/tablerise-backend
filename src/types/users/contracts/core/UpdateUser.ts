@@ -1,6 +1,6 @@
 import UpdateUserService from 'src/core/users/services/users/UpdateUserService';
 import { SchemasUserType } from 'src/domains/user/schemas';
-import SchemaValidator from 'src/infra/helpers/common/SchemaValidator';
+import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/Logger';

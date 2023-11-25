@@ -1,5 +1,5 @@
 import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { CompleteUserServiceContract } from 'src/types/users/contracts/core/CompleteUser';
 import { __UserWithID } from 'src/types/users/requests/Payload';
 import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';

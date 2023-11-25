@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FeatsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/feats/FeatsController';
 
 export default class FeatsController {

@@ -1,4 +1,4 @@
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UpdateSecretQuestionServiceContract } from 'src/types/users/contracts/core/UpdateSecretQuestion';
 import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
 

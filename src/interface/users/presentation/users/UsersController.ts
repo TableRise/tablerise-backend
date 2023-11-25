@@ -4,7 +4,7 @@ import {
     UpdateGameInfoPayload,
     VerifyEmailPayload,
 } from 'src/types/users/requests/Payload';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
 import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
 

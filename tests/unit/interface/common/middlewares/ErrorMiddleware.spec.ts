@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import sinon from 'sinon';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import ErrorMiddleware from 'src/interface/common/middlewares/ErrorMiddleware';
 
 describe('Interface :: Common :: Middlewares :: ErrorMiddleware', () => {

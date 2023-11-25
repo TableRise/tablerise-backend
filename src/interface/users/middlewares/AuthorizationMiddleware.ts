@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { JWTResponse } from 'src/types/users/requests/Response';
 import { AuthorizationMiddlewareContract } from 'src/types/users/contracts/middlewares/AuthorizationMiddleware';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
 
 export default class AuthorizationMiddleware {

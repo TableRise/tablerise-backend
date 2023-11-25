@@ -1,6 +1,6 @@
 import sinon from 'sinon';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UpdateTimestampRepository from 'src/infra/repositories/user/UpdateTimestampRepository';
 import { Logger } from 'src/types/Logger';
 

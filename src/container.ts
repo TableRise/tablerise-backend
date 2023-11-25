@@ -2,12 +2,12 @@
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
-import SchemaValidator from './infra/helpers/common/SchemaValidator';
+import SchemaValidator from './domains/common/helpers/SchemaValidator';
 import schemas from './domains/user/schemas';
-import EmailSender from './infra/helpers/user/EmailSender';
-import swaggerGenerator from './infra/helpers/common/swaggerGenerator';
+import EmailSender from './domains/user/helpers/EmailSender';
+import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
-import Serializer from './infra/helpers/user/Serializer';
+import Serializer from './domains/user/helpers/Serializer';
 import UsersRepository from './infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
@@ -24,7 +24,7 @@ import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/m
 import { ContainerContract } from './types/contracts/container';
 import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
 import configs from './infra/configs';
-import TwoFactorHandler from './infra/helpers/common/TwoFactorHandler';
+import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,

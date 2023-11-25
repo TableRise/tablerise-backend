@@ -1,4 +1,4 @@
-import returnEnumValues from 'src/infra/helpers/common/returnEnumValues';
+import returnEnumValues from 'src/domains/common/helpers/returnEnumValues';
 
 enum questionEnum {
     WHAT_IS_YOUR_GRANDFATHER_LAST_NAME = 'what-is-your-grandfather-last-name',

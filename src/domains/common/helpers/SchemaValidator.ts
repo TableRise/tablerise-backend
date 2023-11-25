@@ -1,5 +1,5 @@
 import { ZodError, ZodIssue } from 'zod';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from './getErrorName';
 import HttpRequestErrors from './HttpRequestErrors';
 

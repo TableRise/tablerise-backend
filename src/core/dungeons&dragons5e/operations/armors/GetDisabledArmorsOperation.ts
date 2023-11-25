@@ -1,5 +1,5 @@
-import { Armor } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Armor } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledArmorsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetDisabledArmorsOperation';
 
 export default class GetDisabledArmorsOperation {

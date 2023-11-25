@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import sinon from 'sinon';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import AuthErrorMiddleware from 'src/interface/users/middlewares/AuthErrorMiddleware';
 
 describe('Interface :: Users :: Middlewares :: AuthErrorMiddleware', () => {

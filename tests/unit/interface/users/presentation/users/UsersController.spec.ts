@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Request, Response } from 'express';
 import sinon from 'sinon';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {

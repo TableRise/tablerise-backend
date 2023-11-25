@@ -1,5 +1,5 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import newUUID from 'src/infra/helpers/user/newUUID';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserDetailJSONPayload } from 'src/types/users/datafakers/Payload';
 import dataGenerator from '../dataGenerator';
 import questionEnum from 'src/domains/user/enums/questionEnum';

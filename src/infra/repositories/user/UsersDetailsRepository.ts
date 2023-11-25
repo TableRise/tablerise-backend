@@ -1,6 +1,6 @@
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import newUUID from 'src/infra/helpers/user/newUUID';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/users/Repository';
 import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/repositories/usersDetailsRepository';
 

@@ -1,5 +1,5 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import {
     UpdateEmailServiceContract,
     UserEmail,

@@ -1,5 +1,5 @@
-import { Class } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Class } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledClassesServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/classes/GetDisabledClasses';
 
 export default class GetDisabledClassesService {

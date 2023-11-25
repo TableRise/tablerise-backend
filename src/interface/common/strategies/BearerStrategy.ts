@@ -3,10 +3,10 @@ import logger from '@tablerise/dynamic-logger';
 import passport from 'passport';
 import Bearer from 'passport-http-bearer';
 
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import JWTGenerator from 'src/infra/helpers/user/JWTGenerator';
-import getErrorName from 'src/infra/helpers/common/getErrorName';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 const BearerStrategy = Bearer.Strategy;
 

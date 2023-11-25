@@ -1,5 +1,5 @@
 import { DnDEntities } from '@tablerise/database-management/dist/src/types/DatabaseEntities';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UpdateObj } from 'src/types/users/Repository';
 import { UsersRepositoryContract } from 'src/types/users/contracts/repositories/usersRepository';
 

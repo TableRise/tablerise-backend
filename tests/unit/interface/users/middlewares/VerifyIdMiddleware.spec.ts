@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import sinon from 'sinon';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
-import newUUID from 'src/infra/helpers/user/newUUID';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyIdMiddleware', () => {

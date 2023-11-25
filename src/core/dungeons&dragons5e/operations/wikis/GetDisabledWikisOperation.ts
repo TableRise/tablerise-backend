@@ -1,5 +1,5 @@
-import { Wiki } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledWikisOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/wikis/GetDisabledWikis';
 
 export default class GetDisabledWikisOperation {

@@ -1,9 +1,9 @@
 import CreateUserService from 'src/core/users/services/users/CreateUserService';
 import { SchemasUserType } from 'src/domains/user/schemas';
-import SchemaValidator from 'src/infra/helpers/common/SchemaValidator';
+import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import { Logger } from '../../../Logger';
-import EmailSender from 'src/infra/helpers/user/EmailSender';
-import Serializer from 'src/infra/helpers/user/Serializer';
+import EmailSender from 'src/domains/user/helpers/EmailSender';
+import Serializer from 'src/domains/user/helpers/Serializer';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 

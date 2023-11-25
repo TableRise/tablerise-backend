@@ -1,5 +1,5 @@
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UpdateTimestampRepositoryContract } from 'src/types/users/contracts/repositories/UpdateTimestampRepository';
 import { UpdateTimestampPayload } from 'src/types/users/requests/Payload';
 

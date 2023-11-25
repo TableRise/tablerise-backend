@@ -2,7 +2,7 @@ import logger from '@tablerise/dynamic-logger';
 import { ErrorDetails, ErrorTypes, Errors } from 'src/types/users/Errors';
 import { HttpStatusCode } from './HttpStatusCode';
 import getErrorName from './getErrorName';
-import { ErrorMessage } from '../dungeons&dragons5e/errorMessage';
+import { ErrorMessage } from './errorMessage';
 
 export default class HttpRequestErrors extends Error {
     code: number;

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import logger from '@tablerise/dynamic-logger';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default function VerifyIdMiddleware(
     req: Request,

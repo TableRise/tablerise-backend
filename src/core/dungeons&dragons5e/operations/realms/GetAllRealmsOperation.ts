@@ -1,5 +1,5 @@
-import { Realm } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Realm } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetAllRealmsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/realms/GetAllRealms';
 
 export default class GetAllRealmsOperation {

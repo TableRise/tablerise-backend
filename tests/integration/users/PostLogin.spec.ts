@@ -1,9 +1,9 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DatabaseManagement from '@tablerise/database-management';
-import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
+import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
 
 describe('When the user is logged in', () => {
     let user: UserInstance;

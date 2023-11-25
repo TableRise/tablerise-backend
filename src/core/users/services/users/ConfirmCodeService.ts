@@ -1,4 +1,4 @@
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { ConfirmCodeServiceContract } from 'src/types/users/contracts/core/ConfirmCode';
 import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
 import { ConfirmCodeResponse } from 'src/types/users/requests/Response';

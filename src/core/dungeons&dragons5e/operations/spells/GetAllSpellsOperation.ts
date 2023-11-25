@@ -1,5 +1,5 @@
-import { Spell } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Spell } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetAllSpellsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/spells/GetAllSpells';
 
 export default class GetAllSpellsOperation {

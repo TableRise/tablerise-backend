@@ -1,5 +1,5 @@
-import { God } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledGodsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/gods/GetDisabledGodsOperation';
 
 export default class GetDisabledGodsOperation {

@@ -3,7 +3,7 @@ import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
-} from 'src/infra/helpers/user/parametersWrapper';
+} from 'src/domains/common/helpers/parametersWrapper';
 import { FeatsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/feats/FeatsRoutes';
 
 const BASE_PATH = '/dnd5e/feats';

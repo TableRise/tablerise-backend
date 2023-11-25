@@ -1,6 +1,6 @@
 import { ActivateTwoFactorServiceContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
 import { TwoFactorResponse, __FullUser } from 'src/types/users/requests/Response';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ActivateTwoFactorService {
     private readonly _usersRepository;

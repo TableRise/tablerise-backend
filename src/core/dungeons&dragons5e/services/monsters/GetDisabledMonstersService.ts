@@ -1,5 +1,5 @@
-import { Monster } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Monster } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledMonstersServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/monsters/GetDisabledMonsters';
 
 export default class GetDisabledMonstersService {

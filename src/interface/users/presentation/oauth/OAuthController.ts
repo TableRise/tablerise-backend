@@ -2,7 +2,7 @@ import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
 import { Response, Request } from 'express';
-import { HttpStatusCode } from 'src/infra/helpers/common/HttpStatusCode';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { OAuthControllerContract } from 'src/types/users/contracts/presentation/oauth/OAuthController';
 import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
 

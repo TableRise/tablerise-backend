@@ -1,5 +1,5 @@
-import { Spell } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Spell } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleSpellsAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/spells/ToggleSpellsAvailability';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
 

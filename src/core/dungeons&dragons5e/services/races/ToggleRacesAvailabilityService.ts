@@ -1,5 +1,5 @@
-import { Race } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleRacesAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/races/ToggleRacesAvailability';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
 

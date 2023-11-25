@@ -3,7 +3,7 @@ import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
-} from 'src/infra/helpers/user/parametersWrapper';
+} from 'src/domains/common/helpers/parametersWrapper';
 import { MagicItemsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/magicItems/MagicItemsRoutes';
 
 const BASE_PATH = '/dnd5e/magicItems';

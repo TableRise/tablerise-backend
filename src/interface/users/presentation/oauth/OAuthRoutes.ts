@@ -7,7 +7,7 @@ import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import generateIDParam from 'src/infra/helpers/user/parametersWrapper';
+import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 import desc from 'src/interface/users/presentation/oauth/RoutesDescription';
 
 const BASE_PATH = '/oauth';

@@ -1,5 +1,5 @@
-import { Background } from 'src/domains/dungeons&dragons5e/DungeonsAndDragons5EInterfaces';
-import { Internacional } from 'src/domains/dungeons&dragons5e/LanguagesWrapper';
+import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleBackgroundsAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/backgrounds/ToggleBackgroundsAvailability';
 import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
 

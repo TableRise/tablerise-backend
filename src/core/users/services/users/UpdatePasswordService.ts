@@ -1,6 +1,6 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/infra/helpers/common/HttpRequestErrors';
-import SecurePasswordHandler from 'src/infra/helpers/user/SecurePasswordHandler';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
 import {
     UpdatePasswordServiceContract,
     UserPassword,
