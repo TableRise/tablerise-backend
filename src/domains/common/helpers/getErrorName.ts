@@ -7,7 +7,7 @@ export default (code: number): string => {
         case HttpStatusCode.BAD_REQUEST:
             return 'BadRequest';
         case HttpStatusCode.UNPROCESSABLE_ENTITY:
-            return 'ValidationError';
+            return 'UnprocessableEntity';
         case HttpStatusCode.FORBIDDEN:
             return 'ForbiddenRequest';
         case HttpStatusCode.UNAUTHORIZED:
