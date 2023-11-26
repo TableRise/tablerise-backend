@@ -12,6 +12,7 @@
         "src/infra/datafakers",
         "src/infra/templates",
         "src/infra/configs.ts",
+        "src/domains/helpers/swaggerGenerator.ts",
         "tests"
     ],
     "reporter": ["text", "lcov", "json-summary"],
