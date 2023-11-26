@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 /* eslint-disable import/first */
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
 import logger from '@tablerise/dynamic-logger';
@@ -57,7 +58,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
 
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),
-        emailSender: asClass(EmailSender).scoped(),
+        emailSender: asClass(EmailSender).singleton(),
         serializer: asClass(Serializer).singleton(),
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
@@ -73,6 +74,10 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
 
         // #Libraries
         logger: asValue(logger),
+        nodemailer: asValue(nodemailer),
+
+        // #Values
+        emailType: asValue('common'),
 
         // #Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),

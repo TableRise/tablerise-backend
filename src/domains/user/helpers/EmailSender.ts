@@ -1,22 +1,27 @@
-import nodemailer from 'nodemailer';
-import {
-    EmailSenderType,
-    CommonContent,
-    EmailMessage,
-    ResponseEmailSender,
-} from 'src/types/users/Email';
+import { CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/users/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/user/helpers/generateVerificationCode';
+import { EmailSenderContract } from 'src/types/users/contracts/domains/helpers/EmailSender';
 
 const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
 
 export default class EmailSender {
-    constructor(public type: EmailSenderType = 'common') {
-        this.type = type;
+    public type;
+    private readonly _nodemailer;
+
+    constructor({ emailType, nodemailer }: EmailSenderContract) {
+        this.type = emailType;
+        this._nodemailer = nodemailer;
+
+        this.handleEmail = this.handleEmail.bind(this);
+        this.sendCommon = this.sendCommon.bind(this);
+        this.sendConfirmation = this.sendConfirmation.bind(this);
+        this.sendVerification = this.sendVerification.bind(this);
+        this.send = this.send.bind(this);
     }
 
-    static async handleEmail(
+    public async handleEmail(
         contentType: 'html' | 'text',
         content: CommonContent,
         target: string
@@ -40,7 +45,7 @@ export default class EmailSender {
         if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
 
-        const transporter = nodemailer.createTransport(config);
+        const transporter = this._nodemailer.createTransport(config);
         await transporter.sendMail(message);
 
         return true;
@@ -50,7 +55,7 @@ export default class EmailSender {
         content: CommonContent,
         target: string
     ): Promise<ResponseEmailSender> {
-        const sendEmailResult = await EmailSender.handleEmail('text', content, target);
+        const sendEmailResult = await this.handleEmail('text', content, target);
         return { success: sendEmailResult };
     }
 
@@ -62,7 +67,7 @@ export default class EmailSender {
         const username = content.username ?? target;
         content.body = confirmEmailTemplate(verificationCode, username);
 
-        const sendEmailResult = await EmailSender.handleEmail('html', content, target);
+        const sendEmailResult = await this.handleEmail('html', content, target);
         return { success: sendEmailResult, verificationCode };
     }
 
@@ -74,7 +79,7 @@ export default class EmailSender {
         const username = content.username ?? target;
         content.body = verifyEmailTemplate(verificationCode, username);
 
-        const sendEmailResult = await EmailSender.handleEmail('html', content, target);
+        const sendEmailResult = await this.handleEmail('html', content, target);
         return { success: sendEmailResult, verificationCode };
     }
 
@@ -88,7 +93,6 @@ export default class EmailSender {
             verification: this.sendVerification,
         };
 
-        // @ts-expect-error :: The options below will with sure match with the string passed in arg type;
         const result = await options[this.type](content, target);
         return result;
     }
