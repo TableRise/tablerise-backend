@@ -53,7 +53,10 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.getUserById,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('bearer', { session: false })
+                    ],
                     authentication: true,
                     tag: 'users',
                     description: desc.get,

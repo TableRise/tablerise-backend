@@ -45,8 +45,11 @@ export default class UpdateUserService {
             'role',
         ];
 
+        const userKeys = Object.keys(user);
+        const userDetailsKeys = Object.keys(userDetails);
+
         userForbiddenFields.forEach((key) => {
-            if (Object.keys(user).includes(key))
+            if (userKeys.includes(key))
                 throw new HttpRequestErrors({
                     message: `Update User Info - forbidden field: ${key} exists in payload`,
                     code: HttpStatusCode.FORBIDDEN,
@@ -55,7 +58,7 @@ export default class UpdateUserService {
         });
 
         userDetailsForbiddenFields.forEach((key) => {
-            if (Object.keys(userDetails).includes(key))
+            if (userDetailsKeys.includes(key))
                 throw new HttpRequestErrors({
                     message: `Update User Info - forbidden field: ${key} exists in payload`,
                     code: HttpStatusCode.FORBIDDEN,

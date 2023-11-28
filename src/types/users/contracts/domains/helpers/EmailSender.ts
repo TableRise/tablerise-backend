@@ -8,5 +8,5 @@ export interface EmailSenderContract {
         | nodemailer.TestAccount
         | nodemailer.TransportOptions
         | nodemailer.Transporter;
-    emailType: 'common';
+    emailType: 'common' | 'confirmation' | 'verification';
 }

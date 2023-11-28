@@ -26,6 +26,9 @@ export default class UpdateUserOperation {
         userId,
         payload,
     }: UpdateUserPayload): Promise<RegisterUserResponse> {
+        this._logger('info', 'Execute - UpdateUserOperation');
+        this._schemaValidator.entry(this._usersSchema.updateUserZod, payload);
+
         const { user, userDetails } = await this._updateUserService.update({
             userId,
             payload,

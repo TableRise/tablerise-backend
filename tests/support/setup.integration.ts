@@ -23,7 +23,7 @@ exports.mochaHooks = {
         logger('test', 'Test database connected');
 
         const user = {
-            userId: '6530214e4006e8046e11b723',
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             inProgress: { status: 'done', code: '' },
             providerId: null,
             email: 'joe@email.com',
@@ -37,8 +37,8 @@ exports.mochaHooks = {
         };
 
         const details = {
-            userDetailId: '653021554006e8046e11b727',
-            userId: '6530214e4006e8046e11b723',
+            userDetailId: 'ff2abce1-fc9e-41d7-b8ab-8cb599adb111',
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             firstName: 'Joe',
             lastName: 'Einstein',
             pronoun: 'he/his',

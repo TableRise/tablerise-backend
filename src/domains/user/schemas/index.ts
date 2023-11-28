@@ -1,6 +1,7 @@
 import userZod, {
     emailUpdateZodSchema,
     passwordUpdateZodSchema,
+    updateUserZodSchema,
 } from './usersValidationSchema';
 import userDetailZod from './userDetailsValidationSchema';
 import { oAuthCompleteZodSchema } from './oAuthValidationSchema';
@@ -10,7 +11,8 @@ const schemas = {
     userDetailZod,
     emailUpdateZod: emailUpdateZodSchema,
     passwordUpdateZod: passwordUpdateZodSchema,
-    oAuthComplete: oAuthCompleteZodSchema,
+    updateUserZod: updateUserZodSchema,
+    oAuthComplete: oAuthCompleteZodSchema
 };
 
 export type SchemasUserType = typeof schemas;

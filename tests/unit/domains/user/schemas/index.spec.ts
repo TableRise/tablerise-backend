@@ -8,6 +8,7 @@ describe('Domains :: User :: Schemas :: Index', () => {
                 'userDetailZod',
                 'emailUpdateZod',
                 'passwordUpdateZod',
+                'updateUserZod',
                 'oAuthComplete',
             ];
             const indexKeys = Object.keys(index);
