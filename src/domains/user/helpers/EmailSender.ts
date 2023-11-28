@@ -4,7 +4,7 @@ import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/user/helpers/generateVerificationCode';
 import { EmailSenderContract } from 'src/types/users/contracts/domains/helpers/EmailSender';
 
-const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD } = process.env;
+const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD, EMAIL_SENDING } = process.env;
 
 export default class EmailSender {
     public type;
@@ -46,7 +46,7 @@ export default class EmailSender {
         if (contentType === 'text') message.text = content.body;
 
         const transporter = this._nodemailer.createTransport(config);
-        await transporter.sendMail(message);
+        if (EMAIL_SENDING === 'on') await transporter.sendMail(message);
 
         return true;
     }

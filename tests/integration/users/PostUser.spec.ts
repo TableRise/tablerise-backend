@@ -14,6 +14,8 @@ describe('When a user is created', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             details = DomainDataFaker.generateUserDetailsJSON()[0];
 
+            process.env.EMAIL_SENDING = 'on';
+
             sinon
                 .stub(EmailSender.prototype, 'send')
                 .resolves({ success: true, verificationCode: 'LOKI74' });
