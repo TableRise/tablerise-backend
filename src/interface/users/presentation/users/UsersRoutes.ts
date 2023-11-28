@@ -55,7 +55,7 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false })
+                        passport.authenticate('bearer', { session: false }),
                     ],
                     authentication: true,
                     tag: 'users',

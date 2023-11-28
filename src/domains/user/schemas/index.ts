@@ -12,7 +12,7 @@ const schemas = {
     emailUpdateZod: emailUpdateZodSchema,
     passwordUpdateZod: passwordUpdateZodSchema,
     updateUserZod: updateUserZodSchema,
-    oAuthComplete: oAuthCompleteZodSchema
+    oAuthComplete: oAuthCompleteZodSchema,
 };
 
 export type SchemasUserType = typeof schemas;

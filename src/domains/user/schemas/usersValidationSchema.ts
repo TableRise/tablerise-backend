@@ -12,7 +12,7 @@ const updateUserDetails = z.object({
     lastName: z.string().max(80),
     pronoun: z.enum(pronounEnum.values),
     birthday: z.string(),
-    biography: z.string().max(500)
+    biography: z.string().max(500),
 });
 
 const usersZodSchema = z.object({
@@ -34,7 +34,7 @@ export const passwordUpdateZodSchema = z.object({
 export const updateUserZodSchema = z.object({
     nickname: z.string().max(32),
     picture: z.string().max(120).or(z.null()),
-    details: updateUserDetails
+    details: updateUserDetails,
 });
 
 export const userLoginZodSchema = z.object({
