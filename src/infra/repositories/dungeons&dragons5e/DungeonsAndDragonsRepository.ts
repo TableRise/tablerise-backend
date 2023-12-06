@@ -1,14 +1,14 @@
 import { DnDEntities } from '@tablerise/database-management/dist/src/types/DatabaseEntities';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UpdateObj } from 'src/types/users/Repository';
-import { UsersRepositoryContract } from 'src/types/users/contracts/repositories/usersRepository';
+import { DungeonsAndDragonsRepositoryContract } from 'src/types/dungeons&dragons5e/contracts/repositories/dungeonsAndDragonsRepository';
 
 export default class DungeonsAndDragonsRepository {
     private readonly _model;
     private readonly _logger;
     private _entity = 'none';
 
-    constructor({ database, logger }: UsersRepositoryContract) {
+    constructor({ database, logger }: DungeonsAndDragonsRepositoryContract) {
         this._model = database.modelInstance;
         this._logger = logger;
     }
