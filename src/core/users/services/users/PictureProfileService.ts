@@ -10,7 +10,11 @@ export default class PictureProfileService {
     private readonly _imageStorageClient;
     private readonly _logger;
 
-    constructor({ usersRepository, imageStorageClient, logger }: PictureProfileServiceContract) {
+    constructor({
+        usersRepository,
+        imageStorageClient,
+        logger,
+    }: PictureProfileServiceContract) {
         this._usersRepository = usersRepository;
         this._imageStorageClient = imageStorageClient;
         this._logger = logger;
@@ -26,15 +30,20 @@ export default class PictureProfileService {
             const diffTime = dateLast.getTime() - dateFirst.getTime();
             const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
 
-            if ((diffDays - 1) < 15) throw new HttpRequestErrors({
-                message: 'You only can upload a new profile picture one time in 15-days',
-                name: getErrorName(HttpStatusCode.FORBIDDEN),
-                code: HttpStatusCode.FORBIDDEN
-            });
+            if (diffDays - 1 < 15)
+                throw new HttpRequestErrors({
+                    message:
+                        'You only can upload a new profile picture one time in 15-days',
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
+                    code: HttpStatusCode.FORBIDDEN,
+                });
         }
     }
 
-    public async uploadPicture({ userId, image }: UserImagePayload): Promise<UserInstance> {
+    public async uploadPicture({
+        userId,
+        image,
+    }: UserImagePayload): Promise<UserInstance> {
         this._logger('info', 'UploadPicture - PictureProfileService');
         const userInDb = await this._usersRepository.findOne({ userId });
 
@@ -45,12 +54,12 @@ export default class PictureProfileService {
         userInDb.picture = {
             id: response.data.id,
             link: response.data.link,
-            uploadDate: new Date()
+            uploadDate: new Date(),
         };
 
         return this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb
+            payload: userInDb,
         });
     }
 }

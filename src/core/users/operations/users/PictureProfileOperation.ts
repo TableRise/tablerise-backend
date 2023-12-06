@@ -1,5 +1,5 @@
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { PictureProfileOperationContract } from "src/types/users/contracts/core/PictureProfile";
+import { PictureProfileOperationContract } from 'src/types/users/contracts/core/PictureProfile';
 import { UserImagePayload } from 'src/types/users/requests/Payload';
 
 export default class PictureProfileOperation {

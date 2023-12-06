@@ -163,7 +163,10 @@ export default class UsersController {
 
     public async profilePicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const result = await this._pictureProfileOperation.execute({ userId: id, image: req.file as FileObject });
+        const result = await this._pictureProfileOperation.execute({
+            userId: id,
+            image: req.file as FileObject,
+        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

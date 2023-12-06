@@ -10,7 +10,7 @@ const twoFactorSecretZodSchema = z.object({
 const userPictureZodSchema = z.object({
     link: z.string().max(120),
     id: z.string().max(120),
-    uploadDate: z.date()
+    uploadDate: z.date(),
 });
 
 const updateUserDetails = z.object({
@@ -28,7 +28,7 @@ const usersZodSchema = z.object({
     picture: userPictureZodSchema.or(z.null()).default({
         id: '',
         link: '',
-        uploadDate: new Date()
+        uploadDate: new Date(),
     }),
     twoFactorSecret: twoFactorSecretZodSchema,
 });

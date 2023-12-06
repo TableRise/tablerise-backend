@@ -121,8 +121,8 @@ export default class UsersRoutes {
                     ],
                     authentication: true,
                     tag: 'management',
-                    description: desc.profilePicture
-                }
+                    description: desc.profilePicture,
+                },
             },
 
             // PUT

@@ -15,7 +15,7 @@ function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
         picture: {
             id: '',
             link: '',
-            uploadDate: new Date()
+            uploadDate: new Date(),
         },
         twoFactorSecret: { active: false },
     } as UserInstance;

@@ -18,15 +18,15 @@ export default class ImageMiddleware {
     }
 
     public multer(): Multer {
-        const limits  = {
-            fileSize: TEN_MB_LIMIT
+        const limits = {
+            fileSize: TEN_MB_LIMIT,
         };
-    
+
         const storage = multer.memoryStorage();
-    
+
         return multer({
             storage,
-            limits
+            limits,
         });
     }
 
@@ -34,14 +34,14 @@ export default class ImageMiddleware {
         this._logger('info', 'FileType - ImageMiddleware');
         const file = req.file;
         const extension = file?.mimetype.split('/').pop();
-    
+
         if (!ALLOWED_EXT.includes(extension as string))
             throw new HttpRequestErrors({
                 message: `File extension is not allowed, valid extensions are: [png, jpg, jpeg]`,
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                code: HttpStatusCode.BAD_REQUEST
+                code: HttpStatusCode.BAD_REQUEST,
             });
-    
+
         next();
     }
 }

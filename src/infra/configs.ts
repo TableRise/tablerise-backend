@@ -12,8 +12,8 @@ export default {
             baseUrl: 'https://api.imgur.com/3',
             authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID as string}`,
             endpoints: {
-                postImage: '/image'
-            }
-        }
-    }
+                postImage: '/image',
+            },
+        },
+    },
 };

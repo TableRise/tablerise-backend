@@ -8,7 +8,7 @@ export default class ImageStorageClient {
 
     constructor({ logger, configs }: ImageStorageClientContract) {
         this._logger = logger;
-        this._configs = configs
+        this._configs = configs;
     }
 
     async upload(image: FileObject): Promise<AxiosResponse> {
@@ -22,8 +22,8 @@ export default class ImageStorageClient {
             url,
             data: Buffer.from(image.buffer, 'base64'),
             headers: {
-                "Content-Type": "text/plain",
-                "Authorization": authorization
+                'Content-Type': 'text/plain',
+                Authorization: authorization,
             },
         });
 

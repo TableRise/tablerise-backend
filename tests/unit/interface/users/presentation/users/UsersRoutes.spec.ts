@@ -20,7 +20,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             authorizationMiddleware,
             verifyIdMiddleware,
             verifyEmailCodeMiddleware,
-            imageMiddleware
+            imageMiddleware,
         });
 
         it('Should return the correct number of routes', () => {
