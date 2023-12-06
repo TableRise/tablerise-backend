@@ -26,6 +26,8 @@ import { ContainerContract } from './types/contracts/container';
 import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
 import configs from './infra/configs';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
+import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
+import ImageStorageClient from './infra/clients/ImageStorageClient';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -72,6 +74,9 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         usersDetailsRepository: asClass(UsersDetailsRepository).singleton(),
         updateTimestampRepository: asClass(UpdateTimestampRepository).singleton(),
 
+        // #Clients
+        imageStorageClient: asClass(ImageStorageClient),
+
         // #Libraries
         logger: asValue(logger),
         nodemailer: asValue(nodemailer),
@@ -82,6 +87,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
         authErrorMiddleware: asValue(AuthErrorMiddleware),
+        imageMiddleware: asClass(ImageMiddleware).singleton(),
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         errorMiddleware: asValue(ErrorMiddleware),

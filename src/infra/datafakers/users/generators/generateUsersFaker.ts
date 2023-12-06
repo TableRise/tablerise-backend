@@ -12,7 +12,11 @@ function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
         password: 'TheWorld@122',
         nickname: dataGenerator.nickname(),
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
-        picture: dataGenerator.picture(),
+        picture: {
+            id: '',
+            link: '',
+            uploadDate: new Date()
+        },
         twoFactorSecret: { active: false },
     } as UserInstance;
 }

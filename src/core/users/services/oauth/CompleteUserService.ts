@@ -39,7 +39,6 @@ export default class CompleteUserService {
         } catch (error) {
             if (nicknameExists) HttpRequestErrors.throwError('tag-already-exist');
 
-            user.picture = payload.picture;
             user.inProgress.status = 'done';
             userDetails.firstName = payload.firstName;
             userDetails.lastName = payload.lastName;

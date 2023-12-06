@@ -5,7 +5,7 @@ const [details] = DomainDataFaker.generateUserDetailsJSON();
 
 export default {
     nickname: user.nickname,
-    picture: user.picture as string,
+    picture: user.picture,
     details: {
         firstName: details.firstName,
         lastName: details.lastName,

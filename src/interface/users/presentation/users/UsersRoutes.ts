@@ -16,16 +16,19 @@ export default class UsersRoutes {
     private readonly _usersController;
     private readonly _verifyIdMiddleware;
     private readonly _authorizationMiddleware;
+    private readonly _imageMiddleware;
     private readonly _verifyEmailCodeMiddleware;
 
     constructor({
         usersController,
         authorizationMiddleware,
         verifyIdMiddleware,
+        imageMiddleware,
         verifyEmailCodeMiddleware,
     }: UsersRoutesContract) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
+        this._imageMiddleware = imageMiddleware;
         this._verifyEmailCodeMiddleware = verifyEmailCodeMiddleware;
         this._authorizationMiddleware = authorizationMiddleware;
     }
@@ -102,6 +105,24 @@ export default class UsersRoutes {
                     tag: 'authentication',
                     description: desc.login,
                 },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/picture`,
+                parameters: [...generateIDParam()],
+                controller: this._usersController.profilePicture,
+                options: {
+                    middlewares: [
+                        // passport.authenticate('local', { session: false }),
+                        // this._verifyIdMiddleware,
+                        this._imageMiddleware.multer().single('image'),
+                        this._imageMiddleware.fileType,
+                        this._verifyIdMiddleware,
+                    ],
+                    authentication: true,
+                    tag: 'management',
+                    description: desc.profilePicture
+                }
             },
 
             // PUT

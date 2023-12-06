@@ -15,7 +15,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
         beforeEach(() => {
             completeOAuthData = {
                 nickname: 'usb',
-                picture: 'https://imgbb.com',
                 firstName: 'Jhon',
                 lastName: 'Doe',
                 pronoun: 'he/his',
@@ -37,7 +36,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
         beforeEach(() => {
             completeOAuthData = {
                 nickname: 'usb',
-                firstName: 'Jhon',
                 lastName: 'Doe',
                 pronoun: 'he/his',
                 birthday: '2000-10-10',
@@ -55,7 +53,7 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
                 expect(err.name).to.be.equal('UnprocessableEntity');
 
                 expect(err.details).to.have.length(1);
-                expect(err.details[0].attribute).to.be.equal('picture');
+                expect(err.details[0].attribute).to.be.equal('firstName');
                 expect(err.details[0].reason).to.be.equal('Invalid input');
             }
         });

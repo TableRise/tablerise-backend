@@ -8,11 +8,17 @@ import {
     UserInstance,
     UserPayload,
 } from 'src/domains/user/schemas/usersValidationSchema';
+import { FileObject } from 'src/types/File';
 
 export interface UserExternal {
     providerId: string;
     email: string;
     name: string;
+}
+
+export interface UserImagePayload {
+    userId: string;
+    image: FileObject;
 }
 
 export interface __FullUserPayload {

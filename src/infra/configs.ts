@@ -1,10 +1,5 @@
 import 'dotenv/config';
 export default {
-    database_username: process.env.MONGODB_USERNAME,
-    database_password: process.env.MONGODB_PASSWORD,
-    database_host: process.env.MONGODB_HOST,
-    database_database: process.env.MONGODB_DATABASE,
-    database_initialString: process.env.MONGODB_CONNECTION_INITIAL,
     twoFactorGen: {
         params: {
             label: `TableRise 2FA`,
@@ -12,4 +7,13 @@ export default {
             encoding: 'base32',
         },
     },
+    api: {
+        imgur: {
+            baseUrl: 'https://api.imgur.com/3',
+            authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID as string}`,
+            endpoints: {
+                postImage: '/image'
+            }
+        }
+    }
 };

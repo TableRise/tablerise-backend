@@ -7,6 +7,7 @@ import {
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
 import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { FileObject } from 'src/types/File';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -21,6 +22,7 @@ export default class UsersController {
     private readonly _updatePasswordOperation;
     private readonly _updateGameInfoOperation;
     private readonly _resetProfileOperation;
+    private readonly _pictureProfileOperation;
     private readonly _deleteUserOperation;
 
     constructor({
@@ -36,6 +38,7 @@ export default class UsersController {
         updatePasswordOperation,
         updateGameInfoOperation,
         resetProfileOperation,
+        pictureProfileOperation,
         deleteUserOperation,
     }: UsersControllerContract) {
         this._createUserOperation = createUserOperation;
@@ -50,6 +53,7 @@ export default class UsersController {
         this._updatePasswordOperation = updatePasswordOperation;
         this._updateGameInfoOperation = updateGameInfoOperation;
         this._resetProfileOperation = resetProfileOperation;
+        this._pictureProfileOperation = pictureProfileOperation;
         this._deleteUserOperation = deleteUserOperation;
 
         this.register = this.register.bind(this);
@@ -64,6 +68,7 @@ export default class UsersController {
         this.updatePassword = this.updatePassword.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
+        this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
     }
 
@@ -154,6 +159,12 @@ export default class UsersController {
 
         await this._updatePasswordOperation.execute({ userId: id, code, password });
         return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async profilePicture(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const result = await this._pictureProfileOperation.execute({ userId: id, image: req.file as FileObject });
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {

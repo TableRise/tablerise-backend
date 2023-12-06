@@ -18,6 +18,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         updatePasswordOperation: any,
         updateGameInfoOperation: any,
         resetProfileOperation: any,
+        pictureProfileOperation: any,
         deleteUserOperation: any;
 
     context('#register', () => {
@@ -40,6 +41,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -55,6 +57,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -89,6 +92,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -104,6 +108,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -143,6 +148,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -158,6 +164,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -193,6 +200,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -208,6 +216,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -241,6 +250,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -256,6 +266,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -292,6 +303,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -307,6 +319,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -340,6 +353,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -355,6 +369,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -394,6 +409,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -409,6 +425,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -449,6 +466,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -464,6 +482,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -503,6 +522,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -518,6 +538,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -560,6 +581,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: sinon.spy(() => ({})) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -575,6 +597,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -616,6 +639,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: sinon.spy(() => ({})) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -631,6 +655,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -670,6 +695,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: sinon.spy(() => ({})) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
@@ -685,6 +711,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });
@@ -723,6 +750,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
             resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: sinon.spy(() => ({})) };
 
             usersController = new UsersController({
@@ -738,6 +766,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 updatePasswordOperation,
                 updateGameInfoOperation,
                 resetProfileOperation,
+                pictureProfileOperation,
                 deleteUserOperation,
             });
         });

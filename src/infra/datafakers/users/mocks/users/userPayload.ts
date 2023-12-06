@@ -8,7 +8,7 @@ export default {
     password: user.password,
     twoFactorSecret: { active: false },
     nickname: user.nickname,
-    picture: user.picture as string,
+    picture: user.picture,
     details: {
         firstName: details.firstName,
         lastName: details.lastName,

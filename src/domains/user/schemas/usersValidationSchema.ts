@@ -7,6 +7,12 @@ const twoFactorSecretZodSchema = z.object({
     active: z.boolean(),
 });
 
+const userPictureZodSchema = z.object({
+    link: z.string().max(120),
+    id: z.string().max(120),
+    uploadDate: z.date()
+});
+
 const updateUserDetails = z.object({
     firstName: z.string().max(16),
     lastName: z.string().max(80),
@@ -19,7 +25,11 @@ const usersZodSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8).max(32),
     nickname: z.string().max(32),
-    picture: z.string().max(120).or(z.null()),
+    picture: userPictureZodSchema.or(z.null()).default({
+        id: '',
+        link: '',
+        uploadDate: new Date()
+    }),
     twoFactorSecret: twoFactorSecretZodSchema,
 });
 
@@ -33,7 +43,7 @@ export const passwordUpdateZodSchema = z.object({
 
 export const updateUserZodSchema = z.object({
     nickname: z.string().max(32),
-    picture: z.string().max(120).or(z.null()),
+    picture: userPictureZodSchema.or(z.null()),
     details: updateUserDetails,
 });
 

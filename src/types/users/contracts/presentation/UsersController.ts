@@ -5,6 +5,7 @@ import CreateUserOperation from 'src/core/users/operations/users/CreateUserOpera
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
+import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
 import ResetProfileOperation from 'src/core/users/operations/users/ResetProfileOperation';
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdateGameInfoOperation from 'src/core/users/operations/users/UpdateGameInfoOperation';
@@ -25,5 +26,6 @@ export interface UsersControllerContract {
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;
     resetProfileOperation: ResetProfileOperation;
+    pictureProfileOperation: PictureProfileOperation;
     deleteUserOperation: DeleteUserOperation;
 }
