@@ -33,7 +33,7 @@ exports.mochaHooks = {
             picture: {
                 id: '',
                 link: '',
-                uploadDate: new Date()
+                uploadDate: new Date(),
             },
             twoFactorSecret: { active: false },
             createdAt: new Date().toISOString(),

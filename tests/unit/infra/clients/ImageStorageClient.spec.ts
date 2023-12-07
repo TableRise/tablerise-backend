@@ -4,10 +4,10 @@ import { FileObject } from 'src/types/File';
 
 describe('Infra :: Clients :: ImageStorageClient', () => {
     let imageStorageClient: ImageStorageClient,
-    configs: any,
-    httpRequest: any,
-    imageMock: FileObject;
-    
+        configs: any,
+        httpRequest: any,
+        imageMock: FileObject;
+
     const logger = (): void => {};
 
     context('#upload', () => {
@@ -20,10 +20,10 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                         baseUrl: '',
                         authorization: '',
                         endpoints: {
-                            postImage: ''
-                        }
-                    }
-                }
+                            postImage: '',
+                        },
+                    },
+                },
             };
 
             httpRequest = () => ({ data: 'upload test' });
@@ -34,13 +34,13 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 originalname: 'test.png',
                 fieldname: 'file',
                 encoding: 'utf-8',
-                size: 154
-            }
+                size: 154,
+            };
 
             imageStorageClient = new ImageStorageClient({
                 logger,
                 configs,
-                httpRequest
+                httpRequest,
             });
 
             sinon.spy(Buffer, 'from');
@@ -52,6 +52,6 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             expect(imageUp).to.be.deep.equal('upload test');
             expect(Buffer.from).to.have.been.calledWith(bufferMock, 'base64');
             process.env.NODE_ENV = 'develop';
-        })
+        });
     });
 });

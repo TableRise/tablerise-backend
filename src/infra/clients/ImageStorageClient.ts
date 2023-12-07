@@ -19,20 +19,25 @@ export default class ImageStorageClient {
 
         const url = baseUrl + endpoints.postImage;
 
-        const imageUploaded = process.env.NODE_ENV === 'production' ? await this._httpRequest({
-            method: 'post',
-            url,
-            data: Buffer.from(image.buffer, 'base64'),
-            headers: {
-                'Content-Type': 'text/plain',
-                Authorization: authorization,
-            },
-        }) : {data: {
-            data: {
-                id: '',
-                link: ''
-            }
-        }};
+        const imageUploaded =
+            process.env.NODE_ENV === 'production'
+                ? await this._httpRequest({
+                      method: 'post',
+                      url,
+                      data: Buffer.from(image.buffer, 'base64'),
+                      headers: {
+                          'Content-Type': 'text/plain',
+                          Authorization: authorization,
+                      },
+                  })
+                : {
+                      data: {
+                          data: {
+                              id: '',
+                              link: '',
+                          },
+                      },
+                  };
 
         return imageUploaded.data;
     }

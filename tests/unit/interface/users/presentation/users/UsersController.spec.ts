@@ -784,13 +784,13 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 destination: '',
                 path: '',
                 filename: '',
-                buffer: Buffer.alloc(10)
+                buffer: Buffer.alloc(10),
             };
             await usersController.profilePicture(request, response);
 
             expect(pictureProfileOperation.execute).to.have.been.calledWith({
                 userId: request.params.id,
-                image: request.file
+                image: request.file,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();

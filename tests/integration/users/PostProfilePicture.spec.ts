@@ -11,7 +11,7 @@ describe('When a profile picture is uploaded', () => {
                 .set('Content-Type', 'multipart/form-data')
                 .attach('image', './tests/support/assets/test-image-batman.jpeg')
                 .expect(HttpStatusCode.OK);
-                
+
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
             expect(body.picture.id).to.be.equal('');
