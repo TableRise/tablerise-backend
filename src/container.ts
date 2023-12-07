@@ -28,6 +28,7 @@ import configs from './infra/configs';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
+import axios from 'axios';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -80,6 +81,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Libraries
         logger: asValue(logger),
         nodemailer: asValue(nodemailer),
+        httpRequest: asValue(axios),
 
         // #Values
         emailType: asValue('common'),

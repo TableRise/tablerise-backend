@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
+import { Readable } from 'stream';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
     let usersController: UsersController,
@@ -726,6 +727,73 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
+        });
+    });
+
+    context('#profilePicture', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
+
+            createUserOperation = { execute: () => ({}) };
+            updateUserOperation = { execute: () => ({}) };
+            verifyEmailOperation = { execute: () => ({}) };
+            getUsersOperation = { execute: () => ({}) };
+            getUserByIdOperation = { execute: () => ({}) };
+            confirmCodeOperation = { execute: () => ({}) };
+            activateSecretQuestionOperation = { execute: () => ({}) };
+            activateTwoFactorOperation = { execute: () => ({}) };
+            updateEmailOperation = { execute: () => ({}) };
+            updatePasswordOperation = { execute: () => ({}) };
+            updateGameInfoOperation = { execute: () => ({}) };
+            resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: sinon.spy(() => ({})) };
+            deleteUserOperation = { execute: () => ({}) };
+
+            usersController = new UsersController({
+                createUserOperation,
+                updateUserOperation,
+                verifyEmailOperation,
+                getUsersOperation,
+                getUserByIdOperation,
+                confirmCodeOperation,
+                activateSecretQuestionOperation,
+                activateTwoFactorOperation,
+                updateEmailOperation,
+                updatePasswordOperation,
+                updateGameInfoOperation,
+                resetProfileOperation,
+                pictureProfileOperation,
+                deleteUserOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.file = {
+                fieldname: '',
+                originalname: '',
+                encoding: '',
+                mimetype: '',
+                size: 0,
+                stream: '' as unknown as Readable,
+                destination: '',
+                path: '',
+                filename: '',
+                buffer: Buffer.alloc(10)
+            };
+            await usersController.profilePicture(request, response);
+
+            expect(pictureProfileOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                image: request.file
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
         });
     });
 

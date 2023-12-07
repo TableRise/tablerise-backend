@@ -29,6 +29,8 @@ describe('When a user is created', () => {
                 details,
             };
 
+            payload.picture = null;
+
             const { body } = await requester()
                 .post('/profile/register')
                 .send(payload)

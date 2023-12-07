@@ -13,7 +13,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
         verifyEmailCodeMiddleware = {};
-        imageMiddleware = {};
+        imageMiddleware = { multer: () => ({ single: () => {} }) };
 
         usersRoutes = new UsersRoutes({
             usersController,
@@ -25,7 +25,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(14);
+            expect(routes).to.have.lengthOf(15);
         });
     });
 });

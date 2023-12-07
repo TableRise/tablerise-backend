@@ -30,7 +30,11 @@ exports.mochaHooks = {
             password: '@Password61',
             nickname: 'joe_the_great',
             tag: `#9999`,
-            picture: 'https://imgbb.com',
+            picture: {
+                id: '',
+                link: '',
+                uploadDate: new Date()
+            },
             twoFactorSecret: { active: false },
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
