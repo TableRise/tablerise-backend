@@ -88,6 +88,13 @@ exports.mochaHooks = {
             .stub(EmailSender.prototype, 'send')
             .resolves({ success: true, verificationCode: 'LOKI74' });
         logger('test', 'Stub EmailSender.prototype');
+
+        sinon
+            .stub(AuthorizationMiddleware.prototype, 'checkAdminRole')
+            .callsFake(async (_req, _res, next): Promise<void> => {
+                next();
+            });
+        logger('test', 'Stub AuthorizationMiddleware.prototype');
     },
 
     async afterAll() {

@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When an user is deleted', () => {
+describe('When game info of an user is reset', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     context('And all data is correct', () => {
@@ -13,20 +13,33 @@ describe('When an user is deleted', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.twoFactorSecret = { active: true, secret: '' };
+            user.inProgress = { status: 'done', code: '' };
+
+            userDetails.gameInfo.badges = ['123'];
+            userDetails.gameInfo.campaigns = ['123', '123', '123'];
+            userDetails.gameInfo.characters = ['123', '123'];
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
         });
 
-        it('should delete user with success', async () => {
+        it('should reset user with success', async () => {
             await requester()
-                .delete(`/profile/${user.userId}/delete?token=123456`)
+                .patch(`/profile/${user.userId}/reset`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
+            const { body } = await requester()
                 .get(`/profile/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+                .expect(HttpStatusCode.OK);
+
+            expect(body).to.have.property('details');
+            expect(body.details.gameInfo.badges).to.be.an('array').that.has.lengthOf(0);
+            expect(body.details.gameInfo.campaigns)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
+            expect(body.details.gameInfo.characters)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
         });
     });
 });
