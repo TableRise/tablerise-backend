@@ -191,15 +191,17 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [
+                    ...generateQueryParam(2, [
+                        { name: 'code', type: 'string' },
                         { name: 'isReset', type: 'boolean', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.activateTwoFactor,
                 options: {
                     middlewares: [
-                        this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
+                        this._verifyIdMiddleware,
+                        this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: true,
                     tag: 'authorization',

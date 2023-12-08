@@ -3,22 +3,21 @@ import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidati
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import EmailSender from 'src/domains/user/helpers/EmailSender';
 import requester from 'tests/support/requester';
 
 describe('When a user is created', () => {
     let user: UserInstance, details: UserDetailInstance;
 
     context('And all data is correct', () => {
-        beforeEach(() => {
+        before(() => {
             user = DomainDataFaker.generateUsersJSON()[0];
             details = DomainDataFaker.generateUserDetailsJSON()[0];
 
             process.env.EMAIL_SENDING = 'on';
+        });
 
-            sinon
-                .stub(EmailSender.prototype, 'send')
-                .resolves({ success: true, verificationCode: 'LOKI74' });
+        after(() => {
+            sinon.restore();
         });
 
         it('should return correct user created with details', async () => {

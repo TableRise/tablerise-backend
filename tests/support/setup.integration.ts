@@ -2,6 +2,10 @@ import chai from 'chai';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import setup from 'src/container';
 import logger from '@tablerise/dynamic-logger';
+import sinon from 'sinon';
+import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
+import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
+import EmailSender from 'src/domains/user/helpers/EmailSender';
 
 setup({ loadExt: 'ts' });
 chai.use(require('dirty-chai'));
@@ -65,6 +69,25 @@ exports.mochaHooks = {
         await UsersModel.create(user);
         await UserDetailsModel.create(details);
         logger('test', 'Test user created with details');
+
+        sinon
+            .stub(AuthorizationMiddleware.prototype, 'twoFactor')
+            .callsFake(async (_req, _res, next): Promise<void> => {
+                next();
+            });
+        logger('test', 'Stub AuthorizationMiddleware.prototype');
+
+        sinon
+            .stub(VerifyEmailCodeMiddleware.prototype, 'verify')
+            .callsFake(async (_req, _res, next): Promise<void> => {
+                next();
+            });
+        logger('test', 'Stub VerifyEmailCodeMiddleware.prototype');
+
+        sinon
+            .stub(EmailSender.prototype, 'send')
+            .resolves({ success: true, verificationCode: 'LOKI74' });
+        logger('test', 'Stub EmailSender.prototype');
     },
 
     async afterAll() {
@@ -80,5 +103,8 @@ exports.mochaHooks = {
 
         await mongoose.connection.close();
         logger('test', 'Test database disconnected');
+
+        sinon.restore();
+        logger('test', 'Stubs restored');
     },
 };

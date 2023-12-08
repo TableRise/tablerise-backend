@@ -20,6 +20,7 @@ export default class ActivateTwoFactorService {
         this._logger = logger;
 
         this.activate = this.activate.bind(this);
+        this.save = this.save.bind(this);
     }
 
     public async activate(userId: string, isReset: boolean = false): Promise<__FullUser> {
@@ -44,13 +45,14 @@ export default class ActivateTwoFactorService {
     public async save({ user, userDetails }: __FullUser): Promise<TwoFactorResponse> {
         this._logger('info', 'Save - ActivateTwoFactorService');
 
-        const userSaved = await this._usersRepository.create({
-            ...user,
+        const userSaved = await this._usersRepository.update({
+            query: { userId: user.userId },
+            payload: user,
         });
 
-        await this._usersDetailsRepository.create({
-            ...userDetails,
-            userId: userSaved.userId,
+        await this._usersDetailsRepository.update({
+            query: { userId: userSaved.userId },
+            payload: userDetails,
         });
 
         delete user.twoFactorSecret.secret;

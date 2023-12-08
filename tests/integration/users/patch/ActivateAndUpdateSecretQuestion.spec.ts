@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import DatabaseManagement from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
@@ -6,7 +5,6 @@ import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidati
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
-import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 
 describe('When the user has secret question activated', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -35,14 +33,6 @@ describe('When the user has secret question activated', () => {
     });
 
     context('And all data is correct', () => {
-        before(() => {
-            sinon
-                .stub(AuthorizationMiddleware.prototype, 'twoFactor')
-                .callsFake(async (_req, _res, next): Promise<void> => {
-                    next();
-                });
-        });
-
         it('should activate with success', async () => {
             const newSecretQuestion = {
                 question: 'what-is-your-grandfather-last-name',
