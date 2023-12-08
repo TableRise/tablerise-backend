@@ -1,9 +1,8 @@
-import DatabaseManagement from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When the user is updated', () => {
@@ -13,21 +12,10 @@ describe('When the user is updated', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.password = await SecurePasswordHandler.hashPassword(user.password);
         user.inProgress = { status: 'done', code: '' };
-        user.createdAt = new Date().toISOString();
-        user.updatedAt = new Date().toISOString();
 
-        userDetails.userId = user.userId;
-
-        const modelUser = new DatabaseManagement().modelInstance('user', 'Users');
-        const modelUserDetails = new DatabaseManagement().modelInstance(
-            'user',
-            'UserDetails'
-        );
-
-        await modelUser.create(user);
-        await modelUserDetails.create(userDetails);
+        await InjectNewUser(user);
+        await InjectNewUserDetails(userDetails, user.userId);
     });
 
     context('And all data is correct', () => {

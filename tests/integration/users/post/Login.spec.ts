@@ -2,8 +2,7 @@ import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import DatabaseManagement from '@tablerise/database-management';
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
+import { InjectNewUser } from 'tests/support/dataInjector';
 
 describe('When the user is logged in', () => {
     let user: UserInstance;
@@ -12,13 +11,9 @@ describe('When the user is logged in', () => {
         beforeEach(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
 
-            user.password = await SecurePasswordHandler.hashPassword(user.password);
             user.inProgress = { status: 'done', code: '' };
-            user.createdAt = new Date().toISOString();
-            user.updatedAt = new Date().toISOString();
 
-            const model = new DatabaseManagement().modelInstance('user', 'Users');
-            await model.create(user);
+            await InjectNewUser(user);
         });
 
         it('should return a correct token', async () => {
