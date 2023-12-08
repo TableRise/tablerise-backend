@@ -13,8 +13,8 @@ function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
         nickname: dataGenerator.nickname(),
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
         picture: {
-            id: '',
-            link: '',
+            id: '123',
+            link: 'https://imgur.com',
             uploadDate: new Date(),
         },
         twoFactorSecret: { active: false },

@@ -1,10 +1,34 @@
+import DatabaseManagement from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
+import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
 
 describe('When the user is updated', () => {
-    let userToUpdate: any;
-    const userId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
+    let user: UserInstance, userDetails: UserDetailInstance, userToUpdate: any;
+
+    before(async () => {
+        user = DomainDataFaker.generateUsersJSON()[0];
+        userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+        user.password = await SecurePasswordHandler.hashPassword(user.password);
+        user.inProgress = { status: 'done', code: '' };
+        user.createdAt = new Date().toISOString();
+        user.updatedAt = new Date().toISOString();
+
+        userDetails.userId = user.userId;
+
+        const modelUser = new DatabaseManagement().modelInstance('user', 'Users');
+        const modelUserDetails = new DatabaseManagement().modelInstance(
+            'user',
+            'UserDetails'
+        );
+
+        await modelUser.create(user);
+        await modelUserDetails.create(userDetails);
+    });
 
     context('And all data is correct', () => {
         beforeEach(() => {
@@ -26,11 +50,11 @@ describe('When the user is updated', () => {
 
         it('should update with success', async () => {
             const { body: userBeforeUpdate } = await requester()
-                .get(`/profile/${userId}`)
+                .get(`/profile/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             const { body: userUpdated } = await requester()
-                .put(`/profile/${userId}/update`)
+                .put(`/profile/${user.userId}/update`)
                 .send(userToUpdate);
 
             expect(userUpdated.nickname).to.not.be.equal(userBeforeUpdate.nickname);

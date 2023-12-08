@@ -23,6 +23,7 @@ export default class AuthorizationMiddleware {
 
         this.checkAdminRole = this.checkAdminRole.bind(this);
         this.twoFactor = this.twoFactor.bind(this);
+        this.secretQuestion = this.secretQuestion.bind(this);
     }
 
     public async checkAdminRole(
