@@ -4,7 +4,11 @@ import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidati
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 
 export async function InjectNewUser(user: UserInstance): Promise<void> {
-    user.password = await SecurePasswordHandler.hashPassword(user.password);
+    user.password =
+        user.password !== 'oauth'
+            ? await SecurePasswordHandler.hashPassword(user.password)
+            : user.password;
+
     user.createdAt = new Date().toISOString();
     user.updatedAt = new Date().toISOString();
 
