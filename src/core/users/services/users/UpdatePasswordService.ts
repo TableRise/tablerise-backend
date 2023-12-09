@@ -42,7 +42,7 @@ export default class UpdatePasswordService {
         if (userInDb.inProgress.code !== code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const emailChanged = this._changePassword({ user: userInDb, password });
+        const emailChanged = await this._changePassword({ user: userInDb, password });
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
