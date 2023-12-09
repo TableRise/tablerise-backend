@@ -38,6 +38,22 @@ export default class UsersRoutes {
             // GET
             {
                 method: 'get',
+                path: `${BASE_PATH}/verify`,
+                parameters: [
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'newEmail', type: 'string', required: 'off' },
+                    ]),
+                ],
+                controller: this._usersController.verifyEmail,
+                options: {
+                    authentication: false,
+                    tag: 'authentication',
+                    description: desc.verify,
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/all`,
                 controller: this._usersController.getUsers,
                 options: {
@@ -63,22 +79,6 @@ export default class UsersRoutes {
                     authentication: true,
                     tag: 'users',
                     description: desc.get,
-                },
-            },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/verify`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'newEmail', type: 'string', required: 'off' },
-                    ]),
-                ],
-                controller: this._usersController.verifyEmail,
-                options: {
-                    authentication: false,
-                    tag: 'authentication',
-                    description: desc.verify,
                 },
             },
 
