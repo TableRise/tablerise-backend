@@ -40,14 +40,11 @@ export default class CreateUserService {
         const userSerialized = this._serializer.postUser(userMain);
         const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
 
-        const userInDb = await this._usersRepository.find({
+        const userInDb = await this._usersRepository.findOne({
             email: userSerialized.email,
         });
 
-        if (userInDb.length) {
-            this._logger('error', 'Email already exists - CreateUserService');
-            HttpRequestErrors.throwError('email-already-exist');
-        }
+        if (userInDb) HttpRequestErrors.throwError('email-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }
@@ -55,26 +52,21 @@ export default class CreateUserService {
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this._usersRepository.find({
+        const tagInDb = await this._usersRepository.findOne({
             tag,
             nickname: user.nickname,
         });
 
-        if (tagInDb.length) {
-            this._logger(
-                'error',
-                'User with this tag already exists - CreateUserService'
-            );
-            HttpRequestErrors.throwError('tag-already-exist');
-        }
+        if (tagInDb) HttpRequestErrors.throwError('tag-already-exist');
 
         user.tag = tag;
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
         user.inProgress = { status: 'wait_to_confirm', code: '' };
+        user.twoFactorSecret.active = false;
 
-        if (!user.twoFactorSecret.active && !userDetails.secretQuestion)
+        if (!userDetails.secretQuestion)
             HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
 
         return {
