@@ -43,12 +43,14 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
         });
 
         it('should thrown an error if fail because of length', () => {
+            user = DomainDataFaker.generateUsersJSON().map((user) => ({
+                nickname: user.nickname,
+                picture: user.picture,
+                twoFactorSecret: user.twoFactorSecret,
+            })) as UserInstance[];
+
             try {
-                schemaValidator.entry(usersZodSchema, {
-                    ...user[0],
-                    password: '123',
-                    nickname: 123,
-                });
+                schemaValidator.entry(usersZodSchema, user[0]);
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).to.be.equal('Schema error');
@@ -60,6 +62,14 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
     context('#validateEntryReturn', () => {
         beforeEach(() => {
+            user = DomainDataFaker.generateUsersJSON().map((user) => ({
+                email: user.email,
+                password: user.password,
+                nickname: user.nickname,
+                picture: user.picture,
+                twoFactorSecret: user.twoFactorSecret,
+            })) as UserInstance[];
+
             schemaValidator = new SchemaValidator();
         });
 
