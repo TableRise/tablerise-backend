@@ -21,7 +21,11 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
         });
 
         it('should return nothing if success', () => {
-            schemaValidator.entry(schemas.oAuthComplete, payload);
+            try {
+                schemaValidator.entry(schemas.oAuthComplete, payload);
+            } catch (error) {
+                expect('it should not be here').to.be.equal(false);
+            }
         });
 
         it('should thrown an error if fail', () => {
