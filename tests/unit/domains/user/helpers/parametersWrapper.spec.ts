@@ -3,7 +3,7 @@ import generateIDParam, {
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
 
-describe.only('Domains :: Common :: Helpers :: ParametersWrapper', () => {
+describe('Domains :: Common :: Helpers :: ParametersWrapper', () => {
     describe('When generate an id', () => {
         it('should return an array with correct param', () => {
             const param = generateIDParam();
