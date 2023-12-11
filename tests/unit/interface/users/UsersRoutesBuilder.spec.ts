@@ -59,7 +59,6 @@ describe('Interface :: Users :: UsersRoutesBuilder', () => {
 
         it('should return correct properties', () => {
             const routes = usersRoutesBuilder.get();
-
             expect(routes.usersRoutes).to.have.property('oAuth');
             expect(typeof routes.usersRoutes.oAuth).to.be.equal(typeof Router);
         });
