@@ -16,6 +16,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
     private readonly _magicItemsRoutes;
     private readonly _monstersRoutes;
     private readonly _spellsRoutes;
+    private readonly _weaponsRoutes;
+    private readonly _wikisRoutes;
 
     constructor({
         armorsRoutes,
@@ -29,6 +31,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
         magicItemsRoutes,
         monstersRoutes,
         spellsRoutes,
+        weaponsRoutes,
+        wikisRoutes,
     }: DungeonsAndDragonsRoutesBuilderContract) {
         this._armorsRoutes = armorsRoutes;
         this._backgroundsRoutes = backgroundsRoutes;
@@ -41,6 +45,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
         this._magicItemsRoutes = magicItemsRoutes;
         this._monstersRoutes = monstersRoutes;
         this._spellsRoutes = spellsRoutes;
+        this._weaponsRoutes = weaponsRoutes;
+        this._wikisRoutes = wikisRoutes;
     }
 
     private _armors(): { armorsRoutes: Router; armorsSwagger: routeInstance[] } {
@@ -126,6 +132,20 @@ export default class DungeonsAndDragonsRoutesBuilder {
         return { spellsRoutes, spellsSwagger };
     }
 
+    private _weapons(): { weaponsRoutes: Router; weaponsSwagger: routeInstance[] } {
+        const weaponsRoutes = buildRouter(this._weaponsRoutes.routes(), router);
+        const weaponsSwagger = this._weaponsRoutes.routes();
+
+        return { weaponsRoutes, weaponsSwagger };
+    }
+
+    private _wikis(): { wikisRoutes: Router; wikisSwagger: routeInstance[] } {
+        const wikisRoutes = buildRouter(this._wikisRoutes.routes(), router);
+        const wikisSwagger = this._wikisRoutes.routes();
+
+        return { wikisRoutes, wikisSwagger };
+    }
+
     public get(): {
         dungeonsAndDragonsSwagger: routeInstance[];
         dungeonsAndDragonsRoutes: {
@@ -140,6 +160,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             magicItems: Router;
             monsters: Router;
             spells: Router;
+            weapons: Router;
+            wikis: Router;
         };
     } {
         const dungeonsAndDragonsSwagger = [
@@ -154,6 +176,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             ...this._magicItems().magicItemsSwagger,
             ...this._monsters().monstersSwagger,
             ...this._spells().spellsSwagger,
+            ...this._weapons().weaponsSwagger,
+            ...this._wikis().wikisSwagger,
         ];
 
         const dungeonsAndDragonsRoutes = {
@@ -168,6 +192,8 @@ export default class DungeonsAndDragonsRoutesBuilder {
             magicItems: this._magicItems().magicItemsRoutes,
             monsters: this._monsters().monstersRoutes,
             spells: this._spells().spellsRoutes,
+            weapons: this._weapons().weaponsRoutes,
+            wikis: this._wikis().wikisRoutes,
         };
 
         return { dungeonsAndDragonsSwagger, dungeonsAndDragonsRoutes };
