@@ -44,9 +44,13 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
         it('should thrown an error if fail because of length', () => {
             user = DomainDataFaker.generateUsersJSON().map((user) => ({
+                email: user.email,
+                password: user.password,
                 nickname: user.nickname,
                 picture: user.picture,
-                twoFactorSecret: user.twoFactorSecret,
+                twoFactorSecret: {
+                    secret: '',
+                },
             })) as UserInstance[];
 
             try {
@@ -56,6 +60,8 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
                 expect(err.message).to.be.equal('Schema error');
                 expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 expect(err.name).to.be.equal('UnprocessableEntity');
+
+                expect(err.details[0].attribute).to.have.length(2);
             }
         });
     });
