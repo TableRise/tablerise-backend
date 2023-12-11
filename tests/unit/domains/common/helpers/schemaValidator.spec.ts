@@ -1,28 +1,31 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import schemas from 'src/domains/user/schemas';
+import usersZodSchema, {
+    UserInstance,
+} from 'src/domains/user/schemas/usersValidationSchema';
+import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
+    let user: UserInstance[];
     let schemaValidator: SchemaValidator;
-
-    const payload = {
-        nickname: 'Jojo',
-        firstName: 'João',
-        lastName: 'da Silva',
-        pronoun: 'he/his',
-        birthday: '01/01/2001',
-        biography: 'Menino astuto',
-    };
 
     context('#validateEntry', () => {
         beforeEach(() => {
             schemaValidator = new SchemaValidator();
+
+            user = DomainDataFaker.generateUsersJSON().map((user) => ({
+                email: user.email,
+                password: user.password,
+                nickname: user.nickname,
+                picture: user.picture,
+                twoFactorSecret: user.twoFactorSecret,
+            })) as UserInstance[];
         });
 
         it('should return nothing if success', () => {
             try {
-                schemaValidator.entry(schemas.oAuthComplete, payload);
+                schemaValidator.entry(usersZodSchema, user[0]);
             } catch (error) {
                 expect('it should not be here').to.be.equal(false);
             }
@@ -30,7 +33,22 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
         it('should thrown an error if fail', () => {
             try {
-                schemaValidator.entry(schemas.oAuthComplete, { nickname: 123 });
+                schemaValidator.entry(usersZodSchema, { nickname: 123 });
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.message).to.be.equal('Schema error');
+                expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
+                expect(err.name).to.be.equal('UnprocessableEntity');
+            }
+        });
+
+        it('should thrown an error if fail because of length', () => {
+            try {
+                schemaValidator.entry(usersZodSchema, {
+                    ...user[0],
+                    password: '123',
+                    nickname: 123,
+                });
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).to.be.equal('Schema error');
@@ -46,15 +64,12 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
         });
 
         it('should return null if success', () => {
-            const validateTest = schemaValidator.entryReturn(
-                schemas.oAuthComplete,
-                payload
-            );
+            const validateTest = schemaValidator.entryReturn(usersZodSchema, user[0]);
             expect(validateTest).to.be.equal(null);
         });
 
         it('should return zodError if failed', () => {
-            const validateTest: any = schemaValidator.entryReturn(schemas.oAuthComplete, {
+            const validateTest: any = schemaValidator.entryReturn(usersZodSchema, {
                 nickname: 123,
             });
             expect(validateTest).to.have.property('success');
@@ -65,6 +80,14 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
     context('#validateExistence', () => {
         beforeEach(() => {
             schemaValidator = new SchemaValidator();
+        });
+
+        it('should return nothing if success', () => {
+            try {
+                schemaValidator.existance(false, '');
+            } catch (error) {
+                expect('it should not be here').to.be.equal(false);
+            }
         });
 
         it('should thrown an error if fail', () => {
