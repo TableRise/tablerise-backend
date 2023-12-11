@@ -23,7 +23,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
         weaponsRoutes: any,
         wikisRoutes: any;
 
-    context('When dungeonsanddragonsroutesBuilder is called', () => {
+    context('When DungeonsAndDragonsRoutesBuilder is called', () => {
         verifyIdMiddleware = () => ({});
 
         const mockRoute: any = (routeName: string) => ({
