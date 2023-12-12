@@ -40,11 +40,11 @@ export default class CreateUserService {
         const userSerialized = this._serializer.postUser(userMain);
         const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
 
-        const userInDb = await this._usersRepository.findOne({
+        const userInDb = await this._usersRepository.find({
             email: userSerialized.email,
         });
 
-        if (userInDb) HttpRequestErrors.throwError('email-already-exist');
+        if (userInDb.length) HttpRequestErrors.throwError('email-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }
@@ -52,12 +52,12 @@ export default class CreateUserService {
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
         this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this._usersRepository.findOne({
+        const tagInDb = await this._usersRepository.find({
             tag,
             nickname: user.nickname,
         });
 
-        if (tagInDb) HttpRequestErrors.throwError('tag-already-exist');
+        if (tagInDb.length) HttpRequestErrors.throwError('tag-already-exist');
 
         user.tag = tag;
         user.createdAt = new Date().toISOString();

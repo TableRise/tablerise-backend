@@ -28,7 +28,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 };
 
                 usersRepository = {
-                    findOne: () => {},
+                    find: () => [],
                 };
 
                 usersDetailsRepository = {};
@@ -75,7 +75,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 };
 
                 usersRepository = {
-                    findOne: () => user,
+                    find: () => [user],
                 };
 
                 usersDetailsRepository = {};
@@ -126,7 +126,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 serializer = {};
 
                 usersRepository = {
-                    findOne: () => {},
+                    find: () => [],
                 };
 
                 usersDetailsRepository = {};
@@ -171,7 +171,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 serializer = {};
 
                 usersRepository = {
-                    findOne: () => user,
+                    find: () => [user],
                 };
 
                 usersDetailsRepository = {};
@@ -216,7 +216,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 serializer = {};
 
                 usersRepository = {
-                    findOne: () => {},
+                    find: () => [],
                 };
 
                 usersDetailsRepository = {};
