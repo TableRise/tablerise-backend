@@ -14,7 +14,7 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
     const logger = (): void => {};
 
     context('#Get', () => {
-        context('When serialize with success', () => {
+        context('When get all users with success', () => {
             before(() => {
                 users = DomainDataFaker.generateUsersJSON();
                 usersDetails = DomainDataFaker.generateUserDetailsJSON();
