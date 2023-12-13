@@ -13,7 +13,7 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
 
     const logger = (): void => {};
 
-    context('#Serialize', () => {
+    context('#Get', () => {
         context('When serialize with success', () => {
             before(() => {
                 users = DomainDataFaker.generateUsersJSON();
