@@ -11,15 +11,18 @@ describe('Core :: Users :: Operations :: GetAllArmorsOperation', () => {
 
     context('When armors are recovered with success', () => {
         before(() => {
-            armors = DomainDataFaker.generateDungeonsAndDragonsJSON({ count: 3, entity: 'armors' });
+            armors = DomainDataFaker.generateDungeonsAndDragonsJSON({
+                count: 3,
+                entity: 'armors',
+            });
 
             getAllArmorsService = {
-                getAll: sinon.spy(() => armors)
+                getAll: sinon.spy(() => armors),
             };
 
             getAllArmorsOperation = new GetAllArmorsOperation({
                 getAllArmorsService,
-                logger
+                logger,
             });
         });
 

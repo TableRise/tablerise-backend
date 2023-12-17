@@ -11,23 +11,28 @@ describe('Core :: Users :: Operations :: GetAllArmorsService', () => {
 
     context('When armors are recovered with success', () => {
         before(() => {
-            armors = DomainDataFaker.generateDungeonsAndDragonsJSON({ count: 3, entity: 'armors' });
+            armors = DomainDataFaker.generateDungeonsAndDragonsJSON({
+                count: 3,
+                entity: 'armors',
+            });
 
             dungeonsAndDragonsRepository = {
                 find: sinon.spy(() => armors),
-                setEntity: sinon.spy(() => {})
+                setEntity: sinon.spy(() => {}),
             };
 
             getAllArmorsService = new GetAllArmorsService({
                 dungeonsAndDragonsRepository,
-                logger
+                logger,
             });
         });
 
         it('should return the correct data and call correct methods', async () => {
             const armorsTest = await getAllArmorsService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Armors');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Armors'
+            );
             expect(armorsTest).to.be.deep.equal(armors);
         });
     });

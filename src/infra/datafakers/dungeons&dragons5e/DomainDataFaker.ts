@@ -8,5 +8,5 @@ function generateDungeonsAndDragonsJSON(
 }
 
 export default {
-    generateDungeonsAndDragonsJSON
-}
+    generateDungeonsAndDragonsJSON,
+};
