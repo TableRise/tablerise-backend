@@ -15,7 +15,6 @@ export default class GetAllArmorsOperation {
 
     public async execute(): Promise<Array<Internacional<Armor>>> {
         this._logger('info', 'Execute - GetAllArmorsOperation');
-        const armors = await this._getAllArmorsService.getAll();
-        return armors;
+        return this._getAllArmorsService.getAll();
     }
 }

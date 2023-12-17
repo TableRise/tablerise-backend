@@ -5,7 +5,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
 
     context('When data is correct to send an email', () => {
         context('and type is common', () => {
-            beforeEach(() => {
+            before(() => {
                 emailType = 'common';
                 nodemailer = {
                     createTransport: () => ({
@@ -13,7 +13,12 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     }),
                 };
 
+                process.env.EMAIL_SENDING = 'on';
                 emailSender = new EmailSender({ emailType, nodemailer });
+            });
+
+            after(() => {
+                process.env.EMAIL_SENDING = 'off';
             });
 
             it('should return true when the process is done with success', async () => {

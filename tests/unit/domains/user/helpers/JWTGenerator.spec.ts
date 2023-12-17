@@ -12,10 +12,24 @@ describe('Domains :: User :: Helpers :: JWTGenerator', () => {
             token = JWTGenerator.generate(user);
             expect(typeof token).to.be.equal('string');
         });
+
+        it('should return a token - env undefined', () => {
+            process.env.JWT_SECRET = '';
+            token = JWTGenerator.generate(user);
+            expect(typeof token).to.be.equal('string');
+        });
     });
 
     context('When verify a valid token', () => {
         it('should not throw any error and return the payload', () => {
+            const payload = JWTGenerator.verify(token);
+            expect(payload).to.have.property('userId');
+            expect(payload).to.have.property('providerId');
+            expect(payload).to.have.property('username');
+        });
+
+        it('should not throw any error and return the payload - env undefined', () => {
+            process.env.JWT_SECRET = '';
             const payload = JWTGenerator.verify(token);
             expect(payload).to.have.property('userId');
             expect(payload).to.have.property('providerId');

@@ -4,8 +4,6 @@ import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/user/helpers/generateVerificationCode';
 import { EmailSenderContract } from 'src/types/users/contracts/domains/helpers/EmailSender';
 
-const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD, EMAIL_SENDING } = process.env;
-
 export default class EmailSender {
     public type;
     private readonly _nodemailer;
@@ -26,6 +24,8 @@ export default class EmailSender {
         content: CommonContent,
         target: string
     ): Promise<boolean> {
+        const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD, EMAIL_SENDING } = process.env;
+
         const config = {
             host: 'smtp.gmail.com',
             port: 465,

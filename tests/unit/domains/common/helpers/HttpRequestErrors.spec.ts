@@ -1,5 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { ErrorTypes } from 'src/types/users/Errors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
+import { ErrorTypes, Errors } from 'src/types/users/Errors';
 
 describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {
@@ -34,9 +36,43 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'verification-email': 'Some error not specified ocurred',
     };
 
-    it('Should throw an expected error', () => {
-        for (const [key, value] of Object.entries(expectedErrors)) {
-            expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(value);
-        }
+    context('When an error is throwed by HttpRequestErrors', () => {
+        it('should throw expected error', () => {
+            for (const [key, value] of Object.entries(expectedErrors)) {
+                expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(value);
+            }
+        });
+
+        it('should be instanceOf HttpRequestErrors', () => {
+            try {
+                throw new HttpRequestErrors({
+                    message: 'Error test',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST)
+                });
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).to.have.property('message');
+                expect(err).to.have.property('code');
+                expect(err).to.have.property('name');
+                expect(err.message).to.be.equal('Error test');
+                expect(err.code).to.be.equal(400);
+                expect(err.name).to.be.equal('BadRequest');
+            }
+        });
+
+        it('should throw if nothing is passed', () => {
+            try {
+                throw new HttpRequestErrors({} as Errors);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err).to.have.property('message');
+                expect(err).to.have.property('code');
+                expect(err).to.have.property('name');
+                expect(err.message).to.be.equal('');
+                expect(err.code).to.be.equal(0);
+                expect(err.name).to.be.equal('');
+            }
+        });
     });
 });

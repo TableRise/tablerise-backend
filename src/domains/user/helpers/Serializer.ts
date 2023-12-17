@@ -30,10 +30,9 @@ export default class Serializer {
         if (this._isDiscordProfile(userProfile)) {
             user.name = userProfile.username;
             user.email = userProfile.email as string;
-        } else if (
-            this._isGoogleProfile(userProfile) ||
-            this._isFacebookProfile(userProfile)
-        ) {
+        }
+
+        if (this._isGoogleProfile(userProfile) || this._isFacebookProfile(userProfile)) {
             user.name = userProfile.displayName;
             user.email = userProfile._json.email;
         }
