@@ -45,7 +45,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
             });
 
             it('should return the correct result', async () => {
-                const userTest = await activateTwoFactorService.activate('userId', false);
+                const userTest = await activateTwoFactorService.activate('userId');
 
                 expect(userTest.user).to.be.equal(user);
                 expect(userTest.userDetails).to.be.equal(userDetails);
