@@ -64,6 +64,7 @@ export default class HttpRequestErrors extends Error {
                 });
 
             case 'user-inexistent':
+                console.log('2222');
                 throw new HttpRequestErrors({
                     message: 'User does not exist',
                     code: HttpStatusCode.NOT_FOUND,
