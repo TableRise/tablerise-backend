@@ -3,7 +3,8 @@ import DeleteUsersService from 'src/core/users/services/users/DeleteUsersService
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
 
 describe('Core :: Users :: Services :: GetUserByIdService', () => {
     let deleteUsersService: DeleteUsersService,
@@ -36,11 +37,11 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                         return true;
                     }
                     const deleted = await mockDeleteUser();
-                    console.log('gameinfo', userDetails.gameInfo.campaigns.length); 
                     expect(deleted).to.be.equal(true);
                 
             });
         });
+
         context('When delete a user not exist', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
@@ -60,22 +61,13 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             it('should return HTTPRequestEroor: user-inexistent', async () => {
                 try{
                     await deleteUsersService.delete(user.userId);
-                }catch(err) {
-                    expect(JSON.stringify(err)).to.include(HttpStatusCode.NOT_FOUND);
-
+                }catch(error) {
+                    throwErrorAssert(error as HttpRequestErrors,'User does not exist', HttpStatusCode.NOT_FOUND);
                 }                
             });
 
-            it('should return HTTPRequestEroor: linked-mandatory-data-when-delete', async () => {
-                try{
-                    await deleteUsersService.delete(user.userId);
-                }catch(err) {
-                    expect(JSON.stringify(err)).to.include(HttpStatusCode.UNAUTHORIZED);
-                    console.log('JSON', JSON.stringify(err));
-
-                }                
-            });
         });
+
         context('When gameinfo campaing or character exists', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
@@ -96,10 +88,8 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             it('should return HTTPRequestEroor: linked-mandatory-data-when-delete', async () => {
                 try{
                     await deleteUsersService.delete(user.userId);
-                }catch(err) {
-                    expect(JSON.stringify(err)).to.include(HttpStatusCode.UNAUTHORIZED);
-                    console.log('JSON', JSON.stringify(err));
-
+                }catch(error) {
+                    throwErrorAssert(error as HttpRequestErrors,'There is a campaing or character linked to this user', HttpStatusCode.UNAUTHORIZED);
                 }                
             });
         });
