@@ -1,5 +1,5 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import DeleteUsersService from 'src/core/users/services/users/DeleteUsersService';
+import DeleteUserService from 'src/core/users/services/users/DeleteUserService';
 import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -7,10 +7,12 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
 
 describe('Core :: Users :: Services :: GetUserByIdService', () => {
-    let deleteUsersService: DeleteUsersService,
+    let deleteUsersService: DeleteUserService,
         usersRepository: any,
         usersDetailsRepository: any,
         user: UserInstance,
+        message: string,
+        code: number,
         userDetails: UserDetailInstance;
 
     const logger = (): void => {};
@@ -24,7 +26,7 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 usersRepository = { findOne: () => user, delete: () => {} };
                 usersDetailsRepository = { findOne: () => userDetails, delete: () => {} };
 
-                deleteUsersService = new DeleteUsersService({
+                deleteUsersService = new DeleteUserService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
@@ -47,11 +49,13 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
+                message ='User does not exist';
+                code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
                 usersRepository = { findOne: () => {}, delete: () => {} };
-                usersDetailsRepository = { findOne: () => {}, delete: () => {} };
+                usersDetailsRepository = { findOne: () => {}, delete: () => {} }; 
 
-                deleteUsersService = new DeleteUsersService({
+                deleteUsersService = new DeleteUserService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
@@ -62,7 +66,7 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 try{
                     await deleteUsersService.delete(user.userId);
                 }catch(error) {
-                    throwErrorAssert(error as HttpRequestErrors,'User does not exist', HttpStatusCode.NOT_FOUND);
+                    throwErrorAssert(error as HttpRequestErrors, message, code);
                 }                
             });
 
@@ -73,12 +77,14 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
+                message = 'There is a campaing or character linked to this user';
+                code = HttpStatusCode.UNAUTHORIZED;
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi']
                 usersRepository = { findOne: () => user, delete: () => {} };
                 usersDetailsRepository = { findOne: () => userDetails, delete: () => {} };
 
-                deleteUsersService = new DeleteUsersService({
+                deleteUsersService = new DeleteUserService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
@@ -89,7 +95,7 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 try{
                     await deleteUsersService.delete(user.userId);
                 }catch(error) {
-                    throwErrorAssert(error as HttpRequestErrors,'There is a campaing or character linked to this user', HttpStatusCode.UNAUTHORIZED);
+                    throwErrorAssert(error as HttpRequestErrors, message, code);
                 }                
             });
         });

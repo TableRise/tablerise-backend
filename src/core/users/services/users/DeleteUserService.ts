@@ -1,6 +1,6 @@
 
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { DeleteUserOperationContract } from 'src/types/users/contracts/core/DeleteUser';
+import { DeleteUserServiceContract } from 'src/types/users/contracts/core/DeleteUser';
 
 export default class DeleteUserService {
     private readonly _usersRepository;
@@ -11,7 +11,7 @@ export default class DeleteUserService {
         usersRepository,
         usersDetailsRepository,
         logger,
-    }: DeleteUserOperationContract) {
+    }: DeleteUserServiceContract) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
