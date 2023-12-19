@@ -6,5 +6,3 @@ export const asserts = {
     spy: sinon.spy,
     stub: sinon.stub,
 };
-
-

@@ -34,13 +34,12 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
 
             it('should return the correct result', async () => {
-                    const mockDeleteUser = async (): Promise<boolean> => {
-                        await deleteUsersService.delete(user.userId);
-                        return true;
-                    }
-                    const deleted = await mockDeleteUser();
-                    expect(deleted).to.be.equal(true);
-                
+                const mockDeleteUser = async (): Promise<boolean> => {
+                    await deleteUsersService.delete(user.userId);
+                    return true;
+                };
+                const deleted = await mockDeleteUser();
+                expect(deleted).to.be.equal(true);
             });
         });
 
@@ -49,11 +48,11 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
-                message ='User does not exist';
+                message = 'User does not exist';
                 code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
                 usersRepository = { findOne: () => {}, delete: () => {} };
-                usersDetailsRepository = { findOne: () => {}, delete: () => {} }; 
+                usersDetailsRepository = { findOne: () => {}, delete: () => {} };
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,
@@ -63,13 +62,12 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
 
             it('should return HTTPRequestEroor: user-inexistent', async () => {
-                try{
+                try {
                     await deleteUsersService.delete(user.userId);
-                }catch(error) {
+                } catch (error) {
                     throwErrorAssert(error as HttpRequestErrors, message, code);
-                }                
+                }
             });
-
         });
 
         context('When gameinfo campaing or character exists', () => {
@@ -80,7 +78,7 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 message = 'There is a campaing or character linked to this user';
                 code = HttpStatusCode.UNAUTHORIZED;
                 userDetails.gameInfo.campaigns = ['1st Mission'];
-                userDetails.gameInfo.characters = ['Levi']
+                userDetails.gameInfo.characters = ['Levi'];
                 usersRepository = { findOne: () => user, delete: () => {} };
                 usersDetailsRepository = { findOne: () => userDetails, delete: () => {} };
 
@@ -92,11 +90,11 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
 
             it('should return HTTPRequestEroor: linked-mandatory-data-when-delete', async () => {
-                try{
+                try {
                     await deleteUsersService.delete(user.userId);
-                }catch(error) {
+                } catch (error) {
                     throwErrorAssert(error as HttpRequestErrors, message, code);
-                }                
+                }
             });
         });
     });

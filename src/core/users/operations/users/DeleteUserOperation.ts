@@ -4,10 +4,7 @@ export default class DeleteUserOperation {
     private readonly _deleteUserService;
     private readonly _logger;
 
-    constructor({
-        deleteUserService,
-        logger,
-    }: DeleteUserOperationContract) {
+    constructor({ deleteUserService, logger }: DeleteUserOperationContract) {
         this._deleteUserService = deleteUserService;
         this._logger = logger;
         this.execute = this.execute.bind(this);
