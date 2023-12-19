@@ -10,7 +10,6 @@ export default class DeleteUserOperation {
     }: DeleteUserOperationContract) {
         this._deleteUserService = deleteUserService;
         this._logger = logger;
-
         this.execute = this.execute.bind(this);
     }
 
