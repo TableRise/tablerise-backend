@@ -18,10 +18,9 @@ export default class ConfirmCodeOperation {
         code,
     }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
         this._logger('info', 'Execute - ConfirmCodeOperation');
-        const codeProcessing = await this._confirmCodeService.processCode({
+        return this._confirmCodeService.processCode({
             userId,
             code,
         });
-        return codeProcessing;
     }
 }

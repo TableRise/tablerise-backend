@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import speakeasy from 'speakeasy';
-
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import configs from 'src/infra/configs';
 import { Logger } from 'src/types/Logger';
