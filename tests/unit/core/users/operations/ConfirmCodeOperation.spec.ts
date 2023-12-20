@@ -19,6 +19,10 @@ describe('Core :: Users :: Operations :: ConfirmCodeOperation', () => {
             });
         });
 
+        afterEach(() => {
+            sinon.restore();
+        });
+
         it('should return the correct status and call correct methods', async () => {
             const userId = 'anyId';
             const code = 'isValid';
