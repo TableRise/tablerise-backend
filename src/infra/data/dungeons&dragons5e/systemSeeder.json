@@ -1,0 +1,11 @@
+[
+    {
+        "active": true,
+        "name": "Dungeons&Dragons",
+        "references": {
+            "srd": "https://dnd.wizards.com/resources/systems-reference-document",
+            "icon": "https://i.ibb.co/QNC8XnD/DnD-Logo.png",
+            "cover": "https://i.ibb.co/dMLYFHF/2560x1600-starter.jpg"
+        }
+    }
+]

@@ -1,0 +1,30 @@
+[
+    {
+        "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
+        "email": "admin@email.com",
+        "inProgress": {
+            "status": "done",
+            "code": ""
+        },
+        "password": "secret-secret",
+        "nickname": "admin",
+        "tag": "#0000",
+        "picture": "https://imgbb.com/",
+        "createdAt": "2023-09-14T15:25:30.419Z",
+        "updatedAt": "2023-09-14T15:25:30.419Z"
+    },
+    {
+        "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
+        "email": "user@email.com",
+        "inProgress": {
+            "status": "done",
+            "code": ""
+        },
+        "password": "secret-secret",
+        "nickname": "user",
+        "tag": "#0000",
+        "picture": "https://imgbb.com/",
+        "createdAt": "2023-09-14T15:34:08.824Z",
+        "updatedAt": "2023-09-14T15:34:08.824Z"
+    }
+]

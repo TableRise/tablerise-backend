@@ -17,7 +17,3 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=secret
-
-volumes:
-    mongodb-tablerise-volume:
-    mongodb-tablerise-test-volume:
