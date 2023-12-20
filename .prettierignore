@@ -7,4 +7,4 @@ scripts
 api-docs
 node_modules
 src/database/seeders
-src/support/mocks
+src/infra/mocks

@@ -1,0 +1,19 @@
+[
+    {
+        "active": true,
+        "en": {
+            "name": "The Daghdha, god of weather and crops",
+            "alignment": "CG",
+            "suggestedDomains": "Nature, Trickery",
+            "symbol": "Bubbling cauldron or shield",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "name": "O Daghdha, deus do clima e das colheitas",
+            "alignment": "CG",
+            "suggestedDomains": "Natureza, Trapaça",
+            "symbol": "Caldeirão borbulhante ou escudo",
+            "pantheon": "Céltico"
+        }
+    }
+]

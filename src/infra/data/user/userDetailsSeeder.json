@@ -1,0 +1,40 @@
+[
+    {
+        "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
+        "userDetailId": "9100487c-a8b8-4d10-9148-e8cb85a32f9f",
+        "firstName": "Jhon",
+        "lastName": "Doe",
+        "pronoun": "he/his",
+        "secretQuestion": {
+            "question": "What was the name of your first dog?",
+            "answer": "Crypto"
+        },
+        "birthday": "2000-10-10",
+        "gameInfo": {
+            "campaigns": [],
+            "characters": [],
+            "badges": []
+        },
+        "biography": "Once upon a time...",
+        "role": "admin"
+    },
+    {
+        "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
+        "userDetailId": "d5ec1565-2064-4544-9e84-883d45ce1368",
+        "firstName": "Mary",
+        "lastName": "Jane",
+        "pronoun": "she/her",
+        "secretQuestion": {
+            "question": "What was the name of your parents?",
+            "answer": "Larry and Shirley"
+        },
+        "birthday": "2002-10-10",
+        "gameInfo": {
+            "campaigns": [],
+            "characters": [],
+            "badges": []
+        },
+        "biography": "A long long time ago...",
+        "role": "user"
+    }
+]

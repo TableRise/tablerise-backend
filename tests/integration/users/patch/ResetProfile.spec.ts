@@ -1,0 +1,45 @@
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import requester from 'tests/support/requester';
+
+describe('When game info of an user is reset', () => {
+    let user: UserInstance, userDetails: UserDetailInstance;
+
+    context('And all data is correct', () => {
+        before(async () => {
+            user = DomainDataFaker.generateUsersJSON()[0];
+            userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+            user.inProgress = { status: 'done', code: '' };
+
+            userDetails.gameInfo.badges = ['123'];
+            userDetails.gameInfo.campaigns = ['123', '123', '123'];
+            userDetails.gameInfo.characters = ['123', '123'];
+
+            await InjectNewUser(user);
+            await InjectNewUserDetails(userDetails, user.userId);
+        });
+
+        it('should reset user with success', async () => {
+            await requester()
+                .patch(`/profile/${user.userId}/reset`)
+                .expect(HttpStatusCode.NO_CONTENT);
+
+            const { body } = await requester()
+                .get(`/profile/${user.userId}`)
+                .expect(HttpStatusCode.OK);
+
+            expect(body).to.have.property('details');
+            expect(body.details.gameInfo.badges).to.be.an('array').that.has.lengthOf(0);
+            expect(body.details.gameInfo.campaigns)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
+            expect(body.details.gameInfo.characters)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
+        });
+    });
+});

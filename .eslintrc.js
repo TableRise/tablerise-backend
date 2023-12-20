@@ -23,5 +23,6 @@ module.exports = {
         '@typescript-eslint/no-extraneous-class': 0,
         '@typescript-eslint/space-before-function-paren': 0,
         '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/return-await': 0,
     },
 };
