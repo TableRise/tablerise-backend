@@ -61,7 +61,7 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
                 status: 'inProgress',
             },
         };
-        
+
         before(() => {
             usersRepositoryMock = {
                 findOne: sinon.spy(() => userInDb),
