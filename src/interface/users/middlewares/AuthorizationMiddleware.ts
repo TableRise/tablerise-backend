@@ -83,7 +83,8 @@ export default class AuthorizationMiddleware {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
         const { id } = req.params;
-        const payload = req.body as UserSecretQuestion;
+        const payload = req.body as UserSecretQuestion || {};
+        const query = req.query as UserSecretQuestion || {};
 
         const userDetailsInDb = await this._usersDetailsRepository.findOne({
             userId: id,
@@ -94,9 +95,12 @@ export default class AuthorizationMiddleware {
             return;
         }
 
-        if (payload.question !== userDetailsInDb.secretQuestion.question)
+        const question = payload.question || query.question;
+        const answer = payload.answer || query.answer;
+
+        if (question !== userDetailsInDb.secretQuestion.question)
             HttpRequestErrors.throwError('incorrect-secret-question');
-        if (payload.answer !== userDetailsInDb.secretQuestion.answer)
+        if (answer !== userDetailsInDb.secretQuestion.answer)
             HttpRequestErrors.throwError('incorrect-secret-question');
 
         next();

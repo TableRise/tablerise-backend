@@ -321,6 +321,15 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
                 expect(next).to.have.been.called();
             });
+
+            it('should call next - question/answer in query', async () => {
+                request.body = null;
+                request.params = { id: '123' };
+                request.query = secretQuestion;
+                await authorizationMiddleware.secretQuestion(request, response, next);
+
+                expect(next).to.have.been.called();
+            });
         });
 
         context('And question/answer are incorrect', () => {

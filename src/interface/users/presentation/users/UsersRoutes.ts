@@ -193,6 +193,8 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
                         { name: 'isReset', type: 'boolean', required: 'off' },
                     ]),
@@ -203,6 +205,7 @@ export default class UsersRoutes {
                         passport.authenticate('bearer', { session: false }),
                         this._verifyIdMiddleware,
                         this._verifyEmailCodeMiddleware.verify,
+                        this._authorizationMiddleware.secretQuestion
                     ],
                     authentication: true,
                     tag: 'authorization',
@@ -240,6 +243,8 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
                         { name: 'token', type: 'string', required: 'off' },
                     ]),
@@ -249,6 +254,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                         this._authorizationMiddleware.twoFactor,
+                        this._authorizationMiddleware.secretQuestion,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: true,
@@ -305,14 +311,18 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(1, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'token', type: 'string', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.delete,
+                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
                     authentication: true,
