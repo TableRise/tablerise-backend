@@ -376,12 +376,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.params = { id: '123' };
-            request.query = { code: '123' };
+            request.query = { email: 'test@email.com', code: '123' };
             await usersController.confirmCode(request, response);
 
             expect(confirmCodeOperation.execute).to.have.been.calledWith({
-                userId: request.params.id,
+                email: request.query.email,
                 code: request.query.code,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);

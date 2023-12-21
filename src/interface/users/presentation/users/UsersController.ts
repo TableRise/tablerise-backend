@@ -125,10 +125,9 @@ export default class UsersController {
     }
 
     public async confirmCode(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { code } = req.query as { code: string };
+        const { email, code } = req.query as { email: string, code: string };
 
-        const result = await this._confirmCodeOperation.execute({ userId: id, code });
+        const result = await this._confirmCodeOperation.execute({ email, code });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

@@ -172,7 +172,10 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/confirm`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'code', type: 'string' }
+                    ]),
                 ],
                 controller: this._usersController.confirmCode,
                 options: {
