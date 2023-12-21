@@ -171,7 +171,6 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/confirm`,
                 parameters: [
-                    ...generateIDParam(),
                     ...generateQueryParam(2, [
                         { name: 'email', type: 'string' },
                         { name: 'code', type: 'string' }
