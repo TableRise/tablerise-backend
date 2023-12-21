@@ -5,7 +5,6 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
-import mocks from 'src/infra/datafakers/users/mocks/users';
 import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
@@ -87,7 +86,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
                 controller: this._usersController.register,
-                schema: mocks.userPayload,
+                schema: DomainDataFaker.mocks.createUserMock,
                 options: {
                     authentication: false,
                     tag: 'register',
@@ -98,7 +97,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
                 controller: this._usersController.login,
-                schema: mocks.userLogin,
+                schema: DomainDataFaker.mocks.loginMock,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
                     authentication: false,
@@ -131,7 +130,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.update,
-                schema: mocks.userUpdate,
+                schema: DomainDataFaker.mocks.updateUserMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
@@ -219,7 +218,7 @@ export default class UsersRoutes {
                     ]),
                 ],
                 controller: this._usersController.updateEmail,
-                schema: mocks.userEmailUpdate,
+                schema: DomainDataFaker.mocks.updateEmailMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,

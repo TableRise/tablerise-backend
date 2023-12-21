@@ -13,21 +13,33 @@ export const secretQuestionZodSchema = z.object({
     answer: z.string().max(80),
 });
 
+export const updateUserDetails = z.object({
+    firstName: z.string().max(16),
+    lastName: z.string().max(80),
+    pronoun: z.enum(pronounEnum.values),
+    birthday: z.string(),
+    biography: z.string().max(500),
+});
+
 const userDetailsZodSchema = z.object({
     firstName: z.string().max(16),
     lastName: z.string().max(80),
     pronoun: z.enum(pronounEnum.values),
     secretQuestion: secretQuestionZodSchema.or(z.null()),
     birthday: z.string(),
-    gameInfo: gameInfoZodSchema,
     biography: z.string().max(500),
-    role: z.enum(['user', 'admin']),
 });
 
 export type UserDetailPayload = z.infer<typeof userDetailsZodSchema>;
 export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
     userId: string;
     userDetailId: string;
+    gameInfo: {
+        campaigns: string[];
+        characters: string[];
+        badges: string[];
+    }
+    role: 'user' | 'admin';
 };
 
 export type UserSecretQuestion = z.infer<typeof secretQuestionZodSchema>;

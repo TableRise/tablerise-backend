@@ -64,10 +64,22 @@ export default class CreateUserService {
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
         user.inProgress = { status: 'wait_to_confirm', code: '' };
-        user.twoFactorSecret.active = false;
+        user.twoFactorSecret = { active: false };
+        user.picture = {
+            link: 'https://i.imgur.com/WxNkK7J.png',
+            id: '',
+            uploadDate: new Date()
+        }
 
         if (!userDetails.secretQuestion)
             HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
+
+        userDetails.role = 'user';
+        userDetails.gameInfo = {
+            campaigns: [],
+            characters: [],
+            badges: []
+        }
 
         return {
             userEnriched: user,

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import pronounEnum from '../enums/pronounEnum';
+import { updateUserDetails } from 'src/domains/user/schemas/userDetailsValidationSchema';
 
 const twoFactorSecretZodSchema = z.object({
     secret: z.string().optional(),
@@ -13,24 +13,10 @@ const userPictureZodSchema = z.object({
     uploadDate: z.date(),
 });
 
-const updateUserDetails = z.object({
-    firstName: z.string().max(16),
-    lastName: z.string().max(80),
-    pronoun: z.enum(pronounEnum.values),
-    birthday: z.string(),
-    biography: z.string().max(500),
-});
-
 const usersZodSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(8).max(32),
+    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
     nickname: z.string().max(32),
-    picture: userPictureZodSchema.or(z.null()).default({
-        id: '',
-        link: '',
-        uploadDate: new Date(),
-    }),
-    twoFactorSecret: twoFactorSecretZodSchema,
 });
 
 export const emailUpdateZodSchema = z.object({
@@ -38,7 +24,7 @@ export const emailUpdateZodSchema = z.object({
 });
 
 export const passwordUpdateZodSchema = z.object({
-    password: z.string().min(8).max(32),
+    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
 });
 
 export const updateUserZodSchema = z.object({
@@ -60,6 +46,16 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
         status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'done';
         code: string;
     };
+    twoFactorSecret: {
+        qrcode?: string;
+        secret?: string;
+        active: boolean
+    },
+    picture: {
+        link: string;
+        id: string;
+        uploadDate: Date;
+    } | null;
     tag: string;
     createdAt: string;
     updatedAt: string;
