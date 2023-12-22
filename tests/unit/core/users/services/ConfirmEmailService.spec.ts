@@ -1,18 +1,20 @@
 import sinon from 'sinon';
-import ConfirmCodeService from 'src/core/users/services/users/ConfirmCodeService';
+import ConfirmEmailService from 'src/core/users/services/users/ConfirmEmailService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
-describe('Core :: Users :: Services :: ConfirmCodeService', () => {
-    let confirmCodeService: ConfirmCodeService;
+describe('Core :: Users :: Services :: ConfirmEmailService', () => {
+    let confirmEmailService: ConfirmEmailService;
     let usersRepositoryMock: any;
 
     const logger = (): void => {};
 
-    context('When the method to confirm code is called', () => {
+    context('When the method to confirm email is called', () => {
+        const email = 'anyEmail';
         const userId = 'anyId';
         const code = 'validCode';
         const userInDb = {
+            email,
             userId,
             inProgress: {
                 code: 'validCode',
@@ -20,6 +22,7 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
             },
         };
         const updatedUser = {
+            email,
             userId,
             inProgress: {
                 code: 'validCode',
@@ -33,14 +36,14 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
                 update: sinon.spy(() => ({})),
             };
 
-            confirmCodeService = new ConfirmCodeService({
+            confirmEmailService = new ConfirmEmailService({
                 usersRepository: usersRepositoryMock,
                 logger,
             });
         });
 
         it('should process code correctly', async () => {
-            await confirmCodeService.processCode({ userId, code });
+            await confirmEmailService.processCode({ email, code });
 
             expect(usersRepositoryMock.findOne).to.have.been.called();
             expect(usersRepositoryMock.update).to.have.been.called();
@@ -52,9 +55,11 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
     });
 
     context('When the method to confirm code is called - invalid code', () => {
+        const email = 'anyEmail';
         const userId = 'anyId';
         const code = 'invalidCode';
         const userInDb = {
+            email,
             userId,
             inProgress: {
                 code: 'validCode',
@@ -68,7 +73,7 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
                 update: sinon.spy(() => ({})),
             };
 
-            confirmCodeService = new ConfirmCodeService({
+            confirmEmailService = new ConfirmEmailService({
                 usersRepository: usersRepositoryMock,
                 logger,
             });
@@ -76,7 +81,7 @@ describe('Core :: Users :: Services :: ConfirmCodeService', () => {
 
         it('should throw error for invalid code', async () => {
             try {
-                await confirmCodeService.processCode({ userId, code });
+                await confirmEmailService.processCode({ email, code });
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err).to.be.instanceOf(HttpRequestErrors);

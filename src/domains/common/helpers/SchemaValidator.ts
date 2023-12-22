@@ -23,7 +23,7 @@ export default class SchemaValidator {
                 code: HttpStatusCode.UNPROCESSABLE_ENTITY,
                 name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
                 details: verify.error.issues.map((err: ZodIssue) => ({
-                    attribute: err.path.length > 1 ? err.path : err.path[0],
+                    attribute: err.path[0],
                     reason: err.message,
                     path: 'payload',
                 })),

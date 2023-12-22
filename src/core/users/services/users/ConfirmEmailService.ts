@@ -1,13 +1,13 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { ConfirmCodeServiceContract } from 'src/types/users/contracts/core/ConfirmCode';
-import { ConfirmCodePayload } from 'src/types/users/requests/Payload';
-import { ConfirmCodeResponse } from 'src/types/users/requests/Response';
+import { ConfirmEmailServiceContract } from 'src/types/users/contracts/core/ConfirmEmail';
+import { ConfirmEmailPayload } from 'src/types/users/requests/Payload';
+import { ConfirmEmailResponse } from 'src/types/users/requests/Response';
 
-export default class ConfirmCodeService {
+export default class ConfirmEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: ConfirmCodeServiceContract) {
+    constructor({ usersRepository, logger }: ConfirmEmailServiceContract) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 
@@ -15,11 +15,11 @@ export default class ConfirmCodeService {
     }
 
     public async processCode({
-        userId,
+        email,
         code,
-    }: ConfirmCodePayload): Promise<ConfirmCodeResponse> {
-        this._logger('info', 'VerifyCode - ConfirmCodeService');
-        const userInDb = await this._usersRepository.findOne({ userId });
+    }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
+        this._logger('info', 'VerifyCode - ConfirmEmailService');
+        const userInDb = await this._usersRepository.findOne({ email });
 
         if (userInDb.inProgress.code !== code)
             HttpRequestErrors.throwError('invalid-email-verify-code');

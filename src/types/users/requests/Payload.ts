@@ -54,8 +54,8 @@ export interface UpdateUserPayload {
     payload: RegisterUserPayload;
 }
 
-export interface ConfirmCodePayload {
-    userId: string;
+export interface ConfirmEmailPayload {
+    email: string;
     code: string;
 }
 

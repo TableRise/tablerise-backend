@@ -78,6 +78,22 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     expect(err.name).to.be.equal('BadRequest');
                 }
             });
+        });
+
+        context('And params are incorrect - id or email inexistent', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => {
+                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                        throw HttpRequestErrors.throwError('user-inexistent');
+                    },
+                };
+
+                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                    usersRepository,
+                    logger,
+                });
+            });
 
             it('should throw an error - id inexistent', async () => {
                 try {
@@ -134,6 +150,41 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal('BadRequest');
+                }
+            });
+        });
+
+        context('And params are correct - but status is invalid', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => ({
+                        inProgress: {
+                            status: 'done',
+                            code: 'KLI44',
+                        },
+                    }),
+                };
+
+                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                    usersRepository,
+                    logger,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    request.params = { id: '123' };
+                    request.query = { code: 'KLI00' };
+
+                    await verifyEmailCodeMiddleware.verify(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal('BadRequest');
                 }

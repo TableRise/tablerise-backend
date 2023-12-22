@@ -21,10 +21,24 @@ function generateUserDetailsJSON(
 }
 
 const [{ email, password, nickname, picture }] = generateUsersJSON();
-const [{ firstName, lastName, pronoun, birthday, biography }] = generateUserDetailsJSON();
+const [{ firstName, lastName, pronoun, birthday, biography, secretQuestion }] =
+    generateUserDetailsJSON();
 
 const mocks = {
     loginMock: { email, password },
+    createUserMock: {
+        email,
+        password,
+        nickname,
+        details: {
+            firstName,
+            lastName,
+            pronoun,
+            birthday,
+            secretQuestion,
+            biography,
+        },
+    },
     completeUserMock: {
         nickname,
         picture,
@@ -34,6 +48,18 @@ const mocks = {
         birthday,
         biography,
     },
+    updateUserMock: {
+        nickname,
+        details: {
+            firstName,
+            lastName,
+            pronoun,
+            birthday,
+            biography,
+        },
+    },
+    updateEmailMock: { email },
+    updatePasswordMock: { password: '@TheWorld456' },
     activateSecretQuestionMock: {
         question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
         answer: 'Silvera',

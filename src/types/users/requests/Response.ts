@@ -14,7 +14,7 @@ export interface RegisterUserResponsePromise extends UserInstance {
     details: Promise<UserDetailInstance>;
 }
 
-export interface ConfirmCodeResponse {
+export interface ConfirmEmailResponse {
     status: string;
 }
 

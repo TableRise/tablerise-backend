@@ -25,7 +25,6 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
             schemaValidator = { entry: sinon.spy(() => {}) };
 
             userToCreate = DomainDataFaker.generateUsersJSON()[0];
-
             userCreated = {
                 ...userToCreate,
                 details: DomainDataFaker.generateUserDetailsJSON()[0],

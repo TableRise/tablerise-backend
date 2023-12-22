@@ -33,35 +33,16 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
         it('should thrown an error if fail', () => {
             try {
-                schemaValidator.entry(usersZodSchema, { nickname: 123 });
+                schemaValidator.entry(usersZodSchema, {
+                    nickname: 123,
+                    email: 'test@email.com',
+                    password: '@124Kll*',
+                });
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).to.be.equal('Schema error');
                 expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 expect(err.name).to.be.equal('UnprocessableEntity');
-            }
-        });
-
-        it('should thrown an error if fail because of length', () => {
-            user = DomainDataFaker.generateUsersJSON().map((user) => ({
-                email: user.email,
-                password: user.password,
-                nickname: user.nickname,
-                picture: user.picture,
-                twoFactorSecret: {
-                    secret: '',
-                },
-            })) as UserInstance[];
-
-            try {
-                schemaValidator.entry(usersZodSchema, user[0]);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal('Schema error');
-                expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                expect(err.name).to.be.equal('UnprocessableEntity');
-
-                expect(err.details[0].attribute).to.have.length(2);
             }
         });
     });

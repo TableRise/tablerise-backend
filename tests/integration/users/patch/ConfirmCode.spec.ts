@@ -15,7 +15,9 @@ describe('When an email code is confirmed in the user account', () => {
 
         it('should update with success inProgress field', async () => {
             const { body: confirmCodeResponse } = await requester()
-                .patch(`/profile/${user.userId}/confirm?code=${user.inProgress.code}`)
+                .patch(
+                    `/profile/confirm?code=${user.inProgress.code}&email=${user.email}`
+                )
                 .expect(HttpStatusCode.OK);
 
             expect(confirmCodeResponse.status).to.be.not.equal(user.inProgress.status);

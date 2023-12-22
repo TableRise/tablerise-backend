@@ -5,7 +5,6 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
-import mocks from 'src/infra/datafakers/users/mocks/users';
 import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
@@ -87,7 +86,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
                 controller: this._usersController.register,
-                schema: mocks.userPayload,
+                schema: DomainDataFaker.mocks.createUserMock,
                 options: {
                     authentication: false,
                     tag: 'register',
@@ -98,7 +97,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
                 controller: this._usersController.login,
-                schema: mocks.userLogin,
+                schema: DomainDataFaker.mocks.loginMock,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
                     authentication: false,
@@ -131,7 +130,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.update,
-                schema: mocks.userUpdate,
+                schema: DomainDataFaker.mocks.updateUserMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
@@ -170,17 +169,16 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/confirm`,
+                path: `${BASE_PATH}/confirm`,
                 parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'code', type: 'string' },
+                    ]),
                 ],
-                controller: this._usersController.confirmCode,
+                controller: this._usersController.confirmEmail,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        this._verifyEmailCodeMiddleware.verify,
-                    ],
+                    middlewares: [this._verifyEmailCodeMiddleware.verify],
                     authentication: false,
                     tag: 'register',
                     description: desc.confirm,
@@ -191,7 +189,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(4, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
                         { name: 'isReset', type: 'boolean', required: 'off' },
                     ]),
@@ -202,6 +202,7 @@ export default class UsersRoutes {
                         passport.authenticate('bearer', { session: false }),
                         this._verifyIdMiddleware,
                         this._verifyEmailCodeMiddleware.verify,
+                        this._authorizationMiddleware.secretQuestion,
                     ],
                     authentication: true,
                     tag: 'authorization',
@@ -219,7 +220,7 @@ export default class UsersRoutes {
                     ]),
                 ],
                 controller: this._usersController.updateEmail,
-                schema: mocks.userEmailUpdate,
+                schema: DomainDataFaker.mocks.updateEmailMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
@@ -236,9 +237,12 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/password`,
                 controller: this._usersController.updatePassword,
+                schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(4, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
                         { name: 'token', type: 'string', required: 'off' },
                     ]),
@@ -248,6 +252,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
                         this._authorizationMiddleware.twoFactor,
+                        this._authorizationMiddleware.secretQuestion,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: true,
@@ -303,15 +308,19 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [
+                    ...generateQueryParam(3, [
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'token', type: 'string', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.delete,
+                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('bearer', { session: false }),
+                        this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
                     authentication: true,

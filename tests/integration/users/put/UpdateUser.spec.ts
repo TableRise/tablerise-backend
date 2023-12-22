@@ -25,11 +25,10 @@ describe('When the user is updated', () => {
 
             userToUpdate = {
                 nickname: user.nickname,
-                picture: user.picture,
                 details: {
                     firstName: userDetails.firstName,
                     lastName: userDetails.lastName,
-                    pronoun: userDetails.pronoun,
+                    pronoun: 'he/his',
                     biography: userDetails.biography,
                     birthday: userDetails.birthday,
                 },

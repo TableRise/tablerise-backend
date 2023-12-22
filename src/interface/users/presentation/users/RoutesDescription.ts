@@ -23,7 +23,7 @@ const updateEmail = `Route for email update, verification code send to user emai
 If the user has 2FA enabled the 2FA token will be needed as well.`;
 
 const updatePassword =
-    'Route to perform the password reset operation, receives an email code and 2FA if enabled.';
+    'Route to perform the password reset operation, receives an email code and 2FA or secret question if enabled.';
 
 const updateGameInfo = `Route to update user game info.\n
 ------------------------
@@ -40,7 +40,7 @@ const profilePicture =
     'Route used to upload a photo as profile ficture - Only PNG or JPEG';
 
 const deleteProfile =
-    'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed.';
+    'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed, if not the secret question will be needed.';
 
 export default {
     get,
