@@ -32,8 +32,6 @@ export default class VerifyEmailCodeMiddleware {
         if (id) userInDb = await this._usersRepository.findOne({ userId: id });
         if (email) userInDb = await this._usersRepository.findOne({ email });
 
-        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
-
         if (code !== userInDb.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 

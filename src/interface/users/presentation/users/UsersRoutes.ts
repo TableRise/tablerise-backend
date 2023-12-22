@@ -169,17 +169,16 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/confirm`,
+                path: `${BASE_PATH}/confirm`,
                 parameters: [
                     ...generateQueryParam(2, [
                         { name: 'email', type: 'string' },
                         { name: 'code', type: 'string' }
                     ]),
                 ],
-                controller: this._usersController.confirmCode,
+                controller: this._usersController.confirmEmail,
                 options: {
                     middlewares: [
-                        this._verifyIdMiddleware,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
                     authentication: false,
@@ -240,6 +239,7 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/password`,
                 controller: this._usersController.updatePassword,
+                schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(4, [

@@ -15,7 +15,7 @@ export default class UsersController {
     private readonly _verifyEmailOperation;
     private readonly _getUsersOperation;
     private readonly _getUserByIdOperation;
-    private readonly _confirmCodeOperation;
+    private readonly _confirmEmailOperation;
     private readonly _activateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
     private readonly _updateEmailOperation;
@@ -31,7 +31,7 @@ export default class UsersController {
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
-        confirmCodeOperation,
+        confirmEmailOperation,
         activateSecretQuestionOperation,
         activateTwoFactorOperation,
         updateEmailOperation,
@@ -46,7 +46,7 @@ export default class UsersController {
         this._verifyEmailOperation = verifyEmailOperation;
         this._getUsersOperation = getUsersOperation;
         this._getUserByIdOperation = getUserByIdOperation;
-        this._confirmCodeOperation = confirmCodeOperation;
+        this._confirmEmailOperation = confirmEmailOperation;
         this._activateSecretQuestionOperation = activateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
@@ -62,7 +62,7 @@ export default class UsersController {
         this.getUsers = this.getUsers.bind(this);
         this.getUserById = this.getUserById.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
-        this.confirmCode = this.confirmCode.bind(this);
+        this.confirmEmail = this.confirmEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
@@ -124,10 +124,10 @@ export default class UsersController {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
-    public async confirmCode(req: Request, res: Response): Promise<Response> {
+    public async confirmEmail(req: Request, res: Response): Promise<Response> {
         const { email, code } = req.query as { email: string, code: string };
 
-        const result = await this._confirmCodeOperation.execute({ email, code });
+        const result = await this._confirmEmailOperation.execute({ email, code });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

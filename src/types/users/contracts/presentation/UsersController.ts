@@ -1,6 +1,6 @@
 import ActivateSecretQuestionOperation from 'src/core/users/operations/users/ActivateSecretQuestionOperation';
 import ActivateTwoFactorOperation from 'src/core/users/operations/users/ActivateTwoFactorOperation';
-import ConfirmCodeOperation from 'src/core/users/operations/users/ConfirmEmailOperation';
+import ConfirmEmailOperation from 'src/core/users/operations/users/ConfirmEmailOperation';
 import CreateUserOperation from 'src/core/users/operations/users/CreateUserOperation';
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
@@ -19,7 +19,7 @@ export interface UsersControllerContract {
     verifyEmailOperation: VerifyEmailOperation;
     getUsersOperation: GetUsersOperation;
     getUserByIdOperation: GetUserByIdOperation;
-    confirmCodeOperation: ConfirmCodeOperation;
+    confirmEmailOperation: ConfirmEmailOperation;
     activateSecretQuestionOperation: ActivateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;

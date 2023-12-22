@@ -60,6 +60,7 @@ const mocks = {
         }
     },
     updateEmailMock: { email },
+    updatePasswordMock: { password: '@TheWorld456' },
     activateSecretQuestionMock: {
         question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
         answer: 'Silvera',
