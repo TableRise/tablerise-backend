@@ -20,9 +20,12 @@ describe('When the user has twoFactor activated', () => {
 
     context('And all data is correct', () => {
         it('should activate with success', async () => {
-            const { body: twoFactorResponse } = await requester().patch(
-                `/profile/${user.userId}/2fa/activate?code=123456&isReset=false`
-            );
+            const { body: twoFactorResponse } = await requester()
+                .patch(`/profile/${user.userId}/2fa/activate?code=123456&isReset=false`)
+                .send({
+                    question: userDetails.secretQuestion?.question,
+                    answer: userDetails.secretQuestion?.answer,
+                });
 
             expect(twoFactorResponse).to.have.property('qrcode');
             expect(twoFactorResponse).to.have.property('active');
@@ -36,9 +39,12 @@ describe('When the user has twoFactor activated', () => {
                 .get(`/profile/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
-            const { body: twoFactorResponse } = await requester().patch(
-                `/profile/${user.userId}/2fa/activate?code=123456&isReset=true`
-            );
+            const { body: twoFactorResponse } = await requester()
+                .patch(`/profile/${user.userId}/2fa/activate?code=123456&isReset=true`)
+                .send({
+                    question: userDetails.secretQuestion?.question,
+                    answer: userDetails.secretQuestion?.answer,
+                });
 
             expect(twoFactorResponse).to.have.property('qrcode');
             expect(twoFactorResponse).to.have.property('active');

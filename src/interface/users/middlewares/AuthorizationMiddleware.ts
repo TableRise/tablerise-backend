@@ -83,8 +83,8 @@ export default class AuthorizationMiddleware {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
         const { id } = req.params;
-        const payload = req.body as UserSecretQuestion || {};
-        const query = req.query as UserSecretQuestion || {};
+        const payload = (req.body as UserSecretQuestion) || {};
+        const query = (req.query as UserSecretQuestion) || {};
 
         const userDetailsInDb = await this._usersDetailsRepository.findOne({
             userId: id,

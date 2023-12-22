@@ -125,7 +125,7 @@ export default class UsersController {
     }
 
     public async confirmEmail(req: Request, res: Response): Promise<Response> {
-        const { email, code } = req.query as { email: string, code: string };
+        const { email, code } = req.query as { email: string; code: string };
 
         const result = await this._confirmEmailOperation.execute({ email, code });
         return res.status(HttpStatusCode.OK).json(result);

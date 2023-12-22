@@ -7,12 +7,6 @@ const twoFactorSecretZodSchema = z.object({
     active: z.boolean(),
 });
 
-const userPictureZodSchema = z.object({
-    link: z.string().max(120),
-    id: z.string().max(120),
-    uploadDate: z.date(),
-});
-
 const usersZodSchema = z.object({
     email: z.string().email(),
     password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
@@ -29,7 +23,6 @@ export const passwordUpdateZodSchema = z.object({
 
 export const updateUserZodSchema = z.object({
     nickname: z.string().max(32),
-    picture: userPictureZodSchema.or(z.null()),
     details: updateUserDetails,
 });
 
@@ -49,8 +42,8 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     twoFactorSecret: {
         qrcode?: string;
         secret?: string;
-        active: boolean
-    },
+        active: boolean;
+    };
     picture: {
         link: string;
         id: string;

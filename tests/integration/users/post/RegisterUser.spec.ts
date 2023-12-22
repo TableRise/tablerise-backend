@@ -33,8 +33,12 @@ describe('When a user is created', () => {
             expect(body).to.have.property('details');
             expect(body.details).to.have.property('userId');
             expect(body.details).to.have.property('gameInfo');
-            expect(body.details.gameInfo).to.have.property('campaigns').that.is.an('array');
-            expect(body.details.gameInfo).to.have.property('characters').that.is.an('array');
+            expect(body.details.gameInfo)
+                .to.have.property('campaigns')
+                .that.is.an('array');
+            expect(body.details.gameInfo)
+                .to.have.property('characters')
+                .that.is.an('array');
             expect(body.details.gameInfo).to.have.property('badges').that.is.an('array');
             expect(body.details).to.have.property('role').that.is.equal('user');
         });

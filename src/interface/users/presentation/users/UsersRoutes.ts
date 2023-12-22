@@ -173,14 +173,12 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateQueryParam(2, [
                         { name: 'email', type: 'string' },
-                        { name: 'code', type: 'string' }
+                        { name: 'code', type: 'string' },
                     ]),
                 ],
                 controller: this._usersController.confirmEmail,
                 options: {
-                    middlewares: [
-                        this._verifyEmailCodeMiddleware.verify,
-                    ],
+                    middlewares: [this._verifyEmailCodeMiddleware.verify],
                     authentication: false,
                     tag: 'register',
                     description: desc.confirm,
@@ -204,7 +202,7 @@ export default class UsersRoutes {
                         passport.authenticate('bearer', { session: false }),
                         this._verifyIdMiddleware,
                         this._verifyEmailCodeMiddleware.verify,
-                        this._authorizationMiddleware.secretQuestion
+                        this._authorizationMiddleware.secretQuestion,
                     ],
                     authentication: true,
                     tag: 'authorization',

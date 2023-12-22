@@ -68,8 +68,8 @@ export default class CreateUserService {
         user.picture = {
             link: 'https://i.imgur.com/WxNkK7J.png',
             id: '',
-            uploadDate: new Date()
-        }
+            uploadDate: new Date(),
+        };
 
         if (!userDetails.secretQuestion)
             HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
@@ -78,8 +78,8 @@ export default class CreateUserService {
         userDetails.gameInfo = {
             campaigns: [],
             characters: [],
-            badges: []
-        }
+            badges: [],
+        };
 
         return {
             userEnriched: user,

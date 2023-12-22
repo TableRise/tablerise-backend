@@ -38,7 +38,7 @@ export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
         campaigns: string[];
         characters: string[];
         badges: string[];
-    }
+    };
     role: 'user' | 'admin';
 };
 

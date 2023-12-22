@@ -21,7 +21,8 @@ function generateUserDetailsJSON(
 }
 
 const [{ email, password, nickname, picture }] = generateUsersJSON();
-const [{ firstName, lastName, pronoun, birthday, biography, secretQuestion }] = generateUserDetailsJSON();
+const [{ firstName, lastName, pronoun, birthday, biography, secretQuestion }] =
+    generateUserDetailsJSON();
 
 const mocks = {
     loginMock: { email, password },
@@ -35,8 +36,8 @@ const mocks = {
             pronoun,
             birthday,
             secretQuestion,
-            biography
-        }
+            biography,
+        },
     },
     completeUserMock: {
         nickname,
@@ -49,15 +50,13 @@ const mocks = {
     },
     updateUserMock: {
         nickname,
-        picture,
         details: {
             firstName,
             lastName,
             pronoun,
             birthday,
-            secretQuestion,
-            biography
-        }
+            biography,
+        },
     },
     updateEmailMock: { email },
     updatePasswordMock: { password: '@TheWorld456' },

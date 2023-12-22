@@ -33,7 +33,11 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
         it('should thrown an error if fail', () => {
             try {
-                schemaValidator.entry(usersZodSchema, { nickname: 123, email: 'test@email.com', password: '@124Kll*' });
+                schemaValidator.entry(usersZodSchema, {
+                    nickname: 123,
+                    email: 'test@email.com',
+                    password: '@124Kll*',
+                });
             } catch (error) {
                 const err = error as HttpRequestErrors;
                 expect(err.message).to.be.equal('Schema error');
