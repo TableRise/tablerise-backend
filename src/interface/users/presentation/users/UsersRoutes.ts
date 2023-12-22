@@ -192,7 +192,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(4, [
                         { name: 'question', type: 'string', required: 'off' },
                         { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
@@ -242,7 +242,7 @@ export default class UsersRoutes {
                 controller: this._usersController.updatePassword,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(4, [
                         { name: 'question', type: 'string', required: 'off' },
                         { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
@@ -310,7 +310,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/delete`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [
+                    ...generateQueryParam(3, [
                         { name: 'question', type: 'string', required: 'off' },
                         { name: 'answer', type: 'string', required: 'off' },
                         { name: 'token', type: 'string', required: 'off' },
