@@ -1,7 +1,7 @@
 import 'express-async-errors';
 
 import express from 'express';
-import session from 'express-session';
+import session from 'cookie-session';
 import passport from 'passport';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -30,20 +30,12 @@ export default class Application {
     }
 
     public setupExpress(): express.Application {
-        const COOKIE_AGE = 1000 * 60 * 60 * 120;
         const app = express();
 
         app.use(express.json())
             .use(helmet())
             .use(cors())
-            .use(
-                session({
-                    secret: (process.env.COOKIE_SECRET as string) || 'catfish',
-                    resave: false,
-                    saveUninitialized: false,
-                    cookie: { maxAge: COOKIE_AGE },
-                })
-            )
+            .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
             .use(passport.session())
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
@@ -62,7 +54,8 @@ export default class Application {
             .then(() => {
                 this._logger(
                     'info',
-                    '[ Application - Database connection instanciated ]'
+                    '[ Application - Database connection instanciated ]',
+                    true
                 );
             })
             .catch(() => {
@@ -70,7 +63,11 @@ export default class Application {
             });
 
         app.listen(port, () => {
-            this._logger('info', `[ Application - Server started in port -> ${port} ]`);
+            this._logger(
+                'info',
+                `[ Application - Server started in port -> ${port} ]`,
+                true
+            );
         });
     }
 }

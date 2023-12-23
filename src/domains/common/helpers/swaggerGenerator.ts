@@ -13,6 +13,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
     if (process.env.NODE_ENV === 'develop') {
         autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
             title: 'dungeons&dragons5e',
+            newUrl: 'https://server.tablerise.com',
         })
             .then((_result: any) => {
                 logger('info', 'Swagger - dungeons&dragons5e - document generated');
@@ -21,7 +22,10 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
                 console.log(error);
             });
 
-        autoSwagger(routesWrapper.declareRoutes().user, { title: 'user' })
+        autoSwagger(routesWrapper.declareRoutes().user, {
+            title: 'user',
+            newUrl: 'https://server.tablerise.com',
+        })
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - user - document generated');
             })
