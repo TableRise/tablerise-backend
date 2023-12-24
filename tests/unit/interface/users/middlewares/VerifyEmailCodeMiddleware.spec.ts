@@ -5,7 +5,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
-    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware, usersRepository: any;
+    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware, usersRepository: any, user: any;
 
     const logger = (): unknown => ({});
 
@@ -19,13 +19,17 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
         context('And params are correct', () => {
             beforeEach(() => {
+                user = {
+                    userId: '123',
+                    inProgress: {
+                        status: 'wait_to_verify',
+                        code: 'KLI44',
+                    },
+                };
+
                 usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: 'wait_to_verify',
-                            code: 'KLI44',
-                        },
-                    }),
+                    findOne: () => user,
+                    update: sinon.spy()
                 };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
@@ -40,6 +44,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
+                user.inProgress.status = 'done';
+
+                expect(usersRepository.update).to.have.been.calledWith({
+                    query: { userId: '123' },
+                    payload: user
+                });
                 expect(next).to.have.been.called();
             });
 
@@ -49,6 +59,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
+                user.inProgress.status = 'done';
+
+                expect(usersRepository.update).to.have.been.calledWith({
+                    query: { userId: '123' },
+                    payload: user
+                });
                 expect(next).to.have.been.called();
             });
         });
