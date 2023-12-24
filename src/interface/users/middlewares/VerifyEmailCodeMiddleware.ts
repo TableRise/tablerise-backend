@@ -38,6 +38,13 @@ export default class VerifyEmailCodeMiddleware {
         if (code !== userInDb.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
+        userInDb.inProgress.status = 'done';
+
+        await this._usersRepository.update({
+            query: { userId: userInDb.userId },
+            payload: userInDb,
+        });
+
         next();
     }
 }
