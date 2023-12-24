@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import TokenForbidden from 'src/domains/common/helpers/TokenForbidden';
 
 describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
-    let tokenForbidden: TokenForbidden, databaseConnect: any;
+    let tokenForbidden: TokenForbidden, redisClient: any;
 
     const logger = (): void => {};
     const token =
@@ -13,13 +13,13 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
         const spyFuncTwo = sinon.spy();
 
         before(() => {
-            databaseConnect = () => ({
+            redisClient = {
                 set: spyFuncOne,
                 expireAt: spyFuncTwo,
-            });
+            };
 
             tokenForbidden = new TokenForbidden({
-                databaseConnect,
+                redisClient,
                 logger,
             });
         });
@@ -33,15 +33,15 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
     });
 
     context('#verifyForbiddenToken - no forbidden', () => {
-        before(() => {
-            const spyFuncOne = sinon.spy(() => 0);
+        const spyFuncOne = sinon.spy(() => 0);
 
-            databaseConnect = () => ({
+        before(() => {
+            redisClient = {
                 exists: spyFuncOne,
-            });
+            };
 
             tokenForbidden = new TokenForbidden({
-                databaseConnect,
+                redisClient,
                 logger,
             });
         });
@@ -49,21 +49,21 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
         it('Should call correct methods with correct params', async () => {
             process.env.JWT_SECRET = '';
             const isTokenForbiddenTest = await tokenForbidden.verifyForbiddenToken(token);
-            expect(databaseConnect().exists).to.have.been.called();
+            expect(spyFuncOne).to.have.been.called();
             expect(isTokenForbiddenTest).to.be.equal(false);
         });
     });
 
     context('#verifyForbiddenToken - forbidden', () => {
-        before(() => {
-            const spyFuncOne = sinon.spy(() => 1);
+        const spyFuncOne = sinon.spy(() => 1);
 
-            databaseConnect = () => ({
+        before(() => {
+            redisClient = {
                 exists: spyFuncOne,
-            });
+            };
 
             tokenForbidden = new TokenForbidden({
-                databaseConnect,
+                redisClient,
                 logger,
             });
         });
@@ -71,7 +71,7 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
         it('Should call correct methods with correct params', async () => {
             process.env.JWT_SECRET = '';
             const isTokenForbiddenTest = await tokenForbidden.verifyForbiddenToken(token);
-            expect(databaseConnect().exists).to.have.been.called();
+            expect(spyFuncOne).to.have.been.called();
             expect(isTokenForbiddenTest).to.be.equal(true);
         });
     });

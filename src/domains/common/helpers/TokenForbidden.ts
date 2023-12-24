@@ -6,9 +6,9 @@ export default class TokenForbidden {
     private readonly _redisClient;
     private readonly _logger;
 
-    constructor({ databaseConnect, logger }: TokenForbiddenContract) {
+    constructor({ redisClient, logger }: TokenForbiddenContract) {
         this._logger = logger;
-        this._redisClient = databaseConnect(true, 'redis');
+        this._redisClient = redisClient;
     }
 
     private _generateTokenHash(token: string): string {
