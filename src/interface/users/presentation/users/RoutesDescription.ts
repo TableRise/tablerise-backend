@@ -42,6 +42,8 @@ const profilePicture =
 const deleteProfile =
     'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed, if not the secret question will be needed.';
 
+const logoutUser = 'Route for logout of an user and addition of token in a forbidden list';
+
 export default {
     get,
     getAll,
@@ -58,4 +60,5 @@ export default {
     resetProfile,
     profilePicture,
     deleteProfile,
+    logoutUser
 };

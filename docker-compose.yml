@@ -17,3 +17,9 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=secret
+
+    redis:
+        container_name: redis-tablerise
+        image: redis:7
+        ports:
+            - 6379:6379

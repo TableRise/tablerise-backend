@@ -20,7 +20,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         updateGameInfoOperation: any,
         resetProfileOperation: any,
         pictureProfileOperation: any,
-        deleteUserOperation: any;
+        deleteUserOperation: any,
+        logoutUserOperation: any;
 
     context('#register', () => {
         const request = {} as Request;
@@ -44,6 +45,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -60,6 +62,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -95,6 +98,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -111,6 +115,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -151,6 +156,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -167,6 +173,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -203,6 +210,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -219,6 +227,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -253,6 +262,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -269,6 +279,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -306,6 +317,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -322,6 +334,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -356,6 +369,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -372,6 +386,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -411,6 +426,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -427,6 +443,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -468,6 +485,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -484,6 +502,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -524,6 +543,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -540,6 +560,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -583,6 +604,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -599,6 +621,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -641,6 +664,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -657,6 +681,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -697,6 +722,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: sinon.spy(() => ({})) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -713,6 +739,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -752,6 +779,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: sinon.spy(() => ({})) };
             deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -768,6 +796,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 
@@ -819,6 +848,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: sinon.spy(() => ({})) };
+            logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -835,6 +865,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
+                logoutUserOperation
             });
         });
 

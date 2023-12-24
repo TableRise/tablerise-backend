@@ -67,6 +67,17 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
+                path: `${BASE_PATH}/logout`,
+                controller: this._usersController.logoutUser,
+                options: {
+                    middlewares: [passport.authenticate('bearer', { session: false })],
+                    authentication: true,
+                    tag: 'authentication',
+                    description: desc.logoutUser
+                }
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.getUserById,
