@@ -8,5 +8,5 @@ module.exports = {
     database_initialString: process.env.MONGODB_CONNECTION_INITIAL,
     redis_host: process.env.REDIS_HOST,
     redis_port: process.env.REDIS_PORT,
-    redis_password: process.env.REDIS_PASSWORD
+    redis_password: process.env.REDIS_PASSWORD,
 };

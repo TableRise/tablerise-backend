@@ -6,7 +6,10 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import EmailSender from 'src/domains/user/helpers/EmailSender';
-import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src/types/Envs';
+import {
+    MongooseEnvs,
+    RedisEnvs,
+} from '@tablerise/database-management/dist/src/types/Envs';
 
 setup({ loadExt: 'ts' });
 chai.use(require('dirty-chai'));
@@ -17,7 +20,7 @@ process.env.JWT_SECRET = 'secret';
 
 exports.mochaHooks = {
     async beforeAll() {
-        await DatabaseManagement.connect(true, 'mongoose',{
+        await DatabaseManagement.connect(true, 'mongoose', {
             db_username: 'root',
             db_password: 'secret',
             db_host: '127.0.0.1:27018',

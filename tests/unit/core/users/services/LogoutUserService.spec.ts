@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import LogoutUserService from 'src/core/users/services/users/LogoutUserService';
 
 describe('Core :: Users :: Operations :: LogoutUserService', () => {
-    let logoutUserService: LogoutUserService,
-        tokenForbidden: any;
+    let logoutUserService: LogoutUserService, tokenForbidden: any;
 
     const logger = (): void => {};
 

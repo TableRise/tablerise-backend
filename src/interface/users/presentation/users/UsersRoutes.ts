@@ -73,8 +73,8 @@ export default class UsersRoutes {
                     middlewares: [passport.authenticate('bearer', { session: false })],
                     authentication: true,
                     tag: 'authentication',
-                    description: desc.logoutUser
-                }
+                    description: desc.logoutUser,
+                },
             },
             {
                 method: 'get',

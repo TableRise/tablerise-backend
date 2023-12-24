@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
 
 describe('Core :: Users :: Operations :: LogoutUserOperation', () => {
-    let logoutUserOperation: LogoutUserOperation,
-        logoutUserService: any;
+    let logoutUserOperation: LogoutUserOperation, logoutUserService: any;
 
     const logger = (): void => {};
 
@@ -19,7 +18,9 @@ describe('Core :: Users :: Operations :: LogoutUserOperation', () => {
 
             it('should execute with success', async () => {
                 await logoutUserOperation.execute('123');
-                expect(logoutUserService.addToForbiddenList).to.have.been.calledWith('123');
+                expect(logoutUserService.addToForbiddenList).to.have.been.calledWith(
+                    '123'
+                );
             });
         });
     });

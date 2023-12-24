@@ -62,7 +62,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -115,7 +115,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -173,7 +173,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -227,7 +227,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -279,7 +279,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -334,7 +334,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -386,7 +386,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -443,7 +443,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -502,7 +502,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -560,7 +560,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -621,7 +621,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -681,7 +681,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -739,7 +739,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -796,7 +796,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -865,7 +865,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -922,7 +922,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 resetProfileOperation,
                 pictureProfileOperation,
                 deleteUserOperation,
-                logoutUserOperation
+                logoutUserOperation,
             });
         });
 
@@ -930,9 +930,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.token = '123';
             await usersController.logoutUser(request, response);
 
-            expect(logoutUserOperation.execute).to.have.been.calledWith(
-                '123'
-            );
+            expect(logoutUserOperation.execute).to.have.been.calledWith('123');
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();

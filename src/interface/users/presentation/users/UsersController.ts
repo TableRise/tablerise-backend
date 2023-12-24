@@ -41,7 +41,7 @@ export default class UsersController {
         resetProfileOperation,
         pictureProfileOperation,
         deleteUserOperation,
-        logoutUserOperation
+        logoutUserOperation,
     }: UsersControllerContract) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;

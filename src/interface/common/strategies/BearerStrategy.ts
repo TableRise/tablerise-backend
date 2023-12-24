@@ -23,7 +23,7 @@ passport.use(
                 new HttpRequestErrors({
                     message: 'Token logged out!',
                     code: HttpStatusCode.FORBIDDEN,
-                    name: getErrorName(HttpStatusCode.FORBIDDEN)
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
                 })
             );
 
