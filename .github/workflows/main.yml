@@ -33,6 +33,9 @@ jobs:
       - name: Up database container
         run: docker-compose up -d database-test
 
+      - name: Up redis container
+        run: docker-compose up -d redis
+
       - name: Run tests
         run:  npm run test:coverage
 
