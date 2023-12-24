@@ -881,4 +881,61 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             expect(response.end).to.have.been.called();
         });
     });
+
+    context('#logoutUser', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
+
+            createUserOperation = { execute: () => ({}) };
+            updateUserOperation = { execute: () => ({}) };
+            verifyEmailOperation = { execute: () => ({}) };
+            getUsersOperation = { execute: () => ({}) };
+            getUserByIdOperation = { execute: () => ({}) };
+            confirmEmailOperation = { execute: () => ({}) };
+            activateSecretQuestionOperation = { execute: () => ({}) };
+            activateTwoFactorOperation = { execute: () => ({}) };
+            updateEmailOperation = { execute: () => ({}) };
+            updatePasswordOperation = { execute: () => ({}) };
+            updateGameInfoOperation = { execute: () => ({}) };
+            resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
+            deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: sinon.spy(() => ({})) };
+
+            usersController = new UsersController({
+                createUserOperation,
+                updateUserOperation,
+                verifyEmailOperation,
+                getUsersOperation,
+                getUserByIdOperation,
+                confirmEmailOperation,
+                activateSecretQuestionOperation,
+                activateTwoFactorOperation,
+                updateEmailOperation,
+                updatePasswordOperation,
+                updateGameInfoOperation,
+                resetProfileOperation,
+                pictureProfileOperation,
+                deleteUserOperation,
+                logoutUserOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.token = '123';
+            await usersController.logoutUser(request, response);
+
+            expect(logoutUserOperation.execute).to.have.been.calledWith(
+                '123'
+            );
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.json).to.have.not.been.called();
+            expect(response.end).to.have.been.called();
+        });
+    });
 });

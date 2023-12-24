@@ -58,6 +58,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
+        databaseConnect: asFunction(DatabaseManagement.connect),
         configs: asValue(configs),
 
         // #Helpers

@@ -1,15 +1,14 @@
 import JWT from 'jsonwebtoken';
 import crypto from 'crypto';
 import { TokenForbiddenContract } from 'src/types/users/contracts/domains/helpers/TokenForbidden';
-import DatabaseManagement from '@tablerise/database-management';
 
 export default class TokenForbidden {
     private readonly _redisClient;
     private readonly _logger;
 
-    constructor({ logger }: TokenForbiddenContract) {
+    constructor({ databaseConnect, logger }: TokenForbiddenContract) {
         this._logger = logger;
-        this._redisClient = DatabaseManagement.connect(true, 'redis');
+        this._redisClient = databaseConnect(true, 'redis');
     }
 
     private _generateTokenHash(token: string): string {
@@ -19,8 +18,6 @@ export default class TokenForbidden {
     async addToken(token: string): Promise<void> {
         this._logger('info', 'AddToken - TokenFobidden');
         const tokenInfo = JWT.decode(token) as JWT.JwtPayload;
-        console.log(token);
-        console.log(tokenInfo);
         const tokenExpirationDate = tokenInfo.exp;
 
         const tokenHash = this._generateTokenHash(token);
