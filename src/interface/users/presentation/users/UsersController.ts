@@ -24,6 +24,7 @@ export default class UsersController {
     private readonly _resetProfileOperation;
     private readonly _pictureProfileOperation;
     private readonly _deleteUserOperation;
+    private readonly _logoutUserOperation;
 
     constructor({
         createUserOperation,
@@ -40,6 +41,7 @@ export default class UsersController {
         resetProfileOperation,
         pictureProfileOperation,
         deleteUserOperation,
+        logoutUserOperation,
     }: UsersControllerContract) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
@@ -55,6 +57,7 @@ export default class UsersController {
         this._resetProfileOperation = resetProfileOperation;
         this._pictureProfileOperation = pictureProfileOperation;
         this._deleteUserOperation = deleteUserOperation;
+        this._logoutUserOperation = logoutUserOperation;
 
         this.register = this.register.bind(this);
         this.update = this.update.bind(this);
@@ -70,6 +73,7 @@ export default class UsersController {
         this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -187,6 +191,11 @@ export default class UsersController {
         const { id } = req.params;
 
         await this._resetProfileOperation.execute(id);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async logoutUser(req: Request, res: Response): Promise<Response> {
+        await this._logoutUserOperation.execute(req.token as string);
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

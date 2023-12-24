@@ -29,6 +29,7 @@ import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
+import TokenForbidden from './domains/common/helpers/TokenForbidden';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -58,6 +59,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         configs: asValue(configs),
+        redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
 
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),
@@ -65,6 +67,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         serializer: asClass(Serializer).singleton(),
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
+        tokenForbidden: asClass(TokenForbidden).singleton(),
 
         // #Schemas
         usersSchema: asValue(schemas),
@@ -98,4 +101,6 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             DungeonsAndDragonsRoutesMiddleware
         ).singleton(),
     });
+
+    logger('info', '[ Container - Redis connection instanciated ]', true);
 }

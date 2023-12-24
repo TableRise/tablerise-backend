@@ -25,7 +25,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(15);
+            expect(routes).to.have.lengthOf(16);
         });
     });
 });
