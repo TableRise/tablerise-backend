@@ -50,7 +50,7 @@ export default class Application {
         const port = process.env.PORT as string;
         const app = this.setupExpress();
 
-        await DatabaseManagement.connect(true)
+        await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
                 this._logger(
                     'info',
