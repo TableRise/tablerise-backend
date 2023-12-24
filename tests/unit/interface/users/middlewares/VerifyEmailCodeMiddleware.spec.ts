@@ -5,7 +5,9 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
-    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware, usersRepository: any, user: any;
+    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
+        usersRepository: any,
+        user: any;
 
     const logger = (): unknown => ({});
 
@@ -29,7 +31,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 usersRepository = {
                     findOne: () => user,
-                    update: sinon.spy()
+                    update: sinon.spy(),
                 };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
@@ -48,7 +50,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
-                    payload: user
+                    payload: user,
                 });
                 expect(next).to.have.been.called();
             });
@@ -63,7 +65,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
-                    payload: user
+                    payload: user,
                 });
                 expect(next).to.have.been.called();
             });

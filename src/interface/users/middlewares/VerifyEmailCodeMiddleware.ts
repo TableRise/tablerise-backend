@@ -42,7 +42,7 @@ export default class VerifyEmailCodeMiddleware {
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb
+            payload: userInDb,
         });
 
         next();
