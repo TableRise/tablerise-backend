@@ -16,7 +16,7 @@ passport.use(
     new BearerStrategy(async (token, done) => {
         logger('warn', 'Request made to authorize operation in server');
         const tokenForbidden = container.resolve('tokenForbidden');
-        const isTokenLoggedOut = tokenForbidden.verifyForbiddenToken(token);
+        const isTokenLoggedOut = await tokenForbidden.verifyForbiddenToken(token);
 
         if (isTokenLoggedOut)
             return done(
