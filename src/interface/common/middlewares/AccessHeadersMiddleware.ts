@@ -19,8 +19,8 @@ export default function AccessHeadersMiddleware(
     if (!access_key || access_key !== process.env.ACCESS_KEY_SECRET)
         throw new HttpRequestErrors({
             message: 'Access key incorrect or missing',
-            code: HttpStatusCode.UNAUTHORIZED,
-            name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+            code: HttpStatusCode.FORBIDDEN,
+            name: getErrorName(HttpStatusCode.FORBIDDEN),
         });
 
     next();
