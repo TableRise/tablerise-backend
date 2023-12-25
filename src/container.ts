@@ -30,6 +30,7 @@ import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
+import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -95,6 +96,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         imageMiddleware: asClass(ImageMiddleware).singleton(),
         authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
         verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
+        accessHeadersMiddleware: asValue(AccessHeadersMiddleware),
         errorMiddleware: asValue(ErrorMiddleware),
         usersRoutesMiddleware: asClass(UsersRoutesMiddleware).singleton(),
         dungeonsAndDragonsRoutesMiddleware: asClass(
