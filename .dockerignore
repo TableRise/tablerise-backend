@@ -1,2 +1,15 @@
 src
 node_modules
+tests
+coverage
+scripts
+.vscode
+.husky
+.github
+.eslintrc.js
+.eslintignore
+.gitignore
+.nycrc.json
+.prettierignore
+.prettierrc
+docker-compose.yml
