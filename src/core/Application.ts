@@ -12,6 +12,7 @@ export default class Application {
     private readonly _dungeonsAndDragonsRoutesMiddleware;
     private readonly _usersRoutesMiddleware;
     private readonly _swaggerGenerator;
+    private readonly _accessHeadersMiddleware;
     private readonly _errorMiddleware;
     private readonly _logger;
 
@@ -20,11 +21,13 @@ export default class Application {
         usersRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
+        accessHeadersMiddleware,
         logger,
     }: ApplicationContract) {
         this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this._usersRoutesMiddleware = usersRoutesMiddleware;
         this._swaggerGenerator = swaggerGenerator;
+        this._accessHeadersMiddleware = accessHeadersMiddleware;
         this._errorMiddleware = errorMiddleware;
         this._logger = logger;
     }
@@ -39,6 +42,7 @@ export default class Application {
             .use(passport.session())
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
+            .use(this._accessHeadersMiddleware)
             .use(this._usersRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
             .use(this._errorMiddleware);
