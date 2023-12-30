@@ -3,6 +3,7 @@ import 'src/interface/common/strategies/BearerStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
+    generateFileParam,
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
 import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
@@ -119,12 +120,13 @@ export default class UsersRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/picture`,
-                parameters: [...generateIDParam()],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateFileParam(1, [{ name: 'picture', type: 'file' }]),
+                ],
                 controller: this._usersController.profilePicture,
                 options: {
                     middlewares: [
-                        // passport.authenticate('local', { session: false }),
-                        // this._verifyIdMiddleware,
                         this._imageMiddleware.multer().single('image'),
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,
@@ -132,6 +134,7 @@ export default class UsersRoutes {
                     authentication: true,
                     tag: 'management',
                     description: desc.profilePicture,
+                    fileUpload: true,
                 },
             },
 

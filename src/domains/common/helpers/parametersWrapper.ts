@@ -11,6 +11,26 @@ export default function generateIDParam(): RouteDeclareParams[] {
     ];
 }
 
+export function generateFileParam(
+    count: number,
+    names: ParamName[]
+): RouteDeclareParams[] {
+    const params = [];
+
+    const idxCount = count - 1;
+
+    for (let index = 0; index <= idxCount; index += 1) {
+        params.push({
+            name: names[index].name,
+            location: 'formData',
+            required: names[index].required !== 'off',
+            type: names[index].type,
+        });
+    }
+
+    return params as RouteDeclareParams[];
+}
+
 export function generateQueryParam(
     count: number,
     names: ParamName[]
