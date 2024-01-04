@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UpdateTimestampRepositoryContract } from 'src/types/users/contracts/repositories/UpdateTimestampRepository';
+import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { UpdateTimestampPayload } from 'src/types/users/requests/Payload';
 
 export default class UpdateTimestampRepository {
@@ -8,7 +8,7 @@ export default class UpdateTimestampRepository {
     private readonly _usersDetailsModel;
     private readonly _logger;
 
-    constructor({ database, logger }: UpdateTimestampRepositoryContract) {
+    constructor({ database, logger }: InfraDependencies['updateTimestampRepositoryContract']) {
         this._usersModel = database.modelInstance('user', 'Users');
         this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
         this._logger = logger;

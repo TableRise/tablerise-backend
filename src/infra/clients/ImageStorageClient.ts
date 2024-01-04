@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { FileObject } from 'src/types/File';
-import { ImageStorageClientContract } from 'src/types/clients/ImageStorageClient';
+import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import Configs from 'src/types/shared/configs';
 
 export default class ImageStorageClient {
@@ -8,7 +8,7 @@ export default class ImageStorageClient {
     private readonly _configs;
     private readonly _httpRequest;
 
-    constructor({ logger, httpRequest }: ImageStorageClientContract) {
+    constructor({ logger, httpRequest }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
         this._configs = require('../../../../tablerise.environment.js') as Configs;
         this._httpRequest = httpRequest;

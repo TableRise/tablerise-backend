@@ -2,7 +2,7 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/users/Repository';
-import { UsersDetailsRepositoryContract } from 'src/types/users/contracts/repositories/usersDetailsRepository';
+import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class UsersDetailsRepository {
     private readonly _model;
@@ -15,7 +15,7 @@ export default class UsersDetailsRepository {
         database,
         serializer,
         logger,
-    }: UsersDetailsRepositoryContract) {
+    }: InfraDependencies['usersDetailsRepositoryContract']) {
         this._updateTimestampRepository = updateTimestampRepository;
         this._model = database.modelInstance('user', 'UserDetails');
         this._serializer = serializer;

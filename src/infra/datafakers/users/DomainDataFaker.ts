@@ -2,7 +2,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import {
     UserDetailJSONPayload,
     UserJSONPayload,
-} from 'src/types/users/datafakers/Payload';
+} from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
