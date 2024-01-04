@@ -21,3 +21,5 @@ export interface CreateUserServiceContract {
     serializer: Serializer;
     logger: Logger;
 }
+
+export type GameInfoOptions = 'badges' | 'campaigns' | 'characters';

@@ -1,25 +1,35 @@
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
-export default interface UpdateResponse {
-    message: string;
-    name: string;
+export interface UpdateTimestampPayload {
+    userId?: string;
+    userDetailId?: string;
 }
 
-export interface RegisterUserResponse extends UserInstance {
-    details: UserDetailInstance;
+export interface __UserWithID {
+    userId: string;
+    user: UserInstance;
+    userDetails: UserDetailInstance;
+}
+
+export interface UserGameInfoDoneResponse {
+    campaigns: string[];
+    characters: string[];
+    badges: string[];
+}
+
+export interface UpdateGameInfoProcessPayload {
+    infoId: string;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
+    gameInfo: {
+        campaigns: string[];
+        characters: string[];
+        badges: string[];
+    };
 }
 
 export interface RegisterUserResponsePromise extends UserInstance {
     details: Promise<UserDetailInstance>;
-}
-
-export interface ConfirmEmailResponse {
-    status: string;
-}
-
-export interface LoginResponse {
-    token: string;
 }
 
 export interface JWTResponse {
@@ -48,15 +58,4 @@ export interface __UserSerialized {
 export interface __UserSaved {
     userSaved: UserInstance;
     userDetailsSaved: UserDetailInstance;
-}
-
-export interface TwoFactorResponse {
-    qrcode: string;
-    active: boolean;
-}
-
-export interface UserGameInfoDoneResponse {
-    campaigns: string[];
-    characters: string[];
-    badges: string[];
 }

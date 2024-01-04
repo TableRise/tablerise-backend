@@ -22,7 +22,7 @@ import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmail
 import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
-import { ContainerContract } from './types/contracts/container';
+import { ContainerContract } from './types/container';
 import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';

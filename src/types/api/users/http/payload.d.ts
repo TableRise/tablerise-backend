@@ -1,19 +1,23 @@
-import { UserSecretQuestion } from './../../../domains/users/schemas/userDetailsValidationSchema';
+import { UserSecretQuestion, UserDetailPayload } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
-import {
-    UserDetailInstance,
-    UserDetailPayload,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
-import {
-    UserInstance,
-    UserPayload,
-} from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/File';
 
 export interface UserExternal {
     providerId: string;
     email: string;
     name: string;
+}
+
+export interface GetByIdPayload {
+    userId: string;
+}
+
+export interface UpdateGameInfoPayload {
+    userId: string;
+    infoId: string;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
+    operation: 'add' | 'remove';
 }
 
 export interface UserImagePayload {
@@ -33,11 +37,6 @@ export interface CompleteOAuth {
 
 export interface emailUpdatePayload {
     email: string;
-}
-
-export interface UpdateTimestampPayload {
-    userId?: string;
-    userDetailId?: string;
 }
 
 export interface RegisterUserPayload extends UserPayload {
@@ -85,39 +84,7 @@ export interface VerifyEmailPayload {
     newEmail: string;
 }
 
-export interface ConfirmTokenPayload {
-    userId: string;
-    token: string;
-}
-
 export interface ActivateSecretQuestionPayload {
     userId: string;
     payload: UserSecretQuestion | UpdateSecretQuestion;
-}
-
-export interface __UserWithID {
-    userId: string;
-    user: UserInstance;
-    userDetails: UserDetailInstance;
-}
-
-export interface GetByIdPayload {
-    userId: string;
-}
-
-export interface UpdateGameInfoPayload {
-    userId: string;
-    infoId: string;
-    targetInfo: 'campaigns' | 'badges' | 'characters';
-    operation: 'add' | 'remove';
-}
-
-export interface UpdateGameInfoProcessPayload {
-    infoId: string;
-    targetInfo: 'campaigns' | 'badges' | 'characters';
-    gameInfo: {
-        campaigns: string[];
-        characters: string[];
-        badges: string[];
-    };
 }
