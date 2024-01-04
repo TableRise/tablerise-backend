@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { UsersRoutesMiddlewareContract } from 'src/types/users/contracts/middlewares/UsersRoutesMiddleware';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class UsersRoutesMiddleware {
     private readonly _routesWrapper;
 
-    constructor({ routesWrapper }: UsersRoutesMiddlewareContract) {
+    constructor({ routesWrapper }: InterfaceDependencies['usersRoutesMiddlewareContract']) {
         this._routesWrapper = routesWrapper;
     }
 

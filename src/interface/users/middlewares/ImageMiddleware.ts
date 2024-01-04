@@ -3,7 +3,7 @@ import multer, { Multer } from 'multer';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { ImageMiddlewareContract } from 'src/types/users/contracts/middlewares/ImageMiddleware';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 const TEN_MB_LIMIT = 10485760;
 const ALLOWED_EXT = ['png', 'jpg', 'jpeg'];
@@ -11,7 +11,7 @@ const ALLOWED_EXT = ['png', 'jpg', 'jpeg'];
 export default class ImageMiddleware {
     private readonly _logger;
 
-    constructor({ logger }: ImageMiddlewareContract) {
+    constructor({ logger }: InterfaceDependencies['imageMiddlewareContract']) {
         this._logger = logger;
 
         this.fileType = this.fileType.bind(this);

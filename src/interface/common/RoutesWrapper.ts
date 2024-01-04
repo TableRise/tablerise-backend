@@ -1,6 +1,6 @@
 // import dungeonsAndDragonsRoutes, { dungeonsAndDragonsSwagger } from 'src/routes/dungeons&dragons5e';
-import Route, { RouteDeclarations } from 'src/types/users/requests/Route';
-import { RoutesWrapperContract } from 'src/types/users/contracts/presentation/RoutesWrapper';
+import Route, { RouteDeclarations } from 'src/types/modules/interface/common/Routes';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class RoutesWrapper {
     private readonly _dungeonsAndDragonsRoutesBuilder;
@@ -9,7 +9,7 @@ export default class RoutesWrapper {
     constructor({
         dungeonsAndDragonsRoutesBuilder,
         usersRoutesBuilder,
-    }: RoutesWrapperContract) {
+    }: InterfaceDependencies['routesWrapperContract']) {
         this._dungeonsAndDragonsRoutesBuilder = dungeonsAndDragonsRoutesBuilder;
         this._usersRoutesBuilder = usersRoutesBuilder;
     }

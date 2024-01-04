@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
-import { UsersRoutesBuilderContract } from 'src/types/users/contracts/presentation/BuildRoutes';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 const router = Router();
 
@@ -8,7 +8,7 @@ export default class UsersRoutesBuilder {
     private readonly _usersRoutes;
     private readonly _oAuthRoutes;
 
-    constructor({ usersRoutes, oAuthRoutes }: UsersRoutesBuilderContract) {
+    constructor({ usersRoutes, oAuthRoutes }: InterfaceDependencies['usersRoutesBuilderContract']) {
         this._usersRoutes = usersRoutes;
         this._oAuthRoutes = oAuthRoutes;
     }

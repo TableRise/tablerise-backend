@@ -5,9 +5,9 @@ import {
     VerifyEmailPayload,
 } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/File';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -42,7 +42,7 @@ export default class UsersController {
         pictureProfileOperation,
         deleteUserOperation,
         logoutUserOperation,
-    }: UsersControllerContract) {
+    }: InterfaceDependencies['usersControllerContract']) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
         this._verifyEmailOperation = verifyEmailOperation;
