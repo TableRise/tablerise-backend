@@ -1,4 +1,4 @@
-import { ActivateTwoFactorServiceContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { TwoFactorResponse, __FullUser } from 'src/types/users/requests/Response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
@@ -13,7 +13,7 @@ export default class ActivateTwoFactorService {
         usersDetailsRepository,
         twoFactorHandler,
         logger,
-    }: ActivateTwoFactorServiceContract) {
+    }: UserCoreDependencies['activateTwoFactorServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._twoFactorHandler = twoFactorHandler;

@@ -4,11 +4,11 @@ import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'aw
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
-import schemas from './domains/user/schemas';
-import EmailSender from './domains/user/helpers/EmailSender';
+import schemas from './domains/users/schemas';
+import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
-import Serializer from './domains/user/helpers/Serializer';
+import Serializer from './domains/users/helpers/Serializer';
 import UsersRepository from './infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';

@@ -1,12 +1,12 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { PictureProfileOperationContract } from 'src/types/users/contracts/core/PictureProfile';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserImagePayload } from 'src/types/users/requests/Payload';
 
 export default class PictureProfileOperation {
     private readonly _pictureProfileService;
     private readonly _logger;
 
-    constructor({ logger, pictureProfileService }: PictureProfileOperationContract) {
+    constructor({ logger, pictureProfileService }: UserCoreDependencies['pictureProfileOperationContract']) {
         this._pictureProfileService = pictureProfileService;
         this._logger = logger;
 

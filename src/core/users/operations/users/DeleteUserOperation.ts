@@ -1,10 +1,10 @@
-import { DeleteUserOperationContract } from 'src/types/users/contracts/core/DeleteUser';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class DeleteUserOperation {
     private readonly _deleteUserService;
     private readonly _logger;
 
-    constructor({ deleteUserService, logger }: DeleteUserOperationContract) {
+    constructor({ deleteUserService, logger }: UserCoreDependencies['deleteUserOperationContract']) {
         this._deleteUserService = deleteUserService;
         this._logger = logger;
         this.execute = this.execute.bind(this);

@@ -1,11 +1,11 @@
-import { GetUsersOperationContract } from 'src/types/users/contracts/core/GetUsers';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
 export default class GetUsersOperation {
     private readonly _getUsersService;
     private readonly _logger;
 
-    constructor({ getUsersService, logger }: GetUsersOperationContract) {
+    constructor({ getUsersService, logger }: UserCoreDependencies['getUsersOperationContract']) {
         this._getUsersService = getUsersService;
         this._logger = logger;
 

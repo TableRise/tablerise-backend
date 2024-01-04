@@ -1,4 +1,4 @@
-import pronounEnum from 'src/domains/user/enums/pronounEnum';
+import pronounEnum from 'src/domains/users/enums/pronounEnum';
 import returnEnumValues from 'src/domains/common/helpers/returnEnumValues';
 
 describe('Domains :: Common :: Helpers :: ReturnEnumValues', () => {

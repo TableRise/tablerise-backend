@@ -4,7 +4,7 @@ import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import {
     CompleteOAuthPayload,
     oAuthCompleteZodSchema,
-} from 'src/domains/user/schemas/oAuthValidationSchema';
+} from 'src/domains/users/schemas/oAuthValidationSchema';
 
 describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
     let completeOAuthData: CompleteOAuthPayload;

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import questionEnum from 'src/domains/user/enums/questionEnum';
+import questionEnum from 'src/domains/users/enums/questionEnum';
 
 describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,

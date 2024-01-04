@@ -1,17 +1,15 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
-import {
-    UpdatePasswordServiceContract,
-    UserPassword,
-} from 'src/types/users/contracts/core/UpdatePassword';
+import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdatePasswordPayload } from 'src/types/users/requests/Payload';
+import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword';
 
 export default class UpdatePasswordService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: UpdatePasswordServiceContract) {
+    constructor({ usersRepository, logger }: UserCoreDependencies['updatePasswordServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
     }

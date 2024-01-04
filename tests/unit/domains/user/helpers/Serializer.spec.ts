@@ -2,7 +2,7 @@ import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import Serializer from 'src/domains/user/helpers/Serializer';
+import Serializer from 'src/domains/users/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: User :: Helpers :: Serializer', () => {

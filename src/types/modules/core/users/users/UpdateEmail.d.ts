@@ -1,6 +1,6 @@
 import UpdateEmailService from 'src/core/users/services/users/UpdateEmailService';
-import { SchemasUserType } from 'src/domains/user/schemas';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { SchemasUserType } from 'src/domains/users/schemas';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';

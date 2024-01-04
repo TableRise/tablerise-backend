@@ -1,8 +1,8 @@
 import ActivateTwoFactorService from 'src/core/users/services/users/ActivateTwoFactorService';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import configs from 'src/infra/configs';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';

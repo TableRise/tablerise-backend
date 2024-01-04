@@ -1,4 +1,4 @@
-import { UpdatePasswordOperationContract } from 'src/types/users/contracts/core/UpdatePassword';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdatePasswordPayload } from 'src/types/users/requests/Payload';
 
 export default class UpdatePasswordOperation {
@@ -12,7 +12,7 @@ export default class UpdatePasswordOperation {
         updatePasswordService,
         schemaValidator,
         logger,
-    }: UpdatePasswordOperationContract) {
+    }: UserCoreDependencies['updatePasswordOperationContract']) {
         this._updatePasswordService = updatePasswordService;
         this._schemaValidator = schemaValidator;
         this._usersSchema = usersSchema;

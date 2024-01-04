@@ -1,4 +1,4 @@
-import { CompleteUserOperationContract } from 'src/types/users/contracts/core/CompleteUser';
+import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import { CompleteOAuth } from 'src/types/users/requests/Payload';
 import { RegisterUserResponse } from 'src/types/users/requests/Response';
 
@@ -15,7 +15,7 @@ export default class CompleteUserOperation {
         getUserByIdService,
         schemaValidator,
         logger,
-    }: CompleteUserOperationContract) {
+    }: OAuthCoreDependencies['completeUserOperationContract']) {
         this._usersSchema = usersSchema;
         this._schemaValidator = schemaValidator;
         this._completeUserService = completeUserService;

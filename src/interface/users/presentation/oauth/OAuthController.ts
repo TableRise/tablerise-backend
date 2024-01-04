@@ -4,7 +4,7 @@ import Google from 'passport-google-oauth20';
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { OAuthControllerContract } from 'src/types/users/contracts/presentation/oauth/OAuthController';
-import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
+import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 
 export default class OAuthController {
     private readonly _googleOperation;

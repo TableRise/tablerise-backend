@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';

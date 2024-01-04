@@ -1,6 +1,6 @@
 import JWT from 'jsonwebtoken';
 import crypto from 'crypto';
-import { TokenForbiddenContract } from 'src/types/users/contracts/domains/helpers/TokenForbidden';
+import { TokenForbiddenContract } from 'src/types/modules/domains/common/helpers/TokenForbidden';
 
 export default class TokenForbidden {
     private readonly _redisClient;

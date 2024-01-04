@@ -1,7 +1,7 @@
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
 import { TwoFactorHandlerContract } from 'src/types/users/contracts/infra/TwoFactorHandler';
-import { UserTwoFactor } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserTwoFactor } from 'src/domains/users/schemas/usersValidationSchema';
 import { TwoFactorValidatePayload } from 'src/types/users/requests/Payload';
 
 export default class TwoFactorHandler {

@@ -1,4 +1,4 @@
-import index from 'src/domains/user/schemas';
+import index from 'src/domains/users/schemas';
 
 describe('Domains :: User :: Schemas :: Index', () => {
     context('When schemas index', () => {

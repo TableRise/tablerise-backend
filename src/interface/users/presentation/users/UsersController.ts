@@ -6,7 +6,7 @@ import {
 } from 'src/types/users/requests/Payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
-import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/File';
 
 export default class UsersController {

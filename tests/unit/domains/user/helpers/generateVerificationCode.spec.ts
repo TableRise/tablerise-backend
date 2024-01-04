@@ -1,4 +1,4 @@
-import generateVerificationCode from 'src/domains/user/helpers/generateVerificationCode';
+import generateVerificationCode from 'src/domains/users/helpers/generateVerificationCode';
 
 describe('Domains :: User :: Helpers :: GenerateVerificationCode.ts', () => {
     context('When code is generated', () => {

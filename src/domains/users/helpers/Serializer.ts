@@ -1,8 +1,8 @@
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserExternal } from 'src/types/users/requests/Payload';
 
 export default class Serializer {

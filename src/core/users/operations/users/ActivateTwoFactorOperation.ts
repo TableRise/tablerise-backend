@@ -1,4 +1,4 @@
-import { ActivateTwoFactorOperationContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { TwoFactorResponse } from 'src/types/users/requests/Response';
 
 export default class ActivateTwoFactorOperation {
@@ -8,7 +8,7 @@ export default class ActivateTwoFactorOperation {
     constructor({
         activateTwoFactorService,
         logger,
-    }: ActivateTwoFactorOperationContract) {
+    }: UserCoreDependencies['activateTwoFactorOperationContract']) {
         this._activateTwoFactorService = activateTwoFactorService;
         this._logger = logger;
 

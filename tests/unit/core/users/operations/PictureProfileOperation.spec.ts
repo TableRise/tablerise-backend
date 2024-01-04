@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/File';
 

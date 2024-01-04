@@ -1,6 +1,6 @@
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { RegisterUserResponse } from 'src/types/users/requests/Response';
 import { RegisterUserPayload } from 'src/types/users/requests/Payload';
-import { CreateUserOperationContract } from 'src/types/users/contracts/core/CreateUser';
 
 export default class CreateUserOperation {
     private readonly _usersSchema;
@@ -13,7 +13,7 @@ export default class CreateUserOperation {
         schemaValidator,
         createUserService,
         logger,
-    }: CreateUserOperationContract) {
+    }: UserCoreDependencies['createUserOperationContract']) {
         this._usersSchema = usersSchema;
         this._schemaValidator = schemaValidator;
         this._createUserService = createUserService;

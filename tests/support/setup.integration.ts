@@ -5,7 +5,7 @@ import logger from '@tablerise/dynamic-logger';
 import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
-import EmailSender from 'src/domains/user/helpers/EmailSender';
+import EmailSender from 'src/domains/users/helpers/EmailSender';
 import {
     MongooseEnvs,
     RedisEnvs,

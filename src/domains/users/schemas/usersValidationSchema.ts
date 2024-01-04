@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { updateUserDetails } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { updateUserDetails } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 const twoFactorSecretZodSchema = z.object({
     secret: z.string().optional(),

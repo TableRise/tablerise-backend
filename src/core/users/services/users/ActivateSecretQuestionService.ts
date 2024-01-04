@@ -1,5 +1,5 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { ActivateSecretQuestionServiceContract } from 'src/types/users/contracts/core/ActivateSecretQuestion';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import {
     ActivateSecretQuestionPayload,
     UpdateSecretQuestion,
@@ -15,7 +15,7 @@ export default class ActivateSecretQuestionService {
         usersDetailsRepository,
         usersRepository,
         logger,
-    }: ActivateSecretQuestionServiceContract) {
+    }: UserCoreDependencies['activateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

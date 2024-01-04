@@ -1,4 +1,4 @@
-import pronounEnum from 'src/domains/user/enums/pronounEnum';
+import pronounEnum from 'src/domains/users/enums/pronounEnum';
 
 describe('Domains :: User :: Enum :: PronounEnum', () => {
     const enumKeysFixed = ['HE_HIS', 'SHE_HER', 'THEY_THEM', 'HE_HIS_SHE_HER', 'ANY'];

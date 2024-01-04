@@ -1,11 +1,11 @@
 import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { OAuthServiceContract } from 'src/types/users/contracts/core/OAuth';
+import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import {
     __FullUser,
     __UserEnriched,
@@ -24,7 +24,7 @@ export default class OAuthService {
         usersDetailsRepository,
         serializer,
         logger,
-    }: OAuthServiceContract) {
+    }: OAuthCoreDependencies['oAuthServiceContract']) {
         this._usersRepository = usersRepository;
         this._userDetailsRepository = usersDetailsRepository;
         this._serializer = serializer;

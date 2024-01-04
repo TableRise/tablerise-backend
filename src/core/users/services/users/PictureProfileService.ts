@@ -1,8 +1,8 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { PictureProfileServiceContract } from 'src/types/users/contracts/core/PictureProfile';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UserImagePayload } from 'src/types/users/requests/Payload';
 
 export default class PictureProfileService {
@@ -14,7 +14,7 @@ export default class PictureProfileService {
         usersRepository,
         imageStorageClient,
         logger,
-    }: PictureProfileServiceContract) {
+    }: UserCoreDependencies['pictureProfileServiceContract']) {
         this._usersRepository = usersRepository;
         this._imageStorageClient = imageStorageClient;
         this._logger = logger;

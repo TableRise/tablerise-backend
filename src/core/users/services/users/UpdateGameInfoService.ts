@@ -1,5 +1,5 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UpdateGameInfoServiceContract } from 'src/types/users/contracts/core/UpdateGameInfo';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import {
     UpdateGameInfoPayload,
     UpdateGameInfoProcessPayload,
@@ -10,7 +10,7 @@ export default class UpdateGameInfoService {
     private readonly _logger;
     private readonly _usersDetailsRepository;
 
-    constructor({ usersDetailsRepository, logger }: UpdateGameInfoServiceContract) {
+    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['updateGameInfoServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 

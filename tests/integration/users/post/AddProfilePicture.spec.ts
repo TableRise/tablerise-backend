@@ -1,5 +1,5 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';

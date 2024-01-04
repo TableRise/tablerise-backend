@@ -1,10 +1,10 @@
-import { LogoutUserOperationContract } from 'src/types/users/contracts/core/LogoutUser';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class LogoutUserOperation {
     private readonly _logoutUserService;
     private readonly _logger;
 
-    constructor({ logoutUserService, logger }: LogoutUserOperationContract) {
+    constructor({ logoutUserService, logger }: UserCoreDependencies['logoutUserOperationContract']) {
         this._logoutUserService = logoutUserService;
         this._logger = logger;
 

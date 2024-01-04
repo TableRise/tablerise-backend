@@ -1,4 +1,4 @@
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
+import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
 describe('Domains :: User :: Helpers :: SecurePasswordHandler', () => {
     context('when the class is called', () => {

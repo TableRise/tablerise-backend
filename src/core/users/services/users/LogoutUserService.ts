@@ -1,10 +1,10 @@
-import { LogoutUserServiceContract } from 'src/types/users/contracts/core/LogoutUser';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class LogoutUserService {
     private readonly _tokenForbideen;
     private readonly _logger;
 
-    constructor({ tokenForbidden, logger }: LogoutUserServiceContract) {
+    constructor({ tokenForbidden, logger }: UserCoreDependencies['logoutUserServiceContract']) {
         this._tokenForbideen = tokenForbidden;
         this._logger = logger;
 

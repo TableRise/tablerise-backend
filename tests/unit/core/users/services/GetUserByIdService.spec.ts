@@ -1,6 +1,6 @@
 import GetUserByIdService from 'src/core/users/services/users/GetUserByIdService';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { RegisterUserResponse } from 'src/types/users/requests/Response';
 

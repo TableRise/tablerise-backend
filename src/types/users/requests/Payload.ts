@@ -1,13 +1,13 @@
-import { UserSecretQuestion } from './../../../domains/user/schemas/userDetailsValidationSchema';
-import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
+import { UserSecretQuestion } from './../../../domains/users/schemas/userDetailsValidationSchema';
+import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import {
     UserDetailInstance,
     UserDetailPayload,
-} from 'src/domains/user/schemas/userDetailsValidationSchema';
+} from 'src/domains/users/schemas/userDetailsValidationSchema';
 import {
     UserInstance,
     UserPayload,
-} from 'src/domains/user/schemas/usersValidationSchema';
+} from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/File';
 
 export interface UserExternal {
