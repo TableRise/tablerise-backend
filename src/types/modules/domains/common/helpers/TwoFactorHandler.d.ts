@@ -6,3 +6,8 @@ export interface TwoFactorHandlerContract {
     configs: typeof tableriseEnvironment;
     logger: Logger;
 }
+
+export interface TwoFactorValidatePayload {
+    secret: string;
+    token: string;
+}

@@ -28,18 +28,3 @@ export interface RouteDeclarations {
     'dungeons&dragons5e': routeInstance[];
     user: routeInstance[];
 }
-
-export interface RouteDeclareParams {
-    name: string;
-    location: string;
-    required: boolean;
-    type: string;
-}
-
-export interface ParamName {
-    name: string;
-    type: string;
-    required?: 'off';
-}
-
-export type RouteWrapperDeclared = routeInstance;

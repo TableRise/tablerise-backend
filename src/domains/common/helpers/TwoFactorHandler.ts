@@ -1,15 +1,15 @@
-import speakeasy from 'speakeasy';
+import speakeasy, { Encoding } from 'speakeasy';
 import qrcode from 'qrcode';
-import { TwoFactorHandlerContract } from 'src/types/users/contracts/infra/TwoFactorHandler';
+import Configs from 'src/types/shared/configs';
 import { UserTwoFactor } from 'src/domains/users/schemas/usersValidationSchema';
-import { TwoFactorValidatePayload } from 'src/types/users/requests/Payload';
+import { TwoFactorHandlerContract, TwoFactorValidatePayload } from 'src/types/modules/domains/common/helpers/TwoFactorHandler';
 
 export default class TwoFactorHandler {
     private readonly _configs;
     private readonly _logger;
 
-    constructor({ configs, logger }: TwoFactorHandlerContract) {
-        this._configs = configs;
+    constructor({ logger }: TwoFactorHandlerContract) {
+        this._configs = require('../../../../tablerise.environment.js') as Configs;
         this._logger = logger;
 
         this.create = this.create.bind(this);
@@ -21,10 +21,10 @@ export default class TwoFactorHandler {
         const url = speakeasy.otpauthURL({
             secret: secret.base32,
             label: `${
-                this._configs.twoFactorGen.params.label as string
+                this._configs.twoFactorGen.params.label
             } (${labelAttach})`,
             issuer: this._configs.twoFactorGen.params.issuer,
-            encoding: this._configs.twoFactorGen.params.encoding,
+            encoding: this._configs.twoFactorGen.params.encoding as Encoding,
         });
 
         const QRCode = await qrcode.toDataURL(url);
@@ -39,7 +39,7 @@ export default class TwoFactorHandler {
     public validate({ secret, token }: TwoFactorValidatePayload): boolean {
         const valid = speakeasy.totp.verify({
             secret,
-            encoding: this._configs.twoFactorGen.params.encoding,
+            encoding: this._configs.twoFactorGen.params.encoding as Encoding,
             token,
         });
 

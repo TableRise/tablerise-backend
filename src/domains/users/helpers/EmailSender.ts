@@ -1,8 +1,12 @@
-import { CommonContent, EmailMessage, ResponseEmailSender } from 'src/types/users/Email';
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/users/helpers/generateVerificationCode';
-import { EmailSenderContract } from 'src/types/modules/domains/users/helpers/EmailSender';
+import {
+    EmailSenderContract,
+    CommonContent,
+    EmailMessage,
+    ResponseEmailSender
+} from 'src/types/modules/domains/users/helpers/EmailSender';
 
 export default class EmailSender {
     public type;

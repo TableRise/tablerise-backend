@@ -40,11 +40,6 @@ export interface UpdateTimestampPayload {
     userDetailId?: string;
 }
 
-export interface TwoFactorValidatePayload {
-    secret: string;
-    token: string;
-}
-
 export interface RegisterUserPayload extends UserPayload {
     details: UserDetailPayload;
 }

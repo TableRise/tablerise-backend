@@ -1,4 +1,4 @@
-import { ParamName, RouteDeclareParams } from 'src/types/users/requests/Route';
+import { ParamName, RouteDeclareParams } from 'src/types/modules/domains/common/helpers/parametersWrapper';
 
 export default function generateIDParam(): RouteDeclareParams[] {
     return [

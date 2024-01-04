@@ -24,7 +24,6 @@ import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/Dung
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import { ContainerContract } from './types/contracts/container';
 import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
-import configs from './infra/configs';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
@@ -59,7 +58,6 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
-        configs: asValue(configs),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
 
         // #Helpers
