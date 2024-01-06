@@ -1,6 +1,6 @@
 import { Spell } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledSpellsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/spells/GetDisabledSpells';
+import { GetDisabledSpellsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/spells/GetDisabledSpells';
 
 export default class GetDisabledSpellsService {
     private readonly _dungeonsAndDragonsRepository;

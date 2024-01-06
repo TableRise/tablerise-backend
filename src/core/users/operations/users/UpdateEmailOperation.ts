@@ -1,5 +1,5 @@
-import { UpdateEmailOperationContract } from 'src/types/users/contracts/core/UpdateEmail';
-import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateEmailOperation {
     private readonly _updateEmailService;
@@ -12,7 +12,7 @@ export default class UpdateEmailOperation {
         updateEmailService,
         schemaValidator,
         logger,
-    }: UpdateEmailOperationContract) {
+    }: UserCoreDependencies['updateEmailOperationContract']) {
         this._updateEmailService = updateEmailService;
         this._schemaValidator = schemaValidator;
         this._usersSchema = usersSchema;

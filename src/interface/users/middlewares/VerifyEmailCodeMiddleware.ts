@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { VerifyEmailCodeMiddlewareContract } from 'src/types/users/contracts/middlewares/VerifyEmailCodeMiddleware';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: VerifyEmailCodeMiddlewareContract) {
+    constructor({
+        usersRepository,
+        logger,
+    }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 

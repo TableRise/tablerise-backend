@@ -1,6 +1,6 @@
 import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetAllRacesOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/races/GetAllRaces';
+import { GetAllRacesOperationContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetAllRaces';
 
 export default class GetAllRacesOperation {
     private readonly _getAllRacesService;

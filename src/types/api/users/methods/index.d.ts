@@ -1,0 +1,66 @@
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+
+export interface UpdateTimestampPayload {
+    userId?: string;
+    userDetailId?: string;
+}
+
+export interface __UserWithID {
+    userId: string;
+    user: UserInstance;
+    userDetails: UserDetailInstance;
+}
+
+export interface UserGameInfoDoneResponse {
+    campaigns: string[];
+    characters: string[];
+    badges: string[];
+}
+
+export interface __FullUserPayload {
+    user: UserPayload;
+    userDetails: UserDetailPayload;
+}
+
+export interface UpdateGameInfoProcessPayload {
+    infoId: string;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
+    gameInfo: {
+        campaigns: string[];
+        characters: string[];
+        badges: string[];
+    };
+}
+
+export interface RegisterUserResponsePromise extends UserInstance {
+    details: Promise<UserDetailInstance>;
+}
+
+export interface JWTResponse {
+    userId: string;
+    providerId: string | null;
+    username: string;
+    iat: number;
+    exp: number;
+}
+
+export interface __FullUser {
+    user: UserInstance;
+    userDetails: UserDetailInstance;
+}
+
+export interface __UserEnriched {
+    userEnriched: UserInstance;
+    userDetailsEnriched: UserDetailInstance;
+}
+
+export interface __UserSerialized {
+    userSerialized: UserInstance;
+    userDetailsSerialized: UserDetailInstance;
+}
+
+export interface __UserSaved {
+    userSaved: UserInstance;
+    userDetailsSaved: UserDetailInstance;
+}

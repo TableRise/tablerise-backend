@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { WeaponsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/weapons/WeaponsController';
+import { WeaponsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/weapons/WeaponsController';
 
 export default class WeaponsController {
     private readonly _getWeaponOperation;

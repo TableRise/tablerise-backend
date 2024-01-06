@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { WikisControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/wikis/WikisController';
+import { WikisControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/wikis/WikisController';
 
 export default class WikisController {
     private readonly _getWikiOperation;

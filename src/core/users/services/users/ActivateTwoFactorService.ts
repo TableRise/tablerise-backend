@@ -1,5 +1,6 @@
-import { ActivateTwoFactorServiceContract } from 'src/types/users/contracts/core/ActivateTwoFactor';
-import { TwoFactorResponse, __FullUser } from 'src/types/users/requests/Response';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { TwoFactorResponse } from 'src/types/api/users/http/response';
+import { __FullUser } from 'src/types/api/users/methods';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ActivateTwoFactorService {
@@ -13,7 +14,7 @@ export default class ActivateTwoFactorService {
         usersDetailsRepository,
         twoFactorHandler,
         logger,
-    }: ActivateTwoFactorServiceContract) {
+    }: UserCoreDependencies['activateTwoFactorServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._twoFactorHandler = twoFactorHandler;

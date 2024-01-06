@@ -1,12 +1,15 @@
+import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Facebook from 'passport-facebook';
-import { OAuthOperationContract } from 'src/types/users/contracts/core/OAuth';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class FacebookOperation {
     private readonly _oAuthService;
     private readonly _logger;
 
-    constructor({ oAuthService, logger }: OAuthOperationContract) {
+    constructor({
+        oAuthService,
+        logger,
+    }: OAuthCoreDependencies['oAuthOperationContract']) {
         this._oAuthService = oAuthService;
         this._logger = logger;
 

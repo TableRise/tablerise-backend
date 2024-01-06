@@ -1,10 +1,10 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { ActivateSecretQuestionServiceContract } from 'src/types/users/contracts/core/ActivateSecretQuestion';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import {
     ActivateSecretQuestionPayload,
     UpdateSecretQuestion,
-} from 'src/types/users/requests/Payload';
-import { __FullUser } from 'src/types/users/requests/Response';
+} from 'src/types/api/users/http/payload';
+import { __FullUser } from 'src/types/api/users/methods';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
@@ -15,7 +15,7 @@ export default class ActivateSecretQuestionService {
         usersDetailsRepository,
         usersRepository,
         logger,
-    }: ActivateSecretQuestionServiceContract) {
+    }: UserCoreDependencies['activateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import usersZodSchema, {
     UserInstance,
-} from 'src/domains/user/schemas/usersValidationSchema';
+} from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {

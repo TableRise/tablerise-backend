@@ -1,12 +1,12 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import {
     UserDetailJSONPayload,
     UserJSONPayload,
-} from 'src/types/users/datafakers/Payload';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+} from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
-import questionEnum from 'src/domains/user/enums/questionEnum';
+import questionEnum from 'src/domains/users/enums/questionEnum';
 
 function generateUsersJSON(
     { count, userId }: UserJSONPayload = { count: 1 }

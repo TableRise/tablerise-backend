@@ -3,11 +3,11 @@ import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
     VerifyEmailPayload,
-} from 'src/types/users/requests/Payload';
+} from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UsersControllerContract } from 'src/types/users/contracts/presentation/UsersController';
-import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { FileObject } from 'src/types/File';
+import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { FileObject } from 'src/types/shared/file';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -42,7 +42,7 @@ export default class UsersController {
         pictureProfileOperation,
         deleteUserOperation,
         logoutUserOperation,
-    }: UsersControllerContract) {
+    }: InterfaceDependencies['usersControllerContract']) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
         this._verifyEmailOperation = verifyEmailOperation;

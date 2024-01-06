@@ -1,16 +1,17 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import {
-    UpdateEmailServiceContract,
-    UserEmail,
-} from 'src/types/users/contracts/core/UpdateEmail';
-import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
+import { UserEmail } from 'src/types/modules/core/users/users/UpdateEmail';
 
 export default class UpdateEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: UpdateEmailServiceContract) {
+    constructor({
+        usersRepository,
+        logger,
+    }: UserCoreDependencies['updateEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
     }

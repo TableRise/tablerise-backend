@@ -1,4 +1,4 @@
-import questionEnum from 'src/domains/user/enums/questionEnum';
+import questionEnum from 'src/domains/users/enums/questionEnum';
 
 describe('Domains :: User :: Enum :: QuestionEnum', () => {
     const enumKeysFixed = [

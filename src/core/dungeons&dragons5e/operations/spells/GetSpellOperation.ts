@@ -1,6 +1,6 @@
 import { Spell } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetSpellOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/spells/GetSpell';
+import { GetSpellOperationContract } from 'src/types/modules/core/dungeons&dragons5e/spells/GetSpell';
 
 export default class GetSpellOperation {
     private readonly _getSpellService;

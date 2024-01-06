@@ -1,5 +1,5 @@
-import { UpdateSecretQuestionOperationContract } from 'src/types/users/contracts/core/UpdateSecretQuestion';
-import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateSecretQuestionOperation {
     private readonly _updateSecretQuestionService;
@@ -8,7 +8,7 @@ export default class UpdateSecretQuestionOperation {
     constructor({
         updateSecretQuestionService,
         logger,
-    }: UpdateSecretQuestionOperationContract) {
+    }: UserCoreDependencies['updateSecretQuestionOperationContract']) {
         this._updateSecretQuestionService = updateSecretQuestionService;
         this._logger = logger;
     }

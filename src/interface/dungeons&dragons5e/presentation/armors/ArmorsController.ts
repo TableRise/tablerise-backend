@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { ArmorsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/armors/ArmorsController';
+import { ArmorsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/armors/ArmorsController';
 
 export default class ArmorsController {
     private readonly _getArmorOperation;

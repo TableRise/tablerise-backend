@@ -2,9 +2,9 @@ import sinon from 'sinon';
 import PictureProfileService from 'src/core/users/services/users/PictureProfileService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { FileObject } from 'src/types/File';
+import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
     let pictureProfileService: PictureProfileService,

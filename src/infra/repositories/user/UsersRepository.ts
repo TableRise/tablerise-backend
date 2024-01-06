@@ -1,8 +1,8 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { UpdateObj } from 'src/types/users/Repository';
-import { UsersRepositoryContract } from 'src/types/users/contracts/repositories/usersRepository';
+import { UpdateObj } from 'src/types/shared/repository';
+import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class UsersRepository {
     private readonly _model;
@@ -15,7 +15,7 @@ export default class UsersRepository {
         database,
         serializer,
         logger,
-    }: UsersRepositoryContract) {
+    }: InfraDependencies['usersRepositoryContract']) {
         this._updateTimestampRepository = updateTimestampRepository;
         this._model = database.modelInstance('user', 'Users');
         this._serializer = serializer;

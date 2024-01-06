@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { JWTResponse } from 'src/types/users/requests/Response';
-import { AuthorizationMiddlewareContract } from 'src/types/users/contracts/middlewares/AuthorizationMiddleware';
+import { JWTResponse } from 'src/types/api/users/methods/index';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserSecretQuestion } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class AuthorizationMiddleware {
     private readonly _usersRepository;
@@ -15,7 +15,7 @@ export default class AuthorizationMiddleware {
         usersDetailsRepository,
         twoFactorHandler,
         logger,
-    }: AuthorizationMiddlewareContract) {
+    }: InterfaceDependencies['authorizationMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._twoFactorHandler = twoFactorHandler;

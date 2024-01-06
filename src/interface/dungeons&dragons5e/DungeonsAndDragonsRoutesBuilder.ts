@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
-import { DungeonsAndDragonsRoutesBuilderContract } from 'src/types/dungeons&dragons5e/contracts/presentation/BuildRoutes';
+import { DungeonsAndDragonsRoutesBuilderContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/DungeonsAndDragonsRoutesBuildes';
 
 const router = Router();
 

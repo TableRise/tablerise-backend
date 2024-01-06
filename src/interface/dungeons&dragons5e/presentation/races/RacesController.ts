@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { RacesControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/races/RacesController';
+import { RacesControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/races/RacesController';
 
 export default class RacesController {
     private readonly _getRaceOperation;

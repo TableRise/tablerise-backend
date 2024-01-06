@@ -1,5 +1,5 @@
-import { ActivateSecretQuestionOperationContract } from 'src/types/users/contracts/core/ActivateSecretQuestion';
-import { ActivateSecretQuestionPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class ActivateSecretQuestionOperation {
     private readonly _activateSecretQuestionService;
@@ -8,7 +8,7 @@ export default class ActivateSecretQuestionOperation {
     constructor({
         activateSecretQuestionService,
         logger,
-    }: ActivateSecretQuestionOperationContract) {
+    }: UserCoreDependencies['activateSecretQuestionOperationContract']) {
         this._activateSecretQuestionService = activateSecretQuestionService;
         this._logger = logger;
 

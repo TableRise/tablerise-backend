@@ -1,8 +1,8 @@
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { UserDetailJSONPayload } from 'src/types/users/datafakers/Payload';
+import { UserDetailJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
-import questionEnum from 'src/domains/user/enums/questionEnum';
+import questionEnum from 'src/domains/users/enums/questionEnum';
 
 function createUserDetailFaker({
     userDetailId = newUUID(),

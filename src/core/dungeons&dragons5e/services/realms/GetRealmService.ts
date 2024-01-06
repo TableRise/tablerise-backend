@@ -1,6 +1,6 @@
 import { Realm } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetRealmServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/realms/GetRealm';
+import { GetRealmServiceContract } from 'src/types/modules/core/dungeons&dragons5e/realms/GetRealm';
 
 export default class GetRealmService {
     private readonly _dungeonsAndDragonsRepository;

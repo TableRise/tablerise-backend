@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { MonstersControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/monsters/MonstersController';
+import { MonstersControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/monsters/MonstersController';
 
 export default class MonstersController {
     private readonly _getMonsterOperation;

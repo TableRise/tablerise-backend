@@ -1,6 +1,6 @@
 import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledGodsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/gods/GetDisabledGodsService';
+import { GetDisabledGodsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/gods/GetDisabledGodsService';
 
 export default class GetDisabledGodsService {
     private readonly _dungeonsAndDragonsRepository;

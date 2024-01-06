@@ -1,7 +1,7 @@
 import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleGodsAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/gods/ToggleGodsAvailabilityService';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleGodsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/gods/ToggleGodsAvailabilityService';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleGodsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;

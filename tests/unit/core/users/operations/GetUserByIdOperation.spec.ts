@@ -1,8 +1,8 @@
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 describe('Core :: Users :: Operations :: GetUserByIdOperation', () => {
     let getUserByIdOperation: GetUserByIdOperation,

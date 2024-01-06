@@ -1,4 +1,4 @@
-import EmailSender from 'src/domains/user/helpers/EmailSender';
+import EmailSender from 'src/domains/users/helpers/EmailSender';
 
 describe('Domains :: User :: Helpers :: EmailSender', () => {
     let emailSender: EmailSender, nodemailer: any, emailType: any;

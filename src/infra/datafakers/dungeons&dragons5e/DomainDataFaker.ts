@@ -1,4 +1,4 @@
-import { DungeonsAndDragonsJSONPayload } from 'src/types/dungeons&dragons5e/datafakers/Payload';
+import { DungeonsAndDragonsJSONPayload } from 'src/types/modules/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 import generateDungeonsAndDragonsFaker from './generators/generateDungeonsAndDragonsFaker';
 
 function generateDungeonsAndDragonsJSON(

@@ -6,9 +6,9 @@ import generateIDParam, {
     generateFileParam,
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
-import { UsersRoutesContract } from 'src/types/users/contracts/presentation/UsersRoutes';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 const BASE_PATH = '/profile';
 
@@ -25,7 +25,7 @@ export default class UsersRoutes {
         verifyIdMiddleware,
         imageMiddleware,
         verifyEmailCodeMiddleware,
-    }: UsersRoutesContract) {
+    }: InterfaceDependencies['usersRoutesContract']) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._imageMiddleware = imageMiddleware;

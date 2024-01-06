@@ -1,6 +1,6 @@
 import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetBackgroundServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/backgrounds/GetBackground';
+import { GetBackgroundServiceContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/GetBackground';
 
 export default class GetBackgroundService {
     private readonly _dungeonsAndDragonsRepository;

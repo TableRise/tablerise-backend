@@ -1,7 +1,7 @@
 import DatabaseManagement from '@tablerise/database-management';
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
 export async function InjectNewUser(user: UserInstance): Promise<void> {
     user.password =

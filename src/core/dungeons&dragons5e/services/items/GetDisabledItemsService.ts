@@ -1,6 +1,6 @@
 import { Item } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledItemsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/items/GetDisabledItemsService';
+import { GetDisabledItemsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/items/GetDisabledItemsService';
 
 export default class GetDisabledItemsService {
     private readonly _dungeonsAndDragonsRepository;

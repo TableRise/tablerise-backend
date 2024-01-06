@@ -1,14 +1,18 @@
-import { UserInstance } from 'src/domains/user/schemas/usersValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { VerifyEmailServiceContract } from 'src/types/users/contracts/core/VerifyEmail';
-import { VerifyEmailPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { VerifyEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class VerifyEmailService {
     private readonly _usersRepository;
     private readonly _emailSender;
     private readonly _logger;
 
-    constructor({ usersRepository, emailSender, logger }: VerifyEmailServiceContract) {
+    constructor({
+        usersRepository,
+        emailSender,
+        logger,
+    }: UserCoreDependencies['verifyEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._emailSender = emailSender;
         this._logger = logger;

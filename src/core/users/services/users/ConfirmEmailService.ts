@@ -1,13 +1,16 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { ConfirmEmailServiceContract } from 'src/types/users/contracts/core/ConfirmEmail';
-import { ConfirmEmailPayload } from 'src/types/users/requests/Payload';
-import { ConfirmEmailResponse } from 'src/types/users/requests/Response';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { ConfirmEmailPayload } from 'src/types/api/users/http/payload';
+import { ConfirmEmailResponse } from 'src/types/api/users/http/response';
 
 export default class ConfirmEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: ConfirmEmailServiceContract) {
+    constructor({
+        usersRepository,
+        logger,
+    }: UserCoreDependencies['confirmEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 

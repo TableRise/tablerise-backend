@@ -1,6 +1,6 @@
-import { UserDetailInstance } from 'src/domains/user/schemas/userDetailsValidationSchema';
-import { GetUsersServiceContract } from 'src/types/users/contracts/core/GetUsers';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class GetUsersService {
     private readonly _logger;
@@ -11,7 +11,7 @@ export default class GetUsersService {
         usersRepository,
         usersDetailsRepository,
         logger,
-    }: GetUsersServiceContract) {
+    }: UserCoreDependencies['getUsersServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

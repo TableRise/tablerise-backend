@@ -3,15 +3,15 @@ import passport from 'passport';
 import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
 
-import { userLoginZodSchema } from 'src/domains/user/schemas/usersValidationSchema';
+import { userLoginZodSchema } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
-import SecurePasswordHandler from 'src/domains/user/helpers/SecurePasswordHandler';
+import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
 const ALLOWED_STATUS_TO_LOGIN = ['done', 'wait_to_complete'];
 const LocalStrategy = Local.Strategy;

@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { ClassesControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/classes/ClassesController';
+import { ClassesControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/classes/ClassesController';
 
 export default class ClassesController {
     private readonly _getClassOperation;

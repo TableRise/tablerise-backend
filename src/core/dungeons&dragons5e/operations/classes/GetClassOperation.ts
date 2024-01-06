@@ -1,6 +1,6 @@
 import { Class } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetClassOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/classes/GetClass';
+import { GetClassOperationContract } from 'src/types/modules/core/dungeons&dragons5e/classes/GetClass';
 
 export default class GetClassOperation {
     private readonly _getClassService;

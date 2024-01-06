@@ -1,5 +1,5 @@
 import newUUID from 'src/domains/common/helpers/newUUID';
-import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: User :: Helpers :: JWTGenerator', () => {

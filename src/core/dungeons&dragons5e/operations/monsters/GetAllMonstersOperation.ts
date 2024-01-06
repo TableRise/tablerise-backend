@@ -1,6 +1,6 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { Monster } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
-import { GetAllMonstersOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/monsters/GetAllMonsters';
+import { GetAllMonstersOperationContract } from 'src/types/modules/core/dungeons&dragons5e/monsters/GetAllMonsters';
 
 export default class GetAllMonstersOperation {
     private readonly _getAllMonstersService;

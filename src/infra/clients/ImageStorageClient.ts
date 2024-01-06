@@ -1,13 +1,17 @@
 import { AxiosResponse } from 'axios';
-import { FileObject } from 'src/types/File';
-import { ImageStorageClientContract } from 'src/types/clients/ImageStorageClient';
+import { FileObject } from 'src/types/shared/file';
+import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class ImageStorageClient {
     private readonly _logger;
     private readonly _configs;
     private readonly _httpRequest;
 
-    constructor({ logger, configs, httpRequest }: ImageStorageClientContract) {
+    constructor({
+        logger,
+        httpRequest,
+        configs,
+    }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
         this._configs = configs;
         this._httpRequest = httpRequest;
@@ -17,7 +21,7 @@ export default class ImageStorageClient {
         this._logger('info', 'Upload - ImageStorageClient');
         const { baseUrl, authorization, endpoints } = this._configs.api.imgur;
 
-        const url = baseUrl + endpoints.postImage;
+        const url = `${baseUrl}${endpoints.postImage}`;
 
         const imageUploaded =
             process.env.NODE_ENV === 'production'

@@ -1,5 +1,5 @@
-import { UpdatePasswordOperationContract } from 'src/types/users/contracts/core/UpdatePassword';
-import { UpdatePasswordPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdatePasswordOperation {
     private readonly _updatePasswordService;
@@ -12,7 +12,7 @@ export default class UpdatePasswordOperation {
         updatePasswordService,
         schemaValidator,
         logger,
-    }: UpdatePasswordOperationContract) {
+    }: UserCoreDependencies['updatePasswordOperationContract']) {
         this._updatePasswordService = updatePasswordService;
         this._schemaValidator = schemaValidator;
         this._usersSchema = usersSchema;

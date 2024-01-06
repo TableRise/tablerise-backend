@@ -1,12 +1,15 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UpdateSecretQuestionServiceContract } from 'src/types/users/contracts/core/UpdateSecretQuestion';
-import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateSecretQuestionService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersDetailsRepository, logger }: UpdateSecretQuestionServiceContract) {
+    constructor({
+        usersDetailsRepository,
+        logger,
+    }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
     }

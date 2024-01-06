@@ -4,7 +4,7 @@
         "rootDir": ".",
         "target": "es2019",
         "module": "commonjs",
-        "typeRoots": ["./node_modules/@types", "src/types/configs"],
+        "typeRoots": ["./node_modules/@types", "src/types/configs", "src/**/*.d.ts"],
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,

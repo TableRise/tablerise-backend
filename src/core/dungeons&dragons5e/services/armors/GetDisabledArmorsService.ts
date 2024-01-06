@@ -1,6 +1,6 @@
 import { Armor } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledArmorsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/GetDisabledArmorsService';
+import { GetDisabledArmorsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/armors/GetDisabledArmors';
 
 export default class GetDisabledArmorsService {
     private readonly _dungeonsAndDragonsRepository;

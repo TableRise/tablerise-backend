@@ -1,9 +1,10 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { UpdateUserServiceContract } from 'src/types/users/contracts/core/UpdateUser';
-import { UpdateUserPayload, __FullUserPayload } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateUserPayload } from 'src/types/api/users/http/payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
+import { __FullUserPayload, __FullUser } from 'src/types/api/users/methods';
 
 export default class UpdateUserService {
     private readonly _usersRepository;
@@ -14,7 +15,7 @@ export default class UpdateUserService {
         usersRepository,
         usersDetailsRepository,
         logger,
-    }: UpdateUserServiceContract) {
+    }: UserCoreDependencies['updateUserServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

@@ -1,14 +1,15 @@
 import nodemailer from 'nodemailer';
 /* eslint-disable import/first */
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
+import path from 'path';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
-import schemas from './domains/user/schemas';
-import EmailSender from './domains/user/helpers/EmailSender';
+import schemas from './domains/users/schemas';
+import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
-import Serializer from './domains/user/helpers/Serializer';
+import Serializer from './domains/users/helpers/Serializer';
 import UsersRepository from './infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
@@ -22,15 +23,16 @@ import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmail
 import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
-import { ContainerContract } from './types/contracts/container';
+import { ContainerContract } from './types/container';
 import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
-import configs from './infra/configs';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
+
+const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
@@ -59,8 +61,8 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
-        configs: asValue(configs),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
+        configs: asValue(configs),
 
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),

@@ -1,8 +1,8 @@
-import { CompleteOAuthPayload } from 'src/domains/user/schemas/oAuthValidationSchema';
+import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { CompleteUserServiceContract } from 'src/types/users/contracts/core/CompleteUser';
-import { __UserWithID } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';
+import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
+import { __UserWithID, __FullUser } from 'src/types/api/users/methods';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class CompleteUserService {
     private readonly _usersRepository;
@@ -13,7 +13,7 @@ export default class CompleteUserService {
         usersRepository,
         usersDetailsRepository,
         logger,
-    }: CompleteUserServiceContract) {
+    }: OAuthCoreDependencies['completeUserServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

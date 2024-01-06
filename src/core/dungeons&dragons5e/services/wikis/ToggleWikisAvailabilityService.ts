@@ -1,7 +1,7 @@
 import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleWikisAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/wikis/ToggleWikisAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleWikisAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/ToggleWikisAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleWikisAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;

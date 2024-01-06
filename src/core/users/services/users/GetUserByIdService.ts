@@ -1,6 +1,6 @@
-import { GetUserByIdServiceContract } from 'src/types/users/contracts/core/GetUserById';
-import { GetByIdPayload } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { GetByIdPayload } from 'src/types/api/users/http/payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class GetUserByIdService {
     private readonly _usersRepository;
@@ -11,7 +11,7 @@ export default class GetUserByIdService {
         usersRepository,
         usersDetailsRepository,
         logger,
-    }: GetUserByIdServiceContract) {
+    }: UserCoreDependencies['getUserByIdServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;

@@ -1,10 +1,13 @@
-import { ResetProfileOperationContract } from 'src/types/users/contracts/core/ResetProfile';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class ResetProfileOperation {
     private readonly _resetProfileService;
     private readonly _logger;
 
-    constructor({ resetProfileService, logger }: ResetProfileOperationContract) {
+    constructor({
+        resetProfileService,
+        logger,
+    }: UserCoreDependencies['resetProfileOperationContract']) {
         this._resetProfileService = resetProfileService;
         this._logger = logger;
 

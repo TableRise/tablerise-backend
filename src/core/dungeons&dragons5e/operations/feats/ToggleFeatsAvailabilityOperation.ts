@@ -1,7 +1,7 @@
 import { Feat } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleFeatsAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/feats/ToggleFeatsAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleFeatsAvailabilityOperationContract } from 'src/types/modules/core/dungeons&dragons5e/feats/ToggleFeatsAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleFeatsAvailabilityOperation {
     private readonly _toggleFeatsAvailabilityService;

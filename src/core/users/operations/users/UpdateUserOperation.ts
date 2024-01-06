@@ -1,6 +1,6 @@
-import { UpdateUserOperationContract } from 'src/types/users/contracts/core/UpdateUser';
-import { UpdateUserPayload } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { UpdateUserPayload } from 'src/types/api/users/http/payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UpdateUserOperation {
     private readonly _usersSchema;
@@ -13,7 +13,7 @@ export default class UpdateUserOperation {
         updateUserService,
         schemaValidator,
         logger,
-    }: UpdateUserOperationContract) {
+    }: UserCoreDependencies['updateUserOperationContract']) {
         this._usersSchema = usersSchema;
         this._schemaValidator = schemaValidator;
         this._updateUserService = updateUserService;

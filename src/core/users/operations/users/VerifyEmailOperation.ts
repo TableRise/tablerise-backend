@@ -1,11 +1,14 @@
-import { VerifyEmailOperationContract } from 'src/types/users/contracts/core/VerifyEmail';
-import { VerifyEmailPayload } from 'src/types/users/requests/Payload';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
+import { VerifyEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class VerifyEmailOperation {
     private readonly _logger;
     private readonly _verifyEmailService;
 
-    constructor({ verifyEmailService, logger }: VerifyEmailOperationContract) {
+    constructor({
+        verifyEmailService,
+        logger,
+    }: UserCoreDependencies['verifyEmailOperationContract']) {
         this._logger = logger;
         this._verifyEmailService = verifyEmailService;
 

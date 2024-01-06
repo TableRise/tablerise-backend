@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { ErrorTypes, Errors } from 'src/types/users/Errors';
+import { ErrorTypes, Errors } from 'src/types/shared/errors';
 
 describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {

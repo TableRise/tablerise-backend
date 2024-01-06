@@ -5,7 +5,7 @@ import Bearer from 'passport-http-bearer';
 
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import JWTGenerator from 'src/domains/user/helpers/JWTGenerator';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { container } from 'src/container';
 import { request } from 'express';

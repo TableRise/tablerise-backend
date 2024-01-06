@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { ItemsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/items/ItemsController';
+import { ItemsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/items/ItemsController';
 
 export default class ItemsController {
     private readonly _getItemOperation;

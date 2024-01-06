@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
-import { FileObject } from 'src/types/File';
+import { FileObject } from 'src/types/shared/file';
 
 describe('Infra :: Clients :: ImageStorageClient', () => {
     let imageStorageClient: ImageStorageClient,
