@@ -1,3 +1,4 @@
+import { SocketIOContract } from 'src/types/modules/infra/connection/SocketIO.d';
 import { ImageStorageClientContract } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { UsersRepositoryContract } from 'src/types/modules/infra/repositories/users/UsersRepository';
 import { UsersDetailsRepositoryContract } from 'src/types/modules/infra/repositories/users/UsersDetailsRepository';
@@ -9,4 +10,7 @@ export default interface InfraDependencies {
     usersRepositoryContract: UsersRepositoryContract;
     usersDetailsRepositoryContract: UsersDetailsRepositoryContract;
     updateTimestampRepositoryContract: UpdateTimestampRepositoryContract;
+
+    // <--------- CAMPAIGN DOMAIN --------->
+    socketIOContract: SocketIOContract;
 }

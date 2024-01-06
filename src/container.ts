@@ -8,29 +8,21 @@ import SchemaValidator from './domains/common/helpers/SchemaValidator';
 import schemas from './domains/users/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
-import UsersRoutesMiddleware from './interface/users/middlewares/UsersRoutesMiddleware';
 import Serializer from './domains/users/helpers/Serializer';
-import UsersRepository from './infra/repositories/user/UsersRepository';
-import UsersDetailsRepository from './infra/repositories/user/UsersDetailsRepository';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
-import AuthorizationMiddleware from './interface/users/middlewares/AuthorizationMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
 import RoutesWrapper from './interface/common/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
 import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
-import VerifyEmailCodeMiddleware from './interface/users/middlewares/VerifyEmailCodeMiddleware';
-import DungeonsAndDragonsRepository from './infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
-import DungeonsAndDragonsRoutesMiddleware from './interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import { ContainerContract } from './types/container';
-import UpdateTimestampRepository from './infra/repositories/user/UpdateTimestampRepository';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
-import ImageMiddleware from './interface/users/middlewares/ImageMiddleware';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
+import SocketIO from './infra/connection/SocketIO';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -42,8 +34,11 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
     container.loadModules(
         [
             `./core/**/*.${loadExt}`,
+            `./infra/repositories/**/*.${loadExt}`,
             `./interface/users/presentation/**/*.${loadExt}`,
+            `./interface/users/middlewares/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
+            `./interface/dungeons&dragons5e/middlewares/**/*.${loadExt}`,
         ],
         {
             formatName: 'camelCase',
@@ -75,14 +70,11 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Schemas
         usersSchema: asValue(schemas),
 
-        // #Repositories
-        dungeonsAndDragonsRepository: asClass(DungeonsAndDragonsRepository).singleton(),
-        usersRepository: asClass(UsersRepository).singleton(),
-        usersDetailsRepository: asClass(UsersDetailsRepository).singleton(),
-        updateTimestampRepository: asClass(UpdateTimestampRepository).singleton(),
-
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),
+
+        // #Connections
+        socketIO: asClass(SocketIO),
 
         // #Libraries
         logger: asValue(logger),
@@ -92,18 +84,11 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Values
         emailType: asValue('common'),
 
-        // #Middlewares
+        // #Function Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
         authErrorMiddleware: asValue(AuthErrorMiddleware),
-        imageMiddleware: asClass(ImageMiddleware).singleton(),
-        authorizationMiddleware: asClass(AuthorizationMiddleware).singleton(),
-        verifyEmailCodeMiddleware: asClass(VerifyEmailCodeMiddleware).singleton(),
         accessHeadersMiddleware: asValue(AccessHeadersMiddleware),
         errorMiddleware: asValue(ErrorMiddleware),
-        usersRoutesMiddleware: asClass(UsersRoutesMiddleware).singleton(),
-        dungeonsAndDragonsRoutesMiddleware: asClass(
-            DungeonsAndDragonsRoutesMiddleware
-        ).singleton(),
     });
 
     logger('info', '[ Container - Redis connection instanciated ]', true);
