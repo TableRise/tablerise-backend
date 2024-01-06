@@ -1,7 +1,7 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UpdateGameInfoPayload } from 'src/types/users/requests/Payload';
+import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateGameInfoOperation {
     private readonly _updateGameInfoService;

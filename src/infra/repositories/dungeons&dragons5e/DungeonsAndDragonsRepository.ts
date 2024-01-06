@@ -1,6 +1,6 @@
 import { DnDEntities } from '@tablerise/database-management/dist/src/types/DatabaseEntities';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UpdateObj } from 'src/types/users/Repository';
+import { UpdateObj } from 'src/types/shared/repository';
 import { DungeonsAndDragonsRepositoryContract } from 'src/types/dungeons&dragons5e/contracts/repositories/dungeonsAndDragonsRepository';
 
 export default class DungeonsAndDragonsRepository {

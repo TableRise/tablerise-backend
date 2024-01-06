@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
+import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateEmailOperation {
     private readonly _updateEmailService;

@@ -3,8 +3,8 @@ import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { OAuthControllerContract } from 'src/types/users/contracts/presentation/oauth/OAuthController';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class OAuthController {
     private readonly _googleOperation;
@@ -17,7 +17,7 @@ export default class OAuthController {
         facebookOperation,
         discordOperation,
         completeUserOperation,
-    }: OAuthControllerContract) {
+    }: InterfaceDependencies['oAuthControllerContract']) {
         this._googleOperation = googleOperation;
         this._facebookOperation = facebookOperation;
         this._discordOperation = discordOperation;

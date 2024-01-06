@@ -1,6 +1,6 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Discord from 'passport-discord';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class DiscordOperation {
     private readonly _oAuthService;

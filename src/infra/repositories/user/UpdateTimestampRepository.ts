@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
-import { UpdateTimestampPayload } from 'src/types/users/requests/Payload';
+import { UpdateTimestampPayload } from 'src/types/api/users/methods';
 
 export default class UpdateTimestampRepository {
     private readonly _usersModel;

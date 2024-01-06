@@ -1,6 +1,6 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Facebook from 'passport-facebook';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class FacebookOperation {
     private readonly _oAuthService;

@@ -1,3 +1,4 @@
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default interface UpdateResponse {

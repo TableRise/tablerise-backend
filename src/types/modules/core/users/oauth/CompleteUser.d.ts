@@ -4,7 +4,7 @@ import { SchemasUserType } from 'src/domains/users/schemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
-import { Logger } from 'src/types/Logger';
+import { Logger } from 'src/types/shared/logger';
 
 export interface CompleteUserOperationContract {
     usersSchema: SchemasUserType;

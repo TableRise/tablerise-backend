@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 /* eslint-disable import/first */
 import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
+import path from 'path';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
@@ -31,6 +32,8 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 
+const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
+
 export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
 }) as any;
@@ -59,6 +62,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
+        configs: asValue(configs),
 
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),

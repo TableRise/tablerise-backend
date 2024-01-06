@@ -1,6 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserImagePayload } from 'src/types/users/requests/Payload';
+import { UserImagePayload } from 'src/types/api/users/http/payload';
 
 export default class PictureProfileOperation {
     private readonly _pictureProfileService;

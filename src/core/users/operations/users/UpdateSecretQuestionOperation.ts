@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
+import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateSecretQuestionOperation {
     private readonly _updateSecretQuestionService;

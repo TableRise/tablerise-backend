@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
-import { Logger } from 'src/types/Logger';
+import { Logger } from 'src/types/shared/logger';
 
 describe('Infra :: Repositories :: DungeonsAndDragon :: DungeonsAndDragonsRepository', () => {
     let dungeonsAndDragonsRepository: DungeonsAndDragonsRepository, database: any;

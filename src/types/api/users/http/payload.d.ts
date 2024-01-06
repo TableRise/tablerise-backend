@@ -1,7 +1,7 @@
 import { UserSecretQuestion, UserDetailPayload } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
-import { FileObject } from 'src/types/File';
+import { FileObject } from 'src/types/shared/file';
 
 export interface UserExternal {
     providerId: string;
@@ -23,11 +23,6 @@ export interface UpdateGameInfoPayload {
 export interface UserImagePayload {
     userId: string;
     image: FileObject;
-}
-
-export interface __FullUserPayload {
-    user: UserPayload;
-    userDetails: UserDetailPayload;
 }
 
 export interface CompleteOAuth {

@@ -1,6 +1,6 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
-import { CompleteOAuth } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { CompleteOAuth } from 'src/types/api/users/http/payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class CompleteUserOperation {
     private readonly _usersSchema;

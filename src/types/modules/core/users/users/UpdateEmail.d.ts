@@ -4,7 +4,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
-import { Logger } from 'src/types/Logger';
+import { Logger } from 'src/types/shared/logger';
 
 export interface UpdateEmailOperationContract {
     updateEmailService: UpdateEmailService;

@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UserImagePayload } from 'src/types/users/requests/Payload';
+import { UserImagePayload } from 'src/types/api/users/http/payload';
 
 export default class PictureProfileService {
     private readonly _usersRepository;

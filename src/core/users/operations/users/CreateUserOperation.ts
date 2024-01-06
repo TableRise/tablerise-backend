@@ -1,6 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
-import { RegisterUserPayload } from 'src/types/users/requests/Payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
+import { RegisterUserPayload } from 'src/types/api/users/http/payload';
 
 export default class CreateUserOperation {
     private readonly _usersSchema;

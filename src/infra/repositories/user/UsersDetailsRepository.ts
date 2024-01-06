@@ -1,7 +1,7 @@
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { UpdateObj } from 'src/types/users/Repository';
+import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class UsersDetailsRepository {

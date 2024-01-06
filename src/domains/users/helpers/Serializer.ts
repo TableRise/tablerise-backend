@@ -3,7 +3,7 @@ import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserExternal } from 'src/types/users/requests/Payload';
+import { UserExternal } from 'src/types/api/users/http/payload';
 
 export default class Serializer {
     private _isDiscordProfile(obj: any): obj is Discord.Profile {

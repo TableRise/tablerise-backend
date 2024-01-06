@@ -1,6 +1,6 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Google from 'passport-google-oauth20';
-import { RegisterUserResponse } from 'src/types/users/requests/Response';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class GoogleOperation {
     private readonly _oAuthService;

@@ -1,16 +1,15 @@
 import { AxiosResponse } from 'axios';
-import { FileObject } from 'src/types/File';
+import { FileObject } from 'src/types/shared/file';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
-import Configs from 'src/types/shared/configs';
 
 export default class ImageStorageClient {
     private readonly _logger;
     private readonly _configs;
     private readonly _httpRequest;
 
-    constructor({ logger, httpRequest }: InfraDependencies['imageStorageClientContract']) {
+    constructor({ logger, httpRequest, configs }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
-        this._configs = require('../../../../tablerise.environment.js') as Configs;
+        this._configs = configs;
         this._httpRequest = httpRequest;
     }
 
@@ -18,7 +17,7 @@ export default class ImageStorageClient {
         this._logger('info', 'Upload - ImageStorageClient');
         const { baseUrl, authorization, endpoints } = this._configs.api.imgur;
 
-        const url = `${baseUrl + endpoints.postImage}` ;
+        const url = `${baseUrl}${endpoints.postImage}` ;
 
         const imageUploaded =
             process.env.NODE_ENV === 'production'

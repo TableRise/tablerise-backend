@@ -1,4 +1,4 @@
-import { Logger } from 'src/types/Logger';
+import { Logger } from 'src/types/shared/logger';
 
 export interface TokenForbiddenContract {
     redisClient: any;

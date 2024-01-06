@@ -1,7 +1,7 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateEmailPayload } from 'src/types/users/requests/Payload';
+import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 import { UserEmail } from 'src/types/modules/core/users/users/UpdateEmail';
 
 export default class UpdateEmailService {

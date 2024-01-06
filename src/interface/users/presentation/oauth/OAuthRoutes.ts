@@ -5,7 +5,7 @@ import 'src/interface/common/strategies/BearerStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 import desc from 'src/interface/users/presentation/oauth/RoutesDescription';
@@ -21,7 +21,7 @@ export default class OAuthRoutes {
         oAuthController,
         verifyIdMiddleware,
         authErrorMiddleware,
-    }: OAuthRoutesContract) {
+    }: InterfaceDependencies['oAuthRoutesContract']) {
         this._authErrorMiddleware = authErrorMiddleware;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._oAuthController = oAuthController;

@@ -6,6 +6,8 @@ import { VerifyEmailCodeMiddlewareContract } from 'src/types/modules/users/middl
 import { UsersRoutesContract } from 'src/types/modules/users/presentation/users/UsersRoutes';
 import { UsersControllerContract } from 'src/types/modules/users/presentation/users/UsersController';
 import { UsersRoutesBuilderContract } from 'src/types/modules/users/UsersRoutesBuilder';
+import { OAuthRoutesContract } from 'src/types/modules/users/presentation/oauth/OAuthRoutes';
+import { OAuthControllerContract } from 'src/types/modules/users/presentation/oauth/OAuthController';
 
 export default interface InterfaceDependencies {
     // Wrapper
@@ -17,8 +19,10 @@ export default interface InterfaceDependencies {
     usersRoutesMiddlewareContract: UsersRoutesMiddlewareContract;
     verifyEmailCodeMiddlewareContract: VerifyEmailCodeMiddlewareContract;
 
-    // Routes
+    // Routes and Controllers
     usersRoutesContract: UsersRoutesContract;
     usersControllerContract: UsersControllerContract;
     usersRoutesBuilderContract: UsersRoutesBuilderContract;
+    oAuthRoutesContract: OAuthRoutesContract;
+    oAuthControllerContract: OAuthControllerContract;
 }

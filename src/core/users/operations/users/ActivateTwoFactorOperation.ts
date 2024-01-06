@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { TwoFactorResponse } from 'src/types/users/requests/Response';
+import { TwoFactorResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateTwoFactorOperation {
     private readonly _activateTwoFactorService;

@@ -3,8 +3,8 @@ import {
     __UserEnriched,
     __UserSaved,
     __UserSerialized,
-} from 'src/types/users/requests/Response';
-import { RegisterUserPayload } from 'src/types/users/requests/Payload';
+} from 'src/types/api/users/methods';
+import { RegisterUserPayload } from 'src/types/api/users/http/payload';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';

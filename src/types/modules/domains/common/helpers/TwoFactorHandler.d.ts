@@ -1,9 +1,8 @@
-import { Logger } from 'src/types/Logger';
-
-const tableriseEnvironment = require('../tablerise.environment.js');
+import Configs from 'src/types/shared/configs';
+import { Logger } from 'src/types/shared/logger';
 
 export interface TwoFactorHandlerContract {
-    configs: typeof tableriseEnvironment;
+    configs: Configs;
     logger: Logger;
 }
 

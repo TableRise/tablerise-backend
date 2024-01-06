@@ -2,8 +2,9 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateUserPayload, __FullUserPayload } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';
+import { UpdateUserPayload } from 'src/types/api/users/http/payload';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
+import { __FullUserPayload, __FullUser } from 'src/types/api/users/methods';
 
 export default class UpdateUserService {
     private readonly _usersRepository;

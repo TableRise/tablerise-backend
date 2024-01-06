@@ -1,6 +1,5 @@
 import speakeasy, { Encoding } from 'speakeasy';
 import qrcode from 'qrcode';
-import Configs from 'src/types/shared/configs';
 import { UserTwoFactor } from 'src/domains/users/schemas/usersValidationSchema';
 import { TwoFactorHandlerContract, TwoFactorValidatePayload } from 'src/types/modules/domains/common/helpers/TwoFactorHandler';
 
@@ -8,8 +7,8 @@ export default class TwoFactorHandler {
     private readonly _configs;
     private readonly _logger;
 
-    constructor({ logger }: TwoFactorHandlerContract) {
-        this._configs = require('../../../../tablerise.environment.js') as Configs;
+    constructor({ configs, logger }: TwoFactorHandlerContract) {
+        this._configs = configs;
         this._logger = logger;
 
         this.create = this.create.bind(this);

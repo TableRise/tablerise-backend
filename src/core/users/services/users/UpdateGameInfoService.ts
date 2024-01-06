@@ -1,10 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import {
-    UpdateGameInfoPayload,
-    UpdateGameInfoProcessPayload,
-} from 'src/types/users/requests/Payload';
-import { UserGameInfoDoneResponse } from 'src/types/users/requests/Response';
+import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
+import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
 
 export default class UpdateGameInfoService {
     private readonly _logger;

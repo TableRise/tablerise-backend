@@ -1,8 +1,8 @@
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
-import { __UserWithID } from 'src/types/users/requests/Payload';
-import { RegisterUserResponse, __FullUser } from 'src/types/users/requests/Response';
+import { __UserWithID, __FullUser } from 'src/types/api/users/methods';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class CompleteUserService {
     private readonly _usersRepository;

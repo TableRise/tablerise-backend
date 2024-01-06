@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdatePasswordPayload } from 'src/types/users/requests/Payload';
+import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdatePasswordOperation {
     private readonly _updatePasswordService;

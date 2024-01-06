@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateSecretQuestionPayload } from 'src/types/users/requests/Payload';
+import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateSecretQuestionService {
     private readonly _usersDetailsRepository;

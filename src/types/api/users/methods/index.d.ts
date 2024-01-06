@@ -18,6 +18,11 @@ export interface UserGameInfoDoneResponse {
     badges: string[];
 }
 
+export interface __FullUserPayload {
+    user: UserPayload;
+    userDetails: UserDetailPayload;
+}
+
 export interface UpdateGameInfoProcessPayload {
     infoId: string;
     targetInfo: 'campaigns' | 'badges' | 'characters';

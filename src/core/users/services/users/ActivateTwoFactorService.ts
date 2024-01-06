@@ -1,5 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { TwoFactorResponse, __FullUser } from 'src/types/users/requests/Response';
+import { TwoFactorResponse } from 'src/types/api/users/http/response';
+import { __FullUser } from 'src/types/api/users/methods';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ActivateTwoFactorService {

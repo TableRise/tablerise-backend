@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { JWTResponse } from 'src/types/users/requests/Response';
+import { JWTResponse } from 'src/types/api/users/methods/index';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';

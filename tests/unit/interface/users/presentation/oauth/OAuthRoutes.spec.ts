@@ -1,7 +1,7 @@
 import AuthErrorMiddleware from 'src/interface/users/middlewares/AuthErrorMiddleware';
 import OAuthController from 'src/interface/users/presentation/oauth/OAuthController';
 import OAuthRoutes from 'src/interface/users/presentation/oauth/OAuthRoutes';
-import { OAuthRoutesContract } from 'src/types/users/contracts/presentation/oauth/OAuthRoutes';
+import { OAuthRoutesContract } from 'src/types/modules/interface/users/presentation/oauth/OAuthRoutes';
 
 describe('Interface :: Users :: Presentation :: Oauth :: OAuthRoutes', () => {
     let oauthRoutes: OAuthRoutes, oAuthController, authErrorMiddleware;

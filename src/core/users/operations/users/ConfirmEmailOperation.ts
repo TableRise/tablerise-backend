@@ -1,6 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { ConfirmEmailPayload } from 'src/types/users/requests/Payload';
-import { ConfirmEmailResponse } from 'src/types/users/requests/Response';
+import { ConfirmEmailPayload } from 'src/types/api/users/http/payload';
+import { ConfirmEmailResponse } from 'src/types/api/users/http/response';
 
 export default class ConfirmEmailOperation {
     private readonly _confirmEmailService;

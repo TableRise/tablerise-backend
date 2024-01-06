@@ -3,8 +3,8 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import {
     ActivateSecretQuestionPayload,
     UpdateSecretQuestion,
-} from 'src/types/users/requests/Payload';
-import { __FullUser } from 'src/types/users/requests/Response';
+} from 'src/types/api/users/http/payload';
+import { __FullUser } from 'src/types/api/users/methods';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
