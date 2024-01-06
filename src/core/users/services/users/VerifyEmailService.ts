@@ -8,7 +8,11 @@ export default class VerifyEmailService {
     private readonly _emailSender;
     private readonly _logger;
 
-    constructor({ usersRepository, emailSender, logger }: UserCoreDependencies['verifyEmailServiceContract']) {
+    constructor({
+        usersRepository,
+        emailSender,
+        logger,
+    }: UserCoreDependencies['verifyEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._emailSender = emailSender;
         this._logger = logger;

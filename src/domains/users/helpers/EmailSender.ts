@@ -5,7 +5,7 @@ import {
     EmailSenderContract,
     CommonContent,
     EmailMessage,
-    ResponseEmailSender
+    ResponseEmailSender,
 } from 'src/types/modules/domains/users/helpers/EmailSender';
 
 export default class EmailSender {

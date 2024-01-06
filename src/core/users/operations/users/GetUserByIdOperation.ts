@@ -6,7 +6,10 @@ export default class GetUserByIdOperation {
     private readonly _getUserByIdService;
     private readonly _logger;
 
-    constructor({ getUserByIdService, logger }: UserCoreDependencies['getUserByIdOperationContract']) {
+    constructor({
+        getUserByIdService,
+        logger,
+    }: UserCoreDependencies['getUserByIdOperationContract']) {
         this._getUserByIdService = getUserByIdService;
         this._logger = logger;
     }

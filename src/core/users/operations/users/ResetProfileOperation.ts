@@ -4,7 +4,10 @@ export default class ResetProfileOperation {
     private readonly _resetProfileService;
     private readonly _logger;
 
-    constructor({ resetProfileService, logger }: UserCoreDependencies['resetProfileOperationContract']) {
+    constructor({
+        resetProfileService,
+        logger,
+    }: UserCoreDependencies['resetProfileOperationContract']) {
         this._resetProfileService = resetProfileService;
         this._logger = logger;
 

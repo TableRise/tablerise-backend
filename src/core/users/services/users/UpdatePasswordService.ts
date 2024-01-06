@@ -9,7 +9,10 @@ export default class UpdatePasswordService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: UserCoreDependencies['updatePasswordServiceContract']) {
+    constructor({
+        usersRepository,
+        logger,
+    }: UserCoreDependencies['updatePasswordServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
     }

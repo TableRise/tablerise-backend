@@ -4,7 +4,10 @@ export default class ResetProfileService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['resetProfileServiceContract']) {
+    constructor({
+        usersDetailsRepository,
+        logger,
+    }: UserCoreDependencies['resetProfileServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 

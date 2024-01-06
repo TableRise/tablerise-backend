@@ -7,7 +7,10 @@ export default class ConfirmEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: UserCoreDependencies['confirmEmailServiceContract']) {
+    constructor({
+        usersRepository,
+        logger,
+    }: UserCoreDependencies['confirmEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 

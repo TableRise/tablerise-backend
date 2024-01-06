@@ -6,7 +6,10 @@ export default class PictureProfileOperation {
     private readonly _pictureProfileService;
     private readonly _logger;
 
-    constructor({ logger, pictureProfileService }: UserCoreDependencies['pictureProfileOperationContract']) {
+    constructor({
+        logger,
+        pictureProfileService,
+    }: UserCoreDependencies['pictureProfileOperationContract']) {
         this._pictureProfileService = pictureProfileService;
         this._logger = logger;
 

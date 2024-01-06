@@ -8,7 +8,10 @@ export default class UsersRoutesBuilder {
     private readonly _usersRoutes;
     private readonly _oAuthRoutes;
 
-    constructor({ usersRoutes, oAuthRoutes }: InterfaceDependencies['usersRoutesBuilderContract']) {
+    constructor({
+        usersRoutes,
+        oAuthRoutes,
+    }: InterfaceDependencies['usersRoutesBuilderContract']) {
         this._usersRoutes = usersRoutes;
         this._oAuthRoutes = oAuthRoutes;
     }

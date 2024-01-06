@@ -4,7 +4,10 @@ export default class LogoutUserService {
     private readonly _tokenForbideen;
     private readonly _logger;
 
-    constructor({ tokenForbidden, logger }: UserCoreDependencies['logoutUserServiceContract']) {
+    constructor({
+        tokenForbidden,
+        logger,
+    }: UserCoreDependencies['logoutUserServiceContract']) {
         this._tokenForbideen = tokenForbidden;
         this._logger = logger;
 

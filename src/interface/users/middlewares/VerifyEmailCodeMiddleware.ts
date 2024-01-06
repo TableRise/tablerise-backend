@@ -8,7 +8,10 @@ export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
+    constructor({
+        usersRepository,
+        logger,
+    }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 

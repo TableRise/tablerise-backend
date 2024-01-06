@@ -5,7 +5,10 @@ export default class VerifyEmailOperation {
     private readonly _logger;
     private readonly _verifyEmailService;
 
-    constructor({ verifyEmailService, logger }: UserCoreDependencies['verifyEmailOperationContract']) {
+    constructor({
+        verifyEmailService,
+        logger,
+    }: UserCoreDependencies['verifyEmailOperationContract']) {
         this._logger = logger;
         this._verifyEmailService = verifyEmailService;
 

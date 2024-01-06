@@ -7,7 +7,10 @@ export default class UpdateGameInfoOperation {
     private readonly _updateGameInfoService;
     private readonly _logger;
 
-    constructor({ updateGameInfoService, logger }: UserCoreDependencies['updateGameInfoOperationContract']) {
+    constructor({
+        updateGameInfoService,
+        logger,
+    }: UserCoreDependencies['updateGameInfoOperationContract']) {
         this._updateGameInfoService = updateGameInfoService;
         this._logger = logger;
 

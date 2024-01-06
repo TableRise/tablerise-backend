@@ -7,5 +7,5 @@ export default interface InfraDependencies {
     imageStorageClientContract: ImageStorageClientContract;
     usersRepositoryContract: UsersRepositoryContract;
     usersDetailsRepositoryContract: UsersDetailsRepositoryContract;
-    updateTimestampRepositoryContract:UpdateTimestampRepositoryContract;
+    updateTimestampRepositoryContract: UpdateTimestampRepositoryContract;
 }

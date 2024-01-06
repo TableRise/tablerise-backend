@@ -6,7 +6,10 @@ export default class UpdateSecretQuestionService {
     private readonly _usersDetailsRepository;
     private readonly _logger;
 
-    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
+    constructor({
+        usersDetailsRepository,
+        logger,
+    }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
     }

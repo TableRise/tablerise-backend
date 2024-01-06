@@ -6,7 +6,10 @@ export default class GoogleOperation {
     private readonly _oAuthService;
     private readonly _logger;
 
-    constructor({ oAuthService, logger }: OAuthCoreDependencies['oAuthOperationContract']) {
+    constructor({
+        oAuthService,
+        logger,
+    }: OAuthCoreDependencies['oAuthOperationContract']) {
         this._oAuthService = oAuthService;
         this._logger = logger;
 
