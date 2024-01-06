@@ -1,7 +1,7 @@
 import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleRacesAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/races/ToggleRacesAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleRacesAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/races/ToggleRacesAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleRacesAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;

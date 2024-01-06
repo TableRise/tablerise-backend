@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { GodsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/gods/GodsController';
+import { GodsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/gods/GodsController';
 
 export default class GodsController {
     private readonly _getGodOperation;

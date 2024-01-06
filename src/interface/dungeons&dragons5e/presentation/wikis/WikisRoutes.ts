@@ -4,7 +4,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
-import { WikisRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/wikis/WikisRoutes';
+import { WikisRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/wikis/WikisRoutes';
 
 const BASE_PATH = '/dnd5e/wikis';
 

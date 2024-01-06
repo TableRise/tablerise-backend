@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { SpellsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/spells/SpellsController';
+import { SpellsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/spells/SpellsController';
 
 export default class SpellsController {
     private readonly _getSpellOperation;

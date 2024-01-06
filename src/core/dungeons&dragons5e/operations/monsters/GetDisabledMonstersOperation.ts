@@ -1,6 +1,6 @@
 import { Monster } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledMonstersOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/monsters/GetDisabledMonsters';
+import { GetDisabledMonstersOperationContract } from 'src/types/modules/core/dungeons&dragons5e/monsters/GetDisabledMonsters';
 
 export default class GetDisabledMonstersOperation {
     private readonly _getDisabledMonstersService;

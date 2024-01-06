@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { RealmsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/realms/RealmsController';
+import { RealmsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/realms/RealmsController';
 
 export default class RealmsController {
     private readonly _getRealmOperation;

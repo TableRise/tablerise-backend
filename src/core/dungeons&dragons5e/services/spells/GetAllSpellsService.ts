@@ -1,6 +1,6 @@
 import { Spell } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetAllSpellsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/spells/GetAllSpells';
+import { GetAllSpellsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/spells/GetAllSpells';
 
 export default class GetAllSpellsService {
     private readonly _dungeonsAndDragonsRepository;

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { DungeonsAndDragonsRoutesMiddlewareContract } from 'src/types/dungeons&dragons5e/contracts/middlewares/UsersRoutesMiddleware';
+import { DungeonsAndDragonsRoutesMiddlewareContract } from 'src/types/modules/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 
 export default class DungeonsAndDragonsRoutesMiddleware {
     private readonly _routesWrapper;

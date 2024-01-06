@@ -1,7 +1,7 @@
 import { Armor } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleArmorsAvailabilityOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/armors/ToggleArmorsAvailabilityOperation';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleArmorsAvailabilityOperationContract } from 'src/types/modules/core/dungeons&dragons5e/armors/ToggleArmorsAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleArmorsAvailabilityOperation {
     private readonly _toggleArmorsAvailabilityService;

@@ -1,6 +1,6 @@
 import { Monster } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetAllMonstersServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/monsters/GetAllMonsters';
+import { GetAllMonstersServiceContract } from 'src/types/modules/core/dungeons&dragons5e/monsters/GetAllMonsters';
 
 export default class GetAllMonstersService {
     private readonly _dungeonsAndDragonsRepository;

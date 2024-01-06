@@ -1,6 +1,6 @@
 import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledWikisOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/wikis/GetDisabledWikis';
+import { GetDisabledWikisOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetDisabledWikis';
 
 export default class GetDisabledWikisOperation {
     private readonly _getDisabledWikisService;

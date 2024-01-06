@@ -1,7 +1,7 @@
 import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleBackgroundsAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/backgrounds/ToggleBackgroundsAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleBackgroundsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/ToggleBackgroundsAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleBackgroundsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;

@@ -1,6 +1,6 @@
 import { MagicItem } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledMagicItemsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/magicItems/GetDisabledMagicItems';
+import { GetDisabledMagicItemsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/magicItems/GetDisabledMagicItems';
 
 export default class GetDisabledMagicItemsOperation {
     private readonly _getDisabledMagicItemsService;

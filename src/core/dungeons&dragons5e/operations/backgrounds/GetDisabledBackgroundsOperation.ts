@@ -1,6 +1,6 @@
 import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledBackgroundsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/backgrounds/GetDisabledBackgrounds';
+import { GetDisabledBackgroundsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/GetDisabledBackgrounds';
 
 export default class GetDisabledBackgroundsOperation {
     private readonly _getDisabledBackgroundsService;

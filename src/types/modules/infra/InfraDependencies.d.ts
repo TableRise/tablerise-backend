@@ -4,6 +4,7 @@ import { UsersDetailsRepositoryContract } from 'src/types/modules/infra/reposito
 import { UpdateTimestampRepositoryContract } from 'src/types/modules/infra/repositories/users/UpdateTimestampRepository';
 
 export default interface InfraDependencies {
+    // <--------- USERS DOMAIN --------->
     imageStorageClientContract: ImageStorageClientContract;
     usersRepositoryContract: UsersRepositoryContract;
     usersDetailsRepositoryContract: UsersDetailsRepositoryContract;

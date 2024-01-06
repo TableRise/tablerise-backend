@@ -4,7 +4,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
-import { ItemsRoutesContract } from 'src/types/dungeons&dragons5e/contracts/presentation/items/ItemsRoutes';
+import { ItemsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/items/ItemsRoutes';
 
 const BASE_PATH = '/dnd5e/items';
 

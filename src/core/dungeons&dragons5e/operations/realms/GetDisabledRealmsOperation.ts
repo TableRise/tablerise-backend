@@ -1,6 +1,6 @@
 import { Realm } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledRealmsOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/realms/GetDisabledRealms';
+import { GetDisabledRealmsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/realms/GetDisabledRealms';
 
 export default class GetDisabledRealmsOperation {
     private readonly _getDisabledRealmsService;

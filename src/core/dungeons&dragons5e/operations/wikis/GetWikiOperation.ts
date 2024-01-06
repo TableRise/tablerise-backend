@@ -1,6 +1,6 @@
 import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetWikiOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/wikis/GetWiki';
+import { GetWikiOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetWiki';
 
 export default class GetWikiOperation {
     private readonly _getWikiService;

@@ -1,6 +1,6 @@
 import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetAllGodsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/gods/GetAllGodsService';
+import { GetAllGodsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/gods/GetAllGodsService';
 
 export default class GetAllGodsService {
     private readonly _dungeonsAndDragonsRepository;

@@ -1,6 +1,6 @@
 import { Weapon } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetDisabledWeaponsServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/weapons/GetDisabledWeapons';
+import { GetDisabledWeaponsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetDisabledWeapons';
 
 export default class GetDisabledWeaponsService {
     private readonly _dungeonsAndDragonsRepository;

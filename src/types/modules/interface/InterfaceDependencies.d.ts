@@ -10,6 +10,7 @@ import { OAuthRoutesContract } from 'src/types/modules/users/presentation/oauth/
 import { OAuthControllerContract } from 'src/types/modules/users/presentation/oauth/OAuthController';
 
 export default interface InterfaceDependencies {
+    // <--------- USERS DOMAIN --------->
     // Wrapper
     routesWrapperContract: RoutesWrapperContract;
 

@@ -1,6 +1,6 @@
 import { Feat } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetFeatServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/feats/GetFeat';
+import { GetFeatServiceContract } from 'src/types/modules/core/dungeons&dragons5e/feats/GetFeat';
 
 export default class GetFeatService {
     private readonly _dungeonsAndDragonsRepository;

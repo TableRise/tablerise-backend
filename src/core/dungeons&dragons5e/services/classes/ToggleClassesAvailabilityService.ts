@@ -1,7 +1,7 @@
 import { Class } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleClassesAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/classes/ToggleClassesAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleClassesAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/classes/ToggleClassesAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleClassesAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;

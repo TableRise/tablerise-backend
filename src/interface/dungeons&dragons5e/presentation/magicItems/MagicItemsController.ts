@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { MagicItemsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/magicItems/MagicItemsController';
+import { MagicItemsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/magicItems/MagicItemsController';
 
 export default class MagicItemsController {
     private readonly _getMagicItemOperation;

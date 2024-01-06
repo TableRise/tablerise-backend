@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { FeatsControllerContract } from 'src/types/dungeons&dragons5e/contracts/presentation/feats/FeatsController';
+import { FeatsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/feats/FeatsController';
 
 export default class FeatsController {
     private readonly _getFeatOperation;

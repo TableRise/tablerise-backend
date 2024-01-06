@@ -1,6 +1,6 @@
 import { Weapon } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { GetWeaponOperationContract } from 'src/types/dungeons&dragons5e/contracts/core/weapons/GetWeapon';
+import { GetWeaponOperationContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetWeapon';
 
 export default class GetWeaponOperation {
     private readonly _getWeaponService;

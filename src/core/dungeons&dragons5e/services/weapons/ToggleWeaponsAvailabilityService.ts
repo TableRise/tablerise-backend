@@ -1,7 +1,7 @@
 import { Weapon } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { ToggleWeaponsAvailabilityServiceContract } from 'src/types/dungeons&dragons5e/contracts/core/weapons/ToggleWeaponsAvailability';
-import { AvailabilityPayload } from 'src/types/dungeons&dragons5e/requests/Payload';
+import { ToggleWeaponsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/ToggleWeaponsAvailability';
+import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleWeaponsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;
