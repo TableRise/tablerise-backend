@@ -7,6 +7,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { ApplicationContract } from 'src/types/modules/core/Application';
 import DatabaseManagement from '@tablerise/database-management';
+import { createServer } from 'http';
 
 export default class Application {
     private readonly _dungeonsAndDragonsRoutesMiddleware;
@@ -14,6 +15,7 @@ export default class Application {
     private readonly _swaggerGenerator;
     private readonly _accessHeadersMiddleware;
     private readonly _errorMiddleware;
+    private readonly _socketIO;
     private readonly _logger;
 
     constructor({
@@ -22,6 +24,7 @@ export default class Application {
         errorMiddleware,
         swaggerGenerator,
         accessHeadersMiddleware,
+        socketIO,
         logger,
     }: ApplicationContract) {
         this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
@@ -29,6 +32,7 @@ export default class Application {
         this._swaggerGenerator = swaggerGenerator;
         this._accessHeadersMiddleware = accessHeadersMiddleware;
         this._errorMiddleware = errorMiddleware;
+        this._socketIO = socketIO;
         this._logger = logger;
     }
 
@@ -36,8 +40,8 @@ export default class Application {
         const app = express();
 
         app.use(express.json())
-            .use(helmet())
             .use(cors())
+            .use(helmet())
             .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
             .use(passport.session())
             .use('/health', (req, res) => res.send('OK!'))
@@ -53,6 +57,9 @@ export default class Application {
     public async start(): Promise<void> {
         const port = process.env.PORT as string;
         const app = this.setupExpress();
+        const server = createServer(app);
+
+        await this._socketIO.connect(server);
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
@@ -66,7 +73,7 @@ export default class Application {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
 
-        app.listen(port, () => {
+        server.listen(port, () => {
             this._logger(
                 'info',
                 `[ Application - Server started in port -> ${port} ]`,

@@ -5,6 +5,7 @@ import swaggerGenerator from 'src/domains/common/helpers/swaggerGenerator';
 import { Logger } from '../../Logger';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHeadersMiddleware';
+import SocketIO from 'src/infra/connection/SocketIO';
 
 export interface ApplicationContract {
     usersRoutesMiddleware: UsersRoutesMiddleware;
@@ -13,5 +14,6 @@ export interface ApplicationContract {
     errorMiddleware: typeof ErrorMiddleware;
     accessHeadersMiddleware: typeof AccessHeadersMiddleware;
     database: DatabaseManagement;
+    socketIO: SocketIO;
     logger: Logger;
 }
