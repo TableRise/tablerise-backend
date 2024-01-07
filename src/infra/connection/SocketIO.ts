@@ -4,7 +4,7 @@ import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class SocketIO {
     private _socketInstance = {} as socket.Socket;
-    private readonly _tables = {};
+    private readonly _tables = {} as any;
     private readonly _logger;
 
     constructor({ logger }: InfraDependencies['socketIOContract']) {
@@ -20,8 +20,8 @@ export default class SocketIO {
         const io = new socket.Server(httpServer, {
             cors: {
                 origin: '*',
-                allowedHeaders: ['access_key']
-            }
+                allowedHeaders: ['access_key'],
+            },
         });
 
         io.on('connection', (socket) => {
@@ -32,8 +32,14 @@ export default class SocketIO {
 
     private async _joinTableSocketEvent(table: string): Promise<void> {
         await this._socketInstance.join(table);
-        const tableData = this._tables[table as keyof typeof this._tables] || { objects: [], images: [] };
-        // @ts-expect-error Will have
-        this._socketInstance.emit('Joined at TableRise', tableData.objects, tableData.images);
+        const tableData = this._tables[table as keyof typeof this._tables] || {
+            objects: [],
+            images: [],
+        };
+        this._socketInstance.emit(
+            'Joined at TableRise',
+            tableData.objects,
+            tableData.images
+        );
     }
 }
