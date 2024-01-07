@@ -11,7 +11,7 @@
         "src/infra/data",
         "src/infra/datafakers",
         "src/infra/templates",
-        "src/infra/configs.ts",
+        "src/infra/connection/SocketIO.ts",
         "src/domains/common/helpers/swaggerGenerator.ts",
         "tests"
     ],
