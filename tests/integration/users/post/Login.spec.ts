@@ -26,6 +26,6 @@ describe('When the user is logged in', () => {
                 .post('/profile/login')
                 .send(login)
                 .expect(HttpStatusCode.OK);
-        })
-    })
-})
+        });
+    });
+});

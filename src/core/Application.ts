@@ -41,10 +41,12 @@ export default class Application {
         const app = express();
 
         app.use(express.json())
-            .use(cors({
-                origin: '*',
-                credentials: true
-            }))
+            .use(
+                cors({
+                    origin: '*',
+                    credentials: true,
+                })
+            )
             .use(cookieParser())
             .use(helmet())
             .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
