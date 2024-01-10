@@ -23,27 +23,27 @@ const requester = (): CustomRequester => {
         },
         'secret'
     );
-    const bearer = `Bearer ${token}`;
+    const tokenFormated = `token=${token}`;
 
     const req = {
         post: (url: string) =>
-            request.post(url).set('Authorization', bearer) as supertest.Test & {
+            request.post(url).set('Cookie', tokenFormated) as supertest.Test & {
                 _data: any;
             },
         patch: (url: string) =>
-            request.patch(url).set('Authorization', bearer) as supertest.Test & {
+            request.patch(url).set('Cookie', tokenFormated) as supertest.Test & {
                 _data: any;
             },
         put: (url: string) =>
-            request.put(url).set('Authorization', bearer) as supertest.Test & {
+            request.put(url).set('Cookie', tokenFormated) as supertest.Test & {
                 _data: any;
             },
         delete: (url: string) =>
-            request.delete(url).set('Authorization', bearer) as supertest.Test & {
+            request.delete(url).set('Cookie', tokenFormated) as supertest.Test & {
                 _data: any;
             },
         get: (url: string) =>
-            request.get(url).set('Authorization', bearer) as supertest.Test & {
+            request.get(url).set('Cookie', tokenFormated) as supertest.Test & {
                 _data: any;
             },
     };

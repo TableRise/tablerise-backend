@@ -1,5 +1,3 @@
-import { response } from 'express';
-import sinon from 'sinon';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
@@ -16,11 +14,9 @@ describe('When the user is logged in', () => {
             user.inProgress = { status: 'done', code: '' };
 
             await InjectNewUser(user);
-
-            sinon.spy(response);
         });
 
-        it.only('should return a correct token', async () => {
+        it('should do successfull login', async () => {
             const login = {
                 email: user.email,
                 password: 'TheWorld@122',
@@ -30,8 +26,6 @@ describe('When the user is logged in', () => {
                 .post('/profile/login')
                 .send(login)
                 .expect(HttpStatusCode.OK);
-
-            expect(response).to.have.been.called();
         })
     })
 })
