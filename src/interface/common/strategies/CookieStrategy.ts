@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import logger from '@tablerise/dynamic-logger';
-import passport from 'passport';
-import Bearer from 'passport-http-bearer';
+import passport, { DoneCallback } from 'passport';
+import CookieStrategy from 'passport-cookie';
 
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -10,10 +10,8 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { container } from 'src/container';
 import { request } from 'express';
 
-const BearerStrategy = Bearer.Strategy;
-
 passport.use(
-    new BearerStrategy(async (token, done) => {
+    new CookieStrategy(async (token: string, done: DoneCallback) => {
         logger('warn', 'Request made to authorize operation in server');
         const tokenForbidden = container.resolve('tokenForbidden');
         const isTokenLoggedOut = await tokenForbidden.verifyForbiddenToken(token);

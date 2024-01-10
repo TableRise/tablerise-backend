@@ -1,7 +1,7 @@
 import 'src/interface/users/strategies/GoogleStrategy';
 import 'src/interface/users/strategies/FacebookStrategy';
 import 'src/interface/users/strategies/DiscordStrategy';
-import 'src/interface/common/strategies/BearerStrategy';
+import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
@@ -34,7 +34,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/google`,
                 options: {
                     middlewares: [passport.authenticate('google')],
-                    authentication: false,
                     tag: 'external',
                     description: desc.google,
                 },
@@ -49,7 +48,6 @@ export default class OAuthRoutes {
                             failureRedirect: '/oauth/error',
                         }),
                     ],
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -59,7 +57,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/google/register`,
                 controller: this._oAuthController.google,
                 options: {
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -70,7 +67,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/facebook`,
                 options: {
                     middlewares: [passport.authenticate('facebook')],
-                    authentication: false,
                     tag: 'external',
                     description: desc.facebook,
                 },
@@ -85,7 +81,6 @@ export default class OAuthRoutes {
                             failureRedirect: '/oauth/error',
                         }),
                     ],
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -95,7 +90,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/facebook/register`,
                 controller: this._oAuthController.facebook,
                 options: {
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -106,7 +100,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/discord`,
                 options: {
                     middlewares: [passport.authenticate('discord')],
-                    authentication: false,
                     tag: 'external',
                     description: desc.discord,
                 },
@@ -121,7 +114,6 @@ export default class OAuthRoutes {
                             failureRedirect: '/oauth/error',
                         }),
                     ],
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -131,7 +123,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/discord/register`,
                 controller: this._oAuthController.discord,
                 options: {
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -141,7 +132,6 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/error`,
                 options: {
                     middlewares: [this._authErrorMiddleware],
-                    authentication: false,
                     tag: 'external',
                 },
                 hide: true,
@@ -156,9 +146,8 @@ export default class OAuthRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'register',
                     description: desc.confirmExternal,
                 },

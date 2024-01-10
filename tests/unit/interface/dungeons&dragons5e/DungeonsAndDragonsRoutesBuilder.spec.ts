@@ -34,7 +34,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         path: `/dnd5e/${routeName}`,
                         options: {
                             middlewares: [
-                                passport.authenticate('bearer', { session: false }),
+                                passport.authenticate('cookie', { session: false }),
                             ],
                             authentication: true,
                             tag: routeName,
@@ -45,7 +45,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         path: `/dnd5e/${routeName}/disabled`,
                         options: {
                             middlewares: [
-                                passport.authenticate('bearer', { session: false }),
+                                passport.authenticate('cookie', { session: false }),
                             ],
                             authentication: true,
                             tag: routeName,
@@ -58,7 +58,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         options: {
                             middlewares: [
                                 verifyIdMiddleware,
-                                passport.authenticate('bearer', { session: false }),
+                                passport.authenticate('cookie', { session: false }),
                             ],
                             authentication: true,
                             tag: routeName,
@@ -76,7 +76,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         options: {
                             middlewares: [
                                 verifyIdMiddleware,
-                                passport.authenticate('bearer', { session: false }),
+                                passport.authenticate('cookie', { session: false }),
                             ],
                             authentication: true,
                             tag: routeName,

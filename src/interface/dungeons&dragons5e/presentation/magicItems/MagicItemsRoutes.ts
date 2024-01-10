@@ -1,4 +1,4 @@
-import 'src/interface/common/strategies/BearerStrategy';
+import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
@@ -24,8 +24,7 @@ export default class MagicItemsRoutes {
                 path: `${BASE_PATH}`,
                 controller: this._magicItemsController.getAll,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
                 },
             },
@@ -34,8 +33,7 @@ export default class MagicItemsRoutes {
                 path: `${BASE_PATH}/disabled`,
                 controller: this._magicItemsController.getDisabled,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
                 },
             },
@@ -47,9 +45,8 @@ export default class MagicItemsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'magicItems',
                 },
             },
@@ -64,9 +61,8 @@ export default class MagicItemsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'magicItems',
                 },
             },

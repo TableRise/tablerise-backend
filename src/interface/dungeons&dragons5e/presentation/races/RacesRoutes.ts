@@ -1,4 +1,4 @@
-import 'src/interface/common/strategies/BearerStrategy';
+import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
@@ -24,8 +24,7 @@ export default class RacesRoutes {
                 path: `${BASE_PATH}`,
                 controller: this._RacesController.getAll,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'races',
                 },
             },
@@ -34,8 +33,7 @@ export default class RacesRoutes {
                 path: `${BASE_PATH}/disabled`,
                 controller: this._RacesController.getDisabled,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'races',
                 },
             },
@@ -47,9 +45,8 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'races',
                 },
             },
@@ -64,9 +61,8 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'races',
                 },
             },

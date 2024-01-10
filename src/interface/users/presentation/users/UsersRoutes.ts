@@ -1,5 +1,6 @@
 import 'src/interface/users/strategies/LocalStrategy';
-import 'src/interface/common/strategies/BearerStrategy';
+import 'src/interface/common/strategies/CookieStrategy';
+
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
@@ -47,7 +48,6 @@ export default class UsersRoutes {
                 ],
                 controller: this._usersController.verifyEmail,
                 options: {
-                    authentication: false,
                     tag: 'authentication',
                     description: desc.verify,
                 },
@@ -58,10 +58,9 @@ export default class UsersRoutes {
                 controller: this._usersController.getUsers,
                 options: {
                     middlewares: [
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.checkAdminRole,
                     ],
-                    authentication: true,
                     tag: 'users',
                     description: desc.getAll,
                 },
@@ -71,8 +70,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/logout`,
                 controller: this._usersController.logoutUser,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'authentication',
                     description: desc.logoutUser,
                 },
@@ -85,9 +83,8 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'users',
                     description: desc.get,
                 },
@@ -100,7 +97,6 @@ export default class UsersRoutes {
                 controller: this._usersController.register,
                 schema: DomainDataFaker.mocks.createUserMock,
                 options: {
-                    authentication: false,
                     tag: 'register',
                     description: desc.register,
                 },
@@ -112,7 +108,6 @@ export default class UsersRoutes {
                 schema: DomainDataFaker.mocks.loginMock,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
-                    authentication: false,
                     tag: 'authentication',
                     description: desc.login,
                 },
@@ -131,7 +126,6 @@ export default class UsersRoutes {
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.profilePicture,
                     fileUpload: true,
@@ -148,9 +142,8 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.update,
                 },
@@ -172,11 +165,10 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
-                    authentication: true,
                     tag: 'authorization',
                     description: desc.activateQuestion,
                 },
@@ -193,7 +185,6 @@ export default class UsersRoutes {
                 controller: this._usersController.confirmEmail,
                 options: {
                     middlewares: [this._verifyEmailCodeMiddleware.verify],
-                    authentication: false,
                     tag: 'register',
                     description: desc.confirm,
                 },
@@ -213,12 +204,11 @@ export default class UsersRoutes {
                 controller: this._usersController.activateTwoFactor,
                 options: {
                     middlewares: [
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
                         this._verifyEmailCodeMiddleware.verify,
                         this._authorizationMiddleware.secretQuestion,
                     ],
-                    authentication: true,
                     tag: 'authorization',
                     description: desc.activate2FA,
                 },
@@ -238,11 +228,10 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.updateEmail,
                 },
@@ -264,12 +253,11 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                         this._authorizationMiddleware.secretQuestion,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.updatePassword,
                 },
@@ -289,9 +277,8 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.updateGameInfo,
                 },
@@ -307,10 +294,9 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.resetProfile,
                 },
@@ -333,11 +319,10 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
-                    authentication: true,
                     tag: 'management',
                     description: desc.deleteProfile,
                 },
