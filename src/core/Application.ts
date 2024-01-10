@@ -51,9 +51,9 @@ export default class Application {
             .use(helmet())
             .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
             .use(passport.session())
+            .use(this._accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
-            .use(this._accessHeadersMiddleware)
             .use(this._usersRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
             .use(this._errorMiddleware);

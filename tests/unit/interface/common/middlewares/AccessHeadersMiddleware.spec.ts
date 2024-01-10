@@ -13,7 +13,7 @@ describe('Interface :: Common :: Middlewares :: AccessHeadersMiddleware', () => 
         it('should valid if acess_key is in header', () => {
             process.env.NODE_ENV = 'production';
             process.env.ACCESS_KEY_SECRET = '123';
-            request.headers = { access_key: '123' };
+            request.headers = { Access_Key: '123' };
 
             AccessHeadersMiddleware(request, response, next);
             expect(next).to.have.been.called();
@@ -22,7 +22,7 @@ describe('Interface :: Common :: Middlewares :: AccessHeadersMiddleware', () => 
         it('should valid if acess_key is in header - env not production', () => {
             process.env.NODE_ENV = 'develop';
             process.env.ACCESS_KEY_SECRET = '123';
-            request.headers = { access_key: '123' };
+            request.headers = { Access_Key: '123' };
 
             AccessHeadersMiddleware(request, response, next);
             expect(next).to.have.been.called();
@@ -31,7 +31,7 @@ describe('Interface :: Common :: Middlewares :: AccessHeadersMiddleware', () => 
         it('should valid if acess_key is in header - no header', () => {
             process.env.NODE_ENV = 'production';
             process.env.ACCESS_KEY_SECRET = '123';
-            request.headers = { access_key: '' };
+            request.headers = { Access_Key: '' };
 
             try {
                 AccessHeadersMiddleware(request, response, next);
@@ -49,7 +49,7 @@ describe('Interface :: Common :: Middlewares :: AccessHeadersMiddleware', () => 
         it('should valid if acess_key is in header - header incorrect', () => {
             process.env.NODE_ENV = 'production';
             process.env.ACCESS_KEY_SECRET = '123';
-            request.headers = { access_key: '456' };
+            request.headers = { Access_Key: '456' };
 
             try {
                 AccessHeadersMiddleware(request, response, next);

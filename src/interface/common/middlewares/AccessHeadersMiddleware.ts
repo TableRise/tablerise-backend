@@ -9,14 +9,14 @@ export default function AccessHeadersMiddleware(
     next: NextFunction
 ): void {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { access_key } = req.headers;
+    const { Access_Key } = req.headers;
 
     if (process.env.NODE_ENV !== 'production') {
         next();
         return;
     }
 
-    if (!access_key || access_key !== process.env.ACCESS_KEY_SECRET)
+    if (!Access_Key || Access_Key !== process.env.ACCESS_KEY_SECRET)
         throw new HttpRequestErrors({
             message: 'Access key incorrect or missing',
             code: HttpStatusCode.FORBIDDEN,
