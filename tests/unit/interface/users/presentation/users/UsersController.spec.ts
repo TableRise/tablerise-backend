@@ -302,6 +302,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         beforeEach(() => {
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
+            response.cookie = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
 
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
@@ -342,8 +344,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.user = { token: '123' };
             await usersController.login(request, response);
 
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.json).to.have.not.been.called();
+            expect(response.cookie).to.have.been.called();
+            expect(response.end).to.have.been.called();
         });
     });
 

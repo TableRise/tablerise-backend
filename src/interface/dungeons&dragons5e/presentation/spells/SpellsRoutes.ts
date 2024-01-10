@@ -1,4 +1,4 @@
-import 'src/interface/common/strategies/BearerStrategy';
+import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
@@ -24,8 +24,7 @@ export default class SpellsRoutes {
                 path: `${BASE_PATH}`,
                 controller: this._spellsController.getAll,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },
@@ -34,8 +33,7 @@ export default class SpellsRoutes {
                 path: `${BASE_PATH}/disabled`,
                 controller: this._spellsController.getDisabled,
                 options: {
-                    middlewares: [passport.authenticate('bearer', { session: false })],
-                    authentication: true,
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },
@@ -47,9 +45,8 @@ export default class SpellsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'spells',
                 },
             },
@@ -64,9 +61,8 @@ export default class SpellsRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('bearer', { session: false }),
+                        passport.authenticate('cookie', { session: false }),
                     ],
-                    authentication: true,
                     tag: 'spells',
                 },
             },

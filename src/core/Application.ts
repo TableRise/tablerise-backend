@@ -2,6 +2,7 @@ import 'express-async-errors';
 
 import express from 'express';
 import session from 'cookie-session';
+import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -40,7 +41,13 @@ export default class Application {
         const app = express();
 
         app.use(express.json())
-            .use(cors())
+            .use(
+                cors({
+                    origin: '*',
+                    credentials: true,
+                })
+            )
+            .use(cookieParser())
             .use(helmet())
             .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
             .use(passport.session())

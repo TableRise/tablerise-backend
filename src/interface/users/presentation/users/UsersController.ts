@@ -112,7 +112,14 @@ export default class UsersController {
 
     public async login(req: Request, res: Response): Promise<Response> {
         const { user: token } = req;
-        return res.status(HttpStatusCode.OK).json({ token });
+        return res
+            .status(HttpStatusCode.NO_CONTENT)
+            .cookie('token', token, {
+                maxAge: 3600000,
+                httpOnly: true,
+                secure: Boolean(process.env.COOKIE_SECURE),
+            })
+            .end();
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
