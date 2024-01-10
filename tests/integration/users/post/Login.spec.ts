@@ -25,7 +25,7 @@ describe('When the user is logged in', () => {
             await requester()
                 .post('/profile/login')
                 .send(login)
-                .expect(HttpStatusCode.OK);
+                .expect(HttpStatusCode.NO_CONTENT);
         });
     });
 });
