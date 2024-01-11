@@ -29,6 +29,7 @@ export default class SocketIO {
             socket.on('join', this._joinTableSocketEvent);
         });
     }
+    // Remove this comment.
 
     private async _joinTableSocketEvent(table: string): Promise<void> {
         await this._socketInstance.join(table);
