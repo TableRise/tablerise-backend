@@ -97,8 +97,12 @@ export default class AuthorizationMiddleware {
 
         if (id)
             userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
-        if (email)
-            userDetailsInDb = await this._usersDetailsRepository.findOne({ email });
+        if (email) {
+            const userInDb = await this._usersRepository.findOne({ email });
+            userDetailsInDb = await this._usersDetailsRepository.findOne({
+                userId: userInDb.userId,
+            });
+        }
 
         if (!userDetailsInDb.secretQuestion) {
             next();
