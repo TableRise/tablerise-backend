@@ -378,7 +378,11 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             };
 
             beforeEach(() => {
-                usersRepository = {};
+                usersRepository = {
+                    findOne: () => ({
+                        email: '123@email.com',
+                    }),
+                };
 
                 usersDetailsRepository = {
                     findOne: () => ({
