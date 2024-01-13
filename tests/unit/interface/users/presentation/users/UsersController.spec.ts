@@ -630,13 +630,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.params = { id: '123' };
-            request.query = { code: '123' };
+            request.query = { email: 'email@email.com', code: '123' };
             request.body = { password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                userId: request.params.id,
+                email: request.query.email,
                 code: request.query.code,
                 password: request.body.password,
             });
