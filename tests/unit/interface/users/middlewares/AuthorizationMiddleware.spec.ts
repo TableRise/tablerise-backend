@@ -123,7 +123,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
 
-        context('And the 2FA token is correct', () => {
+        context('And the 2FA token is correct with ID', () => {
             beforeEach(() => {
                 usersRepository = {
                     findOne: () => ({
@@ -153,6 +153,45 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
             it('should call next', async () => {
                 request.params = { id: '123' };
+                request.query = { token: '123' };
+
+                await authorizationMiddleware.twoFactor(request, response, next);
+
+                expect(twoFactorHandler.validate).to.have.been.called();
+                expect(next).to.have.been.called();
+            });
+        });
+
+        context('And the 2FA token is correct with Email', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => ({
+                        twoFactorSecret: {
+                            active: true,
+                        },
+                    }),
+                };
+
+                usersDetailsRepository = {};
+
+                twoFactorHandler = {
+                    validate: sinon.spy(() => true),
+                };
+
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            afterEach(() => {
+                sinon.restore();
+            });
+
+            it('should call next', async () => {
+                request.params = { email: '123@email.com' };
                 request.query = { token: '123' };
 
                 await authorizationMiddleware.twoFactor(request, response, next);
@@ -281,7 +320,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         });
     });
 
-    context('When user has secret question', () => {
+    context('When user has secret question with ID', () => {
         const request = {} as Request;
         const response = {} as Response;
         const next = sinon.spy(() => {}) as NextFunction;
@@ -289,7 +328,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
 
-        context('And question/answer are correct', () => {
+        context('And question/answer are correct with id', () => {
             const secretQuestion = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
                 answer: 'red',
@@ -325,6 +364,49 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             it('should call next - question/answer in query', async () => {
                 request.body = null;
                 request.params = { id: '123' };
+                request.query = secretQuestion;
+                await authorizationMiddleware.secretQuestion(request, response, next);
+
+                expect(next).to.have.been.called();
+            });
+        });
+
+        context('And question/answer are correct with email', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red',
+            };
+
+            beforeEach(() => {
+                usersRepository = {};
+
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion,
+                    }),
+                };
+
+                twoFactorHandler = {};
+
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            it('should call next', async () => {
+                request.params = { email: '123@email.com' };
+                request.body = secretQuestion;
+                await authorizationMiddleware.secretQuestion(request, response, next);
+
+                expect(next).to.have.been.called();
+            });
+
+            it('should call next - question/answer in query', async () => {
+                request.body = null;
+                request.params = { email: '123@email.com' };
                 request.query = secretQuestion;
                 await authorizationMiddleware.secretQuestion(request, response, next);
 
