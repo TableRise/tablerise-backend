@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { JWTResponse } from 'src/types/api/users/methods/index';
+import {
+    UserDetailInstance,
+    UserSecretQuestion,
+} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class AuthorizationMiddleware {
@@ -53,20 +57,23 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'TwoFactor - AuthorizationMiddleware');
 
-        const { id } = req.params;
+        const { id, email } = req.params;
         const { token } = req.query;
 
-        const user = await this._usersRepository.findOne({ userId: id });
+        let userInDb = {} as UserInstance;
 
-        if (!user) HttpRequestErrors.throwError('user-inexistent');
+        if (id) userInDb = await this._usersRepository.findOne({ userId: id });
+        if (email) userInDb = await this._usersRepository.findOne({ email });
 
-        if (!user.twoFactorSecret.active) {
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
+
+        if (!userInDb.twoFactorSecret.active) {
             next();
             return;
         }
 
         const validateSecret = this._twoFactorHandler.validate({
-            secret: user.twoFactorSecret.secret as string,
+            secret: userInDb.twoFactorSecret.secret as string,
             token: token as string,
         });
 
@@ -82,13 +89,16 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
-        const { id } = req.params;
+        const { id, email } = req.params;
         const payload = (req.body as UserSecretQuestion) || {};
         const query = (req.query as UserSecretQuestion) || {};
 
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({
-            userId: id,
-        });
+        let userDetailsInDb = {} as UserDetailInstance;
+
+        if (id)
+            userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+        if (email)
+            userDetailsInDb = await this._usersDetailsRepository.findOne({ email });
 
         if (!userDetailsInDb.secretQuestion) {
             next();

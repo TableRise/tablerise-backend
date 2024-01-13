@@ -6,6 +6,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
     generateFileParam,
     generateQueryParam,
+    generateEmailParam,
 } from 'src/domains/common/helpers/parametersWrapper';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
@@ -238,18 +239,24 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/update/password`,
+                path: `${BASE_PATH}/:email/update/password`,
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateIDParam(),
+                    ...generateEmailParam(),
                     ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
+                        { name: 'question', type: 'string', required: 'off' },
+                        { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
+                        { name: 'token', type: 'string', required: 'off' },
                     ]),
                 ],
                 options: {
-                    middlewares: [this._verifyEmailCodeMiddleware.verify],
+                    middlewares: [
+                        this._authorizationMiddleware.twoFactor,
+                        this._authorizationMiddleware.secretQuestion,
+                        this._verifyEmailCodeMiddleware.verify,
+                    ],
                     tag: 'management',
                     description: desc.updatePassword,
                 },

@@ -14,6 +14,17 @@ export default function generateIDParam(): RouteDeclareParams[] {
     ];
 }
 
+export function generateEmailParam(): RouteDeclareParams[] {
+    return [
+        {
+            name: 'email',
+            location: 'path',
+            required: true,
+            type: 'string',
+        },
+    ];
+}
+
 export function generateFileParam(
     count: number,
     names: ParamName[]
