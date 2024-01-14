@@ -126,7 +126,7 @@ export default class UsersController {
                 maxAge: 3600000,
                 httpOnly: true,
                 secure: process.env.COOKIE_SECURE === 'yes',
-                sameSite: 'lax'
+                sameSite: 'lax',
             })
             .json(tokenData);
     }
