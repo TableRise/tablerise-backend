@@ -8,6 +8,8 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
+import { JwtPayload } from 'jsonwebtoken';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -112,14 +114,21 @@ export default class UsersController {
 
     public async login(req: Request, res: Response): Promise<Response> {
         const { user: token } = req;
+
+        const tokenData = JWTGenerator.verify(token as string) as JwtPayload;
+
+        delete tokenData.iat;
+        delete tokenData.exp;
+
         return res
-            .status(HttpStatusCode.NO_CONTENT)
+            .status(HttpStatusCode.OK)
             .cookie('token', token, {
                 maxAge: 3600000,
                 httpOnly: true,
-                secure: Boolean(process.env.COOKIE_SECURE),
+                secure: process.env.COOKIE_SECURE === 'yes',
+                sameSite: 'lax',
             })
-            .end();
+            .json(tokenData);
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
