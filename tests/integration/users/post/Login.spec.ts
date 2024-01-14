@@ -22,10 +22,15 @@ describe('When the user is logged in', () => {
                 password: 'TheWorld@122',
             };
 
-            await requester()
+            const { body } = await requester()
                 .post('/profile/login')
                 .send(login)
-                .expect(HttpStatusCode.NO_CONTENT);
+                .expect(HttpStatusCode.OK);
+
+            expect(body).to.have.property('userId');
+            expect(body.userId).to.be.equal(user.userId);
+            expect(body.providerId).to.be.equal(user.providerId);
+            expect(body.username).to.be.equal(`${user.nickname}${user.tag}`);
         });
     });
 });
