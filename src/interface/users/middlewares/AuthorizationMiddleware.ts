@@ -57,13 +57,14 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'TwoFactor - AuthorizationMiddleware');
 
-        const { id, email } = req.params;
-        const { token } = req.query;
+        const { id } = req.params;
+        const { token, email } = req.query;
 
         let userInDb = {} as UserInstance;
 
-        if (id) userInDb = await this._usersRepository.findOne({ userId: id });
-        if (email) userInDb = await this._usersRepository.findOne({ email });
+        if (id && !email) userInDb = await this._usersRepository.findOne({ userId: id });
+        if (email && !userInDb.email)
+            userInDb = await this._usersRepository.findOne({ email });
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
@@ -89,7 +90,9 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
-        const { id, email } = req.params;
+        const { id } = req.params;
+        const { email } = req.query || {};
+
         const payload = (req.body as UserSecretQuestion) || {};
         const query = (req.query as UserSecretQuestion) || {};
 
@@ -97,7 +100,7 @@ export default class AuthorizationMiddleware {
 
         if (id)
             userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
-        if (email) {
+        if (email && !id) {
             const userInDb = await this._usersRepository.findOne({ email });
             userDetailsInDb = await this._usersDetailsRepository.findOne({
                 userId: userInDb.userId,
