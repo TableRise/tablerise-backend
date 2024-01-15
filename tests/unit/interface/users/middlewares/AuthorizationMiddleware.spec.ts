@@ -191,8 +191,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             });
 
             it('should call next', async () => {
-                request.params = { email: '123@email.com' };
-                request.query = { token: '123' };
+                request.query = { email: '123@email.com', token: '123' };
 
                 await authorizationMiddleware.twoFactor(request, response, next);
 
@@ -401,7 +400,8 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             });
 
             it('should call next', async () => {
-                request.params = { email: '123@email.com' };
+                request.params = {};
+                request.query = { email: '123@email.com' };
                 request.body = secretQuestion;
                 await authorizationMiddleware.secretQuestion(request, response, next);
 
@@ -410,8 +410,8 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
             it('should call next - question/answer in query', async () => {
                 request.body = null;
-                request.params = { email: '123@email.com' };
-                request.query = secretQuestion;
+                request.params = {};
+                request.query = { ...secretQuestion, email: '123@email.com' };
                 await authorizationMiddleware.secretQuestion(request, response, next);
 
                 expect(next).to.have.been.called();

@@ -26,7 +26,7 @@ describe('When an user has the password changed', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/profile/${user.email}/update/password?code=H45J7F`)
+                .patch(`/profile/update/password?email=${user.email}&code=H45J7F`)
                 .send({ password: 'TheWorld@123' })
                 .expect(HttpStatusCode.NO_CONTENT);
 
@@ -59,7 +59,7 @@ describe('When an user has the password changed', () => {
 
             await requester()
                 .patch(
-                    `/profile/${user.email}/update/password?code=H45J7F&question=${
+                    `/profile/update/password?email=${user.email}&code=H45J7F&question=${
                         userDetails.secretQuestion?.question as string
                     }&answer=${userDetails.secretQuestion?.answer as string}`
                 )
