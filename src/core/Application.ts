@@ -66,7 +66,7 @@ export default class Application {
         const app = this.setupExpress();
         const server = createServer(app);
 
-        await this._socketIO.connect(server);
+        await this._socketIO.connect();
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
