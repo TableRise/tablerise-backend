@@ -27,6 +27,34 @@ export default class SocketIO {
         io.on('connection', (socket) => {
             this._socketInstance = socket;
             socket.on('join', this._joinTableSocketEvent);
+            socket.on(
+                'changeBackground',
+                async (table: string, newBackground: string): Promise<void> => {
+                    this._tables[table as keyof typeof this._tables].imagens.push(
+                        newBackground
+                    );
+                    io.to(this._tables).emit('backgroundChanged', newBackground);
+                }
+            );
+            socket.on(
+                'uploadImage',
+                async (
+                    table: string,
+                    squareId: string,
+                    imageData: string
+                ): Promise<void> => {
+                    this._tables[table as keyof typeof this._tables].objects.map(
+                        (object: any) =>
+                            object.elementID === parseInt(squareId)
+                                ? { ...object, image: imageData }
+                                : object
+                    );
+                    io.to(this._tables).emit('updateObjectImage', squareId, imageData);
+                }
+            );
+            socket.on('disconnect', async (): Promise<void> => {
+                this._logger('info', 'User disconnected', true);
+            });
         });
     }
     // Remove this comment.
