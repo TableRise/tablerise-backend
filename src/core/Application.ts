@@ -43,7 +43,7 @@ export default class Application {
         app.use(express.json())
             .use(
                 cors({
-                    origin: process.env.CORS_ORIGIN,
+                    origin: '*',
                     credentials: true,
                 })
             )
@@ -66,7 +66,7 @@ export default class Application {
         const app = this.setupExpress();
         const server = createServer(app);
 
-        await this._socketIO.connect();
+        await this._socketIO.connect(server);
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
