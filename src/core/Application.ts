@@ -43,7 +43,7 @@ export default class Application {
         app.use(express.json())
             .use(
                 cors({
-                    origin: '*',
+                    origin: process.env.CORS_ORIGIN,
                     credentials: true,
                 })
             )
