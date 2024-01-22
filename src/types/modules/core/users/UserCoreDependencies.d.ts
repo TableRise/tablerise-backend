@@ -23,6 +23,7 @@ import {
     GetUserByIdServiceContract,
 } from './users/GetUserById';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
+import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
 import {
     LogoutUserOperationContract,
     LogoutUserServiceContract,
@@ -54,6 +55,7 @@ export default interface UserCoreDependencies {
     updateSecretQuestionOperationContract: UpdateSecretQuestionOperationContract;
     updateUserOperationContract: UpdateUserOperationContract;
     verifyEmailOperationContract: VerifyEmailOperationContract;
+    loginUserOperationContract: LoginUserOperationContract;
 
     // Services
     activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
@@ -72,4 +74,5 @@ export default interface UserCoreDependencies {
     updateSecretQuestionServiceContract: UpdateSecretQuestionServiceContract;
     updateUserServiceContract: UpdateUserServiceContract;
     verifyEmailServiceContract: VerifyEmailServiceContract;
+    loginUserServiceContract: LoginUserServiceContract;
 }
