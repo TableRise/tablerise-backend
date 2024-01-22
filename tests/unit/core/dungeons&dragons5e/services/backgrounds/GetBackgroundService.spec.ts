@@ -21,18 +21,18 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetBackgroundService', () => 
                 setEntity: sinon.spy(() => {}),
             };
 
-            getBackgroundService =
-                new GetBackgroundService({
-                    dungeonsAndDragonsRepository,
-                    logger,
-                });
+            getBackgroundService = new GetBackgroundService({
+                dungeonsAndDragonsRepository,
+                logger,
+            });
         });
 
         it('should return the correct data and call correct methods', async () => {
-            
             const backgroundTest = await getBackgroundService.get('ID_param');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Backgrounds');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Backgrounds'
+            );
             expect(backgroundTest).to.be.deep.equal(background);
         });
     });

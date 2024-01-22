@@ -46,12 +46,10 @@ export default class SocketIO {
         this._io.to(this._tables).emit('backgroundChanged', newBackground);
     }
 
-    private async _deleteSocketEvent(
-        table: string,
-        elementID: string
-    ): Promise<void> {
-        this._tables[table as keyof typeof this._tables].objects
-        .findIndex((square: any) => square.elementID === parseInt(elementID));
+    private async _deleteSocketEvent(table: string, elementID: string): Promise<void> {
+        this._tables[table as keyof typeof this._tables].objects.findIndex(
+            (square: any) => square.elementID === parseInt(elementID)
+        );
         this._io.to(this._tables).emit('delete object', elementID);
     }
 
@@ -73,12 +71,10 @@ export default class SocketIO {
         coordinate: Coordinates,
         userID: string
     ): Promise<void> {
-        this._io.to(this._tables).except(userID).emit(
-            'any object move',
-            coordinate.x,
-            coordinate.y,
-            coordinate.id
-            )
+        this._io
+            .to(this._tables)
+            .except(userID)
+            .emit('any object move', coordinate.x, coordinate.y, coordinate.id);
     }
 
     private async _uploadImageSocketEvent(
@@ -101,7 +97,6 @@ export default class SocketIO {
     ): Promise<void> {
         this._io.to(this._tables).except(userID).emit('any Object Resizing', size);
     }
-
 
     private async _disconnectSocketEvent(): Promise<void> {
         this._logger('info', 'User disconnected', true);
