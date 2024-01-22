@@ -238,22 +238,20 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/password`,
+                path: `${BASE_PATH}/update/password`,
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(4, [
+                    ...generateQueryParam(2, [
                         { name: 'question', type: 'string', required: 'off' },
                         { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
+                        { name: 'email', type: 'string' },
                         { name: 'token', type: 'string', required: 'off' },
                     ]),
                 ],
                 options: {
                     middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                         this._authorizationMiddleware.secretQuestion,
                         this._verifyEmailCodeMiddleware.verify,
