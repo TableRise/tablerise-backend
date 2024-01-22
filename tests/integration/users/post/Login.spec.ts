@@ -5,7 +5,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
-describe.only('When the user is logged in', () => {
+describe('When the user is logged in', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     context('And the credentials are valid', () => {
