@@ -4,7 +4,7 @@ import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperati
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { JWTResponse } from 'src/types/api/users/methods';
 
-describe.only('Core :: Users :: Operations :: LoginUserOperation', () => {
+describe('Core :: Users :: Operations :: LoginUserOperation', () => {
     let loginUserOperation: LoginUserOperation,
         loginUserService: any,
         enrichedToken: JWTResponse,

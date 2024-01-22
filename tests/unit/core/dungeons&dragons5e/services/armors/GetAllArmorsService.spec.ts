@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import GetAllArmorsService from 'src/core/dungeons&dragons5e/services/armors/GetAllArmorsService';
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
-describe('Core :: Dungeons&dragons5e :: Service :: GetAllArmorsService', () => {
+describe('Core :: Dungeons&Dragons5e :: Services :: GetAllArmorsService', () => {
     let getAllArmorsService: GetAllArmorsService,
         dungeonsAndDragonsRepository: any,
         armors: any;
