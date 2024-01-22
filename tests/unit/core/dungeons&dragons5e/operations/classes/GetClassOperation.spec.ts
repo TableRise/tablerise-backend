@@ -7,7 +7,7 @@ describe('Core :: Dungeons&Dragons5e :: Operations :: GetClassOperation', () => 
 
     const logger = (): void => {};
 
-    context('When classes are recovered with success', () => {
+    context('When class is recovered with success', () => {
         before(() => {
             classInDb = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 1,
