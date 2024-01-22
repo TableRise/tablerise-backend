@@ -16,6 +16,7 @@ export default class SocketIO {
         this._changeBackgroundSocketEvent = this._changeBackgroundSocketEvent.bind(this);
         this._uploadImageSocketEvent = this._uploadImageSocketEvent.bind(this);
         this._disconnectSocketEvent = this._disconnectSocketEvent.bind(this);
+        this._deleteSocketEvent = this._deleteSocketEvent.bind(this);
     }
 
     public async connect(httpServer: Server): Promise<void> {
@@ -32,6 +33,15 @@ export default class SocketIO {
             this._socketInstance = socket;
             socket.on('join', this._joinTableSocketEvent);
         });
+    }
+
+    private async _deleteSocketEvent(
+        table: string,
+        elementID: string
+    ): Promise<void> {
+        this._tables[table as keyof typeof this._tables].objects
+        .findIndex((square: any) => square.elementID === parseInt(elementID));
+        this._io.to(this._tables).emit('delete object', elementID);
     }
 
     private async _joinTableSocketEvent(table: string): Promise<void> {
