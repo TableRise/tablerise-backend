@@ -1,39 +1,39 @@
 import sinon from 'sinon';
-import GetAllClassesService from 'src/core/dungeons&dragons5e/services/classes/GetAllClassesService';
+import GetClassService from 'src/core/dungeons&dragons5e/services/classes/GetClassService';
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
-describe('Core :: Dungeons&Dragons5e :: Services :: GetAllClassesService', () => {
-    let getAllClassesService: GetAllClassesService,
+describe('Core :: Dungeons&Dragons5e :: Services :: GetClassService', () => {
+    let getClassService: GetClassService,
         dungeonsAndDragonsRepository: any,
-        classes: any;
+        classInDb: any;
 
     const logger = (): void => {};
 
-    context('When classes are recovered with success', () => {
+    context('When class is recovered with success', () => {
         before(() => {
-            classes = DomainDataFaker.generateDungeonsAndDragonsJSON({
-                count: 3,
+            classInDb = DomainDataFaker.generateDungeonsAndDragonsJSON({
+                count: 1,
                 entity: 'classes',
             });
 
             dungeonsAndDragonsRepository = {
-                find: sinon.spy(() => classes),
+                findOne: sinon.spy(() => classInDb),
                 setEntity: sinon.spy(() => {}),
             };
 
-            getAllClassesService = new GetAllClassesService({
+            getClassService = new GetClassService({
                 dungeonsAndDragonsRepository,
                 logger,
             });
         });
 
         it('should return the correct data and call correct methods', async () => {
-            const classesTest = await getAllClassesService.getAll();
+            const classTest = await getClassService.get('123');
 
             expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
                 'Classes'
             );
-            expect(classesTest).to.be.deep.equal(classes);
+            expect(classTest).to.be.deep.equal(classInDb);
         });
     });
 });
