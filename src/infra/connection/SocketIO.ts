@@ -1,5 +1,6 @@
 import socket from 'socket.io';
 import { Server } from 'http';
+import { Coordinates, SquareSize } from 'src/types/modules/infra/connection/SocketIO';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class SocketIO {
@@ -16,6 +17,9 @@ export default class SocketIO {
         this._changeBackgroundSocketEvent = this._changeBackgroundSocketEvent.bind(this);
         this._uploadImageSocketEvent = this._uploadImageSocketEvent.bind(this);
         this._disconnectSocketEvent = this._disconnectSocketEvent.bind(this);
+        this._deleteSocketEvent = this._deleteSocketEvent.bind(this);
+        this._moveSocketEvent = this._moveSocketEvent.bind(this);
+        this._resizeSocketEvent = this._resizeSocketEvent.bind(this);
     }
 
     public async connect(httpServer: Server): Promise<void> {
@@ -34,6 +38,21 @@ export default class SocketIO {
         });
     }
 
+    private async _changeBackgroundSocketEvent(
+        table: string,
+        newBackground: string
+    ): Promise<void> {
+        this._tables[table as keyof typeof this._tables].imagens.push(newBackground);
+        this._io.to(this._tables).emit('backgroundChanged', newBackground);
+    }
+
+    private async _deleteSocketEvent(table: string, elementID: string): Promise<void> {
+        this._tables[table as keyof typeof this._tables].objects.findIndex(
+            (square: any) => square.elementID === parseInt(elementID)
+        );
+        this._io.to(this._tables).emit('delete object', elementID);
+    }
+
     private async _joinTableSocketEvent(table: string): Promise<void> {
         await this._socketInstance.join(table);
         const tableData = this._tables[table as keyof typeof this._tables] || {
@@ -47,12 +66,15 @@ export default class SocketIO {
         );
     }
 
-    private async _changeBackgroundSocketEvent(
+    private async _moveSocketEvent(
         table: string,
-        newBackground: string
+        coordinate: Coordinates,
+        userID: string
     ): Promise<void> {
-        this._tables[table as keyof typeof this._tables].imagens.push(newBackground);
-        this._io.to(this._tables).emit('backgroundChanged', newBackground);
+        this._io
+            .to(this._tables)
+            .except(userID)
+            .emit('any object move', coordinate.x, coordinate.y, coordinate.id);
     }
 
     private async _uploadImageSocketEvent(
@@ -66,6 +88,14 @@ export default class SocketIO {
                 : object
         );
         this._io.to(this._tables).emit('updateObjectImage', squareId, imageData);
+    }
+
+    private async _resizeSocketEvent(
+        table: string,
+        size: SquareSize,
+        userID: string
+    ): Promise<void> {
+        this._io.to(this._tables).except(userID).emit('any Object Resizing', size);
     }
 
     private async _disconnectSocketEvent(): Promise<void> {
