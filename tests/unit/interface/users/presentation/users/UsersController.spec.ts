@@ -21,7 +21,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         resetProfileOperation: any,
         pictureProfileOperation: any,
         deleteUserOperation: any,
-        logoutUserOperation: any;
+        logoutUserOperation: any,
+        loginUserOperation: any;
 
     context('#register', () => {
         const request = {} as Request;
@@ -319,6 +320,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -336,6 +338,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 

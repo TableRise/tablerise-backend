@@ -8,8 +8,6 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
-import { JwtPayload } from 'jsonwebtoken';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -27,6 +25,7 @@ export default class UsersController {
     private readonly _pictureProfileOperation;
     private readonly _deleteUserOperation;
     private readonly _logoutUserOperation;
+    private readonly _loginUserOperation;
 
     constructor({
         createUserOperation,
@@ -44,6 +43,7 @@ export default class UsersController {
         pictureProfileOperation,
         deleteUserOperation,
         logoutUserOperation,
+        loginUserOperation,
     }: InterfaceDependencies['usersControllerContract']) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
@@ -60,6 +60,7 @@ export default class UsersController {
         this._pictureProfileOperation = pictureProfileOperation;
         this._deleteUserOperation = deleteUserOperation;
         this._logoutUserOperation = logoutUserOperation;
+        this._loginUserOperation = loginUserOperation;
 
         this.register = this.register.bind(this);
         this.update = this.update.bind(this);
@@ -76,6 +77,7 @@ export default class UsersController {
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
+        this.login = this.login.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -115,19 +117,13 @@ export default class UsersController {
     public async login(req: Request, res: Response): Promise<Response> {
         const { user: token } = req;
 
-        const tokenData = JWTGenerator.verify(token as string) as JwtPayload;
-
-        delete tokenData.iat;
-        delete tokenData.exp;
+        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
+            token
+        );
 
         return res
             .status(HttpStatusCode.OK)
-            .cookie('token', token, {
-                maxAge: 3600000,
-                httpOnly: true,
-                secure: process.env.COOKIE_SECURE === 'yes',
-                sameSite: 'lax',
-            })
+            .cookie('token', token, cookieOptions)
             .json(tokenData);
     }
 
