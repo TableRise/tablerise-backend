@@ -1,6 +1,10 @@
 import socket from 'socket.io';
 import { Server } from 'http';
-import { SocketRooms, Coordinates, SquareSize } from 'src/types/modules/infra/connection/SocketIO';
+import {
+    SocketRooms,
+    Coordinates,
+    SquareSize,
+} from 'src/types/modules/infra/connection/SocketIO';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class SocketIO {
@@ -53,7 +57,7 @@ export default class SocketIO {
         userID: string
     ): Promise<void> {
         this._io
-        // Verificar linha abaixo com Isac, original: .to(this._rooms)
+            // Verificar linha abaixo com Isac, original: .to(this._rooms)
             .to(this._rooms[roomId].images)
             .except(userID)
             .emit('any object move', coordinate.x, coordinate.y, coordinate.id);
@@ -92,7 +96,9 @@ export default class SocketIO {
                 : object
         );
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('updateObjectImage', squareId, imageData);
-        this._io.to(this._rooms[tableId].images).emit('updateObjectImage', squareId, imageData);
+        this._io
+            .to(this._rooms[tableId].images)
+            .emit('updateObjectImage', squareId, imageData);
     }
 
     private async _resizeSocketEvent(
@@ -101,7 +107,10 @@ export default class SocketIO {
         userID: string
     ): Promise<void> {
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).except(userID).emit('any Object Resizing', size);
-        this._io.to(this._rooms[roomId].images).except(userID).emit('any Object Resizing', size);
+        this._io
+            .to(this._rooms[roomId].images)
+            .except(userID)
+            .emit('any Object Resizing', size);
     }
 
     private async _disconnectSocketEvent(): Promise<void> {
