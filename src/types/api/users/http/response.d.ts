@@ -1,5 +1,7 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { CookieOptions } from 'express';
+import { JWTResponse } from '../methods';
 
 export default interface UpdateResponse {
     message: string;
@@ -15,7 +17,8 @@ export interface ConfirmEmailResponse {
 }
 
 export interface LoginResponse {
-    token: string;
+    tokenData: JWTResponse;
+    cookieOptions: CookieOptions;
 }
 
 export interface TwoFactorResponse {

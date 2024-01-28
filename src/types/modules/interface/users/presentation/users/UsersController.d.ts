@@ -13,6 +13,7 @@ import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePassw
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
+import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
 
 export interface UsersControllerContract {
     createUserOperation: CreateUserOperation;
@@ -30,4 +31,5 @@ export interface UsersControllerContract {
     pictureProfileOperation: PictureProfileOperation;
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
+    loginUserOperation: LoginUserOperation;
 }

@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import GetAllClassesOperation from 'src/core/dungeons&dragons5e/operations/classes/GetAllClassesOperation';
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
-describe('Core :: Dungeons&dragons5e :: Operations :: GetAllClassesOperation', () => {
+describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllClassesOperation', () => {
     let getAllClassesOperation: GetAllClassesOperation,
         getAllClassesService: any,
         classes: any;
