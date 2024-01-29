@@ -3,6 +3,7 @@ import {
     Armor,
     Background,
     Class,
+    Feat,
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
@@ -39,6 +40,37 @@ function createArmorsFaker({
             armorClass: 18,
             requiredStrength: 15,
             stealthPenalty: true,
+        },
+    };
+}
+
+function createFeatsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Feat> & { featId: string } {
+    return {
+        featId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Grappler',
+            prerequisite: 'Strength 13 or higher',
+            description:
+                "You've developed the skills necessary to hold your own in close-quarters grappling.",
+            benefits: [
+                'You have advantage on attack rolls against a creature you are grappling.',
+                'You can use your action to try to pin a creature grappled by you. To do so, make another grapple check. If you succeed, you and the creature are both restrained until the grapple ends.',
+            ],
+        },
+        pt: {
+            name: 'Grappler',
+            prerequisite: 'Força 13 ou superior',
+            description:
+                'Você desenvolveu as habilidades necessárias para se manter em confrontos de agarrar em espaços confinados.',
+            benefits: [
+                'Você tem vantagem em rolagens de ataque contra uma criatura que você está agarrando.',
+                'Você pode usar sua ação para tentar imobilizar uma criatura que esteja agarrada por você. Para fazer isso, faça outra rolagem de agarrar. Se tiver sucesso, você e a criatura ficam restritos até o fim do agarrão.',
+            ],
         },
     };
 }
@@ -609,6 +641,7 @@ const dungeonsAndDragonsFunctions = {
     armors: createArmorsFaker,
     backgrounds: createBackgroundsFaker,
     classes: createClassesFaker,
+    feats: createFeatsFaker,
 };
 
 export default function generateDungeonsAndDragonsFaker({
@@ -620,7 +653,7 @@ export default function generateDungeonsAndDragonsFaker({
     entityId: string | undefined;
     entity: string | undefined;
 }): any[] {
-    const entityArray: Array<Internacional<Armor | Background | Class>> = [];
+    const entityArray: Array<Internacional<Armor | Background | Class | Feat>> = [];
 
     for (let index = 0; index <= count; index += 1) {
         entityArray.push(

@@ -18,7 +18,7 @@ export const updateUserDetails = z.object({
     lastName: z.string().max(80),
     pronoun: z.enum(pronounEnum.values),
     birthday: z.string(),
-    biography: z.string().max(500),
+    biography: z.string().max(500).or(z.null()),
 });
 
 const userDetailsZodSchema = z.object({
@@ -27,7 +27,7 @@ const userDetailsZodSchema = z.object({
     pronoun: z.enum(pronounEnum.values),
     secretQuestion: secretQuestionZodSchema.or(z.null()),
     birthday: z.string(),
-    biography: z.string().max(500),
+    biography: z.string().max(500).or(z.null()),
 });
 
 export type UserDetailPayload = z.infer<typeof userDetailsZodSchema>;
