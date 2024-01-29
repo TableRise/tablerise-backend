@@ -7,7 +7,6 @@ export const oAuthCompleteZodSchema = z.object({
     lastName: z.string().max(80),
     pronoun: z.enum(pronounEnum.values),
     birthday: z.string(),
-    biography: z.string().max(500).or(z.null()),
 });
 
 export type CompleteOAuthPayload = z.infer<typeof oAuthCompleteZodSchema>;
