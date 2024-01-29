@@ -21,6 +21,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.biography = null;
 
                 serializer = {
                     postUser: () => user,
@@ -122,6 +123,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.inProgress = { status: 'done', code: '' };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
                 user.twoFactorSecret = { active: true };
+                userDetails.biography = null;
 
                 serializer = {};
 
@@ -167,6 +169,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.password = 'testepwd@';
                 user.inProgress = { status: 'done', code: '' };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
+                userDetails.biography = null;
 
                 serializer = {};
 
@@ -212,6 +215,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.password = 'testepwd@';
                 user.inProgress = { status: 'done', code: '' };
                 userDetails.secretQuestion = null;
+                userDetails.biography = null;
 
                 serializer = {};
 
@@ -252,6 +256,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.biography = null;
 
                 serializer = {};
 
@@ -292,6 +297,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.biography = null;
 
                 serializer = {};
 
