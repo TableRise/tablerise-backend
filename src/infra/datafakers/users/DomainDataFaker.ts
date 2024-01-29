@@ -36,6 +36,7 @@ const mocks = {
             pronoun,
             birthday,
             secretQuestion,
+            biography: null,
         },
     },
     completeUserMock: {
@@ -44,6 +45,7 @@ const mocks = {
         lastName,
         pronoun,
         birthday,
+        biography: null,
     },
     updateUserMock: {
         nickname,
