@@ -54,8 +54,8 @@ export default class SocketIO {
     ): Promise<void> {
         this._rooms[roomId].images.push(newBackground);
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('backgroundChanged', newBackground);
-        this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground); 
-    };
+        this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
+    }
 
     private async _createTableSocketEvent(): Promise<void> {
         const roomId = newUUID();
