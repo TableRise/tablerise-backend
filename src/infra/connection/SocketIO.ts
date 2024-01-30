@@ -6,11 +6,12 @@ import {
     SquareSize,
 } from 'src/types/modules/infra/connection/SocketIO';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
+import newUUID from 'src/domains/common/helpers/newUUID';
 
 export default class SocketIO {
     private _socketInstance = {} as socket.Socket;
     private _io = {} as socket.Server;
-    private readonly _rooms = {} as SocketRooms;
+    private readonly _rooms: SocketRooms = {};
     private readonly _logger;
 
     constructor({ logger }: InfraDependencies['socketIOContract']) {
@@ -18,6 +19,8 @@ export default class SocketIO {
 
         this.connect = this.connect.bind(this);
         this._joinRoomSocketEvent = this._joinRoomSocketEvent.bind(this);
+        this._createTableSocketEvent = this._createTableSocketEvent.bind(this);
+        this._createBox = this._createBox.bind(this);
         this._changeBackgroundSocketEvent = this._changeBackgroundSocketEvent.bind(this);
         this._uploadImageSocketEvent = this._uploadImageSocketEvent.bind(this);
         this._disconnectSocketEvent = this._disconnectSocketEvent.bind(this);
@@ -39,6 +42,9 @@ export default class SocketIO {
         this._io.on('connection', (socket) => {
             this._socketInstance = socket;
             socket.on('join', this._joinRoomSocketEvent);
+            socket.on('create', this._createTableSocketEvent);
+            socket.on('join', this._joinTableSocketEvent);
+            socket.on('create box', this._createBox);
         });
     }
 
@@ -48,7 +54,56 @@ export default class SocketIO {
     ): Promise<void> {
         this._rooms[roomId].images.push(newBackground);
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('backgroundChanged', newBackground);
-        this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
+        this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground); 
+    };
+
+    private async _createTableSocketEvent(): Promise<void> {
+        const roomId = newUUID();
+        await this._socketInstance.join(roomId);
+        const roomData = {
+            objects: [],
+            images: [],
+        };
+
+        this._rooms[roomId] = roomData;
+
+        Object.keys(this._rooms).forEach((room: string) => {
+            this._logger('info', room, true);
+        });
+
+        this._socketInstance.emit(
+            'Created a room',
+            roomData.objects,
+            roomData.images,
+            roomId
+        );
+    }
+
+    private async _joinTableSocketEvent(roomId: string): Promise<void> {
+        const roomExist = Object.keys(this._rooms).includes(roomId);
+        if (!roomExist) {
+            this._socketInstance.emit('Room not found', 'Sala não encontrada');
+            return;
+        }
+        await this._socketInstance.join(roomId);
+        const roomData = this._rooms[roomId];
+        this._socketInstance.emit(
+            'Joined a room',
+            roomData.objects,
+            roomData.images,
+            roomId
+        );
+    }
+
+    private _createBox(roomId: string, avatarName: string): void {
+        this._logger('info', 'criando box', true);
+
+        const avatarData = {
+            avatarName,
+            position: { x: 0, y: 0 },
+        };
+        this._rooms[roomId].objects.push(avatarData);
+        this._io.to(roomId).emit('Created a box', avatarData);
     }
 
     private async _moveSocketEvent(
