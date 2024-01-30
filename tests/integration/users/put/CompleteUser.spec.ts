@@ -21,7 +21,6 @@ describe('When an user has the account completed', () => {
             user.providerId = newUUID();
 
             userDetails.secretQuestion = { question: 'oauth', answer: 'Google' };
-            userDetails.biography = null as unknown as string;
             userDetails.birthday = null as unknown as string;
             userDetails.pronoun = null as unknown as string;
             userDetails.firstName = null as unknown as string;
@@ -38,7 +37,6 @@ describe('When an user has the account completed', () => {
                 lastName: 'Doe',
                 pronoun: 'he/his',
                 birthday: '1998-12-25',
-                biography: 'Nothing to say...',
             };
 
             const { body } = await requester()
@@ -51,7 +49,6 @@ describe('When an user has the account completed', () => {
             expect(body.details.lastName).to.be.equal(payloadToComplete.lastName);
             expect(body.details.pronoun).to.be.equal(payloadToComplete.pronoun);
             expect(body.details.birthday).to.be.equal(payloadToComplete.birthday);
-            expect(body.details.biography).to.be.equal(payloadToComplete.biography);
         });
     });
 });
