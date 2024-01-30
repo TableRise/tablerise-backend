@@ -19,7 +19,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
                 lastName: 'Doe',
                 pronoun: 'he/his',
                 birthday: '2000-10-10',
-                biography: 'Test',
             };
         });
 
@@ -39,7 +38,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
                 lastName: 'Doe',
                 pronoun: 'he/his',
                 birthday: '2000-10-10',
-                biography: 'Test',
             } as CompleteOAuthPayload;
         });
 

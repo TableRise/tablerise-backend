@@ -44,7 +44,6 @@ export default class CompleteUserService {
             userDetails.lastName = payload.lastName;
             userDetails.pronoun = payload.pronoun;
             userDetails.birthday = payload.birthday;
-            userDetails.biography = payload.biography;
 
             return { user, userDetails };
         }
