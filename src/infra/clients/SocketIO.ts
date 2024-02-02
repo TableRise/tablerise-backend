@@ -40,8 +40,21 @@ export default class SocketIO {
 
         this._io.on('connection', (socket) => {
             this._socketInstance = socket;
-            console.log(this._socketInstance.id);
-            socket.on('join', this._joinRoomSocketEvent);
+            this._logger('info', this._socketInstance.id + ' - Se conectou', true);
+            socket.on('join', async (roomId: string = newUUID()): Promise<void> => {
+                await socket.join(roomId);
+                const roomData = this._rooms[roomId] || {
+                    objects: [],
+                    images: [],
+                    roomId,
+                };
+
+                this._rooms[roomId] = roomData;
+
+                this._logger('info', socket.id + ' - Entrou na sala ' + roomId, true);
+
+                socket.emit('Joined a room', this._rooms[roomId]);
+            });
             socket.on('create box', this._createBox);
         });
     }
@@ -51,17 +64,18 @@ export default class SocketIO {
         const roomData = this._rooms[roomId] || {
             objects: [],
             images: [],
-            roomId
+            roomId,
         };
 
         this._rooms[roomId] = roomData;
 
-        console.log(this._socketInstance.id);
-
-        this._io.emit(
-            'Joined a room',
-            this._rooms[roomId]
+        this._logger(
+            'info',
+            this._socketInstance.id + ' - Entrou na sala ' + roomId,
+            true
         );
+
+        this._socketInstance.emit('Joined a room', this._rooms[roomId]);
     }
 
     private async _changeBackgroundSocketEvent(
@@ -82,6 +96,12 @@ export default class SocketIO {
         };
 
         this._rooms[roomId].objects.push(avatarData);
+        this._logger(
+            'info',
+            this._socketInstance.id + ' - Criou um avatar na sala ' + roomId,
+            true
+        );
+
         this._io.to(roomId).emit('Created a box', avatarData);
     }
 
