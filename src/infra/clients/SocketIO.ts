@@ -9,7 +9,6 @@ import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 export default class SocketIO {
-    private _socketInstance = {} as socket.Socket;
     private _io = {} as socket.Server;
     private readonly _rooms: SocketRooms = {};
     private readonly _logger;
@@ -39,28 +38,19 @@ export default class SocketIO {
         });
 
         this._io.on('connection', (socket) => {
-            this._socketInstance = socket;
-            this._logger('info', this._socketInstance.id + ' - Se conectou', true);
-            socket.on('join', async (roomId: string = newUUID()): Promise<void> => {
-                await socket.join(roomId);
-                const roomData = this._rooms[roomId] || {
-                    objects: [],
-                    images: [],
-                    roomId,
-                };
-
-                this._rooms[roomId] = roomData;
-
-                this._logger('info', socket.id + ' - Entrou na sala ' + roomId, true);
-
-                socket.emit('Joined a room', this._rooms[roomId]);
-            });
-            socket.on('create box', this._createBox);
+            socket.on('join', async (roomId: string = newUUID()) => { await this._joinRoomSocketEvent(roomId, socket) });
+            socket.on('create-box', this._createBox);
+            socket.on('background', this._changeBackgroundSocketEvent);
+            socket.on('move-box', this._moveSocketEvent);
+            socket.on('delete-box', this._deleteSocketEvent);
+            socket.on('set-avatar-image', this._uploadImageSocketEvent);
+            socket.on('resize-box', this._resizeSocketEvent);
+            socket.on('disconnect-socket', this._disconnectSocketEvent);
         });
     }
 
-    private async _joinRoomSocketEvent(roomId: string = newUUID()): Promise<void> {
-        await this._socketInstance.join(roomId);
+    private async _joinRoomSocketEvent(roomId: string = newUUID(), socket: socket.Socket): Promise<void> {
+        await socket.join(roomId);
         const roomData = this._rooms[roomId] || {
             objects: [],
             images: [],
@@ -69,13 +59,7 @@ export default class SocketIO {
 
         this._rooms[roomId] = roomData;
 
-        this._logger(
-            'info',
-            this._socketInstance.id + ' - Entrou na sala ' + roomId,
-            true
-        );
-
-        this._socketInstance.emit('Joined a room', this._rooms[roomId]);
+        socket.emit('Joined a room', this._rooms[roomId]);
     }
 
     private async _changeBackgroundSocketEvent(
@@ -88,19 +72,12 @@ export default class SocketIO {
     }
 
     private _createBox(roomId: string, avatarName: string): void {
-        this._logger('info', 'criando box', true);
-
         const avatarData = {
             avatarName,
             position: { x: 0, y: 0 },
         };
 
         this._rooms[roomId].objects.push(avatarData);
-        this._logger(
-            'info',
-            this._socketInstance.id + ' - Criou um avatar na sala ' + roomId,
-            true
-        );
 
         this._io.to(roomId).emit('Created a box', avatarData);
     }
