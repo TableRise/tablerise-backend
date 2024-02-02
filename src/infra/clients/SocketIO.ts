@@ -62,10 +62,10 @@ export default class SocketIO {
         socket.emit('Joined a room', this._rooms[roomId]);
     }
 
-    private async _changeBackgroundSocketEvent(
+    private _changeBackgroundSocketEvent(
         roomId: string,
         newBackground: string
-    ): Promise<void> {
+    ): void {
         this._rooms[roomId].images.push(newBackground);
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('backgroundChanged', newBackground);
         this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
@@ -82,11 +82,11 @@ export default class SocketIO {
         this._io.to(roomId).emit('Created a box', avatarData);
     }
 
-    private async _moveSocketEvent(
+    private _moveSocketEvent(
         roomId: string,
         coordinate: Coordinates,
         userID: string
-    ): Promise<void> {
+    ): void {
         this._io
             // Verificar linha abaixo com Isac, original: .to(this._rooms)
             .to(this._rooms[roomId].images)
@@ -94,7 +94,7 @@ export default class SocketIO {
             .emit('any object move', coordinate.x, coordinate.y, coordinate.id);
     }
 
-    private async _deleteSocketEvent(roomId: string, elementID: string): Promise<void> {
+    private _deleteSocketEvent(roomId: string, elementID: string): void {
         this._rooms[roomId].objects.findIndex(
             (square: any) => square.elementID === parseInt(elementID)
         );
@@ -102,11 +102,11 @@ export default class SocketIO {
         this._io.to(this._rooms[roomId].images).emit('delete object', elementID);
     }
 
-    private async _uploadImageSocketEvent(
+    private _uploadImageSocketEvent(
         tableId: string,
         squareId: string,
         imageData: string
-    ): Promise<void> {
+    ): void {
         this._rooms[tableId].objects.map((object: any) =>
             object.elementID === parseInt(squareId)
                 ? { ...object, image: imageData }
@@ -118,11 +118,11 @@ export default class SocketIO {
             .emit('updateObjectImage', squareId, imageData);
     }
 
-    private async _resizeSocketEvent(
+    private _resizeSocketEvent(
         roomId: string,
         size: SquareSize,
         userID: string
-    ): Promise<void> {
+    ): void {
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).except(userID).emit('any Object Resizing', size);
         this._io
             .to(this._rooms[roomId].images)
@@ -130,7 +130,7 @@ export default class SocketIO {
             .emit('any Object Resizing', size);
     }
 
-    private async _disconnectSocketEvent(): Promise<void> {
+    private _disconnectSocketEvent(): void {
         this._logger('info', 'User disconnected', true);
     }
 }
