@@ -38,7 +38,9 @@ export default class SocketIO {
         });
 
         this._io.on('connection', (socket) => {
-            socket.on('join', async (roomId: string = newUUID()) => { await this._joinRoomSocketEvent(roomId, socket) });
+            socket.on('join', async (roomId: string = newUUID()) => {
+                await this._joinRoomSocketEvent(roomId, socket);
+            });
             socket.on('create-box', this._createBox);
             socket.on('background', this._changeBackgroundSocketEvent);
             socket.on('move-box', this._moveSocketEvent);
@@ -49,7 +51,10 @@ export default class SocketIO {
         });
     }
 
-    private async _joinRoomSocketEvent(roomId: string = newUUID(), socket: socket.Socket): Promise<void> {
+    private async _joinRoomSocketEvent(
+        roomId: string = newUUID(),
+        socket: socket.Socket
+    ): Promise<void> {
         await socket.join(roomId);
         const roomData = this._rooms[roomId] || {
             objects: [],
@@ -62,10 +67,7 @@ export default class SocketIO {
         socket.emit('Joined a room', this._rooms[roomId]);
     }
 
-    private _changeBackgroundSocketEvent(
-        roomId: string,
-        newBackground: string
-    ): void {
+    private _changeBackgroundSocketEvent(roomId: string, newBackground: string): void {
         this._rooms[roomId].images.push(newBackground);
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('backgroundChanged', newBackground);
         this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
@@ -118,11 +120,7 @@ export default class SocketIO {
             .emit('updateObjectImage', squareId, imageData);
     }
 
-    private _resizeSocketEvent(
-        roomId: string,
-        size: SquareSize,
-        userID: string
-    ): void {
+    private _resizeSocketEvent(roomId: string, size: SquareSize, userID: string): void {
         // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).except(userID).emit('any Object Resizing', size);
         this._io
             .to(this._rooms[roomId].images)
