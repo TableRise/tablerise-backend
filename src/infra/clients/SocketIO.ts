@@ -8,6 +8,11 @@ import {
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
+/*
+    Funcionalidade finalizada, falta apenas uma melhor nomenclatura para se adequar ao projeto e ajustes finos
+    com o mesmo propósito.
+*/
+
 export default class SocketIO {
     private _io = {} as socket.Server;
     private readonly _rooms: SocketRooms = {};
@@ -73,10 +78,11 @@ export default class SocketIO {
         this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
     }
 
-    private _createBox(roomId: string, avatarName: string): void {
+    private _createBox(roomId: string, avatarName: string, userId: string, userRole: string): void {
         const avatarData = {
             avatarName,
             position: { x: 0, y: 0 },
+            userId,
         };
 
         this._rooms[roomId].objects.push(avatarData);
@@ -86,14 +92,17 @@ export default class SocketIO {
 
     private _moveSocketEvent(
         roomId: string,
-        coordinate: Coordinates,
-        userID: string
+        avatarName: string,
+        coordinate: Coordinates
     ): void {
+        const avatarIndex = this._rooms[roomId].objects.findIndex((avatar) => avatar.avatarName === avatarName);
+
+        this._rooms[roomId].objects[avatarIndex].position.x = coordinate.x;
+        this._rooms[roomId].objects[avatarIndex].position.y = coordinate.y;
+
         this._io
-            // Verificar linha abaixo com Isac, original: .to(this._rooms)
-            .to(this._rooms[roomId].images)
-            .except(userID)
-            .emit('any object move', coordinate.x, coordinate.y, coordinate.id);
+            .to(roomId)
+            .emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
     }
 
     private _deleteSocketEvent(roomId: string, elementID: string): void {
