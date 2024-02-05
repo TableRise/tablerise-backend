@@ -78,15 +78,11 @@ export default class SocketIO {
         this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
     }
 
-    private _createBox(
-        roomId: string,
-        avatarName: string,
-        userId: string,
-        userRole: string
-    ): void {
+    private _createBox(roomId: string, avatarName: string, userId: string): void {
         const avatarData = {
             avatarName,
             position: { x: 0, y: 0 },
+            size: { width: 200, height: 200 },
             userId,
         };
 
@@ -110,12 +106,12 @@ export default class SocketIO {
         this._io.to(roomId).emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
     }
 
-    private _deleteSocketEvent(roomId: string, elementID: string): void {
-        this._rooms[roomId].objects.findIndex(
-            (square: any) => square.elementID === parseInt(elementID)
+    private _deleteSocketEvent(roomId: string, avatarName: string): void {
+        const avatars = this._rooms[roomId].objects.filter(
+            (box: any) => box.avatarName !== avatarName
         );
-        // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('delete object', elementID);
-        this._io.to(this._rooms[roomId].images).emit('delete object', elementID);
+        this._rooms[roomId].objects = avatars;
+        this._io.to(roomId).emit('Box Deleted', avatarName);
     }
 
     private _uploadImageSocketEvent(
@@ -134,12 +130,19 @@ export default class SocketIO {
             .emit('updateObjectImage', squareId, imageData);
     }
 
-    private _resizeSocketEvent(roomId: string, size: SquareSize, userID: string): void {
-        // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).except(userID).emit('any Object Resizing', size);
-        this._io
-            .to(this._rooms[roomId].images)
-            .except(userID)
-            .emit('any Object Resizing', size);
+    private _resizeSocketEvent(
+        roomId: string,
+        avatarName: string,
+        size: SquareSize
+    ): void {
+        const avatarIndex = this._rooms[roomId].objects.findIndex(
+            (avatar) => avatar.avatarName === avatarName
+        );
+
+        this._rooms[roomId].objects[avatarIndex].size.width = size.width;
+        this._rooms[roomId].objects[avatarIndex].size.height = size.height;
+
+        this._io.to(roomId).emit('Box Resized', size, avatarName);
     }
 
     private _disconnectSocketEvent(): void {
