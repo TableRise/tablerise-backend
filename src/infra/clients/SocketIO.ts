@@ -47,7 +47,7 @@ export default class SocketIO {
                 await this._joinRoomSocketEvent(roomId, socket);
             });
             socket.on('create-box', this._createBox);
-            socket.on('background', this._changeBackgroundSocketEvent);
+            socket.on('change-background', this._changeBackgroundSocketEvent);
             socket.on('move-box', this._moveSocketEvent);
             socket.on('delete-box', this._deleteSocketEvent);
             socket.on('set-avatar-image', this._uploadImageSocketEvent);
@@ -64,6 +64,7 @@ export default class SocketIO {
         const roomData = this._rooms[roomId] || {
             objects: [],
             images: [],
+            background: '',
             roomId,
         };
 
@@ -72,10 +73,11 @@ export default class SocketIO {
         socket.emit('Joined a room', this._rooms[roomId]);
     }
 
-    private _changeBackgroundSocketEvent(roomId: string, newBackground: string): void {
-        this._rooms[roomId].images.push(newBackground);
-        // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('backgroundChanged', newBackground);
-        this._io.to(this._rooms[roomId].images).emit('backgroundChanged', newBackground);
+    private _changeBackgroundSocketEvent(roomId: string, imageLink: string): void {
+        this._rooms[roomId].background = imageLink;
+        this._io
+            .to(roomId)
+            .emit('Background Changed', imageLink);
     }
 
     private _createBox(roomId: string, avatarName: string, userId: string): void {
@@ -94,7 +96,8 @@ export default class SocketIO {
     private _moveSocketEvent(
         roomId: string,
         avatarName: string,
-        coordinate: Coordinates
+        coordinate: Coordinates,
+        socketId: string
     ): void {
         const avatarIndex = this._rooms[roomId].objects.findIndex(
             (avatar) => avatar.avatarName === avatarName
@@ -103,7 +106,7 @@ export default class SocketIO {
         this._rooms[roomId].objects[avatarIndex].position.x = coordinate.x;
         this._rooms[roomId].objects[avatarIndex].position.y = coordinate.y;
 
-        this._io.to(roomId).emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
+        this._io.to(roomId).except(socketId).emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
     }
 
     private _deleteSocketEvent(roomId: string, avatarName: string): void {
@@ -115,25 +118,25 @@ export default class SocketIO {
     }
 
     private _uploadImageSocketEvent(
-        tableId: string,
-        squareId: string,
-        imageData: string
+        roomId: string,
+        avatarName: string,
+        imageLink: string
     ): void {
-        this._rooms[tableId].objects.map((object: any) =>
-            object.elementID === parseInt(squareId)
-                ? { ...object, image: imageData }
-                : object
+        const avatarIndex = this._rooms[roomId].objects.findIndex(
+            (avatar) => avatar.avatarName === avatarName
         );
-        // Verificar linha abaixo com Isac, original: this._io.to(this._rooms).emit('updateObjectImage', squareId, imageData);
+
+        this._rooms[roomId].objects[avatarIndex].picture = imageLink;
         this._io
-            .to(this._rooms[tableId].images)
-            .emit('updateObjectImage', squareId, imageData);
+            .to(roomId)
+            .emit('Avatar Picture Uploaded', avatarName, imageLink);
     }
 
     private _resizeSocketEvent(
         roomId: string,
         avatarName: string,
-        size: SquareSize
+        size: SquareSize,
+        socketId: string
     ): void {
         const avatarIndex = this._rooms[roomId].objects.findIndex(
             (avatar) => avatar.avatarName === avatarName
@@ -142,7 +145,7 @@ export default class SocketIO {
         this._rooms[roomId].objects[avatarIndex].size.width = size.width;
         this._rooms[roomId].objects[avatarIndex].size.height = size.height;
 
-        this._io.to(roomId).emit('Box Resized', size, avatarName);
+        this._io.to(roomId).except(socketId).emit('Box Resized', size, avatarName);
     }
 
     private _disconnectSocketEvent(): void {

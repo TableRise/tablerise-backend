@@ -6,6 +6,7 @@ export interface SocketIOContract {
 export interface SocketRoomInfo {
     objects: any[];
     images: any[];
+    background: string;
 }
 
 export type SocketRooms = Record<string, SocketRoomInfo>;
