@@ -75,9 +75,7 @@ export default class SocketIO {
 
     private _changeBackgroundSocketEvent(roomId: string, imageLink: string): void {
         this._rooms[roomId].background = imageLink;
-        this._io
-            .to(roomId)
-            .emit('Background Changed', imageLink);
+        this._io.to(roomId).emit('Background Changed', imageLink);
     }
 
     private _createBox(roomId: string, avatarName: string, userId: string): void {
@@ -106,7 +104,10 @@ export default class SocketIO {
         this._rooms[roomId].objects[avatarIndex].position.x = coordinate.x;
         this._rooms[roomId].objects[avatarIndex].position.y = coordinate.y;
 
-        this._io.to(roomId).except(socketId).emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
+        this._io
+            .to(roomId)
+            .except(socketId)
+            .emit('Avatar Moved', coordinate.x, coordinate.y, avatarName);
     }
 
     private _deleteSocketEvent(roomId: string, avatarName: string): void {
@@ -127,9 +128,7 @@ export default class SocketIO {
         );
 
         this._rooms[roomId].objects[avatarIndex].picture = imageLink;
-        this._io
-            .to(roomId)
-            .emit('Avatar Picture Uploaded', avatarName, imageLink);
+        this._io.to(roomId).emit('Avatar Picture Uploaded', avatarName, imageLink);
     }
 
     private _resizeSocketEvent(
