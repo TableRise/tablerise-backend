@@ -7,7 +7,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetArmorService', () => {
 
     const logger = (): void => {};
 
-    context('When armors are recovered with success', () => {
+    context('When armor is recovered with success', () => {
         before(() => {
             armor = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 1,

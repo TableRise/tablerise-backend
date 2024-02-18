@@ -9,7 +9,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleBackgroundsAvailability
 
     const logger = (): void => {};
 
-    context('When backgrounds are recovered with success', () => {
+    context('When background availability is toggled with success', () => {
         before(() => {
             background = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 1,
