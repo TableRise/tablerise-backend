@@ -22,11 +22,10 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleArmorsAvailabilityServi
                 setEntity: sinon.spy(() => {}),
             };
 
-            toggleArmorsAvailabilityService =
-                new ToggleArmorsAvailabilityService({
-                    dungeonsAndDragonsRepository,
-                    logger,
-                });
+            toggleArmorsAvailabilityService = new ToggleArmorsAvailabilityService({
+                dungeonsAndDragonsRepository,
+                logger,
+            });
         });
 
         it('should return the correct data and call correct methods', async () => {
