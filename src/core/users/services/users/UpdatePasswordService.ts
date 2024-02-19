@@ -29,13 +29,9 @@ export default class UpdatePasswordService {
         return user;
     }
 
-    public async update({
-        userId,
-        code,
-        password,
-    }: UpdatePasswordPayload): Promise<void> {
+    public async update({ email, code, password }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Update - UpdatePasswordService');
-        const userInDb = await this._usersRepository.findOne({ userId });
+        const userInDb = await this._usersRepository.findOne({ email });
 
         if (userInDb.inProgress.status !== 'wait_to_verify')
             HttpRequestErrors.throwError('invalid-user-status');
@@ -43,11 +39,11 @@ export default class UpdatePasswordService {
         if (userInDb.inProgress.code !== code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const emailChanged = await this._changePassword({ user: userInDb, password });
+        const passwordChanged = await this._changePassword({ user: userInDb, password });
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: emailChanged,
+            payload: passwordChanged,
         });
     }
 }

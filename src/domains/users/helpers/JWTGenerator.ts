@@ -7,6 +7,7 @@ export default class JWTGenerator {
             userId: user.userId,
             providerId: user.providerId,
             username: `${user.nickname}${user.tag}`,
+            picture: user.picture,
         };
 
         const token = JWT.sign(payload, (process.env.JWT_SECRET as string) || 'secret', {

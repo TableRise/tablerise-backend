@@ -21,7 +21,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         resetProfileOperation: any,
         pictureProfileOperation: any,
         deleteUserOperation: any,
-        logoutUserOperation: any;
+        logoutUserOperation: any,
+        loginUserOperation: any;
 
     context('#register', () => {
         const request = {} as Request;
@@ -303,7 +304,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
             response.cookie = sinon.spy(() => response);
-            response.end = sinon.spy(() => response);
 
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
@@ -320,6 +320,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -337,6 +338,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -344,10 +346,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.user = { token: '123' };
             await usersController.login(request, response);
 
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-            expect(response.json).to.have.not.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.cookie).to.have.been.called();
-            expect(response.end).to.have.been.called();
+            expect(response.json).to.have.been.called();
         });
     });
 
@@ -630,13 +631,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.params = { id: '123' };
-            request.query = { code: '123' };
+            request.query = { code: '123', email: 'email@email.com' };
             request.body = { password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                userId: request.params.id,
+                email: request.query.email,
                 code: request.query.code,
                 password: request.body.password,
             });

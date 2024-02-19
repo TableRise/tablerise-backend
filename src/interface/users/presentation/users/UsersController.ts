@@ -25,6 +25,7 @@ export default class UsersController {
     private readonly _pictureProfileOperation;
     private readonly _deleteUserOperation;
     private readonly _logoutUserOperation;
+    private readonly _loginUserOperation;
 
     constructor({
         createUserOperation,
@@ -42,6 +43,7 @@ export default class UsersController {
         pictureProfileOperation,
         deleteUserOperation,
         logoutUserOperation,
+        loginUserOperation,
     }: InterfaceDependencies['usersControllerContract']) {
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
@@ -58,6 +60,7 @@ export default class UsersController {
         this._pictureProfileOperation = pictureProfileOperation;
         this._deleteUserOperation = deleteUserOperation;
         this._logoutUserOperation = logoutUserOperation;
+        this._loginUserOperation = loginUserOperation;
 
         this.register = this.register.bind(this);
         this.update = this.update.bind(this);
@@ -74,6 +77,7 @@ export default class UsersController {
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
+        this.login = this.login.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -112,14 +116,15 @@ export default class UsersController {
 
     public async login(req: Request, res: Response): Promise<Response> {
         const { user: token } = req;
+
+        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
+            token
+        );
+
         return res
-            .status(HttpStatusCode.NO_CONTENT)
-            .cookie('token', token, {
-                maxAge: 3600000,
-                httpOnly: true,
-                secure: Boolean(process.env.COOKIE_SECURE),
-            })
-            .end();
+            .status(HttpStatusCode.OK)
+            .cookie('token', token, cookieOptions)
+            .json(tokenData);
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
@@ -163,11 +168,10 @@ export default class UsersController {
     }
 
     public async updatePassword(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { code } = req.query as { code: string };
+        const { email, code } = req.query as { email: string; code: string };
         const { password } = req.body;
 
-        await this._updatePasswordOperation.execute({ userId: id, code, password });
+        await this._updatePasswordOperation.execute({ email, code, password });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

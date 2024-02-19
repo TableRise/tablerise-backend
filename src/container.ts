@@ -22,7 +22,7 @@ import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
-import SocketIO from './infra/connection/SocketIO';
+import SocketIO from './infra/clients/SocketIO';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 

@@ -41,8 +41,14 @@ export interface JWTResponse {
     userId: string;
     providerId: string | null;
     username: string;
-    iat: number;
-    exp: number;
+    picture: {
+        link: string;
+        id: string;
+        uploadDate: Date;
+    } | null;
+    fullname: string;
+    iat?: number;
+    exp?: number;
 }
 
 export interface __FullUser {
