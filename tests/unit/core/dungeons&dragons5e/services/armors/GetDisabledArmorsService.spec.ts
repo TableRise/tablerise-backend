@@ -9,7 +9,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledArmorsService', ()
 
     const logger = (): void => {};
 
-    context('When armors are recovered with success', () => {
+    context('When disabled armors are recovered with success', () => {
         before(() => {
             armors = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 3,

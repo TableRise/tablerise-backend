@@ -7,7 +7,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetFeatService', () => {
 
     const logger = (): void => {};
 
-    context('When feats are recovered with success', () => {
+    context('When feat is recovered with success', () => {
         before(() => {
             feat = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 1,

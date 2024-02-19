@@ -9,7 +9,7 @@ describe('Core :: Dungeons&dragons5e :: Operations :: GetDisableBackgroundOperat
 
     const logger = (): void => {};
 
-    context('When backgrounds are recovered with success', () => {
+    context('When disabled backgrounds are recovered with success', () => {
         before(() => {
             background = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 1,

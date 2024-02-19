@@ -313,7 +313,6 @@ export default class UsersRoutes {
                     ]),
                 ],
                 controller: this._usersController.delete,
-                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,

@@ -9,7 +9,7 @@ describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledFeatsOperation'
 
     const logger = (): void => {};
 
-    context('When feats are recovered with success', () => {
+    context('When disabled feats are recovered with success', () => {
         before(() => {
             feats = DomainDataFaker.generateDungeonsAndDragonsJSON({
                 count: 3,
