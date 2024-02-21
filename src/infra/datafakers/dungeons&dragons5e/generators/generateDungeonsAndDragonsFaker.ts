@@ -663,7 +663,6 @@ function createGodsFaker({
         },
     };
 }
-
 function createMagicItemsFaker({
     entityId,
 }: {
