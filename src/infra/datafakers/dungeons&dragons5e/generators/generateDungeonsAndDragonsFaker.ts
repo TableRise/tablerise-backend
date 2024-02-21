@@ -5,6 +5,7 @@ import {
     Class,
     Feat,
     God,
+    MagicItem
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
@@ -659,6 +660,26 @@ function createGodsFaker({
             suggestedDomains: 'Natureza, Trapaça',
             symbol: 'Caldeirão borbulhante ou escudo',
             pantheon: 'Céltico',
+
+function createMagicItemsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<MagicItem> & { magicItemId: string } {
+    return {
+        magicItemId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Adamantine Armor',
+            characteristics: ['Armor (medium or heavy, but not hide)', 'uncommon'],
+            description:
+                "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+        },
+        pt: {
+            name: 'Armadura de Adamantina',
+            characteristics: ['Armadura (média ou pesada, mas não de couro)', 'incomum'],
+            description:
+                'Esta armadura é reforçada com adamantina, uma das substâncias mais duras que existem. Enquanto estiver usando-a, qualquer acerto crítico contra você se torna um acerto normal.',
         },
     };
 }
@@ -669,6 +690,7 @@ const dungeonsAndDragonsFunctions = {
     classes: createClassesFaker,
     feats: createFeatsFaker,
     gods: createGodsFaker,
+    magicItems: createMagicItemsFaker,
 };
 
 export default function generateDungeonsAndDragonsFaker({
@@ -681,6 +703,9 @@ export default function generateDungeonsAndDragonsFaker({
     entity: string | undefined;
 }): any[] {
     const entityArray: Array<Internacional<Armor | Background | Class | Feat | God>> = [];
+    const entityArray: Array<
+        Internacional<Armor | Background | Class | Feat | MagicItem>
+    > = [];
 
     for (let index = 0; index <= count; index += 1) {
         entityArray.push(
