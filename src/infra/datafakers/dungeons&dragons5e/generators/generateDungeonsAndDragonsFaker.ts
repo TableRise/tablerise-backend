@@ -4,6 +4,7 @@ import {
     Background,
     Class,
     Feat,
+    God,
     MagicItem,
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
@@ -638,6 +639,30 @@ function createClassesFaker({
     };
 }
 
+function createGodsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<God> & { godId: string } {
+    return {
+        godId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'The Daghdha, god of weather and crops',
+            alignment: 'CG',
+            suggestedDomains: 'Nature, Trickery',
+            symbol: 'Bubbling cauldron or shield',
+            pantheon: 'Celtic',
+        },
+        pt: {
+            name: 'O Daghdha, deus do clima e das colheitas',
+            alignment: 'CG',
+            suggestedDomains: 'Natureza, Trapaça',
+            symbol: 'Caldeirão borbulhante ou escudo',
+            pantheon: 'Céltico',
+        },
+    };
+}
 function createMagicItemsFaker({
     entityId,
 }: {
@@ -666,6 +691,7 @@ const dungeonsAndDragonsFunctions = {
     backgrounds: createBackgroundsFaker,
     classes: createClassesFaker,
     feats: createFeatsFaker,
+    gods: createGodsFaker,
     magicItems: createMagicItemsFaker,
 };
 
@@ -679,7 +705,7 @@ export default function generateDungeonsAndDragonsFaker({
     entity: string | undefined;
 }): any[] {
     const entityArray: Array<
-        Internacional<Armor | Background | Class | Feat | MagicItem>
+        Internacional<Armor | Background | Class | Feat | God | MagicItem>
     > = [];
 
     for (let index = 0; index <= count; index += 1) {
