@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import ToggleMagicItemsOperation from 'src/core/dungeons&dragons5e/operations/magicItems/ToggleMagicItemsAvailabilityOperation';
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
-describe.only('Core :: Dungeons&dragons5e :: Operations :: ToggleMagicItemsOperation', () => {
+describe('Core :: Dungeons&dragons5e :: Operations :: ToggleMagicItemsOperation', () => {
     let toggleMagicItemsOperation: ToggleMagicItemsOperation,
         toggleMagicItemsAvailabilityService: any,
         _magicItems: any;
