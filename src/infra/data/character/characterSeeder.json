@@ -1,154 +1,316 @@
-{
-    "character_id": "a442196e-7cde-4427-b94c-a79367c969ce",
-    "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
-    "match_id": "3cac45a9-0533-4eb8-a20f-10a43186b517",
-    "author": {
-        "user_id": "9341372f-15ea-4ebc-bb33-f8bb1059ef60",
-        "nickname": "john",
-        "fullname": "John Doe"
-    },
-    "data": {
-        "profile": {
-            "name": "Brirr",
-            "class": "Barbarian",
-            "race": "Half Orc",
-            "level": 1,
-            "xp": 0,
-            "characteristics": {
-                "alignment": "Neutral",
-                "backstory": "Ravaged by war, Brirr the Barbarian emerged from the ashes, seeking vengeance for his fallen tribe and mastering primal fury.",
-                "personality_traits": "Adaptable",
-                "ideals": "Live and Let Live",
-                "bonds": "A powerful person killed someone I love. Someday soon, I'll have my revenge.",
-                "flaws": "Abrupt",
-                "appearence": {
-                    "eyes": "red",
-                    "age": "22",
-                    "weight": "110kg",
-                    "height": "1.82cm",
-                    "skin": "green",
-                    "hair": "dark",
-                    "picture": ""
-                },
-                "allies_and_orgs": {
-                    "org_name": "Imperial War",
-                    "symbol": "",
-                    "content": ""
-                },
-                "other": {
-                    "languages": ["Common", "Orc"],
-                    "proficiencies": ["Strength", "Constitution"],
-                    "extra_characteristics": [""]
-                },
-                "treasure": ["Cask of rum", "Iron ring"]
-            }
+[
+    {
+        "character_id": "a442196e-7cde-4427-b94c-a79367c969ce",
+        "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
+        "match_id": "3cac45a9-0533-4eb8-a20f-10a43186b517",
+        "author": {
+            "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
+            "nickname": "john",
+            "fullname": "John Doe"
         },
-        "stats": {
-            "ability_scores": {
-                "ability": "Strength",
-                "value": 16,
-                "modifier": 3,
-                "proficiency": true
-            },
-            "skills": {
-                "x": 0
-            },
-            "proficiency_bonus": 2,
-            "inspiration": 8,
-            "passive_wisdom": 10,
-            "speed": 12,
-            "initiative": 14,
-            "armor_class": 14,
-            "hit_points": {
-                "points": 12,
-                "current_points": 12,
-                "temp_points": 0,
-                "dice_points": "1d12"
-            },
-            "death_saves": {
-                "success": 0,
-                "failures": 0
-            },
-            "spellcasting": {
-                "class": "",
-                "ability": "",
-                "save_dc": 0,
-                "attack_bonus": 0
-            }
-        },
-        "attacks": [
-            {
-                "name": "Greataxe",
-                "atk_bonus": 5,
-                "damage": {
-                    "type": "Melee",
-                    "bonus": 0,
-                    "dice": "d12"
+        "data": {
+            "profile": {
+                "name": "Brirr",
+                "class": "Barbarian",
+                "race": "Half Orc",
+                "level": 1,
+                "xp": 0,
+                "characteristics": {
+                    "alignment": "Neutral",
+                    "backstory": "Ravaged by war, Brirr the Barbarian emerged from the ashes, seeking vengeance for his fallen tribe and mastering primal fury.",
+                    "personality_traits": ["Adaptable"],
+                    "ideals": "Live and Let Live",
+                    "bonds": "A powerful person killed someone I love. Someday soon, I'll have my revenge.",
+                    "flaws": ["Abrupt"],
+                    "appearence": {
+                        "eyes": "red",
+                        "age": "22",
+                        "weight": "110kg",
+                        "height": "1.82cm",
+                        "skin": "green",
+                        "hair": "dark",
+                        "picture": ""
+                    },
+                    "allies_and_orgs": {
+                        "org_name": "Imperial War",
+                        "symbol": "",
+                        "content": ""
+                    },
+                    "other": {
+                        "languages": ["Common", "Orc"],
+                        "proficiencies": ["Strength", "Constitution"],
+                        "extra_characteristics": [""]
+                    },
+                    "treasure": ["Cask of rum", "Iron ring"]
                 }
-            }
-        ],
-        "equipments": ["Greataxe", "Belt of Giant Strength"],
-        "money": {
-            "cp": 5,
-            "sp": 0,
-            "ep": 0,
-            "gp": 0,
-            "pp": 0
+            },
+            "stats": {
+                "ability_scores": [
+                    {
+                        "ability": "Strength",
+                        "value": 16,
+                        "modifier": 3,
+                        "proficiency": true
+                    }
+                ],
+                "skills": {
+                    "intimidation": 6,
+                    "perception": 4
+                },
+                "proficiency_bonus": 2,
+                "inspiration": 8,
+                "passive_wisdom": 10,
+                "speed": 12,
+                "initiative": 14,
+                "armor_class": 14,
+                "hit_points": {
+                    "points": 12,
+                    "current_points": 12,
+                    "temp_points": 0,
+                    "dice_points": "1d12"
+                },
+                "death_saves": {
+                    "success": 0,
+                    "failures": 0
+                },
+                "spellcasting": {
+                    "class": "",
+                    "ability": "",
+                    "save_dc": 0,
+                    "attack_bonus": 0
+                }
+            },
+            "attacks": [
+                {
+                    "name": "Greataxe",
+                    "atk_bonus": 5,
+                    "damage": {
+                        "type": "Melee",
+                        "bonus": 0,
+                        "dice": "1d12"
+                    }
+                }
+            ],
+            "equipments": ["Greataxe", "Belt of Giant Strength"],
+            "money": {
+                "cp": 5,
+                "sp": 0,
+                "ep": 0,
+                "gp": 0,
+                "pp": 0
+            },
+            "features": ["Rage", "Unarmored defense"],
+            "spells": {
+                "cantrips": [""],
+                "1": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "2": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "3": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "4": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "5": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "6": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "7": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "8": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "9": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                }
+            },
+            "created_at": "2024-02-20T17:59:28.766Z",
+            "updated_at": "2024-02-20T17:59:28.766Z"
         },
-        "features": ["Rage", "Unarmored defense"],
-        "spells": {
-            "cantrips": [""],
-            "1": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "2": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "3": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "4": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "5": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "6": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "7": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "8": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            },
-            "9": {
-                "spell_ids": [""],
-                "slots_total": 0,
-                "slots_expended": 0
-            }
-        },
+        "NPC": false,
+        "picture": "",
         "created_at": "2024-02-20T17:59:28.766Z",
         "updated_at": "2024-02-20T17:59:28.766Z"
     },
-    "NPC": false,
-    "picture": "",
-    "created_at": "2024-02-20T17:59:28.766Z",
-    "updated_at": "2024-02-20T17:59:28.766Z"
-}
+    {
+        "character_id": "70fe8350-1cdc-4e0e-bdeb-9e6fb28b27c9",
+        "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
+        "match_id": "3cac45a9-0533-4eb8-a20f-10a43186b517",
+        "author": {
+            "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
+            "nickname": "john",
+            "fullname": "John Doe"
+        },
+        "data": {
+            "profile": {
+                "name": "Drogheda",
+                "class": "Barbarian",
+                "race": "Half Orc",
+                "level": 1,
+                "xp": 0,
+                "characteristics": {
+                    "alignment": "Chaotic evil",
+                    "backstory": "Drogheda, a vengeful half-orc barbarian, born in blood-soaked battlefields, seeks chaos and power, fueled by a childhood of brutality and betrayal.",
+                    "personality_traits": ["Ruthless", "Impulsive"],
+                    "ideals": "Power through chaos",
+                    "bonds": "Blood oath of vengeance",
+                    "flaws": ["Recklessness", "Hot-Tempered"],
+                    "appearence": {
+                        "eyes": "grey",
+                        "age": "27",
+                        "weight": "122kg",
+                        "height": "1.90cm",
+                        "skin": "green",
+                        "hair": "dark",
+                        "picture": ""
+                    },
+                    "allies_and_orgs": {
+                        "org_name": "Havoc's Fist",
+                        "symbol": "",
+                        "content": ""
+                    },
+                    "other": {
+                        "languages": ["Common", "Orc"],
+                        "proficiencies": ["Strength", "Constitution"],
+                        "extra_characteristics": [""]
+                    },
+                    "treasure": ["Cask of rum", "Iron ring"]
+                }
+            },
+            "stats": {
+                "ability_scores": [
+                    {
+                        "ability": "Strength",
+                        "value": 18,
+                        "modifier": 3,
+                        "proficiency": true
+                    }
+                ],
+                "skills": {
+                    "intimidation": 6,
+                    "perception": 4
+                },
+                "proficiency_bonus": 2,
+                "inspiration": 8,
+                "passive_wisdom": 10,
+                "speed": 12,
+                "initiative": 14,
+                "armor_class": 14,
+                "hit_points": {
+                    "points": 12,
+                    "current_points": 12,
+                    "temp_points": 0,
+                    "dice_points": "1d12"
+                },
+                "death_saves": {
+                    "success": 0,
+                    "failures": 0
+                },
+                "spellcasting": {
+                    "class": "",
+                    "ability": "",
+                    "save_dc": 0,
+                    "attack_bonus": 0
+                }
+            },
+            "attacks": [
+                {
+                    "name": "Greataxe",
+                    "atk_bonus": 5,
+                    "damage": {
+                        "type": "Melee",
+                        "bonus": 0,
+                        "dice": "1d12"
+                    }
+                }
+            ],
+            "equipments": ["Greataxe", "Belt of Giant Strength"],
+            "money": {
+                "cp": 5,
+                "sp": 0,
+                "ep": 0,
+                "gp": 0,
+                "pp": 0
+            },
+            "features": ["Rage", "Unarmored defense"],
+            "spells": {
+                "cantrips": [""],
+                "1": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "2": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "3": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "4": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "5": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "6": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "7": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "8": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                },
+                "9": {
+                    "spell_ids": [""],
+                    "slots_total": 0,
+                    "slots_expended": 0
+                }
+            },
+            "created_at": "2024-02-20T17:59:28.766Z",
+            "updated_at": "2024-02-20T17:59:28.766Z"
+        },
+        "NPC": true,
+        "picture": "",
+        "created_at": "2024-02-20T17:59:28.766Z",
+        "updated_at": "2024-02-20T17:59:28.766Z"
+    }
+]
