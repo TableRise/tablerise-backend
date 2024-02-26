@@ -6,7 +6,10 @@ import {
     ActivateTwoFactorOperationContract,
     ActivateTwoFactorServiceContract,
 } from './users/ActivateTwoFactor';
-import { ConfirmEmailOperationContract, ConfirmEmailServiceContract } from './users/ConfirmEmail';
+import {
+    ConfirmEmailOperationContract,
+    ConfirmEmailServiceContract,
+} from './users/ConfirmEmail';
 import { CreateUserOperationContract, CreateUserServiceContract } from './users/CreateUser';
 import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/DeleteUser';
 import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
@@ -17,7 +20,10 @@ import {
     PictureProfileOperationContract,
     PictureProfileServiceContract,
 } from './users/PictureProfile';
-import { ResetProfileOperationContract, ResetProfileServiceContract } from './users/ResetProfile';
+import {
+    ResetProfileOperationContract,
+    ResetProfileServiceContract,
+} from './users/ResetProfile';
 
 export default interface UserCoreDependencies {
     // Operations

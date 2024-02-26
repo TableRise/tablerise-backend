@@ -7,7 +7,11 @@ export default class ImageStorageClient {
     private readonly _configs;
     private readonly _httpRequest;
 
-    constructor({ logger, httpRequest, configs }: InfraDependencies['imageStorageClientContract']) {
+    constructor({
+        logger,
+        httpRequest,
+        configs,
+    }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
         this._configs = configs;
         this._httpRequest = httpRequest;

@@ -119,7 +119,10 @@ export default class UsersController {
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(token);
 
-        return res.status(HttpStatusCode.OK).cookie('token', token, cookieOptions).json(tokenData);
+        return res
+            .status(HttpStatusCode.OK)
+            .cookie('token', token, cookieOptions)
+            .json(tokenData);
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
@@ -178,7 +181,8 @@ export default class UsersController {
 
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { infoId, targetInfo, operation } = req.query as unknown as UpdateGameInfoPayload;
+        const { infoId, targetInfo, operation } =
+            req.query as unknown as UpdateGameInfoPayload;
 
         const result = await this._updateGameInfoOperation.execute({
             userId: id,

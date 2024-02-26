@@ -17,7 +17,10 @@ export default class ToggleWikisAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Wiki>> {
+    public async execute({
+        id,
+        availability,
+    }: AvailabilityPayload): Promise<Internacional<Wiki>> {
         this._logger('info', 'Execute - ToggleWikisAvailabilityOperation');
         const wikis = await this._toggleWikisAvailabilityService.toggle({
             id,

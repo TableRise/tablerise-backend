@@ -24,7 +24,10 @@ export default class DeleteUserService {
         const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
 
         if (!userInDb || !userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
-        if (userDetailInDb.gameInfo.campaigns.length || userDetailInDb.gameInfo.characters.length) {
+        if (
+            userDetailInDb.gameInfo.campaigns.length ||
+            userDetailInDb.gameInfo.characters.length
+        ) {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 

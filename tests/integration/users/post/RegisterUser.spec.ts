@@ -24,7 +24,9 @@ describe('When a user is created', () => {
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
             expect(body).to.have.property('inProgress');
-            expect(body.inProgress).to.have.property('status').that.is.equal('wait_to_confirm');
+            expect(body.inProgress)
+                .to.have.property('status')
+                .that.is.equal('wait_to_confirm');
             expect(body).to.have.property('picture');
             expect(body.picture).to.have.property('link');
 

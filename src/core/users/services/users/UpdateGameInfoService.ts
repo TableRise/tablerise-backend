@@ -63,7 +63,8 @@ export default class UpdateGameInfoService {
         let gameInfo = userDetailInDb.gameInfo;
 
         if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo });
-        if (operation === 'remove') gameInfo = this._removeId({ infoId, targetInfo, gameInfo });
+        if (operation === 'remove')
+            gameInfo = this._removeId({ infoId, targetInfo, gameInfo });
 
         userDetailInDb.gameInfo = gameInfo;
 

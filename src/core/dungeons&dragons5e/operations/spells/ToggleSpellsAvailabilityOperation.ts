@@ -17,7 +17,10 @@ export default class ToggleSpellsAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Spell>> {
+    public async execute({
+        id,
+        availability,
+    }: AvailabilityPayload): Promise<Internacional<Spell>> {
         this._logger('info', 'Execute - ToggleSpellsAvailabilityOperation');
         const spells = await this._toggleSpellsAvailabilityService.toggle({
             id,

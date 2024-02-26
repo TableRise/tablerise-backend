@@ -7,14 +7,20 @@ export default class ConfirmEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({ usersRepository, logger }: UserCoreDependencies['confirmEmailServiceContract']) {
+    constructor({
+        usersRepository,
+        logger,
+    }: UserCoreDependencies['confirmEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
 
         this.processCode = this.processCode.bind(this);
     }
 
-    public async processCode({ email, code }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
+    public async processCode({
+        email,
+        code,
+    }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
         this._logger('info', 'VerifyCode - ConfirmEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
 

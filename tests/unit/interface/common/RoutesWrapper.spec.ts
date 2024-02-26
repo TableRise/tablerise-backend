@@ -1,7 +1,9 @@
 import RoutesWrapper from 'src/interface/common/RoutesWrapper';
 
 describe('Interefaces :: Common :: RoutesWrapper', () => {
-    let routesWrapper: RoutesWrapper, usersRoutesBuilder: any, dungeonsAndDragonsRoutesBuilder: any;
+    let routesWrapper: RoutesWrapper,
+        usersRoutesBuilder: any,
+        dungeonsAndDragonsRoutesBuilder: any;
 
     context('#routes', () => {
         beforeEach(() => {

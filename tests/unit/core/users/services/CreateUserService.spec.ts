@@ -49,9 +49,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     details: userDetails,
                 };
 
-                const { userSerialized, userDetailsSerialized } = await createUserService.serialize(
-                    userPayload
-                );
+                const { userSerialized, userDetailsSerialized } =
+                    await createUserService.serialize(userPayload);
 
                 expect(userSerialized.userId).to.be.equal(user.userId);
                 expect(userDetailsSerialized.firstName).to.be.equal(userDetails.firstName);
@@ -141,10 +140,11 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             });
 
             it('should return the correct result', async () => {
-                const { userEnriched, userDetailsEnriched } = await createUserService.enrichment({
-                    user,
-                    userDetails,
-                });
+                const { userEnriched, userDetailsEnriched } =
+                    await createUserService.enrichment({
+                        user,
+                        userDetails,
+                    });
 
                 expect(userEnriched.tag).to.be.not.null();
                 expect(userEnriched.createdAt).to.be.not.null();

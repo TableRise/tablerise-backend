@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 
 describe('Interface :: DungeonsAndDragons :: Middlewares :: DungeonsAndDragonsRoutesMiddleware', () => {
-    let dungeonsAndDragonsRoutesMiddleware: DungeonsAndDragonsRoutesMiddleware, routesWrapper: any;
+    let dungeonsAndDragonsRoutesMiddleware: DungeonsAndDragonsRoutesMiddleware,
+        routesWrapper: any;
 
     context('When the correct routes are wrapped in the middleware', () => {
         beforeEach(() => {

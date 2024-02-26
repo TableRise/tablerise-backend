@@ -40,7 +40,9 @@ export default class UsersDetailsRepository {
         this._logger('info', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: UserDetailInstance) => this._formatAndSerializeData(entity));
+        return request.map((entity: UserDetailInstance) =>
+            this._formatAndSerializeData(entity)
+        );
     }
 
     public async findOne(query: any = {}): Promise<UserDetailInstance> {

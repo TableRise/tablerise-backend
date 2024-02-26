@@ -75,7 +75,10 @@ export default class SocketIO {
         socket.emit('joined-in-match', this._matches[matchData.match_id]);
     }
 
-    private _changeMapImageSocketEvent({ matchId, mapId }: changeMapImageSocketEventPayload): void {
+    private _changeMapImageSocketEvent({
+        matchId,
+        mapId,
+    }: changeMapImageSocketEventPayload): void {
         const mapToActual = this._matches[matchId].map_images.find((map) => map.id === mapId);
 
         this._matches[matchId].actual_map_image =
@@ -151,7 +154,10 @@ export default class SocketIO {
             .emit('Avatar Moved', coordinates.x, coordinates.y, avatarId);
     }
 
-    private _deleteAvatarSocketEvent({ matchId, avatarId }: deleteAvatarSocketEventPayload): void {
+    private _deleteAvatarSocketEvent({
+        matchId,
+        avatarId,
+    }: deleteAvatarSocketEventPayload): void {
         const avatars = this._matches[matchId].avatarsInGame.filter(
             (avatar) => avatar.avatar_id !== avatarId
         );

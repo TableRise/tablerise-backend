@@ -74,7 +74,9 @@ describe('When user game info are updated', () => {
                     .get(`/profile/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(`ID ${userIdFakeThree} add with success to characters`);
+                expect(body).to.be.equal(
+                    `ID ${userIdFakeThree} add with success to characters`
+                );
                 expect(userWithGameInfoUpdated.details.gameInfo.characters[0]).to.be.equal(
                     userIdFakeThree
                 );
@@ -108,7 +110,9 @@ describe('When user game info are updated', () => {
                     .get(`/profile/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(`ID ${userIdFakeTwo} remove with success to campaigns`);
+                expect(body).to.be.equal(
+                    `ID ${userIdFakeTwo} remove with success to campaigns`
+                );
                 expect(userWithGameInfoUpdated.details.gameInfo.campaigns).to.have.lengthOf(0);
             });
 
@@ -123,8 +127,12 @@ describe('When user game info are updated', () => {
                     .get(`/profile/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to characters`);
-                expect(userWithGameInfoUpdated.details.gameInfo.characters).to.have.lengthOf(0);
+                expect(body).to.be.equal(
+                    `ID ${userIdFakeThree} remove with success to characters`
+                );
+                expect(userWithGameInfoUpdated.details.gameInfo.characters).to.have.lengthOf(
+                    0
+                );
             });
         });
     });

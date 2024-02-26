@@ -17,7 +17,10 @@ export default class ToggleClassesAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Class>> {
+    public async execute({
+        id,
+        availability,
+    }: AvailabilityPayload): Promise<Internacional<Class>> {
         this._logger('info', 'Execute - GetClassOperation');
         const classes = await this._toggleClassesAvailabilityService.toggle({
             id,

@@ -49,12 +49,18 @@ describe('When the user is updated', () => {
             expect(userUpdated.details.firstName).to.not.be.equal(
                 userBeforeUpdate.details.firstName
             );
-            expect(userUpdated.details.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
-            expect(userUpdated.details.pronoun).to.not.be.equal(userBeforeUpdate.details.pronoun);
+            expect(userUpdated.details.lastName).to.not.be.equal(
+                userBeforeUpdate.details.lastName
+            );
+            expect(userUpdated.details.pronoun).to.not.be.equal(
+                userBeforeUpdate.details.pronoun
+            );
             expect(userUpdated.details.biography).to.not.be.equal(
                 userBeforeUpdate.details.biography
             );
-            expect(userUpdated.details.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
+            expect(userUpdated.details.birthday).to.not.be.equal(
+                userBeforeUpdate.details.birthday
+            );
         });
     });
 });

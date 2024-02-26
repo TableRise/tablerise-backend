@@ -70,7 +70,11 @@ export default class Application {
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
-                this._logger('info', '[ Application - Database connection instanciated ]', true);
+                this._logger(
+                    'info',
+                    '[ Application - Database connection instanciated ]',
+                    true
+                );
             })
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');

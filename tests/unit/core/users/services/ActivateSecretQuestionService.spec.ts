@@ -48,7 +48,9 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 });
 
                 expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal('newQuestion');
+                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
+                    'newQuestion'
+                );
                 expect(userTest.userDetails.secretQuestion?.answer).to.be.equal('newAnswer');
             });
         });
@@ -92,7 +94,9 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 );
 
                 expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal('newQuestion');
+                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
+                    'newQuestion'
+                );
                 expect(userTest.userDetails.secretQuestion?.answer).to.be.equal('newAnswer');
             });
         });

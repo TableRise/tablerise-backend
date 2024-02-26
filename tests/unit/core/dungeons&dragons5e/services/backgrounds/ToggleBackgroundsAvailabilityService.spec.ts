@@ -34,7 +34,9 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleBackgroundsAvailability
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Backgrounds');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Backgrounds'
+            );
             expect(backgroundsTest).to.be.deep.equal({ ...background[0], active: false });
         });
     });

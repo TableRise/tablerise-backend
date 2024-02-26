@@ -103,7 +103,9 @@ describe('Infra :: Repositories :: DungeonsAndDragon :: DungeonsAndDragonsReposi
                     });
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('This content do not exist in the RPG system');
+                    expect(err.message).to.be.equal(
+                        'This content do not exist in the RPG system'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal('NotFound');
                 }
@@ -162,7 +164,9 @@ describe('Infra :: Repositories :: DungeonsAndDragon :: DungeonsAndDragonsReposi
                     });
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('This content do not exist in the RPG system');
+                    expect(err.message).to.be.equal(
+                        'This content do not exist in the RPG system'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal('NotFound');
                 }

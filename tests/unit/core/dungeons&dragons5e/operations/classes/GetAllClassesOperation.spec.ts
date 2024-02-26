@@ -3,7 +3,9 @@ import GetAllClassesOperation from 'src/core/dungeons&dragons5e/operations/class
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllClassesOperation', () => {
-    let getAllClassesOperation: GetAllClassesOperation, getAllClassesService: any, classes: any;
+    let getAllClassesOperation: GetAllClassesOperation,
+        getAllClassesService: any,
+        classes: any;
 
     const logger = (): void => {};
 

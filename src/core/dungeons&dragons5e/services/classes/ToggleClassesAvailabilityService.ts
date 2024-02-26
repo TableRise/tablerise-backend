@@ -17,7 +17,10 @@ export default class ToggleClassesAvailabilityService {
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Class>> {
+    public async toggle({
+        id,
+        availability,
+    }: AvailabilityPayload): Promise<Internacional<Class>> {
         this._logger('info', 'Toggle - ToggleClassesAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('Classes');
 

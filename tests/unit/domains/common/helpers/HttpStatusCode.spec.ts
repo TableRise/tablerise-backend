@@ -15,7 +15,9 @@ describe('Domains :: Common :: Helpers :: HttpStatusCode', () => {
                 'INTERNAL_SERVER',
                 'EXTERNAL_ERROR',
             ];
-            const enumKeysDeclared = Object.keys(HttpStatusCode).filter((key: any) => isNaN(key));
+            const enumKeysDeclared = Object.keys(HttpStatusCode).filter((key: any) =>
+                isNaN(key)
+            );
 
             expect(enumKeys.length).to.be.equal(enumKeysDeclared.length);
             enumKeys.forEach((key, index) => {

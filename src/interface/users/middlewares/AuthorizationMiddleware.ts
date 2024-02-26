@@ -30,7 +30,11 @@ export default class AuthorizationMiddleware {
         this.secretQuestion = this.secretQuestion.bind(this);
     }
 
-    public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async checkAdminRole(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
         this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
         const { userId } = req.user as JWTResponse;
@@ -55,7 +59,8 @@ export default class AuthorizationMiddleware {
         let userInDb = {} as UserInstance;
 
         if (id && !email) userInDb = await this._usersRepository.findOne({ userId: id });
-        if (email && !userInDb.email) userInDb = await this._usersRepository.findOne({ email });
+        if (email && !userInDb.email)
+            userInDb = await this._usersRepository.findOne({ email });
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
@@ -74,7 +79,11 @@ export default class AuthorizationMiddleware {
         next();
     }
 
-    public async secretQuestion(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async secretQuestion(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
         const { id } = req.params;
