@@ -1,9 +1,9 @@
 import sinon from 'sinon';
-import ToggleFeatOperation from 'src/core/dungeons&dragons5e/operations/feats/ToggleFeatsAvailabilityOperation';
+import ToggleFeatsAvailabilityOperation from 'src/core/dungeons&dragons5e/operations/feats/ToggleFeatsAvailabilityOperation';
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
-describe('Core :: Dungeons&dragons5e :: Operations :: ToggleFeatOperation', () => {
-    let toggleFeatOperation: ToggleFeatOperation,
+describe('Core :: Dungeons&dragons5e :: Operations :: ToggleFeatsAvailabilityOperation', () => {
+    let toggleFeatsAvailabilityOperation: ToggleFeatsAvailabilityOperation,
         toggleFeatsAvailabilityService: any,
         feat: any;
 
@@ -20,14 +20,14 @@ describe('Core :: Dungeons&dragons5e :: Operations :: ToggleFeatOperation', () =
                 toggle: sinon.spy(() => feat[0]),
             };
 
-            toggleFeatOperation = new ToggleFeatOperation({
+            toggleFeatsAvailabilityOperation = new ToggleFeatsAvailabilityOperation({
                 toggleFeatsAvailabilityService,
                 logger,
             });
         });
 
         it('should return the correct data and call correct methods', async () => {
-            const featTest = await toggleFeatOperation.execute({
+            const featTest = await toggleFeatsAvailabilityOperation.execute({
                 id: '123',
                 availability: false,
             });
