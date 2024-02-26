@@ -35,7 +35,9 @@ export default class OAuthController {
         const result = await this._googleOperation.execute(user as Google.Profile);
         const isToken = typeof result === 'string';
 
-        return res.status(HttpStatusCode.CREATED).json(isToken ? { token: result } : result);
+        return res
+            .status(HttpStatusCode.CREATED)
+            .json(isToken ? { token: result } : result);
     }
 
     public async facebook(req: Request, res: Response): Promise<Response> {
@@ -44,7 +46,9 @@ export default class OAuthController {
         const result = await this._facebookOperation.execute(user as Facebook.Profile);
         const isToken = typeof result === 'string';
 
-        return res.status(HttpStatusCode.CREATED).json(isToken ? { token: result } : result);
+        return res
+            .status(HttpStatusCode.CREATED)
+            .json(isToken ? { token: result } : result);
     }
 
     public async discord(req: Request, res: Response): Promise<Response> {
@@ -53,7 +57,9 @@ export default class OAuthController {
         const result = await this._discordOperation.execute(user as Discord.Profile);
         const isToken = typeof result === 'string';
 
-        return res.status(HttpStatusCode.CREATED).json(isToken ? { token: result } : result);
+        return res
+            .status(HttpStatusCode.CREATED)
+            .json(isToken ? { token: result } : result);
     }
 
     public async complete(req: Request, res: Response): Promise<Response> {

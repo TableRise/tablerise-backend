@@ -6,7 +6,10 @@ export default class GetAllBackgroundsOperation {
     private readonly _getAllBackgroundsService;
     private readonly _logger;
 
-    constructor({ getAllBackgroundsService, logger }: GetAllBackgroundsOperationContract) {
+    constructor({
+        getAllBackgroundsService,
+        logger,
+    }: GetAllBackgroundsOperationContract) {
         this._getAllBackgroundsService = getAllBackgroundsService;
         this._logger = logger;
 

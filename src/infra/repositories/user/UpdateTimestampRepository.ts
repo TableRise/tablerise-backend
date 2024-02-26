@@ -8,7 +8,10 @@ export default class UpdateTimestampRepository {
     private readonly _usersDetailsModel;
     private readonly _logger;
 
-    constructor({ database, logger }: InfraDependencies['updateTimestampRepositoryContract']) {
+    constructor({
+        database,
+        logger,
+    }: InfraDependencies['updateTimestampRepositoryContract']) {
         this._usersModel = database.modelInstance('user', 'Users');
         this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
         this._logger = logger;

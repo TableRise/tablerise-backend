@@ -87,7 +87,10 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    public async send(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+    public async send(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,

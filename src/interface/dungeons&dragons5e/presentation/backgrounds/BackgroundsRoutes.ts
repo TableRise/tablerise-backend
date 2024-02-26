@@ -12,7 +12,10 @@ export default class BackgroundsRoutes {
     private readonly _backgroundsController;
     private readonly _verifyIdMiddleware;
 
-    constructor({ backgroundsController, verifyIdMiddleware }: BackgroundsRoutesContract) {
+    constructor({
+        backgroundsController,
+        verifyIdMiddleware,
+    }: BackgroundsRoutesContract) {
         this._backgroundsController = backgroundsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
     }

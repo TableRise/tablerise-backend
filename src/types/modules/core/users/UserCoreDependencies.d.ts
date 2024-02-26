@@ -10,12 +10,24 @@ import {
     ConfirmEmailOperationContract,
     ConfirmEmailServiceContract,
 } from './users/ConfirmEmail';
-import { CreateUserOperationContract, CreateUserServiceContract } from './users/CreateUser';
-import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/DeleteUser';
-import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
+import {
+    CreateUserOperationContract,
+    CreateUserServiceContract,
+} from './users/CreateUser';
+import {
+    DeleteUserOperationContract,
+    DeleteUserServiceContract,
+} from './users/DeleteUser';
+import {
+    GetUserByIdOperationContract,
+    GetUserByIdServiceContract,
+} from './users/GetUserById';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
 import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
-import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
+import {
+    LogoutUserOperationContract,
+    LogoutUserServiceContract,
+} from './users/LogoutUser';
 import {
     PictureProfileOperationContract,
     PictureProfileServiceContract,

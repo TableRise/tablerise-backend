@@ -128,7 +128,9 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Backgrounds :: Ba
             request.query = { availability: 'false' };
             await backgroundsController.toggleAvailability(request, response);
 
-            expect(toggleBackgroundsAvailabilityOperation.execute).to.have.been.calledWith({
+            expect(
+                toggleBackgroundsAvailabilityOperation.execute
+            ).to.have.been.calledWith({
                 id: '123',
                 availability: false,
             });

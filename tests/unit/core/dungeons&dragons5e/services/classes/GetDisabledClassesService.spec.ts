@@ -34,7 +34,9 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetDisabledClassesService', 
         it('should return the correct data and call correct methods', async () => {
             const classesTest = await getDisabledClassesService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Classes');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Classes'
+            );
             classesTest.forEach((e: any) => {
                 expect(e.active).to.be.false();
             });

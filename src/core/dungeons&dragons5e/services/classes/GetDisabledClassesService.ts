@@ -6,7 +6,10 @@ export default class GetDisabledClassesService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledClassesServiceContract) {
+    constructor({
+        dungeonsAndDragonsRepository,
+        logger,
+    }: GetDisabledClassesServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 

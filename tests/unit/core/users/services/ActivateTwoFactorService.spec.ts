@@ -126,7 +126,9 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('2FA is already enabled for this user');
+                    expect(err.message).to.be.equal(
+                        '2FA is already enabled for this user'
+                    );
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }

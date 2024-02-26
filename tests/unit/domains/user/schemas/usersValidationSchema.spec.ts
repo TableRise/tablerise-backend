@@ -1,7 +1,9 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import usersZodSchema, { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import usersZodSchema, {
+    UserInstance,
+} from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {

@@ -14,7 +14,10 @@ export default function generateIDParam(): RouteDeclareParams[] {
     ];
 }
 
-export function generateFileParam(count: number, names: ParamName[]): RouteDeclareParams[] {
+export function generateFileParam(
+    count: number,
+    names: ParamName[]
+): RouteDeclareParams[] {
     const params = [];
 
     const idxCount = count - 1;
@@ -31,7 +34,10 @@ export function generateFileParam(count: number, names: ParamName[]): RouteDecla
     return params as RouteDeclareParams[];
 }
 
-export function generateQueryParam(count: number, names: ParamName[]): RouteDeclareParams[] {
+export function generateQueryParam(
+    count: number,
+    names: ParamName[]
+): RouteDeclareParams[] {
     const params = [];
 
     const idxCount = count - 1;
@@ -48,7 +54,10 @@ export function generateQueryParam(count: number, names: ParamName[]): RouteDecl
     return params as RouteDeclareParams[];
 }
 
-export function generateHeaderParam(count: number, names: ParamName[]): RouteDeclareParams[] {
+export function generateHeaderParam(
+    count: number,
+    names: ParamName[]
+): RouteDeclareParams[] {
     const params = [];
 
     const idxCount = count - 1;

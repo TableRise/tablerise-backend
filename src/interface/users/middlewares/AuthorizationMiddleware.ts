@@ -50,7 +50,11 @@ export default class AuthorizationMiddleware {
         }
     }
 
-    public async twoFactor(req: Request, _res: Response, next: NextFunction): Promise<void> {
+    public async twoFactor(
+        req: Request,
+        _res: Response,
+        next: NextFunction
+    ): Promise<void> {
         this._logger('warn', 'TwoFactor - AuthorizationMiddleware');
 
         const { id } = req.params;
@@ -94,7 +98,8 @@ export default class AuthorizationMiddleware {
 
         let userDetailsInDb = {} as UserDetailInstance;
 
-        if (id) userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+        if (id)
+            userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
         if (email && !id) {
             const userInDb = await this._usersRepository.findOne({ email });
             userDetailsInDb = await this._usersDetailsRepository.findOne({

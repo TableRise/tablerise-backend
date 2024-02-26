@@ -32,7 +32,9 @@ describe('When the user has secret question activated', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/profile/${user.userId}/question/activate?token=123456&isUpdate=false`)
+                .patch(
+                    `/profile/${user.userId}/question/activate?token=123456&isUpdate=false`
+                )
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
@@ -70,7 +72,9 @@ describe('When the user has secret question activated', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/profile/${user.userId}/question/activate?token=123456&isUpdate=true`)
+                .patch(
+                    `/profile/${user.userId}/question/activate?token=123456&isUpdate=true`
+                )
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 

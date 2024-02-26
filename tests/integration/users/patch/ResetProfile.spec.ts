@@ -34,8 +34,12 @@ describe('When game info of an user is reset', () => {
 
             expect(body).to.have.property('details');
             expect(body.details.gameInfo.badges).to.be.an('array').that.has.lengthOf(0);
-            expect(body.details.gameInfo.campaigns).to.be.an('array').that.has.lengthOf(0);
-            expect(body.details.gameInfo.characters).to.be.an('array').that.has.lengthOf(0);
+            expect(body.details.gameInfo.campaigns)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
+            expect(body.details.gameInfo.characters)
+                .to.be.an('array')
+                .that.has.lengthOf(0);
         });
     });
 });

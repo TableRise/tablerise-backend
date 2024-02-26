@@ -1,8 +1,18 @@
 import userStatusEnum from 'src/domains/users/enums/userStatusEnum';
 
 describe('Domains :: User :: Enum :: UserStatusEnum', () => {
-    const enumKeysFixed = ['WAIT_TO_CONFIRM', 'WAIT_TO_COMPLETE', 'WAIT_TO_VERIFY', 'DONE'];
-    const enumValuesFixed = ['wait-to-confirm', 'wait-to-complete', 'wait-to-verify', 'done'];
+    const enumKeysFixed = [
+        'WAIT_TO_CONFIRM',
+        'WAIT_TO_COMPLETE',
+        'WAIT_TO_VERIFY',
+        'DONE',
+    ];
+    const enumValuesFixed = [
+        'wait-to-confirm',
+        'wait-to-complete',
+        'wait-to-verify',
+        'done',
+    ];
 
     context('When enum key/values', () => {
         it('should have correct key/values', () => {

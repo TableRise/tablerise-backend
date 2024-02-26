@@ -33,7 +33,9 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         method: 'get',
                         path: `/dnd5e/${routeName}`,
                         options: {
-                            middlewares: [passport.authenticate('cookie', { session: false })],
+                            middlewares: [
+                                passport.authenticate('cookie', { session: false }),
+                            ],
                             authentication: true,
                             tag: routeName,
                         },
@@ -42,7 +44,9 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         method: 'get',
                         path: `/dnd5e/${routeName}/disabled`,
                         options: {
-                            middlewares: [passport.authenticate('cookie', { session: false })],
+                            middlewares: [
+                                passport.authenticate('cookie', { session: false }),
+                            ],
                             authentication: true,
                             tag: routeName,
                         },

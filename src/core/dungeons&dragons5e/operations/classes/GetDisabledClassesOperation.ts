@@ -6,7 +6,10 @@ export default class GetDisabledClassesOperation {
     private readonly _getDisabledClassesService;
     private readonly _logger;
 
-    constructor({ getDisabledClassesService, logger }: GetDisabledClassesOperationContract) {
+    constructor({
+        getDisabledClassesService,
+        logger,
+    }: GetDisabledClassesOperationContract) {
         this._getDisabledClassesService = getDisabledClassesService;
         this._logger = logger;
 

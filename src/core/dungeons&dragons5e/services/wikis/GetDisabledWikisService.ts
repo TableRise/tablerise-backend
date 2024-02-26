@@ -6,7 +6,10 @@ export default class GetDisabledWikisService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledWikisServiceContract) {
+    constructor({
+        dungeonsAndDragonsRepository,
+        logger,
+    }: GetDisabledWikisServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 

@@ -81,7 +81,11 @@ export default class Application {
             });
 
         server.listen(port, () => {
-            this._logger('info', `[ Application - Server started in port -> ${port} ]`, true);
+            this._logger(
+                'info',
+                `[ Application - Server started in port -> ${port} ]`,
+                true
+            );
         });
     }
 }

@@ -6,7 +6,10 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import EmailSender from 'src/domains/users/helpers/EmailSender';
-import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src/types/Envs';
+import {
+    MongooseEnvs,
+    RedisEnvs,
+} from '@tablerise/database-management/dist/src/types/Envs';
 
 setup({ loadExt: 'ts' });
 chai.use(require('dirty-chai'));
@@ -62,7 +65,10 @@ exports.mochaHooks = {
         };
 
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const UserDetailsModel = new DatabaseManagement().modelInstance(
+            'user',
+            'UserDetails'
+        );
 
         await UsersModel.create(user);
         await UserDetailsModel.create(details);
@@ -97,7 +103,10 @@ exports.mochaHooks = {
 
     async afterAll() {
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const UserDetailsModel = new DatabaseManagement().modelInstance(
+            'user',
+            'UserDetails'
+        );
 
         await UsersModel.erase();
         await UserDetailsModel.erase();

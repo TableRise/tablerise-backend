@@ -30,7 +30,9 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllArmorsService', () => 
         it('should return the correct data and call correct methods', async () => {
             const armorsTest = await getAllArmorsService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Armors');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Armors'
+            );
             expect(armorsTest).to.be.deep.equal(armors);
         });
     });

@@ -20,7 +20,10 @@ export default class JWTGenerator {
 
     static verify(token: string): JWT.JwtPayload | boolean {
         try {
-            const payload = JWT.verify(token, (process.env.JWT_SECRET as string) || 'secret');
+            const payload = JWT.verify(
+                token,
+                (process.env.JWT_SECRET as string) || 'secret'
+            );
             return payload as JWT.JwtPayload;
         } catch (error) {
             return false;

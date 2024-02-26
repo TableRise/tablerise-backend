@@ -17,7 +17,8 @@ export default class BackgroundsController {
         this._getBackgroundOperation = getBackgroundOperation;
         this._getAllBackgroundsOperation = getAllBackgroundsOperation;
         this._getDisabledBackgroundsOperation = getDisabledBackgroundsOperation;
-        this._toggleBackgroundsAvailabilityOperation = toggleBackgroundsAvailabilityOperation;
+        this._toggleBackgroundsAvailabilityOperation =
+            toggleBackgroundsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);

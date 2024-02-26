@@ -34,7 +34,9 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleClassesAvailabilityServ
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Classes');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Classes'
+            );
             expect(classesTest).to.be.deep.equal({ ..._class[0], active: false });
         });
     });

@@ -53,7 +53,9 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     await createUserService.serialize(userPayload);
 
                 expect(userSerialized.userId).to.be.equal(user.userId);
-                expect(userDetailsSerialized.firstName).to.be.equal(userDetails.firstName);
+                expect(userDetailsSerialized.firstName).to.be.equal(
+                    userDetails.firstName
+                );
             });
         });
 
@@ -324,7 +326,9 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Some problem ocurred in email sending');
+                    expect(err.message).to.be.equal(
+                        'Some problem ocurred in email sending'
+                    );
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }

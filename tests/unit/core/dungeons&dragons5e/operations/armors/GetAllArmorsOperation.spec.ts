@@ -3,7 +3,9 @@ import GetAllArmorsOperation from 'src/core/dungeons&dragons5e/operations/armors
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllArmorsOperation', () => {
-    let getAllArmorsOperation: GetAllArmorsOperation, getAllArmorsService: any, armors: any;
+    let getAllArmorsOperation: GetAllArmorsOperation,
+        getAllArmorsService: any,
+        armors: any;
 
     const logger = (): void => {};
 

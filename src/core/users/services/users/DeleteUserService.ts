@@ -34,6 +34,9 @@ export default class DeleteUserService {
         await this._usersRepository.delete({ userId });
         await this._usersDetailsRepository.delete({ userId });
 
-        this._logger('info', `Delete Service - User deleted from database with ID ${userId}`);
+        this._logger(
+            'info',
+            `Delete Service - User deleted from database with ID ${userId}`
+        );
     }
 }

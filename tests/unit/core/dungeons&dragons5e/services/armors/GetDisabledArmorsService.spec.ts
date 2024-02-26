@@ -30,7 +30,9 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledArmorsService', ()
         it('should return the correct data and call correct methods', async () => {
             const armorsTest = await getDisabledArmorsService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Armors');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Armors'
+            );
             expect(armorsTest).to.be.deep.equal(armors);
         });
     });

@@ -39,7 +39,9 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     context('When an error is throwed by HttpRequestErrors', () => {
         it('should throw expected error', () => {
             for (const [key, value] of Object.entries(expectedErrors)) {
-                expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(value);
+                expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(
+                    value
+                );
             }
         });
 

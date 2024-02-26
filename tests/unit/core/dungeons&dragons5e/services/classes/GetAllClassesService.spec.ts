@@ -30,7 +30,9 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllClassesService', () =>
         it('should return the correct data and call correct methods', async () => {
             const classesTest = await getAllClassesService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Classes');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Classes'
+            );
             expect(classesTest).to.be.deep.equal(classes);
         });
     });

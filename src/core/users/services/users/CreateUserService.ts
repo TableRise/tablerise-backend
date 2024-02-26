@@ -108,7 +108,8 @@ export default class CreateUserService {
             userSaved.email
         );
 
-        if (!emailSended.success) HttpRequestErrors.throwError('verification-email-send-fail');
+        if (!emailSended.success)
+            HttpRequestErrors.throwError('verification-email-send-fail');
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 

@@ -52,7 +52,9 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         application: asClass(Application).singleton(),
         routesWrapper: asClass(RoutesWrapper).singleton(),
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
-        dungeonsAndDragonsRoutesBuilder: asClass(DungeonsAndDragonsRoutesBuilder).singleton(),
+        dungeonsAndDragonsRoutesBuilder: asClass(
+            DungeonsAndDragonsRoutesBuilder
+        ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),

@@ -117,7 +117,9 @@ export default class UsersController {
     public async login(req: Request, res: Response): Promise<Response> {
         const { user: token } = req;
 
-        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(token);
+        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
+            token
+        );
 
         return res
             .status(HttpStatusCode.OK)
@@ -149,7 +151,10 @@ export default class UsersController {
         const { id } = req.params;
         const { isReset } = req.query;
 
-        const result = await this._activateTwoFactorOperation.execute(id, isReset === 'true');
+        const result = await this._activateTwoFactorOperation.execute(
+            id,
+            isReset === 'true'
+        );
         return res.status(HttpStatusCode.OK).json(result);
     }
 

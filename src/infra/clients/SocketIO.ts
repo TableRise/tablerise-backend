@@ -27,7 +27,8 @@ export default class SocketIO {
 
         this.connect = this.connect.bind(this);
         this._joinMatchSocketEvent = this._joinMatchSocketEvent.bind(this);
-        this._addOrCreateAvatarSocketEvent = this._addOrCreateAvatarSocketEvent.bind(this);
+        this._addOrCreateAvatarSocketEvent =
+            this._addOrCreateAvatarSocketEvent.bind(this);
         this._addAvatar = this._addAvatar.bind(this);
         this._createAvatar = this._createAvatar.bind(this);
         this._changeMapImageSocketEvent = this._changeMapImageSocketEvent.bind(this);
@@ -79,7 +80,9 @@ export default class SocketIO {
         matchId,
         mapId,
     }: changeMapImageSocketEventPayload): void {
-        const mapToActual = this._matches[matchId].map_images.find((map) => map.id === mapId);
+        const mapToActual = this._matches[matchId].map_images.find(
+            (map) => map.id === mapId
+        );
 
         this._matches[matchId].actual_map_image =
             mapToActual ?? this._matches[matchId].actual_map_image;

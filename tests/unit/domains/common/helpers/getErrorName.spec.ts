@@ -13,9 +13,9 @@ describe('Domains :: User :: Helpers :: GetErrorName', () => {
 
     it('Should return a string', () => {
         for (const key in codes) {
-            expect(getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])).to.be.a(
-                'string'
-            );
+            expect(
+                getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])
+            ).to.be.a('string');
         }
     });
 

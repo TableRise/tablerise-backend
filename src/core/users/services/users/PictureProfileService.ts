@@ -32,14 +32,18 @@ export default class PictureProfileService {
 
             if (diffDays - 1 < 15)
                 throw new HttpRequestErrors({
-                    message: 'You only can upload a new profile picture one time in 15-days',
+                    message:
+                        'You only can upload a new profile picture one time in 15-days',
                     name: getErrorName(HttpStatusCode.FORBIDDEN),
                     code: HttpStatusCode.FORBIDDEN,
                 });
         }
     }
 
-    public async uploadPicture({ userId, image }: UserImagePayload): Promise<UserInstance> {
+    public async uploadPicture({
+        userId,
+        image,
+    }: UserImagePayload): Promise<UserInstance> {
         this._logger('info', 'UploadPicture - PictureProfileService');
         const userInDb = await this._usersRepository.findOne({ userId });
 

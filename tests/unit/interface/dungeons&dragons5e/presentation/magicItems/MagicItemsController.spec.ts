@@ -127,10 +127,12 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: MagicItems :: Mag
             request.query = { availability: 'false' };
             await magicItemsController.toggleAvailability(request, response);
 
-            expect(toggleMagicItemsAvailabilityOperation.execute).to.have.been.calledWith({
-                id: '123',
-                availability: false,
-            });
+            expect(toggleMagicItemsAvailabilityOperation.execute).to.have.been.calledWith(
+                {
+                    id: '123',
+                    availability: false,
+                }
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });

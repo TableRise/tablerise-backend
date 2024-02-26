@@ -3,7 +3,9 @@ import GetAllFeatsService from 'src/core/dungeons&dragons5e/services/feats/GetAl
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetAllFeatsService', () => {
-    let getAllFeatsService: GetAllFeatsService, dungeonsAndDragonsRepository: any, feats: any;
+    let getAllFeatsService: GetAllFeatsService,
+        dungeonsAndDragonsRepository: any,
+        feats: any;
 
     const logger = (): void => {};
 
@@ -28,7 +30,9 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllFeatsService', () => {
         it('should return the correct data and call correct methods', async () => {
             const featsTest = await getAllFeatsService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Feats');
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
+                'Feats'
+            );
             expect(featsTest).to.be.deep.equal(feats);
         });
     });
