@@ -5,6 +5,7 @@ import {
     Class,
     Feat,
     God,
+    Item,
     MagicItem,
     Monster,
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
@@ -664,6 +665,7 @@ function createGodsFaker({
         },
     };
 }
+
 function createMagicItemsFaker({
     entityId,
 }: {
@@ -954,6 +956,55 @@ function createMonstersFaker({
     };
 }
 
+function createItemsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Item> & { itemId: string } {
+    return {
+        itemId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Abacus',
+            description: '2',
+            cost: {
+                currency: 'gp',
+                value: 2,
+            },
+            type: 'adventuring gear',
+            weight: 0.9,
+            mountOrVehicle: {
+                isValid: false,
+                speed: '2',
+                carryingCapacity: '2',
+            },
+            tradeGoods: {
+                isValid: false,
+                goods: '2',
+            },
+        },
+        pt: {
+            name: 'Ábaco',
+            description: '2',
+            cost: {
+                currency: 'po',
+                value: 2,
+            },
+            type: 'equipamento de aventura',
+            weight: 0.9,
+            mountOrVehicle: {
+                isValid: false,
+                speed: '2',
+                carryingCapacity: '2',
+            },
+            tradeGoods: {
+                isValid: false,
+                goods: '2',
+            },
+        },
+    };
+}
+
 const dungeonsAndDragonsFunctions = {
     armors: createArmorsFaker,
     backgrounds: createBackgroundsFaker,
@@ -962,6 +1013,7 @@ const dungeonsAndDragonsFunctions = {
     gods: createGodsFaker,
     magicItems: createMagicItemsFaker,
     monsters: createMonstersFaker,
+    items: createItemsFaker,
 };
 
 export default function generateDungeonsAndDragonsFaker({
@@ -974,7 +1026,9 @@ export default function generateDungeonsAndDragonsFaker({
     entity: string | undefined;
 }): any[] {
     const entityArray: Array<
-        Internacional<Armor | Background | Class | Feat | God | MagicItem | Monster>
+        Internacional<
+            Armor | Background | Class | Feat | God | MagicItem | Monster | Item
+        >
     > = [];
 
     for (let index = 0; index <= count; index += 1) {
