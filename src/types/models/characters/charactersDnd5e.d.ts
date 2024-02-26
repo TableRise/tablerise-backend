@@ -7,7 +7,6 @@ export interface charactersDnd5e {
     picture: string;
     createdAt: string;
     updatedAt: string;
-
 }
 
 export interface Author {
@@ -67,10 +66,10 @@ export interface Spells {
     6: SpellLv;
     7: SpellLv;
     8: SpellLv;
-    9: SpellLv; 
+    9: SpellLv;
 }
 
-export interface SpellLv{
+export interface SpellLv {
     spellIds: [string];
     slotsTotal: number;
     slorsExpanded: number;
@@ -86,12 +85,12 @@ export interface Characteristics {
     appearence: Appearence;
     alliesAndorgs: AlliesAndOrgs;
     other: Other;
-    treasure:[string];
+    treasure: [string];
 }
 
 export interface Appearence {
     eyes: string;
-    age:string;
+    age: string;
     weight: string;
     height: string;
     skin: string;
@@ -138,14 +137,14 @@ export interface HitPoints {
 
 export interface DeathSaves {
     sucess: number;
-    failures: number
+    failures: number;
 }
 
 export interface SpellCasting {
-   class: string;
-   ability: string;
-   saveDc: number;
-   attackBonus: number; 
+    class: string;
+    ability: string;
+    saveDc: number;
+    attackBonus: number;
 }
 
 export interface AbilityScore {
