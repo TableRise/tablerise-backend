@@ -5,9 +5,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
-    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
-        usersRepository: any,
-        user: any;
+    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware, usersRepository: any, user: any;
 
     const logger = (): unknown => ({});
 

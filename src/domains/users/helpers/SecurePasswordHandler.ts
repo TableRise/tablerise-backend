@@ -9,10 +9,7 @@ export default class SecurePasswordHandler {
         return hashedPassword;
     }
 
-    static async comparePassword(
-        password: string,
-        hashedPassword: string
-    ): Promise<boolean> {
+    static async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
         const match = await bcrypt.compare(password, hashedPassword);
         return match;
     }

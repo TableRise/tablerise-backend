@@ -51,11 +51,7 @@ export default class CompleteUserService {
         HttpRequestErrors.throwError('tag-already-exist');
     }
 
-    public async save({
-        userId,
-        user,
-        userDetails,
-    }: __UserWithID): Promise<RegisterUserResponse> {
+    public async save({ userId, user, userDetails }: __UserWithID): Promise<RegisterUserResponse> {
         this._logger('info', 'Save - CompleteUserService');
         const userUpdated = await this._usersRepository.update({
             query: { userId },

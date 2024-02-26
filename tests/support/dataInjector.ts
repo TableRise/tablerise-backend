@@ -22,9 +22,6 @@ export async function InjectNewUserDetails(
 ): Promise<void> {
     userDetails.userId = userId;
 
-    const modelUserDetails = new DatabaseManagement().modelInstance(
-        'user',
-        'UserDetails'
-    );
+    const modelUserDetails = new DatabaseManagement().modelInstance('user', 'UserDetails');
     await modelUserDetails.create(userDetails);
 }

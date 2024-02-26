@@ -46,9 +46,7 @@ passport.use(
                 );
 
             try {
-                const user = await container
-                    .resolve('usersRepository')
-                    .findOne({ email });
+                const user = await container.resolve('usersRepository').findOne({ email });
 
                 if (!user)
                     return done(

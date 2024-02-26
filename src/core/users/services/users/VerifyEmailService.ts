@@ -31,10 +31,7 @@ export default class VerifyEmailService {
         );
 
         if (!emailSendResult.success) {
-            this._logger(
-                'error',
-                'Some error ocurred in email sending - VerifyEmailService'
-            );
+            this._logger('error', 'Some error ocurred in email sending - VerifyEmailService');
             HttpRequestErrors.throwError('user-inexistent');
         }
 

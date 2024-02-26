@@ -70,22 +70,14 @@ export default class Application {
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
-                this._logger(
-                    'info',
-                    '[ Application - Database connection instanciated ]',
-                    true
-                );
+                this._logger('info', '[ Application - Database connection instanciated ]', true);
             })
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
 
         server.listen(port, () => {
-            this._logger(
-                'info',
-                `[ Application - Server started in port -> ${port} ]`,
-                true
-            );
+            this._logger('info', `[ Application - Server started in port -> ${port} ]`, true);
         });
     }
 }

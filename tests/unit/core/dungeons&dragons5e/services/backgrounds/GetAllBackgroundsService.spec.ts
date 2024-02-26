@@ -30,9 +30,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllBackgroundsService', (
         it('should return the correct data and call correct methods', async () => {
             const backgroundsTest = await getAllBackgroundsService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Backgrounds'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Backgrounds');
             expect(backgroundsTest).to.be.deep.equal(backgrounds);
         });
     });

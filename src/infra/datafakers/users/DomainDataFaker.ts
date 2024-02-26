@@ -8,9 +8,7 @@ import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
 import questionEnum from 'src/domains/users/enums/questionEnum';
 
-function generateUsersJSON(
-    { count, userId }: UserJSONPayload = { count: 1 }
-): UserInstance[] {
+function generateUsersJSON({ count, userId }: UserJSONPayload = { count: 1 }): UserInstance[] {
     return generateUsersFaker({ count, userId });
 }
 

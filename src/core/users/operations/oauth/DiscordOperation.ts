@@ -6,19 +6,14 @@ export default class DiscordOperation {
     private readonly _oAuthService;
     private readonly _logger;
 
-    constructor({
-        oAuthService,
-        logger,
-    }: OAuthCoreDependencies['oAuthOperationContract']) {
+    constructor({ oAuthService, logger }: OAuthCoreDependencies['oAuthOperationContract']) {
         this._oAuthService = oAuthService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(
-        payload: Discord.Profile
-    ): Promise<RegisterUserResponse | string> {
+    public async execute(payload: Discord.Profile): Promise<RegisterUserResponse | string> {
         this._logger('info', 'Execute - DiscordOperation');
 
         const entitySerialized = await this._oAuthService.serialize(payload);

@@ -6,10 +6,7 @@ export default class GetAllMagicItemsService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: GetAllMagicItemsServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: GetAllMagicItemsServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 

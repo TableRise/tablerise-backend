@@ -1,9 +1,7 @@
 import { routeInstance } from '@tablerise/auto-swagger';
 import { Router } from 'express';
 import passport from 'passport';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import DungeonsAndDragonsRoutesBuilder from 'src/interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 
 describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsRoutesMiddleware', () => {
@@ -33,9 +31,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         method: 'get',
                         path: `/dnd5e/${routeName}`,
                         options: {
-                            middlewares: [
-                                passport.authenticate('cookie', { session: false }),
-                            ],
+                            middlewares: [passport.authenticate('cookie', { session: false })],
                             authentication: true,
                             tag: routeName,
                         },
@@ -44,9 +40,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         method: 'get',
                         path: `/dnd5e/${routeName}/disabled`,
                         options: {
-                            middlewares: [
-                                passport.authenticate('cookie', { session: false }),
-                            ],
+                            middlewares: [passport.authenticate('cookie', { session: false })],
                             authentication: true,
                             tag: routeName,
                         },
@@ -69,9 +63,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                         path: `/dnd5e/${routeName}/:id`,
                         parameters: [
                             ...generateIDParam(),
-                            ...generateQueryParam(1, [
-                                { name: 'availability', type: 'boolean' },
-                            ]),
+                            ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                         ],
                         options: {
                             middlewares: [

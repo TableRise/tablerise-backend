@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { BackgroundsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsRoutes';
 
 const BASE_PATH = '/dnd5e/backgrounds';
@@ -12,10 +10,7 @@ export default class BackgroundsRoutes {
     private readonly _backgroundsController;
     private readonly _verifyIdMiddleware;
 
-    constructor({
-        backgroundsController,
-        verifyIdMiddleware,
-    }: BackgroundsRoutesContract) {
+    constructor({ backgroundsController, verifyIdMiddleware }: BackgroundsRoutesContract) {
         this._backgroundsController = backgroundsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
     }

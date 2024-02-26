@@ -48,12 +48,8 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 });
 
                 expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
-                    'newQuestion'
-                );
-                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal(
-                    'newAnswer'
-                );
+                expect(userTest.userDetails.secretQuestion?.question).to.be.equal('newQuestion');
+                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal('newAnswer');
             });
         });
 
@@ -96,65 +92,58 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 );
 
                 expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
-                    'newQuestion'
-                );
-                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal(
-                    'newAnswer'
-                );
+                expect(userTest.userDetails.secretQuestion?.question).to.be.equal('newQuestion');
+                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal('newAnswer');
             });
         });
 
-        context(
-            'When update an user secret question fail: incorrect-secret-question',
-            () => {
-                beforeEach(() => {
-                    user = DomainDataFaker.generateUsersJSON()[0];
-                    userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-                    userDetails.userId = user.userId;
-                    userDetails.secretQuestion = null;
+        context('When update an user secret question fail: incorrect-secret-question', () => {
+            beforeEach(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.userId = user.userId;
+                userDetails.secretQuestion = null;
 
-                    usersRepository = {
-                        findOne: () => user,
-                    };
+                usersRepository = {
+                    findOne: () => user,
+                };
 
-                    usersDetailsRepository = {
-                        findOne: () => userDetails,
-                    };
+                usersDetailsRepository = {
+                    findOne: () => userDetails,
+                };
 
-                    activateSecretQuestionService = new ActivateSecretQuestionService({
-                        usersRepository,
-                        usersDetailsRepository,
-                        logger,
-                    });
+                activateSecretQuestionService = new ActivateSecretQuestionService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    logger,
                 });
+            });
 
-                it('should return the correct result', async () => {
-                    try {
-                        const payload = {
-                            question: 'oldQuestion',
-                            answer: 'oldAnswer',
-                            new: {
-                                question: 'newQuestion',
-                                answer: 'newAnswer',
-                            },
-                        };
-                        await activateSecretQuestionService.activate(
-                            {
-                                userId: 'userId',
-                                payload,
-                            },
-                            true
-                        );
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal('Secret question is incorrect');
-                        expect(err.name).to.be.equal('Unauthorized');
-                        expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    }
-                });
-            }
-        );
+            it('should return the correct result', async () => {
+                try {
+                    const payload = {
+                        question: 'oldQuestion',
+                        answer: 'oldAnswer',
+                        new: {
+                            question: 'newQuestion',
+                            answer: 'newAnswer',
+                        },
+                    };
+                    await activateSecretQuestionService.activate(
+                        {
+                            userId: 'userId',
+                            payload,
+                        },
+                        true
+                    );
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Secret question is incorrect');
+                    expect(err.name).to.be.equal('Unauthorized');
+                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+                }
+            });
+        });
 
         context(
             'When update an user secret question fail: new-structure-secret-question-missing',

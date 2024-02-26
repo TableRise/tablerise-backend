@@ -17,10 +17,7 @@ export default class ToggleFeatsAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Feat>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Feat>> {
         this._logger('info', 'Execute - GetFeatOperation');
         const feats = await this._toggleFeatsAvailabilityService.toggle({
             id,

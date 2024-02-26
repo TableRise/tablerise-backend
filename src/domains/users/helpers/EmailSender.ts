@@ -55,10 +55,7 @@ export default class EmailSender {
         return true;
     }
 
-    private async sendCommon(
-        content: CommonContent,
-        target: string
-    ): Promise<ResponseEmailSender> {
+    private async sendCommon(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const sendEmailResult = await this.handleEmail('text', content, target);
         return { success: sendEmailResult };
     }
@@ -87,10 +84,7 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    public async send(
-        content: CommonContent,
-        target: string
-    ): Promise<ResponseEmailSender> {
+    public async send(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,

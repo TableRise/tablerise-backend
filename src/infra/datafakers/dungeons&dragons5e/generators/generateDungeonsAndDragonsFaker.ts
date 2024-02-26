@@ -245,12 +245,8 @@ function createClassesFaker({
                 },
             ],
             levelingSpecs: {
-                level: [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                ],
-                proficiencyBonus: [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6,
-                ],
+                level: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                proficiencyBonus: [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 features: [
                     'Range, Unarmored Defense',
                     'Reckless Attack, Danger Sense',
@@ -313,9 +309,7 @@ function createClassesFaker({
                 },
                 rages: {
                     isValidToThisClass: true,
-                    amount: [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999,
-                    ],
+                    amount: [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999],
                 },
                 rageDamage: {
                     isValidToThisClass: true,
@@ -459,12 +453,8 @@ function createClassesFaker({
                 },
             ],
             levelingSpecs: {
-                level: [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                ],
-                proficiencyBonus: [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6,
-                ],
+                level: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                proficiencyBonus: [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 features: [
                     'Raiva, Defesa Inarmada',
                     'Ataque Despreocupado, Sentido de Perigo',
@@ -527,9 +517,7 @@ function createClassesFaker({
                 },
                 rages: {
                     isValidToThisClass: true,
-                    amount: [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999,
-                    ],
+                    amount: [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999],
                 },
                 rageDamage: {
                     isValidToThisClass: true,
@@ -657,9 +645,9 @@ export default function generateDungeonsAndDragonsFaker({
 
     for (let index = 0; index <= count; index += 1) {
         entityArray.push(
-            dungeonsAndDragonsFunctions[
-                entity as keyof typeof dungeonsAndDragonsFunctions
-            ]({ entityId } as { entityId: string })
+            dungeonsAndDragonsFunctions[entity as keyof typeof dungeonsAndDragonsFunctions]({
+                entityId,
+            } as { entityId: string })
         );
     }
 

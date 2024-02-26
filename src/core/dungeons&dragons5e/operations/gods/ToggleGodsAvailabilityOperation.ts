@@ -17,10 +17,7 @@ export default class ToggleGodsAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<God>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<God>> {
         this._logger('info', 'Execute - GetGodOperation');
         const gods = await this._toggleGodsAvailabilityService.toggle({
             id,

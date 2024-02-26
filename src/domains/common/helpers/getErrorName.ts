@@ -15,8 +15,6 @@ export default (code: number): string => {
         case HttpStatusCode.INTERNAL_SERVER:
             return 'InternalServerError';
         default:
-            throw new Error(
-                `This ${code} is not valid, check the code List at HttpStatusCode.`
-            );
+            throw new Error(`This ${code} is not valid, check the code List at HttpStatusCode.`);
     }
 };

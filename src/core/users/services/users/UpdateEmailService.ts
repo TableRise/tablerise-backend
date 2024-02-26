@@ -8,10 +8,7 @@ export default class UpdateEmailService {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({
-        usersRepository,
-        logger,
-    }: UserCoreDependencies['updateEmailServiceContract']) {
+    constructor({ usersRepository, logger }: UserCoreDependencies['updateEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
     }

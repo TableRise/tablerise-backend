@@ -8,10 +8,7 @@ export default class UsersRoutesBuilder {
     private readonly _usersRoutes;
     private readonly _oAuthRoutes;
 
-    constructor({
-        usersRoutes,
-        oAuthRoutes,
-    }: InterfaceDependencies['usersRoutesBuilderContract']) {
+    constructor({ usersRoutes, oAuthRoutes }: InterfaceDependencies['usersRoutesBuilderContract']) {
         this._usersRoutes = usersRoutes;
         this._oAuthRoutes = oAuthRoutes;
     }
@@ -34,10 +31,7 @@ export default class UsersRoutesBuilder {
         usersSwagger: routeInstance[];
         usersRoutes: { profile: Router; oAuth: Router };
     } {
-        const usersSwagger = [
-            ...this._oAuth().oAuthSwagger,
-            ...this._profile().profileSwagger,
-        ];
+        const usersSwagger = [...this._oAuth().oAuthSwagger, ...this._profile().profileSwagger];
         const usersRoutes = {
             profile: this._profile().profileRoutes,
             oAuth: this._oAuth().oAuthRoutes,

@@ -3,9 +3,7 @@ import GetClassService from 'src/core/dungeons&dragons5e/services/classes/GetCla
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetClassService', () => {
-    let getClassService: GetClassService,
-        dungeonsAndDragonsRepository: any,
-        classInDb: any;
+    let getClassService: GetClassService, dungeonsAndDragonsRepository: any, classInDb: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetClassService', () => {
         it('should return the correct data and call correct methods', async () => {
             const classTest = await getClassService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Classes'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Classes');
             expect(classTest).to.be.deep.equal(classInDb);
         });
     });

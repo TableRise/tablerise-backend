@@ -6,36 +6,18 @@ import {
     ActivateTwoFactorOperationContract,
     ActivateTwoFactorServiceContract,
 } from './users/ActivateTwoFactor';
-import {
-    ConfirmEmailOperationContract,
-    ConfirmEmailServiceContract,
-} from './users/ConfirmEmail';
-import {
-    CreateUserOperationContract,
-    CreateUserServiceContract,
-} from './users/CreateUser';
-import {
-    DeleteUserOperationContract,
-    DeleteUserServiceContract,
-} from './users/DeleteUser';
-import {
-    GetUserByIdOperationContract,
-    GetUserByIdServiceContract,
-} from './users/GetUserById';
+import { ConfirmEmailOperationContract, ConfirmEmailServiceContract } from './users/ConfirmEmail';
+import { CreateUserOperationContract, CreateUserServiceContract } from './users/CreateUser';
+import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/DeleteUser';
+import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
 import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
-import {
-    LogoutUserOperationContract,
-    LogoutUserServiceContract,
-} from './users/LogoutUser';
+import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
 import {
     PictureProfileOperationContract,
     PictureProfileServiceContract,
 } from './users/PictureProfile';
-import {
-    ResetProfileOperationContract,
-    ResetProfileServiceContract,
-} from './users/ResetProfile';
+import { ResetProfileOperationContract, ResetProfileServiceContract } from './users/ResetProfile';
 
 export default interface UserCoreDependencies {
     // Operations

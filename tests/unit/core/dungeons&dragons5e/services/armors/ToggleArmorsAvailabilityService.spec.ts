@@ -34,9 +34,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleArmorsAvailabilityServi
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Armors'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Armors');
             expect(armorsTest).to.be.deep.equal({ ...armor[0], active: false });
         });
     });

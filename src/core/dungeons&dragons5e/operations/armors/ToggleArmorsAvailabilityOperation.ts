@@ -17,10 +17,7 @@ export default class ToggleArmorsAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Armor>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Armor>> {
         this._logger('info', 'Execute - GetArmorOperation');
         const armors = await this._toggleArmorsAvailabilityService.toggle({
             id,

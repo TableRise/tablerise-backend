@@ -35,10 +35,7 @@ describe('Core :: Users :: Operations :: ActivateSecretQuestionOperation', () =>
                 question: '',
                 answer: '',
             };
-            await activateSecretQuestionOperation.execute(
-                { userId: 'userId', payload },
-                false
-            );
+            await activateSecretQuestionOperation.execute({ userId: 'userId', payload }, false);
 
             expect(activateSecretQuestionService.activate).to.have.been.called();
             expect(activateSecretQuestionService.save).to.have.been.called();

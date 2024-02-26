@@ -22,11 +22,10 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleBackgroundsAvailability
                 setEntity: sinon.spy(() => {}),
             };
 
-            toggleBackgroundsAvailabilityService =
-                new ToggleBackgroundsAvailabilityService({
-                    dungeonsAndDragonsRepository,
-                    logger,
-                });
+            toggleBackgroundsAvailabilityService = new ToggleBackgroundsAvailabilityService({
+                dungeonsAndDragonsRepository,
+                logger,
+            });
         });
 
         it('should return the correct data and call correct methods', async () => {
@@ -35,9 +34,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleBackgroundsAvailability
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Backgrounds'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Backgrounds');
             expect(backgroundsTest).to.be.deep.equal({ ...background[0], active: false });
         });
     });

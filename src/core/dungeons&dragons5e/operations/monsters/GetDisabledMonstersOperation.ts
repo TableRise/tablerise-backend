@@ -6,10 +6,7 @@ export default class GetDisabledMonstersOperation {
     private readonly _getDisabledMonstersService;
     private readonly _logger;
 
-    constructor({
-        getDisabledMonstersService,
-        logger,
-    }: GetDisabledMonstersOperationContract) {
+    constructor({ getDisabledMonstersService, logger }: GetDisabledMonstersOperationContract) {
         this._getDisabledMonstersService = getDisabledMonstersService;
         this._logger = logger;
 

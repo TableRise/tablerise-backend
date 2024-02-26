@@ -13,17 +13,17 @@ describe('Domains :: User :: Helpers :: GetErrorName', () => {
 
     it('Should return a string', () => {
         for (const key in codes) {
-            expect(
-                getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])
-            ).to.be.a('string');
+            expect(getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])).to.be.a(
+                'string'
+            );
         }
     });
 
     it('Should return expected string', () => {
         for (const [key, value] of Object.entries(codes)) {
-            expect(
-                getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])
-            ).to.be.equal(value);
+            expect(getErrorName(HttpStatusCode[key as keyof typeof HttpStatusCode])).to.be.equal(
+                value
+            );
         }
     });
 

@@ -34,9 +34,7 @@ describe('When an user has the password changed', () => {
                 .get(`/profile/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
-            expect(userWithNewPassword.password).to.be.not.equal(
-                userWithOldPassword.password
-            );
+            expect(userWithNewPassword.password).to.be.not.equal(userWithOldPassword.password);
         });
     });
 
@@ -70,9 +68,7 @@ describe('When an user has the password changed', () => {
                 .get(`/profile/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
-            expect(userWithNewPassword.password).to.be.not.equal(
-                userWithOldPassword.password
-            );
+            expect(userWithNewPassword.password).to.be.not.equal(userWithOldPassword.password);
         });
     });
 });

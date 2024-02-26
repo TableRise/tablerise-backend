@@ -29,9 +29,7 @@ describe('When recover all users', () => {
         });
 
         it('should retrieve users created', async () => {
-            const { body } = await requester()
-                .get(`/profile/all`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/profile/all`).expect(HttpStatusCode.OK);
 
             const userOneAdded = body.find(
                 (user: RegisterUserResponse) => user.userId === userOne.userId

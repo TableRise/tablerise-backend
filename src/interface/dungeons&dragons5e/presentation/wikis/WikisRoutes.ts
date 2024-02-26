@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { WikisRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/wikis/WikisRoutes';
 
 const BASE_PATH = '/dnd5e/wikis';

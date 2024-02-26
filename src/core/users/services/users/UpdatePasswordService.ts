@@ -17,10 +17,7 @@ export default class UpdatePasswordService {
         this._logger = logger;
     }
 
-    private async _changePassword({
-        user,
-        password,
-    }: UserPassword): Promise<UserInstance> {
+    private async _changePassword({ user, password }: UserPassword): Promise<UserInstance> {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
 
         user.password = await SecurePasswordHandler.hashPassword(password);

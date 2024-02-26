@@ -21,10 +21,7 @@ function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
     } as UserInstance;
 }
 
-export default function generateUsersFaker({
-    count,
-    userId,
-}: UserJSONPayload): UserInstance[] {
+export default function generateUsersFaker({ count, userId }: UserJSONPayload): UserInstance[] {
     const users: UserInstance[] = [];
 
     for (let index = 0; index <= count; index += 1) {

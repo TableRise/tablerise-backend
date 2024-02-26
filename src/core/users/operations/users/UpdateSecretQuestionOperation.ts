@@ -13,10 +13,7 @@ export default class UpdateSecretQuestionOperation {
         this._logger = logger;
     }
 
-    public async execute({
-        userId,
-        payload,
-    }: UpdateSecretQuestionPayload): Promise<void> {
+    public async execute({ userId, payload }: UpdateSecretQuestionPayload): Promise<void> {
         this._logger('info', 'Execute - UpdateSecretQuestionOperation');
         await this._updateSecretQuestionService.update({ userId, payload });
     }

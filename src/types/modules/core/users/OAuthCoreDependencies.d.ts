@@ -1,7 +1,4 @@
-import {
-    CompleteUserOperationContract,
-    CompleteUserServiceContract,
-} from './oauth/CompleteUser';
+import { CompleteUserOperationContract, CompleteUserServiceContract } from './oauth/CompleteUser';
 import { OAuthOperationContract, OAuthServiceContract } from './oauth/OAuth';
 
 export default interface OAuthCoreDependencies {

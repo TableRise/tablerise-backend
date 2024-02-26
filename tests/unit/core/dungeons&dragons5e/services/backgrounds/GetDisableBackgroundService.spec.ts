@@ -33,9 +33,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledBackgroundsService
         it('should return the correct data and call correct methods', async () => {
             const backgroundsTest = await getDisabledBackgroundsService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Backgrounds'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Backgrounds');
             expect(backgroundsTest).to.be.deep.equal(background);
             backgroundsTest.forEach((background) => {
                 expect(background.active).to.be.equal(false);

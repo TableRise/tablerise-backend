@@ -17,10 +17,7 @@ export default class ToggleWeaponsAvailabilityService {
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Weapon>> {
+    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Weapon>> {
         this._logger('info', 'Toggle - ToggleWeaponsAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('Weapons');
 

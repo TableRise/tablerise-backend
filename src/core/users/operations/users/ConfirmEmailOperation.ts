@@ -16,10 +16,7 @@ export default class ConfirmEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        email,
-        code,
-    }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
+    public async execute({ email, code }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
         this._logger('info', 'Execute - ConfirmEmailOperation');
         return this._confirmEmailService.processCode({
             email,

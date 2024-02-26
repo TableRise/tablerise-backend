@@ -17,10 +17,7 @@ export default class ToggleRealmsAvailabilityOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Realm>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Realm>> {
         this._logger('info', 'Execute - ToggleRealmsAvailabilityOperation');
         const realms = await this._toggleRealmsAvailabilityService.toggle({
             id,

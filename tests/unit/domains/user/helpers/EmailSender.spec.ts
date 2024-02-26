@@ -27,10 +27,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     body: 'Test',
                 };
 
-                const sendEmailTest = await emailSender.send(
-                    testContent,
-                    'test@email.com'
-                );
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest).to.deep.equal({ success: true });
             });
         });
@@ -54,10 +51,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send(
-                    testContent,
-                    'test@email.com'
-                );
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).to.be.equal(true);
                 expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
                 expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
@@ -69,10 +63,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send(
-                    testContent,
-                    'test@email.com'
-                );
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).to.be.equal(true);
                 expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
                 expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
@@ -98,10 +89,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send(
-                    testContent,
-                    'test@email.com'
-                );
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).to.be.equal(true);
                 expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
                 expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
@@ -113,10 +101,7 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                     body: '',
                 };
 
-                const sendEmailTest = await emailSender.send(
-                    testContent,
-                    'test@email.com'
-                );
+                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
                 expect(sendEmailTest.success).to.be.equal(true);
                 expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
                 expect(sendEmailTest.verificationCode?.length).to.be.equal(6);

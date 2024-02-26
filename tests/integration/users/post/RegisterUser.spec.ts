@@ -24,21 +24,15 @@ describe('When a user is created', () => {
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
             expect(body).to.have.property('inProgress');
-            expect(body.inProgress)
-                .to.have.property('status')
-                .that.is.equal('wait_to_confirm');
+            expect(body.inProgress).to.have.property('status').that.is.equal('wait_to_confirm');
             expect(body).to.have.property('picture');
             expect(body.picture).to.have.property('link');
 
             expect(body).to.have.property('details');
             expect(body.details).to.have.property('userId');
             expect(body.details).to.have.property('gameInfo');
-            expect(body.details.gameInfo)
-                .to.have.property('campaigns')
-                .that.is.an('array');
-            expect(body.details.gameInfo)
-                .to.have.property('characters')
-                .that.is.an('array');
+            expect(body.details.gameInfo).to.have.property('campaigns').that.is.an('array');
+            expect(body.details.gameInfo).to.have.property('characters').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('badges').that.is.an('array');
             expect(body.details).to.have.property('role').that.is.equal('user');
         });

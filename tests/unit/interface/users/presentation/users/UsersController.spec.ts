@@ -751,9 +751,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetProfile(request, response);
 
-            expect(resetProfileOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(resetProfileOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -877,9 +875,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.delete(request, response);
 
-            expect(deleteUserOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(deleteUserOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
