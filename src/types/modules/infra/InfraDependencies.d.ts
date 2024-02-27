@@ -13,4 +13,5 @@ export default interface InfraDependencies {
 
     // <--------- CAMPAIGN DOMAIN --------->
     socketIOContract: SocketIOContract;
+    campaignsRepositoryContract: CampaignsRepositoryContract;
 }
