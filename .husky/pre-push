@@ -1,6 +1,12 @@
 #!/bin/bash
 . "$(dirname -- "$0")/_/husky.sh"
 
+handlePrettierError() {
+  npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push
+}
+
+trap 'handle_error $LINENO' ERR
+
 npm run lint && npm run prettier
 
 BRANCH=$(git symbolic-ref --short HEAD)
