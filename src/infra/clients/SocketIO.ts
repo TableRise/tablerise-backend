@@ -115,7 +115,7 @@ export default class SocketIO {
             size: { width: 200, height: 200 },
             status: avatarStatusEnum.enum.ALIVE,
         };
-        
+
         // @ts-expect-error Temporary
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
