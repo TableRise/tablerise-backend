@@ -21,14 +21,12 @@ export default class SocketIO {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({ campaignsRepository, logger }: InfraDependencies['socketIOContract']) {
-        this._campaignsRepository = campaignsRepository;
+    constructor({ logger }: InfraDependencies['socketIOContract']) {
+        this._campaignsRepository = '';
         this._logger = logger;
 
         this.connect = this.connect.bind(this);
         this._joinMatchSocketEvent = this._joinMatchSocketEvent.bind(this);
-        this._addOrCreateAvatarSocketEvent =
-            this._addOrCreateAvatarSocketEvent.bind(this);
         this._addAvatar = this._addAvatar.bind(this);
         this._createAvatar = this._createAvatar.bind(this);
         this._changeMapImageSocketEvent = this._changeMapImageSocketEvent.bind(this);
@@ -37,6 +35,8 @@ export default class SocketIO {
         this._deleteAvatarSocketEvent = this._deleteAvatarSocketEvent.bind(this);
         this._moveAvatarSocketEvent = this._moveAvatarSocketEvent.bind(this);
         this._resizeAvatarSocketEvent = this._resizeAvatarSocketEvent.bind(this);
+        this._addOrCreateAvatarSocketEvent =
+            this._addOrCreateAvatarSocketEvent.bind(this);
     }
 
     public async connect(httpServer: Server): Promise<void> {
@@ -67,6 +67,7 @@ export default class SocketIO {
         campaignId,
         socket,
     }: joinMatchSocketEventPayload): Promise<void> {
+        // @ts-expect-error Temporary
         const { match_data: matchData } = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
@@ -93,6 +94,7 @@ export default class SocketIO {
         avatarId,
         campaignId,
     }: addAvatarSocketEventPayload): Promise<MatchAvatar> {
+        // @ts-expect-error Temporary
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
@@ -113,12 +115,14 @@ export default class SocketIO {
             size: { width: 200, height: 200 },
             status: avatarStatusEnum.enum.ALIVE,
         };
-
+        
+        // @ts-expect-error Temporary
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
         campaign.matchData.avatars.push(avatarData);
 
+        // @ts-expect-error Temporary
         await this._campaignsRepository.update(campaign);
 
         return avatarData;
@@ -206,6 +210,7 @@ export default class SocketIO {
 
         const { avatarsInGame, ...matchToSave } = actualMatch;
 
+        // @ts-expect-error Temporary
         await this._campaignsRepository.update({
             query: { campaignId },
             payload: matchToSave,
