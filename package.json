@@ -84,7 +84,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "3.2.5",
-        "@tablerise/database-management": "3.9.7",
+        "@tablerise/database-management": "4.1.0",
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",
         "awilix": "9.0.0",
@@ -102,7 +102,7 @@
         "jsonwebtoken": "9.0.0",
         "module-alias": "2.2.3",
         "multer": "1.4.5-lts.1",
-        "nodemailer": "6.9.5",
+        "nodemailer": "6.9.9",
         "passport": "0.6.0",
         "passport-cookie": "1.0.9",
         "passport-discord": "0.1.4",
