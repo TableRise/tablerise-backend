@@ -16,7 +16,7 @@
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
         "check-cov": "node scripts/checkCoverage.js",
-        "populate": "npx @tablerise/database-seeder@4.9.91",
+        "populate": "npx @tablerise/database-seeder@5.0.0",
         "circular": "npx dpdm --no-warning --no-tree src/server.ts",
         "reset": "rm -rf node_modules && rm package-lock.json && npm install",
         "prepare": "husky install"
@@ -102,7 +102,7 @@
         "jsonwebtoken": "9.0.0",
         "module-alias": "2.2.3",
         "multer": "1.4.5-lts.1",
-        "nodemailer": "6.9.5",
+        "nodemailer": "6.9.9",
         "passport": "0.6.0",
         "passport-cookie": "1.0.9",
         "passport-discord": "0.1.4",
