@@ -5,13 +5,16 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 export default class RoutesWrapper {
     private readonly _dungeonsAndDragonsRoutesBuilder;
     private readonly _usersRoutesBuilder;
+    private readonly _campaignsRoutesBuilder;
 
     constructor({
         dungeonsAndDragonsRoutesBuilder,
         usersRoutesBuilder,
+        campaignsRoutesBuilder,
     }: InterfaceDependencies['routesWrapperContract']) {
         this._dungeonsAndDragonsRoutesBuilder = dungeonsAndDragonsRoutesBuilder;
         this._usersRoutesBuilder = usersRoutesBuilder;
+        this._campaignsRoutesBuilder = campaignsRoutesBuilder;
     }
 
     public routes(): Route {
@@ -19,6 +22,7 @@ export default class RoutesWrapper {
             'dungeons&dragons5e':
                 this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
             user: this._usersRoutesBuilder.get().usersRoutes,
+            campaign: this._campaignsRoutesBuilder.get().campaignsRoutes,
         };
     }
 
@@ -26,7 +30,8 @@ export default class RoutesWrapper {
     public declareRoutes(): RouteDeclarations {
     return {
             'dungeons&dragons5e': [...this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsSwagger ],
-            user: [ ...this._usersRoutesBuilder.get().usersSwagger ]
+            user: [ ...this._usersRoutesBuilder.get().usersSwagger ],
+            campaign: [ ...this._campaignsRoutesBuilder.get().campaignsSwagger ],
         };
     }
 }
