@@ -161,6 +161,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.INTERNAL_SERVER),
                 });
 
+            case 'campaign-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Campaign does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',
