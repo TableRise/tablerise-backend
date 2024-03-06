@@ -31,7 +31,6 @@ export default class UsersRepository {
         this._logger('info', `Create - UsersRepository`);
 
         payload.userId = newUUID();
-        console.log(payload);
 
         const request = await this._model.create(payload);
         return this._formatAndSerializeData(request);
