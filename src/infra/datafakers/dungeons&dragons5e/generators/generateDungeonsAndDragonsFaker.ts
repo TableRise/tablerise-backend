@@ -1035,7 +1035,9 @@ export default function generateDungeonsAndDragonsFaker({
         entityArray.push(
             dungeonsAndDragonsFunctions[
                 entity as keyof typeof dungeonsAndDragonsFunctions
-            ]({ entityId } as { entityId: string })
+            ]({
+                entityId,
+            } as { entityId: string })
         );
     }
 
