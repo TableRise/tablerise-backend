@@ -23,6 +23,7 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
+import CampaignsRoutesBuilder from './interface/campaigns/CampaignsRoutesBuilder';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -39,6 +40,8 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             `./interface/users/middlewares/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/middlewares/**/*.${loadExt}`,
+            `./interface/campaigns/presentation/**/*.${loadExt}`,
+            `./interface/campaigns/middlewares/**/*.${loadExt}`,
         ],
         {
             formatName: 'camelCase',
@@ -55,6 +58,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         dungeonsAndDragonsRoutesBuilder: asClass(
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
+        campaignsRoutesBuilder: asClass(CampaignsRoutesBuilder).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),

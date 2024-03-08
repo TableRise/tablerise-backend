@@ -13,6 +13,7 @@ import { createServer } from 'http';
 export default class Application {
     private readonly _dungeonsAndDragonsRoutesMiddleware;
     private readonly _usersRoutesMiddleware;
+    private readonly _campaignsRoutesMiddleware;
     private readonly _swaggerGenerator;
     private readonly _accessHeadersMiddleware;
     private readonly _errorMiddleware;
@@ -22,6 +23,7 @@ export default class Application {
     constructor({
         dungeonsAndDragonsRoutesMiddleware,
         usersRoutesMiddleware,
+        campaignsRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
         accessHeadersMiddleware,
@@ -30,6 +32,7 @@ export default class Application {
     }: ApplicationContract) {
         this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this._usersRoutesMiddleware = usersRoutesMiddleware;
+        this._campaignsRoutesMiddleware = campaignsRoutesMiddleware;
         this._swaggerGenerator = swaggerGenerator;
         this._accessHeadersMiddleware = accessHeadersMiddleware;
         this._errorMiddleware = errorMiddleware;
@@ -56,6 +59,7 @@ export default class Application {
             .use(this._swaggerGenerator)
             .use(this._usersRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
+            .use(this._campaignsRoutesMiddleware.get())
             .use(this._errorMiddleware);
 
         return app;

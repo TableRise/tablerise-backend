@@ -34,6 +34,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         login: 'Some error not specified ocurred',
         'linked-data': 'Some error not specified ocurred',
         'verification-email': 'Some error not specified ocurred',
+        'campaign-inexistent': 'Campaign does not exist',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

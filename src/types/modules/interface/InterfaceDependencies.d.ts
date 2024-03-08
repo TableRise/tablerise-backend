@@ -1,4 +1,4 @@
-import { RoutesWrapperContract } from 'src/types/modules/common/RoutesWrapper';
+import { RoutesWrapperContract } from 'src/types/modules/interface/common/RoutesWrapper';
 import { AuthorizationMiddlewareContract } from 'src/types/modules/users/middlewares/AuthorizationMiddleware';
 import { ImageMiddlewareContract } from 'src/types/modules/users/middlewares/ImageMiddleware';
 import { UsersRoutesMiddlewareContract } from 'src/types/modules/users/middlewares/UsersRoutesMiddleware';
@@ -8,6 +8,7 @@ import { UsersControllerContract } from 'src/types/modules/users/presentation/us
 import { UsersRoutesBuilderContract } from 'src/types/modules/users/UsersRoutesBuilder';
 import { OAuthRoutesContract } from 'src/types/modules/users/presentation/oauth/OAuthRoutes';
 import { OAuthControllerContract } from 'src/types/modules/users/presentation/oauth/OAuthController';
+import { CampaignsRoutesMiddlewareContract } from './campaigns/middlewares/CampaignsRoutesMiddleware';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -19,6 +20,7 @@ export default interface InterfaceDependencies {
     imageMiddlewareContract: ImageMiddlewareContract;
     usersRoutesMiddlewareContract: UsersRoutesMiddlewareContract;
     verifyEmailCodeMiddlewareContract: VerifyEmailCodeMiddlewareContract;
+    campaignsRoutesMiddlewareContract: CampaignsRoutesMiddlewareContract;
 
     // Routes and Controllers
     usersRoutesContract: UsersRoutesContract;
