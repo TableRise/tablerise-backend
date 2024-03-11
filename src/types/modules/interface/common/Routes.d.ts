@@ -23,7 +23,7 @@ export default interface Route {
         profile: Router;
     };
     campaign: {
-        campaigns: Router;
+        campaign: Router;
     };
 }
 

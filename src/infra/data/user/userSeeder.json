@@ -9,7 +9,11 @@
         "password": "secret-secret",
         "nickname": "admin",
         "tag": "#0000",
-        "picture": "https://imgbb.com/",
+        "picture": {
+            "id": "123",
+            "link": "https://imgbb.com/",
+            "uploadDate": "2024-03-03"
+        },
         "createdAt": "2023-09-14T15:25:30.419Z",
         "updatedAt": "2023-09-14T15:25:30.419Z"
     },
@@ -23,7 +27,11 @@
         "password": "secret-secret",
         "nickname": "user",
         "tag": "#0000",
-        "picture": "https://imgbb.com/",
+        "picture": {
+            "id": "123",
+            "link": "https://imgbb.com/",
+            "uploadDate": "2024-03-03"
+        },
         "createdAt": "2023-09-14T15:34:08.824Z",
         "updatedAt": "2023-09-14T15:34:08.824Z"
     }

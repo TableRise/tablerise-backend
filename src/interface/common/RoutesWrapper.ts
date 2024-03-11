@@ -31,7 +31,7 @@ export default class RoutesWrapper {
     return {
             'dungeons&dragons5e': [...this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsSwagger ],
             user: [ ...this._usersRoutesBuilder.get().usersSwagger ],
-            campaign: [ ...this._campaignsRoutesBuilder.get().campaignsSwagger ],
+            campaign: [ ...this._campaignsRoutesBuilder.get().campaignsSwagger ]
         };
     }
 }
