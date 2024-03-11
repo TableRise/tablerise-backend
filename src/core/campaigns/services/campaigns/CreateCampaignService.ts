@@ -45,7 +45,7 @@ export default class CreateCampaignService {
             {
                 userId,
                 characterIds: [],
-                role: 'dungeon-master',
+                role: 'dungeon_master',
             },
         ];
         campaign.createdAt = new Date().toISOString();

@@ -6,6 +6,8 @@ export default class Serializer {
         title = null,
         cover = null,
         description = null,
+        system = null,
+        ageRestriction = null,
         campaignPlayers = null,
         matchData = null,
         infos = {
@@ -23,6 +25,8 @@ export default class Serializer {
             title,
             cover,
             description,
+            system,
+            ageRestriction,
             campaignPlayers,
             matchData,
             infos,
