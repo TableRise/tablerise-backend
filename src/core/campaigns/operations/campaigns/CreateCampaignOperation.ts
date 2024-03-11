@@ -32,14 +32,13 @@ export default class CreateCampaignOperation {
             payload
         );
 
-        this._logger('info', 'Passed - CreateCampaignOperation - SchemaValidator');
-
         const entitySerialized = await this._createCampaignService.serialize({
             ...payload,
         });
 
         const entityEnriched = await this._createCampaignService.enrichment(
-            entitySerialized
+            entitySerialized,
+            'id'
         );
 
         const entitySaved = await this._createCampaignService.save(entityEnriched);

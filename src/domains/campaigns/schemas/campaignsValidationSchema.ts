@@ -43,7 +43,7 @@ const announcementZodSchema = z.object({
 });
 
 const infosZodSchema = z.object({
-    campaign_age: z.string(),
+    campaignAge: z.string(),
     matchDates: z.array(z.string()),
     announcements: z.array(announcementZodSchema),
     visibility: z.string(),
@@ -79,7 +79,7 @@ const avatarZodSchema = z.object({
 });
 
 const matchDataZodSchema = z.object({
-    match_id: z.string(),
+    matchId: z.string(),
     avatars: z.array(avatarZodSchema),
     music: z.array(musicZodSchema),
     mapImages: z.array(imageObjectZodSchema),
@@ -97,11 +97,11 @@ const campaignsZodSchema = z.object({
     cover: imageObjectZodSchema,
     description: z.string(),
     campaignPlayers: z.array(playerZodSchema),
-    match_data: matchDataZodSchema,
+    matchData: matchDataZodSchema,
     infos: infosZodSchema,
     lores: loresZodSchema,
-    created_at: z.string(),
-    updated_at: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
 });
 
 export const createCampaignsZodSchema = z.object({

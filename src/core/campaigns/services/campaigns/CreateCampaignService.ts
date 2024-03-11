@@ -35,20 +35,21 @@ export default class CreateCampaignService {
         return campaignSerialized;
     }
 
-    public async enrichment(campaign: __FullCampaign): Promise<__CampaignEnriched> {
+    public async enrichment(
+        campaign: __FullCampaign,
+        userId: string
+    ): Promise<__CampaignEnriched> {
         this._logger('info', 'Enrichment - CreateCampaignService');
 
-        campaign.description = 'No description';
-        campaign.infos.campaign_age = 'Idade da campanha';
-        campaign.infos.announcements = [];
-        campaign.lores.environments = [];
-        campaign.infos.visibility = 'visible';
-        campaign.match_data.match_id = 'id do match data';
-        campaign.match_data.music = [];
-        campaign.match_data.logs = [];
-        campaign.match_data.avatars = [];
-        campaign.created_at = new Date().toISOString();
-        campaign.updated_at = new Date().toISOString();
+        campaign.campaignPlayers = [
+            {
+                userId,
+                characterIds: [],
+                role: 'dungeon-master',
+            },
+        ];
+        campaign.createdAt = new Date().toISOString();
+        campaign.updatedAt = new Date().toISOString();
 
         return campaign;
     }
