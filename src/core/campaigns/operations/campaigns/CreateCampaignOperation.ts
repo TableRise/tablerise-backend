@@ -23,7 +23,8 @@ export default class CreateCampaignOperation {
     }
 
     public async execute(
-        payload: CreateCampaignPayload
+        payload: CreateCampaignPayload,
+        userId: string
     ): Promise<CreateCampaignResponse> {
         this._logger('info', 'Execute - CreateCampaignOperation');
 
@@ -38,7 +39,7 @@ export default class CreateCampaignOperation {
 
         const entityEnriched = await this._createCampaignService.enrichment(
             entitySerialized,
-            'id'
+            userId
         );
 
         const entitySaved = await this._createCampaignService.save(entityEnriched);

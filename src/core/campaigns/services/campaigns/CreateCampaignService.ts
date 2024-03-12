@@ -40,7 +40,6 @@ export default class CreateCampaignService {
         userId: string
     ): Promise<__CampaignEnriched> {
         this._logger('info', 'Enrichment - CreateCampaignService');
-
         campaign.campaignPlayers = [
             {
                 userId,
@@ -48,6 +47,7 @@ export default class CreateCampaignService {
                 role: 'dungeon_master',
             },
         ];
+        delete campaign.visibility;
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
 
