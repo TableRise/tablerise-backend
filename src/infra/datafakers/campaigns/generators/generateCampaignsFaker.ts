@@ -9,6 +9,10 @@ function createCampaignFaker({
     return {
         campaignId,
         title: dataGenerator.title(),
+        description: dataGenerator.description(),
+        visibility: dataGenerator.visibility,
+        system: dataGenerator.system,
+        ageRestriction: dataGenerator.ageRestriction,
     } as CampaignInstance;
 }
 

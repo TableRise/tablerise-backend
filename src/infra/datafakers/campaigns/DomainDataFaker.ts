@@ -8,10 +8,11 @@ function generateCampaignsJSON(
     return generateCampaignsFaker({ count, campaignId });
 }
 
-const [{ title }] = generateCampaignsJSON();
+const [{ title, visibility, description, system, ageRestriction }] =
+    generateCampaignsJSON();
 
 const mocks = {
-    createCampaignMock: { title },
+    createCampaignMock: { title, visibility, description, system, ageRestriction },
 };
 
 export default {
