@@ -12,7 +12,6 @@ import { UsersRoutesBuilderContract } from 'src/types/modules/users/UsersRoutesB
 import { CampaignsRoutesBuilderContract } from 'src/types/modules/campaigns/CampaignsRoutesBuilder';
 import { OAuthRoutesContract } from 'src/types/modules/users/presentation/oauth/OAuthRoutes';
 import { OAuthControllerContract } from 'src/types/modules/users/presentation/oauth/OAuthController';
-import { CampaignsRoutesMiddlewareContract } from './campaigns/middlewares/CampaignsRoutesMiddleware';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
