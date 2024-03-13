@@ -7,7 +7,6 @@ import { Logger } from '../../Logger';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from 'src/infra/clients/SocketIO';
-import CampaignsRoutesMiddleware from 'src/interface/campaigns/middlewares/CampaignsRoutesMiddleware';
 
 export interface ApplicationContract {
     usersRoutesMiddleware: UsersRoutesMiddleware;
