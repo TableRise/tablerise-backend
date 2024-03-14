@@ -1,10 +1,10 @@
 [
     {
-        "character_id": "a442196e-7cde-4427-b94c-a79367c969ce",
-        "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
-        "match_id": "3cac45a9-0533-4eb8-a20f-10a43186b517",
+        "characterId": "a442196e-7cde-4427-b94c-a79367c969ce",
+        "campaignId": "04626b87-47bd-442b-9173-7093c6934d4e",
+        "matchId": "3cac45a9-0533-4eb8-a20f-10a43186b517",
         "author": {
-            "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
+            "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
             "nickname": "john",
             "fullname": "John Doe"
         },
@@ -18,11 +18,11 @@
                 "characteristics": {
                     "alignment": "Neutral",
                     "backstory": "Ravaged by war, Brirr the Barbarian emerged from the ashes, seeking vengeance for his fallen tribe and mastering primal fury.",
-                    "personality_traits": ["Adaptable"],
+                    "personalityTraits": ["Adaptable"],
                     "ideals": "Live and Let Live",
                     "bonds": "A powerful person killed someone I love. Someday soon, I'll have my revenge.",
                     "flaws": ["Abrupt"],
-                    "appearence": {
+                    "appearance": {
                         "eyes": "red",
                         "age": "22",
                         "weight": "110kg",
@@ -31,21 +31,21 @@
                         "hair": "dark",
                         "picture": ""
                     },
-                    "allies_and_orgs": {
-                        "org_name": "Imperial War",
+                    "alliesAndOrgs": {
+                        "orgName": "Imperial War",
                         "symbol": "",
                         "content": ""
                     },
                     "other": {
                         "languages": ["Common", "Orc"],
                         "proficiencies": ["Strength", "Constitution"],
-                        "extra_characteristics": [""]
+                        "extraCharacteristics": [""]
                     },
                     "treasure": ["Cask of rum", "Iron ring"]
                 }
             },
             "stats": {
-                "ability_scores": [
+                "abilityScores": [
                     {
                         "ability": "Strength",
                         "value": 16,
@@ -57,33 +57,33 @@
                     "intimidation": 6,
                     "perception": 4
                 },
-                "proficiency_bonus": 2,
+                "proficiencyBonus": 2,
                 "inspiration": 8,
-                "passive_wisdom": 10,
+                "passiveWisdom": 10,
                 "speed": 12,
                 "initiative": 14,
-                "armor_class": 14,
-                "hit_points": {
+                "armorClass": 14,
+                "hitPoints": {
                     "points": 12,
-                    "current_points": 12,
-                    "temp_points": 0,
-                    "dice_points": "1d12"
+                    "currentPoints": 12,
+                    "tempPoints": 0,
+                    "dicePoints": "1d12"
                 },
-                "death_saves": {
+                "deathSaves": {
                     "success": 0,
                     "failures": 0
                 },
                 "spellcasting": {
                     "class": "",
                     "ability": "",
-                    "save_dc": 0,
-                    "attack_bonus": 0
+                    "saveDc": 0,
+                    "attackBonus": 0
                 }
             },
             "attacks": [
                 {
                     "name": "Greataxe",
-                    "atk_bonus": 5,
+                    "atkBonus": 5,
                     "damage": {
                         "type": "Melee",
                         "bonus": 0,
@@ -103,65 +103,65 @@
             "spells": {
                 "cantrips": [""],
                 "1": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "2": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "3": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "4": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "5": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "6": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "7": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "8": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "9": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 }
             },
-            "created_at": "2024-02-20T17:59:28.766Z",
-            "updated_at": "2024-02-20T17:59:28.766Z"
+            "createdAt": "2024-02-20T17:59:28.766Z",
+            "updatedAt": "2024-02-20T17:59:28.766Z"
         },
-        "NPC": false,
+        "npc": false,
         "picture": "",
-        "created_at": "2024-02-20T17:59:28.766Z",
-        "updated_at": "2024-02-20T17:59:28.766Z"
+        "createdAt": "2024-02-20T17:59:28.766Z",
+        "updatedAt": "2024-02-20T17:59:28.766Z"
     },
     {
-        "character_id": "70fe8350-1cdc-4e0e-bdeb-9e6fb28b27c9",
-        "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
-        "match_id": "3cac45a9-0533-4eb8-a20f-10a43186b517",
+        "characterId": "70fe8350-1cdc-4e0e-bdeb-9e6fb28b27c9",
+        "campaignId": "04626b87-47bd-442b-9173-7093c6934d4e",
+        "matchId": "3cac45a9-0533-4eb8-a20f-10a43186b517",
         "author": {
-            "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
+            "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
             "nickname": "john",
             "fullname": "John Doe"
         },
@@ -175,11 +175,11 @@
                 "characteristics": {
                     "alignment": "Chaotic evil",
                     "backstory": "Drogheda, a vengeful half-orc barbarian, born in blood-soaked battlefields, seeks chaos and power, fueled by a childhood of brutality and betrayal.",
-                    "personality_traits": ["Ruthless", "Impulsive"],
+                    "personalityTraits": ["Ruthless", "Impulsive"],
                     "ideals": "Power through chaos",
                     "bonds": "Blood oath of vengeance",
                     "flaws": ["Recklessness", "Hot-Tempered"],
-                    "appearence": {
+                    "appearance": {
                         "eyes": "grey",
                         "age": "27",
                         "weight": "122kg",
@@ -188,21 +188,21 @@
                         "hair": "dark",
                         "picture": ""
                     },
-                    "allies_and_orgs": {
-                        "org_name": "Havoc's Fist",
+                    "alliesAndOrgs": {
+                        "orgName": "Havoc's Fist",
                         "symbol": "",
                         "content": ""
                     },
                     "other": {
                         "languages": ["Common", "Orc"],
                         "proficiencies": ["Strength", "Constitution"],
-                        "extra_characteristics": [""]
+                        "extraCharacteristics": [""]
                     },
                     "treasure": ["Cask of rum", "Iron ring"]
                 }
             },
             "stats": {
-                "ability_scores": [
+                "abilityScores": [
                     {
                         "ability": "Strength",
                         "value": 18,
@@ -214,33 +214,33 @@
                     "intimidation": 6,
                     "perception": 4
                 },
-                "proficiency_bonus": 2,
+                "proficiencyBonus": 2,
                 "inspiration": 8,
-                "passive_wisdom": 10,
+                "passiveWisdom": 10,
                 "speed": 12,
                 "initiative": 14,
-                "armor_class": 14,
-                "hit_points": {
+                "armorClass": 14,
+                "hitPoints": {
                     "points": 12,
-                    "current_points": 12,
-                    "temp_points": 0,
-                    "dice_points": "1d12"
+                    "currentPoints": 12,
+                    "tempPoints": 0,
+                    "dicePoints": "1d12"
                 },
-                "death_saves": {
+                "deathSaves": {
                     "success": 0,
                     "failures": 0
                 },
                 "spellcasting": {
                     "class": "",
                     "ability": "",
-                    "save_dc": 0,
-                    "attack_bonus": 0
+                    "saveDc": 0,
+                    "attackBonus": 0
                 }
             },
             "attacks": [
                 {
                     "name": "Greataxe",
-                    "atk_bonus": 5,
+                    "atkBonus": 5,
                     "damage": {
                         "type": "Melee",
                         "bonus": 0,
@@ -260,57 +260,57 @@
             "spells": {
                 "cantrips": [""],
                 "1": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "2": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "3": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "4": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "5": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "6": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "7": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "8": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 },
                 "9": {
-                    "spell_ids": [""],
-                    "slots_total": 0,
-                    "slots_expended": 0
+                    "spellIds": [""],
+                    "slotsTotal": 0,
+                    "slotsExpended": 0
                 }
             },
-            "created_at": "2024-02-20T17:59:28.766Z",
-            "updated_at": "2024-02-20T17:59:28.766Z"
+            "createdAt": "2024-02-20T17:59:28.766Z",
+            "updatedAt": "2024-02-20T17:59:28.766Z"
         },
-        "NPC": true,
+        "npc": true,
         "picture": "",
-        "created_at": "2024-02-20T17:59:28.766Z",
-        "updated_at": "2024-02-20T17:59:28.766Z"
+        "createdAt": "2024-02-20T17:59:28.766Z",
+        "updatedAt": "2024-02-20T17:59:28.766Z"
     }
 ]

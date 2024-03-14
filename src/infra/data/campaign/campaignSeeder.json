@@ -1,113 +1,141 @@
-{
-    "campaign_id": "04626b87-47bd-442b-9173-7093c6934d4e",
-    "cover": "",
-    "title": "The Neverland",
-    "description": "An example of a RPG Campaign",
-    "campaign_players": [
-        {
-            "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
-            "character_ids": ["fa7911c9-afd1-423b-b578-d36e8d950e10"],
-            "role": "dungeon_master"
+[
+    {
+        "campaignId": "04626b87-47bd-442b-9173-7093c6934d4e",
+        "cover": {
+            "id": "123",
+            "link": "https://imgur.com",
+            "uploadDate": "2020-05-05Z14:45:45"
         },
-        {
-            "user_id": "a0845fc6-d0f2-4775-973c-c1227d70739c",
-            "character_ids": ["fa91df8c-56b3-4128-92b8-3ae8582ded50"],
-            "role": "admin_player"
-        },
-        {
-            "user_id": "ef978e44-0105-4a9f-8a07-904c2fc72b88",
-            "character_ids": ["b3a2f15a-9d35-4ca0-8dc2-8dd4b4817b79"],
-            "role": "player"
-        }
-    ],
-    "match_data": {
-        "match_id": "676ec58e-c40f-4d87-9403-f9f492831b5d",
-        "avatars": [
+        "title": "The Neverland",
+        "description": "An example of a RPG Campaign",
+        "campaignPlayers": [
             {
-                "avatar_id": "2df43482-72ac-4457-95da-684efdbf99b6",
-                "character_id": "fa7911c9-afd1-423b-b578-d36e8d950e10",
-                "user_id": "2fd23908-9691-4dfc-a23e-4690014ce534",
-                "image": "",
-                "position": { "x": 0, "y": 0 },
-                "size": { "width": 0, "height": 0 },
-                "status": "alive"
+                "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
+                "characterIds": ["fa7911c9-afd1-423b-b578-d36e8d950e10"],
+                "role": "dungeon_master"
             },
             {
-                "avatar_id": "e296ccf1-312a-4a52-a6a4-2543a2ac50b5",
-                "character_id": "fa91df8c-56b3-4128-92b8-3ae8582ded50",
-                "user_id": "a0845fc6-d0f2-4775-973c-c1227d70739c",
-                "image": "",
-                "position": { "x": 0, "y": 0 },
-                "size": { "width": 0, "height": 0 },
-                "status": "alive"
-            }
-        ],
-        "musics": [
-            {
-                "title": "Main Theme",
-                "youtube_link": "https://youtu.be/link"
-            }
-        ],
-        "map_images": [""],
-        "logs": [
-            {
-                "logged_at": "2024-02-20T00:25:14Z",
-                "content": "Dice was roled with 14+2 by TheDicer_01"
+                "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
+                "characterIds": ["fa91df8c-56b3-4128-92b8-3ae8582ded50"],
+                "role": "admin_player"
             },
             {
-                "logged_at": "2024-02-20T00:25:14Z",
-                "content": "FatuiKiller is dead"
-            }
-        ]
-    },
-    "infos": {
-        "campaing_age": 11,
-        "match_dates": [""],
-        "announcements": [
-            {
-                "title": "Novo jogador na próxima partida",
-                "author": "RedHorse44",
-                "content": ""
+                "userId": "ef978e44-0105-4a9f-8a07-904c2fc72b88",
+                "characterIds": ["b3a2f15a-9d35-4ca0-8dc2-8dd4b4817b79"],
+                "role": "player"
             }
         ],
-        "visibility": "visible"
-    },
-    "lores": {
-        "player_characters": [
-            {
-                "character_id": "fa7911c9-afd1-423b-b578-d36e8d950e10",
-                "lore": "A random lore was told through winds",
-                "created_at": "2024-02-20T00:25:14Z",
-                "updated_at": "2024-02-20T00:25:14Z"
-            }
-        ],
-        "dungeon_master_characters": [
-            {
-                "character_id": "fa91df8c-56b3-4128-92b8-3ae8582ded50",
-                "lore": "Some day the sun will rise again",
-                "created_at": "2024-02-20T00:25:14Z",
-                "updated_at": "2024-02-20T00:25:14Z"
-            }
-        ],
-        "environments": [
-            {
-                "title": "Destroyed Land",
-                "lore": "A land destroyed by a monster",
-                "environments_image": "",
-                "created_at": "2024-02-20T00:25:14Z",
-                "updated_at": "2024-02-20T00:25:14Z"
-            }
-        ],
-        "main_history": [
-            {
-                "title": "Promise Land",
-                "lore": "A magic land",
-                "image": "",
-                "created_at": "2024-02-20T00:25:14Z",
-                "updated_at": "2024-02-20T00:25:14Z"
-            }
-        ]
-    },
-    "created_at": "2024-02-20T00:25:14Z",
-    "updated_at": "2024-02-20T00:25:14Z"
-}
+        "matchData": {
+            "matchId": "676ec58e-c40f-4d87-9403-f9f492831b5d",
+            "avatars": [
+                {
+                    "avatarId": "2df43482-72ac-4457-95da-684efdbf99b6",
+                    "characterId": "fa7911c9-afd1-423b-b578-d36e8d950e10",
+                    "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
+                    "picture": {
+                        "id": "123",
+                        "link": "https://imgur.com",
+                        "uploadDate": "2020-05-05Z14:45:45"
+                    },
+                    "position": { "x": 0, "y": 0 },
+                    "size": { "width": 0, "height": 0 },
+                    "status": "alive"
+                },
+                {
+                    "avatarId": "e296ccf1-312a-4a52-a6a4-2543a2ac50b5",
+                    "characterId": "fa91df8c-56b3-4128-92b8-3ae8582ded50",
+                    "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
+                    "picture": {
+                        "id": "123",
+                        "link": "https://imgur.com",
+                        "uploadDate": "2020-05-05Z14:45:45"
+                    },
+                    "position": { "x": 0, "y": 0 },
+                    "size": { "width": 0, "height": 0 },
+                    "status": "alive"
+                }
+            ],
+            "musics": [
+                {
+                    "title": "Main Theme",
+                    "youtubeLink": "https://youtu.be/link"
+                }
+            ],
+            "mapImages": [
+                {
+                    "id": "123",
+                    "link": "https://imgur.com",
+                    "uploadDate": "2020-05-05Z14:45:45"
+                }
+            ],
+            "logs": [
+                {
+                    "loggedAt": "2024-02-20T00:25:14Z",
+                    "content": "Dice was roled with 14+2 by TheDicer_01"
+                },
+                {
+                    "loggedAt": "2024-02-20T00:25:14Z",
+                    "content": "FatuiKiller is dead"
+                }
+            ]
+        },
+        "infos": {
+            "campaignAge": 11,
+            "matchDates": [""],
+            "announcements": [
+                {
+                    "title": "Novo jogador na próxima partida",
+                    "author": "RedHorse44",
+                    "content": "Some content"
+                }
+            ],
+            "visibility": "visible"
+        },
+        "lores": {
+            "playerCharacters": [
+                {
+                    "characterId": "fa7911c9-afd1-423b-b578-d36e8d950e10",
+                    "lore": "A random lore was told through winds",
+                    "createdAt": "2024-02-20T00:25:14Z",
+                    "updatedAt": "2024-02-20T00:25:14Z"
+                }
+            ],
+            "dungeonMasterCharacters": [
+                {
+                    "characterId": "fa91df8c-56b3-4128-92b8-3ae8582ded50",
+                    "lore": "Some day the sun will rise again",
+                    "createdAt": "2024-02-20T00:25:14Z",
+                    "updatedAt": "2024-02-20T00:25:14Z"
+                }
+            ],
+            "environments": [
+                {
+                    "title": "Destroyed Land",
+                    "lore": "A land destroyed by a monster",
+                    "environmentImage": {
+                        "id": "123",
+                        "link": "https://imgur.com",
+                        "uploadDate": "2020-05-05Z14:45:45"
+                    },
+                    "createdAt": "2024-02-20T00:25:14Z",
+                    "updatedAt": "2024-02-20T00:25:14Z"
+                }
+            ],
+            "mainHistory": [
+                {
+                    "title": "Promise Land",
+                    "lore": "A magic land",
+                    "image": {
+                        "id": "123",
+                        "link": "https://imgur.com",
+                        "uploadDate": "2020-05-05Z14:45:45"
+                    },
+                    "createdAt": "2024-02-20T00:25:14Z",
+                    "updatedAt": "2024-02-20T00:25:14Z"
+                }
+            ]
+        },
+        "createdAt": "2024-02-20T00:25:14Z",
+        "updatedAt": "2024-02-20T00:25:14Z"
+    }
+]

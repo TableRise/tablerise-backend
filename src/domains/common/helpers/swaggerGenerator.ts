@@ -6,6 +6,7 @@ import RoutesWrapper from 'src/interface/common/RoutesWrapper';
 import swaggerUI from 'swagger-ui-express';
 import SwaggerDocumentDnD5E from '../../../../api-docs/swagger-doc-dungeons&dragons5e.json';
 import SwaggerDocumentUser from '../../../../api-docs/swagger-doc-user.json';
+import SwaggerDocumentCampaign from '../../../../api-docs/swagger-doc-campaign.json';
 
 export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => {
     const router = Router();
@@ -30,6 +31,16 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             .catch((error: any) => {
                 console.log(error);
             });
+
+        autoSwagger(routesWrapper.declareRoutes().campaign, {
+            title: 'campaign',
+        })
+            .then((_result: any) => {
+                logger('info', 'SwaggerGenerator - campaign - document generated');
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
     }
 
     router.use('/api-docs/dnd5e', swaggerUI.serve, (req: Request, res: Response) => {
@@ -39,6 +50,11 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
     router.use('/api-docs/user', swaggerUI.serve, (req: Request, res: Response) => {
         const html = swaggerUI.generateHTML(SwaggerDocumentUser);
+        res.send(html);
+    });
+
+    router.use('/api-docs/campaign', swaggerUI.serve, (req: Request, res: Response) => {
+        const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
         res.send(html);
     });
 
