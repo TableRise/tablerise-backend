@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import sinon from 'sinon';
 import CampaignsRoutesMiddleware from 'src/interface/campaigns/middlewares/CampaignsRoutesMiddleware';
 
-describe('Interface :: DungeonsAndDragons :: Middlewares :: CampaignsRoutesMiddleware', () => {
+describe('Interface :: Campaigns :: Middlewares :: CampaignsRoutesMiddleware', () => {
     let campaignsRoutesMiddleware: CampaignsRoutesMiddleware, routesWrapper: any;
 
     context('When the correct routes are wrapped in the middleware', () => {

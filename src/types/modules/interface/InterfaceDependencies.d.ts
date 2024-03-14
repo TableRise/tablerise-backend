@@ -9,7 +9,7 @@ import { UsersRoutesBuilderContract } from 'src/types/modules/interface/users/Us
 import { OAuthRoutesContract } from 'src/types/modules/interface/users/presentation/oauth/OAuthRoutes';
 import { OAuthControllerContract } from 'src/types/modules/interface/users/presentation/oauth/OAuthController';
 import { CampaignsRoutesMiddlewareContract } from 'src/types/modules/interface/campaigns/middlewares/CampaignsRoutesMiddleware';
-import { CampaignsRoutesContract } from './campaigns/presentation/campaigns/CampaignsRoutes';
+import { CampaignsRoutesContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsRoutes';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -30,4 +30,13 @@ export default interface InterfaceDependencies {
     usersRoutesBuilderContract: UsersRoutesBuilderContract;
     oAuthRoutesContract: OAuthRoutesContract;
     oAuthControllerContract: OAuthControllerContract;
+
+    // <--------- CAMPAIGNS DOMAIN --------->
+    // Middlewares
+    campaignsRoutesMiddlewareContract: CampaignsRoutesMiddlewareContract;
+
+    // Routes and Controllers
+    campaignsRoutesContract: CampaignsRoutesContract;
+    campaignsControllerContract: CampaignsControllerContract;
+    campaignsRoutesBuilderContract: CampaignsRoutesBuilderContract;
 }

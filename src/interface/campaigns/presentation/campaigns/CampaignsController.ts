@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
 export default class CampaignsController {
     private readonly _createCampaignOperation;
@@ -20,8 +21,9 @@ export default class CampaignsController {
 
     public async create(req: Request, res: Response): Promise<Response> {
         const payload = req.body as CreateCampaignPayload;
+        const { userId } = req.user as UserInstance;
 
-        const result = await this._createCampaignOperation.execute(payload);
+        const result = await this._createCampaignOperation.execute(payload, userId);
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 

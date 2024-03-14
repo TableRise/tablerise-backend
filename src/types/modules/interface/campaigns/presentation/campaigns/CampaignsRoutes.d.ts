@@ -1,7 +1,9 @@
-import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
-import CampaignsController from 'src/interface/campaigns/presentation/campaigns/CampaignsController';
+import VerifyIdMiddleware from 'src/interface/campaign/middlewares/VerifyIdMiddleware';
+import CampaignController from 'src/interface/campaign/presentation/campaign/CampaignController';
+import AuthorizationMiddleware from 'src/interface/campaign/middlewares/AuthorizationMiddleware';
 
-export interface CampaignsRoutesContract {
-    campaignsController: CampaignsController;
+export interface CampaignRoutesContract {
+    campaignController: CampaignController;
     verifyIdMiddleware: typeof VerifyIdMiddleware;
+    authorizationMiddleware: AuthorizationMiddleware;
 }

@@ -1,16 +1,54 @@
+import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
+import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
         database: any,
         serializer: any,
         campaign: any,
-        query: any;
+        query: any,
+        createdCampaign: any,
+        campaignToCreate: any,
+        campaignsSerializer: any;
 
     const logger = (): void => {};
+
+    context('#create', () => {
+        createdCampaign = DomainDataFaker.mocks.campaignMock;
+        const create = sinon.spy(() => createdCampaign);
+
+        beforeEach(() => {
+            campaignToCreate = DomainDataFaker.mocks.createCampaignMock;
+
+            database = {
+                modelInstance: () => ({
+                    create,
+                }),
+            };
+
+            campaignsSerializer = {
+                postCampaign: (obj: any) => obj,
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                campaignsSerializer,
+                logger,
+            });
+        });
+
+        it('should create an campaign and return serialized', async () => {
+            const result = await campaignsRepository.create(campaignToCreate);
+
+            expect(create).to.have.been.called();
+            expect(result).to.have.property('title');
+            expect(result.title).to.be.equal(campaignToCreate.title);
+        });
+    });
 
     context('#findOne', () => {
         context('When a campaign is recovered from database', () => {

@@ -58,6 +58,7 @@ export default class Application {
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
             .use(this._usersRoutesMiddleware.get())
+            .use(this._campaignsRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
             .use(this._campaignsRoutesMiddleware.get())
             .use(this._errorMiddleware);
