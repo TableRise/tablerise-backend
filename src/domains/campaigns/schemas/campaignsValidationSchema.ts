@@ -18,11 +18,7 @@ const campaignsZodSchema = z.object({
     ageRestriction: z.number(),
 });
 
-export const createCampaignsZodSchema = z.object({
-    title: z.string(),
-});
-
-export type CampaignPayload = z.infer<typeof createCampaignsZodSchema>;
+export type CampaignPayload = z.infer<typeof campaignsZodSchema>;
 export type CampaignInstance = z.infer<typeof campaignsZodSchema> & {
     campaignId: string;
     campaignPlayers: Player[];

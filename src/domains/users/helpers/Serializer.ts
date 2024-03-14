@@ -4,7 +4,6 @@ import Discord from 'passport-discord';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserExternal } from 'src/types/api/users/http/payload';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 
 export default class Serializer {
     private _isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -92,36 +91,6 @@ export default class Serializer {
             gameInfo,
             biography,
             role,
-        };
-    }
-
-    public postCampaign({
-        campaignId = null,
-        title = null,
-        cover = null,
-        description = null,
-        system = null,
-        ageRestriction = null,
-        campaignPlayers = null,
-        matchData = null,
-        infos = null,
-        lores = null,
-        createdAt = null,
-        updatedAt = null,
-    }: any): CampaignInstance {
-        return {
-            campaignId,
-            title,
-            cover,
-            description,
-            system,
-            ageRestriction,
-            campaignPlayers,
-            matchData,
-            infos,
-            lores,
-            createdAt,
-            updatedAt,
         };
     }
 }

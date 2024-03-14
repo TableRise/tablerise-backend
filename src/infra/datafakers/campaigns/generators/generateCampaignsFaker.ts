@@ -8,11 +8,18 @@ function createCampaignFaker({
 }: CampaignInstance): CampaignInstance {
     return {
         campaignId,
-        title: dataGenerator.title(),
-        description: dataGenerator.description(),
+        title: dataGenerator.title,
+        description: dataGenerator.description,
         visibility: dataGenerator.visibility,
         system: dataGenerator.system,
         ageRestriction: dataGenerator.ageRestriction,
+        cover: dataGenerator.cover,
+        campaignPlayers: dataGenerator.campaignPlayers,
+        matchData: dataGenerator.matchData,
+        infos: dataGenerator.infos,
+        lores: dataGenerator.lores,
+        createdAt: dataGenerator.createdAt.toISOString(),
+        updatedAt: dataGenerator.updatedAt.toISOString(),
     } as CampaignInstance;
 }
 
