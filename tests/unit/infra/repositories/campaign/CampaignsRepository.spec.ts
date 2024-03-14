@@ -12,8 +12,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         campaign: any,
         query: any,
         createdCampaign: any,
-        campaignToCreate: any,
-        campaignsSerializer: any;
+        campaignToCreate: any;
 
     const logger = (): void => {};
 
@@ -30,13 +29,13 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 }),
             };
 
-            campaignsSerializer = {
+            serializer = {
                 postCampaign: (obj: any) => obj,
             };
 
             campaignsRepository = new CampaignsRepository({
                 database,
-                campaignsSerializer,
+                serializer,
                 logger,
             });
         });

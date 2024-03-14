@@ -4,7 +4,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe.only('When recover user by id', () => {
+describe('When recover user by id', () => {
     let campaignOne: CampaignInstance,
         campaignTwo: CampaignInstance;
 
@@ -19,7 +19,7 @@ describe.only('When recover user by id', () => {
 
         it('should retrieve campaign created', async () => {
             const { body } = await requester()
-                .get(`/profile/${campaignOne.campaignId}`)
+                .get(`/campaigns/${campaignOne.campaignId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');

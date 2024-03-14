@@ -1,8 +1,8 @@
 import systemsEnum from 'src/domains/common/enums/systemsEnum';
 
 describe('Domains :: Campaign :: Enum :: systemsEnum', () => {
-    const enumKeysFixed = ['DUNGEONS_AND_DRAGONS_5E'];
-    const enumValuesFixed = ['dungeons-and-dragons-5e'];
+    const enumKeysFixed = ['DND5E'];
+    const enumValuesFixed = ['dnd5e'];
 
     context('When enum key/values', () => {
         it('should have correct key/values', () => {

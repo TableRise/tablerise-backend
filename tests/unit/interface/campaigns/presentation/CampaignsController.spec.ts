@@ -1,3 +1,4 @@
+import newUUID from 'src/domains/common/helpers/newUUID';
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Request, Response } from 'express';
 import sinon from 'sinon';
@@ -28,6 +29,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
         it('should correctly call the methods and functions', async () => {
             request.body = { title: 'The new era' };
+            request.user = { userId: newUUID() };
             await campaignsController.create(request, response);
 
             expect(createCampaignOperation.execute).to.have.been.calledWith(request.body);
