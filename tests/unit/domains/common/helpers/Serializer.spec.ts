@@ -2,7 +2,7 @@ import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import Serializer from 'src/domains/users/helpers/Serializer';
+import Serializer from 'src/domains/common/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
@@ -109,9 +109,11 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         });
 
         it('should return correct keys', () => {
-            const campaignDefaultKeys = Object.keys(
-                CampaignDomainDataFaker.generateCampaignsJSON()[0]
-            );
+            const campaignDefault = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+
+            delete campaignDefault.visibility;
+
+            const campaignDefaultKeys = Object.keys(campaignDefault);
             const campaign = {};
             const serialized = serializer.postCampaign(campaign);
 
