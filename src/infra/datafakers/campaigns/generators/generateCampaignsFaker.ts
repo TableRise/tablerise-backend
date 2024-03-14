@@ -97,8 +97,8 @@ function createCampaignFaker({
             ],
             logs: [
                 {
-                    content: '',
-                    loggedAt: '2024-02-20T00:25:14Z',
+                    content: 'Some log printed',
+                    loggedAt: new Date().toISOString(),
                 },
             ],
         },
@@ -111,11 +111,11 @@ function createCampaignFaker({
         ],
         logs: [
             {
-                loggedAt: '2024-02-20T00:25:14Z',
+                loggedAt: new Date().toISOString(),
                 content: 'Dice was roled with 14+2 by TheDicer_01',
             },
             {
-                loggedAt: '2024-02-20T00:25:14Z',
+                loggedAt: new Date().toISOString(),
                 content: 'FatuiKiller is dead',
             },
         ],
@@ -138,16 +138,16 @@ function createCampaignFaker({
                 {
                     characterId: 'fa7911c9-afd1-423b-b578-d36e8d950e10',
                     lore: 'A random lore was told through winds',
-                    createdAt: '2024-02-20T00:25:14Z',
-                    updatedAt: '2024-02-20T00:25:14Z',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
                 },
             ],
             dungeonMasterCharacters: [
                 {
                     characterId: 'fa91df8c-56b3-4128-92b8-3ae8582ded50',
                     lore: 'Some day the sun will rise again',
-                    createdAt: '2024-02-20T00:25:14Z',
-                    updatedAt: '2024-02-20T00:25:14Z',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
                 },
             ],
             environments: [
@@ -159,8 +159,8 @@ function createCampaignFaker({
                         link: 'https://imgur.com',
                         uploadDate: new Date().toISOString(),
                     },
-                    createdAt: '2024-02-20T00:25:14Z',
-                    updatedAt: '2024-02-20T00:25:14Z',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
                 },
             ],
             mainHistory: [
@@ -172,13 +172,13 @@ function createCampaignFaker({
                         link: 'https://imgur.com',
                         uploadDate: new Date().toISOString(),
                     },
-                    createdAt: '2024-02-20T00:25:14Z',
-                    updatedAt: '2024-02-20T00:25:14Z',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
                 },
             ],
         },
-        createdAt: '2024-02-20T00:25:14Z',
-        updatedAt: '2024-02-20T00:25:14Z',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
     } as CampaignInstance;
 }
 
