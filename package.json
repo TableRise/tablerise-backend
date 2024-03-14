@@ -10,7 +10,7 @@
         "test": "npm run test:unit && npm run test:integration",
         "test:unit": "cross-env NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register -r tests/support/setup tests/unit/**/*.spec.ts --exit",
         "test:integration": "cross-env NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register -r tests/support/setup.integration --timeout 10000 tests/integration/**/*.spec.ts --exit",
-        "coverage": "cross-env NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register -r tests/support/setup tests/unit/**/*.spec.ts --exit",
+        "test:coverage": "cross-env NODE_ENV=test nyc mocha -r ts-node/register -r tsconfig-paths/register -r tests/support/setup tests/unit/**/*.spec.ts --exit",
         "lint": "npx eslint . --ext .ts --max-warnings=0",
         "prettier": "npx prettier --check .",
         "prettier:fix": "npx prettier . --write",
