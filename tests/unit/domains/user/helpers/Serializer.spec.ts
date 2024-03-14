@@ -101,4 +101,17 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             });
         });
     });
+
+    context('When campaign is serialized', () => {
+        beforeEach(() => {
+            serializer = new Serializer();
+        });
+
+        it('should return correct keys', () => {
+            const campaign = {};
+            const serialized = serializer.postCampaign(campaign);
+
+            // expects
+        });
+    });
 });

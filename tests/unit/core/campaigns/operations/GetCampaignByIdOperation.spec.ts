@@ -3,8 +3,7 @@ import GetCampaignByIdOperation from 'src/core/campaigns/operations/GetCampaignB
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Campaigns :: Operations :: GetCampaignByIdOperation', () => {
-    let getCampaignByIdOperation: GetCampaignByIdOperation,
-    getCampaignByIdService: any;
+    let getCampaignByIdOperation: GetCampaignByIdOperation, getCampaignByIdService: any;
 
     const logger = (): void => {};
 
@@ -14,12 +13,12 @@ describe('Core :: Campaigns :: Operations :: GetCampaignByIdOperation', () => {
 
             before(() => {
                 getCampaignByIdService = {
-                    get: sinon.spy()
+                    get: sinon.spy(),
                 };
-    
+
                 getCampaignByIdOperation = new GetCampaignByIdOperation({
                     getCampaignByIdService,
-                    logger
+                    logger,
                 });
             });
 

@@ -3,21 +3,23 @@ import CampaignsRoutesBuilder from 'src/interface/campaigns/CampaignsRoutesBuild
 
 describe('Interface :: Campaigns :: CampaignsRoutesBuilder', () => {
     let campaignsRoutesBuilder: CampaignsRoutesBuilder,
-    campaignsRoutes: any,
-    verifyIdMiddleware: any;
+        campaignsRoutes: any,
+        verifyIdMiddleware: any;
 
     context('#get', () => {
         verifyIdMiddleware = () => ({});
 
         campaignsRoutes = {
-            routes: () => [{
-                method: 'get',
-                path: '/base/api',
-                options: {
-                    middlewares: [verifyIdMiddleware],
-                    authentication: false,
+            routes: () => [
+                {
+                    method: 'get',
+                    path: '/base/api',
+                    options: {
+                        middlewares: [verifyIdMiddleware],
+                        authentication: false,
+                    },
                 },
-            }]
+            ],
         };
 
         beforeEach(() => {

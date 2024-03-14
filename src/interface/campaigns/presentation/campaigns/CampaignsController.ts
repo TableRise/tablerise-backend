@@ -7,7 +7,10 @@ export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _getCampaignByIdOperation;
 
-    constructor({ getCampaignByIdOperation, createCampaignOperation }: CampaignsControllerContract) {
+    constructor({
+        getCampaignByIdOperation,
+        createCampaignOperation,
+    }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
 

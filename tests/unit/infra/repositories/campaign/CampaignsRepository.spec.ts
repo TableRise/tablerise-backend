@@ -5,10 +5,10 @@ import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsReposi
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
-    database: any,
-    serializer: any,
-    campaign: any,
-    query: any;
+        database: any,
+        serializer: any,
+        campaign: any,
+        query: any;
 
     const logger = (): void => {};
 
@@ -18,25 +18,25 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
 
             before(() => {
                 campaign = {
-                    campaignId
+                    campaignId,
                 };
 
                 database = {
-                    modelInstance: () => ({ findOne: () => campaign })
+                    modelInstance: () => ({ findOne: () => campaign }),
                 };
 
                 serializer = {
-                    postCampaign: (payload: any) => payload
+                    postCampaign: (payload: any) => payload,
                 };
 
                 query = {
-                    campaignId
-                }
+                    campaignId,
+                };
 
                 campaignsRepository = new CampaignsRepository({
                     database,
                     serializer,
-                    logger
+                    logger,
                 });
             });
 
@@ -51,31 +51,27 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
 
             before(() => {
                 campaign = {
-                    campaignId
+                    campaignId,
                 };
 
                 database = {
-                    modelInstance: () => ({ findOne: () => null })
+                    modelInstance: () => ({ findOne: () => null }),
                 };
 
                 serializer = {
-                    postCampaign: (payload: any) => payload
+                    postCampaign: (payload: any) => payload,
                 };
-
-                query = {
-                    campaignId
-                }
 
                 campaignsRepository = new CampaignsRepository({
                     database,
                     serializer,
-                    logger
+                    logger,
                 });
             });
 
             it('should return correct result', async () => {
                 try {
-                    await campaignsRepository.findOne(query);
+                    await campaignsRepository.findOne();
                     expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;

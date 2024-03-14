@@ -13,7 +13,10 @@ export default class CampaignsRoutes {
     private readonly _campaignsController;
     private readonly _verifyIdMiddleware;
 
-    constructor({ campaignsController, verifyIdMiddleware }: InterfaceDependencies['campaignsRoutesContract']) {
+    constructor({
+        campaignsController,
+        verifyIdMiddleware,
+    }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
     }
@@ -29,7 +32,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware
+                        this._verifyIdMiddleware,
                     ],
                     tag: 'access',
                     description: desc.getById,
