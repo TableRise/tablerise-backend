@@ -4,6 +4,7 @@ import Discord from 'passport-discord';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Serializer from 'src/domains/users/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Domains :: User :: Helpers :: Serializer', () => {
     let serializer: Serializer;
@@ -108,10 +109,15 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         });
 
         it('should return correct keys', () => {
+            const campaignDefaultKeys = Object.keys(
+                CampaignDomainDataFaker.generateCampaignsJSON()[0]
+            );
             const campaign = {};
             const serialized = serializer.postCampaign(campaign);
 
-            // expects
+            campaignDefaultKeys.forEach((key) => {
+                expect(serialized).to.have.property(key);
+            });
         });
     });
 });
