@@ -2,7 +2,7 @@ import CreateCampaignService from 'src/core/campaigns/services/campaigns/CreateC
 import { SchemasCampaignType } from 'src/domains/campaigns/schemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import { Logger } from '../../../../Logger';
-import Serializer from 'src/domains/campaigns/helpers/Serializer';
+import Serializer from 'src/domains/common/helpers/Serializer';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 
 export interface CreateCampaignOperationContract {
@@ -14,6 +14,6 @@ export interface CreateCampaignOperationContract {
 
 export interface CreateCampaignServiceContract {
     campaignsRepository: CampaignsRepository;
-    campaignsSerializer: Serializer;
+    serializer: Serializer;
     logger: Logger;
 }

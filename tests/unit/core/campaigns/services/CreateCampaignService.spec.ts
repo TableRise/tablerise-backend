@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
     let createCampaignService: CreateCampaignService,
-        campaignsSerializer: any,
+        serializer: any,
         campaignsRepository: any,
         campaign: CampaignInstance,
         userId: any;
@@ -17,7 +17,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignsSerializer = {
+                serializer = {
                     postCampaign: () => campaign,
                 };
 
@@ -26,7 +26,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 };
 
                 createCampaignService = new CreateCampaignService({
-                    campaignsSerializer,
+                    serializer,
                     campaignsRepository,
                     logger,
                 });
@@ -52,14 +52,14 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 campaign.createdAt = null as unknown as string;
                 campaign.updatedAt = null as unknown as string;
 
-                campaignsSerializer = {};
+                serializer = {};
 
                 campaignsRepository = {
                     find: () => [],
                 };
 
                 createCampaignService = new CreateCampaignService({
-                    campaignsSerializer,
+                    serializer,
                     campaignsRepository,
                     logger,
                 });
@@ -83,7 +83,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignsSerializer = {};
+                serializer = {};
 
                 campaignsRepository = {
                     create: () => campaign,
@@ -91,7 +91,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 };
 
                 createCampaignService = new CreateCampaignService({
-                    campaignsSerializer,
+                    serializer,
                     campaignsRepository,
                     logger,
                 });
