@@ -25,7 +25,7 @@ export default {
     matchData: {
         matchId: faker.string.uuid(),
         avatars: [],
-        music: [],
+        musics: [],
         mapImages: [],
         logs: [],
     },

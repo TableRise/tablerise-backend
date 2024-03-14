@@ -27,6 +27,7 @@ export default class CampaignsRepository {
         this._logger('info', `Create - CampaignsRepository`);
 
         payload.campaignId = newUUID();
+
         const request = await this._model.create(payload);
         return this._formatAndSerializeData(request);
     }
