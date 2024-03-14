@@ -5,8 +5,7 @@ import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let campaignOne: CampaignInstance,
-        campaignTwo: CampaignInstance;
+    let campaignOne: CampaignInstance, campaignTwo: CampaignInstance;
 
     context('And data is correct', () => {
         before(async () => {
