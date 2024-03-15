@@ -38,8 +38,6 @@ describe('When a campaign is created', () => {
 
             const campaignPayload = CampaignDomainDataFaker.mocks.createCampaignMock;
 
-            campaignPayload.visibility = 'visible';
-
             const { body } = await requester()
                 .post('/campaigns/create')
                 .set('Cookie', headers['set-cookie'][0].split(';')[0])
