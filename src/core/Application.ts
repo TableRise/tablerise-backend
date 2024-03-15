@@ -60,7 +60,6 @@ export default class Application {
             .use(this._usersRoutesMiddleware.get())
             .use(this._campaignsRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
-            .use(this._campaignsRoutesMiddleware.get())
             .use(this._errorMiddleware);
 
         return app;

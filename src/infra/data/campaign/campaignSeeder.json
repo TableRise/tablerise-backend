@@ -30,7 +30,6 @@
             "avatars": [
                 {
                     "avatarId": "2df43482-72ac-4457-95da-684efdbf99b6",
-                    "characterId": "fa7911c9-afd1-423b-b578-d36e8d950e10",
                     "userId": "2fd23908-9691-4dfc-a23e-4690014ce534",
                     "picture": {
                         "id": "123",
@@ -43,7 +42,6 @@
                 },
                 {
                     "avatarId": "e296ccf1-312a-4a52-a6a4-2543a2ac50b5",
-                    "characterId": "fa91df8c-56b3-4128-92b8-3ae8582ded50",
                     "userId": "a0845fc6-d0f2-4775-973c-c1227d70739c",
                     "picture": {
                         "id": "123",

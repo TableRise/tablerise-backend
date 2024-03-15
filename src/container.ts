@@ -9,8 +9,7 @@ import schemas from './domains/users/schemas';
 import campaignsSchemas from './domains/campaigns/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
-import Serializer from './domains/users/helpers/Serializer';
-import campaignsSerializer from './domains/campaigns/helpers/Serializer';
+import Serializer from './domains/common/helpers/Serializer';
 import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
@@ -71,7 +70,6 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         schemaValidator: asClass(SchemaValidator).singleton(),
         emailSender: asClass(EmailSender).singleton(),
         serializer: asClass(Serializer).singleton(),
-        campaignsSerializer: asClass(campaignsSerializer).singleton(),
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),

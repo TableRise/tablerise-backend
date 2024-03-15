@@ -11,9 +11,14 @@ const BASE_PATH = '/campaigns';
 
 export default class CampaignsRoutes {
     private readonly _campaignsController;
+    private readonly _verifyIdMiddleware;
 
-    constructor({ campaignsController }: InterfaceDependencies['usersRoutesContract']) {
+    constructor({
+        campaignsController,
+        verifyIdMiddleware,
+    }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
+        this._verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -25,7 +30,10 @@ export default class CampaignsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._campaignsController.getById,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
                     tag: 'access',
                     description: desc.getById,
                 },

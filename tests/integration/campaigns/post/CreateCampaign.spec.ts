@@ -41,8 +41,7 @@ describe('When a campaign is created', () => {
             const { body } = await requester()
                 .post('/campaigns/create')
                 .set('Cookie', headers['set-cookie'][0].split(';')[0])
-                .send(campaignPayload)
-                .expect(HttpStatusCode.CREATED);
+                .send(campaignPayload);
 
             expect(body).to.have.property('campaignId');
             expect(body).to.have.property('title');

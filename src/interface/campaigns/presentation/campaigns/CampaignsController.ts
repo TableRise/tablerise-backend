@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
-import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 

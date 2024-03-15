@@ -1,19 +1,20 @@
 import sinon from 'sinon';
-// import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
-import { Logger } from 'src/types/shared/logger';
+import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
-        createdCampaign: any,
-        campaignToCreate: any,
         database: any,
-        campaignsSerializer: any;
+        serializer: any,
+        campaign: any,
+        query: any,
+        createdCampaign: any,
+        campaignToCreate: any;
 
-    const logger: Logger = () => {};
+    const logger = (): void => {};
 
     context('#create', () => {
         createdCampaign = DomainDataFaker.mocks.campaignMock;
@@ -28,13 +29,13 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 }),
             };
 
-            campaignsSerializer = {
+            serializer = {
                 postCampaign: (obj: any) => obj,
             };
 
             campaignsRepository = new CampaignsRepository({
                 database,
-                campaignsSerializer,
+                serializer,
                 logger,
             });
         });
@@ -49,71 +50,66 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     });
 
     context('#findOne', () => {
-        context('when is found', () => {
-            createdCampaign = DomainDataFaker.mocks.campaignMock;
-            const findOne = sinon.spy(() => createdCampaign);
+        context('When a campaign is recovered from database', () => {
+            const campaignId = newUUID();
 
-            beforeEach(() => {
-                database = {
-                    modelInstance: sinon.spy(() => ({
-                        findOne,
-                    })),
+            before(() => {
+                campaign = {
+                    campaignId,
                 };
 
-                campaignsSerializer = {
-                    postCampaign: (obj: any) => obj,
+                database = {
+                    modelInstance: () => ({ findOne: () => campaign }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
+                };
+
+                query = {
+                    campaignId,
                 };
 
                 campaignsRepository = new CampaignsRepository({
                     database,
-                    campaignsSerializer,
+                    serializer,
                     logger,
                 });
             });
 
-            it('should find an campaign and return serialized', async () => {
-                const result = await campaignsRepository.findOne({
-                    campaignId: createdCampaign.campaignId,
-                });
-
-                expect(findOne).to.have.been.called();
-                expect(result).to.have.property('title');
-                expect(result.title).to.be.equal(createdCampaign.title);
-            });
-
-            it('should find an campaign and return serialized - query undefined', async () => {
-                const result = await campaignsRepository.findOne();
-
-                expect(findOne).to.have.been.called();
-                expect(result).to.have.property('title');
-                expect(result.title).to.be.equal(createdCampaign.title);
+            it('should return correct result', async () => {
+                const campaignTest = await campaignsRepository.findOne(query);
+                expect(campaignTest).to.be.deep.equal(campaign);
             });
         });
 
-        context('when is not found', () => {
-            beforeEach(() => {
-                database = {
-                    modelInstance: () => ({
-                        findOne: () => null,
-                    }),
+        context('When a campaign is not recovered from database', () => {
+            const campaignId = newUUID();
+
+            before(() => {
+                campaign = {
+                    campaignId,
                 };
 
-                campaignsSerializer = {
-                    postCampaign: (obj: any) => obj,
+                database = {
+                    modelInstance: () => ({ findOne: () => null }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
                 };
 
                 campaignsRepository = new CampaignsRepository({
                     database,
-                    campaignsSerializer,
+                    serializer,
                     logger,
                 });
             });
 
-            it('should find an campaign and return serialized', async () => {
+            it('should return correct result', async () => {
                 try {
-                    await campaignsRepository.findOne({
-                        campaignId: '',
-                    });
+                    await campaignsRepository.findOne();
+                    expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Campaign does not exist');

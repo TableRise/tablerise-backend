@@ -5,22 +5,22 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 
 export default class CampaignsRepository {
     private readonly _model;
-    private readonly _campaignsSerializer;
+    private readonly _serializer;
     private readonly _logger;
 
     constructor({
         database,
-        campaignsSerializer,
+        serializer,
         logger,
     }: InfraDependencies['campaignsRepositoryContract']) {
         this._model = database.modelInstance('campaign', 'Campaigns');
-        this._campaignsSerializer = campaignsSerializer;
+        this._serializer = serializer;
         this._logger = logger;
     }
 
     private _formatAndSerializeData(data: CampaignInstance): CampaignInstance {
         const format = JSON.parse(JSON.stringify(data));
-        return this._campaignsSerializer.postCampaign(format);
+        return this._serializer.postCampaign(format);
     }
 
     public async create(payload: CampaignInstance): Promise<CampaignInstance> {

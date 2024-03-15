@@ -1,15 +1,14 @@
-import systemsEnum from 'src/domains/common/enums/systemsEnum';
+import systemEnum from 'src/domains/common/enums/systemsEnum';
 
-describe('Domains :: Campaign :: Enum :: systemsEnum', () => {
+describe('Domains :: User :: Enum :: SystemEnum', () => {
     const enumKeysFixed = ['DND5E'];
     const enumValuesFixed = ['dnd5e'];
 
     context('When enum key/values', () => {
         it('should have correct key/values', () => {
-            const enumTest = systemsEnum.enum;
+            const enumTest = systemEnum.enum;
 
             enumKeysFixed.forEach((key: string, index: number) => {
-                expect(enumTest).to.have.property(key);
                 expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
                     enumValuesFixed[index]
                 );
@@ -19,7 +18,7 @@ describe('Domains :: Campaign :: Enum :: systemsEnum', () => {
 
     context('When enum values', () => {
         it('should have correct key/values', () => {
-            const enumTest = systemsEnum.values;
+            const enumTest = systemEnum.values;
 
             enumValuesFixed.forEach((key: string, index: number) => {
                 expect(enumTest[index]).to.be.equal(key);

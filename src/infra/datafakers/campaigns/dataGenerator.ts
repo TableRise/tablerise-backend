@@ -4,12 +4,12 @@ export default {
     title: faker.company.catchPhrase(),
     description: faker.company.buzzPhrase(),
     visibility: faker.helpers.arrayElement(['hidden', 'visible']),
-    system: faker.helpers.arrayElement(['dungeons-and-dragons-5e']),
+    system: faker.helpers.arrayElement(['dnd5e']),
     ageRestriction: faker.number.int({ min: 1, max: 18 }),
     cover: {
         id: faker.string.uuid(),
         link: faker.internet.url(),
-        uploadDate: faker.date.anytime(),
+        uploadDate: faker.date.anytime().toISOString(),
     },
     campaignPlayers: [
         {

@@ -1,13 +1,13 @@
+import campaignsZodSchema, {
+    CampaignPayload,
+} from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import campaignsZodSchema, {
-    CampaignInstance,
-} from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
-describe('Domains :: Campaign :: Schemas :: CampaignsValidationSchema', () => {
-    let campaign: CampaignInstance[];
+describe('Domains :: Campaigns :: Schemas :: CampaignsValidationSchema', () => {
+    let campaign: CampaignPayload[];
 
     const schemaValidator = new SchemaValidator();
 
@@ -15,11 +15,12 @@ describe('Domains :: Campaign :: Schemas :: CampaignsValidationSchema', () => {
         beforeEach(() => {
             campaign = DomainDataFaker.generateCampaignsJSON().map((campaign) => ({
                 title: campaign.title,
+                cover: campaign.cover,
                 description: campaign.description,
                 visibility: campaign.visibility,
                 system: campaign.system,
                 ageRestriction: campaign.ageRestriction,
-            })) as CampaignInstance[];
+            }));
         });
 
         it('should not have errors', () => {
@@ -35,7 +36,11 @@ describe('Domains :: Campaign :: Schemas :: CampaignsValidationSchema', () => {
         beforeEach(() => {
             campaign = DomainDataFaker.generateCampaignsJSON().map((campaign) => ({
                 title: campaign.title,
-            })) as CampaignInstance[];
+                cover: campaign.cover,
+                visibility: campaign.visibility,
+                system: campaign.system,
+                ageRestriction: campaign.ageRestriction,
+            })) as CampaignPayload[];
         });
 
         it('should throw errors', () => {
@@ -47,7 +52,7 @@ describe('Domains :: Campaign :: Schemas :: CampaignsValidationSchema', () => {
                 expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 expect(err.name).to.be.equal('UnprocessableEntity');
 
-                expect(err.details).to.have.length(3);
+                expect(err.details).to.have.length(1);
                 expect(err.details[0].attribute).to.be.equal('description');
                 expect(err.details[0].reason).to.be.equal('Required');
             }

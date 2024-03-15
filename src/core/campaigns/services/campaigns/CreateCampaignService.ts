@@ -9,16 +9,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class CreateCampaignService {
     private readonly _campaignsRepository;
-    private readonly _campaignsSerializer;
+    private readonly _serializer;
     private readonly _logger;
 
     constructor({
         campaignsRepository,
         logger,
-        campaignsSerializer,
+        serializer,
     }: CampaignCoreDependencies['createCampaignServiceContract']) {
         this._campaignsRepository = campaignsRepository;
-        this._campaignsSerializer = campaignsSerializer;
+        this._serializer = serializer;
         this._logger = logger;
 
         this.enrichment = this.enrichment.bind(this);
@@ -30,7 +30,7 @@ export default class CreateCampaignService {
         campaign: CreateCampaignPayload
     ): Promise<__CampaignSerialized> {
         this._logger('info', 'Serialize - CreateCampaignService');
-        const campaignSerialized = this._campaignsSerializer.postCampaign(campaign);
+        const campaignSerialized = this._serializer.postCampaign(campaign);
 
         return campaignSerialized;
     }
