@@ -6,6 +6,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
     let createCampaignService: CreateCampaignService,
         serializer: any,
+        imageStorageClient: any,
         campaignsRepository: any,
         campaign: CampaignInstance,
         userId: any;
@@ -25,9 +26,19 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                     find: () => [],
                 };
 
+                imageStorageClient = {
+                    upload: () => ({
+                        data: {
+                            id: '123',
+                            link: 'https://123.com',
+                        },
+                    }),
+                };
+
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    imageStorageClient,
                     logger,
                 });
             });
@@ -58,9 +69,19 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                     find: () => [],
                 };
 
+                imageStorageClient = {
+                    upload: () => ({
+                        data: {
+                            id: '123',
+                            link: 'https://123.com',
+                        },
+                    }),
+                };
+
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    imageStorageClient,
                     logger,
                 });
             });
@@ -90,9 +111,19 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                     update: () => {},
                 };
 
+                imageStorageClient = {
+                    upload: () => ({
+                        data: {
+                            id: '123',
+                            link: 'https://123.com',
+                        },
+                    }),
+                };
+
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    imageStorageClient,
                     logger,
                 });
             });

@@ -5,20 +5,25 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateFileParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
 export default class CampaignsRoutes {
     private readonly _campaignsController;
     private readonly _verifyIdMiddleware;
+    private readonly _imageMiddleware;
 
     constructor({
         campaignsController,
         verifyIdMiddleware,
+        imageMiddleware,
     }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
+        this._imageMiddleware = imageMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -42,12 +47,22 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
-                controller: this._campaignsController.create,
                 schema: DomainDataFaker.mocks.createCampaignMock,
+                parameters: [
+                    ...generateFileParam(1, [
+                        { name: 'image', type: 'file', required: 'off' },
+                    ]),
+                ],
+                controller: this._campaignsController.create,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [
+                        this._imageMiddleware.multer().single('image'),
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.fileType,
+                    ],
                     tag: 'management',
                     description: desc.create,
+                    fileUpload: true,
                 },
             },
         ] as unknown as routeInstance[];
