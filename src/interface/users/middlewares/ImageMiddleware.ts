@@ -33,7 +33,6 @@ export default class ImageMiddleware {
         this._logger('info', 'FileType - ImageMiddleware');
         const file = req.file;
         const extension = file?.mimetype.split('/').pop();
-        console.log(file);
         if (!ALLOWED_EXT.includes(extension as string))
             throw new HttpRequestErrors({
                 message: `File extension is not allowed, valid extensions are: [png, jpg, jpeg]`,
