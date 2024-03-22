@@ -17,7 +17,7 @@ export default class CampaignsRoutes {
     constructor({
         campaignsController,
         verifyIdMiddleware,
-        imageMiddleware
+        imageMiddleware,
     }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
@@ -45,11 +45,15 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
-                controller: this._campaignsController.create,
                 schema: DomainDataFaker.mocks.createCampaignMock,
+                controller: this._campaignsController.create,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.create,
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('cover'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.create
                 },
             },
 

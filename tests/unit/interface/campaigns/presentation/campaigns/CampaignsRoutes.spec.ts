@@ -1,16 +1,22 @@
 import CampaignsRoutes from 'src/interface/campaigns/presentation/campaigns/CampaignsRoutes';
 
-describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes', () => {
+describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () => {
     let campaignsRoutes: CampaignsRoutes,
         campaignsController: any,
-        authorizationMiddleware: any;
+        verifyIdMiddleware: any,
+        authorizationMiddleware: any,
+        imageMiddleware: any;
 
     context('When all the routes are correctly implemented', () => {
         campaignsController = {};
+        verifyIdMiddleware = () => ({});
+        imageMiddleware = { multer: () => ({ single: () => {} }) };
         authorizationMiddleware = {};
 
         campaignsRoutes = new CampaignsRoutes({
             campaignsController,
+            verifyIdMiddleware,
+            imageMiddleware,
             authorizationMiddleware,
         });
 

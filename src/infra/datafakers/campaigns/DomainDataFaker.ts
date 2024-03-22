@@ -39,7 +39,7 @@ const mocks = {
         createdAt,
         updatedAt,
     },
-    createCampaignMock: { title, visibility, description, system, ageRestriction },
+    createCampaignMock: { title, visibility, description, system, ageRestriction, cover: { isBinary: true } },
 };
 
 export default {
