@@ -107,7 +107,7 @@ export default class UsersRoutes {
                 controller: this._usersController.login,
                 schema: DomainDataFaker.mocks.loginMock,
                 options: {
-                    middlewares: [passport.authenticate('local', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'authentication',
                     description: desc.login,
                 },
@@ -122,6 +122,7 @@ export default class UsersRoutes {
                 controller: this._usersController.profilePicture,
                 options: {
                     middlewares: [
+                        passport.authenticate('cookie', { session: false }),
                         this._imageMiddleware.multer().single('image'),
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,

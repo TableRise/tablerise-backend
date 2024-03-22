@@ -4,4 +4,5 @@ import createCampaignOperation from 'src/core/campaigns/operations/campaigns/Cre
 export interface CampaignsControllerContract {
     getCampaignByIdOperation: GetCampaignByIdOperation;
     createCampaignOperation: createCampaignOperation;
+    updateMatchImagesOperation: any;
 }
