@@ -19,7 +19,7 @@ describe('When a profile picture is uploaded', () => {
     context('And all data is correct', () => {
         it('should return correct user with picture', async () => {
             const { body } = await requester()
-                .post(`/profile/${user.userId}/picture`)
+                .post(`/profile/${user.userId}/update/picture`)
                 .set('Content-Type', 'multipart/form-data')
                 .attach('image', './tests/support/assets/test-image-batman.jpeg')
                 .expect(HttpStatusCode.OK);

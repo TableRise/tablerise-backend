@@ -81,18 +81,10 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
             }
         });
 
-        it('should throw an error - file do not exists', async () => {
-            try {
-                request.file = undefined;
-                imageMiddleware.fileType(request, response, next);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal(
-                    'File extension is not allowed, valid extensions are: [png, jpg, jpeg]'
-                );
-                expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).to.be.equal('BadRequest');
-            }
+        it('should call next - without a file', async () => {
+            request.file = undefined;
+            imageMiddleware.fileType(request, response, next);
+            expect(next).to.have.been.called();
         });
     });
 });

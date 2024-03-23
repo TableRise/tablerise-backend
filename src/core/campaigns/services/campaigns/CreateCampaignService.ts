@@ -54,13 +54,16 @@ export default class CreateCampaignService {
 
         if (image) {
             const response = await this._imageStorageClient.upload(image);
-            console.log(response);
             campaign.cover = {
                 id: response.data.id,
                 link: response.data.link,
                 uploadDate: new Date().toISOString(),
             };
+        } else {
+            delete campaign.cover;
         }
+
+        campaign.ageRestriction = Number(campaign.ageRestriction);
 
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
