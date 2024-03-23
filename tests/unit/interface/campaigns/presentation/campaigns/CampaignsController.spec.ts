@@ -1,12 +1,14 @@
+import newUUID from 'src/domains/common/helpers/newUUID';
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Request, Response } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CampaignsController from 'src/interface/campaigns/presentation/campaigns/CampaignsController';
 
-describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsController', () => {
+describe('Interface :: Users :: Presentation :: Users :: CampaignsController', () => {
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
+        updateMatchMapImagesOperation: any,
         getCampaignByIdOperation: any;
 
     context('#create', () => {
@@ -18,17 +20,18 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             response.json = sinon.spy(() => response);
 
             createCampaignOperation = { execute: sinon.spy(() => ({})) };
-            getCampaignByIdOperation = { execute: () => ({}) };
+            getCampaignByIdOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
+                updateMatchMapImagesOperation,
                 getCampaignByIdOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.body = { title: 'my title' };
-            request.user = { userId: '123' };
+            request.body = { title: 'The new era' };
+            request.user = { userId: newUUID() };
             await campaignsController.create(request, response);
 
             expect(createCampaignOperation.execute).to.have.been.calledWith(request.body);
@@ -37,7 +40,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#getCampaignById', () => {
+    context('#getById', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -45,11 +48,12 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
 
-            createCampaignOperation = { execute: () => ({}) };
+            createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: sinon.spy(() => ({})) };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
+                updateMatchMapImagesOperation,
                 getCampaignByIdOperation,
             });
         });

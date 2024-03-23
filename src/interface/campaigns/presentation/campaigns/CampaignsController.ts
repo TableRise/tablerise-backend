@@ -8,16 +8,16 @@ import { FileObject } from 'src/types/shared/file';
 export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _getCampaignByIdOperation;
-    private readonly _updateMatchImagesOperation;
+    private readonly _updateMatchMapImagesOperation;
 
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
-        updateMatchImagesOperation
+        updateMatchMapImagesOperation
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
-        this._updateMatchImagesOperation = updateMatchImagesOperation;
+        this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -50,7 +50,7 @@ export default class CampaignsController {
 
         const mapImage = req.file as FileObject;
 
-        const result = await this._updateMatchImagesOperation.execute({
+        const result = await this._updateMatchMapImagesOperation.execute({
             campaignId: id,
             method,
             operation,

@@ -5,7 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam, { generateFileParam, generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
@@ -63,14 +63,14 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/update/match/map-images`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateFileParam(1, [{ name: 'mapImage', type: 'file', required: 'off' }]),
                     ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])
                 ],
                 controller: this._campaignsController.updateMatchImages,
+                schema: DomainDataFaker.mocks.uploadMatchMapImage,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('image'),
+                        this._imageMiddleware.multer().single('mapImage'),
                         this._imageMiddleware.fileType
                     ],
                     description: desc.updateMatchImages
