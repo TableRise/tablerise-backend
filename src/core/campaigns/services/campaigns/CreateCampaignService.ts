@@ -54,7 +54,6 @@ export default class CreateCampaignService {
 
         if (image) {
             const response = await this._imageStorageClient.upload(image);
-            console.log(response);
             campaign.cover = {
                 id: response.data.id,
                 link: response.data.link,
