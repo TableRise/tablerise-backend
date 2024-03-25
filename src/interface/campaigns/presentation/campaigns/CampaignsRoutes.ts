@@ -65,7 +65,7 @@ export default class CampaignsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])
                 ],
-                controller: this._campaignsController.updateMatchImages,
+                controller: this._campaignsController.updateMatchMapImages,
                 schema: DomainDataFaker.mocks.uploadMatchMapImage,
                 options: {
                     middlewares: [

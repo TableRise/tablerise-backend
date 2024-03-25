@@ -21,7 +21,7 @@ export default class CampaignsController {
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
-        this.updateMatchImages = this.updateMatchImages.bind(this);
+        this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -44,7 +44,7 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async updateMatchImages(req: Request, res: Response): Promise<Response> {
+    public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { imageId, operation } = req.query as {
             imageId?: string;
