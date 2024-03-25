@@ -37,7 +37,6 @@ describe('When a campaign is created', () => {
                 .expect(HttpStatusCode.OK);
 
             const campaignPayload = CampaignDomainDataFaker.mocks.createCampaignMock;
-
             const { body } = await requester()
                 .post('/campaigns/create')
                 .set('Cookie', headers['set-cookie'][0].split(';')[0])

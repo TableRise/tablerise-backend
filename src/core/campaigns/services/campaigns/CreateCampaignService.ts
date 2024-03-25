@@ -59,7 +59,11 @@ export default class CreateCampaignService {
                 link: response.data.link,
                 uploadDate: new Date().toISOString(),
             };
+        } else {
+            delete campaign.cover;
         }
+
+        campaign.ageRestriction = Number(campaign.ageRestriction);
 
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();

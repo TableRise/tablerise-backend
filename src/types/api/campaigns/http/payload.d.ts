@@ -4,15 +4,17 @@ import { FileObject } from 'src/types/shared/file';
 
 export interface CampaignPayload {
     title: string;
-    cover?: {
-        id: string;
-        link: string;
-        uploadDate: string;
-    };
+    cover?: cover | string;
     description: string;
     visibility?: campaignVisibilityEnum.values;
     system: systemsEnum.values;
-    ageRestriction: number;
+    ageRestriction: string | number;
+}
+
+interface cover {
+    id: string;
+    link: string;
+    uploadDate: string;
 }
 
 export interface CreateCampaignPayload {

@@ -14,6 +14,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
     context('#create', () => {
         const request = {} as Request;
         const response = {} as Response;
+        const userId = newUUID();
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
@@ -31,10 +32,14 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
         it('should correctly call the methods and functions', async () => {
             request.body = { title: 'The new era' };
-            request.user = { userId: newUUID() };
+            request.user = { userId };
             await campaignsController.create(request, response);
 
-            expect(createCampaignOperation.execute).to.have.been.calledWith(request.body);
+            expect(createCampaignOperation.execute).to.have.been.calledWith({
+                campaign: request.body,
+                userId,
+                image: undefined,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });

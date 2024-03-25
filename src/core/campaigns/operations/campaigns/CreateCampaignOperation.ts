@@ -28,7 +28,6 @@ export default class CreateCampaignOperation {
         image,
     }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
         this._logger('info', 'Execute - CreateCampaignOperation');
-
         this._schemaValidator.entry(this._campaignsSchema.campaignZod, campaign);
 
         const entitySerialized = await this._createCampaignService.serialize({

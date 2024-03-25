@@ -28,7 +28,6 @@ export default class CampaignsController {
         const campaign = req.body as CampaignPayload;
         const { userId } = req.user as UserInstance;
         const image = req.file as FileObject;
-        campaign.ageRestriction = Number(campaign.ageRestriction);
         const result = await this._createCampaignOperation.execute({
             campaign,
             userId,
