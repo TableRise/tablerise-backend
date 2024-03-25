@@ -48,7 +48,10 @@ export default class UpdateTimestampRepository {
 
             campaignInDb.updatedAt = new Date().toISOString();
 
-            await this._campaignsModel.update({ campaignId: campaignInDb.campaignId }, campaignInDb);
+            await this._campaignsModel.update(
+                { campaignId: campaignInDb.campaignId },
+                campaignInDb
+            );
             return;
         }
 

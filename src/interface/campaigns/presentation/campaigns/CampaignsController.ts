@@ -13,7 +13,7 @@ export default class CampaignsController {
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
-        updateMatchMapImagesOperation
+        updateMatchMapImagesOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
@@ -48,7 +48,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { imageId, operation } = req.query as {
             imageId?: string;
-            operation: 'add' | 'remove'
+            operation: 'add' | 'remove';
         };
 
         const mapImage = req.file as FileObject;
@@ -57,7 +57,7 @@ export default class CampaignsController {
             campaignId: id,
             imageId,
             operation,
-            mapImage
+            mapImage,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

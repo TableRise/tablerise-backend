@@ -5,7 +5,9 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
@@ -53,7 +55,7 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.multer().single('cover'),
                         this._imageMiddleware.fileType,
                     ],
-                    description: desc.create
+                    description: desc.create,
                 },
             },
 
@@ -63,7 +65,7 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/update/match/map-images`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
                 ],
                 controller: this._campaignsController.updateMatchMapImages,
                 schema: DomainDataFaker.mocks.uploadMatchMapImage,
@@ -71,11 +73,11 @@ export default class CampaignsRoutes {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this._imageMiddleware.multer().single('mapImage'),
-                        this._imageMiddleware.fileType
+                        this._imageMiddleware.fileType,
                     ],
-                    description: desc.updateMatchImages
-                }
-            }
+                    description: desc.updateMatchImages,
+                },
+            },
         ] as routeInstance[];
     }
 }

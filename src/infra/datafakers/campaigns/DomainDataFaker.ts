@@ -39,8 +39,15 @@ const mocks = {
         createdAt,
         updatedAt,
     },
-    createCampaignMock: { title, visibility, description, system, ageRestriction, cover: { isBinary: true } },
-    uploadMatchMapImage: { mapImage: { isBinary: true } }
+    createCampaignMock: {
+        title,
+        visibility,
+        description,
+        system,
+        ageRestriction,
+        cover: { isBinary: true },
+    },
+    uploadMatchMapImage: { mapImage: { isBinary: true } },
 };
 
 export default {

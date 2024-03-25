@@ -29,5 +29,5 @@ export interface UpdateMatchMapImagesPayload {
     campaignId: string;
     mapImage: FileObject;
     imageId?: string;
-    operation: 'add' | 'remove'
+    operation: 'add' | 'remove';
 }

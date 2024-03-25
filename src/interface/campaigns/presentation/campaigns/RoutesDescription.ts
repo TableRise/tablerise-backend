@@ -5,5 +5,5 @@ const updateMatchImages = 'This route updates the match map images';
 export default {
     create,
     getById,
-    updateMatchImages
+    updateMatchImages,
 };

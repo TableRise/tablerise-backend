@@ -6,7 +6,10 @@ export default class UpdateMatchMapImagesOperation {
     private readonly _updateMatchMapImagesService;
     private readonly _logger;
 
-    constructor({ updateMatchMapImagesService, logger }: CampaignCoreDependencies['updateMatchMapImagesOperationContract']) {
+    constructor({
+        updateMatchMapImagesService,
+        logger,
+    }: CampaignCoreDependencies['updateMatchMapImagesOperationContract']) {
         this._updateMatchMapImagesService = updateMatchMapImagesService;
         this._logger = logger;
 
@@ -16,9 +19,12 @@ export default class UpdateMatchMapImagesOperation {
     async execute(payload: UpdateMatchMapImagesPayload): Promise<ImageObject[]> {
         this._logger('info', 'Execute - UpdateMatchMapImagesOperation');
 
-        const campaignWithOperationDone = await this._updateMatchMapImagesService.updateMatchMapImage(payload);
-        const savedCampaign = await this._updateMatchMapImagesService.save(campaignWithOperationDone);
+        const campaignWithOperationDone =
+            await this._updateMatchMapImagesService.updateMatchMapImage(payload);
+        const savedCampaign = await this._updateMatchMapImagesService.save(
+            campaignWithOperationDone
+        );
 
         return savedCampaign.matchData.mapImages;
     }
-};
+}

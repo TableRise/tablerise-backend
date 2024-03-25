@@ -10,7 +10,7 @@ import {
 
 import {
     UpdateMatchMapImagesOperationContract,
-    UpdateMatchMapImagesServiceContract
+    UpdateMatchMapImagesServiceContract,
 } from './campaigns/UpdateMatchMapImages';
 
 export default interface CampaignCoreDependencies {
