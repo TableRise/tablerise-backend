@@ -13,11 +13,29 @@ export default class UpdateMatchMapImagesService {
         this._logger = logger;
     }
 
-    async updateMatchMapImage({ campaignId, mapImage, operation }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
+    async updateMatchMapImage({ campaignId, mapImage, operation, imageId }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
         this._logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
         const imageUploadResponse = await this._imageStorageClient.upload(mapImage);
 
-        campaign.matchData.mapImages
+        if (operation === 'add') campaign.matchData.mapImages.push({
+            id: imageUploadResponse.data.id,
+            link: imageUploadResponse.data.link,
+            uploadDate: new Date().toISOString()
+        });
+
+        if (operation === 'remove') campaign.matchData.mapImages = campaign.matchData.mapImages
+            .filter((mapImage) => mapImage.id !== imageId);
+
+        return campaign;
+    }
+
+    async save(campaign: CampaignInstance): Promise<CampaignInstance> {
+        const savedCampaign = await this._campaignsRepository.update({
+            query: { campaign: campaign.campaignId },
+            payload: campaign
+        });
+
+        return savedCampaign;
     }
 }

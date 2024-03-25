@@ -6,6 +6,7 @@ import { UpdateTimestampPayload } from 'src/types/api/users/methods';
 export default class UpdateTimestampRepository {
     private readonly _usersModel;
     private readonly _usersDetailsModel;
+    private readonly _campaignsModel;
     private readonly _logger;
 
     constructor({
@@ -14,6 +15,8 @@ export default class UpdateTimestampRepository {
     }: InfraDependencies['updateTimestampRepositoryContract']) {
         this._usersModel = database.modelInstance('user', 'Users');
         this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
+        this._campaignsModel = database.modelInstance('campaign', 'Campaigns');
+
         this._logger = logger;
     }
 
@@ -37,6 +40,15 @@ export default class UpdateTimestampRepository {
             userInDb.updatedAt = new Date().toISOString();
 
             await this._usersModel.update({ userId: userInDb.userId }, userInDb);
+            return;
+        }
+
+        if (query.campaignId) {
+            const campaignInDb = await this._campaignsModel.findOne(query);
+
+            campaignInDb.updatedAt = new Date().toISOString();
+
+            await this._campaignsModel.update({ campaignId: campaignInDb.campaignId }, campaignInDb);
             return;
         }
 

@@ -46,18 +46,18 @@ export default class CampaignsController {
 
     public async updateMatchImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { method, operation, musicYoutubeLink } = req.query;
+        const { imageId, operation } = req.query as {
+            imageId?: string;
+            operation: 'add' | 'remove'
+        };
 
         const mapImage = req.file as FileObject;
 
         const result = await this._updateMatchMapImagesOperation.execute({
             campaignId: id,
-            method,
+            imageId,
             operation,
-            assets: {
-                musicYoutubeLink,
-                mapImage
-            }
+            mapImage
         });
 
         return res.status(HttpStatusCode.OK).json(result);
