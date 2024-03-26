@@ -118,7 +118,7 @@ export default class UsersController {
         const { user: token } = req;
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
-            token
+            token as string
         );
 
         return res

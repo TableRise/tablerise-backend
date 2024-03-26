@@ -18,6 +18,12 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'campaign-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Campaign does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
             case 'info-already-added':
                 throw new HttpRequestErrors({
                     message: 'Info already added',

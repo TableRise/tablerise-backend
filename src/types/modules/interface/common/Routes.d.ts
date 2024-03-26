@@ -22,9 +22,13 @@ export default interface Route {
         oAuth: Router;
         profile: Router;
     };
+    campaign: {
+        campaign: Router;
+    };
 }
 
 export interface RouteDeclarations {
     'dungeons&dragons5e': routeInstance[];
     user: routeInstance[];
+    campaign: routeInstance[];
 }

@@ -37,4 +37,5 @@ export type ErrorTypes =
     | 'content-inexistent'
     | 'incorrect-secret-question'
     | 'new-structure-secret-question-missing'
-    | 'unauthorized';
+    | 'unauthorized'
+    | 'campaign-inexistent';

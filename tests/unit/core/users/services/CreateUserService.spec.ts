@@ -143,7 +143,10 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
 
             it('should return the correct result', async () => {
                 const { userEnriched, userDetailsEnriched } =
-                    await createUserService.enrichment({ user, userDetails });
+                    await createUserService.enrichment({
+                        user,
+                        userDetails,
+                    });
 
                 expect(userEnriched.tag).to.be.not.null();
                 expect(userEnriched.createdAt).to.be.not.null();
