@@ -40,6 +40,7 @@ export default class CampaignsRoutes {
                         this._verifyIdMiddleware,
                     ],
                     description: desc.getById,
+                    tag: 'recover',
                 },
             },
 
@@ -56,6 +57,8 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.fileType,
                     ],
                     description: desc.create,
+                    tag: 'management',
+                    fileUpload: true,
                 },
             },
 
@@ -76,6 +79,8 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.fileType,
                     ],
                     description: desc.updateMatchImages,
+                    tag: 'management',
+                    fileUpload: true,
                 },
             },
         ] as routeInstance[];
