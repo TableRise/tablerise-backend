@@ -11,11 +11,11 @@ import {
 
 const campaignsZodSchema = z.object({
     title: z.string(),
-    cover: imageObjectZodSchema.optional(),
+    cover: imageObjectZodSchema.or(z.string()).optional(),
     description: z.string().max(255),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
-    ageRestriction: z.number(),
+    ageRestriction: z.string().or(z.number()),
 });
 
 export type CampaignPayload = z.infer<typeof campaignsZodSchema>;

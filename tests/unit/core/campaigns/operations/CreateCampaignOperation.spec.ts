@@ -48,10 +48,10 @@ describe('Core :: Campaigns :: Operations :: CreateCampaignOperation', () => {
         });
 
         it('should return the correct data and call correct methods', async () => {
-            const campaignTest = await createCampaignOperation.execute(
-                campaignToCreate,
-                userId
-            );
+            const campaignTest = await createCampaignOperation.execute({
+                campaign: campaignToCreate,
+                userId,
+            });
 
             expect(schemaValidator.entry).to.have.been.called(2);
             expect(createCampaignService.serialize).to.have.been.called();
@@ -115,7 +115,10 @@ describe('Core :: Campaigns :: Operations :: CreateCampaignOperation', () => {
 
         it('should throw the correct error', async () => {
             try {
-                await createCampaignOperation.execute(campaignCreated, userId);
+                await createCampaignOperation.execute({
+                    campaign: campaignCreated,
+                    userId,
+                });
                 expect('it should not be here').to.be.equal(false);
             } catch (error) {
                 const err = error as HttpRequestErrors;

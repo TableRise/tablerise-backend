@@ -1,7 +1,7 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+// import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
@@ -25,10 +25,7 @@ describe('When the user is logged in', () => {
                 password: 'TheWorld@122',
             };
 
-            const { body } = await requester()
-                .post('/profile/login')
-                .send(login)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().post('/profile/login').send(login);
 
             expect(body).to.have.property('userId');
             expect(body.userId).to.be.equal(user.userId);

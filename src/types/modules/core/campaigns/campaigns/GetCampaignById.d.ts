@@ -1,4 +1,4 @@
-import GetCampaignByIdService from 'src/core/campaigns/services/GetCampaignByIdService';
+import GetCampaignByIdService from 'src/core/campaigns/services/campaigns/GetCampaignByIdService';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import { Logger } from 'src/types/shared/logger';
 

@@ -22,8 +22,8 @@
         "tests"
     ],
     "reporter": ["text", "lcov", "json-summary"],
-    "branches": 70,
-    "lines": 70,
-    "functions": 70,
-    "statements": 70
+    "branches": 85,
+    "lines": 85,
+    "functions": 85,
+    "statements": 85
 }

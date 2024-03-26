@@ -1,4 +1,5 @@
 import generateIDParam, {
+    generateFileParam,
     generateHeaderParam,
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
@@ -13,6 +14,18 @@ describe('Domains :: Common :: Helpers :: ParametersWrapper', () => {
             expect(param[0].location).to.be.equal('path');
             expect(param[0].required).to.be.equal(true);
             expect(param[0].type).to.be.equal('string');
+        });
+    });
+
+    describe('When generate an file', () => {
+        it('should return an array with correct param', () => {
+            const param = generateFileParam(1, [{ name: 'name1', type: 'type1' }]);
+
+            expect(param.length).to.be.equal(1);
+            expect(param[0].name).to.be.equal('name1');
+            expect(param[0].location).to.be.equal('formData');
+            expect(param[0].required).to.be.equal(true);
+            expect(param[0].type).to.be.equal('type1');
         });
     });
 

@@ -57,6 +57,7 @@ const mocks = {
     },
     updateEmailMock: { email },
     updatePasswordMock: { password: '@TheWorld456' },
+    uploadPicture: { picture: { isBinary: true } },
     activateSecretQuestionMock: {
         question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
         answer: 'Silvera',

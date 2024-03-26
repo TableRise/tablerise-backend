@@ -10,6 +10,9 @@ import {
     Monster,
     Race,
     Realm,
+    Spell,
+    Weapon,
+    Wiki,
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
@@ -1265,6 +1268,190 @@ function createRealmsFaker({
     };
 }
 
+function createWikisFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Wiki> & { wikiId: string } {
+    return {
+        wikiId: entityId || newUUID(),
+        active: true,
+        en: {
+            title: 'Races',
+            description: '',
+            subTopics: [
+                {
+                    subTitle: 'Racial Traits',
+                    description:
+                        'The description of each race includes racial traits that are common to members of that race. The following entries appear among the traits of most races.',
+                },
+                {
+                    subTitle: 'Ability Score Increase',
+                    description:
+                        "Every race increases one or more of a character's ability scores.",
+                },
+                {
+                    subTitle: 'Age',
+                    description:
+                        "The age entry notes the age when a member of the race is considered an adult, as well as the race's expected lifespan. This information can help you decide how old your character is at the start of the game. You can choose any age for your character, which could provide an explanation for some of your ability scores. For example, if you play a young or very old character, your age could explain a particularly low Strength or Constitution score, while advanced age could account for a high Intelligence or Wisdom.",
+                },
+                {
+                    subTitle: 'Alignment',
+                    description:
+                        'Most races have tendencies toward certain alignments, described in this entry. These are not binding for player characters, but considering why your dwarf is chaotic, for example, in defiance of lawful dwarf society can help you better define your character.',
+                },
+                {
+                    subTitle: 'Size',
+                    description:
+                        'Characters of most races are Medium, a size category including creatures that are roughly 4 to 8 feet tall. Members of a few races are Small (between 2 and 4 feet tall), which means that certain rules of the game affect them differently. The most important of these rules is that Small characters have trouble wielding heavy weapons, as explained in “Equipment.”',
+                },
+                {
+                    subTitle: 'Speed',
+                    description:
+                        "Your speed determines how far you can move when traveling ('Adventuring') and fighting ('Combat').",
+                },
+                {
+                    subTitle: 'Languages',
+                    description:
+                        'By virtue of your race, your character can speak, read, and write certain languages.',
+                },
+                {
+                    subTitle: 'Subraces',
+                    description:
+                        'Some races have subraces. Members of a subrace have the traits of the parent race in addition to the traits specified for their subrace. Relationships among subraces vary significantly from race to race and world to world.',
+                },
+            ],
+            reference: 'SRD D&D 5e - pg. 3',
+            image: 'https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg',
+        },
+        pt: {
+            title: 'Raças',
+            description: '',
+            subTopics: [
+                {
+                    subTitle: 'Traços Raciais',
+                    description:
+                        'A descrição de cada raça inclui traços raciais que são comuns aos membros dessa raça. As seguintes entradas aparecem entre os traços da maioria das raças.',
+                },
+                {
+                    subTitle: 'Aumento de Atributos',
+                    description: 'Cada raça aumenta um ou mais atributos do personagem.',
+                },
+                {
+                    subTitle: 'Idade',
+                    description:
+                        'A entrada de idade indica a idade em que um membro da raça é considerado adulto, bem como a expectativa de vida da raça. Essas informações podem ajudar a decidir a idade do seu personagem no início do jogo. Você pode escolher qualquer idade para o seu personagem, o que pode explicar alguns dos seus atributos. Por exemplo, se você interpretar um personagem jovem ou muito idoso, a idade pode explicar um atributo de Força ou Constituição particularmente baixo, enquanto uma idade avançada pode justificar um alto atributo de Inteligência ou Sabedoria.',
+                },
+                {
+                    subTitle: 'Alinhamento',
+                    description:
+                        'A maioria das raças tem tendências para certos alinhamentos. Essas tendências não são obrigatórias para personagens jogadores, mas considerar por que seu anão é caótico, por exemplo, em desafio à sociedade anã ordeira, pode ajudá-lo a definir melhor o seu personagem.',
+                },
+                {
+                    subTitle: 'Tamanho',
+                    description:
+                        "Personagens da maioria das raças são de tamanho Médio, uma categoria de tamanho que inclui criaturas com aproximadamente 1,2 a 2,4 metros de altura. Membros de algumas raças são de tamanho Pequeno (entre 0,6 a 1,2 metros de altura), o que significa que certas regras do jogo os afetam de forma diferente. A regra mais importante é que personagens Pequenos têm dificuldade em empunhar armas pesadas, como explicado em 'Equipamento'.",
+                },
+                {
+                    subTitle: 'Velocidade',
+                    description:
+                        "Sua velocidade determina o quão longe você pode se mover ao viajar ('Aventurar-se') e ao lutar ('Combate').",
+                },
+
+                {
+                    subTitle: 'Idiomas',
+                    description:
+                        'Por causa de sua raça, seu personagem pode falar, ler e escrever certos idiomas.',
+                },
+
+                {
+                    subTitle: 'Sub-raças',
+                    description:
+                        'Algumas raças possuem sub-raças. Membros de uma sub-raça possuem os traços da raça principal, além dos traços especificados para sua sub-raça. As relações entre as sub-raças variam significativamente de raça para raça e de mundo para mundo.',
+                },
+            ],
+            reference: 'SRD D&D 5e - pg. 3',
+            image: 'https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg',
+        },
+    };
+}
+
+function createWeaponsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Weapon> & { weaponId: string } {
+    return {
+        weaponId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Club',
+            description: '',
+            cost: {
+                currency: 'sp',
+                value: 1,
+            },
+            type: 'simple melee weapon',
+            weight: 0.9,
+            damage: '1d4 bludgeoning',
+            properties: ['light'],
+        },
+        pt: {
+            name: 'Clava',
+            description: '',
+            cost: {
+                currency: 'po',
+                value: 1,
+            },
+            type: 'arma branca simples',
+            weight: 0.9,
+            damage: '1d4 de concussão',
+            properties: ['leve'],
+        },
+    };
+}
+
+function createSpellsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Spell> & { spellId: string } {
+    return {
+        spellId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Dancing Light',
+            description:
+                "You create up to four torch-sized lights within range, making them appear as torches, lanterns, or glowing orbs that hover in the air for the duration. You can also combine the four lights into one glowing vaguely humanoid form of Medium size. Whichever form you choose, each light sheds dim light in a 10-foot radius.\n\nAs a bonus action on your turn, you can move the lights up to 60 feet to a new spot within range. A light must be within 20 feet of another light created by this spell, and a light winks out if it exceeds the spell's range.",
+            type: 'evocation-cantrip',
+            level: 0,
+            higherLevels: [],
+            damage: null,
+            castingTime: '1 action',
+            duration: 'concentration, up to 1 minute',
+            range: '120 feet',
+            components: 'V, S, M (a bit of phosphorus or wychwood, or a glowworm)',
+            buffs: ['no-buff'],
+            debuffs: ['no-debuffs'],
+        },
+        pt: {
+            name: 'Luz Dançante',
+            description:
+                'Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou orbes brilhantes que flutuam no ar durante a duração. Você também pode combinar as quatro luzes em uma forma vagamente humanoides brilhante de tamanho Médio. Independentemente da forma escolhida, cada luz emite uma luz fraca em um raio de 3 metros.\n\nComo uma ação bônus em seu turno, você pode mover as luzes até 18 metros para um novo local dentro do alcance. Uma luz deve estar a até 6 metros de outra luz criada por este feitiço, e uma luz se apaga se ultrapassar o alcance do feitiço.',
+            type: 'evocação-cantrip',
+            level: 0,
+            higherLevels: [],
+            damage: null,
+            castingTime: '1 ação',
+            duration: 'concentração, até 1 minuto',
+            range: '36.5 metros',
+            components: 'V, S, M (um pouco de fósforo ou madeira mágica, ou um vagalume)',
+            buffs: ['no-buff'],
+            debuffs: ['no-debuffs'],
+        },
+    };
+}
+
 const dungeonsAndDragonsFunctions = {
     armors: createArmorsFaker,
     backgrounds: createBackgroundsFaker,
@@ -1276,6 +1463,9 @@ const dungeonsAndDragonsFunctions = {
     items: createItemsFaker,
     races: createRacesFaker,
     realms: createRealmsFaker,
+    wikis: createWikisFaker,
+    weapons: createWeaponsFaker,
+    spells: createSpellsFaker,
 };
 
 export default function generateDungeonsAndDragonsFaker({
@@ -1299,6 +1489,9 @@ export default function generateDungeonsAndDragonsFaker({
             | Item
             | Race
             | Realm
+            | Wiki
+            | Weapon
+            | Spell
         >
     > = [];
 

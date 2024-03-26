@@ -1,6 +1,6 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { GetCampaignByIdPayload } from 'src/types/api/campaigns/http/payload';
-import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
+import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class GetCampaignByIdOperation {
     private readonly _getCampaignByIdService;
@@ -9,7 +9,7 @@ export default class GetCampaignByIdOperation {
     constructor({
         getCampaignByIdService,
         logger,
-    }: CampaignsDependencies['getCampaignByIdOperationContract']) {
+    }: CampaignCoreDependencies['getCampaignByIdOperationContract']) {
         this._getCampaignByIdService = getCampaignByIdService;
         this._logger = logger;
 

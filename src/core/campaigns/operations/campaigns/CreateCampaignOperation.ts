@@ -22,21 +22,22 @@ export default class CreateCampaignOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(
-        payload: CreateCampaignPayload,
-        userId: string
-    ): Promise<CreateCampaignResponse> {
+    public async execute({
+        campaign,
+        userId,
+        image,
+    }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
         this._logger('info', 'Execute - CreateCampaignOperation');
-
-        this._schemaValidator.entry(this._campaignsSchema.campaignZod, payload);
+        this._schemaValidator.entry(this._campaignsSchema.campaignZod, campaign);
 
         const entitySerialized = await this._createCampaignService.serialize({
-            ...payload,
+            ...campaign,
         });
 
         const entityEnriched = await this._createCampaignService.enrichment(
             entitySerialized,
-            userId
+            userId,
+            image
         );
 
         const entitySaved = await this._createCampaignService.save(entityEnriched);

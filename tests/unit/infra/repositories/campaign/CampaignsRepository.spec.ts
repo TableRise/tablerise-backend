@@ -7,6 +7,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
+        updateTimestampRepository: any,
         database: any,
         serializer: any,
         campaign: any,
@@ -33,8 +34,11 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 postCampaign: (obj: any) => obj,
             };
 
+            updateTimestampRepository = {};
+
             campaignsRepository = new CampaignsRepository({
                 database,
+                updateTimestampRepository,
                 serializer,
                 logger,
             });
@@ -70,8 +74,11 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                     campaignId,
                 };
 
+                updateTimestampRepository = {};
+
                 campaignsRepository = new CampaignsRepository({
                     database,
+                    updateTimestampRepository,
                     serializer,
                     logger,
                 });
@@ -99,8 +106,11 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                     postCampaign: (payload: any) => payload,
                 };
 
+                updateTimestampRepository = {};
+
                 campaignsRepository = new CampaignsRepository({
                     database,
+                    updateTimestampRepository,
                     serializer,
                     logger,
                 });

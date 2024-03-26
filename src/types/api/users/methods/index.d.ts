@@ -4,6 +4,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 export interface UpdateTimestampPayload {
     userId?: string;
     userDetailId?: string;
+    campaignId?: string;
 }
 
 export interface __UserWithID {
