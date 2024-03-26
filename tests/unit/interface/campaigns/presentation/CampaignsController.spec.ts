@@ -5,10 +5,11 @@ import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CampaignsController from 'src/interface/campaigns/presentation/campaigns/CampaignsController';
 
-describe('Interface :: Users :: Presentation :: Users :: CampaignsController', () => {
+describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsController', () => {
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
-        getCampaignByIdOperation: any;
+        getCampaignByIdOperation: any,
+        userId: string;
 
     context('#create', () => {
         const request = {} as Request;
@@ -17,7 +18,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
         beforeEach(() => {
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
-
+            userId = newUUID();
             createCampaignOperation = { execute: sinon.spy(() => ({})) };
             getCampaignByIdOperation = { execute: () => {} };
 
@@ -29,10 +30,14 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
         it('should correctly call the methods and functions', async () => {
             request.body = { title: 'The new era' };
-            request.user = { userId: newUUID() };
+            request.user = { userId };
             await campaignsController.create(request, response);
 
-            expect(createCampaignOperation.execute).to.have.been.calledWith(request.body);
+            expect(createCampaignOperation.execute).to.have.been.calledWith({
+                campaign: request.body,
+                userId,
+                image: undefined,
+            });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });

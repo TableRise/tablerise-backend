@@ -1,8 +1,9 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
     private readonly _createCampaignOperation;
@@ -20,10 +21,14 @@ export default class CampaignsController {
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
-        const payload = req.body as CreateCampaignPayload;
+        const campaign = req.body as CampaignPayload;
         const { userId } = req.user as UserInstance;
-
-        const result = await this._createCampaignOperation.execute(payload, userId);
+        const image = req.file as FileObject;
+        const result = await this._createCampaignOperation.execute({
+            campaign,
+            userId,
+            image,
+        });
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 

@@ -12,13 +12,16 @@ const BASE_PATH = '/campaigns';
 export default class CampaignsRoutes {
     private readonly _campaignsController;
     private readonly _verifyIdMiddleware;
+    private readonly _imageMiddleware;
 
     constructor({
         campaignsController,
         verifyIdMiddleware,
+        imageMiddleware,
     }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
+        this._imageMiddleware = imageMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -42,12 +45,17 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
-                controller: this._campaignsController.create,
                 schema: DomainDataFaker.mocks.createCampaignMock,
+                controller: this._campaignsController.create,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('cover'),
+                        this._imageMiddleware.fileType,
+                    ],
                     tag: 'management',
                     description: desc.create,
+                    fileUpload: true,
                 },
             },
         ] as unknown as routeInstance[];

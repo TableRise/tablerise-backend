@@ -4,21 +4,25 @@ import {
     __CampaignSaved,
     __CampaignSerialized,
 } from 'src/types/api/campaigns/methods';
-import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { FileObject } from 'src/types/shared/file';
 
 export default class CreateCampaignService {
     private readonly _campaignsRepository;
     private readonly _serializer;
+    private readonly _imageStorageClient;
     private readonly _logger;
 
     constructor({
         campaignsRepository,
         logger,
         serializer,
+        imageStorageClient,
     }: CampaignCoreDependencies['createCampaignServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._serializer = serializer;
+        this._imageStorageClient = imageStorageClient;
         this._logger = logger;
 
         this.enrichment = this.enrichment.bind(this);
@@ -26,9 +30,7 @@ export default class CreateCampaignService {
         this.serialize = this.serialize.bind(this);
     }
 
-    public async serialize(
-        campaign: CreateCampaignPayload
-    ): Promise<__CampaignSerialized> {
+    public async serialize(campaign: CampaignPayload): Promise<__CampaignSerialized> {
         this._logger('info', 'Serialize - CreateCampaignService');
         const campaignSerialized = this._serializer.postCampaign(campaign);
 
@@ -37,7 +39,8 @@ export default class CreateCampaignService {
 
     public async enrichment(
         campaign: __FullCampaign,
-        userId: string
+        userId: string,
+        image?: FileObject
     ): Promise<__CampaignEnriched> {
         this._logger('info', 'Enrichment - CreateCampaignService');
         campaign.campaignPlayers = [
@@ -48,6 +51,20 @@ export default class CreateCampaignService {
             },
         ];
         delete campaign.visibility;
+
+        if (image) {
+            const response = await this._imageStorageClient.upload(image);
+            campaign.cover = {
+                id: response.data.id,
+                link: response.data.link,
+                uploadDate: new Date().toISOString(),
+            };
+        } else {
+            delete campaign.cover;
+        }
+
+        campaign.ageRestriction = Number(campaign.ageRestriction);
+
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
 
