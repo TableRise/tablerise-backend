@@ -33,3 +33,10 @@ export interface UpdateMatchMapImagesPayload {
     imageId?: string;
     operation: 'add' | 'remove';
 }
+
+export interface UpdateMatchMusicsPayload {
+    campaignId: string;
+    youtubeLink: string;
+    title: string;
+    operation: 'add' | 'remove';
+}

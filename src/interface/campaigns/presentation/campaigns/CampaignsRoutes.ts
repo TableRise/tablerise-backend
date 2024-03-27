@@ -83,6 +83,24 @@ export default class CampaignsRoutes {
                     fileUpload: true,
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/musics`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(3, [
+                        { name: 'operation', type: 'string' },
+                        { name: 'title', type: 'string' },
+                        { name: 'youtubeLink', type: 'string' },
+                    ]),
+                ],
+                controller: this._campaignsController.updateMatchMusics,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchMusics,
+                    tag: 'management',
+                },
+            },
         ] as routeInstance[];
     }
 }

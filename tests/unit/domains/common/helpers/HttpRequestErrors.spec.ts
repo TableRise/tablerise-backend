@@ -35,6 +35,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'linked-data': 'Some error not specified ocurred',
         'verification-email': 'Some error not specified ocurred',
         'campaign-inexistent': 'Campaign does not exist',
+        'music-link-already-added': 'Music link already added',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

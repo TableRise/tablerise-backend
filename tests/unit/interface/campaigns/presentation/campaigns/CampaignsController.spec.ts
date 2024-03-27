@@ -9,6 +9,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
         updateMatchMapImagesOperation: any,
+        updateMatchMusicsOperation: any,
         getCampaignByIdOperation: any;
 
     context('#create', () => {
@@ -22,10 +23,13 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
             createCampaignOperation = { execute: sinon.spy(() => ({})) };
             getCampaignByIdOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
                 getCampaignByIdOperation,
             });
         });
@@ -55,10 +59,13 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: sinon.spy(() => ({})) };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
                 getCampaignByIdOperation,
             });
         });

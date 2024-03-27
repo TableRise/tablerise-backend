@@ -8,20 +8,24 @@ import { FileObject } from 'src/types/shared/file';
 export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _getCampaignByIdOperation;
+    private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
 
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
         updateMatchMapImagesOperation,
+        updateMatchMusicsOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
+        this._updateMatchMusicsOperation = updateMatchMusicsOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
+        this.updateMatchMusics = this.updateMatchMusics.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -57,6 +61,24 @@ export default class CampaignsController {
             imageId,
             operation,
             mapImage,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { title, operation, youtubeLink } = req.query as {
+            title: string;
+            operation: 'add' | 'remove';
+            youtubeLink: string;
+        };
+
+        const result = await this._updateMatchMusicsOperation.execute({
+            campaignId: id,
+            title,
+            operation,
+            youtubeLink,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
