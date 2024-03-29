@@ -1,3 +1,4 @@
+import sinon from 'sinon';
 import UpdateMatchMapImagesService from 'src/core/campaigns/services/campaigns/UpdateMatchMapImagesService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -103,6 +104,46 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
                 expect(matchDataUpdated.matchData.mapImages.length).to.be.equal(
                     campaignMapImagesLength - 1
                 );
+            });
+        });
+    });
+
+    context('#save', () => {
+        context('When a campaign with new map image is saved', () => {
+            before(() => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+
+                campaign.matchData.mapImages = [
+                    {
+                        id: '789',
+                        link: 'https://img.bb',
+                        uploadDate: '2023-03-27Z14:13',
+                    },
+                ];
+
+                campaignsRepository = {
+                    update: sinon.spy(() => campaign),
+                };
+
+                imageStorageClient = {};
+
+                updateMatchMapImagesService = new UpdateMatchMapImagesService({
+                    campaignsRepository,
+                    imageStorageClient,
+                    logger,
+                });
+            });
+
+            it('should call correct methods', async () => {
+                const saveCamapaignTest = await updateMatchMapImagesService.save(
+                    campaign
+                );
+
+                expect(saveCamapaignTest).to.be.deep.equal(campaign);
+                expect(campaignsRepository.update).to.have.been.calledWith({
+                    query: { campaignId: campaign.campaignId },
+                    payload: campaign,
+                });
             });
         });
     });

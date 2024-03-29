@@ -48,7 +48,7 @@ export default class UpdateMatchMusicsService {
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
         const savedCampaign = await this._campaignsRepository.update({
-            query: { campaign: campaign.campaignId },
+            query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
 
