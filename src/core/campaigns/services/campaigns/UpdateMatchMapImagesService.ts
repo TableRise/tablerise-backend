@@ -25,9 +25,10 @@ export default class UpdateMatchMapImagesService {
     }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
         this._logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse = await this._imageStorageClient.upload(mapImage);
+        const imageUploadResponse =
+            mapImage && (await this._imageStorageClient.upload(mapImage));
 
-        if (operation === 'add')
+        if (operation === 'add' && imageUploadResponse)
             campaign.matchData.mapImages.push({
                 id: imageUploadResponse.data.id,
                 link: imageUploadResponse.data.link,

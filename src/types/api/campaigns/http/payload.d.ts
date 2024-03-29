@@ -29,7 +29,7 @@ export interface GetCampaignByIdPayload {
 
 export interface UpdateMatchMapImagesPayload {
     campaignId: string;
-    mapImage: FileObject;
+    mapImage?: FileObject;
     imageId?: string;
     operation: 'add' | 'remove';
 }
