@@ -1,3 +1,4 @@
+import path from 'path';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -5,13 +6,18 @@ import { InjectNewUser } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a profile picture is uploaded', () => {
-    let user: UserInstance;
+    let user: UserInstance, filePath: any;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
 
         user.inProgress = { status: 'done', code: '' };
         user.picture = null;
+
+        filePath = path.resolve(
+            __dirname,
+            '../../../support/assets/test-image-batman.jpeg'
+        );
 
         await InjectNewUser(user);
     });
@@ -22,7 +28,7 @@ describe('When a profile picture is uploaded', () => {
                 .post(`/profile/${user.userId}/update/picture`)
                 .set('Content-Type', 'multipart/form-data')
                 .set('connection', 'keep-alive')
-                .attach('picture', './tests/support/assets/test-image-batman.jpeg')
+                .attach('picture', filePath)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.have.property('createdAt');

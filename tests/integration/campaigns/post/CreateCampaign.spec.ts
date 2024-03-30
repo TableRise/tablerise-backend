@@ -6,6 +6,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('When a campaign is created', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -38,7 +39,8 @@ describe('When a campaign is created', () => {
                 .field('description', campaignPayload.description)
                 .field('system', campaignPayload.system)
                 .field('title', campaignPayload.title)
-                .field('visibility', campaignPayload.visibility as string);
+                .field('visibility', campaignPayload.visibility as string)
+                .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
             expect(body).to.have.property('title');

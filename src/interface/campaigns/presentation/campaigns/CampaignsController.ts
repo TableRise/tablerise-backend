@@ -1,6 +1,9 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
+import {
+    CampaignPayload,
+    UpdateMatchMusicsPayload,
+} from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/shared/file';
@@ -68,11 +71,8 @@ export default class CampaignsController {
 
     public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { title, operation, youtubeLink } = req.query as {
-            title: string;
-            operation: 'add' | 'remove';
-            youtubeLink: string;
-        };
+        const { operation } = req.query as { operation: 'add' | 'remove' };
+        const { title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
 
         const result = await this._updateMatchMusicsOperation.execute({
             campaignId: id,
