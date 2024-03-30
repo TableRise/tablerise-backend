@@ -1,6 +1,9 @@
 import sinon from 'sinon';
 import UpdateMatchMusicsService from 'src/core/campaigns/services/campaigns/UpdateMatchMusicsService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
@@ -46,6 +49,48 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 expect(matchDataUpdated.matchData.musics.length).to.be.equal(
                     campaignMusicsLength + 1
                 );
+            });
+        });
+
+        context('When a music is added to match data - music already exists', () => {
+            before(() => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+
+                campaign.matchData.musics = [
+                    {
+                        title: 'Main Theme 2',
+                        youtubeLink: 'https://youtu.be/12345',
+                    },
+                ];
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                updateMusicsPayload = {
+                    campaignId: campaign.campaignId,
+                    youtubeLink: 'https://youtu.be/12345',
+                    title: 'Main Theme 2',
+                    operation: 'add',
+                };
+
+                updateMatchMusicsService = new UpdateMatchMusicsService({
+                    logger,
+                    campaignsRepository,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Music link already added');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
+                }
             });
         });
 

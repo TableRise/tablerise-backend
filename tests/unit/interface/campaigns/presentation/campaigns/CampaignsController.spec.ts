@@ -81,4 +81,82 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             expect(response.json).to.have.been.called();
         });
     });
+
+    context('#updateMatchMapImages', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: sinon.spy(() => ({})) };
+            updateMatchMusicsOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
+                getCampaignByIdOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { operation: 'add' };
+            request.file = {} as Express.Multer.File;
+
+            await campaignsController.updateMatchMapImages(request, response);
+
+            expect(updateMatchMapImagesOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                imageId: undefined,
+                operation: 'add',
+                mapImage: {},
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#updateMatchMusics', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: sinon.spy(() => ({})) };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
+                getCampaignByIdOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { operation: 'add' };
+            request.body = { title: 'Main Theme', youtubeLink: 'https://youtu.be/123' };
+
+            await campaignsController.updateMatchMusics(request, response);
+
+            expect(updateMatchMusicsOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                title: 'Main Theme',
+                operation: 'add',
+                youtubeLink: 'https://youtu.be/123',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
 });
