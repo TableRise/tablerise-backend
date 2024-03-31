@@ -10,6 +10,7 @@ import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
     private readonly _createCampaignOperation;
+    private readonly _updateCampaignOperation;
     private readonly _getCampaignByIdOperation;
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
@@ -17,10 +18,12 @@ export default class CampaignsController {
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
+        updateCampaignOperation,
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
+        this._updateCampaignOperation = updateCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
@@ -81,6 +84,19 @@ export default class CampaignsController {
             youtubeLink,
         });
 
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async update(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body;
+        const cover = req.file;
+
+        const result = await this._updateCampaignOperation.execute({
+            ...payload,
+            cover,
+            campaignId: id,
+        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 }
