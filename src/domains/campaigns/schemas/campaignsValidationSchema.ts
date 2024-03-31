@@ -11,7 +11,7 @@ import {
 
 const campaignsZodSchema = z.object({
     title: z.string(),
-    cover: imageObjectZodSchema.or(z.string()).optional(),
+    cover: imageObjectZodSchema.optional(),
     description: z.string().max(255),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),

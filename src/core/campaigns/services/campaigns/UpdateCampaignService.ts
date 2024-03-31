@@ -26,6 +26,7 @@ export default class UpdateCampaignService {
         visibility,
         cover,
     }: CampaignUpdatePayload): Promise<CampaignInstance> {
+        this._logger('info', 'Update - UpdateCampaignService');
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
 
         campaignInDb.title = title ?? campaignInDb.title;
@@ -46,6 +47,7 @@ export default class UpdateCampaignService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
+        this._logger('info', 'Save - UpdateCampaignService');
         const savedCampaign = await this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
