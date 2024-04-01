@@ -119,6 +119,7 @@ export default class UsersRoutes {
                 schema: DomainDataFaker.mocks.uploadPicture,
                 options: {
                     middlewares: [
+                        passport.authenticate('cookie', { session: false }),
                         this._imageMiddleware.multer().single('picture'),
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,

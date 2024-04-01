@@ -22,7 +22,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () =>
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(2);
+            expect(routes).to.have.lengthOf(4);
         });
     });
 });

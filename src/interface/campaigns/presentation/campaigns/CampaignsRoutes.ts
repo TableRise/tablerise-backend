@@ -5,7 +5,9 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
@@ -37,10 +39,11 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
                     ],
-                    tag: 'access',
                     description: desc.getById,
+                    tag: 'recover',
                 },
             },
+
             // POST
             {
                 method: 'post',
@@ -53,11 +56,51 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.multer().single('cover'),
                         this._imageMiddleware.fileType,
                     ],
-                    tag: 'management',
                     description: desc.create,
+                    tag: 'management',
                     fileUpload: true,
                 },
             },
-        ] as unknown as routeInstance[];
+
+            // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/map-images`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
+                ],
+                controller: this._campaignsController.updateMatchMapImages,
+                schema: DomainDataFaker.mocks.uploadMatchMapImage,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('mapImage'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.updateMatchImages,
+                    tag: 'management',
+                    fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/musics`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(3, [
+                        { name: 'operation', type: 'string' },
+                        { name: 'title', type: 'string' },
+                        { name: 'youtubeLink', type: 'string' },
+                    ]),
+                ],
+                controller: this._campaignsController.updateMatchMusics,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchMusics,
+                    tag: 'management',
+                },
+            },
+        ] as routeInstance[];
     }
 }

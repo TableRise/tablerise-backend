@@ -1,16 +1,19 @@
 import sinon from 'sinon';
+import FormData from 'form-data';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import requester from 'tests/support/requester';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('When a campaign is created', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     context('And all data is correct', () => {
+        const userLoggedId = '169d055c-a5e4-4334-a503-27d057188c0d';
+
         before(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
@@ -26,21 +29,18 @@ describe('When a campaign is created', () => {
         });
 
         it('should return correct campaign created', async () => {
-            const login = {
-                email: user.email,
-                password: 'TheWorld@122',
-            };
-
-            const { headers } = await requester()
-                .post('/profile/login')
-                .send(login)
-                .expect(HttpStatusCode.OK);
-
             const campaignPayload = CampaignDomainDataFaker.mocks.createCampaignMock;
+
+            campaignPayload.cover = new FormData() as unknown as { isBinary: boolean };
+
             const { body } = await requester()
                 .post('/campaigns/create')
-                .set('Cookie', headers['set-cookie'][0].split(';')[0])
-                .send(campaignPayload);
+                .field('ageRestriction', campaignPayload.ageRestriction)
+                .field('description', campaignPayload.description)
+                .field('system', campaignPayload.system)
+                .field('title', campaignPayload.title)
+                .field('visibility', campaignPayload.visibility as string)
+                .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
             expect(body).to.have.property('title');
@@ -54,7 +54,7 @@ describe('When a campaign is created', () => {
             expect(body).to.have.property('system');
             expect(body.system).to.be.equal(campaignPayload.system);
             expect(body).to.have.property('campaignPlayers');
-            expect(body.campaignPlayers[0].userId).to.be.equal(user.userId);
+            expect(body.campaignPlayers[0].userId).to.be.equal(userLoggedId);
             expect(body).to.have.property('matchData');
             expect(body.matchData).to.be.equal(null);
             expect(body).to.have.property('infos');

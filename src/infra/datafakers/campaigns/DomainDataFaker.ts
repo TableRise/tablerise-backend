@@ -45,8 +45,9 @@ const mocks = {
         description,
         system,
         ageRestriction,
-        cover: '',
+        cover: { isBinary: true },
     },
+    uploadMatchMapImage: { mapImage: { isBinary: true } },
 };
 
 export default {
