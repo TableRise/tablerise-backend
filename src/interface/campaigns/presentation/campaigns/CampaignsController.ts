@@ -30,6 +30,7 @@ export default class CampaignsController {
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
+        this.update = this.update.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
     }
@@ -97,6 +98,7 @@ export default class CampaignsController {
             cover,
             campaignId: id,
         });
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 }
