@@ -41,6 +41,19 @@ export default class CampaignsRoutes {
                     description: desc.getById,
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}`,
+                controller: this._campaignsController.getAll,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'access',
+                    description: desc.getAll,
+                },
+            },
             // POST
             {
                 method: 'post',

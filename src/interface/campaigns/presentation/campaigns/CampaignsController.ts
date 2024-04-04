@@ -8,16 +8,20 @@ import { FileObject } from 'src/types/shared/file';
 export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _getCampaignByIdOperation;
+    private readonly _getAllCampaignsOperation;
 
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
+        getAllCampaignsOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
+        this._getAllCampaignsOperation = getAllCampaignsOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
+        this.getAll = this.getAll.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -30,6 +34,11 @@ export default class CampaignsController {
             image,
         });
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        const result = await this._getAllCampaignsOperation.execute();
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getById(req: Request, res: Response): Promise<Response> {
