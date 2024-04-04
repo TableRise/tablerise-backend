@@ -24,11 +24,17 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
+            case 'music-link-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Music link already added',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'info-already-added':
                 throw new HttpRequestErrors({
                     message: 'Info already added',
-                    code: HttpStatusCode.NOT_FOUND,
-                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
             case 'new-structure-secret-question-missing':
                 throw new HttpRequestErrors({

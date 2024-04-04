@@ -4,7 +4,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
-    generateFileParam,
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -114,15 +113,14 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/picture`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateFileParam(1, [{ name: 'picture', type: 'file' }]),
-                ],
+                path: `${BASE_PATH}/:id/update/picture`,
+                parameters: [...generateIDParam()],
                 controller: this._usersController.profilePicture,
+                schema: DomainDataFaker.mocks.uploadPicture,
                 options: {
                     middlewares: [
-                        this._imageMiddleware.multer().single('image'),
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('picture'),
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,
                     ],
