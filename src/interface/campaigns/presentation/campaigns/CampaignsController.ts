@@ -3,6 +3,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
     CampaignPayload,
     UpdateMatchMusicsPayload,
+    // UpdateMatchDatesPayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
@@ -13,22 +14,26 @@ export default class CampaignsController {
     private readonly _getCampaignByIdOperation;
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
+    private readonly _updateMatchDatesOperation;
 
     constructor({
         getCampaignByIdOperation,
         createCampaignOperation,
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
+        updateMatchDatesOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
+        this._updateMatchDatesOperation = updateMatchDatesOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
+        this.updateMatchDates = this.updateMatchDates.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -79,6 +84,22 @@ export default class CampaignsController {
             title,
             operation,
             youtubeLink,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateMatchDates(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { operation, date } = req.query as {
+            operation: 'add' | 'remove';
+            date: string;
+        };
+
+        const result = await this._updateMatchDatesOperation.execute({
+            campaignId: id,
+            date,
+            operation,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
