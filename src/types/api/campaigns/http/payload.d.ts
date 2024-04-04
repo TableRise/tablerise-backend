@@ -40,3 +40,9 @@ export interface UpdateMatchMusicsPayload {
     title: string;
     operation: 'add' | 'remove';
 }
+
+export interface UpdateMatchDatesPayload {
+    campaignId: string;
+    date: string;
+    operation: 'add' | 'remove';
+}
