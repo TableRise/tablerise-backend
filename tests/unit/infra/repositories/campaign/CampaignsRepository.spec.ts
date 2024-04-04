@@ -13,7 +13,8 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         campaign: any,
         query: any,
         createdCampaign: any,
-        campaignToCreate: any;
+        campaignToCreate: any,
+        campaignToUpdate: any;
 
     const logger = (): void => {};
 
@@ -119,6 +120,88 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             it('should return correct result', async () => {
                 try {
                     await campaignsRepository.findOne();
+                    expect.fail('it should bot be here');
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Campaign does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal('NotFound');
+                }
+            });
+        });
+    });
+
+    context('#update', () => {
+        context('When a campaign is updated in database', () => {
+            const campaignId = newUUID();
+
+            before(() => {
+                campaign = {
+                    campaignId,
+                };
+
+                database = {
+                    modelInstance: () => ({ update: () => campaign }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
+                };
+
+                query = {
+                    campaignId,
+                };
+
+                campaignToUpdate = { ...campaign, description: '123' };
+
+                updateTimestampRepository = { updateTimestamp: () => {} };
+
+                campaignsRepository = new CampaignsRepository({
+                    database,
+                    updateTimestampRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should return correct result', async () => {
+                const campaignTest = await campaignsRepository.update({
+                    query,
+                    payload: campaignToUpdate,
+                });
+                expect(campaignTest).to.be.deep.equal(campaign);
+            });
+        });
+
+        context('When a campaign for update is not recovered from database', () => {
+            const campaignId = newUUID();
+
+            before(() => {
+                campaign = {
+                    campaignId,
+                };
+
+                database = {
+                    modelInstance: () => ({ update: () => null }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
+                };
+
+                updateTimestampRepository = {};
+
+                campaignsRepository = new CampaignsRepository({
+                    database,
+                    updateTimestampRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should return correct result', async () => {
+                try {
+                    await campaignsRepository.update({ query, payload: null });
                     expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;
