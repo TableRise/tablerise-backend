@@ -1,4 +1,7 @@
 import CampaignsRoutes from 'src/interface/campaigns/presentation/campaigns/CampaignsRoutes';
+import { readdirSync } from 'fs';
+const path = 'src/core/campaigns/services';
+const filesLength = readdirSync(path).length;
 
 describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () => {
     let campaignsRoutes: CampaignsRoutes,
@@ -22,7 +25,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () =>
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(2);
+            expect(routes).to.have.lengthOf(filesLength);
         });
     });
 });

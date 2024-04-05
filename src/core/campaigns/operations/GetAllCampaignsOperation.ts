@@ -18,6 +18,6 @@ export default class GetAllCampaignsOperation {
 
     async execute(): Promise<CampaignInstance[]> {
         this._logger('info', 'Execute - GetAllCampaignsOperation');
-        return this._getAllCampaignsService.find();
+        return this._getAllCampaignsService.getAll();
     }
 }

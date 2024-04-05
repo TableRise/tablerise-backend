@@ -9,6 +9,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
         getCampaignByIdOperation: any,
+        getAllCampaignsOperation: any,
         userId: string;
 
     context('#create', () => {
@@ -25,6 +26,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -57,6 +59,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation
             });
         });
 
@@ -67,6 +70,33 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             expect(getCampaignByIdOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
             });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#getAll', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: sinon.spy(() => ({})) };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                getCampaignByIdOperation,
+                getAllCampaignsOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            await campaignsController.getAll(request, response);
+
+            expect(getAllCampaignsOperation.execute).to.have.been.called();
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
