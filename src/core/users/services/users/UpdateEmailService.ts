@@ -14,6 +14,8 @@ export default class UpdateEmailService {
     }: UserCoreDependencies['updateEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
+
+        this.update = this.update.bind(this);
     }
 
     private _changeEmail({ user, email }: UserEmail): UserInstance {
@@ -21,7 +23,6 @@ export default class UpdateEmailService {
 
         user.email = email;
         user.inProgress.status = 'done';
-        user.updatedAt = new Date().toISOString();
 
         return user;
     }

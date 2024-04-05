@@ -18,7 +18,7 @@ describe('When a campaign is updated', () => {
         };
     });
 
-    it.only('should sucessfully update a campaign', async () => {
+    it('should sucessfully update a campaign', async () => {
         const { body } = await requester()
             .put(`/campaigns/${campaign.campaignId}/update`)
             .send(newCampaignPayload)
