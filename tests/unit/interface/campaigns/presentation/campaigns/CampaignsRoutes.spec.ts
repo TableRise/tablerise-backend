@@ -1,6 +1,6 @@
 import CampaignsRoutes from 'src/interface/campaigns/presentation/campaigns/CampaignsRoutes';
 
-describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () => {
+describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes', () => {
     let campaignsRoutes: CampaignsRoutes,
         campaignsController: any,
         verifyIdMiddleware: any,

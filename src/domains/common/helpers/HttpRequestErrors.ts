@@ -30,6 +30,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'date-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Date already added',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'info-already-added':
                 throw new HttpRequestErrors({
                     message: 'Info already added',

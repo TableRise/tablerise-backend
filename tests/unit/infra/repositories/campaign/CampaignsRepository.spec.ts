@@ -14,7 +14,8 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         campaign: CampaignInstance,
         query: any,
         createdCampaign: any,
-        campaignToCreate: any;
+        campaignToCreate: any,
+        campaignToUpdate: any;
 
     const logger = (): void => {};
 
@@ -158,6 +159,9 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 updateTimestampRepository = {
                     updateTimestamp: () => campaign,
                 };
+                campaignToUpdate = { ...campaign, description: '123' };
+
+                updateTimestampRepository = { updateTimestamp: () => {} };
 
                 campaignsRepository = new CampaignsRepository({
                     database,
@@ -171,12 +175,13 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 const campaignTest = await campaignsRepository.update({
                     query,
                     payload: campaign,
+                    payload: campaignToUpdate,
                 });
                 expect(campaignTest).to.be.deep.equal(campaign);
             });
         });
 
-        context('When a campaign is not recovered from database', () => {
+        context('When a campaign for update is not recovered from database', () => {
             const campaignId = newUUID();
 
             before(() => {

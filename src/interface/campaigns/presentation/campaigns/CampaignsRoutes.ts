@@ -117,6 +117,23 @@ export default class CampaignsRoutes {
                     tag: 'management',
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/infos/match-dates`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'operation', type: 'string' },
+                        { name: 'date', type: 'string' },
+                    ]),
+                ],
+                controller: this._campaignsController.updateMatchDates,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchDates,
+                    tag: 'management',
+                },
+            },
         ] as routeInstance[];
     }
 }
