@@ -39,4 +39,5 @@ export type ErrorTypes =
     | 'new-structure-secret-question-missing'
     | 'unauthorized'
     | 'campaign-inexistent'
-    | 'music-link-already-added';
+    | 'music-link-already-added'
+    | 'date-already-added';
