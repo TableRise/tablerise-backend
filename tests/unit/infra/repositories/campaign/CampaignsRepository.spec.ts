@@ -174,7 +174,6 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             it('should return correct result', async () => {
                 const campaignTest = await campaignsRepository.update({
                     query,
-                    payload: campaign,
                     payload: campaignToUpdate,
                 });
                 expect(campaignTest).to.be.deep.equal(campaign);

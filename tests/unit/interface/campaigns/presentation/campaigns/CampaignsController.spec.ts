@@ -73,6 +73,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 createCampaignOperation,
                 updateCampaignOperation,
                 updateMatchMapImagesOperation,
+                updateMatchDatesOperation,
                 updateMatchMusicsOperation,
                 getCampaignByIdOperation,
             });
@@ -241,6 +242,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMapImagesOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
+                updateCampaignOperation,
                 getCampaignByIdOperation,
             });
         });

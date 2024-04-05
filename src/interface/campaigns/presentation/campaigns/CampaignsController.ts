@@ -108,7 +108,7 @@ export default class CampaignsController {
 
         return res.status(HttpStatusCode.OK).json(result);
     }
-    
+
     public async update(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body;
@@ -121,5 +121,5 @@ export default class CampaignsController {
         });
 
         return res.status(HttpStatusCode.OK).json(result);
-     }
+    }
 }
