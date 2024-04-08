@@ -15,7 +15,7 @@ export default class GetAllCampaignsService {
 
     async getAll(): Promise <CampaignInstance[]> {
         this._logger('info', 'GetAll - GetAllCampaignsService');
-        const campaignsInDb = this._campaignsRepository.find();
+        const campaignsInDb = this._campaignsRepository.find({});
         return campaignsInDb;
     }
 }

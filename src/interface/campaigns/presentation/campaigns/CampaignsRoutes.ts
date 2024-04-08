@@ -48,7 +48,6 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
                     ],
                     tag: 'access',
                     description: desc.getAll,
