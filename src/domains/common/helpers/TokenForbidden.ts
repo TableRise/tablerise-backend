@@ -29,9 +29,17 @@ export default class TokenForbidden {
     async verifyForbiddenToken(token: string): Promise<boolean> {
         this._logger('info', 'VerifyForbiddenToken - TokenFobidden');
         const tokenHash = this._generateTokenHash(token);
-        this._logger('warn', `verifyForbiddenToken - MEIO DA FUNÇÃO - tokenHash: ${tokenHash}`);
+        this._logger(
+            'warn',
+            `verifyForbiddenToken - MEIO DA FUNÇÃO - tokenHash: ${tokenHash}`
+        );
         const tokenExists = await this._redisClient.exists(tokenHash);
-        this._logger('warn', `verifyForbiddenToken - FINAL DA FUNÇÃO - tokenExists: ${tokenExists as string}`);
+        this._logger(
+            'warn',
+            `verifyForbiddenToken - FINAL DA FUNÇÃO - tokenExists: ${
+                tokenExists as string
+            }`
+        );
         return tokenExists > 0;
     }
 }
