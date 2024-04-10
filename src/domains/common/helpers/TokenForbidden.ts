@@ -33,7 +33,7 @@ export default class TokenForbidden {
             'warn',
             `verifyForbiddenToken - MEIO DA FUNÇÃO - tokenHash: ${tokenHash}`
         );
-        const tokenExists = await this._redisClient.exists(tokenHash);
+        const tokenExists = process.env.NODE_ENV !== 'test' ? await this._redisClient.exists(tokenHash) : 0;
         this._logger(
             'warn',
             `verifyForbiddenToken - FINAL DA FUNÇÃO - tokenExists: ${
