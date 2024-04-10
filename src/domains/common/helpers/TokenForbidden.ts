@@ -34,7 +34,7 @@ export default class TokenForbidden {
             `verifyForbiddenToken - MEIO DA FUNÇÃO - tokenHash: ${tokenHash}`
         );
         const tokenExists =
-            process.env.NODE_ENV !== 'test'
+            process.env.TEST_TYPE !== 'integration'
                 ? await this._redisClient.exists(tokenHash)
                 : 0;
         this._logger(
