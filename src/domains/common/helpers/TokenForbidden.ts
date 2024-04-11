@@ -29,10 +29,11 @@ export default class TokenForbidden {
     async verifyForbiddenToken(token: string): Promise<boolean> {
         this._logger('info', 'VerifyForbiddenToken - TokenFobidden');
         const tokenHash = this._generateTokenHash(token);
-    
-        const tokenExists = process.env.TEST_TYPE !== 'integration'
-            ? await this._redisClient.exists(tokenHash)
-            : 0;
+
+        const tokenExists =
+            process.env.TEST_TYPE !== 'integration'
+                ? await this._redisClient.exists(tokenHash)
+                : 0;
 
         return tokenExists > 0;
     }
