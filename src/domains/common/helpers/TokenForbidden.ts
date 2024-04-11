@@ -29,20 +29,11 @@ export default class TokenForbidden {
     async verifyForbiddenToken(token: string): Promise<boolean> {
         this._logger('info', 'VerifyForbiddenToken - TokenFobidden');
         const tokenHash = this._generateTokenHash(token);
-        this._logger(
-            'warn',
-            `verifyForbiddenToken - MEIO DA FUNÇÃO - tokenHash: ${tokenHash}`
-        );
-        const tokenExists =
-            process.env.TEST_TYPE !== 'integration'
-                ? await this._redisClient.exists(tokenHash)
-                : 0;
-        this._logger(
-            'warn',
-            `verifyForbiddenToken - FINAL DA FUNÇÃO - tokenExists: ${
-                tokenExists as string
-            }`
-        );
+    
+        const tokenExists = process.env.TEST_TYPE !== 'integration'
+            ? await this._redisClient.exists(tokenHash)
+            : 0;
+
         return tokenExists > 0;
     }
 }
