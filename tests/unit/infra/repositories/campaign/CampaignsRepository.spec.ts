@@ -4,13 +4,14 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
         updateTimestampRepository: any,
         database: any,
         serializer: any,
-        campaign: any,
+        campaign: CampaignInstance,
         query: any,
         createdCampaign: any,
         campaignToCreate: any,
@@ -61,7 +62,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                };
+                } as CampaignInstance;
 
                 database = {
                     modelInstance: () => ({ findOne: () => campaign }),
@@ -97,7 +98,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                };
+                } as CampaignInstance;
 
                 database = {
                     modelInstance: () => ({ findOne: () => null }),
@@ -132,13 +133,13 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     });
 
     context('#update', () => {
-        context('When a campaign is updated in database', () => {
+        context('When a campaign is updated', () => {
             const campaignId = newUUID();
 
             before(() => {
                 campaign = {
                     campaignId,
-                };
+                } as CampaignInstance;
 
                 database = {
                     modelInstance: () => ({ update: () => campaign }),
@@ -152,6 +153,12 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                     campaignId,
                 };
 
+                campaign.createdAt = new Date().toISOString();
+                campaign.updatedAt = new Date().toISOString();
+
+                updateTimestampRepository = {
+                    updateTimestamp: () => campaign,
+                };
                 campaignToUpdate = { ...campaign, description: '123' };
 
                 updateTimestampRepository = { updateTimestamp: () => {} };
@@ -179,7 +186,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                };
+                } as CampaignInstance;
 
                 database = {
                     modelInstance: () => ({ update: () => null }),
@@ -201,7 +208,10 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
 
             it('should return correct result', async () => {
                 try {
-                    await campaignsRepository.update({ query, payload: null });
+                    await campaignsRepository.update({
+                        query: { campaignId },
+                        payload: campaign,
+                    });
                     expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;

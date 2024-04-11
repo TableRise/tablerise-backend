@@ -62,6 +62,25 @@ export default class CampaignsRoutes {
                 },
             },
 
+            // PUT
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/update`,
+                parameters: [...generateIDParam()],
+                schema: DomainDataFaker.mocks.updateCampaign,
+                controller: this._campaignsController.update,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('cover'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.update,
+                    tag: 'management',
+                    fileUpload: true,
+                },
+            },
+
             // PATCH
             {
                 method: 'patch',
@@ -88,13 +107,10 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/update/match/musics`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(3, [
-                        { name: 'operation', type: 'string' },
-                        { name: 'title', type: 'string' },
-                        { name: 'youtubeLink', type: 'string' },
-                    ]),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
                 ],
                 controller: this._campaignsController.updateMatchMusics,
+                schema: DomainDataFaker.mocks.uploadMatchMusics,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     description: desc.updateMatchMusics,

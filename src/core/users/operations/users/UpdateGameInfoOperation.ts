@@ -2,6 +2,7 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 export default class UpdateGameInfoOperation {
     private readonly _updateGameInfoService;
@@ -31,7 +32,7 @@ export default class UpdateGameInfoOperation {
             throw new HttpRequestErrors({
                 message: 'The parameter infoId is invalid',
                 code: HttpStatusCode.BAD_REQUEST,
-                name: 'Invalid Entry',
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
 
         const gameInfoUpdated = await this._updateGameInfoService.update({

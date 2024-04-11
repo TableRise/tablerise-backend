@@ -9,6 +9,11 @@ import {
 } from './campaigns/GetCampaignById';
 
 import {
+    UpdateCampaignOperationContract,
+    UpdateCampaignServiceContract,
+} from './campaigns/UpdateCampaign';
+
+import {
     UpdateMatchMapImagesOperationContract,
     UpdateMatchMapImagesServiceContract,
 } from './campaigns/UpdateMatchMapImages';
@@ -26,6 +31,7 @@ import {
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
+    updateCampaignOperationContract: UpdateCampaignOperationContract;
     getCampaignByIdOperationContract: GetCampaignByIdOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
@@ -33,6 +39,7 @@ export default interface CampaignCoreDependencies {
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
+    updateCampaignServiceContract: UpdateCampaignServiceContract;
     getCampaignByIdServiceContract: GetCampaignByIdServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;

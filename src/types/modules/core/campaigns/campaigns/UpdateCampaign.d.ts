@@ -1,21 +1,19 @@
-import CreateCampaignService from 'src/core/campaigns/services/campaigns/CreateCampaignService';
+import UpdateCampaignService from 'src/core/campaigns/services/campaigns/UpdateCampaignService';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import { SchemasCampaignType } from 'src/domains/campaigns/schemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import { Logger } from 'src/types/shared/logger';
-import Serializer from 'src/domains/common/helpers/Serializer';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 
-export interface CreateCampaignOperationContract {
+export interface UpdateCampaignOperationContract {
     campaignsSchema: SchemasCampaignType;
     schemaValidator: SchemaValidator;
-    createCampaignService: CreateCampaignService;
+    updateCampaignService: UpdateCampaignService;
     logger: Logger;
 }
 
-export interface CreateCampaignServiceContract {
+export interface UpdateCampaignServiceContract {
     campaignsRepository: CampaignsRepository;
-    serializer: Serializer;
     imageStorageClient: ImageStorageClient;
     logger: Logger;
 }
