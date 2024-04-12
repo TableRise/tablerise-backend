@@ -45,7 +45,18 @@ const mocks = {
         description,
         system,
         ageRestriction,
-        cover: '',
+        cover: { isBinary: true },
+    },
+    uploadMatchMapImage: { mapImage: { isBinary: true } },
+    uploadMatchMusics: {
+        title: 'Main Theme',
+        youtubeLink: 'https://youtube.com/',
+    },
+    updateCampaign: {
+        title,
+        visibility,
+        description,
+        cover: { isBinary: true },
     },
 };
 

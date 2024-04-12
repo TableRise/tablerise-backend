@@ -12,12 +12,12 @@ function checkCoverage() {
   ];
 
   summaryPercentages.forEach((spec) => {
-    if (spec < 75) {
-      throw new Error('Some coverage point is below 100');
+    if (spec < 90) {
+      throw new Error('Some coverage point is below 90');
     }
   });
 
-  console.log('Well Done, all the coverage points are above or equal 100%');
+  console.log('Well Done, all the coverage points are above or equal 90%');
 }
 
 checkCoverage();

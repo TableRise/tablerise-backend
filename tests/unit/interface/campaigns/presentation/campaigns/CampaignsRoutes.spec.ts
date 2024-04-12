@@ -3,7 +3,7 @@ import { readdirSync } from 'fs';
 const path = 'src/core/campaigns/services';
 const filesLength = readdirSync(path).length;
 
-describe('Interface :: Users :: Presentation :: Users :: CampaignsRoutes', () => {
+describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes', () => {
     let campaignsRoutes: CampaignsRoutes,
         campaignsController: any,
         verifyIdMiddleware: any,

@@ -2,7 +2,7 @@ import CreateCampaignService from 'src/core/campaigns/services/campaigns/CreateC
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import { SchemasCampaignType } from 'src/domains/campaigns/schemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import { Logger } from '../../../../Logger';
+import { Logger } from 'src/types/shared/logger';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 

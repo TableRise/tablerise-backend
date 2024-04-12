@@ -26,3 +26,23 @@ export interface CreateCampaignPayload {
 export interface GetCampaignByIdPayload {
     campaignId: string;
 }
+
+export interface UpdateMatchMapImagesPayload {
+    campaignId: string;
+    mapImage?: FileObject;
+    imageId?: string;
+    operation: 'add' | 'remove';
+}
+
+export interface UpdateMatchMusicsPayload {
+    campaignId: string;
+    youtubeLink: string;
+    title: string;
+    operation: 'add' | 'remove';
+}
+
+export interface UpdateMatchDatesPayload {
+    campaignId: string;
+    date: string;
+    operation: 'add' | 'remove';
+}

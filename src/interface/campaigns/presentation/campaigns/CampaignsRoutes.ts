@@ -5,7 +5,9 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
@@ -37,8 +39,8 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
                     ],
-                    tag: 'access',
                     description: desc.getById,
+                    tag: 'recover',
                 },
             },
             {
@@ -51,6 +53,7 @@ export default class CampaignsRoutes {
                     description: desc.getAll,
                 },
             },
+
             // POST
             {
                 method: 'post',
@@ -63,11 +66,84 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.multer().single('cover'),
                         this._imageMiddleware.fileType,
                     ],
-                    tag: 'management',
                     description: desc.create,
+                    tag: 'management',
                     fileUpload: true,
                 },
             },
-        ] as unknown as routeInstance[];
+
+            // PUT
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/update`,
+                parameters: [...generateIDParam()],
+                schema: DomainDataFaker.mocks.updateCampaign,
+                controller: this._campaignsController.update,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('cover'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.update,
+                    tag: 'management',
+                    fileUpload: true,
+                },
+            },
+
+            // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/map-images`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
+                ],
+                controller: this._campaignsController.updateMatchMapImages,
+                schema: DomainDataFaker.mocks.uploadMatchMapImage,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('mapImage'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.updateMatchImages,
+                    tag: 'management',
+                    fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/musics`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
+                ],
+                controller: this._campaignsController.updateMatchMusics,
+                schema: DomainDataFaker.mocks.uploadMatchMusics,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchMusics,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/infos/match-dates`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'operation', type: 'string' },
+                        { name: 'date', type: 'string' },
+                    ]),
+                ],
+                controller: this._campaignsController.updateMatchDates,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchDates,
+                    tag: 'management',
+                },
+            },
+        ] as routeInstance[];
     }
 }
