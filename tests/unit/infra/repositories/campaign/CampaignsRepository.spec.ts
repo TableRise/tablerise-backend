@@ -159,7 +159,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             const campaignsTest = await campaignsRepository.find();
             expect(findAll).to.have.been.called();
             expect(campaignsTest).to.be.deep.equal(campaigns);
-        })
+        });
     });
     context('#update', () => {
         context('When a campaign is updated', () => {

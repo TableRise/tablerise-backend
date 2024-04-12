@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CampaignsController from 'src/interface/campaigns/presentation/campaigns/CampaignsController';
+
 describe('Interface :: Users :: Presentation :: Users :: CampaignsController', () => {
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
@@ -37,7 +38,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -77,7 +78,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateMatchMusicsOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -123,7 +124,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -157,7 +158,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -193,7 +194,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -237,7 +238,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -280,7 +281,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -299,6 +300,4 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             expect(response.json).to.have.been.called();
         });
     });
-});
-
 });

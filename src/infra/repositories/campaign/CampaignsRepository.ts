@@ -51,7 +51,7 @@ export default class CampaignsRepository {
 
         return request.map((data) => this._formatAndSerializeData(data));
     }
-    
+
     public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
         this._logger('info', 'Update - UsersRepository');
 
