@@ -107,9 +107,12 @@ exports.mochaHooks = {
             'user',
             'UserDetails'
         );
-        const modelCampaign = new DatabaseManagement().modelInstance('campaign', 'Campaigns');
-        
-        await modelCampaign.erase();    
+        const modelCampaign = new DatabaseManagement().modelInstance(
+            'campaign',
+            'Campaigns'
+        );
+
+        await modelCampaign.erase();
         await UsersModel.erase();
         await UserDetailsModel.erase();
         logger('test', 'Test user erased with details');

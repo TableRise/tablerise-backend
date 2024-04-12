@@ -8,7 +8,6 @@ describe('Core :: Campaigns :: Operations :: GetAllCampaignsOperation', () => {
 
     context('#execute', () => {
         context('When all campaigns are successfully recovered', () => {
-
             before(() => {
                 getAllCampaignsService = {
                     getAll: sinon.spy(),

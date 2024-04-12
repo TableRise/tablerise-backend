@@ -4,6 +4,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import { any } from 'zod';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
@@ -12,7 +13,8 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         campaign: any,
         query: any,
         createdCampaign: any,
-        campaignToCreate: any;
+        campaignToCreate: any,
+        campaigns: any;
 
     const logger = (): void => {};
 
@@ -117,6 +119,34 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                     expect(err.name).to.be.equal('NotFound');
                 }
             });
+        });
+    });
+
+    context('#find', () => {
+        const findAll = sinon.spy(() => campaigns);
+
+        beforeEach(() => {
+            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 1 });
+
+            database = {
+                modelInstance: () => ({ findAll }),
+            };
+
+            serializer = {
+                postCampaign: (obj: any) => obj,
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                serializer,
+                logger,
+            });
+        });
+
+        it('should return all campaigns in database', async () => {
+            const campaignsTest = await campaignsRepository.find();
+            expect(findAll).to.have.been.called();
+            expect(campaignsTest).to.be.deep.equal(campaigns);
         });
     });
 });

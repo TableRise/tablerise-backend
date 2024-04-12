@@ -1,7 +1,6 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
 
-
 export default class GetAllCampaignsOperation {
     private readonly _getAllCampaignsService;
     private readonly _logger;

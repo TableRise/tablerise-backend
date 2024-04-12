@@ -59,7 +59,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 
@@ -89,7 +89,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 

@@ -45,6 +45,6 @@ export default class CampaignsRepository {
         this._logger('info', `Find - DungeonsAndDragonsRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((campaign) => this._formatAndSerializeData(campaign));
+        return request.map((data) => this._formatAndSerializeData(data));
     }
 }
