@@ -13,12 +13,14 @@ export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _updateCampaignOperation;
     private readonly _getCampaignByIdOperation;
+    private readonly _publishPostOperation;
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
     private readonly _updateMatchDatesOperation;
 
     constructor({
         getCampaignByIdOperation,
+        publishPostOperation,
         createCampaignOperation,
         updateCampaignOperation,
         updateMatchMapImagesOperation,
@@ -28,12 +30,14 @@ export default class CampaignsController {
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
+        this._publishPostOperation = publishPostOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
+        this.publishPost = this.publishPost.bind(this);
         this.update = this.update.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
@@ -57,6 +61,15 @@ export default class CampaignsController {
 
         const result = await this._getCampaignByIdOperation.execute({ campaignId: id });
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async publishPost(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.query as { userId: string };
+        const payload = req.body;
+
+        const result = await this._publishPostOperation.execute({ campaignId: id, userId, payload });
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {

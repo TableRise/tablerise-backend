@@ -4,9 +4,11 @@ import UpdateMatchMapImagesOperation from 'src/core/campaigns/operations/campaig
 import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchMusicsOperation';
 import UpdateCampaignOperation from 'src/core/campaigns/operations/campaigns/UpdateCampaignOperation';
 import UpdateMatchDatesOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchDatesOperation';
+import PublishPostOperation from 'src/core/campaigns/operations/campaigns/PublishPostOperation';
 
 export interface CampaignsControllerContract {
     getCampaignByIdOperation: GetCampaignByIdOperation;
+    publishPostOperation: PublishPostOperation;
     createCampaignOperation: createCampaignOperation;
     updateCampaignOperation: UpdateCampaignOperation;
     updateMatchMapImagesOperation: UpdateMatchMapImagesOperation;

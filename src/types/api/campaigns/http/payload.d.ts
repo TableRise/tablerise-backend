@@ -27,6 +27,15 @@ export interface GetCampaignByIdPayload {
     campaignId: string;
 }
 
+export interface PublishPostPayload {
+    campaignId: string;
+    userId: string;
+    payload: {
+        title: string;
+        content: string;
+    }
+}
+
 export interface UpdateMatchMapImagesPayload {
     campaignId: string;
     mapImage?: FileObject;

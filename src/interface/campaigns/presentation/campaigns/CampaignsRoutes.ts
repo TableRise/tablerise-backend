@@ -57,8 +57,22 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.fileType,
                     ],
                     description: desc.create,
-                    tag: 'management',
+                    tag: 'create',
                     fileUpload: true,
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/publish-post`,
+                schema: DomainDataFaker.mocks.publishPost,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
+                controller: this._campaignsController.publishPost,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false })
+                    ],
+                    description: desc.publishPost,
+                    tag: 'create'
                 },
             },
 
@@ -76,7 +90,7 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.fileType,
                     ],
                     description: desc.update,
-                    tag: 'management',
+                    tag: 'update',
                     fileUpload: true,
                 },
             },
@@ -98,7 +112,7 @@ export default class CampaignsRoutes {
                         this._imageMiddleware.fileType,
                     ],
                     description: desc.updateMatchImages,
-                    tag: 'management',
+                    tag: 'update',
                     fileUpload: true,
                 },
             },
@@ -114,7 +128,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     description: desc.updateMatchMusics,
-                    tag: 'management',
+                    tag: 'update',
                 },
             },
             {
@@ -131,7 +145,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     description: desc.updateMatchDates,
-                    tag: 'management',
+                    tag: 'update',
                 },
             },
         ] as routeInstance[];
