@@ -12,7 +12,8 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
         updateMatchMusicsOperation: any,
         updateCampaignOperation: any,
         updateMatchDatesOperation: any,
-        getCampaignByIdOperation: any;
+        getCampaignByIdOperation: any,
+        getAllCampaignsOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -37,6 +38,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -76,6 +78,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateMatchMusicsOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -121,6 +124,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -131,6 +135,37 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             expect(getCampaignByIdOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
             });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#getAll', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: sinon.spy(() => ({})) };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
+                updateMatchDatesOperation,
+                updateCampaignOperation,
+                getCampaignByIdOperation,
+                getAllCampaignsOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            await campaignsController.getAll(request, response);
+
+            expect(getAllCampaignsOperation.execute).to.have.been.called();
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -154,11 +189,12 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
-                updateCampaignOperation,
                 updateMatchMapImagesOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
+                updateCampaignOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -198,10 +234,11 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
+                updateCampaignOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 
@@ -244,6 +281,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
+                getAllCampaignsOperation,
             });
         });
 

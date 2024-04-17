@@ -45,6 +45,13 @@ export default class CampaignsRepository {
         return this._formatAndSerializeData(request);
     }
 
+    public async find(query: any = {}): Promise<CampaignInstance[]> {
+        this._logger('info', `Find - DungeonsAndDragonsRepository`);
+        const request = await this._model.findAll(query);
+
+        return request.map((data) => this._formatAndSerializeData(data));
+    }
+
     public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
         this._logger('info', 'Update - UsersRepository');
 

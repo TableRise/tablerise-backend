@@ -43,6 +43,16 @@ export default class CampaignsRoutes {
                     tag: 'recover',
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}`,
+                controller: this._campaignsController.getAll,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'access',
+                    description: desc.getAll,
+                },
+            },
 
             // POST
             {

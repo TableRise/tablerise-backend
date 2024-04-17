@@ -15,6 +15,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         query: any,
         createdCampaign: any,
         campaignToCreate: any,
+        campaigns: any,
         campaignToUpdate: any;
 
     const logger = (): void => {};
@@ -132,6 +133,34 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         });
     });
 
+    context('#find', () => {
+        const findAll = sinon.spy(() => campaigns);
+
+        beforeEach(() => {
+            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 1 });
+
+            database = {
+                modelInstance: () => ({ findAll }),
+            };
+
+            serializer = {
+                postCampaign: (obj: any) => obj,
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                serializer,
+                updateTimestampRepository,
+                logger,
+            });
+        });
+
+        it('should return all campaigns in database', async () => {
+            const campaignsTest = await campaignsRepository.find();
+            expect(findAll).to.have.been.called();
+            expect(campaignsTest).to.be.deep.equal(campaigns);
+        });
+    });
     context('#update', () => {
         context('When a campaign is updated', () => {
             const campaignId = newUUID();

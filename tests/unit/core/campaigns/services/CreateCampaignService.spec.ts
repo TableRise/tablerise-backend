@@ -1,4 +1,4 @@
-import CreateCampaignService from 'src/core/campaigns/services/campaigns/CreateCampaignService';
+import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';

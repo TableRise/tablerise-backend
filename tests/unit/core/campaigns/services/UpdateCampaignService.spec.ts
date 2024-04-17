@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import UpdateCampaignService from 'src/core/campaigns/services/campaigns/UpdateCampaignService';
+import UpdateCampaignService from 'src/core/campaigns/services/UpdateCampaignService';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {

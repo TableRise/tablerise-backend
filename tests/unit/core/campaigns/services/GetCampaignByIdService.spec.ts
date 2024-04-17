@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import GetCampaignByIdService from 'src/core/campaigns/services/campaigns/GetCampaignByIdService';
+import GetCampaignByIdService from 'src/core/campaigns/services/GetCampaignByIdService';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Campaigns :: Services :: GetCampaignByIdService', () => {
