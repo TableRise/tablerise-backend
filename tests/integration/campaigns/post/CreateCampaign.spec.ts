@@ -12,7 +12,7 @@ describe('When a campaign is created', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     context('And all data is correct', () => {
-        const userLoggedId = '169d055c-a5e4-4334-a503-27d057188c0d';
+        const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
 
         before(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
