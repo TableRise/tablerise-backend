@@ -71,3 +71,8 @@ export interface __UserSaved {
     userSaved: UserInstance;
     userDetailsSaved: UserDetailInstance;
 }
+
+export interface UpdateMatchPlayersResponse {
+    campaign: CampaignInstance;
+    userDetails: UserDetailInstance;
+}
