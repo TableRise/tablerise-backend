@@ -40,4 +40,6 @@ export type ErrorTypes =
     | 'unauthorized'
     | 'campaign-inexistent'
     | 'music-link-already-added'
-    | 'date-already-added';
+    | 'date-already-added'
+    | 'player-already-in-match'
+    | 'player-banned';
