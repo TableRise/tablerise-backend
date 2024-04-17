@@ -37,6 +37,8 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'campaign-inexistent': 'Campaign does not exist',
         'music-link-already-added': 'Music link already added',
         'date-already-added': 'Date already added',
+        'player-already-in-match': 'Player already in match',
+        'player-banned': 'Player is banned',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {
