@@ -134,6 +134,20 @@ export default class CampaignsRoutes {
                     tag: 'management',
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/players`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
+                ],
+                controller: this._campaignsController.updateMatchPlayers,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.updateMatchPlayers,
+                    tag: 'management',
+                },
+            },
         ] as routeInstance[];
     }
 }
