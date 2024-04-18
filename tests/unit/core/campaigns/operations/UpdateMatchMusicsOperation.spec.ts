@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchMusicsOperation';
+import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/UpdateMatchMusicsOperation';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
