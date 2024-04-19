@@ -13,6 +13,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
         updateCampaignOperation: any,
         updateMatchDatesOperation: any,
         getCampaignByIdOperation: any,
+        updateMatchPlayersOperation: any,
         getAllCampaignsOperation: any;
 
     context('#create', () => {
@@ -30,6 +31,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -38,6 +40,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -70,6 +73,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateCampaignOperation = { execute: sinon.spy(() => ({})) };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -78,6 +82,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateMatchMusicsOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -116,6 +121,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -124,6 +130,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -158,6 +165,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -186,6 +194,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMapImagesOperation = { execute: sinon.spy(() => ({})) };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -194,6 +203,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -230,6 +240,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: sinon.spy(() => ({})) };
             updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -238,6 +249,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -273,6 +285,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: sinon.spy(() => ({})) };
+            updateMatchPlayersOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -281,6 +294,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
+                updateMatchPlayersOperation,
                 getAllCampaignsOperation,
             });
         });
@@ -294,6 +308,52 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             expect(updateMatchDatesOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
                 date: '20240404',
+                operation: 'add',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#updateMatchPlayers', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+        const userId = newUUID();
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: sinon.spy(() => ({})) };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDatesOperation,
+                getCampaignByIdOperation,
+                updateMatchPlayersOperation,
+                getAllCampaignsOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { operation: 'add' };
+            request.user = { userId };
+
+            await campaignsController.updateMatchPlayers(request, response);
+
+            expect(updateMatchPlayersOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                userId,
                 operation: 'add',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);

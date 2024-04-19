@@ -30,6 +30,21 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+
+            case 'player-banned':
+                throw new HttpRequestErrors({
+                    message: 'Player is banned',
+                    code: HttpStatusCode.UNAUTHORIZED,
+                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                });
+
+            case 'player-already-in-match':
+                throw new HttpRequestErrors({
+                    message: 'Player already in match',
+                    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+                    name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
+                });
+
             case 'date-already-added':
                 throw new HttpRequestErrors({
                     message: 'Date already added',

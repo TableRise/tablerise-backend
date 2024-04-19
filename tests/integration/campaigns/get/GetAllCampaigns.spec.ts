@@ -21,7 +21,7 @@ describe('When recover all campaigns', () => {
                 .get(`/campaigns`)
                 .expect(HttpStatusCode.OK);
 
-            const campaign = body[0];
+            const campaign = body[1];
             expect(body).to.be.an('array');
             expect(campaign).not.to.have.property('campaignId');
             expect(campaign).to.have.property('title');

@@ -5,6 +5,7 @@ import UpdateMatchMapImagesOperation from 'src/core/campaigns/operations/campaig
 import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchMusicsOperation';
 import UpdateCampaignOperation from 'src/core/campaigns/operations/campaigns/UpdateCampaignOperation';
 import UpdateMatchDatesOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchDatesOperation';
+import UpdateMatchPlayersOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchPlayersOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -14,4 +15,5 @@ export interface CampaignsControllerContract {
     updateMatchMapImagesOperation: UpdateMatchMapImagesOperation;
     updateMatchMusicsOperation: UpdateMatchMusicsOperation;
     updateMatchDatesOperation: UpdateMatchDatesOperation;
+    updateMatchPlayersOperation: UpdateMatchPlayersOperation;
 }

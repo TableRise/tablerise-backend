@@ -17,6 +17,7 @@ export default class CampaignsController {
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
     private readonly _updateMatchDatesOperation;
+    private readonly _updateMatchPlayersOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -26,6 +27,7 @@ export default class CampaignsController {
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
         updateMatchDatesOperation,
+        updateMatchPlayersOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
@@ -38,6 +40,7 @@ export default class CampaignsController {
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
+        this._updateMatchPlayersOperation = updateMatchPlayersOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -45,6 +48,7 @@ export default class CampaignsController {
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
         this.updateMatchDates = this.updateMatchDates.bind(this);
+        this.updateMatchPlayers = this.updateMatchPlayers.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -115,6 +119,20 @@ export default class CampaignsController {
         const result = await this._updateMatchDatesOperation.execute({
             campaignId: id,
             date,
+            operation,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateMatchPlayers(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { operation } = req.query as { operation: 'add' | 'remove' };
+        const { userId } = req.user as UserInstance;
+
+        const result = await this._updateMatchPlayersOperation.execute({
+            campaignId: id,
+            userId,
             operation,
         });
 

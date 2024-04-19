@@ -20,6 +20,7 @@ export default {
                 'dungeon_master',
                 'player',
             ]),
+            status: faker.helpers.arrayElement(['pending']),
         },
     ],
     matchData: {

@@ -48,6 +48,7 @@ export default class CreateCampaignService {
                 userId,
                 characterIds: [],
                 role: 'dungeon_master',
+                status: 'active',
             },
         ];
         delete campaign.visibility;
