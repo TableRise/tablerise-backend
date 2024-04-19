@@ -351,7 +351,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 updateCampaignOperation,
                 getCampaignByIdOperation,
-                getAllCampaignsOperation
+                getAllCampaignsOperation,
             });
         });
 

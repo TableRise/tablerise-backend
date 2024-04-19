@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import PublishPostOperation from 'src/core/campaigns/operations/campaigns/PublishPostOperation';
+import PublishPostOperation from 'src/core/campaigns/operations/PublishPostOperation';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';

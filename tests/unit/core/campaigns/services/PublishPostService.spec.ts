@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import PublishPostService from 'src/core/campaigns/services/campaigns/PublishPostService';
+import PublishPostService from 'src/core/campaigns/services/PublishPostService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
