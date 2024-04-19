@@ -68,7 +68,11 @@ export default class CampaignsController {
         const { userId } = req.query as { userId: string };
         const payload = req.body;
 
-        const result = await this._publishPostOperation.execute({ campaignId: id, userId, payload });
+        const result = await this._publishPostOperation.execute({
+            campaignId: id,
+            userId,
+            payload,
+        });
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 

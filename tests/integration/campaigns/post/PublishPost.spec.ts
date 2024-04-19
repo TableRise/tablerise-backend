@@ -4,14 +4,18 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
-import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import {
+    InjectNewCampaign,
+    InjectNewUser,
+    InjectNewUserDetails,
+} from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a post is published', () => {
     let campaign: CampaignInstance,
-    payload: any,
-    user: UserInstance,
-    userDetails: UserDetailInstance;
+        payload: any,
+        user: UserInstance,
+        userDetails: UserDetailInstance;
 
     context('And data is correct', () => {
         before(async () => {
@@ -27,13 +31,15 @@ describe('When a post is published', () => {
 
             payload = {
                 title: 'New character will be added',
-                content: 'In next match we will have a new char'
+                content: 'In next match we will have a new char',
             };
         });
 
         it('should add new post to campaign', async () => {
             const { body } = await requester()
-                .post(`/campaigns/${campaign.campaignId}/publish-post?userId=${user.userId}`)
+                .post(
+                    `/campaigns/${campaign.campaignId}/publish-post?userId=${user.userId}`
+                )
                 .send(payload)
                 .expect(HttpStatusCode.CREATED);
 

@@ -173,14 +173,14 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             request.query = { userId: '456' };
             request.body = {
                 title: 'Some new title',
-                content: 'Some new content'
+                content: 'Some new content',
             };
             await campaignsController.publishPost(request, response);
 
             expect(publishPostOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
                 userId: request.query.userId,
-                payload: request.body
+                payload: request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();

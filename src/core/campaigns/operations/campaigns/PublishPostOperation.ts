@@ -22,11 +22,19 @@ export default class PublishPostOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({ campaignId, userId, payload }: PublishPostPayload): Promise<CampaignInstance> {
+    async execute({
+        campaignId,
+        userId,
+        payload,
+    }: PublishPostPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - PublishPostOperation');
         this._schemaValidator.entry(this._campaignsSchema.campaignPost, payload);
 
-        const campaignWithPost = await this._publishPostService.addPost({ campaignId, userId, payload });
+        const campaignWithPost = await this._publishPostService.addPost({
+            campaignId,
+            userId,
+            payload,
+        });
         const campaignSaved = await this._publishPostService.save(campaignWithPost);
 
         return campaignSaved;

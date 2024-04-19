@@ -6,11 +6,11 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
     let publishPostOperation: PublishPostOperation,
-    publishPostService: any,
-    schemaValidator: any,
-    campaign: CampaignInstance,
-    postPayload: any,
-    campaignsSchema: any;
+        publishPostService: any,
+        schemaValidator: any,
+        campaign: CampaignInstance,
+        postPayload: any,
+        campaignsSchema: any;
 
     const logger = (): void => {};
 
@@ -18,42 +18,44 @@ describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
         before(() => {
             campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-            campaign.infos.announcements = [{
-                title: 'New post',
-                content: 'Content of new post',
-                author: 'Some author'
-            }];
+            campaign.infos.announcements = [
+                {
+                    title: 'New post',
+                    content: 'Content of new post',
+                    author: 'Some author',
+                },
+            ];
 
             publishPostService = {
                 addPost: sinon.spy(() => campaign),
-                save: sinon.spy(() => campaign)
+                save: sinon.spy(() => campaign),
             };
 
             schemaValidator = {
-                entry: sinon.spy(() => {})
+                entry: sinon.spy(() => {}),
             };
 
             campaignsSchema = {
-                campaignPost: {}
+                campaignPost: {},
             };
 
             postPayload = {
                 campaignId: campaign.campaignId,
                 userId: newUUID(),
-                payload: {}
+                payload: {},
             };
 
             publishPostOperation = new PublishPostOperation({
                 publishPostService,
                 schemaValidator,
                 campaignsSchema,
-                logger
+                logger,
             });
         });
 
         it('should return correct data with correct call', async () => {
             const campaignToPost = await publishPostOperation.execute(postPayload);
-            
+
             expect(publishPostService.addPost).to.have.been.calledWith(postPayload);
             expect(publishPostService.save).to.have.been.calledWith(campaign);
             expect(campaignToPost).to.be.deep.equal(campaign);

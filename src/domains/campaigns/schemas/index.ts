@@ -5,7 +5,7 @@ import campaignPost from './campaignsPostValidationSchema';
 const schemas = {
     campaignZod,
     campaignUpdateZod,
-    campaignPost
+    campaignPost,
 };
 
 export type SchemasCampaignType = typeof schemas;

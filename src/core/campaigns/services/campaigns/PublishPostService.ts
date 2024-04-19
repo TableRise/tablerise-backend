@@ -17,17 +17,21 @@ export default class PublishPostService {
         this._logger = logger;
     }
 
-    async addPost({ campaignId, userId, payload }: PublishPostPayload): Promise<CampaignInstance> {
+    async addPost({
+        campaignId,
+        userId,
+        payload,
+    }: PublishPostPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - PublishPostService');
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
         const userInDb = await this._usersRepository.findOne({ userId });
-        
+
         campaignInDb.infos.announcements.push({
             title: payload.title,
             content: payload.content,
-            author: userInDb.nickname
+            author: userInDb.nickname,
         });
-        
+
         return campaignInDb;
     }
 
@@ -35,7 +39,7 @@ export default class PublishPostService {
         this._logger('info', 'Save - PublishPostService');
         const camapaignUpdated = await this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
-            payload: campaign
+            payload: campaign,
         });
 
         return camapaignUpdated;

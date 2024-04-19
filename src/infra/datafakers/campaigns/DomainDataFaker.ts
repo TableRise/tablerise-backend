@@ -60,8 +60,8 @@ const mocks = {
     },
     publishPost: {
         title,
-        content: 'A new character will be added to campaign in next match'
-    }
+        content: 'A new character will be added to campaign in next match',
+    },
 };
 
 export default {

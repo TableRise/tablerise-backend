@@ -6,12 +6,12 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Services :: PublishPostService', () => {
-    let publishPostService: PublishPostService, 
-    campaignsRepository: any,
-    usersRepository: any,
-    postPayload: any,
-    campaign: CampaignInstance,
-    user: UserInstance;
+    let publishPostService: PublishPostService,
+        campaignsRepository: any,
+        usersRepository: any,
+        postPayload: any,
+        campaign: CampaignInstance,
+        user: UserInstance;
 
     const logger = (): void => {};
 
@@ -23,11 +23,11 @@ describe('Core :: Services :: PublishPostService', () => {
             campaign.infos.announcements = [];
 
             campaignsRepository = {
-                findOne: sinon.spy(() => campaign)
+                findOne: sinon.spy(() => campaign),
             };
 
             usersRepository = {
-                findOne: sinon.spy(() => user)
+                findOne: sinon.spy(() => user),
             };
 
             postPayload = {
@@ -35,14 +35,14 @@ describe('Core :: Services :: PublishPostService', () => {
                 userId: user.userId,
                 payload: {
                     title: 'Some new title',
-                    content: 'Some new content'
-                }
+                    content: 'Some new content',
+                },
             };
 
             publishPostService = new PublishPostService({
                 campaignsRepository,
                 usersRepository,
-                logger
+                logger,
             });
         });
 
@@ -54,9 +54,15 @@ describe('Core :: Services :: PublishPostService', () => {
             expect(campaignWithPost.infos.announcements[0]).to.have.property('title');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('content');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('author');
-            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(postPayload.payload.title);
-            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(postPayload.payload.content);
-            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(user.nickname);
+            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(
+                postPayload.payload.title
+            );
+            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(
+                postPayload.payload.content
+            );
+            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(
+                user.nickname
+            );
         });
     });
 
@@ -66,17 +72,17 @@ describe('Core :: Services :: PublishPostService', () => {
             user = DomainDataFakerUser.generateUsersJSON()[0];
 
             campaignsRepository = {
-                update: sinon.spy(() => campaign)
+                update: sinon.spy(() => campaign),
             };
 
             usersRepository = {
-                findOne: sinon.spy(() => user)
+                findOne: sinon.spy(() => user),
             };
 
             publishPostService = new PublishPostService({
                 campaignsRepository,
                 usersRepository,
-                logger
+                logger,
             });
         });
 
@@ -85,7 +91,7 @@ describe('Core :: Services :: PublishPostService', () => {
 
             expect(campaignsRepository.update).to.have.been.calledWith({
                 query: { campaignId: campaign.campaignId },
-                payload: campaign
+                payload: campaign,
             });
             expect(campaignSaved).to.be.deep.equal(campaign);
         });

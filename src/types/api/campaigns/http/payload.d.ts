@@ -33,7 +33,7 @@ export interface PublishPostPayload {
     payload: {
         title: string;
         content: string;
-    }
+    };
 }
 
 export interface UpdateMatchMapImagesPayload {

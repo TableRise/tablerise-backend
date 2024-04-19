@@ -13,5 +13,5 @@ export default {
     updateMatchImages,
     updateMatchMusics,
     updateMatchDates,
-    publishPost
+    publishPost,
 };
