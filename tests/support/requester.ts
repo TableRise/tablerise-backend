@@ -17,7 +17,7 @@ const requester = (): CustomRequester => {
     const request = supertest(app);
     const token = jwt.sign(
         {
-            userId: '169d055c-a5e4-4334-a503-27d057188c0d',
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             providerId: null,
             username: 'test-user',
         },

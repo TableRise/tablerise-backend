@@ -55,3 +55,9 @@ export interface UpdateMatchDatesPayload {
     date: string;
     operation: 'add' | 'remove';
 }
+
+export interface UpdateMatchPlayersPayload {
+    campaignId: string;
+    userId: string;
+    operation: 'add' | 'remove';
+}
