@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import UpdateMatchDatesService from 'src/core/campaigns/services/campaigns/UpdateMatchDatesService';
+import UpdateMatchDatesService from 'src/core/campaigns/services/UpdateMatchDatesService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';

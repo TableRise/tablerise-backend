@@ -1,6 +1,6 @@
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import sinon from 'sinon';
-import CreateCampaignOperation from 'src/core/campaigns/operations/campaigns/CreateCampaignOperation';
+import CreateCampaignOperation from 'src/core/campaigns/operations/CreateCampaignOperation';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
