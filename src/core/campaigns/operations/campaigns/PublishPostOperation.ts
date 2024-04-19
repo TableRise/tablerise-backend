@@ -24,7 +24,6 @@ export default class PublishPostOperation {
 
     async execute({ campaignId, userId, payload }: PublishPostPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - PublishPostOperation');
-        // console.log(payload)
         this._schemaValidator.entry(this._campaignsSchema.campaignPost, payload);
 
         const campaignWithPost = await this._publishPostService.addPost({ campaignId, userId, payload });

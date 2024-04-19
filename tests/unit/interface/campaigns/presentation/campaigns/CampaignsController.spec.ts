@@ -142,6 +142,51 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
         });
     });
 
+    context('#publishPost', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            publishPostOperation = { execute: sinon.spy(() => ({})) };
+            updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchDatesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishPostOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDatesOperation,
+                getCampaignByIdOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { userId: '456' };
+            request.body = {
+                title: 'Some new title',
+                content: 'Some new content'
+            };
+            await campaignsController.publishPost(request, response);
+
+            expect(publishPostOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                userId: request.query.userId,
+                payload: request.body
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
     context('#updateMatchMapImages', () => {
         const request = {} as Request;
         const response = {} as Response;
