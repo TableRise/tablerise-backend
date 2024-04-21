@@ -34,8 +34,8 @@ export default class HttpRequestErrors extends Error {
             case 'player-banned':
                 throw new HttpRequestErrors({
                     message: 'Player is banned',
-                    code: HttpStatusCode.UNAUTHORIZED,
-                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
+                    code: HttpStatusCode.FORBIDDEN,
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
                 });
 
             case 'player-already-in-match':
