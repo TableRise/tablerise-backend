@@ -219,7 +219,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
                 getAllCampaignsOperation,
-                updateMatchPlayersOperation
+                updateMatchPlayersOperation,
             });
         });
 
