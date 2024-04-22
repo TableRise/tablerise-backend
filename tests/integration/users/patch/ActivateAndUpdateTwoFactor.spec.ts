@@ -21,7 +21,7 @@ describe('When the user has twoFactor activated', () => {
     context('And all data is correct', () => {
         it('should activate with success', async () => {
             const { body: twoFactorResponse } = await requester()
-                .patch(`/profile/${user.userId}/2fa/activate?code=123456&isReset=false`)
+                .patch(`/users/${user.userId}/2fa/activate?code=123456&isReset=false`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,
@@ -36,11 +36,11 @@ describe('When the user has twoFactor activated', () => {
 
         it('should update with success', async () => {
             const { body: userWithOldTwoFactor } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             const { body: twoFactorResponse } = await requester()
-                .patch(`/profile/${user.userId}/2fa/activate?code=123456&isReset=true`)
+                .patch(`/users/${user.userId}/2fa/activate?code=123456&isReset=true`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,

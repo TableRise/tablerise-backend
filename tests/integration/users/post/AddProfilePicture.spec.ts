@@ -25,7 +25,7 @@ describe('When a profile picture is uploaded', () => {
     context('And all data is correct', () => {
         it('should return correct user with picture', async () => {
             const { body } = await requester()
-                .post(`/profile/${user.userId}/update/picture`)
+                .post(`/users/${user.userId}/update/picture`)
                 .set('Content-Type', 'multipart/form-data')
                 .set('connection', 'keep-alive')
                 .attach('picture', filePath)

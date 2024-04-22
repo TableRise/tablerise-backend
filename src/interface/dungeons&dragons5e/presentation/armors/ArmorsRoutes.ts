@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { ArmorsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/armors/ArmorsRoutes';
 
-const BASE_PATH = '/dnd5e/armors';
+const BASE_PATH = '/system/dnd5e/armors';
 
 export default class ArmorsRoutes {
     private readonly _armorsController;

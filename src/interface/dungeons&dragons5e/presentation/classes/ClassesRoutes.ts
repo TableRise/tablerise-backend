@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { ClassesRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/classes/ClassesRoutes';
 
-const BASE_PATH = '/dnd5e/classes';
+const BASE_PATH = '/system/dnd5e/classes';
 
 export default class ClassesRoutes {
     private readonly _classesController;

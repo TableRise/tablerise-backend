@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { MonstersRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/monsters/MonstersRoutes';
 
-const BASE_PATH = '/dnd5e/monsters';
+const BASE_PATH = '/system/dnd5e/monsters';
 
 export default class MonstersRoutes {
     private readonly _monstersController;
