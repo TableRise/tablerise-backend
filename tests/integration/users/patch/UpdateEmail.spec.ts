@@ -21,12 +21,12 @@ describe('When an user has the email changed', () => {
 
         it('should update email with success', async () => {
             await requester()
-                .patch(`/profile/${user.userId}/update/email?code=H45J7F&token=123456`)
+                .patch(`/users/${user.userId}/update/email?code=H45J7F&token=123456`)
                 .send({ email: 'test155@email.com' })
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body.email).to.be.not.equal(user.email);

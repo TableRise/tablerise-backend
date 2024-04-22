@@ -54,6 +54,34 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
         });
     });
 
+    context('#verifyForbiddenToken - no forbidden', () => {
+        const spyFuncOne = sinon.spy(() => 0);
+
+        before(() => {
+            redisClient = {
+                exists: spyFuncOne,
+            };
+
+            process.env.TEST_TYPE = 'integration';
+
+            tokenForbidden = new TokenForbidden({
+                redisClient,
+                logger,
+            });
+        });
+
+        after(() => {
+            process.env.TEST_TYPE = 'unit';
+        });
+
+        it('Should call correct methods with correct params', async () => {
+            process.env.JWT_SECRET = '';
+            const isTokenForbiddenTest = await tokenForbidden.verifyForbiddenToken(token);
+            expect(spyFuncOne).to.have.not.been.called();
+            expect(isTokenForbiddenTest).to.be.equal(false);
+        });
+    });
+
     context('#verifyForbiddenToken - forbidden', () => {
         const spyFuncOne = sinon.spy(() => 1);
 

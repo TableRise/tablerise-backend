@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { RacesRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/races/RacesRoutes';
 
-const BASE_PATH = '/dnd5e/races';
+const BASE_PATH = '/system/dnd5e/races';
 
 export default class RacesRoutes {
     private readonly _RacesController;

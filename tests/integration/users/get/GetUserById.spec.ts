@@ -29,7 +29,7 @@ describe('When recover user by id', () => {
 
         it('should retrieve user created', async () => {
             const { body } = await requester()
-                .get(`/profile/${userOne.userId}`)
+                .get(`/users/${userOne.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');

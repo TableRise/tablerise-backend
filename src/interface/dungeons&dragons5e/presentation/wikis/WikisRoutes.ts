@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { WikisRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/wikis/WikisRoutes';
 
-const BASE_PATH = '/dnd5e/wikis';
+const BASE_PATH = '/system/dnd5e/wikis';
 
 export default class WikisRoutes {
     private readonly _wikisController;

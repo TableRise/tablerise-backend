@@ -28,18 +28,18 @@ describe('When the user has secret question activated', () => {
             };
 
             const { body: userWithoutSecretQuestion } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
                 .patch(
-                    `/profile/${user.userId}/question/activate?token=123456&isUpdate=false`
+                    `/users/${user.userId}/question/activate?token=123456&isUpdate=false`
                 )
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithSecretQuestion } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithSecretQuestion.details.secretQuestion).to.be.not.null();
@@ -68,18 +68,18 @@ describe('When the user has secret question activated', () => {
             };
 
             const { body: userWithOldSecretQuestion } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
                 .patch(
-                    `/profile/${user.userId}/question/activate?token=123456&isUpdate=true`
+                    `/users/${user.userId}/question/activate?token=123456&isUpdate=true`
                 )
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithNewQuestion } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithNewQuestion.details.secretQuestion).to.be.not.null();

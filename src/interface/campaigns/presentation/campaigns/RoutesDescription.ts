@@ -11,6 +11,7 @@ Params:
 Query:
 - date: "YYYY-MM-DD" format
 - operation: "add" | "remove"`;
+const publishPost = 'This route publish a post in the campaign';
 const updateMatchPlayers = 'This route updates the match players';
 
 export default {
@@ -21,5 +22,6 @@ export default {
     updateMatchImages,
     updateMatchMusics,
     updateMatchDates,
+    publishPost,
     updateMatchPlayers,
 };

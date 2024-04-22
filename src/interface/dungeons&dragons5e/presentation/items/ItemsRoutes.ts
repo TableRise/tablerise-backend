@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { ItemsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/items/ItemsRoutes';
 
-const BASE_PATH = '/dnd5e/items';
+const BASE_PATH = '/system/dnd5e/items';
 
 export default class ItemsRoutes {
     private readonly _itemsController;
