@@ -7,7 +7,7 @@ const updateMatchMusics = 'This route updates the match musics';
 const updateMatchDates = `This route updates the match dates\n
 ------------------------
 Params:
-- id: expects the match id.\n
+- id: expects the campaign id.\n
 Query:
 - date: "YYYY-MM-DD" format
 - operation: "add" | "remove"`;
