@@ -32,12 +32,12 @@ describe('When user game info are updated', () => {
             it('should update the game info - badges', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeOne}&targetInfo=badges&operation=add`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeOne}&targetInfo=badges&operation=add`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(
@@ -51,12 +51,12 @@ describe('When user game info are updated', () => {
             it('should update the game info - campaigns', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeTwo}&targetInfo=campaigns&operation=add`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeTwo}&targetInfo=campaigns&operation=add`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(
@@ -70,12 +70,12 @@ describe('When user game info are updated', () => {
             it('should update the game info - characters', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeThree}&targetInfo=characters&operation=add`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeThree}&targetInfo=characters&operation=add`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(
@@ -91,12 +91,12 @@ describe('When user game info are updated', () => {
             it('should remove the game info - badges', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeOne}&targetInfo=badges&operation=remove`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeOne}&targetInfo=badges&operation=remove`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(
@@ -110,12 +110,12 @@ describe('When user game info are updated', () => {
             it('should remove the game info - campaigns', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeTwo}&targetInfo=campaigns&operation=remove`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeTwo}&targetInfo=campaigns&operation=remove`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(
@@ -129,12 +129,12 @@ describe('When user game info are updated', () => {
             it('should remove the game info - characters', async () => {
                 const { body } = await requester()
                     .patch(
-                        `/profile/${user.userId}/update/game-info?infoId=${userIdFakeThree}&targetInfo=characters&operation=remove`
+                        `/users/${user.userId}/update/game-info?infoId=${userIdFakeThree}&targetInfo=characters&operation=remove`
                     )
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/profile/${user.userId}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(

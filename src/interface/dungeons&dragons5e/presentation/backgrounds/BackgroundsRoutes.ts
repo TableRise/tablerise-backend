@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { BackgroundsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsRoutes';
 
-const BASE_PATH = '/dnd5e/backgrounds';
+const BASE_PATH = '/system/dnd5e/backgrounds';
 
 export default class BackgroundsRoutes {
     private readonly _backgroundsController;

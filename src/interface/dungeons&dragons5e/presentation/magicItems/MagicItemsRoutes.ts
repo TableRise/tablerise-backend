@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { MagicItemsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/magicItems/MagicItemsRoutes';
 
-const BASE_PATH = '/dnd5e/magicItems';
+const BASE_PATH = '/system/dnd5e/magicItems';
 
 export default class MagicItemsRoutes {
     private readonly _magicItemsController;

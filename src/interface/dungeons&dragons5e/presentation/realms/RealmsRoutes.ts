@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { RealmsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/realms/RealmsRoutes';
 
-const BASE_PATH = '/dnd5e/realms';
+const BASE_PATH = '/system/dnd5e/realms';
 
 export default class RealmsRoutes {
     private readonly _RealmsController;

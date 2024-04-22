@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { FeatsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/feats/FeatsRoutes';
 
-const BASE_PATH = '/dnd5e/feats';
+const BASE_PATH = '/system/dnd5e/feats';
 
 export default class FeatsRoutes {
     private readonly _featsController;

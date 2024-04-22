@@ -23,7 +23,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             });
 
         autoSwagger(routesWrapper.declareRoutes().user, {
-            title: 'user',
+            title: 'users',
         })
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - user - document generated');
@@ -33,7 +33,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             });
 
         autoSwagger(routesWrapper.declareRoutes().campaign, {
-            title: 'campaign',
+            title: 'campaigns',
         })
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - campaign - document generated');
@@ -43,17 +43,21 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             });
     }
 
-    router.use('/api-docs/dnd5e', swaggerUI.serve, (req: Request, res: Response) => {
-        const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
-        res.send(html);
-    });
+    router.use(
+        '/api-docs/system/dnd5e',
+        swaggerUI.serve,
+        (req: Request, res: Response) => {
+            const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
+            res.send(html);
+        }
+    );
 
-    router.use('/api-docs/user', swaggerUI.serve, (req: Request, res: Response) => {
+    router.use('/api-docs/users', swaggerUI.serve, (req: Request, res: Response) => {
         const html = swaggerUI.generateHTML(SwaggerDocumentUser);
         res.send(html);
     });
 
-    router.use('/api-docs/campaign', swaggerUI.serve, (req: Request, res: Response) => {
+    router.use('/api-docs/campaigns', swaggerUI.serve, (req: Request, res: Response) => {
         const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
         res.send(html);
     });

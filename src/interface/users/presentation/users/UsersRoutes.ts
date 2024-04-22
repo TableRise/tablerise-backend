@@ -10,7 +10,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
-const BASE_PATH = '/profile';
+const BASE_PATH = '/users';
 
 export default class UsersRoutes {
     private readonly _usersController;

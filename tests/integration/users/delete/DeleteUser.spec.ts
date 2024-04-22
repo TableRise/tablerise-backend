@@ -22,11 +22,11 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/profile/${user.userId}/delete?token=123456`)
+                .delete(`/users/${user.userId}/delete?token=123456`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.NOT_FOUND);
         });
     });
@@ -44,7 +44,7 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/profile/${user.userId}/delete`)
+                .delete(`/users/${user.userId}/delete`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,
@@ -52,7 +52,7 @@ describe('When an user is deleted', () => {
                 .expect(HttpStatusCode.NO_CONTENT);
 
             await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.NOT_FOUND);
         });
     });

@@ -25,7 +25,7 @@ describe('When the user is logged in', () => {
                 password: 'TheWorld@122',
             };
 
-            const { body } = await requester().post('/profile/login').send(login);
+            const { body } = await requester().post('/users/login').send(login);
 
             expect(body).to.have.property('userId');
             expect(body.userId).to.be.equal(user.userId);

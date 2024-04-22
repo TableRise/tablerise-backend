@@ -25,11 +25,11 @@ describe('When game info of an user is reset', () => {
 
         it('should reset user with success', async () => {
             await requester()
-                .patch(`/profile/${user.userId}/reset`)
+                .patch(`/users/${user.userId}/reset`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.have.property('details');

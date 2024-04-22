@@ -17,7 +17,7 @@ describe('When a user is created', () => {
             const payload = DomainDataFaker.mocks.createUserMock;
 
             const { body } = await requester()
-                .post('/profile/register')
+                .post('/users/register')
                 .send(payload)
                 .expect(HttpStatusCode.CREATED);
 

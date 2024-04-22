@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { SpellsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
 
-const BASE_PATH = '/dnd5e/spells';
+const BASE_PATH = '/system/dnd5e/spells';
 
 export default class SpellsRoutes {
     private readonly _spellsController;

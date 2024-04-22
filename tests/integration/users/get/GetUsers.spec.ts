@@ -30,7 +30,7 @@ describe('When recover all users', () => {
 
         it('should retrieve users created', async () => {
             const { body } = await requester()
-                .get(`/profile/all`)
+                .get(`/users/all`)
                 .expect(HttpStatusCode.OK);
 
             const userOneAdded = body.find(

@@ -22,16 +22,16 @@ describe('When an user has the password changed', () => {
 
         it('should update password with success', async () => {
             const { body: userWithOldPassword } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/profile/update/password?email=${user.email}&code=H45J7F`)
+                .patch(`/users/update/password?email=${user.email}&code=H45J7F`)
                 .send({ password: 'TheWorld@123' })
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithNewPassword } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithNewPassword.password).to.be.not.equal(
@@ -54,12 +54,12 @@ describe('When an user has the password changed', () => {
 
         it('should update password with success', async () => {
             const { body: userWithOldPassword } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
                 .patch(
-                    `/profile/update/password?email=${user.email}&code=H45J7F&question=${
+                    `/users/update/password?email=${user.email}&code=H45J7F&question=${
                         userDetails.secretQuestion?.question as string
                     }&answer=${userDetails.secretQuestion?.answer as string}`
                 )
@@ -67,7 +67,7 @@ describe('When an user has the password changed', () => {
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithNewPassword } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithNewPassword.password).to.be.not.equal(
