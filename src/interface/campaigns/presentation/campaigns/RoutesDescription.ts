@@ -4,7 +4,13 @@ const getById = 'This route gets an already created campaign by ID';
 const getAll = 'This route returns all campaigns';
 const updateMatchImages = 'This route updates the match map images';
 const updateMatchMusics = 'This route updates the match musics';
-const updateMatchDates = 'This route updates the match dates';
+const updateMatchDates = `This route updates the match dates\n
+------------------------
+Params:
+- id: expects the campaign id.\n
+Query:
+- date: "YYYY-MM-DD" format
+- operation: "add" | "remove"`;
 const publishPost = 'This route publish a post in the campaign';
 const updateMatchPlayers = 'This route updates the match players';
 

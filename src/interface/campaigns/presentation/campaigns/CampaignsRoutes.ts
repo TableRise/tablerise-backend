@@ -148,8 +148,8 @@ export default class CampaignsRoutes {
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
-                        { name: 'operation', type: 'string' },
                         { name: 'date', type: 'string' },
+                        { name: 'operation', type: 'string' },
                     ]),
                 ],
                 controller: this._campaignsController.updateMatchDates,
