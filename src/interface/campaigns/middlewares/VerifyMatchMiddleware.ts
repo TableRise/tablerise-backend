@@ -17,8 +17,8 @@ export default class VerifyMatchMiddleware {
 
     public async exists(req: Request, _res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'Exists - VerifyMatchMiddleware');
-        const { campaignId } = req.params;
-        const { matchData } = await this._campaignsRepository.findOne({ campaignId });
+        const { id } = req.params;
+        const { matchData } = await this._campaignsRepository.findOne({ id });
 
         if(!matchData)  HttpRequestErrors.throwError('campaign-match-inexistent');
         this._logger('info', 'Exists - campaign has an active match');

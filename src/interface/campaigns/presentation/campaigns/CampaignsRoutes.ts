@@ -15,15 +15,18 @@ export default class CampaignsRoutes {
     private readonly _campaignsController;
     private readonly _verifyIdMiddleware;
     private readonly _imageMiddleware;
+    private readonly _verifyMatchMiddleware;
 
     constructor({
         campaignsController,
         verifyIdMiddleware,
         imageMiddleware,
+        verifyMatchMiddleware,
     }: InterfaceDependencies['campaignsRoutesContract']) {
         this._campaignsController = campaignsController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._imageMiddleware = imageMiddleware;
+        this._verifyMatchMiddleware = verifyMatchMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -121,6 +124,7 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._imageMiddleware.multer().single('mapImage'),
                         this._imageMiddleware.fileType,
+                        this._verifyMatchMiddleware.exists,
                     ],
                     description: desc.updateMatchImages,
                     tag: 'update',
@@ -137,7 +141,10 @@ export default class CampaignsRoutes {
                 controller: this._campaignsController.updateMatchMusics,
                 schema: DomainDataFaker.mocks.uploadMatchMusics,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyMatchMiddleware.exists,
+                    ],
                     description: desc.updateMatchMusics,
                     tag: 'update',
                 },
