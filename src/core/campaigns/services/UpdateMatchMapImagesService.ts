@@ -36,7 +36,7 @@ export default class UpdateMatchMapImagesService {
             });
 
         if (operation === 'remove')
-            campaign.matchData.mapImages = campaign.matchData.mapImages.filter(
+            campaign.matchData.mapImages = campaign.matchData?.mapImages.filter(
                 (mapImage) => mapImage.id !== imageId
             );
 

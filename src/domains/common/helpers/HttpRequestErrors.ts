@@ -18,6 +18,12 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'campaign-match-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Campaign Match does not exist and cannot be updated',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign does not exist',
