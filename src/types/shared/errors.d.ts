@@ -42,4 +42,5 @@ export type ErrorTypes =
     | 'music-link-already-added'
     | 'date-already-added'
     | 'player-already-in-match'
-    | 'player-banned';
+    | 'player-banned'
+    | 'campaign-match-inexistent';

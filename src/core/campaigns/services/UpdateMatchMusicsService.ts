@@ -24,7 +24,7 @@ export default class UpdateMatchMusicsService {
         this._logger('info', 'UpdateMatchMusics - UpdateMatchMusicsService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
-        if (operation === 'add') {
+        if (operation === 'add' && campaign.matchData) {
             const musicWithSameLinkExists = campaign.matchData.musics.find(
                 (music) => music.youtubeLink === youtubeLink
             );
@@ -38,7 +38,7 @@ export default class UpdateMatchMusicsService {
             });
         }
 
-        if (operation === 'remove')
+        if (operation === 'remove' && campaign.matchData)
             campaign.matchData.musics = campaign.matchData.musics.filter(
                 (musics) => musics.title !== title
             );

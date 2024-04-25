@@ -10,6 +10,7 @@ import { OAuthRoutesContract } from 'src/types/modules/interface/users/presentat
 import { OAuthControllerContract } from 'src/types/modules/interface/users/presentation/oauth/OAuthController';
 import { CampaignsRoutesMiddlewareContract } from 'src/types/modules/interface/campaigns/middlewares/CampaignsRoutesMiddleware';
 import { CampaignsRoutesContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsRoutes';
+import { VerifyMatchMiddlewareContract } from './campaigns/middlewares/VerifyMatchMiddlewareContract';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -22,6 +23,7 @@ export default interface InterfaceDependencies {
     usersRoutesMiddlewareContract: UsersRoutesMiddlewareContract;
     verifyEmailCodeMiddlewareContract: VerifyEmailCodeMiddlewareContract;
     campaignsRoutesMiddlewareContract: CampaignsRoutesMiddlewareContract;
+    verifyMatchMiddlewareContract: VerifyMatchMiddlewareContract;
 
     // Routes and Controllers
     campaignsRoutesContract: CampaignsRoutesContract;

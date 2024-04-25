@@ -20,7 +20,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignMusicsLength = campaign.matchData.musics.length;
+                campaignMusicsLength = campaign.matchData?.musics.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -43,10 +43,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(
                     updateMusicsPayload
                 );
-                expect(matchDataUpdated.matchData.musics.length).to.be.not.equal(
+                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(
                     campaignMusicsLength
                 );
-                expect(matchDataUpdated.matchData.musics.length).to.be.equal(
+                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(
                     campaignMusicsLength + 1
                 );
             });
@@ -56,12 +56,13 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.matchData.musics = [
-                    {
-                        title: 'Main Theme 2',
-                        youtubeLink: 'https://youtu.be/12345',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.musics = [
+                        {
+                            title: 'Main Theme 2',
+                            youtubeLink: 'https://youtu.be/12345',
+                        },
+                    ];
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -98,14 +99,15 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.matchData.musics = [
-                    {
-                        title: 'Main Theme 2',
-                        youtubeLink: 'https://youtu.be/123',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.musics = [
+                        {
+                            title: 'Main Theme 2',
+                            youtubeLink: 'https://youtu.be/123',
+                        },
+                    ];
 
-                campaignMusicsLength = campaign.matchData.musics.length;
+                campaignMusicsLength = campaign.matchData?.musics.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => campaign,
@@ -128,10 +130,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(
                     updateMusicsPayload
                 );
-                expect(matchDataUpdated.matchData.musics.length).to.be.not.equal(
+                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(
                     campaignMusicsLength
                 );
-                expect(matchDataUpdated.matchData.musics.length).to.be.equal(
+                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(
                     campaignMusicsLength - 1
                 );
             });
@@ -143,12 +145,13 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.matchData.musics = [
-                    {
-                        title: 'Main Theme',
-                        youtubeLink: 'https://youtu.be/123',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.musics = [
+                        {
+                            title: 'Main Theme',
+                            youtubeLink: 'https://youtu.be/123',
+                        },
+                    ];
 
                 campaignsRepository = {
                     update: sinon.spy(() => campaign),
