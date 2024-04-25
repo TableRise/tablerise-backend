@@ -157,10 +157,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchPlayersService', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Player is banned');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNAUTHORIZED)
-                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.FORBIDDEN));
                 }
             });
         });

@@ -11,7 +11,7 @@ describe('When a date is added or removed from a match', () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
         await InjectNewCampaign(campaign);
 
-        date = '20240101';
+        date = '2024-01-01';
     });
 
     it('should sucessfully add a date to a campaign', async () => {
