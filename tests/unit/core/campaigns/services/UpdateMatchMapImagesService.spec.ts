@@ -18,7 +18,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignMapImagesLength = campaign.matchData.mapImages.length;
+                campaignMapImagesLength = campaign.matchData?.mapImages.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -51,10 +51,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
                     await updateMatchMapImagesService.updateMatchMapImage(
                         updateMatchMapPayload
                     );
-                expect(matchDataUpdated.matchData.mapImages.length).to.be.not.equal(
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(
                     campaignMapImagesLength
                 );
-                expect(matchDataUpdated.matchData.mapImages.length).to.be.equal(
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(
                     campaignMapImagesLength + 1
                 );
             });
@@ -64,15 +64,16 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.matchData.mapImages = [
-                    {
-                        id: '789',
-                        link: 'https://img.bb',
-                        uploadDate: '2023-03-27Z14:13',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.mapImages = [
+                        {
+                            id: '789',
+                            link: 'https://img.bb',
+                            uploadDate: '2023-03-27Z14:13',
+                        },
+                    ];
 
-                campaignMapImagesLength = campaign.matchData.mapImages.length;
+                campaignMapImagesLength = campaign.matchData?.mapImages.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => campaign,
@@ -98,10 +99,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
                     await updateMatchMapImagesService.updateMatchMapImage(
                         updateMatchMapPayload
                     );
-                expect(matchDataUpdated.matchData.mapImages.length).to.be.not.equal(
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(
                     campaignMapImagesLength
                 );
-                expect(matchDataUpdated.matchData.mapImages.length).to.be.equal(
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(
                     campaignMapImagesLength - 1
                 );
             });
@@ -113,13 +114,14 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.matchData.mapImages = [
-                    {
-                        id: '789',
-                        link: 'https://img.bb',
-                        uploadDate: '2023-03-27Z14:13',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.mapImages = [
+                        {
+                            id: '789',
+                            link: 'https://img.bb',
+                            uploadDate: '2023-03-27Z14:13',
+                        },
+                    ];
 
                 campaignsRepository = {
                     update: sinon.spy(() => campaign),

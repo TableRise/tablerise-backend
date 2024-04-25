@@ -23,12 +23,13 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
                     operation: 'add',
                 };
 
-                campaign.matchData.musics = [
-                    {
-                        title: matchMusicsPayload.title,
-                        youtubeLink: matchMusicsPayload.youtubeLink,
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.musics = [
+                        {
+                            title: matchMusicsPayload.title,
+                            youtubeLink: matchMusicsPayload.youtubeLink,
+                        },
+                    ];
 
                 updateMatchMusicsService = {
                     updateMatchMusics: sinon.spy(),
@@ -50,7 +51,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
                 expect(updateMatchMusicsService.save).to.have.been.called();
                 expect(updateMusicTest[0]).to.have.property('title');
                 expect(updateMusicTest[0].title).to.be.equal(
-                    campaign.matchData.musics[0].title
+                    campaign.matchData?.musics[0].title
                 );
             });
         });

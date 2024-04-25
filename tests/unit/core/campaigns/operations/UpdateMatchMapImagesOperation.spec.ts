@@ -22,13 +22,14 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
                     mapImage: {},
                 };
 
-                campaign.matchData.mapImages = [
-                    {
-                        id: '123',
-                        link: 'https://img.bb/',
-                        uploadDate: '2023-12-12Z10:34',
-                    },
-                ];
+                if (campaign.matchData)
+                    campaign.matchData.mapImages = [
+                        {
+                            id: '123',
+                            link: 'https://img.bb/',
+                            uploadDate: '2023-12-12Z10:34',
+                        },
+                    ];
 
                 updateMatchMapImagesService = {
                     updateMatchMapImage: sinon.spy(),
@@ -52,7 +53,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
                 expect(updateMatchMapImagesService.save).to.have.been.called();
                 expect(updateMapImagesTest[0]).to.have.property('id');
                 expect(updateMapImagesTest[0].id).to.be.equal(
-                    campaign.matchData.mapImages[0].id
+                    campaign.matchData?.mapImages[0].id
                 );
             });
         });

@@ -31,6 +31,9 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'new-structure-secret-question-missing':
             'Structure of new for new question and answer is missing',
         'blank-question-or-answer': 'Some error not specified ocurred',
+        'campaign-match-inexistent':
+            'Campaign Match does not exist and cannot be updated',
+
         login: 'Some error not specified ocurred',
         'linked-data': 'Some error not specified ocurred',
         'verification-email': 'Some error not specified ocurred',
