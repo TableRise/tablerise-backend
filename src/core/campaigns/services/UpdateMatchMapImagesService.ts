@@ -28,8 +28,8 @@ export default class UpdateMatchMapImagesService {
         const imageUploadResponse =
             mapImage && (await this._imageStorageClient.upload(mapImage));
 
-        if (operation === 'add' && imageUploadResponse)
-            campaign.matchData?.mapImages.push({
+        if (operation === 'add' && imageUploadResponse && campaign.matchData)
+            campaign.matchData.mapImages.push({
                 id: imageUploadResponse.data.id,
                 link: imageUploadResponse.data.link,
                 uploadDate: new Date().toISOString(),

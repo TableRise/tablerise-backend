@@ -24,15 +24,15 @@ export default class UpdateMatchMusicsService {
         this._logger('info', 'UpdateMatchMusics - UpdateMatchMusicsService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
-        if (operation === 'add') {
-            const musicWithSameLinkExists = campaign.matchData?.musics.find(
+        if (operation === 'add' && campaign.matchData) {
+            const musicWithSameLinkExists = campaign.matchData.musics.find(
                 (music) => music.youtubeLink === youtubeLink
             );
 
             if (musicWithSameLinkExists)
                 HttpRequestErrors.throwError('music-link-already-added');
 
-            campaign.matchData?.musics.push({
+            campaign.matchData.musics.push({
                 title,
                 youtubeLink,
             });
