@@ -29,13 +29,13 @@ export default class UpdateMatchMapImagesService {
             mapImage && (await this._imageStorageClient.upload(mapImage));
 
         if (operation === 'add' && imageUploadResponse)
-            campaign.matchData.mapImages.push({
+            campaign.matchData?.mapImages.push({
                 id: imageUploadResponse.data.id,
                 link: imageUploadResponse.data.link,
                 uploadDate: new Date().toISOString(),
             });
 
-        if (operation === 'remove')
+        if (operation === 'remove' && campaign.matchData)
             campaign.matchData.mapImages = campaign.matchData.mapImages.filter(
                 (mapImage) => mapImage.id !== imageId
             );
