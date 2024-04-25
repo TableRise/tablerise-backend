@@ -19,7 +19,7 @@ export default class VerifyMatchMiddleware {
         this._logger('warn', 'Exists - VerifyMatchMiddleware');
 
         const { id } = req.params;
-        const campaign = await this._campaignsRepository.findOne({ id });
+        const campaign = await this._campaignsRepository.findOne({ campaignId: id });
 
         if (!campaign.matchData)
             HttpRequestErrors.throwError('campaign-match-inexistent');
