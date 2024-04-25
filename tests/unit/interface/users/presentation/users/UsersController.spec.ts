@@ -206,7 +206,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
             verifyEmailOperation = { execute: () => ({}) };
-            getUsersOperation = { execute: sinon.spy(() => ({})) };
+            getUsersOperation = { execute: sinon.spy(() => []) };
             getUserByIdOperation = { execute: () => ({}) };
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
