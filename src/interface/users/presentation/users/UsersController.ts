@@ -8,6 +8,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -84,6 +85,8 @@ export default class UsersController {
         const payload = req.body as RegisterUserPayload;
 
         const result = await this._createUserOperation.execute(payload);
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
@@ -92,6 +95,8 @@ export default class UsersController {
         const payload = req.body as RegisterUserPayload;
 
         const result = await this._updateUserOperation.execute({ userId: id, payload });
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
@@ -104,6 +109,8 @@ export default class UsersController {
 
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const result = await this._getUsersOperation.execute();
+        result.map((user) => delete (user as Partial<RegisterUserResponse>).password);
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -111,6 +118,7 @@ export default class UsersController {
         const { id } = req.params;
 
         const result = await this._getUserByIdOperation.execute({ userId: id });
+        delete (result as Partial<RegisterUserResponse>).password;
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -181,6 +189,8 @@ export default class UsersController {
             userId: id,
             image: req.file as FileObject,
         });
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 
