@@ -29,26 +29,20 @@ export default class CompleteUserService {
         this._logger('info', 'Process - CompleteUserService');
         user.nickname = payload.nickname;
 
-        let nicknameExists;
+        const nicknameExists = await this._usersRepository.findOne({
+            nickname: user.nickname,
+            tag: user.tag,
+        });
 
-        try {
-            nicknameExists = await this._usersRepository.findOne({
-                nickname: user.nickname,
-                tag: user.tag,
-            });
-        } catch (error) {
-            if (nicknameExists) HttpRequestErrors.throwError('tag-already-exist');
+        if (nicknameExists) HttpRequestErrors.throwError('tag-already-exist');
 
-            user.inProgress.status = 'done';
-            userDetails.firstName = payload.firstName;
-            userDetails.lastName = payload.lastName;
-            userDetails.pronoun = payload.pronoun;
-            userDetails.birthday = payload.birthday;
+        user.inProgress.status = 'done';
+        userDetails.firstName = payload.firstName;
+        userDetails.lastName = payload.lastName;
+        userDetails.pronoun = payload.pronoun;
+        userDetails.birthday = payload.birthday;
 
-            return { user, userDetails };
-        }
-
-        HttpRequestErrors.throwError('tag-already-exist');
+        return { user, userDetails };
     }
 
     public async save({

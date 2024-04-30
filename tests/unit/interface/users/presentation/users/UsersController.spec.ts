@@ -206,7 +206,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
             verifyEmailOperation = { execute: () => ({}) };
-            getUsersOperation = { execute: sinon.spy(() => []) };
+            getUsersOperation = { execute: sinon.spy(() => [{ password: '123' }]) };
             getUserByIdOperation = { execute: () => ({}) };
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
@@ -245,7 +245,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
             expect(getUsersOperation.execute).to.have.been.called();
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.json).to.have.been.calledWith([{}]);
         });
     });
 
