@@ -1,5 +1,11 @@
+import Discord from 'passport-discord';
+import Facebook from 'passport-facebook';
+import Google from 'passport-google-oauth20';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import {
+    DiscordJSONPayload,
+    FacebookJSONPayload,
+    GoogleJSONPayload,
     UserDetailJSONPayload,
     UserJSONPayload,
 } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
@@ -7,6 +13,9 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
 import questionEnum from 'src/domains/users/enums/questionEnum';
+import generateDiscordProfileFaker from './generators/generateDiscordFaker';
+import generateFacebookProfileFaker from './generators/generateFacebookFaker';
+import generateGoogleProfileFaker from './generators/generateGoogleFaker';
 
 function generateUsersJSON(
     { count, userId }: UserJSONPayload = { count: 1 }
@@ -18,6 +27,24 @@ function generateUserDetailsJSON(
     { count, userDetailId }: UserDetailJSONPayload = { count: 1 }
 ): UserDetailInstance[] {
     return generateUserDetailsFaker({ count, userDetailId });
+}
+
+function generateDiscordProfileJSON(
+    { count, username }: DiscordJSONPayload = { count: 1 }
+): Discord.Profile[] {
+    return generateDiscordProfileFaker({ count, username });
+}
+
+function generateFacebookProfileJSON(
+    { count, id }: FacebookJSONPayload = { count: 1 }
+): Facebook.Profile[] {
+    return generateFacebookProfileFaker({ count, id });
+}
+
+function generateGoogleProfileJSON(
+    { count, id }: GoogleJSONPayload = { count: 1 }
+): Google.Profile[] {
+    return generateGoogleProfileFaker({ count, id });
 }
 
 const [{ email, password, nickname }] = generateUsersJSON();
@@ -75,5 +102,8 @@ const mocks = {
 export default {
     generateUsersJSON,
     generateUserDetailsJSON,
+    generateDiscordProfileJSON,
+    generateFacebookProfileJSON,
+    generateGoogleProfileJSON,
     mocks,
 };
