@@ -29,12 +29,12 @@ export default class CompleteUserService {
         this._logger('info', 'Process - CompleteUserService');
         user.nickname = payload.nickname;
 
-        const nicknameExists = await this._usersRepository.findOne({
+        const nicknameExists = await this._usersRepository.find({
             nickname: user.nickname,
             tag: user.tag,
         });
 
-        if (nicknameExists) HttpRequestErrors.throwError('tag-already-exist');
+        if (nicknameExists.length) HttpRequestErrors.throwError('tag-already-exist');
 
         user.inProgress.status = 'done';
         userDetails.firstName = payload.firstName;

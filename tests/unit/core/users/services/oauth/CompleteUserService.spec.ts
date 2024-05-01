@@ -40,7 +40,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 user.inProgress.status = 'wait_to_complete';
 
                 usersRepository = {
-                    findOne: Sinon.spy(),
+                    find: Sinon.spy(() => []),
                 };
 
                 usersDetailsRepository = {};
@@ -102,7 +102,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                     user.inProgress.status = 'wait_to_complete';
 
                     usersRepository = {
-                        findOne: Sinon.spy(() => user),
+                        find: Sinon.spy(() => [user]),
                     };
 
                     usersDetailsRepository = {};
