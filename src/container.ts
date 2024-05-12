@@ -10,13 +10,13 @@ import campaignsSchemas from './domains/campaigns/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import Serializer from './domains/common/helpers/Serializer';
-import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from './interface/common/middlewares/VerifyIdMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
 import RoutesWrapper from './interface/common/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
 import CampaignsRoutesBuilder from './interface/campaigns/CampaignsRoutesBuilder';
-import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
+import AuthErrorMiddleware from './interface/common/middlewares/AuthErrorMiddleware';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import { ContainerContract } from './types/container';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
@@ -37,6 +37,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         [
             `./core/**/*.${loadExt}`,
             `./infra/repositories/**/*.${loadExt}`,
+            `./interface/common/middlewares/**/*.${loadExt}`,
             `./interface/users/presentation/**/*.${loadExt}`,
             `./interface/users/middlewares/**/*.${loadExt}`,
             `./interface/campaigns/presentation/**/*.${loadExt}`,

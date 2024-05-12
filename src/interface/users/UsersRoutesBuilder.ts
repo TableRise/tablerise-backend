@@ -4,20 +4,39 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 
 const router = Router();
 
+const ROUTES_WITH_NO_VERIFY = [
+    '/register',
+    '/login',
+    '/:id/update',
+    '/verify',
+    '/:id/delete',
+];
+
 export default class UsersRoutesBuilder {
     private readonly _usersRoutes;
     private readonly _oAuthRoutes;
+    private readonly _verifyUserMiddleware;
 
     constructor({
         usersRoutes,
         oAuthRoutes,
+        verifyUserMiddleware,
     }: InterfaceDependencies['usersRoutesBuilderContract']) {
         this._usersRoutes = usersRoutes;
         this._oAuthRoutes = oAuthRoutes;
+        this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
     private _profile(): { profileRoutes: Router; profileSwagger: routeInstance[] } {
-        const profileRoutes = buildRouter(this._usersRoutes.routes(), router);
+        const usersRoutesToBuild = this._usersRoutes.routes().map((route) => {
+            const routeSubstring = route.path.substring(6);
+            if (ROUTES_WITH_NO_VERIFY.includes(routeSubstring)) return route;
+
+            route.options.middlewares.push(this._verifyUserMiddleware.userStatus);
+            return route;
+        });
+
+        const profileRoutes = buildRouter(usersRoutesToBuild, router);
         const profileSwagger = this._usersRoutes.routes();
 
         return { profileRoutes, profileSwagger };

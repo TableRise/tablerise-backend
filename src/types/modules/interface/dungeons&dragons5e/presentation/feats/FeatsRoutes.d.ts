@@ -1,5 +1,5 @@
 import FeatsController from 'src/interface/dungeons&dragons5e/presentation/feats/FeatsController';
-import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/common/middlewares/VerifyIdMiddleware';
 
 export interface FeatsRoutesContract {
     featsController: FeatsController;

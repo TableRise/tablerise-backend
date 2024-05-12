@@ -1,7 +1,7 @@
-import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/common/middlewares/VerifyIdMiddleware';
 import CampaignsController from 'src/interface/campaigns/presentation/campaigns/CampaignsController';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
-import ImageMiddleware from 'src/interface/users/middlewares/ImageMiddleware';
+import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
 import VerifyMatchMiddleware from 'src/interface/campaigns/middlewares/VerifyMatchMiddleware';
 
 export interface CampaignsRoutesContract {

@@ -4,27 +4,33 @@ import CampaignsRoutesBuilder from 'src/interface/campaigns/CampaignsRoutesBuild
 describe('Interface :: Campaigns :: CampaignsRoutesBuilder', () => {
     let campaignsRoutesBuilder: CampaignsRoutesBuilder,
         campaignsRoutes: any,
+        verifyUserMiddleware: any,
         verifyIdMiddleware: any;
 
     context('#get', () => {
-        verifyIdMiddleware = () => ({});
-
-        campaignsRoutes = {
-            routes: () => [
-                {
-                    method: 'get',
-                    path: '/base/api',
-                    options: {
-                        middlewares: [verifyIdMiddleware],
-                        authentication: false,
-                    },
-                },
-            ],
-        };
-
         beforeEach(() => {
+            verifyIdMiddleware = () => ({});
+            verifyUserMiddleware = {
+                userStatus: () => {},
+            };
+
+            campaignsRoutes = {
+                routes: () => [
+                    {
+                        method: 'get',
+                        path: '/base/api',
+                        options: {
+                            middlewares: [verifyIdMiddleware],
+                            authentication: false,
+                        },
+                    },
+                ],
+            };
             campaignsRoutes = { routes: () => [] };
-            campaignsRoutesBuilder = new CampaignsRoutesBuilder({ campaignsRoutes });
+            campaignsRoutesBuilder = new CampaignsRoutesBuilder({
+                campaignsRoutes,
+                verifyUserMiddleware,
+            });
         });
 
         it('should return correct properties', () => {

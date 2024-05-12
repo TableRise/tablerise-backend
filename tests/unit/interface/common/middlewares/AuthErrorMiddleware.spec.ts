@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import AuthErrorMiddleware from 'src/interface/users/middlewares/AuthErrorMiddleware';
+import AuthErrorMiddleware from 'src/interface/common/middlewares/AuthErrorMiddleware';
 
 describe('Interface :: Users :: Middlewares :: AuthErrorMiddleware', () => {
     context('When external auth goes wrong', () => {
