@@ -10,6 +10,7 @@ import {
     MongooseEnvs,
     RedisEnvs,
 } from '@tablerise/database-management/dist/src/types/Envs';
+import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 
 setup({ loadExt: 'ts' });
 chai.use(require('dirty-chai'));
@@ -99,6 +100,13 @@ exports.mochaHooks = {
                 next();
             });
         logger('test', 'Stub AuthorizationMiddleware.prototype');
+
+        sinon
+            .stub(VerifyUserMiddleware.prototype, 'userStatus')
+            .callsFake(async (_req, _res, next): Promise<void> => {
+                next();
+            });
+        logger('test', 'Stub VerifyUserMiddleware.prototype');
     },
 
     async afterAll() {

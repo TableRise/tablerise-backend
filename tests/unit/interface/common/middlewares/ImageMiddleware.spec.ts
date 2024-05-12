@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { NextFunction, Request, Response } from 'express';
-import ImageMiddleware from 'src/interface/users/middlewares/ImageMiddleware';
+import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
 import { Readable } from 'stream';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';

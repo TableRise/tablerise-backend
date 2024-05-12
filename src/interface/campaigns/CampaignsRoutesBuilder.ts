@@ -6,13 +6,23 @@ const router = Router();
 
 export default class CampaignsRoutesBuilder {
     private readonly _campaignsRoutes;
+    private readonly _verifyUserMiddleware;
 
-    constructor({ campaignsRoutes }: CampaignsRoutesBuilderContract) {
+    constructor({
+        campaignsRoutes,
+        verifyUserMiddleware,
+    }: CampaignsRoutesBuilderContract) {
         this._campaignsRoutes = campaignsRoutes;
+        this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
     private _campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
-        const campaignRoutes = buildRouter(this._campaignsRoutes.routes(), router);
+        const campaignRoutesToBuild = this._campaignsRoutes.routes().map((route) => {
+            route.options.middlewares.push(this._verifyUserMiddleware.userStatus);
+            return route;
+        });
+
+        const campaignRoutes = buildRouter(campaignRoutesToBuild, router);
         const campaignSwagger = this._campaignsRoutes.routes();
 
         return { campaignRoutes, campaignSwagger };

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/common/middlewares/VerifyIdMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyIdMiddleware', () => {
     context('When the id passed throught params is validated in middleware', () => {

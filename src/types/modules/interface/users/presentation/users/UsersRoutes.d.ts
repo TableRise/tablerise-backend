@@ -1,8 +1,8 @@
-import VerifyIdMiddleware from 'src/interface/users/middlewares/VerifyIdMiddleware';
+import VerifyIdMiddleware from 'src/interface/common/middlewares/VerifyIdMiddleware';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
-import ImageMiddleware from 'src/interface/users/middlewares/ImageMiddleware';
+import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
 
 export interface UsersRoutesContract {
     usersController: UsersController;
