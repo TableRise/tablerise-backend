@@ -43,7 +43,7 @@
                         },
                         {
                             "name": "Magic Specialist",
-                            "description": "When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item."
+                            "description": "When using any magical item, you can roll 1d2 to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item. After succeeding once on the 1d2 roll, this characteristic can no longer be used."
                         }
                     ]
                 }
@@ -114,7 +114,7 @@
                         },
                         {
                             "name": "Especialista em Magia",
-                            "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico."
+                            "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico. Após ter sucesso uma vez na rolagem do 1d2 essa caracteristica não pode mais ser usada."
                         }
                     ]
                 }
@@ -140,6 +140,227 @@
                 {
                     "name": "Inteligência em Rochas",
                     "description": "Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Elf",
+            "description": "Never has there been, there isn't, and there never will be a race as evolved as us Elves, said the elder to the Elven child sitting near his feet. She turned and asked, But then why don't we dominate everyone, great elder? Why don't we make everyone our subjects and show our strength? That way, no one would ever mess with us again! said the child with a piercing look. The elder took a breath, looked at the child, and calmly responded, saying among other things: \"Everyone believes that war is the solution. The bad part is being alive after it ends to realize that it was the problem\".\n\nThis elder was none other than Illithys, the great mage who saved all the kingdoms in the war of Ahktur, a war that was responsible for redefining the concept of magic among the realms. Elves have always been patient and very dedicated; their long lifespan allows them to analyze life from a different and less alarmist perspective.\n\nThe Elven Kingdom would easily be considered a mirage or a figment of imagination if some unsuspecting person found it. Floating statues and well-dressed soldiers adorned the landscape. Knowledge and personal improvement are some of the laws among the Elves, where reaching death having been the best version of oneself is the greatest achievement they could strive for.",
+            "abilityScoreIncrease": {
+                "name": "Dexterity",
+                "value": 2
+            },
+            "ageMax": 750,
+            "alignment": [
+                "chaotic",
+                "good"
+            ],
+            "heightMax": 1.8,
+            "weightMax": 0,
+            "speed": 9.1,
+            "language": [
+                "Common",
+                "Elvish"
+            ],
+            "subRaces": [
+                {
+                    "name": "High Elf",
+                    "description": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+                    "abilityScoreIncrease": {
+                        "name": "Intelligence",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Elf Weapon Training",
+                            "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+                        },
+                        {
+                            "name": "Cantrip",
+                            "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+                        },
+                        {
+                            "name": "Extra Language",
+                            "description": "You can speak, read, and write one extra language of your choice."
+                        }
+                    ]
+                },
+                {
+                    "name": "Arcane Elf",
+                    "description": "Arcane Elves are known for their high manipulation of magic and follow an ancient belief that elves are the guardians of magic in the world. They have grayish skin and are almost entirely slim and tall. It is well known in the Elven Kingdom that Arcane Elves consider themselves superior to their peers because they do not rely on external tools to augment their power.\n\nThis type of elf rarely or almost never uses amulets or symbols as power conduits, as they believe that doing so symbolizes the weakening of the purity of elven magic.",
+                    "abilityScoreIncrease": {
+                        "name": "Charism",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Pure Magic",
+                            "description": "You can reroll the damage dice of a spell once to try to achieve its maximum purity. To use this ability again, a long rest is required."
+                        },
+                        {
+                            "name": "Light Body",
+                            "description": "Your base walking speed increases to 10.5 meters."
+                        },
+                        {
+                            "name": "Magical Knowledge",
+                            "description": "You have advantage on checks involving learning new spells."
+                        }
+                    ]
+                },
+                {
+                    "name": "Warrior Elf",
+                    "description": "Warrior Elves have specialized over time in imbuing their magic into weapons to maximize their potential in battle. They are respected by common elves and high elves but are despised by and have a millennia-old feud with Arcane Elves, which extends from the population to politics. These warriors are generally a bit shorter in stature, resembling humans, and are extremely fearless.",
+                    "abilityScoreIncrease": {
+                        "name": "Intelligence",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Elven Vitality",
+                            "description": "Your keen physical training grants you 1 extra hit point per level."
+                        },
+                        {
+                            "name": "Living Weapon",
+                            "description": "You inherit a powerful spell from your race that allows you to imprison a monster or entity within your weapon. You must roll a d20 to successfully imprison the monster in question, with a different required result for each type of monster. Each type of monster can only be attempted to be imprisoned once.\n\nFor tiny monsters, you need to roll higher than 5.\nFor small monsters, you need to roll higher than 10.\nFor medium monsters, you need to roll higher than 15.\nFor large monsters, you need to roll higher than 30 (2d20).\nFor huge monsters, you need to roll higher than 50 (3d20).\nFor gargantuan monsters, you need to roll higher than 90 (5d20).\n\nAfter successfully imprisoning the monster, you can summon it from within the weapon. Medium or smaller monsters require 1 long rest to be summoned again. Large and huge monsters require 2 long rests. Gargantuan monsters can only be used once, as their summoning destroys the weapon."
+                        },
+                        {
+                            "name": "Elven War Weapon Training",
+                            "description": "You have proficiency with longswords, shortswords, daggers, longbows, shortbows, rapiers, shortswords, and hand crossbows."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [
+                "Perception"
+            ],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Keen Senses",
+                    "description": "You have proficiency in the Perception skill."
+                },
+                {
+                    "name": "Fey Ancestry",
+                    "description": "You have advantage on saving throws against being charmed, and magic can’t put you to sleep."
+                },
+                {
+                    "name": "Trance",
+                    "description": "Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Elfo",
+            "description": "Não existiram, não existem e nunca existirá uma raça tão evoluída quanto nós Elfos, disse o ancião a criança Élfica sentada próxima a seus pés, ela se vira e pergunta, mas porque então não dominamos a todos grande ancião? Porque não fazemos de todos nossos súditos e mostramos nossa força? Assim nunca mais mexeriam conosco! Diz a criança com um olhar penetrante, o ancião respira, olha para a criança e calmamente responde, dizendo entre outras coisas: \"Todos acreditam que a guerra é a solução, a parte ruim é estar vivo após ela acabar pra perceber que ela foi o problema\".\n\nEste ancião era ninguém menos que Illithys, o grande mago que salvou todos os reinos na guerra de Ahktur, guerra essa que foi responsável por redefinir o conceito de magia entre os reinos, Elfos sempre foram pacientes e muito dedicados, o longo tempo de vida deles os permite analisar a vida de um olhar diferente e menos alarmista.\n\nO Reino dos Elfos seria considerado facilmente uma miragem ou fruto de imaginação caso algum desavisado o encontrasse, estatuas flutuantes e soldados bem trajados, o conhecimento e aprimoramento pessoal é uma das leis dos Elfos, onde chegar até a morte tendo sido o melhor de si mesmo é o melhor que poderiam fazer.",
+            "abilityScoreIncrease": {
+                "name": "Destreza",
+                "value": 2
+            },
+            "ageMax": 750,
+            "alignment": [
+                "caótico",
+                "bom"
+            ],
+            "heightMax": 1.8,
+            "weightMax": 0,
+            "speed": 9.1,
+            "language": [
+                "Comum",
+                "Élfico"
+            ],
+            "subRaces": [
+                {
+                    "name": "Alto Elfo",
+                    "description": "Como um alto elfo, você possui uma mente perspicaz e domínio pelo menos dos fundamentos da magia. Em muitos mundos de jogos de fantasia, existem dois tipos de altos elfos. Um tipo é arrogante e recluso, acreditando-se superior a não-elfos e até mesmo a outros elfos. O outro tipo é mais comum e amigável, frequentemente encontrado entre humanos e outras raças.",
+                    "abilityScoreIncrease": {
+                        "name": "Inteligência",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Treinamento de Armas Élficas",
+                            "description": "Você possui proficiência com a espada longa, espada curta, arco curto e arco longo."
+                        },
+                        {
+                            "name": "Truque",
+                            "description": "Você conhece um truque à sua escolha da lista de magias de mago. Inteligência é a sua habilidade de conjuração para ele."
+                        },
+                        {
+                            "name": "Idioma Adicional",
+                            "description": "Você pode falar, ler e escrever um idioma extra de sua escolha."
+                        }
+                    ]
+                },
+                {
+                    "name": "Elfo Arcano",
+                    "description": "Os Elfos Arcanos são conhecidos por sua alta manipulação da magia e seguem uma antiga crença de que os elfos são os guardiões da magia no mundo. Eles têm pele acinzentada e são quase inteiramente magros e altos. É bem conhecido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares porque não dependem de ferramentas externas para aumentar seu poder. Este tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
+                    "abilityScoreIncrease": {
+                        "name": "Carisma",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Magia Pura",
+                            "description": "Você pode rolar novamente os dados de dano de uma magia uma vez para tentar atingir sua pureza máxima. Para utilizar essa habilidade novamente, é necessário um descanso longo."
+                        },
+                        {
+                            "name": "Corpo Leve",
+                            "description": "Seu deslocamento base de caminhada aumenta para 10,5 metros."
+                        },
+                        {
+                            "name": "Conhecimento Mágico",
+                            "description": "Você tem vantagem em testes que envolvam aprender novos feitiços."
+                        }
+                    ]
+                },
+                {
+                    "name": "Elfo Guerreiro",
+                    "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia em armas para maximizar seu potencial em batalha. São respeitados pelos elfos comuns e elfos de alta linhagem, mas são desprezados e têm uma rixa milenar com os Elfos Arcanos, que se estende desde a população até a política. Esses guerreiros geralmente são um pouco mais baixos em estatura, assemelhando-se aos humanos, e são extremamente destemidos.",
+                    "abilityScoreIncrease": {
+                        "name": "Inteligência",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Vitalidade Élfica",
+                            "description": "Seu treinamento físico aguçado lhe concede 1 ponto de vida a mais por nível."
+                        },
+                        {
+                            "name": "Arma Viva",
+                            "description": "Você herda uma magia poderosa da sua raça que permite que você aprisione um monstro ou entidade dentro da arma. É preciso rolar um d20 para ter sucesso em aprisionar o monstro em questão, sendo necessário um resultado diferente para cada tipo de monstro. Cada tipo de monstro só pode ser tentado a ser aprisionado uma vez.\n\nPara monstros tiny, é necessário tirar mais de 5.\nPara monstros small, é necessário tirar mais de 10.\nPara monstros medium, é necessário tirar mais de 15.\nPara monstros large, é necessário tirar mais de 30 (2d20).\nPara monstros huge, é necessário tirar mais de 50 (3d20).\nPara monstros Gargantuan, é necessário tirar mais de 90 (5d20).\n\nApós conseguir aprisionar o monstro, você pode invocá-lo de dentro da arma. Monstros de tamanho médio ou menor exigem 1 descanso longo para serem invocados novamente. Monstros grandes e enormes exigem 2 descansos longos. Monstros Gargantuan só podem ser usados uma vez, pois sua invocação destrói a arma."
+                        },
+                        {
+                            "name": "Treinamento de Armas de Guerra Élfico",
+                            "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [
+                "Percepção"
+            ],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Acostumado a florestas crepusculares e ao céu noturno, você tem visão superior em condições de escuridão e penumbra. Você pode ver em luz fraca dentro de 18 metros de você como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não pode discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Sentidos Aguçados",
+                    "description": "Você tem proficiência na habilidade de Percepção."
+                },
+                {
+                    "name": "Ancestralidade Feérica",
+                    "description": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode fazer você dormir."
+                },
+                {
+                    "name": "Transe",
+                    "description": "Elfos não precisam dormir. Em vez disso, eles meditam profundamente, permanecendo semiconscientes, por 4 horas por dia. (A palavra Comum para tal meditação é “transe.”) Enquanto meditam, eles podem sonhar de uma maneira; tais sonhos são na verdade exercícios mentais que se tornaram reflexivos através de anos de prática. Após descansar dessa maneira, você ganha o mesmo benefício que um humano ganha de 8 horas de sono."
                 }
             ]
         }
