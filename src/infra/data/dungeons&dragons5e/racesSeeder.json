@@ -154,17 +154,11 @@
                 "value": 2
             },
             "ageMax": 750,
-            "alignment": [
-                "chaotic",
-                "good"
-            ],
+            "alignment": ["chaotic", "good"],
             "heightMax": 1.8,
             "weightMax": 0,
             "speed": 9.1,
-            "language": [
-                "Common",
-                "Elvish"
-            ],
+            "language": ["Common", "Elvish"],
             "subRaces": [
                 {
                     "name": "High Elf",
@@ -233,9 +227,7 @@
                     ]
                 }
             ],
-            "skillProficiencies": [
-                "Perception"
-            ],
+            "skillProficiencies": ["Perception"],
             "characteristics": [
                 {
                     "name": "Darkvision",
@@ -263,17 +255,11 @@
                 "value": 2
             },
             "ageMax": 750,
-            "alignment": [
-                "caótico",
-                "bom"
-            ],
+            "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
             "weightMax": 0,
             "speed": 9.1,
-            "language": [
-                "Comum",
-                "Élfico"
-            ],
+            "language": ["Comum", "Élfico"],
             "subRaces": [
                 {
                     "name": "Alto Elfo",
@@ -342,9 +328,7 @@
                     ]
                 }
             ],
-            "skillProficiencies": [
-                "Percepção"
-            ],
+            "skillProficiencies": ["Percepção"],
             "characteristics": [
                 {
                     "name": "Visão no Escuro",
