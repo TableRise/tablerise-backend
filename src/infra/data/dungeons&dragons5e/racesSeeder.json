@@ -12,6 +12,7 @@
             "alignment": ["lawful", "good"],
             "heightMax": 1.2,
             "weightMax": 68,
+            "size":"medium",
             "speed": [7.6, "speed not reduced by wearing heavy armor"],
             "language": ["Common", "Dwarvish"],
             "subRaces": [
@@ -83,6 +84,7 @@
             "alignment": ["leal", "bom"],
             "heightMax": 1.2,
             "weightMax": 68,
+            "size":"médio",
             "speed": [7.6, "velocidade não reduzida ao usar armadura pesada"],
             "language": ["Comum", "Anão"],
             "subRaces": [
@@ -157,6 +159,7 @@
             "alignment": ["chaotic", "good"],
             "heightMax": 1.8,
             "weightMax": 0,
+            "size": "medium",
             "speed": 9.1,
             "language": ["Common", "Elvish"],
             "subRaces": [
@@ -217,8 +220,8 @@
                             "description": "Your keen physical training grants you 1 extra hit point per level."
                         },
                         {
-                            "name": "Living Weapon",
-                            "description": "You inherit a powerful spell from your race that allows you to imprison a monster or entity within your weapon. You must roll a d20 to successfully imprison the monster in question, with a different required result for each type of monster. Each type of monster can only be attempted to be imprisoned once.\n\nFor tiny monsters, you need to roll higher than 5.\nFor small monsters, you need to roll higher than 10.\nFor medium monsters, you need to roll higher than 15.\nFor large monsters, you need to roll higher than 30 (2d20).\nFor huge monsters, you need to roll higher than 50 (3d20).\nFor gargantuan monsters, you need to roll higher than 90 (5d20).\n\nAfter successfully imprisoning the monster, you can summon it from within the weapon. Medium or smaller monsters require 1 long rest to be summoned again. Large and huge monsters require 2 long rests. Gargantuan monsters can only be used once, as their summoning destroys the weapon."
+                            "name": "Weaponized Magic",
+                            "description": "When attacking with a weapon, use your magical ability inherited from the elves and roll 1d20 to add damage to your attack, if the result is greater than 15 add 2 damage if it is less add 1. Can be used twice and then requires a rest short to use again."
                         },
                         {
                             "name": "Elven War Weapon Training",
@@ -258,6 +261,7 @@
             "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
             "weightMax": 0,
+            "size":"médio",
             "speed": 9.1,
             "language": ["Comum", "Élfico"],
             "subRaces": [
@@ -318,9 +322,9 @@
                             "description": "Seu treinamento físico aguçado lhe concede 1 ponto de vida a mais por nível."
                         },
                         {
-                            "name": "Arma Viva",
-                            "description": "Você herda uma magia poderosa da sua raça que permite que você aprisione um monstro ou entidade dentro da arma. É preciso rolar um d20 para ter sucesso em aprisionar o monstro em questão, sendo necessário um resultado diferente para cada tipo de monstro. Cada tipo de monstro só pode ser tentado a ser aprisionado uma vez.\n\nPara monstros tiny, é necessário tirar mais de 5.\nPara monstros small, é necessário tirar mais de 10.\nPara monstros medium, é necessário tirar mais de 15.\nPara monstros large, é necessário tirar mais de 30 (2d20).\nPara monstros huge, é necessário tirar mais de 50 (3d20).\nPara monstros Gargantuan, é necessário tirar mais de 90 (5d20).\n\nApós conseguir aprisionar o monstro, você pode invocá-lo de dentro da arma. Monstros de tamanho médio ou menor exigem 1 descanso longo para serem invocados novamente. Monstros grandes e enormes exigem 2 descansos longos. Monstros Gargantuan só podem ser usados uma vez, pois sua invocação destrói a arma."
-                        },
+                            "name": "Magia Armada",
+                            "description": "Ao atacar com uma arma, use sua habilidade mágica herdada dos elfos e role 1d20 para adicionar dano ao seu ataque. Se o resultado for maior que 15, adicione 2 de dano; se for menor, adicione 1. Pode ser usado duas vezes e depois requer um descanso curto para ser usado novamente."
+                        },                        
                         {
                             "name": "Treinamento de Armas de Guerra Élfico",
                             "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
@@ -345,6 +349,119 @@
                 {
                     "name": "Transe",
                     "description": "Elfos não precisam dormir. Em vez disso, eles meditam profundamente, permanecendo semiconscientes, por 4 horas por dia. (A palavra Comum para tal meditação é “transe.”) Enquanto meditam, eles podem sonhar de uma maneira; tais sonhos são na verdade exercícios mentais que se tornaram reflexivos através de anos de prática. Após descansar dessa maneira, você ganha o mesmo benefício que um humano ganha de 8 horas de sono."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name":"Halfling",
+            "description":"Your halfling character has a number of traits in common with all other halflings.",
+            "abilityScoreIncrease":{
+               "name":"Dexterity",
+               "value":2
+            },
+            "ageMax":180,
+            "alignment":[
+               "lawful",
+               "good"
+            ],
+            "heightMax":0.9,
+            "weightMax":18,
+            "size":"small",
+            "speed":[
+               7.6
+            ],
+            "language":[
+               "Common",
+               "Halfling"
+            ],
+            "subRaces":[
+               {
+                  "name":"Lightfoot",
+                  "description":"As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You\u2019re inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+                  "abilityScoreIncrease":{
+                     "name":"Charisma",
+                     "value":1
+                  },
+                  "characteristics":[
+                     {
+                        "name":"Naturally Stealthy",
+                        "description":"You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
+                     }
+                  ]
+               }
+            ],
+            "skillProficiencies":[
+               
+            ],
+            "characteristics":[
+               {
+                  "name":"Lucky",
+                  "description":"When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
+               },
+               {
+                  "name":"Brave",
+                  "description":"You have advantage on saving throws against being frightened."
+               },
+               {
+                  "name":"Halfling Nimbleness",
+                  "description":"You can move through the space of any creature that is of a size larger than yours."
+               }
+            ]
+        },
+        "pt": {
+            "name": "Halfling",
+            "description": "Seu personagem halfling tem várias características em comum com todos os outros halflings.",
+            "abilityScoreIncrease": {
+                "name": "Destreza",
+                "value": 2
+            },
+            "ageMax": 180,
+            "alignment": [
+                "leal",
+                "bom"
+            ],
+            "heightMax": 0.9,
+            "weightMax": 18,
+            "size": "pequeno",
+            "speed": [
+                7.6
+            ],
+            "language": [
+                "Comum",
+                "Halfling"
+            ],
+            "subRaces": [
+                {
+                    "name": "Pés Leves",
+                    "description": "Como um halfling pés leves, você pode se esconder facilmente de olhares, até mesmo usando outras pessoas como cobertura. Você tende a ser afável e se dá bem com os outros. Os Pés Leves são mais propensos a terem espírito aventureiro do que outros halflings, e frequentemente vivem ao lado de outras raças ou levam uma vida nômade.",
+                    "abilityScoreIncrease": {
+                        "name": "Carisma",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Furtivo Naturalmente",
+                            "description": "Você pode tentar se esconder mesmo quando está apenas obscurecido por uma criatura que é pelo menos um tamanho maior que você."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Sortudo",
+                    "description": "Quando você rola um 1 no d20 para uma jogada de ataque, teste de habilidade ou teste de resistência, você pode rolar o dado novamente e deve usar o novo resultado."
+                },
+                {
+                    "name": "Corajoso",
+                    "description": "Você tem vantagem em testes de resistência contra ficar amedrontado."
+                },
+                {
+                    "name": "Agilidade de Halfling",
+                    "description": "Você pode se mover através do espaço de qualquer criatura que seja de um tamanho maior que o seu."
                 }
             ]
         }
