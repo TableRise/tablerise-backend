@@ -465,5 +465,88 @@
                 }
             ]
         }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "human",
+            "description": "Dorn, a traveler well-known among humans, once shared in a tavern a tale of one of his greatest adventures: the quest for the Sacred Sword of Oksha.\n\nIt is said that Oksha was a dwarf king who, many centuries ago, conquered worlds beyond our own.\n\nDuring this adventure, Dorn met beings from all realms: elves, draconians, dwarves, among others.\n\nWhile the full story is too long to detail here, as a human, Dorn gained knowledge and experience from each encounter. His human ability to humbly absorb knowledge and adapt was what made him one of the most renowned travelers in the Kingdom and a hero to many.",
+            "abilityscoreincrease": [
+              {
+                "name": "strength",
+                "value": 1
+              },
+              {
+                "name": "dexterity",
+                "value": 1
+              },
+              {
+                "name": "constitution",
+                "value": 1
+              },
+              {
+                "name": "intelligence",
+                "value": 1
+              },
+              {
+                "name": "wisdom",
+                "value": 1
+              },
+              {
+                "name": "charisma",
+                "value": 1
+              }
+            ],
+            "agemax": 100,
+            "alignment": [],
+            "heightmax": 0,
+            "weightmax": 0,
+            "speed": [9.1],
+            "size": "medium",
+            "language": ["common", "one extra of your choice"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": []
+        },
+        "pt": {
+            "name": "humano",
+            "description": "Dorn, um viajante entre os reinos muito conhecido entre os humanos, certa vez compartilhou em uma taverna um relato de uma das suas maiores aventuras, a busca pela Espada Sagrada de Oksha.\n\nConta-se que Oksha foi um rei anão que a muitos séculos atrás conquistou mundos além do mundo que vivemos.\n\nEnquanto essa aventura se desenrolava, Dorn conheceu seres de todos os reinos, elfos, dracontes, anões, entre outros.\n\nNão convém contar a história em detalhes aqui, mas por ser um humano ele adquiriu conhecimento e experiência com cada um desses que conheceu, a habilidade humana de absorver conhecimento com humildade e se adaptar foi o que levou Dorn a se tornar um dos viajantes mais conhecidos do Reino além de um herói para muitos.",
+            "abilityscoreincrease": [
+                {
+                    "name": "força",
+                    "value": 1
+                },
+                {
+                    "name": "destreza",
+                    "value": 1
+                },
+                {
+                    "name": "constituição",
+                    "value": 1
+                },
+                {
+                    "name": "inteligência",
+                    "value": 1
+                },
+                {
+                    "name": "sabedoria",
+                    "value": 1
+                },
+                {
+                    "name": "carisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 100,
+            "alignment": [],
+            "heightmax": 0,
+            "weightmax": 0,
+            "speed": [9.1],
+            "size": "médio",
+            "language": ["comum", "um extra à sua escolha"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": []
+        }            
     }
 ]
