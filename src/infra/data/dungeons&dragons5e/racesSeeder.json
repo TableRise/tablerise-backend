@@ -357,7 +357,7 @@
         "active": true,
         "en": {
             "name":"Halfling",
-            "description":"Your halfling character has a number of traits in common with all other halflings.",
+            "description":" Once, a halfling was resting in the shade of a giant oak tree, his protuberant belly rising and falling with his calm breathing. Standing at just 60 centimeters tall, he was often underestimated, but his sharp mind and stealthy skills made him a master thief. While chewing on a succulent roasted rabbit leg, the halfling stroked his lucky amulet, a tooth from a giant wolf he had defeated alone. His dark eyes gleamed with the prospect of his next adventure, a daring plan to infiltrate the fortress of a great mage and achieve glory by recovering the legendary Moon Diamond.",
             "abilityScoreIncrease":{
                "name":"Dexterity",
                "value":2
@@ -413,7 +413,7 @@
         },
         "pt": {
             "name": "Halfling",
-            "description": "Seu personagem halfling tem várias características em comum com todos os outros halflings.",
+            "description": "Certa vez um halfling, descansava à sombra de um carvalho gigante, sua barriga protuberante subindo e descendo com a respiração tranquila. Com apenas 60 centímetros de altura, ele era frequentemente subestimado, mas sua mente afiada e habilidades furtivas o tornavam um ladrão mestre. Enquanto mastigava uma suculenta perna de coelho assada, o halfling acariciava seu amuleto da sorte, um dente de um lobo gigante que ele havia derrotado sozinho. Seus olhos negros brilhavam com a perspectiva de sua próxima aventura, um plano ousado para se infiltrar na fortaleza de grande mago e obter glória recuperando o lendário Diamante da Lua.",
             "abilityScoreIncrease": {
                 "name": "Destreza",
                 "value": 2
