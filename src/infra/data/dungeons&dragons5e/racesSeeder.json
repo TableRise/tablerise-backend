@@ -548,5 +548,82 @@
             "skillproficiencies": [],
             "characteristics": []
         }            
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "dragonborn",
+            "description": "Dragons, long revered among other races as symbols of power, have often been underestimated. In an era where the great dragons are no longer seen, many have come to believe that they are extinct. However, their descendant race, the Dragonborn, have remained strong, regarded by many as gods. A certain Dragonborn named Balazar once spoke with a Half-Orc. The Half-Orc asked, \"If not human, if not dragon, what are Dragonborn?\" \"We are the best of both worlds,\" said the dragon descendant, proud of his elucidation.",
+            "abilityscoreincrease": [
+                {
+                "name": "strength",
+                "value": 2
+                },
+                {
+                "name": "charisma",
+                "value": 1
+                }
+            ],
+            "agemax": 80,
+            "alignment": ["good", "evil"],
+            "heightmax": 1.8,
+            "weightmax": 113,
+            "speed": [9.1],
+            "size": "medium",
+            "language": ["common", "draconic"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": [
+                {
+                "name": "draconic ancestry",
+                "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table."
+                },
+                {
+                "name": "breath weapon",
+                "description": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest."
+                },
+                {
+                "name": "damage resistance",
+                "description": "You have resistance to the damage type associated with your draconic ancestry."
+                }
+            ]
+        },
+        "pt": {
+            "name": "draconato",
+            "description": "Dragões, há muito venerados entre outras raças como símbolos de poder, muitas vezes foram subestimados. Em uma era onde os grandes dragões não são mais vistos, muitos começaram a acreditar que estão extintos. No entanto, sua raça descendente, os Draconatos, permaneceram fortes, sendo considerados por muitos como deuses. Um certo Draconato chamado Balazar uma vez conversou com um Meio-Orc. O Meio-Orc perguntou: \"Se não humano, se não dragão, o que são Draconatos?\" \"Somos o melhor dos dois mundos\", disse o descendente de dragão, orgulhoso de sua elucidação.",
+            "abilityscoreincrease": [
+                {
+                    "name": "força",
+                    "value": 2
+                },
+                {
+                    "name": "carisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 80,
+            "alignment": ["bom", "maligno"],
+            "heightmax": 1.8,
+            "weightmax": 113,
+            "speed": [9.1],
+            "size": "médio",
+            "language": ["comum", "dracônico"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": [
+                {
+                    "name": "ascendência dracônica",
+                    "description": "Você tem ascendência dracônica. Escolha um tipo de dragão da tabela Ascendência Dracônica. Sua arma de sopro e resistência a dano são determinadas pelo tipo de dragão, conforme mostrado na tabela."
+                },
+                {
+                    "name": "arma de sopro",
+                    "description": "Você pode usar sua ação para exalar energia destrutiva. Sua ascendência dracônica determina o tamanho, a forma e o tipo de dano da exalação. Quando você usa sua arma de sopro, cada criatura na área da exalação deve fazer um teste de resistência, cujo tipo é determinado por sua ascendência dracônica. A CD para este teste de resistência é igual a 8 + seu modificador de Constituição + seu bônus de proficiência. Uma criatura sofre 2d6 de dano se falhar no teste, e metade do dano se for bem-sucedida. O dano aumenta para 3d6 no 6º nível, 4d6 no 11º nível e 5d6 no 16º nível. Após usar sua arma de sopro, você não pode usá-la novamente até completar um descanso curto ou longo."
+                },
+                {
+                    "name": "resistência a dano",
+                    "description": "Você tem resistência ao tipo de dano associado à sua ascendência dracônica."
+                }
+            ]
+        }         
     }
 ]
