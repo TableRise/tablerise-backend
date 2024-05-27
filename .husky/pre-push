@@ -10,7 +10,7 @@ trap 'handlePrettierError $LINENO' ERR
 npm run lint && npm run prettier
 
 BRANCH=$(git symbolic-ref --short HEAD)
-REGEX="^(feat|bugfix|hotfix)\/[0-9]+\/[[:alnum:]-]+$"
+REGEX="^(feat|bugfix|hotfix)\/[A-z0-9]+\/[[:alnum:]-]+$"
 
 if [[ ! $BRANCH =~ $REGEX ]]; then
   echo "========================"
