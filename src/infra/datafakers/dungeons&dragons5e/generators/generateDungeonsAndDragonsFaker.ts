@@ -1026,7 +1026,7 @@ function createRacesFaker({
                 name: 'Constitution',
                 value: 2,
             },
-            size: '1,85m',
+            size: 'small',
             ageMax: 350,
             alignment: ['lawful', 'good'],
             heightMax: 1.2,
@@ -1135,7 +1135,7 @@ function createRacesFaker({
             name: 'Anão',
             description:
                 'Onde está minha bota? Preciso ir às minas verificar o andamento da extração de Rubi, disse o Rei Anão para a Rainha, que estava lendo uma carta vinda diretamente do Reino dos Elfos. Meu amor, disse a Rainha, o Rei Elfo está solicitando uma visita ao nosso reino para negociar algumas minas de diamante. Esses orelhas pontudas acham que nossas coisas estão à venda sempre que desejam? Não é assim que as coisas funcionam! - Bornovok III, Rei do Reino Anão, portador da orbe de Avirath.\n\nOs anões são uma raça incrivelmente resiliente, conhecida por suas habilidades em mineração. Os anões são amplamente procurados para lidar com armas, joias e outras ferramentas mágicas, pois possuem vastas reservas de itens mágicos e amplo conhecimento em confecção de armas e outros objetos.\n\nO Reino Anão é incrivelmente bonito, sendo seu castelo uma atração turística para pessoas de todo o mundo. Dizem que a sala do trono deste castelo é inteiramente feita de ouro puro, e o trono em si é construído a partir de pedras de rubi e diamante!\n\nEmbora sejam extremamente sérios quando se trata de mineração e suas criações, os anões (na maioria das vezes) são muito gentis com aqueles que são gentis com eles. Mas não se engane, eles sabem se defender, e se há um povo que pode causar estragos com armas mágicas quando provocados, são os anões.',
-            size: '1,85m',
+            size: 'small',
             abilityScoreIncrease: {
                 name: 'Constituição',
                 value: 2,
