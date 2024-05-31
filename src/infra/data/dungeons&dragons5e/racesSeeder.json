@@ -12,7 +12,7 @@
             "alignment": ["lawful", "good"],
             "heightMax": 1.2,
             "weightMax": 68,
-            "size":"medium",
+            "size": "medium",
             "speed": [7.6, "speed not reduced by wearing heavy armor"],
             "language": ["Common", "Dwarvish"],
             "subRaces": [
@@ -84,7 +84,7 @@
             "alignment": ["leal", "bom"],
             "heightMax": 1.2,
             "weightMax": 68,
-            "size":"médio",
+            "size": "médio",
             "speed": [7.6, "velocidade não reduzida ao usar armadura pesada"],
             "language": ["Comum", "Anão"],
             "subRaces": [
@@ -261,7 +261,7 @@
             "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
             "weightMax": 0,
-            "size":"médio",
+            "size": "médio",
             "speed": 9.1,
             "language": ["Comum", "Élfico"],
             "subRaces": [
@@ -324,7 +324,7 @@
                         {
                             "name": "Magia Armada",
                             "description": "Ao atacar com uma arma, use sua habilidade mágica herdada dos elfos e role 1d20 para adicionar dano ao seu ataque. Se o resultado for maior que 15, adicione 2 de dano; se for menor, adicione 1. Pode ser usado duas vezes e depois requer um descanso curto para ser usado novamente."
-                        },                        
+                        },
                         {
                             "name": "Treinamento de Armas de Guerra Élfico",
                             "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
@@ -356,59 +356,49 @@
     {
         "active": true,
         "en": {
-            "name":"Halfling",
-            "description":" Once, a halfling was resting in the shade of a giant oak tree, his protuberant belly rising and falling with his calm breathing. Standing at just 60 centimeters tall, he was often underestimated, but his sharp mind and stealthy skills made him a master thief. While chewing on a succulent roasted rabbit leg, the halfling stroked his lucky amulet, a tooth from a giant wolf he had defeated alone. His dark eyes gleamed with the prospect of his next adventure, a daring plan to infiltrate the fortress of a great mage and achieve glory by recovering the legendary Moon Diamond.",
-            "abilityScoreIncrease":{
-               "name":"Dexterity",
-               "value":2
+            "name": "Halfling",
+            "description": " Once, a halfling was resting in the shade of a giant oak tree, his protuberant belly rising and falling with his calm breathing. Standing at just 60 centimeters tall, he was often underestimated, but his sharp mind and stealthy skills made him a master thief. While chewing on a succulent roasted rabbit leg, the halfling stroked his lucky amulet, a tooth from a giant wolf he had defeated alone. His dark eyes gleamed with the prospect of his next adventure, a daring plan to infiltrate the fortress of a great mage and achieve glory by recovering the legendary Moon Diamond.",
+            "abilityScoreIncrease": {
+                "name": "Dexterity",
+                "value": 2
             },
-            "ageMax":180,
-            "alignment":[
-               "lawful",
-               "good"
+            "ageMax": 180,
+            "alignment": ["lawful", "good"],
+            "heightMax": 0.9,
+            "weightMax": 18,
+            "size": "small",
+            "speed": [7.6],
+            "language": ["Common", "Halfling"],
+            "subRaces": [
+                {
+                    "name": "Lightfoot",
+                    "description": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You\u2019re inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+                    "abilityScoreIncrease": {
+                        "name": "Charisma",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Naturally Stealthy",
+                            "description": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
+                        }
+                    ]
+                }
             ],
-            "heightMax":0.9,
-            "weightMax":18,
-            "size":"small",
-            "speed":[
-               7.6
-            ],
-            "language":[
-               "Common",
-               "Halfling"
-            ],
-            "subRaces":[
-               {
-                  "name":"Lightfoot",
-                  "description":"As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You\u2019re inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
-                  "abilityScoreIncrease":{
-                     "name":"Charisma",
-                     "value":1
-                  },
-                  "characteristics":[
-                     {
-                        "name":"Naturally Stealthy",
-                        "description":"You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
-                     }
-                  ]
-               }
-            ],
-            "skillProficiencies":[
-               
-            ],
-            "characteristics":[
-               {
-                  "name":"Lucky",
-                  "description":"When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
-               },
-               {
-                  "name":"Brave",
-                  "description":"You have advantage on saving throws against being frightened."
-               },
-               {
-                  "name":"Halfling Nimbleness",
-                  "description":"You can move through the space of any creature that is of a size larger than yours."
-               }
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Lucky",
+                    "description": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
+                },
+                {
+                    "name": "Brave",
+                    "description": "You have advantage on saving throws against being frightened."
+                },
+                {
+                    "name": "Halfling Nimbleness",
+                    "description": "You can move through the space of any creature that is of a size larger than yours."
+                }
             ]
         },
         "pt": {
@@ -419,20 +409,12 @@
                 "value": 2
             },
             "ageMax": 180,
-            "alignment": [
-                "leal",
-                "bom"
-            ],
+            "alignment": ["leal", "bom"],
             "heightMax": 0.9,
             "weightMax": 18,
             "size": "pequeno",
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Comum",
-                "Halfling"
-            ],
+            "speed": [7.6],
+            "language": ["Comum", "Halfling"],
             "subRaces": [
                 {
                     "name": "Pés Leves",
@@ -472,30 +454,30 @@
             "name": "human",
             "description": "Dorn, a traveler well-known among humans, once shared in a tavern a tale of one of his greatest adventures: the quest for the Sacred Sword of Oksha.\n\nIt is said that Oksha was a dwarf king who, many centuries ago, conquered worlds beyond our own.\n\nDuring this adventure, Dorn met beings from all realms: elves, draconians, dwarves, among others.\n\nWhile the full story is too long to detail here, as a human, Dorn gained knowledge and experience from each encounter. His human ability to humbly absorb knowledge and adapt was what made him one of the most renowned travelers in the Kingdom and a hero to many.",
             "abilityscoreincrease": [
-              {
-                "name": "strength",
-                "value": 1
-              },
-              {
-                "name": "dexterity",
-                "value": 1
-              },
-              {
-                "name": "constitution",
-                "value": 1
-              },
-              {
-                "name": "intelligence",
-                "value": 1
-              },
-              {
-                "name": "wisdom",
-                "value": 1
-              },
-              {
-                "name": "charisma",
-                "value": 1
-              }
+                {
+                    "name": "strength",
+                    "value": 1
+                },
+                {
+                    "name": "dexterity",
+                    "value": 1
+                },
+                {
+                    "name": "constitution",
+                    "value": 1
+                },
+                {
+                    "name": "intelligence",
+                    "value": 1
+                },
+                {
+                    "name": "wisdom",
+                    "value": 1
+                },
+                {
+                    "name": "charisma",
+                    "value": 1
+                }
             ],
             "agemax": 100,
             "alignment": [],
@@ -547,7 +529,7 @@
             "subraces": [],
             "skillproficiencies": [],
             "characteristics": []
-        }            
+        }
     },
     {
         "active": true,
@@ -556,12 +538,12 @@
             "description": "Dragons, long revered among other races as symbols of power, have often been underestimated. In an era where the great dragons are no longer seen, many have come to believe that they are extinct. However, their descendant race, the Dragonborn, have remained strong, regarded by many as gods. A certain Dragonborn named Balazar once spoke with a Half-Orc. The Half-Orc asked, \"If not human, if not dragon, what are Dragonborn?\" \"We are the best of both worlds,\" said the dragon descendant, proud of his elucidation.",
             "abilityscoreincrease": [
                 {
-                "name": "strength",
-                "value": 2
+                    "name": "strength",
+                    "value": 2
                 },
                 {
-                "name": "charisma",
-                "value": 1
+                    "name": "charisma",
+                    "value": 1
                 }
             ],
             "agemax": 80,
@@ -575,16 +557,16 @@
             "skillproficiencies": [],
             "characteristics": [
                 {
-                "name": "draconic ancestry",
-                "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table."
+                    "name": "draconic ancestry",
+                    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table."
                 },
                 {
-                "name": "breath weapon",
-                "description": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest."
+                    "name": "breath weapon",
+                    "description": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest."
                 },
                 {
-                "name": "damage resistance",
-                "description": "You have resistance to the damage type associated with your draconic ancestry."
+                    "name": "damage resistance",
+                    "description": "You have resistance to the damage type associated with your draconic ancestry."
                 }
             ]
         },
@@ -624,7 +606,7 @@
                     "description": "Você tem resistência ao tipo de dano associado à sua ascendência dracônica."
                 }
             ]
-        }         
+        }
     },
     {
         "active": true,
@@ -632,71 +614,64 @@
             "name": "Gnome",
             "description": "Oh, the Kingdom of the Gnomes, who would have thought that such small beings could build something so grand? There is no denying that their work is phenomenal. I felt like I was in a kingdom of the future, with great constructions and elevators, large gears that make things work without needing to be handled, all incredible! Although I have heard of gnomes who are less inventive and more connected to nature, I believe that at this rate, this Kingdom will soon receive the recognition it deserves. - Dvinir, Elven Merchant",
             "abilityScoreIncrease": {
-              "name": "Intelligence",
-              "value": 2
+                "name": "Intelligence",
+                "value": 2
             },
             "ageMax": 500,
-            "alignment": [
-              "good"
-            ],
+            "alignment": ["good"],
             "size": "small",
             "heightMax": 1.22,
             "weightMax": 18.14,
-            "speed": [
-              7.6
-            ],
-            "language": [
-              "Common",
-              "Gnomish"
-            ],
+            "speed": [7.6],
+            "language": ["Common", "Gnomish"],
             "subRaces": [
-              {
-                "name": "Rock Gnome",
-                "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
-                "abilityScoreIncrease": {
-                  "name": "Constitution",
-                  "value": 1
+                {
+                    "name": "Rock Gnome",
+                    "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
+                    "abilityScoreIncrease": {
+                        "name": "Constitution",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Artificers Lore",
+                            "description": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply."
+                        },
+                        {
+                            "name": "Tinker",
+                            "description": "You have proficiency with artisans tools (tinkers tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\nWhen you create a device, choose one of the following options:\nClockwork Toy. This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\nFire Starter. The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\nMusic Box. When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the songs end or when it is closed."
+                        }
+                    ]
                 },
-                "characteristics": [
-                  {
-                    "name": "Artificers Lore",
-                    "description": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply."
-                  },
-                  {
-                    "name": "Tinker",
-                    "description": "You have proficiency with artisans tools (tinkers tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\nWhen you create a device, choose one of the following options:\nClockwork Toy. This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\nFire Starter. The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\nMusic Box. When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the songs end or when it is closed."
-                  }
-                ]
-              },
-              {
-                "name": "Island Gnome",
-                "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
-                "abilityScoreIncrease": {
-                  "name": "Constitution",
-                  "value": 1
-                },
-                "characteristics": [
-                  {
-                    "name": "Protectors of Nature",
-                    "description": "You have proficiency in Nature and receive a +1 bonus in this skill. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen additional skill will also receive a +1 bonus."
-                  },
-                  {
-                    "name": "Maritime Affinity",
-                    "description": "You have an affinity for aquatic animals and environments, have advantage when trying to tame these animals, and your swimming speed is doubled"
-                  }
-                ]
-              }
+                {
+                    "name": "Island Gnome",
+                    "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
+                    "abilityScoreIncrease": {
+                        "name": "Constitution",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Protectors of Nature",
+                            "description": "You have proficiency in Nature and receive a +1 bonus in this skill. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen additional skill will also receive a +1 bonus."
+                        },
+                        {
+                            "name": "Maritime Affinity",
+                            "description": "You have an affinity for aquatic animals and environments, have advantage when trying to tame these animals, and your swimming speed is doubled"
+                        }
+                    ]
+                }
             ],
             "skillProficiencies": [],
             "characteristics": [
-              {
-                "name": "Darkvision",
-                "description": "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
-              },
-              {
-                "name": "Gnome Cunning",
-                "description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic."
-              }
+                {
+                    "name": "Darkvision",
+                    "description": "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Gnome Cunning",
+                    "description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic."
+                }
             ]
         },
         "pt": {
@@ -707,19 +682,12 @@
                 "value": 2
             },
             "ageMax": 500,
-            "alignment": [
-                "bom"
-            ],
+            "alignment": ["bom"],
             "size": "pequeno",
             "heightMax": 1.22,
             "weightMax": 18.14,
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Comum",
-                "Gnômico"
-            ],
+            "speed": [7.6],
+            "language": ["Comum", "Gnômico"],
             "subRaces": [
                 {
                     "name": "Gnomo das Rochas",
