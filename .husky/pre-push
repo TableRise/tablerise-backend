@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 BRANCH=$(git symbolic-ref --short HEAD)
-REGEX="^(feat|bugfix|hotfix)\/[0-9]+\/[[:alnum:]-]+$"
+REGEX="^(feat|bugfix|hotfix)\/[A-z0-9]+\/[[:alnum:]-]+$"
 
 handlePrettierError() {
   npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push -u origin $BRANCH
