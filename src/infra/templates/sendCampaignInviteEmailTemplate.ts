@@ -1,4 +1,8 @@
-export default (campaignId: string, userId: string, username: string): string => `<!DOCTYPE html>
+export default (
+    campaignId: string,
+    userId: string,
+    username: string
+): string => `<!DOCTYPE html>
 <html>
     <head>
         <style>
