@@ -12,6 +12,7 @@
             "alignment": ["lawful", "good"],
             "heightMax": 1.2,
             "weightMax": 68,
+            "size": "medium",
             "speed": [7.6, "speed not reduced by wearing heavy armor"],
             "language": ["Common", "Dwarvish"],
             "subRaces": [
@@ -43,7 +44,7 @@
                         },
                         {
                             "name": "Magic Specialist",
-                            "description": "When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item."
+                            "description": "When using any magical item, you can roll 1d2 to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item. After succeeding once on the 1d2 roll, this characteristic can no longer be used."
                         }
                     ]
                 }
@@ -83,6 +84,7 @@
             "alignment": ["leal", "bom"],
             "heightMax": 1.2,
             "weightMax": 68,
+            "size": "médio",
             "speed": [7.6, "velocidade não reduzida ao usar armadura pesada"],
             "language": ["Comum", "Anão"],
             "subRaces": [
@@ -114,7 +116,7 @@
                         },
                         {
                             "name": "Especialista em Magia",
-                            "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico."
+                            "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico. Após ter sucesso uma vez na rolagem do 1d2 essa caracteristica não pode mais ser usada."
                         }
                     ]
                 }
@@ -140,6 +142,599 @@
                 {
                     "name": "Inteligência em Rochas",
                     "description": "Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Elf",
+            "description": "Never has there been, there isn't, and there never will be a race as evolved as us Elves, said the elder to the Elven child sitting near his feet. She turned and asked, But then why don't we dominate everyone, great elder? Why don't we make everyone our subjects and show our strength? That way, no one would ever mess with us again! said the child with a piercing look. The elder took a breath, looked at the child, and calmly responded, saying among other things: \"Everyone believes that war is the solution. The bad part is being alive after it ends to realize that it was the problem\".\n\nThis elder was none other than Illithys, the great mage who saved all the kingdoms in the war of Ahktur, a war that was responsible for redefining the concept of magic among the realms. Elves have always been patient and very dedicated; their long lifespan allows them to analyze life from a different and less alarmist perspective.\n\nThe Elven Kingdom would easily be considered a mirage or a figment of imagination if some unsuspecting person found it. Floating statues and well-dressed soldiers adorned the landscape. Knowledge and personal improvement are some of the laws among the Elves, where reaching death having been the best version of oneself is the greatest achievement they could strive for.",
+            "abilityScoreIncrease": {
+                "name": "Dexterity",
+                "value": 2
+            },
+            "ageMax": 750,
+            "alignment": ["chaotic", "good"],
+            "heightMax": 1.8,
+            "weightMax": 0,
+            "size": "medium",
+            "speed": 9.1,
+            "language": ["Common", "Elvish"],
+            "subRaces": [
+                {
+                    "name": "High Elf",
+                    "description": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+                    "abilityScoreIncrease": {
+                        "name": "Intelligence",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Elf Weapon Training",
+                            "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+                        },
+                        {
+                            "name": "Cantrip",
+                            "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+                        },
+                        {
+                            "name": "Extra Language",
+                            "description": "You can speak, read, and write one extra language of your choice."
+                        }
+                    ]
+                },
+                {
+                    "name": "Arcane Elf",
+                    "description": "Arcane Elves are known for their high manipulation of magic and follow an ancient belief that elves are the guardians of magic in the world. They have grayish skin and are almost entirely slim and tall. It is well known in the Elven Kingdom that Arcane Elves consider themselves superior to their peers because they do not rely on external tools to augment their power.\n\nThis type of elf rarely or almost never uses amulets or symbols as power conduits, as they believe that doing so symbolizes the weakening of the purity of elven magic.",
+                    "abilityScoreIncrease": {
+                        "name": "Charism",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Pure Magic",
+                            "description": "You can reroll the damage dice of a spell once to try to achieve its maximum purity. To use this ability again, a long rest is required."
+                        },
+                        {
+                            "name": "Light Body",
+                            "description": "Your base walking speed increases to 10.5 meters."
+                        },
+                        {
+                            "name": "Magical Knowledge",
+                            "description": "You have advantage on checks involving learning new spells."
+                        }
+                    ]
+                },
+                {
+                    "name": "Warrior Elf",
+                    "description": "Warrior Elves have specialized over time in imbuing their magic into weapons to maximize their potential in battle. They are respected by common elves and high elves but are despised by and have a millennia-old feud with Arcane Elves, which extends from the population to politics. These warriors are generally a bit shorter in stature, resembling humans, and are extremely fearless.",
+                    "abilityScoreIncrease": {
+                        "name": "Intelligence",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Elven Vitality",
+                            "description": "Your keen physical training grants you 1 extra hit point per level."
+                        },
+                        {
+                            "name": "Weaponized Magic",
+                            "description": "When attacking with a weapon, use your magical ability inherited from the elves and roll 1d20 to add damage to your attack, if the result is greater than 15 add 2 damage if it is less add 1. Can be used twice and then requires a rest short to use again."
+                        },
+                        {
+                            "name": "Elven War Weapon Training",
+                            "description": "You have proficiency with longswords, shortswords, daggers, longbows, shortbows, rapiers, shortswords, and hand crossbows."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": ["Perception"],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Keen Senses",
+                    "description": "You have proficiency in the Perception skill."
+                },
+                {
+                    "name": "Fey Ancestry",
+                    "description": "You have advantage on saving throws against being charmed, and magic can’t put you to sleep."
+                },
+                {
+                    "name": "Trance",
+                    "description": "Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Elfo",
+            "description": "Não existiram, não existem e nunca existirá uma raça tão evoluída quanto nós Elfos, disse o ancião a criança Élfica sentada próxima a seus pés, ela se vira e pergunta, mas porque então não dominamos a todos grande ancião? Porque não fazemos de todos nossos súditos e mostramos nossa força? Assim nunca mais mexeriam conosco! Diz a criança com um olhar penetrante, o ancião respira, olha para a criança e calmamente responde, dizendo entre outras coisas: \"Todos acreditam que a guerra é a solução, a parte ruim é estar vivo após ela acabar pra perceber que ela foi o problema\".\n\nEste ancião era ninguém menos que Illithys, o grande mago que salvou todos os reinos na guerra de Ahktur, guerra essa que foi responsável por redefinir o conceito de magia entre os reinos, Elfos sempre foram pacientes e muito dedicados, o longo tempo de vida deles os permite analisar a vida de um olhar diferente e menos alarmista.\n\nO Reino dos Elfos seria considerado facilmente uma miragem ou fruto de imaginação caso algum desavisado o encontrasse, estatuas flutuantes e soldados bem trajados, o conhecimento e aprimoramento pessoal é uma das leis dos Elfos, onde chegar até a morte tendo sido o melhor de si mesmo é o melhor que poderiam fazer.",
+            "abilityScoreIncrease": {
+                "name": "Destreza",
+                "value": 2
+            },
+            "ageMax": 750,
+            "alignment": ["caótico", "bom"],
+            "heightMax": 1.8,
+            "weightMax": 0,
+            "size": "médio",
+            "speed": 9.1,
+            "language": ["Comum", "Élfico"],
+            "subRaces": [
+                {
+                    "name": "Alto Elfo",
+                    "description": "Como um alto elfo, você possui uma mente perspicaz e domínio pelo menos dos fundamentos da magia. Em muitos mundos de jogos de fantasia, existem dois tipos de altos elfos. Um tipo é arrogante e recluso, acreditando-se superior a não-elfos e até mesmo a outros elfos. O outro tipo é mais comum e amigável, frequentemente encontrado entre humanos e outras raças.",
+                    "abilityScoreIncrease": {
+                        "name": "Inteligência",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Treinamento de Armas Élficas",
+                            "description": "Você possui proficiência com a espada longa, espada curta, arco curto e arco longo."
+                        },
+                        {
+                            "name": "Truque",
+                            "description": "Você conhece um truque à sua escolha da lista de magias de mago. Inteligência é a sua habilidade de conjuração para ele."
+                        },
+                        {
+                            "name": "Idioma Adicional",
+                            "description": "Você pode falar, ler e escrever um idioma extra de sua escolha."
+                        }
+                    ]
+                },
+                {
+                    "name": "Elfo Arcano",
+                    "description": "Os Elfos Arcanos são conhecidos por sua alta manipulação da magia e seguem uma antiga crença de que os elfos são os guardiões da magia no mundo. Eles têm pele acinzentada e são quase inteiramente magros e altos. É bem conhecido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares porque não dependem de ferramentas externas para aumentar seu poder. Este tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
+                    "abilityScoreIncrease": {
+                        "name": "Carisma",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Magia Pura",
+                            "description": "Você pode rolar novamente os dados de dano de uma magia uma vez para tentar atingir sua pureza máxima. Para utilizar essa habilidade novamente, é necessário um descanso longo."
+                        },
+                        {
+                            "name": "Corpo Leve",
+                            "description": "Seu deslocamento base de caminhada aumenta para 10,5 metros."
+                        },
+                        {
+                            "name": "Conhecimento Mágico",
+                            "description": "Você tem vantagem em testes que envolvam aprender novos feitiços."
+                        }
+                    ]
+                },
+                {
+                    "name": "Elfo Guerreiro",
+                    "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia em armas para maximizar seu potencial em batalha. São respeitados pelos elfos comuns e elfos de alta linhagem, mas são desprezados e têm uma rixa milenar com os Elfos Arcanos, que se estende desde a população até a política. Esses guerreiros geralmente são um pouco mais baixos em estatura, assemelhando-se aos humanos, e são extremamente destemidos.",
+                    "abilityScoreIncrease": {
+                        "name": "Inteligência",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Vitalidade Élfica",
+                            "description": "Seu treinamento físico aguçado lhe concede 1 ponto de vida a mais por nível."
+                        },
+                        {
+                            "name": "Magia Armada",
+                            "description": "Ao atacar com uma arma, use sua habilidade mágica herdada dos elfos e role 1d20 para adicionar dano ao seu ataque. Se o resultado for maior que 15, adicione 2 de dano; se for menor, adicione 1. Pode ser usado duas vezes e depois requer um descanso curto para ser usado novamente."
+                        },
+                        {
+                            "name": "Treinamento de Armas de Guerra Élfico",
+                            "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": ["Percepção"],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Acostumado a florestas crepusculares e ao céu noturno, você tem visão superior em condições de escuridão e penumbra. Você pode ver em luz fraca dentro de 18 metros de você como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não pode discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Sentidos Aguçados",
+                    "description": "Você tem proficiência na habilidade de Percepção."
+                },
+                {
+                    "name": "Ancestralidade Feérica",
+                    "description": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode fazer você dormir."
+                },
+                {
+                    "name": "Transe",
+                    "description": "Elfos não precisam dormir. Em vez disso, eles meditam profundamente, permanecendo semiconscientes, por 4 horas por dia. (A palavra Comum para tal meditação é “transe.”) Enquanto meditam, eles podem sonhar de uma maneira; tais sonhos são na verdade exercícios mentais que se tornaram reflexivos através de anos de prática. Após descansar dessa maneira, você ganha o mesmo benefício que um humano ganha de 8 horas de sono."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Halfling",
+            "description": " Once, a halfling was resting in the shade of a giant oak tree, his protuberant belly rising and falling with his calm breathing. Standing at just 60 centimeters tall, he was often underestimated, but his sharp mind and stealthy skills made him a master thief. While chewing on a succulent roasted rabbit leg, the halfling stroked his lucky amulet, a tooth from a giant wolf he had defeated alone. His dark eyes gleamed with the prospect of his next adventure, a daring plan to infiltrate the fortress of a great mage and achieve glory by recovering the legendary Moon Diamond.",
+            "abilityScoreIncrease": {
+                "name": "Dexterity",
+                "value": 2
+            },
+            "ageMax": 180,
+            "alignment": ["lawful", "good"],
+            "heightMax": 0.9,
+            "weightMax": 18,
+            "size": "small",
+            "speed": [7.6],
+            "language": ["Common", "Halfling"],
+            "subRaces": [
+                {
+                    "name": "Lightfoot",
+                    "description": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You\u2019re inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
+                    "abilityScoreIncrease": {
+                        "name": "Charisma",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Naturally Stealthy",
+                            "description": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Lucky",
+                    "description": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
+                },
+                {
+                    "name": "Brave",
+                    "description": "You have advantage on saving throws against being frightened."
+                },
+                {
+                    "name": "Halfling Nimbleness",
+                    "description": "You can move through the space of any creature that is of a size larger than yours."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Halfling",
+            "description": "Certa vez um halfling, descansava à sombra de um carvalho gigante, sua barriga protuberante subindo e descendo com a respiração tranquila. Com apenas 60 centímetros de altura, ele era frequentemente subestimado, mas sua mente afiada e habilidades furtivas o tornavam um ladrão mestre. Enquanto mastigava uma suculenta perna de coelho assada, o halfling acariciava seu amuleto da sorte, um dente de um lobo gigante que ele havia derrotado sozinho. Seus olhos negros brilhavam com a perspectiva de sua próxima aventura, um plano ousado para se infiltrar na fortaleza de grande mago e obter glória recuperando o lendário Diamante da Lua.",
+            "abilityScoreIncrease": {
+                "name": "Destreza",
+                "value": 2
+            },
+            "ageMax": 180,
+            "alignment": ["leal", "bom"],
+            "heightMax": 0.9,
+            "weightMax": 18,
+            "size": "pequeno",
+            "speed": [7.6],
+            "language": ["Comum", "Halfling"],
+            "subRaces": [
+                {
+                    "name": "Pés Leves",
+                    "description": "Como um halfling pés leves, você pode se esconder facilmente de olhares, até mesmo usando outras pessoas como cobertura. Você tende a ser afável e se dá bem com os outros. Os Pés Leves são mais propensos a terem espírito aventureiro do que outros halflings, e frequentemente vivem ao lado de outras raças ou levam uma vida nômade.",
+                    "abilityScoreIncrease": {
+                        "name": "Carisma",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Furtivo Naturalmente",
+                            "description": "Você pode tentar se esconder mesmo quando está apenas obscurecido por uma criatura que é pelo menos um tamanho maior que você."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Sortudo",
+                    "description": "Quando você rola um 1 no d20 para uma jogada de ataque, teste de habilidade ou teste de resistência, você pode rolar o dado novamente e deve usar o novo resultado."
+                },
+                {
+                    "name": "Corajoso",
+                    "description": "Você tem vantagem em testes de resistência contra ficar amedrontado."
+                },
+                {
+                    "name": "Agilidade de Halfling",
+                    "description": "Você pode se mover através do espaço de qualquer criatura que seja de um tamanho maior que o seu."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "human",
+            "description": "Dorn, a traveler well-known among humans, once shared in a tavern a tale of one of his greatest adventures: the quest for the Sacred Sword of Oksha.\n\nIt is said that Oksha was a dwarf king who, many centuries ago, conquered worlds beyond our own.\n\nDuring this adventure, Dorn met beings from all realms: elves, draconians, dwarves, among others.\n\nWhile the full story is too long to detail here, as a human, Dorn gained knowledge and experience from each encounter. His human ability to humbly absorb knowledge and adapt was what made him one of the most renowned travelers in the Kingdom and a hero to many.",
+            "abilityscoreincrease": [
+                {
+                    "name": "strength",
+                    "value": 1
+                },
+                {
+                    "name": "dexterity",
+                    "value": 1
+                },
+                {
+                    "name": "constitution",
+                    "value": 1
+                },
+                {
+                    "name": "intelligence",
+                    "value": 1
+                },
+                {
+                    "name": "wisdom",
+                    "value": 1
+                },
+                {
+                    "name": "charisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 100,
+            "alignment": [],
+            "heightmax": 0,
+            "weightmax": 0,
+            "speed": [9.1],
+            "size": "medium",
+            "language": ["common", "one extra of your choice"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": []
+        },
+        "pt": {
+            "name": "humano",
+            "description": "Dorn, um viajante entre os reinos muito conhecido entre os humanos, certa vez compartilhou em uma taverna um relato de uma das suas maiores aventuras, a busca pela Espada Sagrada de Oksha.\n\nConta-se que Oksha foi um rei anão que a muitos séculos atrás conquistou mundos além do mundo que vivemos.\n\nEnquanto essa aventura se desenrolava, Dorn conheceu seres de todos os reinos, elfos, dracontes, anões, entre outros.\n\nNão convém contar a história em detalhes aqui, mas por ser um humano ele adquiriu conhecimento e experiência com cada um desses que conheceu, a habilidade humana de absorver conhecimento com humildade e se adaptar foi o que levou Dorn a se tornar um dos viajantes mais conhecidos do Reino além de um herói para muitos.",
+            "abilityscoreincrease": [
+                {
+                    "name": "força",
+                    "value": 1
+                },
+                {
+                    "name": "destreza",
+                    "value": 1
+                },
+                {
+                    "name": "constituição",
+                    "value": 1
+                },
+                {
+                    "name": "inteligência",
+                    "value": 1
+                },
+                {
+                    "name": "sabedoria",
+                    "value": 1
+                },
+                {
+                    "name": "carisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 100,
+            "alignment": [],
+            "heightmax": 0,
+            "weightmax": 0,
+            "speed": [9.1],
+            "size": "médio",
+            "language": ["comum", "um extra à sua escolha"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": []
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "dragonborn",
+            "description": "Dragons, long revered among other races as symbols of power, have often been underestimated. In an era where the great dragons are no longer seen, many have come to believe that they are extinct. However, their descendant race, the Dragonborn, have remained strong, regarded by many as gods. A certain Dragonborn named Balazar once spoke with a Half-Orc. The Half-Orc asked, \"If not human, if not dragon, what are Dragonborn?\" \"We are the best of both worlds,\" said the dragon descendant, proud of his elucidation.",
+            "abilityscoreincrease": [
+                {
+                    "name": "strength",
+                    "value": 2
+                },
+                {
+                    "name": "charisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 80,
+            "alignment": ["good", "evil"],
+            "heightmax": 1.8,
+            "weightmax": 113,
+            "speed": [9.1],
+            "size": "medium",
+            "language": ["common", "draconic"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": [
+                {
+                    "name": "draconic ancestry",
+                    "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table."
+                },
+                {
+                    "name": "breath weapon",
+                    "description": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest."
+                },
+                {
+                    "name": "damage resistance",
+                    "description": "You have resistance to the damage type associated with your draconic ancestry."
+                }
+            ]
+        },
+        "pt": {
+            "name": "draconato",
+            "description": "Dragões, há muito venerados entre outras raças como símbolos de poder, muitas vezes foram subestimados. Em uma era onde os grandes dragões não são mais vistos, muitos começaram a acreditar que estão extintos. No entanto, sua raça descendente, os Draconatos, permaneceram fortes, sendo considerados por muitos como deuses. Um certo Draconato chamado Balazar uma vez conversou com um Meio-Orc. O Meio-Orc perguntou: \"Se não humano, se não dragão, o que são Draconatos?\" \"Somos o melhor dos dois mundos\", disse o descendente de dragão, orgulhoso de sua elucidação.",
+            "abilityscoreincrease": [
+                {
+                    "name": "força",
+                    "value": 2
+                },
+                {
+                    "name": "carisma",
+                    "value": 1
+                }
+            ],
+            "agemax": 80,
+            "alignment": ["bom", "maligno"],
+            "heightmax": 1.8,
+            "weightmax": 113,
+            "speed": [9.1],
+            "size": "médio",
+            "language": ["comum", "dracônico"],
+            "subraces": [],
+            "skillproficiencies": [],
+            "characteristics": [
+                {
+                    "name": "ascendência dracônica",
+                    "description": "Você tem ascendência dracônica. Escolha um tipo de dragão da tabela Ascendência Dracônica. Sua arma de sopro e resistência a dano são determinadas pelo tipo de dragão, conforme mostrado na tabela."
+                },
+                {
+                    "name": "arma de sopro",
+                    "description": "Você pode usar sua ação para exalar energia destrutiva. Sua ascendência dracônica determina o tamanho, a forma e o tipo de dano da exalação. Quando você usa sua arma de sopro, cada criatura na área da exalação deve fazer um teste de resistência, cujo tipo é determinado por sua ascendência dracônica. A CD para este teste de resistência é igual a 8 + seu modificador de Constituição + seu bônus de proficiência. Uma criatura sofre 2d6 de dano se falhar no teste, e metade do dano se for bem-sucedida. O dano aumenta para 3d6 no 6º nível, 4d6 no 11º nível e 5d6 no 16º nível. Após usar sua arma de sopro, você não pode usá-la novamente até completar um descanso curto ou longo."
+                },
+                {
+                    "name": "resistência a dano",
+                    "description": "Você tem resistência ao tipo de dano associado à sua ascendência dracônica."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Gnome",
+            "description": "Oh, the Kingdom of the Gnomes, who would have thought that such small beings could build something so grand? There is no denying that their work is phenomenal. I felt like I was in a kingdom of the future, with great constructions and elevators, large gears that make things work without needing to be handled, all incredible! Although I have heard of gnomes who are less inventive and more connected to nature, I believe that at this rate, this Kingdom will soon receive the recognition it deserves. - Dvinir, Elven Merchant",
+            "abilityScoreIncrease": {
+                "name": "Intelligence",
+                "value": 2
+            },
+            "ageMax": 500,
+            "alignment": ["good"],
+            "size": "small",
+            "heightMax": 1.22,
+            "weightMax": 18.14,
+            "speed": [7.6],
+            "language": ["Common", "Gnomish"],
+            "subRaces": [
+                {
+                    "name": "Rock Gnome",
+                    "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
+                    "abilityScoreIncrease": {
+                        "name": "Constitution",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Artificers Lore",
+                            "description": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply."
+                        },
+                        {
+                            "name": "Tinker",
+                            "description": "You have proficiency with artisans tools (tinkers tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\nWhen you create a device, choose one of the following options:\nClockwork Toy. This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\nFire Starter. The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\nMusic Box. When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the songs end or when it is closed."
+                        }
+                    ]
+                },
+                {
+                    "name": "Island Gnome",
+                    "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
+                    "abilityScoreIncrease": {
+                        "name": "Constitution",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Protectors of Nature",
+                            "description": "You have proficiency in Nature and receive a +1 bonus in this skill. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen additional skill will also receive a +1 bonus."
+                        },
+                        {
+                            "name": "Maritime Affinity",
+                            "description": "You have an affinity for aquatic animals and environments, have advantage when trying to tame these animals, and your swimming speed is doubled"
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Gnome Cunning",
+                    "description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Gnomo",
+            "description": "Ah o Reino dos Gnomos, quem diria que seres pequeninos poderiam construir algo tão grande, não tem como negar que o trabalho deles é fenomenal, me senti em um reino do futuro, grandes construções e elevadores, grandes engrenagens que fazem coisas sem precisar manuseá-las, tudo incrível! Apesar de ter ouvido falar sobre Gnomos não tão inventivos e mais ligados a natureza eu acredito que nesse rumo, logo esse Reino terá o reconhecimento que merece - Dvinir, Comerciante Élfico",
+            "abilityScoreIncrease": {
+                "name": "Inteligência",
+                "value": 2
+            },
+            "ageMax": 500,
+            "alignment": ["bom"],
+            "size": "pequeno",
+            "heightMax": 1.22,
+            "weightMax": 18.14,
+            "speed": [7.6],
+            "language": ["Comum", "Gnômico"],
+            "subRaces": [
+                {
+                    "name": "Gnomo das Rochas",
+                    "description": "Como um gnomo das rochas, você tem uma inventividade natural e resistência além da dos outros gnomos.",
+                    "abilityScoreIncrease": {
+                        "name": "Constituição",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Conhecimento dos Artífices",
+                            "description": "Sempre que você fizer um teste de Inteligência (História) relacionado a itens mágicos, objetos alquímicos ou dispositivos tecnológicos, você pode adicionar o dobro do seu bônus de proficiência, em vez de qualquer bônus de proficiência que normalmente aplicaria."
+                        },
+                        {
+                            "name": "Engenhoqueiro",
+                            "description": "Você tem proficiência com ferramentas de artesão (ferramentas de engenhoqueiro). Usando essas ferramentas, você pode gastar 1 hora e 10 po em materiais para construir um dispositivo mecânico Minúsculo (CA 5, 1 pv). O dispositivo deixa de funcionar após 24 horas (a menos que você gaste 1 hora reparando-o para manter o dispositivo funcionando), ou quando você usa sua ação para desmontá-lo; nesse momento, você pode recuperar os materiais usados para criá-lo. Você pode ter até três desses dispositivos ativos ao mesmo tempo.\nQuando você cria um dispositivo, escolha uma das seguintes opções:\nBrinquedo Mecânico. Este brinquedo é um animal mecânico, monstro ou pessoa, como um sapo, rato, pássaro, dragão ou soldado. Quando colocado no chão, o brinquedo se move 1,5 metros no chão em cada um dos seus turnos em uma direção aleatória. Ele faz sons apropriados à criatura que representa.\nAcendedor de Fogo. O dispositivo produz uma chama em miniatura, que você pode usar para acender uma vela, tocha ou fogueira. Usar o dispositivo requer sua ação.\nCaixa de Música. Quando aberta, esta caixa de música toca uma única canção em um volume moderado. A caixa para de tocar quando chega ao fim da canção ou quando é fechada."
+                        }
+                    ]
+                },
+                {
+                    "name": "Gnomo das Ilhas",
+                    "description": "Gnomos das ilhas têm uma grande conexão com a natureza, tanto com as florestas quanto com o mar. Eles têm uma forte afinidade com animais terrestres e aquáticos. Eles tendem a ser pacíficos, mas estão sempre prontos para se proteger.",
+                    "abilityScoreIncrease": {
+                        "name": "Constituição",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                            "name": "Protetores da Natureza",
+                            "description": "Você tem proficiência em Natureza e recebe um bônus de +1 nessa perícia. Além disso, você pode escolher uma das seguintes perícias: Acrobacia, Furtividade, Lidar com Animais ou Sobrevivência. A perícia adicional escolhida também receberá um bônus de +1."
+                        },
+                        {
+                            "name": "Afinidade Marítima",
+                            "description": "Você tem afinidade com animais e ambientes aquáticos, tem vantagem ao tentar domar esses animais, e sua velocidade de nado é dobrada."
+                        }
+                    ]
+                }
+            ],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Acostumado à vida subterrânea, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra em um raio de 18 metros como se fosse luz clara e no escuro como se fosse penumbra. Você não pode discernir cores no escuro, apenas tons de cinza."
+                },
+                {
+                    "name": "Astúcia Gnômica",
+                    "description": "Você tem vantagem em todos os testes de resistência de Inteligência, Sabedoria e Carisma contra magia."
                 }
             ]
         }
