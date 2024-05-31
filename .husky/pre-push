@@ -1,16 +1,16 @@
 #!/bin/bash
 . "$(dirname -- "$0")/_/husky.sh"
 
+BRANCH=$(git symbolic-ref --short HEAD)
+REGEX="^(feat|bugfix|hotfix)\/[0-9]+\/[[:alnum:]-]+$"
+
 handlePrettierError() {
-  npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push
+  npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push -u origin $BRANCH
 }
 
 trap 'handlePrettierError $LINENO' ERR
 
 npm run lint && npm run prettier
-
-BRANCH=$(git symbolic-ref --short HEAD)
-REGEX="^(feat|bugfix|hotfix)\/[0-9]+\/[[:alnum:]-]+$"
 
 if [[ ! $BRANCH =~ $REGEX ]]; then
   echo "========================"
