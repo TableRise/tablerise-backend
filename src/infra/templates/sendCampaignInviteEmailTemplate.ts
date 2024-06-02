@@ -1,4 +1,8 @@
-export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE html>
+export default (
+    campaignId: string,
+    userId: string,
+    username: string
+): string => `<!DOCTYPE html>
 <html>
     <head>
         <style>
@@ -23,7 +27,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
 
 
             .img-bg {
-                background: url('https://i.ibb.co/BZJ7LZG/tablerise-cover-fit.webp');
+                background: url('https://images.ctfassets.net/swt2dsco9mfe/16ZyURdjanpyLYYmLjdIS7/bee7815a702835902ac10f7fa326aee4/Strixhaven_1280x960_Wallpaper.jpg?q=70&fit=thumb&w=1280&h=960&fm=avif');
                 background-size: cover;
                 background-position: center;
                 width: 100%;
@@ -61,7 +65,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
             }
 
             footer {
-                background-color: #141842;
+                background-color: #241538;
                 width: 100%;
                 padding: 1rem 0 1rem 0;
                 color: white;
@@ -91,9 +95,9 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
             <section class="confirm-section">
                 <header>
                     <div class="img-bg"></div>
-                    <h2>Precisamos confirmar seu cadastro!</h2>
+                    <h2>TableRise - Convite para Campanha</h2>
                     <div class="goblin-warn">
-                        <span align="center">Afinal vai que você é um <br />goblin mal intencionado querendo roubar nosso ouro?</span>
+                        <span align="center">Você foi convocado(a) aventureiro(a)<br />um novo Reino precisa de você para construir uma nova história!<br />Vai aceitar o desafio?</span>
                     </div>
                     <br />
                 </header>
@@ -105,9 +109,9 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
                             tablerise@outlook.com
                         </p>
                     </div>
-                    <p>Faça login no TableRise e utilize o código abaixo para confirmar sua conta</p>
-                    <p>Usuário: ${usernameUser}</p>
-                    <span class="verify-code">${verifyCode}</span>
+                    <p>Utilize o link abaixo para entrar na campanha</p>
+                    <p>Usuário: ${username}</p>
+                    <span class="verify-code">https://tablerise.com/campaigns/${campaignId}?player=${userId}</span>
                     <br />
                     <br />
                 </div>
