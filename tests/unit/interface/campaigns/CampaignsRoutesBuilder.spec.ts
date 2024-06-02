@@ -26,7 +26,7 @@ describe('Interface :: Campaigns :: CampaignsRoutesBuilder', () => {
                     },
                 ],
             };
-            campaignsRoutes = { routes: () => [] };
+
             campaignsRoutesBuilder = new CampaignsRoutesBuilder({
                 campaignsRoutes,
                 verifyUserMiddleware,
