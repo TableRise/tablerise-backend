@@ -17,11 +17,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - push', () => {
-            const routesBinded = bindMiddleware(
-                middleware,
-                routes,
-                { substringLoc: 3 }
-            );
+            const routesBinded = bindMiddleware(middleware, routes, { substringLoc: 3 });
 
             expect(routesBinded[0].options).to.have.property('middlewares');
             expect(routesBinded[0].options.middlewares).to.be.an('array');
@@ -29,11 +25,10 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - unshift', () => {
-            const routesBinded = bindMiddleware(
-                middleware,
-                routes,
-                { substringLoc: 3, addMethod: 'unshift' }
-            );
+            const routesBinded = bindMiddleware(middleware, routes, {
+                substringLoc: 3,
+                addMethod: 'unshift',
+            });
 
             expect(routesBinded[0].options).to.have.property('middlewares');
             expect(routesBinded[0].options.middlewares).to.be.an('array');
@@ -41,10 +36,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - no-options', () => {
-            const routesBinded = bindMiddleware(
-                middleware,
-                routes
-            );
+            const routesBinded = bindMiddleware(middleware, routes);
 
             expect(routesBinded[0].options).to.have.property('middlewares');
             expect(routesBinded[0].options.middlewares).to.be.an('array');

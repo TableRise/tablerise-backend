@@ -35,7 +35,7 @@ export default class UsersRoutesBuilder {
             {
                 substringLoc: 6,
                 addMethod: 'push',
-                pathsToIgnore: ROUTES_WITH_NO_VERIFY
+                pathsToIgnore: ROUTES_WITH_NO_VERIFY,
             }
         );
 

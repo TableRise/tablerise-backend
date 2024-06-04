@@ -22,7 +22,7 @@ export default class CampaignsRoutesBuilder {
             this._verifyUserMiddleware.userStatus,
             this._campaignsRoutes.routes(),
             { addMethod: 'push' }
-        )
+        );
 
         const campaignRoutes = buildRouter(campaignRoutesToBuild, router);
         const campaignSwagger = this._campaignsRoutes.routes();

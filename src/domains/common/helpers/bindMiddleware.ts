@@ -8,15 +8,15 @@ export default function bindMiddleware(
     options: bindOptions = {
         substringLoc: 0,
         pathsToIgnore: [],
-        addMethod: 'push'
+        addMethod: 'push',
     }
 ): routeInstance[] {
     const routesToBind = routes.map((route) => {
         const { substringLoc, addMethod, pathsToIgnore } = options;
 
         const routeSubstring = substringLoc
-        ? route.path.substring(substringLoc)
-        : route.path;
+            ? route.path.substring(substringLoc)
+            : route.path;
 
         if (pathsToIgnore?.includes(routeSubstring)) return route;
 
