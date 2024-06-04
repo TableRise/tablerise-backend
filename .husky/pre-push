@@ -5,7 +5,7 @@ BRANCH=$(git symbolic-ref --short HEAD)
 REGEX="^(feat|bugfix|hotfix)\/[[:alnum:]-]+\/[[:alnum:]-]+$"
 
 handlePrettierError() {
-  npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push -u origin $BRANCH
+  npx tsc && npm run prettier:fix && git add . && git commit -m "fix: prettier" && git push -u origin $BRANCH
 }
 
 trap 'handlePrettierError $LINENO' ERR
