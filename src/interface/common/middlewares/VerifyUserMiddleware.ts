@@ -13,6 +13,8 @@ export default class VerifyUserMiddleware {
     }: InterfaceDependencies['verifyUserMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
+
+        this.userStatus = this.userStatus.bind(this);
     }
 
     public async userStatus(

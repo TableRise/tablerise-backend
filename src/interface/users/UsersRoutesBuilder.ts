@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
 
 const router = Router();
 
@@ -28,13 +29,15 @@ export default class UsersRoutesBuilder {
     }
 
     private _profile(): { profileRoutes: Router; profileSwagger: routeInstance[] } {
-        const usersRoutesToBuild = this._usersRoutes.routes().map((route) => {
-            const routeSubstring = route.path.substring(6);
-            if (ROUTES_WITH_NO_VERIFY.includes(routeSubstring)) return route;
-
-            route.options.middlewares.push(this._verifyUserMiddleware.userStatus);
-            return route;
-        });
+        const usersRoutesToBuild = bindMiddleware(
+            this._verifyUserMiddleware.userStatus,
+            this._usersRoutes.routes(),
+            {
+                substringLoc: 6,
+                addMethod: 'push',
+                pathsToIgnore: ROUTES_WITH_NO_VERIFY
+            }
+        );
 
         const profileRoutes = buildRouter(usersRoutesToBuild, router);
         const profileSwagger = this._usersRoutes.routes();
