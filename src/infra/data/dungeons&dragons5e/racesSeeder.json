@@ -760,15 +760,15 @@
             "characteristics": [
               {
                 "name": "Darkvision",
-                "description": "Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can\u2019t discern color in darkness, only shades of gray."
+                "description": "Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
               },
               {
                 "name": "Skill Versatility",
                 "description": "You gain proficiency in two skills of your choice."
-              },
+              },              
               {
                 "name": "Fey Ancestry",
-                "description": "You have advantage on saving throws against being charmed, and magic can\u2019t put you to sleep."
+                "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
               }
             ]
         },
@@ -794,14 +794,87 @@
                 "descrição": "Graças ao seu sangue élfico, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
               },
               {
+                "name": "Versatilidade de Habilidades",
+                "description": "Você ganha proficiência em duas habilidades à sua escolha."
+              },              
+              {
                 "nome": "Ascendência Feérica",
                 "descrição": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode colocá-lo para dormir."
-              },
-              {
-                "nome": "Versatilidade de Habilidades",
-                "descrição": "Você ganha proficiência em duas habilidades à sua escolha."
               }
             ]
         }          
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Half-Orc",
+            "description": "LEADER NICORDEN was a leader among the half-orcs who for a long time championed the idea that half-orcs could be more than what other races believed. They were seen as impure by the orc tribes and as abominations by many humans. This sentiment often weighed heavily on the hearts of this race's tribes. Nicorden was the leader who once subdued both kingdoms and gained respect for his people through battle strategies ahead of their time.",
+            "abilityScoreIncrease": {
+              "name": "Strength",
+              "value": 2
+            },
+            "ageMax": 75,
+            "alignment": ["chaotic"],
+            "size": "medium",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Common", "Orc"],
+            "subRaces": [],
+            "skillProficiencies": ["Intimidation"],
+            "characteristics": [
+              {
+                "name": "Darkvision",
+                "description": "Thanks to your orc blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+              },
+              {
+                "name": "Menacing",
+                "description": "You gain proficiency in the Intimidation skill."
+              },
+              {
+                "name": "Relentless Endurance",
+                "description": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest."
+              },
+              {
+                "name": "Savage Attacks",
+                "description": "When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit."
+              }
+            ]
+        },
+        "pt": {
+            "name": "Meio-Orc",
+            "description": "LIDER NICORDEN, foi um líder nos meio-orcs que por muito tempo levantou a bandeira de que os meio orcs poderiam ser mais do que as outras raças acreditavam, pela tribo orc são vistos como impuros e por muitos humanos como aberrações, esse sentimento por muitas vezes tomou o coração das tribos desta raça e Nicorden foi o líder que certa vez subjugou os dois reinos e conseguiu respeito para seu povo através de estratégias de batalhas a frente do seu tempo.",
+            "abilityScoreIncrease": {
+              "name": "Força",
+              "value": 2
+            },
+            "ageMax": 75,
+            "alignment": ["caótico"],
+            "size": "médio",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Comum", "Orc"],
+            "subRaces": [],
+            "skillProficiencies": ["Intimidação"],
+            "characteristics": [
+              {
+                "name": "Visão no Escuro",
+                "description": "Graças ao seu sangue orc, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
+              },
+              {
+                "name": "Ameaçador",
+                "description": "Você ganha proficiência na habilidade de Intimidação."
+              },
+              {
+                "name": "Resistência Implacável",
+                "description": "Quando você é reduzido a 0 pontos de vida, mas não é morto instantaneamente, você pode cair para 1 ponto de vida em vez disso. Você não pode usar essa característica novamente até terminar um descanso longo."
+              },
+              {
+                "name": "Ataques Selvagens",
+                "description": "Quando você consegue um acerto crítico com um ataque de arma corpo a corpo, você pode rolar um dos dados de dano da arma uma vez adicional e adicionar ao dano extra do acerto crítico."
+              }
+            ]
+        }  
     }
 ]
