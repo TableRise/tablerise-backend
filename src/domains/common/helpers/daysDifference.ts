@@ -1,0 +1,1 @@
+export default (dateInMilisecs: number ) : number => ((new Date()).getTime() - dateInMilisecs)/86400000;  // daysDiffInMileseconds/1000 * 60secs * 60min * 24h  
