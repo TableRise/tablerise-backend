@@ -738,5 +738,70 @@
                 }
             ]
         }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Half-Elf",
+            "description": "\"Living between two worlds is like walking between the sun and the moon without knowing which to choose,\" says the half-elf to the dwarf he was talking to. The dwarf retorts, asking, \"But then, what would you be? A curious human or a skilled elf?\" After thinking for a few seconds, the half-elf responds, \"I am the best of both...\".\n\nHalf-elves have acquired abilities and characteristics from both races and face unique difficulties. Human restlessness makes it hard to live with elves, and elven longevity makes living with humans somewhat morbid. It's not uncommon to see wandering half-elves traveling around, seeking groups of misfits and many adventures to live.",
+            "abilityScoreIncrease": {
+              "name": "Charisma",
+              "value": 2
+            },
+            "ageMax": 180,
+            "alignment": ["chaotic"],
+            "size": "medium",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Common", "Elvish", "One extra language of your choice"],
+            "subRaces": [],
+            "skillProficiencies": ["Two skills of your choice"],
+            "characteristics": [
+              {
+                "name": "Darkvision",
+                "description": "Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can\u2019t discern color in darkness, only shades of gray."
+              },
+              {
+                "name": "Skill Versatility",
+                "description": "You gain proficiency in two skills of your choice."
+              },
+              {
+                "name": "Fey Ancestry",
+                "description": "You have advantage on saving throws against being charmed, and magic can\u2019t put you to sleep."
+              }
+            ]
+        },
+        "pt": {
+            "nome": "Meio-Elfo",
+            "descrição": "\"Viver entre dois mundos é como caminhar entre o sol e a lua sem saber qual escolher,\" diz o meio-elfo ao anão com quem conversava. O anão retruca, perguntando: \"Mas então, o que tu serias? Um humano curioso ou um elfo habilidoso?\" Após pensar por alguns segundos, o meio-elfo responde: \"Sou o melhor dos dois...\"\n\nOs meio-elfos adquiriram habilidades e características de ambas as raças e enfrentam dificuldades únicas. A inquietude humana dificulta a convivência com os elfos, e a longevidade élfica torna a convivência com os humanos um tanto mórbida. Não é incomum ver meio-elfos errantes viajando por aí, procurando grupos de desajustados e muitas aventuras para viver.",
+            "aumentoDePontuaçãoDeHabilidade": {
+              "nome": "Carisma",
+              "valor": 2
+            },
+            "idadeMáxima": 180,
+            "alinhamento": ["caótico"],
+            "tamanho": "médio",
+            "alturaMáxima": 1.82,
+            "pesoMáximo": 0,
+            "velocidade": [9.1],
+            "idioma": ["Comum", "Élfico", "Um idioma extra à sua escolha"],
+            "subRaças": [],
+            "proficiênciasDeHabilidade": ["Duas habilidades à sua escolha"],
+            "características": [
+              {
+                "nome": "Visão no Escuro",
+                "descrição": "Graças ao seu sangue élfico, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
+              },
+              {
+                "nome": "Ascendência Feérica",
+                "descrição": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode colocá-lo para dormir."
+              },
+              {
+                "nome": "Versatilidade de Habilidades",
+                "descrição": "Você ganha proficiência em duas habilidades à sua escolha."
+              }
+            ]
+        }          
     }
 ]
