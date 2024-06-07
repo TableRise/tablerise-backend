@@ -9,13 +9,14 @@ export default class DeleteUserCronJob {
     private readonly _logger;
     private readonly _usersRepository;
 
-    constructor({logger, usersRepository }: InfraDependencies['deleteUserCronJobContract']){
+    constructor({ logger, usersRepository }: InfraDependencies['deleteUserCronJobContract']){
         this._logger = logger;
         this._usersRepository = usersRepository;
     }
 
-    public async deleteUserRoutine() : Promise<void> {
+    public async deleteUserDaily() : Promise<void> {
         cron.schedule(`1 0 * * *`, async () => {
+            this._logger('info', 'DeleteUserCronJob - Starting deleteUserDaily Routine');
             const users = this._usersRepository.find();
             const deleteUserList = users.filter((user: UserInstance) => user.inProgress.status === 'wait_to_delete');
 
@@ -26,6 +27,7 @@ export default class DeleteUserCronJob {
 
                 if(daysDifference(exclusionDate) >= WAIT_TO_EXCLUSION_PERIOD){
                     await this._usersRepository.delete({ userId });
+                    this._logger('info', `DeleteUserCronJob - userDeleted - ${userId} --- ${user.nickname}`);
                 }
             })
         });

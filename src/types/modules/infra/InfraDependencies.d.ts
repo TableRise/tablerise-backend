@@ -14,7 +14,6 @@ export default interface InfraDependencies {
     updateTimestampRepositoryContract: UpdateTimestampRepositoryContract;
     managerCronJobContract: ManagerCronJobContract;
     deleteUserCronJobContract: DeleteUserCronJobContract;
-    userDeleteListCronJobContract: UserDeleteListCron 
 
     // <--------- CAMPAIGN DOMAIN --------->
     socketIOContract: SocketIOContract;

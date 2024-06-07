@@ -19,6 +19,7 @@ export default class Application {
     private readonly _errorMiddleware;
     private readonly _socketIO;
     private readonly _logger;
+    private readonly _managerCronJob;
 
     constructor({
         dungeonsAndDragonsRoutesMiddleware,
@@ -29,6 +30,7 @@ export default class Application {
         accessHeadersMiddleware,
         socketIO,
         logger,
+        managerCronJob,
     }: ApplicationContract) {
         this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this._usersRoutesMiddleware = usersRoutesMiddleware;
@@ -38,6 +40,7 @@ export default class Application {
         this._errorMiddleware = errorMiddleware;
         this._socketIO = socketIO;
         this._logger = logger;
+        this._managerCronJob = managerCronJob;
     }
 
     public setupExpress(): express.Application {
@@ -69,6 +72,10 @@ export default class Application {
         const port = process.env.PORT as string;
         const app = this.setupExpress();
         const server = createServer(app);
+        console.log("SOCORRO!!!!!!");
+        this._logger('info', 'WTFFFFFFFFFFFFF',true);
+        await this._managerCronJob.run();
+
 
         await this._socketIO.connect(server);
 
@@ -85,6 +92,7 @@ export default class Application {
             });
 
         server.listen(port, () => {
+            
             this._logger(
                 'info',
                 `[ Application - Server started in port -> ${port} ]`,
