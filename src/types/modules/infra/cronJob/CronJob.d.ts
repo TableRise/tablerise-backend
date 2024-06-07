@@ -11,7 +11,6 @@ export interface ManagerCronJobContract {
 export interface DeleteUserCronJobContract {
     logger: Logger;
     usersRepository: UsersRepository;
-    usersDeleteList: UserDeleteListCronJobContract;
 }
 
 export interface UserDeleteListCronJobContract {

@@ -1,1 +1,4 @@
-export default (dateInMilisecs: number ) : number => ((new Date()).getTime() - dateInMilisecs)/86400000;  // daysDiffInMileseconds/1000 * 60secs * 60min * 24h  
+const MILISECS_TO_DAY = 1000 * 60 * 60 * 24;
+const todayInMilisecs =  new Date().getTime();
+
+export default (exclusionDateInMilisecs: number ) : number => Math.floor(( todayInMilisecs - exclusionDateInMilisecs )/MILISECS_TO_DAY);
