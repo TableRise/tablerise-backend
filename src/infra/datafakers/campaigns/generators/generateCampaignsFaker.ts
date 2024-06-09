@@ -18,6 +18,7 @@ function createCampaignFaker({
         matchData: dataGenerator.matchData,
         infos: dataGenerator.infos,
         lores: dataGenerator.lores,
+        images: dataGenerator.images,
         createdAt: dataGenerator.createdAt.toISOString(),
         updatedAt: dataGenerator.updatedAt.toISOString(),
     } as CampaignInstance;
