@@ -42,6 +42,10 @@ export default {
         environments: [],
         mainHistory: [],
     },
+    images: {
+        characters: [],
+        maps: [],
+    },
     createdAt: faker.date.anytime(),
     updatedAt: faker.date.anytime(),
 };

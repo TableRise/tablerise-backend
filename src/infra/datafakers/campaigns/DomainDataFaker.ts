@@ -62,6 +62,7 @@ const mocks = {
         title,
         content: 'A new character will be added to campaign in next match',
     },
+    uploadCampaignImages: { image: { isBinary: true } },
 };
 
 export default {

@@ -15,7 +15,8 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
         updateMatchDatesOperation: any,
         getCampaignByIdOperation: any,
         updateMatchPlayersOperation: any,
-        getAllCampaignsOperation: any;
+        getAllCampaignsOperation: any,
+        updateCampaignImagesOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -35,6 +36,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             updateMatchPlayersOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -46,6 +48,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -91,6 +94,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -140,6 +144,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -181,6 +186,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -220,6 +226,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 getAllCampaignsOperation,
                 updateMatchPlayersOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -271,6 +278,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -320,6 +328,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -368,6 +377,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
@@ -416,6 +426,7 @@ describe('Interface :: Users :: Presentation :: Users :: CampaignsController', (
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
+                updateCampaignImagesOperation,
             });
         });
 
