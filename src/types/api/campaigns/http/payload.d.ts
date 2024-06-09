@@ -61,3 +61,11 @@ export interface UpdateMatchPlayersPayload {
     userId: string;
     operation: 'add' | 'remove';
 }
+
+export interface UpdateCampaignImagesPayload {
+    campaignId: string;
+    image?: FileObject;
+    name?: string;
+    imageId?: string;
+    operation: 'add' | 'remove';
+}
