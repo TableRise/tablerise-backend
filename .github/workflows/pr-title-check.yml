@@ -1,6 +1,7 @@
 name: "Pull Request Title Check"
 on: 
-  pull_request
+  pull_request_target: 
+    types: [opened, edited, reopened, synchronize ]
 
 jobs:
   title-check:
