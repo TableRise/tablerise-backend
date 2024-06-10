@@ -32,7 +32,6 @@ export default class UpdateCampaignImagesService {
         const campaign = await this._campaignsRepository.findOne({ campaignId });
         const imageUploadResponse =
             image && (await this._imageStorageClient.upload(image));
-        console.log('imageUploadResponse', imageUploadResponse);
 
         if (operation === 'add' && imageUploadResponse) {
             if (name) {
