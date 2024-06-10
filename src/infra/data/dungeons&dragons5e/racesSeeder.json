@@ -738,5 +738,208 @@
                 }
             ]
         }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Half-Elf",
+            "description": "\"Living between two worlds is like walking between the sun and the moon without knowing which to choose,\" says the half-elf to the dwarf he was talking to. The dwarf retorts, asking, \"But then, what would you be? A curious human or a skilled elf?\" After thinking for a few seconds, the half-elf responds, \"I am the best of both...\".\n\nHalf-elves have acquired abilities and characteristics from both races and face unique difficulties. Human restlessness makes it hard to live with elves, and elven longevity makes living with humans somewhat morbid. It's not uncommon to see wandering half-elves traveling around, seeking groups of misfits and many adventures to live.",
+            "abilityScoreIncrease": {
+                "name": "Charisma",
+                "value": 2
+            },
+            "ageMax": 180,
+            "alignment": ["chaotic"],
+            "size": "medium",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Common", "Elvish", "One extra language of your choice"],
+            "subRaces": [],
+            "skillProficiencies": ["Two skills of your choice"],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Thanks to your elf blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Skill Versatility",
+                    "description": "You gain proficiency in two skills of your choice."
+                },
+                {
+                    "name": "Fey Ancestry",
+                    "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+                }
+            ]
+        },
+        "pt": {
+            "nome": "Meio-Elfo",
+            "descrição": "\"Viver entre dois mundos é como caminhar entre o sol e a lua sem saber qual escolher,\" diz o meio-elfo ao anão com quem conversava. O anão retruca, perguntando: \"Mas então, o que tu serias? Um humano curioso ou um elfo habilidoso?\" Após pensar por alguns segundos, o meio-elfo responde: \"Sou o melhor dos dois...\"\n\nOs meio-elfos adquiriram habilidades e características de ambas as raças e enfrentam dificuldades únicas. A inquietude humana dificulta a convivência com os elfos, e a longevidade élfica torna a convivência com os humanos um tanto mórbida. Não é incomum ver meio-elfos errantes viajando por aí, procurando grupos de desajustados e muitas aventuras para viver.",
+            "aumentoDePontuaçãoDeHabilidade": {
+                "nome": "Carisma",
+                "valor": 2
+            },
+            "idadeMáxima": 180,
+            "alinhamento": ["caótico"],
+            "tamanho": "médio",
+            "alturaMáxima": 1.82,
+            "pesoMáximo": 0,
+            "velocidade": [9.1],
+            "idioma": ["Comum", "Élfico", "Um idioma extra à sua escolha"],
+            "subRaças": [],
+            "proficiênciasDeHabilidade": ["Duas habilidades à sua escolha"],
+            "características": [
+                {
+                    "nome": "Visão no Escuro",
+                    "descrição": "Graças ao seu sangue élfico, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Versatilidade de Habilidades",
+                    "description": "Você ganha proficiência em duas habilidades à sua escolha."
+                },
+                {
+                    "nome": "Ascendência Feérica",
+                    "descrição": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode colocá-lo para dormir."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Half-Orc",
+            "description": "LEADER NICORDEN was a leader among the half-orcs who for a long time championed the idea that half-orcs could be more than what other races believed. They were seen as impure by the orc tribes and as abominations by many humans. This sentiment often weighed heavily on the hearts of this race's tribes. Nicorden was the leader who once subdued both kingdoms and gained respect for his people through battle strategies ahead of their time.",
+            "abilityScoreIncrease": {
+                "name": "Strength",
+                "value": 2
+            },
+            "ageMax": 75,
+            "alignment": ["chaotic"],
+            "size": "medium",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Common", "Orc"],
+            "subRaces": [],
+            "skillProficiencies": ["Intimidation"],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Thanks to your orc blood, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Menacing",
+                    "description": "You gain proficiency in the Intimidation skill."
+                },
+                {
+                    "name": "Relentless Endurance",
+                    "description": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest."
+                },
+                {
+                    "name": "Savage Attacks",
+                    "description": "When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Meio-Orc",
+            "description": "LIDER NICORDEN, foi um líder nos meio-orcs que por muito tempo levantou a bandeira de que os meio orcs poderiam ser mais do que as outras raças acreditavam, pela tribo orc são vistos como impuros e por muitos humanos como aberrações, esse sentimento por muitas vezes tomou o coração das tribos desta raça e Nicorden foi o líder que certa vez subjugou os dois reinos e conseguiu respeito para seu povo através de estratégias de batalhas a frente do seu tempo.",
+            "abilityScoreIncrease": {
+                "name": "Força",
+                "value": 2
+            },
+            "ageMax": 75,
+            "alignment": ["caótico"],
+            "size": "médio",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Comum", "Orc"],
+            "subRaces": [],
+            "skillProficiencies": ["Intimidação"],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Graças ao seu sangue orc, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Ameaçador",
+                    "description": "Você ganha proficiência na habilidade de Intimidação."
+                },
+                {
+                    "name": "Resistência Implacável",
+                    "description": "Quando você é reduzido a 0 pontos de vida, mas não é morto instantaneamente, você pode cair para 1 ponto de vida em vez disso. Você não pode usar essa característica novamente até terminar um descanso longo."
+                },
+                {
+                    "name": "Ataques Selvagens",
+                    "description": "Quando você consegue um acerto crítico com um ataque de arma corpo a corpo, você pode rolar um dos dados de dano da arma uma vez adicional e adicionar ao dano extra do acerto crítico."
+                }
+            ]
+        }
+    },
+    {
+        "active": true,
+        "en": {
+            "name": "Tiefling",
+            "description": "Tieflings share certain racial traits as a result of their infernal descent.",
+            "abilityScoreIncrease": {
+                "name": "Intelligence",
+                "value": 1
+            },
+            "ageMax": 0,
+            "alignment": ["chaotic"],
+            "size": "medium",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Common", "Infernal"],
+            "subRaces": [],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "My dear diary, I can no longer endure it! The looks, the judgments, even without guilt, I bear the burden of a sin committed long ago. A pact made by a strange ancestor seeking power condemned me, hundreds of years later, to live on the fringes of the realms, wandering and being despised by all. I have only one happiness in this life: a human named Nitara. She makes my horrible life have some meaning. I don't know what I would do without her.\n\nAmnon wrote this shortly before receiving the news that Nitara had been murdered by her family after they discovered her relationship with a Tiefling, losing all hope for a happy life."
+                },
+                {
+                    "name": "Hellish Resistance",
+                    "description": "You have resistance to fire damage."
+                },
+                {
+                    "name": "Infernal Legacy",
+                    "description": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hellish rebuke spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+                }
+            ]
+        },
+        "pt": {
+            "name": "Tiefling",
+            "description": "Meu querido diário, eu não posso mais suportar! Os olhares, os julgamentos—mesmo sem culpa, carrego o fardo de um pecado consumado há muito tempo. Um pacto de um ancestral estranho que buscava poder me condenou, centenas de anos depois, a viver à margem dos Reinos, vagando e sendo desprezado por todos. Tenho apenas uma felicidade nesta vida: uma humana chamada Nitara. Ela faz minha vida horrível ganhar algum sentido. Não sei o que faria sem ela.\n\nAmnon escreveu isso pouco antes de receber a notícia de que Nitara havia sido assassinada por sua família ao descobrirem seu relacionamento com um Tiefling, perdendo toda esperança de uma vida feliz.",
+            "abilityScoreIncrease": {
+                "name": "Inteligência",
+                "value": 1
+            },
+            "ageMax": 0,
+            "alignment": ["caótico"],
+            "size": "médio",
+            "heightMax": 1.82,
+            "weightMax": 0,
+            "speed": [9.1],
+            "language": ["Comum", "Infernal"],
+            "subRaces": [],
+            "skillProficiencies": [],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Graças à sua herança infernal, você tem visão superior em condições de escuridão e penumbra. Você pode ver na penumbra até 18 metros como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não consegue discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Resistência Infernal",
+                    "description": "Você tem resistência a dano de fogo."
+                },
+                {
+                    "name": "Legado Infernal",
+                    "description": "Você conhece o truque taumaturgia. Quando você atinge o 3º nível, pode lançar a magia represália infernal como uma magia de 2º nível uma vez com este traço e recupera a habilidade de fazê-lo quando termina um descanso longo. Quando você atinge o 5º nível, pode lançar a magia escuridão uma vez com este traço e recupera a habilidade de fazê-lo quando termina um descanso longo. Carisma é sua habilidade de conjuração para estas magias."
+                }
+            ]
+        }
     }
 ]
