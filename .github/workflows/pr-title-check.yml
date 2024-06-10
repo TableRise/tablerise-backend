@@ -1,0 +1,18 @@
+name: "Pull Request Title Check"
+on: 
+  pull_request
+
+jobs:
+  title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          REQUIRED_PATTERN='^#[A-z\d]+\s-\s.+'
+          
+          if [[ ! ${PR_TITLE} =~ ${REQUIRED_PATTERN} ]]; then
+            echo "error: invalid PR title"
+            echo "The PR title must match the pattern: '#<task id> - <task description>'"
+            exit 1
+          fi
