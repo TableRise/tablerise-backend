@@ -17,9 +17,10 @@ export default class DeleteUserCronJob {
     public async deleteUserDaily() : Promise<void> {
         cron.schedule(`1 0 * * *`, async () => {
             this._logger('info', 'DeleteUserCronJob - Starting deleteUserDaily Routine');
+            // fila de esclusão
             const users = this._usersRepository.find();
             const deleteUserList = users.filter((user: UserInstance) => user.inProgress.status === 'wait_to_delete');
-
+            // fila de esclusão
             deleteUserList.forEach(async (user : UserInstance) => {
                 const { userId, updatedAt } = user;
 

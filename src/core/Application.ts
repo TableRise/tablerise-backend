@@ -72,12 +72,9 @@ export default class Application {
         const port = process.env.PORT as string;
         const app = this.setupExpress();
         const server = createServer(app);
-        console.log("SOCORRO!!!!!!");
-        this._logger('info', 'WTFFFFFFFFFFFFF',true);
-        await this._managerCronJob.run();
-
 
         await this._socketIO.connect(server);
+        await this._managerCronJob.run();
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
@@ -90,7 +87,6 @@ export default class Application {
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
-
         server.listen(port, () => {
             
             this._logger(
@@ -99,5 +95,6 @@ export default class Application {
                 true
             );
         });
+        
     }
 }
