@@ -25,7 +25,7 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
-import ManagerCronJob from './infra/cronJob/ManagerCronJob';
+import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 

@@ -1,9 +1,11 @@
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
-import DeleteUserCronJob from './DeleteUserCronJob';
+import deleteUserCronJob from './crons/deleteUserCronJob';
+
 
 export default class ManagerCronJob {
     private readonly _logger;
     private readonly _usersRepository;
+    private
 
     constructor({
         logger, 
@@ -15,11 +17,7 @@ export default class ManagerCronJob {
     }
   
     public async run(): Promise<void> {
-        this._logger('info', 'CronManager - Starting Jobs');
-        console.log("SOCORRO22222222222!!!!!!");
-        const logger = this._logger;
-        const usersRepository = this._usersRepository; 
-        const job = new DeleteUserCronJob({ logger, usersRepository });
-        await job.deleteUserDaily();
+        this._logger('info', 'CronManager - Starting Jobs', true);
+        await deleteUserCronJob(this._usersRepository);
     }
   }

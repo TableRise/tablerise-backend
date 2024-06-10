@@ -1,4 +1,5 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class DeleteUserService {
@@ -16,6 +17,13 @@ export default class DeleteUserService {
         this._logger = logger;
 
         this.delete = this.delete.bind(this);
+        this._changeInProgresToDelete.bind(this);
+    }
+
+    private _changeInProgresToDelete( user: UserInstance ): UserInstance {
+        this._logger('info', `ChangeInProgessToDelete - InProgress Status change from ${user.inProgress.status} to wait_to_delete`);
+        user.inProgress.status = 'wait_to_delete';
+        return user;
     }
 
     public async delete(userId: string): Promise<void> {
@@ -30,13 +38,16 @@ export default class DeleteUserService {
         ) {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
-
-        await this._usersRepository.delete({ userId });
-        await this._usersDetailsRepository.delete({ userId });
+   
+        const userUpdated = this._changeInProgresToDelete(userInDb);
+        await this._usersRepository.update({
+            query: { userId: userInDb.userId },
+            payload: userUpdated.inProgress.status,
+        });
 
         this._logger(
             'info',
-            `Delete Service - User deleted from database with ID ${userId}`
+            `Delete Service - User waiting to be deleted from database with ID ${userId} and status ${userUpdated.inProgress.status}`
         );
     }
 }
