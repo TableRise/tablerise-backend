@@ -10,7 +10,7 @@ handlePrettierError() {
 
 trap 'handlePrettierError $LINENO' ERR
 
-npm run lint && npm run prettier
+npx tsc && npm run lint && npm run prettier
 
 if [[ ! $BRANCH =~ $REGEX ]]; then
   echo "========================"
