@@ -8,9 +8,8 @@ jobs:
     steps:
       - name: Check PR title
         run: |
-          PR_TITLE="86a3qj0x6 - Add CodeQL workflow"
+          PR_TITLE="${{ github.event.pull_request.title }}"
           REQUIRED_PATTERN="^#[a-zA-Z0-9_]+\s-\s.+"
-
           if ! echo "$PR_TITLE" | grep -q -E "$REQUIRED_PATTERN"; then
             echo "PR title is not valid"
             echo "Expected pattern: #<item_id> - <description>"
