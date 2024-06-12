@@ -21,7 +21,10 @@ export default class ManagerCronJob {
   
     public async run(): Promise<void> {
         this._logger('info', 'CronManager - Starting Jobs', true);
+
         cron.schedule('0 1 * * *', async () => deleteUserCronJob(this._usersRepository, this._usersDetailsRepository));
+
+        this._logger('info', 'CronManager - All Jobs Scheduled', true);
     }
     
 }
