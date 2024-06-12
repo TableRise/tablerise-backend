@@ -22,7 +22,7 @@ export default class VerifyEmailCodeMiddleware {
         this._logger('warn', 'Verify - VerifyEmailCodeMiddleware');
         const { id } = req.params;
         const { email, code } = req.query;
-
+        this._logger('info', `Code from Request is = ${code as string}` );
         let userInDb = {} as UserInstance;
 
         if (!id && !email)
@@ -34,7 +34,7 @@ export default class VerifyEmailCodeMiddleware {
 
         if (id) userInDb = await this._usersRepository.findOne({ userId: id });
         if (email) userInDb = await this._usersRepository.findOne({ email });
-
+        this._logger('info', `Code in Database is = ${userInDb.inProgress.code} - status = ${userInDb.inProgress.status}` );    
         if (userInDb.inProgress.status === 'done')
             HttpRequestErrors.throwError('invalid-user-status');
 
