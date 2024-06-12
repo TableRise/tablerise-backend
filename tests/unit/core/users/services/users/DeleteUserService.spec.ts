@@ -6,7 +6,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
 
-describe('Core :: Users :: Services :: GetUserByIdService', () => {
+describe('Core :: Users :: Services :: DeleteUserService', () => {
     let deleteUsersService: DeleteUserService,
         usersRepository: any,
         usersDetailsRepository: any,

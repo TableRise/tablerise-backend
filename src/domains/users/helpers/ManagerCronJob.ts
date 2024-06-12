@@ -1,6 +1,5 @@
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import deleteUserCronJob from './crons/deleteUserCronJob';
-import cron from "node-cron";
 
 
 export default class ManagerCronJob {
@@ -22,8 +21,9 @@ export default class ManagerCronJob {
     public async run(): Promise<void> {
         this._logger('info', 'CronManager - Starting Jobs', true);
 
-        cron.schedule('0 1 * * *', async () => deleteUserCronJob(this._usersRepository, this._usersDetailsRepository));
-
+        const deleteUserScheduleTask = await deleteUserCronJob(this._usersRepository, this._usersDetailsRepository);
+        deleteUserScheduleTask.start();
+        
         this._logger('info', 'CronManager - All Jobs Scheduled', true);
     }
     
