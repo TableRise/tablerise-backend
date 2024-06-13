@@ -39,15 +39,15 @@ export default class DeleteUserService {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
    
-        const userUpdated = this._changeInProgresStatusToDelete(userInDb);
-        await this._usersRepository.update({
+        let userUpdated = this._changeInProgresStatusToDelete(userInDb);
+        userUpdated = await this._usersRepository.update({
             query: { userId: userInDb.userId },
             payload: userUpdated,
         });
 
         this._logger(
             'info',
-            `Delete Service - User waiting to be deleted from database with ID ${userId} and status ${userUpdated.inProgress.status}`
+            `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`
         );
     }
 }

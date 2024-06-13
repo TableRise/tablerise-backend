@@ -1,6 +1,6 @@
 import daysDifference from 'src/domains/common/helpers/daysDifference';
 
-describe.only('Domains :: Common :: Helpers :: daysDifference', () => {
+describe('Domains :: Common :: Helpers :: daysDifference', () => {
     context('When called', () => {
         const FIFTEEN_DAYS = 15;
 

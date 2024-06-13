@@ -1,7 +1,6 @@
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import deleteUserCronJob from './crons/deleteUserCronJob';
 
-
 export default class ManagerCronJob {
     private readonly _logger;
     private readonly _usersRepository;
@@ -23,9 +22,8 @@ export default class ManagerCronJob {
 
         const deleteUserScheduleTask = await deleteUserCronJob(this._usersRepository, this._usersDetailsRepository);
         deleteUserScheduleTask.start();
-        
+
         this._logger('info', 'CronManager - All Jobs Scheduled', true);
     }
     
 }
-  
