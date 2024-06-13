@@ -20,8 +20,11 @@ export default class DeleteUserService {
         this._changeInProgresStatusToDelete.bind(this);
     }
 
-    private _changeInProgresStatusToDelete( user: UserInstance ): UserInstance {
-        this._logger('info', `ChangeInProgesStatusToDelete - User InProgress Status change to wait_to_delete`);
+    private _changeInProgresStatusToDelete(user: UserInstance): UserInstance {
+        this._logger(
+            'info',
+            `ChangeInProgesStatusToDelete - User InProgress Status change to wait_to_delete`
+        );
         user.inProgress.status = 'wait_to_delete';
         return user;
     }
@@ -38,7 +41,7 @@ export default class DeleteUserService {
         ) {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
-   
+
         let userUpdated = this._changeInProgresStatusToDelete(userInDb);
         userUpdated = await this._usersRepository.update({
             query: { userId: userInDb.userId },

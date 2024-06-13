@@ -88,13 +88,11 @@ export default class Application {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
         server.listen(port, () => {
-            
             this._logger(
                 'info',
                 `[ Application - Server started in port -> ${port} ]`,
                 true
             );
         });
-        
     }
 }

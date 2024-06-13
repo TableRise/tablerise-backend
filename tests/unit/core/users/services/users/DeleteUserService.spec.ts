@@ -25,12 +25,12 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
-                userUpdated = {...user };
+                userUpdated = { ...user };
                 userUpdated.inProgress.status = 'wait_to_delete';
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
                 sinon.spy(usersRepository, 'update');
-                
+
                 deleteUsersService = new DeleteUserService({
                     usersRepository,
                     usersDetailsRepository,
@@ -43,9 +43,10 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
 
                 expect(usersRepository.update).to.have.been.called();
                 expect(usersRepository.update).to.have.been.called();
-                expect(logger).to.have.been.calledWith(            
+                expect(logger).to.have.been.calledWith(
                     'info',
-                    `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`);
+                    `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`
+                );
             });
         });
 
@@ -57,7 +58,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 message = 'User does not exist';
                 code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
-                userUpdated = {...user };
+                userUpdated = { ...user };
                 userUpdated.inProgress.status = 'wait_to_delete';
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => {} };
@@ -87,7 +88,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 code = HttpStatusCode.UNAUTHORIZED;
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi'];
-                userUpdated = {...user };
+                userUpdated = { ...user };
                 userUpdated.inProgress.status = 'wait_to_delete';
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };

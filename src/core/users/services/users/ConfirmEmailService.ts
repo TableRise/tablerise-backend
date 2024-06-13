@@ -23,7 +23,7 @@ export default class ConfirmEmailService {
     }: ConfirmEmailPayload): Promise<ConfirmEmailResponse> {
         this._logger('info', 'VerifyCode - ConfirmEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
-        
+
         if (userInDb.inProgress.code !== code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 

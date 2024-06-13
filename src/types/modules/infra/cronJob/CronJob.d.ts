@@ -7,6 +7,3 @@ export interface ManagerCronJobContract {
     usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }
-
-
-

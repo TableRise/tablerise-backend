@@ -9,7 +9,6 @@ import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHead
 import SocketIO from 'src/infra/clients/SocketIO';
 import ManagerCronJob from 'src/domains/users/helpers/ManagerCronJob';
 
-
 export interface ApplicationContract {
     usersRoutesMiddleware: UsersRoutesMiddleware;
     campaignsRoutesMiddleware: CampaignsRoutesMiddleware;
