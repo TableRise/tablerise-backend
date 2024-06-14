@@ -36,7 +36,12 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     userId: string;
     providerId: string;
     inProgress: {
-        status: 'wait_to_confirm' | 'wait_to_complete' | 'wait_to_verify' | 'done';
+        status:
+            | 'done'
+            | 'wait_to_complete'
+            | 'wait_to_confirm'
+            | 'wait_to_delete'
+            | 'wait_to_verify';
         code: string;
     };
     twoFactorSecret: {
