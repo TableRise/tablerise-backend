@@ -1,7 +1,7 @@
 name: "Pull Request Title Check"
 on:
   pull_request:
-      branches: ["main", "develop"]
+      branches: ["develop"]
       types: [opened, edited, reopened, synchronize ]
 
 jobs:
