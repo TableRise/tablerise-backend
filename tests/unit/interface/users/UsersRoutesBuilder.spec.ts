@@ -39,8 +39,8 @@ describe('Interface :: Users :: UsersRoutesBuilder', () => {
 
         it('should return correct properties', () => {
             const routes = usersRoutesBuilder.get();
-            expect(routes.usersRoutes).to.have.property('profile');
-            expect(typeof routes.usersRoutes.profile).to.be.equal(typeof Router);
+            expect(routes.usersRoutes).to.have.property('users');
+            expect(typeof routes.usersRoutes.users).to.be.equal(typeof Router);
         });
     });
 
@@ -75,8 +75,8 @@ describe('Interface :: Users :: UsersRoutesBuilder', () => {
 
         it('should return correct properties', () => {
             const routes = usersRoutesBuilder.get();
-            expect(routes.usersRoutes).to.have.property('profile');
-            expect(typeof routes.usersRoutes.profile).to.be.equal(typeof Router);
+            expect(routes.usersRoutes).to.have.property('users');
+            expect(typeof routes.usersRoutes.users).to.be.equal(typeof Router);
         });
     });
 

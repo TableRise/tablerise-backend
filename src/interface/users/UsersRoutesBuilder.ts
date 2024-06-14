@@ -28,7 +28,7 @@ export default class UsersRoutesBuilder {
         this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
-    private _profile(): { profileRoutes: Router; profileSwagger: routeInstance[] } {
+    private _users(): { usersRoutes: Router; usersSwagger: routeInstance[] } {
         const usersRoutesToBuild = bindMiddleware(
             this._verifyUserMiddleware.userStatus,
             this._usersRoutes.routes(),
@@ -39,10 +39,10 @@ export default class UsersRoutesBuilder {
             }
         );
 
-        const profileRoutes = buildRouter(usersRoutesToBuild, router);
-        const profileSwagger = this._usersRoutes.routes();
+        const usersRoutes = buildRouter(usersRoutesToBuild, router);
+        const usersSwagger = this._usersRoutes.routes();
 
-        return { profileRoutes, profileSwagger };
+        return { usersRoutes, usersSwagger };
     }
 
     private _oAuth(): { oAuthRoutes: Router; oAuthSwagger: routeInstance[] } {
@@ -54,14 +54,14 @@ export default class UsersRoutesBuilder {
 
     public get(): {
         usersSwagger: routeInstance[];
-        usersRoutes: { profile: Router; oAuth: Router };
+        usersRoutes: { users: Router; oAuth: Router };
     } {
         const usersSwagger = [
             ...this._oAuth().oAuthSwagger,
-            ...this._profile().profileSwagger,
+            ...this._users().usersSwagger,
         ];
         const usersRoutes = {
-            profile: this._profile().profileRoutes,
+            users: this._users().usersRoutes,
             oAuth: this._oAuth().oAuthRoutes,
         };
 
