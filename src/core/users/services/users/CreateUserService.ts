@@ -67,8 +67,11 @@ export default class CreateUserService {
         user.twoFactorSecret = { active: false };
         user.picture = {
             link: 'https://i.imgur.com/WxNkK7J.png',
+            title: '',
             id: '',
-            uploadDate: new Date(),
+            deleteUrl: '',
+            uploadDate: new Date().toISOString(),
+            request: { success: true, status: 200 }
         };
 
         if (!userDetails.secretQuestion)

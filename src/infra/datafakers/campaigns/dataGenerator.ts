@@ -8,8 +8,13 @@ export default {
     ageRestriction: faker.number.int({ min: 1, max: 18 }),
     cover: {
         id: faker.string.uuid(),
+        title: faker.word.sample(),
         link: faker.internet.url(),
         uploadDate: faker.date.anytime().toISOString(),
+        thumbSizeUrl: faker.internet.url(),
+        mediumSizeUrl: faker.internet.url(),
+        deleteUrl: faker.internet.url(),
+        request: { success: true, status: 200 }
     },
     campaignPlayers: [
         {

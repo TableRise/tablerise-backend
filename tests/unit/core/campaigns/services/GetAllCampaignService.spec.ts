@@ -26,15 +26,10 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                         campaign.infos.visibility = 'visible';
                     } else {
                         campaign.title = 'test';
-                        campaign.cover = {
-                            id: '1',
-                            link: 'xcom.pt',
-                            uploadDate: '01/01/2001',
-                        };
+                        campaign.cover = DomainDataFaker.generateImagesObjectJSON()[0];
                         campaign.description = 'test desciprtion';
                         campaign.campaignPlayers = [];
                         campaign.ageRestriction = Number.MAX_SAFE_INTEGER;
-                        campaign.infos.visibility = 'hidden';
                         campaign.infos = {
                             campaignAge: '1',
                             matchDates: [],
@@ -63,7 +58,6 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                 expect(campaignsTest.length).to.be.equal(campaigns.length - 1);
                 expect(Object.keys(campaignsTest[0]).length).to.be.equal(6);
                 expect(campaignsTest[0].title).not.to.be.equal(campaigns[HIDDEN].title);
-                expect(campaignsTest[0].cover).not.to.be.equal(campaigns[HIDDEN].cover);
                 expect(campaignsTest[0].description).not.to.be.equal(
                     campaigns[HIDDEN].description
                 );

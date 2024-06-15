@@ -5,6 +5,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 
 describe('Domains :: User :: Helpers :: Serializer', () => {
     let serializer: Serializer;
@@ -118,6 +119,51 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const serialized = serializer.postCampaign(campaign);
 
             campaignDefaultKeys.forEach((key) => {
+                expect(serialized).to.have.property(key);
+            });
+        });
+    });
+
+    context('When image is serialized', () => {
+        beforeEach(() => {
+            serializer = new Serializer();
+        });
+
+        it('should return correct keys', () => {
+            const imageDefault = CampaignDomainDataFaker.generateImagesObjectJSON()[0];
+
+            const imageDefaultKeys = Object.keys(imageDefault);
+            const image = {
+                data: {
+                    thumb: {},
+                    medium: {}
+                },
+                success: true,
+                status: 200
+            } as ApiImgBBResponse;
+            const serialized = serializer.imageResult(image);
+
+            imageDefaultKeys.forEach((key) => {
+                expect(serialized).to.have.property(key);
+            });
+        });
+
+        it('should return correct keys - with time string', () => {
+            const imageDefault = CampaignDomainDataFaker.generateImagesObjectJSON()[0];
+
+            const imageDefaultKeys = Object.keys(imageDefault);
+            const image = {
+                data: {
+                    time: '1718493872',
+                    thumb: {},
+                    medium: {}
+                },
+                success: true,
+                status: 200
+            } as ApiImgBBResponse;
+            const serialized = serializer.imageResult(image);
+
+            imageDefaultKeys.forEach((key) => {
                 expect(serialized).to.have.property(key);
             });
         });

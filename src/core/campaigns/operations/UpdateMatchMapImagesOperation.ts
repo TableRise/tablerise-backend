@@ -1,4 +1,5 @@
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { UpdateMatchMapImagesPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 

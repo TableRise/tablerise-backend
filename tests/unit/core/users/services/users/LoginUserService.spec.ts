@@ -38,7 +38,7 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(enrichedToken.picture?.id).to.be.equal(user.picture?.id);
                 expect(enrichedToken.picture?.link).to.be.equal(user.picture?.link);
                 expect(enrichedToken.picture?.uploadDate).to.be.equal(
-                    user.picture?.uploadDate.toISOString()
+                    user.picture?.uploadDate
                 );
                 expect(enrichedToken.fullname).to.be.equal(
                     `${userDetails.firstName} ${userDetails.lastName}`

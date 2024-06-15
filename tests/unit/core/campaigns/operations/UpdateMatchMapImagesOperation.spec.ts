@@ -24,11 +24,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
 
                 if (campaign.matchData)
                     campaign.matchData.mapImages = [
-                        {
-                            id: '123',
-                            link: 'https://img.bb/',
-                            uploadDate: '2023-12-12Z10:34',
-                        },
+                        DomainDataFaker.generateImagesObjectJSON()[0],
                     ];
 
                 updateMatchMapImagesService = {
