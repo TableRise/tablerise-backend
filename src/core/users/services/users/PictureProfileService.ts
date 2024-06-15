@@ -4,6 +4,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
+import daysDifference from 'src/domains/common/helpers/daysDifference';
 
 export default class PictureProfileService {
     private readonly _usersRepository;
@@ -24,13 +25,9 @@ export default class PictureProfileService {
 
     private _verifyLastUpdate(user: UserInstance): void {
         if (user.picture?.id) {
-            const dateFirst = new Date(user.picture.uploadDate);
-            const dateLast = new Date();
+            const dateFirst = new Date(user.picture.uploadDate).getTime();
 
-            const diffTime = dateLast.getTime() - dateFirst.getTime();
-            const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
-
-            if (diffDays - 1 < 15)
+            if (!daysDifference(dateFirst, 15))
                 throw new HttpRequestErrors({
                     message:
                         'You only can upload a new profile picture one time in 15-days',
