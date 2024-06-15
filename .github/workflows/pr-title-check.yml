@@ -1,7 +1,8 @@
 name: "Pull Request Title Check"
-on: 
-  pull_request: 
-    types: [opened, edited, reopened, synchronize ]
+on:
+  pull_request:
+      branches: ["develop"]
+      types: [opened, edited, reopened, synchronize ]
 
 jobs:
   title-check:
@@ -10,10 +11,13 @@ jobs:
       - name: Check PR title
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
-          REQUIRED_PATTERN="^#[a-zA-Z0-9_]+\s-\s.+"
+          REQUIRED_PATTERN="^((#[a-zA-Z0-9_]+),\s)*#[a-zA-Z0-9_]+\s-\s.+$"
           if ! echo "$PR_TITLE" | grep -q -E "$REQUIRED_PATTERN"; then
-            echo "PR title is not valid"
+            echo "PR title is not valid!"
             echo "Expected pattern: #<item_id> - <description>"
             echo "Current title: $PR_TITLE"
             exit 1
+          else
+            echo "PR title is OK!"
+            exit 0
           fi
