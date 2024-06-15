@@ -5,6 +5,8 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserExternal } from 'src/types/api/users/http/payload';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class Serializer {
     private _isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -129,5 +131,23 @@ export default class Serializer {
             createdAt,
             updatedAt,
         };
+    }
+
+    public imageResult(result: ApiImgBBResponse): ImageObject {
+        const { data } = result;
+        const { thumb, medium, delete_url: deleteUrl } = data;
+
+        const dataSerialized = {} as any;
+
+        dataSerialized.id = data.id || '';
+        dataSerialized.title = data.title || '';
+        dataSerialized.link = data.url || '';
+        dataSerialized.uploadDate = new Date(data.time).toISOString() || '';
+        dataSerialized.thumbSizeUrl = thumb.url || '';
+        dataSerialized.mediumSizeUrl = medium.url || '';
+        dataSerialized.deleteUrl = deleteUrl || '';
+        dataSerialized.request = { success: result.success, status: result.status };
+        
+        return dataSerialized;
     }
 }
