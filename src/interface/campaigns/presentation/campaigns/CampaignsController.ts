@@ -89,6 +89,17 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
+    public async sendInviteEmail(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userEmail } = req.query as { userEmail: string };
+
+        const result = await this._publishPostInvitationEmailOperation.execute({
+            campaignId: id,
+            email: userEmail,
+        });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { imageId, operation } = req.query as {

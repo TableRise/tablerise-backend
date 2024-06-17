@@ -94,6 +94,7 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/invite`,
                 parameters: [
                     ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'userEmail', type: 'string' }]),
                 ],
                 controller: this._campaignsController.sendInviteEmail,
                 options: {
