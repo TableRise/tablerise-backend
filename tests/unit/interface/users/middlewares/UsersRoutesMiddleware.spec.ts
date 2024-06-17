@@ -11,7 +11,7 @@ describe('Interface :: Users :: Middlewares :: UsersRoutesMiddleware', () => {
                 routes: sinon.spy(() => ({
                     user: {
                         oAuth: (req: Request, res: Response) => {},
-                        profile: (req: Request, res: Response) => {},
+                        users: (req: Request, res: Response) => {},
                     },
                 })),
             };
@@ -27,7 +27,7 @@ describe('Interface :: Users :: Middlewares :: UsersRoutesMiddleware', () => {
             expect(routesWrapper.routes).to.have.been.called(2);
             expect(routes.stack).to.have.lengthOf(2);
             expect(routes.stack[0].name).to.be.equal('oAuth');
-            expect(routes.stack[1].name).to.be.equal('profile');
+            expect(routes.stack[1].name).to.be.equal('users');
         });
     });
 });

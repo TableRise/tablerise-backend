@@ -20,7 +20,7 @@ export default interface Route {
     };
     user: {
         oAuth: Router;
-        profile: Router;
+        users: Router;
     };
     campaign: {
         campaign: Router;

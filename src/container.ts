@@ -25,6 +25,7 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
+import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -74,6 +75,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),
+        managerCronJob: asClass(ManagerCronJob).singleton(),
 
         // #Schemas
         usersSchema: asValue(schemas),

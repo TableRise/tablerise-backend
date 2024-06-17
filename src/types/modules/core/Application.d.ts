@@ -7,6 +7,7 @@ import { Logger } from '../../Logger';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from 'src/infra/clients/SocketIO';
+import ManagerCronJob from 'src/domains/users/helpers/ManagerCronJob';
 
 export interface ApplicationContract {
     usersRoutesMiddleware: UsersRoutesMiddleware;
@@ -19,4 +20,5 @@ export interface ApplicationContract {
     database: DatabaseManagement;
     socketIO: SocketIO;
     logger: Logger;
+    managerCronJob: ManagerCronJob;
 }

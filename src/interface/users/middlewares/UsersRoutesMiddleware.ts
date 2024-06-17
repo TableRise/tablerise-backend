@@ -14,7 +14,7 @@ export default class UsersRoutesMiddleware {
         const router = Router();
 
         router.use(this._routesWrapper.routes().user.oAuth);
-        router.use(this._routesWrapper.routes().user.profile);
+        router.use(this._routesWrapper.routes().user.users);
 
         return router;
     }

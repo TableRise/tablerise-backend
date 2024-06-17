@@ -180,6 +180,29 @@ export default class CampaignsRoutes {
                     tag: 'management',
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/images`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'imageId', type: 'string' }]),
+                    ...generateQueryParam(1, [{ name: 'name', type: 'string' }]),
+                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
+                ],
+                controller: this._campaignsController.updateCampaignImages,
+                schema: DomainDataFaker.mocks.uploadCampaignImages,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('image'),
+                        this._imageMiddleware.fileType,
+                        this._verifyMatchMiddleware.exists,
+                    ],
+                    description: desc.updateCampaignImages,
+                    tag: 'update',
+                    fileUpload: true,
+                },
+            },
         ] as routeInstance[];
     }
 }

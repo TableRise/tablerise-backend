@@ -25,9 +25,10 @@ describe('When an user is deleted', () => {
                 .delete(`/users/${user.userId}/delete?token=123456`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
+            const { body } = await requester()
                 .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+                .expect(HttpStatusCode.OK);
+            expect(body.inProgress.status).to.be.equal('wait_to_delete');
         });
     });
 
@@ -51,9 +52,11 @@ describe('When an user is deleted', () => {
                 })
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
+            const { body } = await requester()
                 .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+                .expect(HttpStatusCode.OK);
+
+            expect(body.inProgress.status).to.be.equal('wait_to_delete');
         });
     });
 });

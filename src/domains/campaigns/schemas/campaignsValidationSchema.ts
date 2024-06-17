@@ -3,6 +3,7 @@ import { z } from 'zod';
 import campaignVisibilityEnum from '../enums/campaignVisibilityEnum';
 import systemsEnum from 'src/domains/common/enums/systemsEnum';
 import {
+    ImageCampaign,
     Infos,
     Lores,
     MatchData,
@@ -25,6 +26,7 @@ export type CampaignInstance = z.infer<typeof campaignsZodSchema> & {
     matchData?: MatchData;
     infos: Infos;
     lores: Lores;
+    images: ImageCampaign;
     createdAt: string;
     updatedAt: string;
 };
