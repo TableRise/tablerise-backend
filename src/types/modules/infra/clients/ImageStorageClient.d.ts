@@ -17,7 +17,7 @@ interface ImageData {
     extension: string;
     url: string;
 }
-  
+
 interface ResponseData {
     id: string;
     title: string;

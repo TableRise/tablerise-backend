@@ -26,7 +26,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     uploadDate: new Date().toISOString(),
                     title: '',
                     deleteUrl: '',
-                    request: { success: true, status: 200 }
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -37,7 +37,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                         uploadDate: new Date().toISOString(),
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -93,7 +93,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     uploadDate: '2023-12-01T17:30:26.393Z',
                     title: '',
                     deleteUrl: '',
-                    request: { success: true, status: 200 }
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -104,7 +104,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                         uploadDate: new Date().toISOString(),
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -162,7 +162,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                         uploadDate: new Date().toISOString(),
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -218,7 +218,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     uploadDate: new Date().toISOString(),
                     title: '',
                     deleteUrl: '',
-                    request: { success: true, status: 200 }
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -229,7 +229,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                         uploadDate: new Date().toISOString(),
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 };
 

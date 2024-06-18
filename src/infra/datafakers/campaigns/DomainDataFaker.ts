@@ -1,5 +1,8 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { CampaignJSONPayload, ImageJSONPayload } from 'src/types/modules/infra/datafakers/campaigns/DomainDataFaker';
+import {
+    CampaignJSONPayload,
+    ImageJSONPayload,
+} from 'src/types/modules/infra/datafakers/campaigns/DomainDataFaker';
 import generateCampaignsFaker from './generators/generateCampaignsFaker';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import generateImagesFaker from './generators/generateImagesFaker';
@@ -13,7 +16,7 @@ function generateCampaignsJSON(
 function generateImagesObjectJSON(
     { count, id }: ImageJSONPayload = { count: 1 }
 ): ImageObject[] {
-    return generateImagesFaker({ count, id })
+    return generateImagesFaker({ count, id });
 }
 
 const [

@@ -142,12 +142,14 @@ export default class Serializer {
         dataSerialized.id = data.id || '';
         dataSerialized.title = data.title || '';
         dataSerialized.link = data.url || '';
-        dataSerialized.uploadDate = data.time ? new Date(data.time).toISOString() : new Date().toISOString();
+        dataSerialized.uploadDate = data.time
+            ? new Date(data.time).toISOString()
+            : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
         dataSerialized.mediumSizeUrl = medium.url || '';
         dataSerialized.deleteUrl = deleteUrl || '';
         dataSerialized.request = { success: result.success, status: result.status };
-        
+
         return dataSerialized;
     }
 }

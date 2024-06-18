@@ -3,10 +3,8 @@ import { ImageJSONPayload } from 'src/types/modules/infra/datafakers/campaigns/D
 import dataGenerator from '../dataGenerator';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
-function createImageFaker({
-    id = newUUID(),
-}: ImageObject): ImageObject {
-    dataGenerator.cover.id = id;  
+function createImageFaker({ id = newUUID() }: ImageObject): ImageObject {
+    dataGenerator.cover.id = id;
     return dataGenerator.cover;
 }
 

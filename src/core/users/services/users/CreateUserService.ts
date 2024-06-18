@@ -71,7 +71,7 @@ export default class CreateUserService {
             id: '',
             deleteUrl: '',
             uploadDate: new Date().toISOString(),
-            request: { success: true, status: 200 }
+            request: { success: true, status: 200 },
         };
 
         if (!userDetails.secretQuestion)

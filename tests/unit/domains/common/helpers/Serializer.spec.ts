@@ -136,10 +136,10 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const image = {
                 data: {
                     thumb: {},
-                    medium: {}
+                    medium: {},
                 },
                 success: true,
-                status: 200
+                status: 200,
             } as ApiImgBBResponse;
             const serialized = serializer.imageResult(image);
 
@@ -156,10 +156,10 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
                 data: {
                     time: '1718493872',
                     thumb: {},
-                    medium: {}
+                    medium: {},
                 },
                 success: true,
-                status: 200
+                status: 200,
             } as ApiImgBBResponse;
             const serialized = serializer.imageResult(image);
 

@@ -69,7 +69,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                     upload: () => ({
                         id: '123',
                         link: 'https://youtube.com/',
-                        uploadDate: new Date().toISOString()
+                        uploadDate: new Date().toISOString(),
                     }),
                 };
 

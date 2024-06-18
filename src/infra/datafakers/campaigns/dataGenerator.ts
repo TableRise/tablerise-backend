@@ -14,7 +14,7 @@ export default {
         thumbSizeUrl: faker.internet.url(),
         mediumSizeUrl: faker.internet.url(),
         deleteUrl: faker.internet.url(),
-        request: { success: true, status: 200 }
+        request: { success: true, status: 200 },
     },
     campaignPlayers: [
         {

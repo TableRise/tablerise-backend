@@ -40,8 +40,8 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             };
 
             serializer = {
-                imageResult: () => DomainDataFaker.generateImagesObjectJSON()[0]
-            }
+                imageResult: () => DomainDataFaker.generateImagesObjectJSON()[0],
+            };
 
             imageStorageClient = new ImageStorageClient({
                 logger,

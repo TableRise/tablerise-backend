@@ -21,8 +21,7 @@ describe('Core :: Users :: Operation :: Users :: PictureProfileOperation', () =>
                 link: '123',
                 uploadDate: new Date().toISOString(),
                 deleteUrl: '',
-                request:
-                { success: true, status: 200 }
+                request: { success: true, status: 200 },
             };
 
             pictureProfileService = {

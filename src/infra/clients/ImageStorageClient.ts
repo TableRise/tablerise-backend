@@ -13,7 +13,7 @@ export default class ImageStorageClient {
         logger,
         httpRequest,
         configs,
-        serializer
+        serializer,
     }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
         this._configs = configs;
@@ -43,12 +43,12 @@ export default class ImageStorageClient {
                   })
                 : {
                       data: {
-                        thumb: {},
-                        medium: {},
-                        delete_url: ''
+                          thumb: {},
+                          medium: {},
+                          delete_url: '',
                       },
                       success: true,
-                      status: 200
+                      status: 200,
                   };
 
         imageUploaded.data.title = customTitle ?? imageUploaded.data.title;
