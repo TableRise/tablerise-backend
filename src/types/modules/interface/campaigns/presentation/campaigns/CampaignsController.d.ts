@@ -18,4 +18,5 @@ export interface CampaignsControllerContract {
     updateMatchMusicsOperation: UpdateMatchMusicsOperation;
     updateMatchDatesOperation: UpdateMatchDatesOperation;
     updateMatchPlayersOperation: UpdateMatchPlayersOperation;
+    postInvitationEmailOperation: PostInvitationEmailOperation;
 }
