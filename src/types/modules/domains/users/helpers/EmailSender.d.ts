@@ -8,12 +8,14 @@ export interface EmailSenderContract {
         | nodemailer.TestAccount
         | nodemailer.TransportOptions
         | nodemailer.Transporter;
-    emailType: 'common' | 'confirmation' | 'verification';
+    emailType: 'common' | 'confirmation' | 'verification' | 'invitation';
 }
 
-export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verification';
+export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verification' | 'invitation';
 
 export interface CommonContent {
+    username?: string;
+    userId?: string;
     username?: string;
     verificationCode?: string;
     subject?: string;
