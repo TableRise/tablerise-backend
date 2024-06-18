@@ -16,7 +16,7 @@ export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verifi
 export interface CommonContent {
     username?: string;
     userId?: string;
-    username?: string;
+    campaignId?: string;
     verificationCode?: string;
     subject?: string;
     body?: string;
