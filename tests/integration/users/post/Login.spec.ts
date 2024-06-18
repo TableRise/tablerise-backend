@@ -34,7 +34,7 @@ describe('When the user is logged in', () => {
             expect(body.picture.id).to.be.equal(user.picture?.id);
             expect(body.picture.link).to.be.equal(user.picture?.link);
             expect(body.picture.uploadDate).to.be.equal(
-                user.picture?.uploadDate.toISOString()
+                user.picture?.uploadDate
             );
             expect(body.fullname).to.be.equal(
                 `${userDetails.firstName} ${userDetails.lastName}`

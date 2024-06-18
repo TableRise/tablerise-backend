@@ -27,7 +27,7 @@ interface ResponseData {
     width: string;
     height: string;
     size: string;
-    time: string;
+    time: number;
     expiration: string;
     image: ImageData;
     thumb: ImageData;

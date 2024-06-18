@@ -154,7 +154,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const imageDefaultKeys = Object.keys(imageDefault);
             const image = {
                 data: {
-                    time: '1718493872',
+                    time: new Date().getTime(),
                     thumb: {},
                     medium: {},
                 },
