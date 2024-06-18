@@ -19,6 +19,7 @@ export default class CampaignsController {
     private readonly _updateMatchMapImagesOperation;
     private readonly _updateMatchDatesOperation;
     private readonly _updateMatchPlayersOperation;
+    private readonly _postInvitationEmailOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -30,6 +31,7 @@ export default class CampaignsController {
         updateMatchMusicsOperation,
         updateMatchDatesOperation,
         updateMatchPlayersOperation,
+        postInvitationEmailOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
@@ -40,6 +42,7 @@ export default class CampaignsController {
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
         this._updateMatchPlayersOperation = updateMatchPlayersOperation;
+        this._postInvitationEmailOperation = postInvitationEmailOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -50,6 +53,7 @@ export default class CampaignsController {
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
         this.updateMatchDates = this.updateMatchDates.bind(this);
         this.updateMatchPlayers = this.updateMatchPlayers.bind(this);
+        this.publishPostInviteEmail = this.publishPostInviteEmail.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -89,13 +93,15 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
-    public async sendInviteEmail(req: Request, res: Response): Promise<Response> {
+    public async publishPostInviteEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { userId } = req.body as { userId: string };
         const { userEmail } = req.query as { userEmail: string };
 
-        const result = await this._publishPostInvitationEmailOperation.execute({
+        const result = await this._postInvitationEmailOperation.execute({
             campaignId: id,
             email: userEmail,
+            userId: userId,
         });
         return res.status(HttpStatusCode.OK).json(result);
     }
