@@ -96,7 +96,7 @@ export default class CampaignsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'userEmail', type: 'string' }]),
                 ],
-                controller: this._campaignsController.sendInviteEmail,
+                controller: this._campaignsController.publishPostInviteEmail,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'invite',
