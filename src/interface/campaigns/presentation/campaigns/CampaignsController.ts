@@ -53,7 +53,7 @@ export default class CampaignsController {
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
         this.updateMatchDates = this.updateMatchDates.bind(this);
         this.updateMatchPlayers = this.updateMatchPlayers.bind(this);
-        this.publishPostInviteEmail = this.publishPostInviteEmail.bind(this);
+        this.inviteEmail = this.inviteEmail.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -93,17 +93,18 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
-    public async publishPostInviteEmail(req: Request, res: Response): Promise<Response> {
+    public async inviteEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.body as { userId: string };
-        const { userEmail } = req.query as { userEmail: string };
+        const { userId } = req.user as UserInstance;
+        const { targetEmail } = req.query as { targetEmail: string };
 
-        const result = await this._postInvitationEmailOperation.execute({
+        await this._postInvitationEmailOperation.execute({
             campaignId: id,
-            email: userEmail,
+            targetEmail: targetEmail,
             userId: userId,
         });
-        return res.status(HttpStatusCode.OK).json(result);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
