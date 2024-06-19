@@ -15,8 +15,8 @@ export default class PostInvitationEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ email, campaignId, userId }: PostInvitationEmailPayload): Promise<void> {
+    public async execute({ targetEmail, campaignId, userId }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'Execute - PostInvitationEmailOperation');
-        await this._postInvitationEmailService.sendEmail({ email, campaignId, userId });
+        await this._postInvitationEmailService.sendEmail({ targetEmail, campaignId, userId });
     }
 }

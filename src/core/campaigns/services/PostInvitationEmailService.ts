@@ -43,10 +43,10 @@ export default class PostInvitationEmailService {
         return user;
     }
 
-    public async sendEmail({ email, campaignId, userId }: PostInvitationEmailPayload): Promise<void> {
+    public async sendEmail({ targetEmail, campaignId, userId }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - PostInvitationEmailService');
         const userInDb = await this._usersRepository.findOne({ userId });
 
-        await this._send(campaignId, userInDb, email);
+        await this._send(campaignId, userInDb, targetEmail);
     }
 }

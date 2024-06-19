@@ -92,9 +92,9 @@ export default class EmailSender {
         content: CommonContent,
         target: string
     ): Promise<ResponseEmailSender> {
-        const campaignId = content.campaignId ?? target;
-        const userId = content.userId ?? target;
-        const username = content.username ?? target;
+        const campaignId = content.campaignId as string;
+        const userId = content.userId as string;
+        const username = content.username as string;
         content.body = sendCampaignInviteEmailTemplate(campaignId, userId, username);
 
         const sendEmailResult = await this.handleEmail('html', content, target);
