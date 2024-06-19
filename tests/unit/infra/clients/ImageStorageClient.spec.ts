@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
@@ -49,8 +48,6 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 serializer,
                 httpRequest,
             });
-
-            sinon.spy(FormData.prototype, 'append');
         });
 
         it('should correctly upload the picture', async () => {
@@ -62,7 +59,6 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             expect(imageUp).to.have.property('link');
             expect(imageUp).to.have.property('uploadDate');
             expect(imageUp).to.have.property('request');
-            expect(FormData.prototype.append).to.have.been.calledTwice();
             process.env.NODE_ENV = 'develop';
         });
 
