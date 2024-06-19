@@ -65,5 +65,5 @@ export interface UpdateMatchPlayersPayload {
 export interface PostInvitationEmailPayload {
     campaignId: string;
     userId: string;
-    email: string;
+    targetEmail: string;
 }
