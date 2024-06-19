@@ -2,6 +2,7 @@ import { FileObject } from 'src/types/shared/file';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
+import FormData from 'form-data';
 
 export default class ImageStorageClient {
     private readonly _logger;
