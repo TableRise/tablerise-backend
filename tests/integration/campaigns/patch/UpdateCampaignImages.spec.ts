@@ -22,7 +22,7 @@ describe('When a map or character image is added or removed from a campaign', ()
         const { body } = await requester()
             .patch(`/campaigns/${campaign.campaignId}/update/images?operation=add`)
             .attach('image', filePath);
-            // .expect(HttpStatusCode.OK);
+        // .expect(HttpStatusCode.OK);
 
         expect(body.maps).to.be.an('array');
         expect(body.maps[0]).to.have.property('id');

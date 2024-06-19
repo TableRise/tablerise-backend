@@ -29,7 +29,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
                         uploadDate: '2023-12-12Z10:34',
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 ];
 
@@ -78,7 +78,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
                         link: 'https://img.bb/',
                         uploadDate: '2023-12-12Z10:34',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 ];
 

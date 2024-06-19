@@ -72,7 +72,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                         uploadDate: '2023-03-27Z14:13',
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 ];
 
@@ -169,7 +169,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                         link: 'https://img.bb',
                         uploadDate: '2023-03-27Z14:13',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 ];
 
@@ -222,7 +222,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                         uploadDate: '2023-03-27Z14:13',
                         title: '',
                         deleteUrl: '',
-                        request: { success: true, status: 200 }
+                        request: { success: true, status: 200 },
                     },
                 ];
 
