@@ -114,6 +114,7 @@ export default class Serializer {
             visibility,
         },
         lores = null,
+        images = null,
         createdAt = null,
         updatedAt = null,
     }: any): CampaignInstance {
@@ -128,6 +129,7 @@ export default class Serializer {
             matchData,
             infos,
             lores,
+            images,
             createdAt,
             updatedAt,
         };
