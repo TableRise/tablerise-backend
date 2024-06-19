@@ -160,7 +160,7 @@ export default class HttpRequestErrors extends Error {
 
             case 'linked-mandatory-data-when-delete':
                 throw new HttpRequestErrors({
-                    message: 'There is a campaing or character linked to this user',
+                    message: 'There is a campaign or character linked to this user',
                     code: HttpStatusCode.UNAUTHORIZED,
                     name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });

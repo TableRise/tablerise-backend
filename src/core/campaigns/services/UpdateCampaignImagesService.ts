@@ -1,8 +1,4 @@
-import {
-    CharactersCampaign,
-    ImageObject,
-} from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { AxiosResponse } from 'axios';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { UpdateCampaignImagesPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
@@ -24,23 +20,14 @@ export default class UpdateCampaignImagesService {
 
     addCampaignImage(
         campaign: CampaignInstance,
-        imageUploadResponse: AxiosResponse<any, any>,
+        imageUploadResponse: ImageObject,
         name: string | undefined
     ): CampaignInstance {
         this._logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
         if (name) {
-            campaign.images.characters.push({
-                imageId: imageUploadResponse.data.id,
-                name,
-                link: imageUploadResponse.data.link,
-                uploadDate: new Date().toISOString(),
-            });
+            campaign.images.characters.push(imageUploadResponse);
         } else {
-            campaign.images.maps.push({
-                id: imageUploadResponse.data.id,
-                link: imageUploadResponse.data.link,
-                uploadDate: new Date().toISOString(),
-            });
+            campaign.images.maps.push(imageUploadResponse);
         }
         return campaign;
     }
@@ -53,7 +40,7 @@ export default class UpdateCampaignImagesService {
         this._logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters = campaign.images.characters.filter(
-                (characterImage: CharactersCampaign) => characterImage.imageId !== imageId
+                (characterImage: ImageObject) => characterImage.id !== imageId
             );
         } else {
             campaign.images.maps = campaign.images.maps.filter(
@@ -73,7 +60,7 @@ export default class UpdateCampaignImagesService {
         this._logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
         const imageUploadResponse =
-            image && (await this._imageStorageClient.upload(image));
+            image && (await this._imageStorageClient.upload(image, name));
 
         if (operation === 'add' && imageUploadResponse) {
             this.addCampaignImage(campaign, imageUploadResponse, name);

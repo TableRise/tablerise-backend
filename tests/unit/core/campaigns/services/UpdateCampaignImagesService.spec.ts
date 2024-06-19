@@ -70,6 +70,9 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                         id: '789',
                         link: 'https://img.bb',
                         uploadDate: '2023-03-27Z14:13',
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 }
                     },
                 ];
 
@@ -161,10 +164,12 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
 
                 campaign.images.characters = [
                     {
-                        imageId: '789',
-                        name: 'character',
+                        id: '789',
+                        title: 'character',
                         link: 'https://img.bb',
                         uploadDate: '2023-03-27Z14:13',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 }
                     },
                 ];
 
@@ -215,6 +220,9 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                         id: '789',
                         link: 'https://img.bb',
                         uploadDate: '2023-03-27Z14:13',
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 }
                     },
                 ];
 

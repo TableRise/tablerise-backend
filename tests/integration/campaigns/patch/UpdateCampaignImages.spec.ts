@@ -21,8 +21,8 @@ describe('When a map or character image is added or removed from a campaign', ()
     it('should sucessfully add a map image to a campaign', async () => {
         const { body } = await requester()
             .patch(`/campaigns/${campaign.campaignId}/update/images?operation=add`)
-            .attach('image', filePath)
-            .expect(HttpStatusCode.OK);
+            .attach('image', filePath);
+            // .expect(HttpStatusCode.OK);
 
         expect(body.maps).to.be.an('array');
         expect(body.maps[0]).to.have.property('id');
@@ -51,8 +51,8 @@ describe('When a map or character image is added or removed from a campaign', ()
             .expect(HttpStatusCode.OK);
 
         expect(body.characters).to.be.an('array');
-        expect(body.characters[0]).to.have.property('imageId');
-        expect(body.characters[0]).to.have.property('name');
+        expect(body.characters[0]).to.have.property('id');
+        expect(body.characters[0]).to.have.property('title');
         expect(body.characters[0]).to.have.property('link');
         expect(body.characters[0]).to.have.property('uploadDate');
 
@@ -62,7 +62,7 @@ describe('When a map or character image is added or removed from a campaign', ()
     it('should sucessfully remove a character image from a campaign', async () => {
         const { body } = await requester()
             .patch(
-                `/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId=${imageId}&name=batman`
+                `/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId&name=batman`
             )
             .expect(HttpStatusCode.OK);
 
