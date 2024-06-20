@@ -54,4 +54,22 @@ jobs:
 
       - name: Checking coverage level
         run: npm run check-cov
-
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloudScan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args:
+            -Dsonar.organization=TableRise
+            -Dsonar.projectKey=tablerise_tablerise
+            -Dsonar.sources=src
+            -Dsonar.exclusions=**/*
+            -Dsonar.inclusions=src/**/*
