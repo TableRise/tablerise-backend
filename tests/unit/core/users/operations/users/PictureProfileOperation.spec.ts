@@ -15,7 +15,14 @@ describe('Core :: Users :: Operation :: Users :: PictureProfileOperation', () =>
         before(() => {
             user = DomainDataFaker.generateUsersJSON()[0];
 
-            user.picture = { id: '', link: '123', uploadDate: new Date() };
+            user.picture = {
+                id: '',
+                title: '',
+                link: '123',
+                uploadDate: new Date().toISOString(),
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            };
 
             pictureProfileService = {
                 uploadPicture: sinon.spy(() => user),

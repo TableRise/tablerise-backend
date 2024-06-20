@@ -67,10 +67,9 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
 
                 imageStorageClient = {
                     upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://youtube.com/',
-                        },
+                        id: '123',
+                        link: 'https://youtube.com/',
+                        uploadDate: new Date().toISOString(),
                     }),
                 };
 

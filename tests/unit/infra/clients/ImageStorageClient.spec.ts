@@ -1,10 +1,11 @@
-import sinon from 'sinon';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
+import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Infra :: Clients :: ImageStorageClient', () => {
     let imageStorageClient: ImageStorageClient,
         configs: any,
+        serializer: any,
         httpRequest: any,
         imageMock: FileObject;
 
@@ -26,7 +27,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 },
             };
 
-            httpRequest = () => ({ data: 'upload test' });
+            httpRequest = () => ({ data: { title: 'upload test' } });
 
             imageMock = {
                 buffer: bufferMock,
@@ -37,28 +38,46 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 size: 154,
             };
 
+            serializer = {
+                imageResult: () => DomainDataFaker.generateImagesObjectJSON()[0],
+            };
+
             imageStorageClient = new ImageStorageClient({
                 logger,
                 configs,
+                serializer,
                 httpRequest,
             });
-
-            sinon.spy(Buffer, 'from');
         });
 
         it('should correctly upload the picture', async () => {
             process.env.NODE_ENV = 'production';
             const imageUp = await imageStorageClient.upload(imageMock);
-            expect(imageUp).to.be.deep.equal('upload test');
-            expect(Buffer.from).to.have.been.calledWith(bufferMock, 'base64');
+
+            expect(imageUp).to.have.property('id');
+            expect(imageUp).to.have.property('title');
+            expect(imageUp).to.have.property('link');
+            expect(imageUp).to.have.property('uploadDate');
+            expect(imageUp).to.have.property('request');
             process.env.NODE_ENV = 'develop';
         });
 
         it('should correctly upload the picture - No Prod', async () => {
             const imageUp = await imageStorageClient.upload(imageMock);
-            expect(imageUp).to.have.property('data');
-            expect(imageUp.data.id).to.be.equal('');
-            expect(imageUp.data.link).to.be.equal('');
+            expect(imageUp).to.have.property('id');
+            expect(imageUp).to.have.property('title');
+            expect(imageUp).to.have.property('link');
+            expect(imageUp).to.have.property('uploadDate');
+            expect(imageUp).to.have.property('request');
+        });
+
+        it('should correctly upload the picture - No Prod and Custom title', async () => {
+            const imageUp = await imageStorageClient.upload(imageMock, 'custom');
+            expect(imageUp).to.have.property('id');
+            expect(imageUp).to.have.property('title');
+            expect(imageUp).to.have.property('link');
+            expect(imageUp).to.have.property('uploadDate');
+            expect(imageUp).to.have.property('request');
         });
     });
 });

@@ -2,6 +2,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
+import DomainDataFaker from '../../campaigns/DomainDataFaker';
 
 function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
     return {
@@ -12,11 +13,7 @@ function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
         password: 'TheWorld@122',
         nickname: dataGenerator.nickname(),
         tag: `#${dataGenerator.number({ min: 1000, max: 9999 })}`,
-        picture: {
-            id: '123',
-            link: 'https://imgur.com',
-            uploadDate: new Date(),
-        },
+        picture: DomainDataFaker.generateImagesObjectJSON()[0],
         twoFactorSecret: { active: false },
     } as UserInstance;
 }

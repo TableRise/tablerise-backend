@@ -66,11 +66,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
                 if (campaign.matchData)
                     campaign.matchData.mapImages = [
-                        {
-                            id: '789',
-                            link: 'https://img.bb',
-                            uploadDate: '2023-03-27Z14:13',
-                        },
+                        DomainDataFaker.generateImagesObjectJSON().map((img) => {
+                            img.id = '789';
+                            return img;
+                        })[0],
                     ];
 
                 campaignMapImagesLength = campaign.matchData?.mapImages.length ?? 0;
@@ -116,11 +115,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
                 if (campaign.matchData)
                     campaign.matchData.mapImages = [
-                        {
-                            id: '789',
-                            link: 'https://img.bb',
-                            uploadDate: '2023-03-27Z14:13',
-                        },
+                        DomainDataFaker.generateImagesObjectJSON()[0],
                     ];
 
                 campaignsRepository = {

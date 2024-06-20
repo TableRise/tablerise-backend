@@ -27,6 +27,9 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
                         id: '123',
                         link: 'https://img.bb/',
                         uploadDate: '2023-12-12Z10:34',
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 ];
 
@@ -70,10 +73,12 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
 
                 campaign.images.characters = [
                     {
-                        imageId: '123',
-                        name: 'character',
+                        id: '123',
+                        title: 'character',
                         link: 'https://img.bb/',
                         uploadDate: '2023-12-12Z10:34',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 ];
 
@@ -97,9 +102,9 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
                     updateCampaignImagesService.updateCampaignImage
                 ).to.have.been.called();
                 expect(updateCampaignImagesService.save).to.have.been.called();
-                expect(updateImagesTest.characters[0]).to.have.property('imageId');
-                expect(updateImagesTest.characters[0].imageId).to.be.equal(
-                    campaign.images.characters[0].imageId
+                expect(updateImagesTest.characters[0]).to.have.property('id');
+                expect(updateImagesTest.characters[0].id).to.be.equal(
+                    campaign.images.characters[0].id
                 );
             });
         });
