@@ -68,7 +68,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args:
-            -Dsonar.organization=TableRise
+            -Dsonar.organization=tablerise
             -Dsonar.projectKey=tablerise_tablerise
             -Dsonar.sources=src
             -Dsonar.exclusions=**/*
