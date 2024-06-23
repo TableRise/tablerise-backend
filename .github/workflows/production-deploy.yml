@@ -1,31 +1,30 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI/CD
-
+name: Production Deployment
 on:
   push:
-    branches: [ "main" ]
-
+    branches:
+      - main
 jobs:
-  build:
-
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - run: pm2 stop tablerise-api
-    - run: pm2 delete tablerise-api
-    - run: pm2 start /build/src/server.js --name tablerise-api
+    - name: Checkout the files
+      uses: actions/checkout@v3
+
+    - name: Copy files with SSH
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+        ARGS: "-rltgoDzvO --delete"
+        SOURCE: "./"
+        REMOTE_HOST: ${{secrets.REMOTE_HOST}}
+        REMOTE_USER: ${{secrets.REMOTE_USER}}
+        TARGET: ${{secrets.TARGET_DIR}}
+        EXCLUDE: "/build/, /node_modules/, /coverage/, /.nyc_output/, **.env, rebuild_app.sh, watcher.sh"
+        SCRIPT_BEFORE: |
+          pm2 delete tablerise-api
+        SCRIPT_AFTER: |
+          cd $HOME/tablerise-backend && npm run reset
+          npm run build
+          pm2 start ./build/src/server.js --name tablerise-api
