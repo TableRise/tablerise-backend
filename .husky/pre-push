@@ -17,7 +17,7 @@ if [[ ! $BRANCH =~ $REGEX ]]; then
   echo ""
   echo -e "> \e[31mYour push was rejected due to the branch name\e[0m"
   echo ""
-  echo -e "> Please rename your branch using the syntax: \e[32m(feat|bugfix|hotfix)\/\e[34mnotion-task-id-numbers\/\e[33mbranch-objective\e[0m"
+  echo -e "> Please rename your branch using the syntax: \e[32m(feat|bugfix|hotfix)\/\e[34mtask-id\/\e[33mbranch-objective\e[0m"
   echo "> Pushes in the develop, main, or qa branches are not allowed."
   echo ""
   echo "========================"
