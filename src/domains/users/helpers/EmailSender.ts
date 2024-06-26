@@ -21,6 +21,7 @@ export default class EmailSender {
         this.sendCommon = this.sendCommon.bind(this);
         this.sendConfirmation = this.sendConfirmation.bind(this);
         this.sendVerification = this.sendVerification.bind(this);
+        this.sendInvitation = this.sendInvitation.bind(this);
         this.send = this.send.bind(this);
     }
 
