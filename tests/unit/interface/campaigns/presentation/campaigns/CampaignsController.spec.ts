@@ -297,8 +297,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
             expect(postInvitationEmailOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
-                userId: userId,
-                username: username,
+                userId,
+                username,
                 targetEmail: request.query.targetEmail,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);

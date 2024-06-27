@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class VerifyUserMiddleware {

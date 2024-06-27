@@ -20,9 +20,9 @@ export default class PostInvitationEmailService {
 
         const emailSendResult = await this._emailSender.send(
             {
-                campaignId: campaignId,
-                userId: userId,
-                username: username,
+                campaignId,
+                userId,
+                username,
                 subject: 'Email de Convite para Campanha - TableRise',
             },
             emailSended
