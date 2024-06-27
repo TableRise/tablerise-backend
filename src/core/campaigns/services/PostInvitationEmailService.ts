@@ -14,7 +14,12 @@ export default class PostInvitationEmailService {
         this._logger = logger;
     }
 
-    private async _send(campaignId: string, userId: string, username: string, emailSended: string): Promise<void> {
+    private async _send(
+        campaignId: string,
+        userId: string,
+        username: string,
+        emailSended: string
+    ): Promise<void> {
         this._logger('info', 'Send - SendEmail - PostInvitationEmailService');
         this._emailSender.type = 'invitation';
 
@@ -35,10 +40,14 @@ export default class PostInvitationEmailService {
             );
             HttpRequestErrors.throwError('verification-email-send-fail');
         }
-
     }
 
-    public async sendEmail({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
+    public async sendEmail({
+        targetEmail,
+        campaignId,
+        userId,
+        username,
+    }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - PostInvitationEmailService');
 
         await this._send(campaignId, userId, username, targetEmail);

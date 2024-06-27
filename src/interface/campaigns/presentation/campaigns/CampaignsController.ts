@@ -101,7 +101,7 @@ export default class CampaignsController {
             campaignId: id,
             targetEmail,
             userId,
-            username
+            username,
         });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();

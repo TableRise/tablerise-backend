@@ -1,9 +1,7 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
-import {
-    InjectNewCampaign,
-} from 'tests/support/dataInjector';
+import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('when the email invitation is sent', () => {

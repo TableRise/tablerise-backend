@@ -95,7 +95,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getCampaignByIdOperation,
                 updateMatchPlayersOperation,
                 getAllCampaignsOperation,
-                postInvitationEmailOperation
+                postInvitationEmailOperation,
             });
         });
 
@@ -290,7 +290,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { targetEmail: 'test20@email.com' }
+            request.query = { targetEmail: 'test20@email.com' };
             request.user = { userId, username } as Express.User;
 
             await campaignsController.inviteEmail(request, response);

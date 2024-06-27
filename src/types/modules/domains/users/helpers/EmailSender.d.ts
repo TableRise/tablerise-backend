@@ -11,7 +11,12 @@ export interface EmailSenderContract {
     emailType: 'common' | 'confirmation' | 'verification' | 'invitation';
 }
 
-export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verification' | 'invitation';
+export type EmailSenderType =
+    | 'confirmation'
+    | 'newsletter'
+    | 'common'
+    | 'verification'
+    | 'invitation';
 
 export interface CommonContent {
     username?: string;

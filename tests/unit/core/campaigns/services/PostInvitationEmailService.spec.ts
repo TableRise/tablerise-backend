@@ -11,7 +11,6 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
     let postInvitationEmailService: PostInvitationEmailService,
         campaign: CampaignInstance,
         emailSender: any,
-
         payload: any,
         httpRequestErrors: HttpRequestErrors;
 
@@ -48,7 +47,6 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
                 } catch (error) {
                     expect('it should not be here').to.be.equal(false);
                 }
-
             });
         });
 
@@ -83,11 +81,14 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Some problem ocurred in email sending');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'Some problem ocurred in email sending'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
-
             });
         });
     });
