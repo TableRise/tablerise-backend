@@ -66,4 +66,5 @@ export interface PostInvitationEmailPayload {
     campaignId: string;
     userId: string;
     targetEmail: string;
+    username: string;
 }
