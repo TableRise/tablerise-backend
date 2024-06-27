@@ -6,7 +6,6 @@ import {
     // UpdateMatchDatesPayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
-import { UserInstance, UserInviteEmail } from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {

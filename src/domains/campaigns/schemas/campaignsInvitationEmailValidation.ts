@@ -4,6 +4,7 @@ const campaignInvitationEmailZodSchema = z.object({
     targetEmail: z.string().email(),
     userId: z.string(),
     campaignId: z.string(),
+    username: z.string(),
 });
 
 export type campaignInvitationEmailPayload = z.infer<typeof campaignInvitationEmailZodSchema>;
