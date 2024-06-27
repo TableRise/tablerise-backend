@@ -24,7 +24,7 @@ export default class VerifyUserMiddleware {
     ): Promise<void> {
         this._logger('info', 'UserStatus - VerifyUserMiddleware');
 
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
 
         const userInDb = await this._usersRepository.findOne({ userId });
 

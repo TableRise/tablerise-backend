@@ -6,7 +6,7 @@ import {
     // UpdateMatchDatesPayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import { UserInstance, UserInviteEmail } from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
@@ -58,7 +58,7 @@ export default class CampaignsController {
 
     public async create(req: Request, res: Response): Promise<Response> {
         const campaign = req.body as CampaignPayload;
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
         const image = req.file as FileObject;
         const result = await this._createCampaignOperation.execute({
             campaign,
@@ -95,13 +95,14 @@ export default class CampaignsController {
 
     public async inviteEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.user as UserInstance;
+        const { userId, username } = req.user as Express.User;
         const { targetEmail } = req.query as { targetEmail: string };
 
         await this._postInvitationEmailOperation.execute({
             campaignId: id,
-            targetEmail: targetEmail,
-            userId: userId,
+            targetEmail,
+            userId,
+            username
         });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
@@ -160,7 +161,7 @@ export default class CampaignsController {
     public async updateMatchPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { operation } = req.query as { operation: 'add' | 'remove' };
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
 
         const result = await this._updateMatchPlayersOperation.execute({
             campaignId: id,

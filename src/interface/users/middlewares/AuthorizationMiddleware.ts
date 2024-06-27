@@ -37,7 +37,7 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
-        const { userId } = req.user as JWTResponse;
+        const { userId } = req.user as Express.User;
 
         const userDetail = await this._usersDetailsRepository.findOne({ userId });
 
