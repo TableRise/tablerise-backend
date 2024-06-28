@@ -16,7 +16,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         getCampaignByIdOperation: any,
         updateMatchPlayersOperation: any,
         getAllCampaignsOperation: any,
-        postInvitationEmailOperation: any;
+        postInvitationEmailOperation: any,
         updateCampaignImagesOperation: any;
 
     context('#create', () => {
