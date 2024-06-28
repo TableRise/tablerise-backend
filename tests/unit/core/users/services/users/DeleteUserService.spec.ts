@@ -5,17 +5,19 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
+import sinon from 'sinon';
 
-describe('Core :: Users :: Services :: GetUserByIdService', () => {
+describe('Core :: Users :: Services :: DeleteUserService', () => {
     let deleteUsersService: DeleteUserService,
         usersRepository: any,
         usersDetailsRepository: any,
         user: UserInstance,
+        userUpdated: UserInstance,
         message: string,
         code: number,
         userDetails: UserDetailInstance;
 
-    const logger = (): void => {};
+    const logger = sinon.spy((): void => {});
 
     context('#Delete', () => {
         context('When delete a user with success', () => {
@@ -23,8 +25,11 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
-                usersRepository = { findOne: () => user, delete: () => {} };
-                usersDetailsRepository = { findOne: () => userDetails, delete: () => {} };
+                userUpdated = { ...user };
+                userUpdated.inProgress.status = 'wait_to_delete';
+                usersRepository = { findOne: () => user, update: () => userUpdated };
+                usersDetailsRepository = { findOne: () => userDetails };
+                sinon.spy(usersRepository, 'update');
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,
@@ -34,16 +39,18 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
 
             it('should return the correct result', async () => {
-                const mockDeleteUser = async (): Promise<boolean> => {
-                    await deleteUsersService.delete(user.userId);
-                    return true;
-                };
-                const deleted = await mockDeleteUser();
-                expect(deleted).to.be.equal(true);
+                await deleteUsersService.delete(user.userId);
+
+                expect(usersRepository.update).to.have.been.called();
+                expect(usersRepository.update).to.have.been.called();
+                expect(logger).to.have.been.calledWith(
+                    'info',
+                    `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`
+                );
             });
         });
 
-        context('When delete a user not exist', () => {
+        context('When a user not exist', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
@@ -51,8 +58,10 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 message = 'User does not exist';
                 code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
-                usersRepository = { findOne: () => {}, delete: () => {} };
-                usersDetailsRepository = { findOne: () => {}, delete: () => {} };
+                userUpdated = { ...user };
+                userUpdated.inProgress.status = 'wait_to_delete';
+                usersRepository = { findOne: () => user, update: () => userUpdated };
+                usersDetailsRepository = { findOne: () => {} };
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,
@@ -70,17 +79,19 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
         });
 
-        context('When gameinfo campaing or character exists', () => {
+        context('When gameinfo campaign or character exists', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
-                message = 'There is a campaing or character linked to this user';
+                message = 'There is a campaign or character linked to this user';
                 code = HttpStatusCode.UNAUTHORIZED;
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi'];
-                usersRepository = { findOne: () => user, delete: () => {} };
-                usersDetailsRepository = { findOne: () => userDetails, delete: () => {} };
+                userUpdated = { ...user };
+                userUpdated.inProgress.status = 'wait_to_delete';
+                usersRepository = { findOne: () => user, update: () => userUpdated };
+                usersDetailsRepository = { findOne: () => userDetails };
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,

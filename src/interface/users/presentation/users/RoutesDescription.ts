@@ -34,7 +34,7 @@ Query:
 - info: "badges" | "campaigns" | "characters"
 - operation: "add" | "remove"`;
 
-const resetProfile = `Route for user reset, this route erase all the content in: characters - campaings - badges`;
+const resetProfile = `Route for user reset, this route erase all the content in: characters - campaigns - badges`;
 
 const profilePicture =
     'Route used to upload a photo as profile ficture - Only PNG or JPEG';

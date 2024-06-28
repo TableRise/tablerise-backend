@@ -20,7 +20,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'invalid-user-status': 'User status is invalid to perform this operation',
         'invalid-email-verify-code': 'Invalid email verify code',
         'linked-mandatory-data-when-delete':
-            'There is a campaing or character linked to this user',
+            'There is a campaign or character linked to this user',
         'verification-email-send-fail': 'Some problem ocurred in email sending',
         'user-database-critical-errror':
             'User database is not according with User Details database',

@@ -37,6 +37,10 @@ import {
     UpdateMatchPlayersOperationContract,
     UpdateMatchPlayersServiceContract,
 } from './campaigns/UpdateMatchPlayers';
+import {
+    UpdateCampaignImagesOperationContract,
+    UpdateCampaignImagesServiceContract,
+} from './campaigns/UpdateCampaignImages';
 
 import {
     PostInvitationEmailOperation,
@@ -54,6 +58,7 @@ export default interface CampaignCoreDependencies {
     updateMatchDatesOperationContract: UpdateMatchDatesOperationContract;
     updateMatchPlayersOperationContract: UpdateMatchPlayersOperationContract;
     postInvitationEmailOperation: PostInvitationEmailOperation;
+    updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -65,4 +70,5 @@ export default interface CampaignCoreDependencies {
     updateMatchDatesServiceContract: UpdateMatchDatesServiceContract;
     updateMatchPlayersServiceContract: UpdateMatchPlayersServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
+    updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
 }

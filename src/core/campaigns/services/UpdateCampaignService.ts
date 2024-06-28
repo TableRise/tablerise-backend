@@ -34,14 +34,7 @@ export default class UpdateCampaignService {
         campaignInDb.infos.visibility =
             (visibility as 'hidden' | 'visible') ?? campaignInDb.infos.visibility;
 
-        if (cover) {
-            const { data } = await this._imageStorageClient.upload(cover);
-            campaignInDb.cover = {
-                id: data.id,
-                link: data.link,
-                uploadDate: new Date().toISOString(),
-            };
-        }
+        if (cover) campaignInDb.cover = await this._imageStorageClient.upload(cover);
 
         return campaignInDb;
     }

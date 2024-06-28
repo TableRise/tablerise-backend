@@ -19,6 +19,7 @@ export default class CampaignsController {
     private readonly _updateMatchDatesOperation;
     private readonly _updateMatchPlayersOperation;
     private readonly _postInvitationEmailOperation;
+    private readonly _updateCampaignImagesOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -31,6 +32,7 @@ export default class CampaignsController {
         updateMatchDatesOperation,
         updateMatchPlayersOperation,
         postInvitationEmailOperation,
+        updateCampaignImagesOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
@@ -42,6 +44,7 @@ export default class CampaignsController {
         this._updateMatchDatesOperation = updateMatchDatesOperation;
         this._updateMatchPlayersOperation = updateMatchPlayersOperation;
         this._postInvitationEmailOperation = postInvitationEmailOperation;
+        this._updateCampaignImagesOperation = updateCampaignImagesOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -53,6 +56,7 @@ export default class CampaignsController {
         this.updateMatchDates = this.updateMatchDates.bind(this);
         this.updateMatchPlayers = this.updateMatchPlayers.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
+        this.updateCampaignImages = this.updateCampaignImages.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -180,6 +184,27 @@ export default class CampaignsController {
             ...payload,
             cover,
             campaignId: id,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCampaignImages(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { imageId, name, operation } = req.query as {
+            imageId?: string;
+            name?: string;
+            operation: 'add' | 'remove';
+        };
+
+        const image = req.file as FileObject;
+
+        const result = await this._updateCampaignImagesOperation.execute({
+            campaignId: id,
+            imageId,
+            image,
+            name,
+            operation,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

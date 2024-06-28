@@ -23,7 +23,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 user.picture = {
                     id: '',
                     link: '',
-                    uploadDate: new Date(),
+                    uploadDate: new Date().toISOString(),
+                    title: '',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -31,7 +34,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     picture: {
                         id: '123',
                         link: 'https://123.com',
-                        uploadDate: new Date(),
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -73,7 +79,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 if (!userUpdated.picture) return;
                 expect(userUpdated.picture.id).to.be.equal('123');
                 expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(userUpdated.picture.uploadDate).to.be.instanceOf(Date);
+                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
             });
         });
 
@@ -84,7 +90,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 user.picture = {
                     id: '123',
                     link: '',
-                    uploadDate: new Date('2023-12-01T17:30:26.393Z'),
+                    uploadDate: '2023-12-01T17:30:26.393Z',
+                    title: '',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -92,7 +101,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     picture: {
                         id: '123',
                         link: 'https://123.com',
-                        uploadDate: new Date(),
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -134,7 +146,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 if (!userUpdated.picture) return;
                 expect(userUpdated.picture.id).to.be.equal('123');
                 expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(userUpdated.picture.uploadDate).to.be.instanceOf(Date);
+                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
             });
         });
 
@@ -147,7 +159,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     picture: {
                         id: '123',
                         link: 'https://123.com',
-                        uploadDate: new Date(),
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 };
 
@@ -189,7 +204,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 if (!userUpdated.picture) return;
                 expect(userUpdated.picture.id).to.be.equal('123');
                 expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(userUpdated.picture.uploadDate).to.be.instanceOf(Date);
+                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
             });
         });
 
@@ -200,7 +215,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                 user.picture = {
                     id: '123',
                     link: 'https://123.com',
-                    uploadDate: new Date(),
+                    uploadDate: new Date().toISOString(),
+                    title: '',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
                 };
 
                 userWithPicture = {
@@ -208,7 +226,10 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     picture: {
                         id: '123',
                         link: 'https://123.com',
-                        uploadDate: new Date(),
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
                     },
                 };
 

@@ -68,3 +68,11 @@ export interface PostInvitationEmailPayload {
     targetEmail: string;
     username: string;
 }
+
+export interface UpdateCampaignImagesPayload {
+    campaignId: string;
+    image?: FileObject;
+    name?: string;
+    imageId?: string;
+    operation: 'add' | 'remove';
+}
