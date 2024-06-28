@@ -55,7 +55,7 @@ export default class Application {
             )
             .use(cookieParser())
             .use(helmet())
-            .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
+            .use(session({ secret: process.env.COOKIE_SECRET as string }))
             .use(passport.session())
             .use(this._accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
@@ -87,6 +87,7 @@ export default class Application {
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
+
         server.listen(port, () => {
             this._logger(
                 'info',

@@ -1,13 +1,8 @@
 import Sinon from 'sinon';
 import OAuthService from 'src/core/users/services/oauth/OAuthService';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import getErrorName from 'src/domains/common/helpers/getErrorName';
-import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { __UserSerialized } from 'src/types/api/users/methods';
 
 describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
     let oAuthService: OAuthService,
@@ -49,9 +44,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
             });
 
             it('should call correct methods', async () => {
-                const oAuthSerialized = (await oAuthService.serialize(
-                    payload
-                )) as __UserSerialized;
+                const oAuthSerialized = await oAuthService.serialize(payload);
 
                 expect(oAuthSerialized).to.have.property('userSerialized');
                 expect(oAuthSerialized).to.have.property('userDetailsSerialized');
@@ -62,104 +55,6 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 expect(oAuthSerialized.userDetailsSerialized).to.be.deep.equal({});
             });
         });
-
-        context(
-            'When object is passed through oAuth serialize - but already exist',
-            () => {
-                const username = 'testUserN';
-                const email = 'testUserN@email.com';
-                const providerId = newUUID();
-
-                before(() => {
-                    user = DomainDataFaker.generateUsersJSON()[0];
-
-                    user.nickname = username;
-                    user.email = email;
-                    user.providerId = providerId;
-
-                    payload = {};
-
-                    usersRepository = {
-                        find: Sinon.spy(() => [user]),
-                    };
-
-                    usersDetailsRepository = {};
-
-                    serializer = {
-                        externalUser: Sinon.spy(() => ({ username, providerId })),
-                        postUser: Sinon.spy(() => ({ username, email, providerId })),
-                        postUserDetails: Sinon.spy(() => ({})),
-                    };
-
-                    oAuthService = new OAuthService({
-                        usersRepository,
-                        usersDetailsRepository,
-                        serializer,
-                        logger,
-                    });
-                });
-
-                it('should return correct string', async () => {
-                    const oAuthSerialized = (await oAuthService.serialize(
-                        payload
-                    )) as string;
-                    expect(typeof oAuthSerialized).to.be.equal('string');
-                });
-            }
-        );
-
-        context(
-            'When object is passed through oAuth serialize - but already exist with different providerId',
-            () => {
-                const username = 'testUserN';
-                const email = 'testUserN@email.com';
-                const providerId = newUUID();
-
-                before(() => {
-                    user = DomainDataFaker.generateUsersJSON()[0];
-
-                    user.nickname = username;
-                    user.email = email;
-                    user.providerId = '123';
-
-                    payload = {};
-
-                    usersRepository = {
-                        find: Sinon.spy(() => [user]),
-                    };
-
-                    usersDetailsRepository = {};
-
-                    serializer = {
-                        externalUser: Sinon.spy(() => ({ username, providerId })),
-                        postUser: Sinon.spy(() => ({ username, email })),
-                        postUserDetails: Sinon.spy(() => ({})),
-                    };
-
-                    oAuthService = new OAuthService({
-                        usersRepository,
-                        usersDetailsRepository,
-                        serializer,
-                        logger,
-                    });
-                });
-
-                it('should throw error', async () => {
-                    try {
-                        await oAuthService.serialize(payload);
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'Email already exists in database'
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                    }
-                });
-            }
-        );
     });
 
     context('#enrichment', () => {

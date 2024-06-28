@@ -106,7 +106,7 @@
         "multer": "1.4.5-lts.1",
         "node-cron": "3.0.3",
         "nodemailer": "6.9.9",
-        "passport": "0.6.0",
+        "passport": "0.5.3",
         "passport-cookie": "1.0.9",
         "passport-discord": "0.1.4",
         "passport-facebook": "3.0.0",

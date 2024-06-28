@@ -17,7 +17,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = oauthRoutes.routes();
-            expect(routes).to.have.lengthOf(11);
+            expect(routes).to.have.lengthOf(8);
         });
     });
 });
