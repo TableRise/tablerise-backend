@@ -1,5 +1,9 @@
 import Sinon from 'sinon';
 import OAuthService from 'src/core/users/services/oauth/OAuthService';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
+import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -124,6 +128,81 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 const usersSaved = await oAuthService.saveUser({ user, userDetails });
                 expect(usersSaved.userSaved).to.be.equal(user);
                 expect(usersSaved.userDetailsSaved).to.be.equal(userDetails);
+            });
+        });
+    });
+
+    context('#login', () => {
+        context('When an user is successfully logged in', () => {
+            let userSerialized: UserInstance;
+            const sandbox = Sinon.createSandbox();
+
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                userSerialized = DomainDataFaker.generateUsersJSON()[0];
+
+                user.providerId = '456';
+                userSerialized.providerId = '456';
+
+                usersRepository = {};
+                usersDetailsRepository = {};
+                serializer = {};
+
+                oAuthService = new OAuthService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    serializer,
+                    logger,
+                });
+
+                sandbox.stub(JWTGenerator, 'generate').returns('123');
+            });
+
+            after(() => {
+                sandbox.restore();
+            });
+
+            it('should not throw errors', () => {
+                const userToken = oAuthService.login(user, userSerialized);
+                expect(userToken).to.have.property('token');
+                expect(userToken.token).to.be.equal('123');
+            });
+        });
+
+        context('When login throws error', () => {
+            let userSerialized: UserInstance;
+
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                userSerialized = DomainDataFaker.generateUsersJSON()[0];
+
+                user.providerId = '789';
+                userSerialized.providerId = '456';
+
+                usersRepository = {};
+                usersDetailsRepository = {};
+                serializer = {};
+
+                oAuthService = new OAuthService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should not throw errors', () => {
+                try {
+                    oAuthService.login(user, userSerialized);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Email already exists in database');
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
             });
         });
     });
