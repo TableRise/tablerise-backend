@@ -30,7 +30,9 @@ export default class OAuthController {
     public async google(req: Request, res: Response): Promise<Response> {
         const { user } = req;
 
-        const result = await this._googleOperation.execute(user as Google.Profile);
+        const result = await this._googleOperation.execute(
+            user as unknown as Google.Profile
+        );
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
             result.token as string
@@ -45,7 +47,9 @@ export default class OAuthController {
     public async discord(req: Request, res: Response): Promise<Response> {
         const { user } = req;
 
-        const result = await this._discordOperation.execute(user as Discord.Profile);
+        const result = await this._discordOperation.execute(
+            user as unknown as Discord.Profile
+        );
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
             result.token as string

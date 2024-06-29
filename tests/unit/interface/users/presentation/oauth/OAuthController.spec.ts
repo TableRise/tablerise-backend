@@ -34,7 +34,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.user = { email: 'test@email.com' };
+            request.user = { username: '' } as Express.User;
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
@@ -43,7 +43,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions - when login', async () => {
-            request.user = { email: 'test@email.com' };
+            request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => '123') };
             loginUserOperation = { execute: () => ({}) };
 
@@ -62,7 +62,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions - when login - register', async () => {
-            request.user = { email: 'test@email.com' };
+            request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
             loginUserOperation = { execute: () => ({}) };
 
@@ -105,7 +105,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.user = { email: 'test20@email.com' };
+            request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => '123') };
             loginUserOperation = { execute: () => ({}) };
 
@@ -124,7 +124,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions - when login', async () => {
-            request.user = { email: 'test20@email.com' };
+            request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => '123') };
             loginUserOperation = { execute: () => ({}) };
 
@@ -143,7 +143,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should correctly call the methods and functions - when login - register', async () => {
-            request.user = { email: 'test@email.com' };
+            request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
             loginUserOperation = { execute: () => ({}) };
 

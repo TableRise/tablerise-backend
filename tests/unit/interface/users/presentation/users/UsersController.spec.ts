@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { Request, Response } from 'express';
+import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
@@ -353,7 +353,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.user = { token: '123' };
+            request.user = { username: '' } as Express.User;
             await usersController.login(request, response);
 
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);

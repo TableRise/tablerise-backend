@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, Express } from 'express';
 import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -42,7 +42,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             });
 
             it('should call next', async () => {
-                request.user = { userId: '123' };
+                request.user = { userId: '123' } as Express.User;
 
                 await authorizationMiddleware.checkAdminRole(request, response, next);
 
@@ -68,7 +68,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
             it('should call next', async () => {
                 try {
-                    request.user = { userId: '123' };
+                    request.user = { userId: '123' } as Express.User;
                     await authorizationMiddleware.checkAdminRole(request, response, next);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
@@ -102,7 +102,7 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
 
             it('should call next', async () => {
                 try {
-                    request.user = { userId: '123' };
+                    request.user = { userId: '123' } as Express.User;
                     await authorizationMiddleware.checkAdminRole(request, response, next);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {

@@ -8,7 +8,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { container } from 'src/container';
-import { request } from 'express';
+import { Express, request } from 'express';
 
 passport.use(
     new CookieStrategy(async (token: string, done: DoneCallback) => {
@@ -39,6 +39,6 @@ passport.use(
         logger('warn', 'Operation authorized');
 
         request.token = token;
-        done(null, payload);
+        done(null, payload as Express.User);
     })
 );

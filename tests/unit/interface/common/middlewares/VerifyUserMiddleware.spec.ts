@@ -1,5 +1,5 @@
 import Sinon from 'sinon';
-import { Request, Response } from 'express';
+import { Express, Request, Response } from 'express';
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
@@ -35,7 +35,7 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
             });
 
             it('should call next function', async () => {
-                request.user = { userId: '123' };
+                request.user = { userId: '123' } as Express.User;
                 await verifyUserMiddleware.userStatus(request, response, next);
                 expect(next).to.have.been.called();
             });
@@ -62,7 +62,7 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
 
             it('should not call next function', async () => {
                 try {
-                    request.user = { userId: '123' };
+                    request.user = { userId: '123' } as Express.User;
                     await verifyUserMiddleware.userStatus(request, response, next);
                     expect('it should not be here').expect(false);
                 } catch (error) {
