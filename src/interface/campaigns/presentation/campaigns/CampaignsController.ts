@@ -6,7 +6,6 @@ import {
     // UpdateMatchDatesPayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
@@ -19,6 +18,7 @@ export default class CampaignsController {
     private readonly _updateMatchMapImagesOperation;
     private readonly _updateMatchDatesOperation;
     private readonly _updateMatchPlayersOperation;
+    private readonly _postInvitationEmailOperation;
     private readonly _updateCampaignImagesOperation;
 
     constructor({
@@ -31,6 +31,7 @@ export default class CampaignsController {
         updateMatchMusicsOperation,
         updateMatchDatesOperation,
         updateMatchPlayersOperation,
+        postInvitationEmailOperation,
         updateCampaignImagesOperation,
     }: CampaignsControllerContract) {
         this._createCampaignOperation = createCampaignOperation;
@@ -42,6 +43,7 @@ export default class CampaignsController {
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
         this._updateMatchPlayersOperation = updateMatchPlayersOperation;
+        this._postInvitationEmailOperation = postInvitationEmailOperation;
         this._updateCampaignImagesOperation = updateCampaignImagesOperation;
 
         this.create = this.create.bind(this);
@@ -53,12 +55,13 @@ export default class CampaignsController {
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
         this.updateMatchDates = this.updateMatchDates.bind(this);
         this.updateMatchPlayers = this.updateMatchPlayers.bind(this);
+        this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
         const campaign = req.body as CampaignPayload;
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
         const image = req.file as FileObject;
         const result = await this._createCampaignOperation.execute({
             campaign,
@@ -91,6 +94,21 @@ export default class CampaignsController {
             payload,
         });
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async inviteEmail(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId, username } = req.user as Express.User;
+        const { targetEmail } = req.query as { targetEmail: string };
+
+        await this._postInvitationEmailOperation.execute({
+            campaignId: id,
+            targetEmail,
+            userId,
+            username,
+        });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
@@ -146,7 +164,7 @@ export default class CampaignsController {
     public async updateMatchPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { operation } = req.query as { operation: 'add' | 'remove' };
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
 
         const result = await this._updateMatchPlayersOperation.execute({
             campaignId: id,

@@ -89,6 +89,20 @@ export default class CampaignsRoutes {
                     tag: 'create',
                 },
             },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/invite`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'targetEmail', type: 'string' }]),
+                ],
+                controller: this._campaignsController.inviteEmail,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'invite',
+                    description: desc.inviteEmail,
+                },
+            },
 
             // PUT
             {
