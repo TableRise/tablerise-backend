@@ -53,7 +53,7 @@ export default class DiscordOperation {
                 user: userSerialized,
                 userDetails: userDetailsSerialized,
             },
-            'google'
+            'discord'
         );
 
         const userSaved = await this._oAuthService.saveUser({
