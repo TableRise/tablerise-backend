@@ -13,6 +13,7 @@ Query:
 - operation: "add" | "remove"`;
 const publishPost = 'This route publish a post in the campaign';
 const updateMatchPlayers = 'This route updates the match players';
+const inviteEmail = 'This route sends a campaign invitation via email';
 const updateCampaignImages = 'This route updates the campaign images';
 
 export default {
@@ -25,5 +26,6 @@ export default {
     updateMatchDates,
     publishPost,
     updateMatchPlayers,
+    inviteEmail,
     updateCampaignImages,
 };

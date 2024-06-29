@@ -7,6 +7,7 @@ import {
     EmailMessage,
     ResponseEmailSender,
 } from 'src/types/modules/domains/users/helpers/EmailSender';
+import sendCampaignInviteEmailTemplate from 'src/infra/templates/sendCampaignInviteEmailTemplate';
 
 export default class EmailSender {
     public type;
@@ -20,6 +21,7 @@ export default class EmailSender {
         this.sendCommon = this.sendCommon.bind(this);
         this.sendConfirmation = this.sendConfirmation.bind(this);
         this.sendVerification = this.sendVerification.bind(this);
+        this.sendInvitation = this.sendInvitation.bind(this);
         this.send = this.send.bind(this);
     }
 
@@ -87,6 +89,19 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
+    private async sendInvitation(
+        content: CommonContent,
+        target: string
+    ): Promise<ResponseEmailSender> {
+        const campaignId = content.campaignId as string;
+        const userId = content.userId as string;
+        const username = content.username as string;
+        content.body = sendCampaignInviteEmailTemplate(campaignId, userId, username);
+
+        const sendEmailResult = await this.handleEmail('html', content, target);
+        return { success: sendEmailResult };
+    }
+
     public async send(
         content: CommonContent,
         target: string
@@ -95,6 +110,7 @@ export default class EmailSender {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,
             verification: this.sendVerification,
+            invitation: this.sendInvitation,
         };
 
         const result = await options[this.type](content, target);
