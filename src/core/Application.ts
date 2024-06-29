@@ -53,7 +53,7 @@ export default class Application {
                     credentials: true,
                 })
             )
-            .use(cookieParser())
+            .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
             .use(session({ secret: process.env.COOKIE_SECRET as string }))
             .use(passport.session())
