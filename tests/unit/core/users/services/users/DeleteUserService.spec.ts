@@ -79,12 +79,12 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
             });
         });
 
-        context('When gameinfo campaing or character exists', () => {
+        context('When gameinfo campaign or character exists', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
-                message = 'There is a campaing or character linked to this user';
+                message = 'There is a campaign or character linked to this user';
                 code = HttpStatusCode.UNAUTHORIZED;
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi'];

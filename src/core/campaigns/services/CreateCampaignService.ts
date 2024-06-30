@@ -54,12 +54,7 @@ export default class CreateCampaignService {
         delete campaign.visibility;
 
         if (image) {
-            const response = await this._imageStorageClient.upload(image);
-            campaign.cover = {
-                id: response.data.id,
-                link: response.data.link,
-                uploadDate: new Date().toISOString(),
-            };
+            campaign.cover = await this._imageStorageClient.upload(image);
         } else {
             delete campaign.cover;
         }

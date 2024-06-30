@@ -1,5 +1,6 @@
 import Google from 'passport-google-oauth20';
 import passport from 'passport';
+import { Express } from 'express';
 
 const GoogleStrategy = Google.Strategy;
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
@@ -14,7 +15,7 @@ passport.use(
             scope: ['profile', 'email'],
         },
         (request, accessToken, refreshToken, profile, done) => {
-            done(null, profile);
+            done(null, profile as unknown as Express.User);
         }
     )
 );

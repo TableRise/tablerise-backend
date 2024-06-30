@@ -6,6 +6,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
     let googleOperation: GoogleOperation,
+        usersRepository: any,
         googleProfile: any,
         user: UserInstance,
         userDetails: UserDetailInstance,
@@ -20,22 +21,31 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                usersRepository = {
+                    find: () => [],
+                };
+
                 oAuthService = {
                     serialize: Sinon.spy(() => ({
-                        username: googleProfile.displayName,
+                        userSerialized: user,
+                        userDetailsSerialized: userDetails,
                     })),
                     enrichment: Sinon.spy(() => ({
-                        username: googleProfile,
-                        tag: '#4564',
+                        userEnriched: user,
+                        userDetailsEnriched: userDetails,
                     })),
                     saveUser: Sinon.spy(() => ({
                         userSaved: user,
                         userDetailsSaved: userDetails,
                     })),
+                    login: Sinon.spy(() => ({
+                        token: '123',
+                    })),
                 };
 
                 googleOperation = new GoogleOperation({
                     oAuthService,
+                    usersRepository,
                     logger,
                 });
             });
@@ -44,12 +54,15 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
                 const googleProfileCompleted = await googleOperation.execute(
                     googleProfile
                 );
+
                 expect(oAuthService.serialize).to.have.been.calledWith(googleProfile);
                 expect(oAuthService.enrichment).to.have.been.called();
                 expect(oAuthService.saveUser).to.have.been.called();
+                expect(oAuthService.login).to.have.been.called();
                 expect(googleProfileCompleted).to.be.deep.equal({
                     ...user,
                     details: userDetails,
+                    token: '123',
                 });
             });
         });
@@ -60,20 +73,25 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                usersRepository = {
+                    find: () => [user],
+                };
+
                 oAuthService = {
-                    serialize: Sinon.spy(() => 'test'),
-                    enrichment: Sinon.spy(() => ({
-                        username: googleProfile,
-                        tag: '#4564',
+                    serialize: Sinon.spy(() => ({
+                        userSerialized: user,
+                        userDetailsSerialized: userDetails,
                     })),
-                    saveUser: Sinon.spy(() => ({
-                        userSaved: user,
-                        userDetailsSaved: userDetails,
+                    enrichment: Sinon.spy(() => 'test'),
+                    saveUser: Sinon.spy(() => 'test'),
+                    login: Sinon.spy(() => ({
+                        token: '123',
                     })),
                 };
 
                 googleOperation = new GoogleOperation({
                     oAuthService,
+                    usersRepository,
                     logger,
                 });
             });
@@ -82,7 +100,11 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
                 const googleProfileCompleted = await googleOperation.execute(
                     googleProfile
                 );
-                expect(googleProfileCompleted).to.be.equal('test');
+
+                expect(oAuthService.serialize).to.have.been.called();
+                expect(oAuthService.enrichment).to.not.have.been.called();
+                expect(oAuthService.saveUser).to.not.have.been.called();
+                expect(googleProfileCompleted).to.be.deep.equal({ token: '123' });
             });
         });
     });

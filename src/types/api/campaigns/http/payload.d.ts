@@ -62,6 +62,13 @@ export interface UpdateMatchPlayersPayload {
     operation: 'add' | 'remove';
 }
 
+export interface PostInvitationEmailPayload {
+    campaignId: string;
+    userId: string;
+    targetEmail: string;
+    username: string;
+}
+
 export interface UpdateCampaignImagesPayload {
     campaignId: string;
     image?: FileObject;

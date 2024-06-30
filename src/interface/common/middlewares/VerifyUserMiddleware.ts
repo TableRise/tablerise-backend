@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class VerifyUserMiddleware {
@@ -24,7 +23,7 @@ export default class VerifyUserMiddleware {
     ): Promise<void> {
         this._logger('info', 'UserStatus - VerifyUserMiddleware');
 
-        const { userId } = req.user as UserInstance;
+        const { userId } = req.user as Express.User;
 
         const userInDb = await this._usersRepository.findOne({ userId });
 

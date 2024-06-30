@@ -46,13 +46,7 @@ export default class PictureProfileService {
 
         this._verifyLastUpdate(userInDb);
 
-        const response = await this._imageStorageClient.upload(image);
-
-        userInDb.picture = {
-            id: response.data.id,
-            link: response.data.link,
-            uploadDate: new Date(),
-        };
+        userInDb.picture = await this._imageStorageClient.upload(image);
 
         return this._usersRepository.update({
             query: { userId: userInDb.userId },

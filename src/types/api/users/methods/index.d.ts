@@ -67,6 +67,10 @@ export interface __UserSerialized {
     userDetailsSerialized: UserDetailInstance;
 }
 
+export interface __TokenObject {
+    token: string;
+}
+
 export interface __UserSaved {
     userSaved: UserInstance;
     userDetailsSaved: UserDetailInstance;

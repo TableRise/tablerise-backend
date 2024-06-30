@@ -5,6 +5,8 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { UserExternal } from 'src/types/api/users/http/payload';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class Serializer {
     private _isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -13,10 +15,6 @@ export default class Serializer {
 
     private _isGoogleProfile(obj: any): obj is Google.Profile {
         return 'provider' in obj && obj.provider === 'google';
-    }
-
-    private _isFacebookProfile(obj: any): obj is Facebook.Profile {
-        return 'provider' in obj && obj.provider === 'facebook';
     }
 
     public externalUser(
@@ -33,9 +31,9 @@ export default class Serializer {
             user.email = userProfile.email as string;
         }
 
-        if (this._isGoogleProfile(userProfile) || this._isFacebookProfile(userProfile)) {
+        if (this._isGoogleProfile(userProfile)) {
             user.name = userProfile.displayName;
-            user.email = userProfile._json.email;
+            user.email = userProfile._json.email as string;
         }
 
         return user;
@@ -131,5 +129,25 @@ export default class Serializer {
             createdAt,
             updatedAt,
         };
+    }
+
+    public imageResult(result: ApiImgBBResponse): ImageObject {
+        const { data } = result;
+        const { thumb, medium, delete_url: deleteUrl } = data;
+
+        const dataSerialized = {} as any;
+
+        dataSerialized.id = data.id || '';
+        dataSerialized.title = data.title || '';
+        dataSerialized.link = data.url || '';
+        dataSerialized.uploadDate = data.time
+            ? new Date(data.time).toISOString()
+            : new Date().toISOString();
+        dataSerialized.thumbSizeUrl = thumb.url || '';
+        dataSerialized.mediumSizeUrl = medium.url || '';
+        dataSerialized.deleteUrl = deleteUrl || '';
+        dataSerialized.request = { success: result.success, status: result.status };
+
+        return dataSerialized;
     }
 }

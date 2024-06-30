@@ -1,5 +1,4 @@
 import Discord from 'passport-discord';
-import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -8,6 +7,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import {
     __FullUser,
+    __TokenObject,
     __UserEnriched,
     __UserSaved,
     __UserSerialized,
@@ -30,35 +30,29 @@ export default class OAuthService {
         this._serializer = serializer;
         this._logger = logger;
 
-        this._login = this._login.bind(this);
+        this.login = this.login.bind(this);
         this.serialize = this.serialize.bind(this);
         this.enrichment = this.enrichment.bind(this);
         this.saveUser = this.saveUser.bind(this);
     }
 
-    private _login(userInDb: UserInstance, userSerialized: UserInstance): string {
+    public login(userInDb: UserInstance, userSerialized: UserInstance): __TokenObject {
         this._logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
         if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist');
 
-        return JWTGenerator.generate(userInDb);
+        return { token: JWTGenerator.generate(userInDb) };
     }
 
     public async serialize(
-        payload: Google.Profile | Facebook.Profile | Discord.Profile
-    ): Promise<__UserSerialized | string> {
+        payload: Google.Profile | Discord.Profile
+    ): Promise<__UserSerialized> {
         this._logger('info', 'Serialize - OAuthService');
         const userExternalSerialized = this._serializer.externalUser(payload);
 
         const userSerialized = this._serializer.postUser(userExternalSerialized);
         const userDetailsSerialized = this._serializer.postUserDetails({});
-
-        const existentUser = await this._usersRepository.find({
-            email: userSerialized.email,
-        });
-
-        if (existentUser.length) return this._login(existentUser[0], userSerialized);
 
         return { userSerialized, userDetailsSerialized };
     }

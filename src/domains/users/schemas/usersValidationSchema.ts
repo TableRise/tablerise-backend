@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { updateUserDetails } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 const twoFactorSecretZodSchema = z.object({
     secret: z.string().optional(),
@@ -49,11 +50,7 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
         secret?: string;
         active: boolean;
     };
-    picture: {
-        link: string;
-        id: string;
-        uploadDate: Date;
-    } | null;
+    picture: ImageObject | null;
     tag: string;
     createdAt: string;
     updatedAt: string;

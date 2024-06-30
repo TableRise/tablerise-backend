@@ -6,6 +6,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
     let discordOperation: DiscordOperation,
+        usersRepository: any,
         discordProfile: any,
         user: UserInstance,
         userDetails: UserDetailInstance,
@@ -20,22 +21,31 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                usersRepository = {
+                    find: () => [],
+                };
+
                 oAuthService = {
                     serialize: Sinon.spy(() => ({
-                        username: discordProfile.username,
+                        userSerialized: user,
+                        userDetailsSerialized: userDetails,
                     })),
                     enrichment: Sinon.spy(() => ({
-                        username: discordProfile,
-                        tag: '#4564',
+                        userEnriched: user,
+                        userDetailsEnriched: userDetails,
                     })),
                     saveUser: Sinon.spy(() => ({
                         userSaved: user,
                         userDetailsSaved: userDetails,
                     })),
+                    login: Sinon.spy(() => ({
+                        token: '123',
+                    })),
                 };
 
                 discordOperation = new DiscordOperation({
                     oAuthService,
+                    usersRepository,
                     logger,
                 });
             });
@@ -47,9 +57,11 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
                 expect(oAuthService.serialize).to.have.been.calledWith(discordProfile);
                 expect(oAuthService.enrichment).to.have.been.called();
                 expect(oAuthService.saveUser).to.have.been.called();
+                expect(oAuthService.login).to.have.been.called();
                 expect(discordProfileCompleted).to.be.deep.equal({
                     ...user,
                     details: userDetails,
+                    token: '123',
                 });
             });
         });
@@ -60,20 +72,25 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                usersRepository = {
+                    find: () => [user],
+                };
+
                 oAuthService = {
-                    serialize: Sinon.spy(() => 'test'),
-                    enrichment: Sinon.spy(() => ({
-                        username: discordProfile,
-                        tag: '#4564',
+                    serialize: Sinon.spy(() => ({
+                        userSerialized: user,
+                        userDetailsSerialized: userDetails,
                     })),
-                    saveUser: Sinon.spy(() => ({
-                        userSaved: user,
-                        userDetailsSaved: userDetails,
+                    enrichment: Sinon.spy(() => 'test'),
+                    saveUser: Sinon.spy(() => 'test'),
+                    login: Sinon.spy(() => ({
+                        token: '123',
                     })),
                 };
 
                 discordOperation = new DiscordOperation({
                     oAuthService,
+                    usersRepository,
                     logger,
                 });
             });
@@ -82,7 +99,11 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
                 const discordProfileCompleted = await discordOperation.execute(
                     discordProfile
                 );
-                expect(discordProfileCompleted).to.be.equal('test');
+
+                expect(oAuthService.serialize).to.have.been.called();
+                expect(oAuthService.enrichment).to.not.have.been.called();
+                expect(oAuthService.saveUser).to.not.have.been.called();
+                expect(discordProfileCompleted).to.be.deep.equal({ token: '123' });
             });
         });
     });

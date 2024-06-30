@@ -10,6 +10,7 @@ export default interface UpdateResponse {
 
 export interface RegisterUserResponse extends UserInstance {
     details: UserDetailInstance;
+    token?: string;
 }
 
 export interface ConfirmEmailResponse {

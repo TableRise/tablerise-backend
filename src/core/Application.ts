@@ -53,7 +53,7 @@ export default class Application {
                     credentials: true,
                 })
             )
-            .use(cookieParser())
+            .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
             .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
             .use(passport.session())
@@ -87,6 +87,7 @@ export default class Application {
             .catch(() => {
                 this._logger('error', '[ Application - Database connection failed ]');
             });
+
         server.listen(port, () => {
             this._logger(
                 'info',
