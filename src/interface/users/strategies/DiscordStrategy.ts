@@ -14,7 +14,7 @@ passport.use(
             passReqToCallback: true,
         },
         (request, accessToken, refreshToken, profile, done) => {
-            done(null, profile);
+            done(null, profile as unknown as Express.User);
         }
     )
 );

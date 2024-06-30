@@ -6,6 +6,7 @@ import { Logger } from 'src/types/shared/logger';
 
 export interface OAuthOperationContract {
     oAuthService: OAuthService;
+    usersRepository: UsersRepository;
     logger: Logger;
 }
 

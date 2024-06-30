@@ -10,5 +10,6 @@ declare namespace Express {
         providerId: string;
         username: string;
         picture: string;
+        token?: string;
     }
 }

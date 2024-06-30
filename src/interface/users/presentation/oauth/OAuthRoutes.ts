@@ -1,5 +1,4 @@
 import 'src/interface/users/strategies/GoogleStrategy';
-import 'src/interface/users/strategies/FacebookStrategy';
 import 'src/interface/users/strategies/DiscordStrategy';
 import 'src/interface/common/strategies/CookieStrategy';
 
@@ -56,39 +55,6 @@ export default class OAuthRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/google/register`,
                 controller: this._oAuthController.google,
-                options: {
-                    tag: 'external',
-                },
-                hide: true,
-            },
-
-            {
-                method: 'get',
-                path: `${BASE_PATH}/facebook`,
-                options: {
-                    middlewares: [passport.authenticate('facebook')],
-                    tag: 'external',
-                    description: desc.facebook,
-                },
-            },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/facebook/callback`,
-                options: {
-                    middlewares: [
-                        passport.authenticate('facebook', {
-                            successRedirect: '/oauth/facebook/register',
-                            failureRedirect: '/oauth/error',
-                        }),
-                    ],
-                    tag: 'external',
-                },
-                hide: true,
-            },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/facebook/register`,
-                controller: this._oAuthController.facebook,
                 options: {
                     tag: 'external',
                 },

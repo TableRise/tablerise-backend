@@ -1,5 +1,4 @@
 import Google from 'passport-google-oauth20';
-import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Serializer from 'src/domains/common/helpers/Serializer';
@@ -22,24 +21,6 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
                 _json: { email: 'test@email.com' },
                 provider: 'google',
             } as Google.Profile;
-
-            const serialized = serializer.externalUser(user);
-
-            expect(serialized).to.have.property('name');
-            expect(serialized).to.have.property('email');
-            expect(serialized).to.have.property('providerId');
-            expect(serialized.name).to.be.equal('test');
-            expect(serialized.email).to.be.equal('test@email.com');
-            expect(serialized.providerId).to.be.equal(user.id);
-        });
-
-        it('should return with correct keys - Facebook', () => {
-            const user = {
-                id: newUUID(),
-                displayName: 'test',
-                _json: { email: 'test@email.com' },
-                provider: 'facebook',
-            } as Facebook.Profile;
 
             const serialized = serializer.externalUser(user);
 

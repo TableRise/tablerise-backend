@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Response, Request, Express } from 'express';
 import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
@@ -123,7 +123,7 @@ export default class UsersController {
     }
 
     public async login(req: Request, res: Response): Promise<Response> {
-        const { user: token } = req;
+        const { token } = req.user as Express.User;
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
             token as string
