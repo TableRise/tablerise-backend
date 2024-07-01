@@ -41,6 +41,8 @@ export default class OAuthController {
         return res
             .status(HttpStatusCode.OK)
             .cookie('token', result.token, cookieOptions)
+            .cookie('session', 'no-use', cookieOptions)
+            .cookie('session.sig', 'no-use', cookieOptions)
             .json(tokenData);
     }
 
@@ -58,6 +60,8 @@ export default class OAuthController {
         return res
             .status(HttpStatusCode.OK)
             .cookie('token', result.token, cookieOptions)
+            .cookie('session', 'no-use', cookieOptions)
+            .cookie('session.sig', 'no-use', cookieOptions)
             .json(tokenData);
     }
 
