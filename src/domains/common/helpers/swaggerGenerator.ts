@@ -10,10 +10,12 @@ import SwaggerDocumentCampaign from '../../../../api-docs/swagger-doc-campaigns.
 
 export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => {
     const router = Router();
+    const urls = [process.env.SWAGGER_URL as string];
 
     if (process.env.NODE_ENV === 'develop') {
         autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
             title: 'dungeons&dragons5e',
+            url: urls,
         })
             .then((_result: any) => {
                 logger('info', 'Swagger - dungeons&dragons5e - document generated');
@@ -24,6 +26,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
         autoSwagger(routesWrapper.declareRoutes().user, {
             title: 'users',
+            url: urls,
         })
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - user - document generated');
@@ -34,6 +37,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
         autoSwagger(routesWrapper.declareRoutes().campaign, {
             title: 'campaigns',
+            url: urls,
         })
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - campaign - document generated');
