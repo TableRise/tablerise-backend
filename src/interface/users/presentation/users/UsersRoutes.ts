@@ -208,6 +208,24 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/reset`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
+                ],
+                controller: this._usersController.resetTwoFactor,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                        this._authorizationMiddleware.twoFactor,
+                    ],
+                    tag: 'authorization',
+                    description: desc.reset2FA,
+                },
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/update/email`,
                 parameters: [
                     ...generateIDParam(),

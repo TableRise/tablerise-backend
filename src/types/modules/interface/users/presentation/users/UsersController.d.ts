@@ -24,6 +24,7 @@ export interface UsersControllerContract {
     confirmEmailOperation: ConfirmEmailOperation;
     activateSecretQuestionOperation: ActivateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
+    resetTwoFactorOperation: any;
     updateEmailOperation: UpdateEmailOperation;
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;

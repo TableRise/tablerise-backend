@@ -18,6 +18,8 @@ const confirm = `This route must be used to confirm an account that was recently
 
 const activate2FA = 'Route for 2FA activation';
 
+const reset2FA = 'Route for 2FA reset';
+
 const updateEmail = `Route for email update, verification code send to user email is needed.\n
 If the user has 2FA enabled the 2FA token will be needed as well.`;
 
@@ -52,6 +54,7 @@ export default {
     login,
     update,
     activate2FA,
+    reset2FA,
     activateQuestion,
     confirm,
     updateEmail,
