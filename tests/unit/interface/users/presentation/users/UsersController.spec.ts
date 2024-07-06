@@ -529,13 +529,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { isReset: 'false' };
             await usersController.activateTwoFactor(request, response);
 
-            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id,
-                false
-            );
+            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });

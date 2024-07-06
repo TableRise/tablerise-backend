@@ -54,45 +54,6 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
             });
         });
 
-        context('When activate an user two factor fail | 2fa-no-active', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-                userDetails.userId = user.userId;
-
-                usersRepository = {
-                    findOne: () => user,
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => userDetails,
-                };
-
-                twoFactorHandler = new TwoFactorHandler({ configs, logger });
-
-                activateTwoFactorService = new ActivateTwoFactorService({
-                    usersRepository,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    httpRequestErrors,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    await activateTwoFactorService.activate('userId', true);
-
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('2FA not enabled for this user');
-                    expect(err.name).to.be.equal('BadRequest');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
-        });
-
         context('When activate an user two factor fail | 2fa-already-active', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
