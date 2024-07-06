@@ -192,19 +192,14 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/2fa/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(4, [
-                        { name: 'question', type: 'string', required: 'off' },
-                        { name: 'answer', type: 'string', required: 'off' },
-                        { name: 'code', type: 'string' },
-                        { name: 'isReset', type: 'boolean', required: 'off' },
-                    ]),
+                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
                 ],
                 controller: this._usersController.activateTwoFactor,
+                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
-                        this._verifyEmailCodeMiddleware.verify,
                         this._authorizationMiddleware.secretQuestion,
                     ],
                     tag: 'authorization',

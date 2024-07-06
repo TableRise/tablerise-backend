@@ -157,12 +157,8 @@ export default class UsersController {
 
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { isReset } = req.query;
 
-        const result = await this._activateTwoFactorOperation.execute(
-            id,
-            isReset === 'true'
-        );
+        const result = await this._activateTwoFactorOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
