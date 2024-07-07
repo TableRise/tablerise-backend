@@ -37,7 +37,7 @@ describe('Core :: Users :: Operations :: ResetTwoFactorOperation', () => {
 
             expect(resetTwoFactorService.reset).to.have.been.called();
             expect(resetTwoFactorService.save).to.have.been.called();
-            expect(userTest).to.be.deep.equal({active: true});
+            expect(userTest).to.be.deep.equal({ active: true });
         });
     });
 });

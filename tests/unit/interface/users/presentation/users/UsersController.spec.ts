@@ -549,7 +549,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.activateTwoFactor(request, response);
 
-            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
+            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -606,7 +608,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetTwoFactor(request, response);
 
-            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
+            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
