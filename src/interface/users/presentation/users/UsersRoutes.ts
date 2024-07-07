@@ -190,10 +190,7 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'code', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam()],
                 controller: this._usersController.activateTwoFactor,
                 schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {

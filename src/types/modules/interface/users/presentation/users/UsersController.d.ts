@@ -14,6 +14,7 @@ import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOpera
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
 import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
+import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFactorOperation';
 
 export interface UsersControllerContract {
     createUserOperation: CreateUserOperation;
@@ -24,7 +25,7 @@ export interface UsersControllerContract {
     confirmEmailOperation: ConfirmEmailOperation;
     activateSecretQuestionOperation: ActivateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
-    resetTwoFactorOperation: any;
+    resetTwoFactorOperation: ResetTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;
