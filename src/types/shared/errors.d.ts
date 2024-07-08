@@ -37,4 +37,10 @@ export type ErrorTypes =
     | 'content-inexistent'
     | 'incorrect-secret-question'
     | 'new-structure-secret-question-missing'
-    | 'unauthorized';
+    | 'unauthorized'
+    | 'campaign-inexistent'
+    | 'music-link-already-added'
+    | 'date-already-added'
+    | 'player-already-in-match'
+    | 'player-banned'
+    | 'campaign-match-inexistent';

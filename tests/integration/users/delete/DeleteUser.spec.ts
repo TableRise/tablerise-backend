@@ -22,12 +22,13 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/profile/${user.userId}/delete?token=123456`)
+                .delete(`/users/${user.userId}/delete?token=123456`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
-                .get(`/profile/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await requester()
+                .get(`/users/${user.userId}`)
+                .expect(HttpStatusCode.OK);
+            expect(body.inProgress.status).to.be.equal('wait_to_delete');
         });
     });
 
@@ -44,16 +45,18 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/profile/${user.userId}/delete`)
+                .delete(`/users/${user.userId}/delete`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,
                 })
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
-                .get(`/profile/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+            const { body } = await requester()
+                .get(`/users/${user.userId}`)
+                .expect(HttpStatusCode.OK);
+
+            expect(body.inProgress.status).to.be.equal('wait_to_delete');
         });
     });
 });

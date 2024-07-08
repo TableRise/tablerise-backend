@@ -4,14 +4,13 @@ import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, {
-    generateFileParam,
     generateQueryParam,
 } from 'src/domains/common/helpers/parametersWrapper';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
-const BASE_PATH = '/profile';
+const BASE_PATH = '/users';
 
 export default class UsersRoutes {
     private readonly _usersController;
@@ -114,15 +113,14 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/picture`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateFileParam(1, [{ name: 'picture', type: 'file' }]),
-                ],
+                path: `${BASE_PATH}/:id/update/picture`,
+                parameters: [...generateIDParam()],
                 controller: this._usersController.profilePicture,
+                schema: DomainDataFaker.mocks.uploadPicture,
                 options: {
                     middlewares: [
-                        this._imageMiddleware.multer().single('image'),
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('picture'),
                         this._imageMiddleware.fileType,
                         this._verifyIdMiddleware,
                     ],
@@ -192,25 +190,35 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(4, [
-                        { name: 'question', type: 'string', required: 'off' },
-                        { name: 'answer', type: 'string', required: 'off' },
-                        { name: 'code', type: 'string' },
-                        { name: 'isReset', type: 'boolean', required: 'off' },
-                    ]),
-                ],
+                parameters: [...generateIDParam()],
                 controller: this._usersController.activateTwoFactor,
+                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
-                        this._verifyEmailCodeMiddleware.verify,
                         this._authorizationMiddleware.secretQuestion,
                     ],
                     tag: 'authorization',
                     description: desc.activate2FA,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/reset`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
+                ],
+                controller: this._usersController.resetTwoFactor,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                        this._authorizationMiddleware.twoFactor,
+                    ],
+                    tag: 'authorization',
+                    description: desc.reset2FA,
                 },
             },
             {

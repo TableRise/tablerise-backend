@@ -122,5 +122,32 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
                 expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
             });
         });
+
+        context('and type is invitation', () => {
+            before(() => {
+                emailType = 'invitation';
+                nodemailer = {
+                    createTransport: () => ({
+                        sendMail: () => {},
+                    }),
+                };
+
+                emailSender = new EmailSender({ emailType, nodemailer });
+            });
+
+            it('should return true when the process is done with success', async () => {
+                const testContent = {
+                    campaignId: '1234567890',
+                    userId: '1234567890',
+                    username: 'joaquim',
+                };
+
+                const sendEmailTest = await emailSender.send(
+                    testContent,
+                    'test@email.com'
+                );
+                expect(sendEmailTest).to.deep.equal({ success: true });
+            });
+        });
     });
 });

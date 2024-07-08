@@ -1,0 +1,23 @@
+name: "Pull Request Title Check"
+on:
+  pull_request:
+      branches: ["develop"]
+      types: [opened, edited, reopened, synchronize ]
+
+jobs:
+  title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          REQUIRED_PATTERN="^((#[[:alnum:]-]+),\s)*#[[:alnum:]-]+\s-\s.+$"
+          if ! echo "$PR_TITLE" | grep -q -E "$REQUIRED_PATTERN"; then
+            echo "PR title is not valid!"
+            echo "Expected pattern: #<item_id> - <description>"
+            echo "Current title: $PR_TITLE"
+            exit 1
+          else
+            echo "PR title is OK!"
+            exit 0
+          fi

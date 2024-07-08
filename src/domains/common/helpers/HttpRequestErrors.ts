@@ -18,11 +18,50 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes): never {
         switch (errorType) {
+            case 'campaign-match-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Campaign Match does not exist and cannot be updated',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'campaign-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Campaign does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+            case 'music-link-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Music link already added',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
+            case 'player-banned':
+                throw new HttpRequestErrors({
+                    message: 'Player is banned',
+                    code: HttpStatusCode.FORBIDDEN,
+                    name: getErrorName(HttpStatusCode.FORBIDDEN),
+                });
+
+            case 'player-already-in-match':
+                throw new HttpRequestErrors({
+                    message: 'Player already in match',
+                    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+                    name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
+                });
+
+            case 'date-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Date already added',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'info-already-added':
                 throw new HttpRequestErrors({
                     message: 'Info already added',
-                    code: HttpStatusCode.NOT_FOUND,
-                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
             case 'new-structure-secret-question-missing':
                 throw new HttpRequestErrors({
@@ -121,7 +160,7 @@ export default class HttpRequestErrors extends Error {
 
             case 'linked-mandatory-data-when-delete':
                 throw new HttpRequestErrors({
-                    message: 'There is a campaing or character linked to this user',
+                    message: 'There is a campaign or character linked to this user',
                     code: HttpStatusCode.UNAUTHORIZED,
                     name: getErrorName(HttpStatusCode.UNAUTHORIZED),
                 });

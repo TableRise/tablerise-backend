@@ -31,7 +31,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                 [
                     {
                         method: 'get',
-                        path: `/dnd5e/${routeName}`,
+                        path: `/system/dnd5e/${routeName}`,
                         options: {
                             middlewares: [
                                 passport.authenticate('cookie', { session: false }),
@@ -42,7 +42,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                     },
                     {
                         method: 'get',
-                        path: `/dnd5e/${routeName}/disabled`,
+                        path: `/system/dnd5e/${routeName}/disabled`,
                         options: {
                             middlewares: [
                                 passport.authenticate('cookie', { session: false }),
@@ -53,7 +53,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                     },
                     {
                         method: 'get',
-                        path: `/dnd5e/${routeName}/:id`,
+                        path: `/system/dnd5e/${routeName}/:id`,
                         parameters: [...generateIDParam()],
                         options: {
                             middlewares: [
@@ -66,7 +66,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                     },
                     {
                         method: 'patch',
-                        path: `/dnd5e/${routeName}/:id`,
+                        path: `/system/dnd5e/${routeName}/:id`,
                         parameters: [
                             ...generateIDParam(),
                             ...generateQueryParam(1, [

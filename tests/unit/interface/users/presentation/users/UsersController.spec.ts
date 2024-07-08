@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { Request, Response } from 'express';
+import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
@@ -15,6 +15,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         confirmEmailOperation: any,
         activateSecretQuestionOperation: any,
         activateTwoFactorOperation: any,
+        resetTwoFactorOperation: any,
         updateEmailOperation: any,
         updatePasswordOperation: any,
         updateGameInfoOperation: any,
@@ -40,6 +41,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -47,6 +49,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -56,6 +59,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 getUserByIdOperation,
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
+                resetTwoFactorOperation,
                 activateTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
@@ -64,6 +68,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -93,6 +98,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -100,6 +106,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -110,6 +117,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -117,6 +125,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -151,6 +160,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -158,6 +168,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -168,6 +179,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -175,6 +187,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -200,11 +213,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
             verifyEmailOperation = { execute: () => ({}) };
-            getUsersOperation = { execute: sinon.spy(() => ({})) };
+            getUsersOperation = { execute: sinon.spy(() => [{ password: '123' }]) };
             getUserByIdOperation = { execute: () => ({}) };
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -212,6 +226,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -222,6 +237,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -229,6 +245,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -237,7 +254,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
             expect(getUsersOperation.execute).to.have.been.called();
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.json).to.have.been.calledWith([{}]);
         });
     });
 
@@ -257,6 +274,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -264,6 +282,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -274,6 +293,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -281,6 +301,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -313,6 +334,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -331,6 +353,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -343,7 +366,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.user = { token: '123' };
+            request.user = { username: '' } as Express.User;
             await usersController.login(request, response);
 
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
@@ -368,6 +391,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: sinon.spy(() => ({})) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -375,6 +399,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -385,6 +410,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -392,6 +418,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -425,6 +452,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: sinon.spy(() => ({})) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -432,6 +460,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -442,6 +471,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -449,6 +479,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -491,6 +522,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -501,6 +533,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -508,17 +541,75 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { isReset: 'false' };
             await usersController.activateTwoFactor(request, response);
 
             expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id,
-                false
+                request.params.id
+            );
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#resetTwoFactor', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createUserOperation = { execute: () => ({}) };
+            updateUserOperation = { execute: () => ({}) };
+            verifyEmailOperation = { execute: () => ({}) };
+            getUsersOperation = { execute: () => ({}) };
+            getUserByIdOperation = { execute: () => ({}) };
+            confirmEmailOperation = { execute: () => ({}) };
+            activateSecretQuestionOperation = { execute: () => ({}) };
+            activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: sinon.spy(() => ({})) };
+            updateEmailOperation = { execute: () => ({}) };
+            updatePasswordOperation = { execute: () => ({}) };
+            updateGameInfoOperation = { execute: () => ({}) };
+            resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
+            deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
+
+            usersController = new UsersController({
+                createUserOperation,
+                updateUserOperation,
+                verifyEmailOperation,
+                getUsersOperation,
+                getUserByIdOperation,
+                confirmEmailOperation,
+                activateSecretQuestionOperation,
+                activateTwoFactorOperation,
+                resetTwoFactorOperation,
+                updateEmailOperation,
+                updatePasswordOperation,
+                updateGameInfoOperation,
+                resetProfileOperation,
+                pictureProfileOperation,
+                deleteUserOperation,
+                logoutUserOperation,
+                loginUserOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            await usersController.resetTwoFactor(request, response);
+
+            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(
+                request.params.id
             );
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
@@ -542,6 +633,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: sinon.spy(() => ({})) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -549,6 +641,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -559,6 +652,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -566,6 +660,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -603,6 +698,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: sinon.spy(() => ({})) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -610,6 +706,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -620,6 +717,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -627,6 +725,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -662,6 +761,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: sinon.spy(() => ({})) };
@@ -669,6 +769,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -679,6 +780,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -686,6 +788,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -720,6 +823,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -727,6 +831,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -737,6 +842,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -744,6 +850,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -777,6 +884,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -784,6 +892,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             pictureProfileOperation = { execute: sinon.spy(() => ({})) };
             deleteUserOperation = { execute: () => ({}) };
             logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
                 createUserOperation,
@@ -794,6 +903,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -801,6 +911,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -846,6 +957,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -863,6 +975,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -870,6 +983,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 
@@ -903,6 +1017,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
             updateGameInfoOperation = { execute: () => ({}) };
@@ -920,6 +1035,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 confirmEmailOperation,
                 activateSecretQuestionOperation,
                 activateTwoFactorOperation,
+                resetTwoFactorOperation,
                 updateEmailOperation,
                 updatePasswordOperation,
                 updateGameInfoOperation,
@@ -927,6 +1043,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 pictureProfileOperation,
                 deleteUserOperation,
                 logoutUserOperation,
+                loginUserOperation,
             });
         });
 

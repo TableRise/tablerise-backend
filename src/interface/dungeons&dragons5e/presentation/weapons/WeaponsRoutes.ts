@@ -6,7 +6,7 @@ import generateIDParam, {
 } from 'src/domains/common/helpers/parametersWrapper';
 import { WeaponsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/weapons/WeaponsRoutes';
 
-const BASE_PATH = '/dnd5e/weapons';
+const BASE_PATH = '/system/dnd5e/weapons';
 
 export default class WeaponsRoutes {
     private readonly _weaponsController;

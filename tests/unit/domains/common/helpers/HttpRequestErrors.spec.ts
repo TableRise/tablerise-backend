@@ -20,7 +20,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'invalid-user-status': 'User status is invalid to perform this operation',
         'invalid-email-verify-code': 'Invalid email verify code',
         'linked-mandatory-data-when-delete':
-            'There is a campaing or character linked to this user',
+            'There is a campaign or character linked to this user',
         'verification-email-send-fail': 'Some problem ocurred in email sending',
         'user-database-critical-errror':
             'User database is not according with User Details database',
@@ -31,9 +31,17 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'new-structure-secret-question-missing':
             'Structure of new for new question and answer is missing',
         'blank-question-or-answer': 'Some error not specified ocurred',
+        'campaign-match-inexistent':
+            'Campaign Match does not exist and cannot be updated',
+
         login: 'Some error not specified ocurred',
         'linked-data': 'Some error not specified ocurred',
         'verification-email': 'Some error not specified ocurred',
+        'campaign-inexistent': 'Campaign does not exist',
+        'music-link-already-added': 'Music link already added',
+        'date-already-added': 'Date already added',
+        'player-already-in-match': 'Player already in match',
+        'player-banned': 'Player is banned',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

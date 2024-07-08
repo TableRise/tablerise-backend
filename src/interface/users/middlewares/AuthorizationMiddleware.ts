@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { JWTResponse } from 'src/types/api/users/methods/index';
 import {
     UserDetailInstance,
     UserSecretQuestion,
@@ -37,7 +36,7 @@ export default class AuthorizationMiddleware {
     ): Promise<void> {
         this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
-        const { userId } = req.user as JWTResponse;
+        const { userId } = req.user as Express.User;
 
         const userDetail = await this._usersDetailsRepository.findOne({ userId });
 

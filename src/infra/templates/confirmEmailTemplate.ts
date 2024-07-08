@@ -100,7 +100,7 @@ export default (verifyCode: string, usernameUser: string): string => `<!DOCTYPE 
                 <div>
                     <div class="header-content">
                         <p align="center">
-                            Este email tem o uso excluivo de enviar emails de comunicação<br />
+                            Este endereço tem o uso excluivo de enviar emails de comunicação<br />
                             Para obter suporte, por favor, entre em contato no endereço abaixo:<br />
                             tablerise@outlook.com
                         </p>

@@ -3,7 +3,8 @@ import RoutesWrapper from 'src/interface/common/RoutesWrapper';
 describe('Interefaces :: Common :: RoutesWrapper', () => {
     let routesWrapper: RoutesWrapper,
         usersRoutesBuilder: any,
-        dungeonsAndDragonsRoutesBuilder: any;
+        dungeonsAndDragonsRoutesBuilder: any,
+        campaignsRoutesBuilder: any;
 
     context('#routes', () => {
         beforeEach(() => {
@@ -19,9 +20,16 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
                 }),
             };
 
+            campaignsRoutesBuilder = {
+                get: () => ({
+                    campaignsSwagger: ['camp1', 'camp2'],
+                }),
+            };
+
             routesWrapper = new RoutesWrapper({
                 usersRoutesBuilder,
                 dungeonsAndDragonsRoutesBuilder,
+                campaignsRoutesBuilder,
             });
         });
 
@@ -49,9 +57,16 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
                 }),
             };
 
+            campaignsRoutesBuilder = {
+                get: () => ({
+                    campaignsSwagger: ['camp1', 'camp2'],
+                }),
+            };
+
             routesWrapper = new RoutesWrapper({
                 usersRoutesBuilder,
                 dungeonsAndDragonsRoutesBuilder,
+                campaignsRoutesBuilder,
             });
         });
 

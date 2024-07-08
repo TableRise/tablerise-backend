@@ -26,11 +26,11 @@ describe('When an email is verified', () => {
 
         it('should verify and change status - email', async () => {
             await requester()
-                .get(`/profile/verify?email=test@email.com`)
+                .get(`/users/verify?email=test@email.com`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body.inProgress.status).to.be.equal('wait_to_verify');
@@ -38,11 +38,11 @@ describe('When an email is verified', () => {
 
         it('should verify and change status - newEmail', async () => {
             await requester()
-                .get(`/profile/verify?newEmail=test2@email.com&email=test@email.com`)
+                .get(`/users/verify?newEmail=test2@email.com&email=test@email.com`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body } = await requester()
-                .get(`/profile/${user.userId}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body.inProgress.status).to.be.equal('wait_to_verify');

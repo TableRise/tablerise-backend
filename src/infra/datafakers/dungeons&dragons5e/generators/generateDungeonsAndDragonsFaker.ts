@@ -4,6 +4,15 @@ import {
     Background,
     Class,
     Feat,
+    God,
+    Item,
+    MagicItem,
+    Monster,
+    Race,
+    Realm,
+    Spell,
+    Weapon,
+    Wiki,
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
@@ -637,11 +646,830 @@ function createClassesFaker({
     };
 }
 
+function createGodsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<God> & { godId: string } {
+    return {
+        godId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'The Daghdha, god of weather and crops',
+            alignment: 'CG',
+            suggestedDomains: 'Nature, Trickery',
+            symbol: 'Bubbling cauldron or shield',
+            pantheon: 'Celtic',
+        },
+        pt: {
+            name: 'O Daghdha, deus do clima e das colheitas',
+            alignment: 'CG',
+            suggestedDomains: 'Natureza, Trapaça',
+            symbol: 'Caldeirão borbulhante ou escudo',
+            pantheon: 'Céltico',
+        },
+    };
+}
+
+function createMagicItemsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<MagicItem> & { magicItemId: string } {
+    return {
+        magicItemId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Adamantine Armor',
+            characteristics: ['Armor (medium or heavy, but not hide)', 'uncommon'],
+            description:
+                "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.",
+        },
+        pt: {
+            name: 'Armadura de Adamantina',
+            characteristics: ['Armadura (média ou pesada, mas não de couro)', 'incomum'],
+            description:
+                'Esta armadura é reforçada com adamantina, uma das substâncias mais duras que existem. Enquanto estiver usando-a, qualquer acerto crítico contra você se torna um acerto normal.',
+        },
+    };
+}
+
+function createMonstersFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Monster> & { monsterId: string } {
+    return {
+        monsterId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Aboleth',
+            characteristics: ['large aberration', 'lawful evil'],
+            stats: {
+                armorClass: 17,
+                hitPoints: {
+                    hitDice: '18d10 + 36',
+                    default: 135,
+                },
+                speed: '10 feet, swim 40 feet',
+                savingThrows: [
+                    {
+                        name: 'constitution',
+                        value: 6,
+                    },
+                    {
+                        name: 'intelligence',
+                        value: 8,
+                    },
+                    {
+                        name: 'wisdom',
+                        value: 6,
+                    },
+                ],
+                damageImmunities: [],
+                conditionImmunities: [],
+                damageResistances: [],
+                senses: ['darkvision 120 feet, passive Perception 20'],
+                languages: ['deep speech', 'telepathy 120 feet'],
+                challengeLevel: 10,
+            },
+            abilityScore: [
+                {
+                    name: 'strength',
+                    value: 21,
+                    modifier: 5,
+                },
+                {
+                    name: 'dexterity',
+                    value: 9,
+                    modifier: -1,
+                },
+                {
+                    name: 'constitution',
+                    value: 15,
+                    modifier: 2,
+                },
+                {
+                    name: 'intelligence',
+                    value: 18,
+                    modifier: 4,
+                },
+                {
+                    name: 'wisdom',
+                    value: 15,
+                    modifier: 2,
+                },
+                {
+                    name: 'charism',
+                    value: 18,
+                    modifier: 4,
+                },
+            ],
+            skills: [
+                {
+                    name: 'Amphibious',
+                    description: 'The aboleth can breathe air and water.',
+                },
+                {
+                    name: 'Mucous Cloud',
+                    description:
+                        'While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.',
+                },
+                {
+                    name: 'Probing Telepathy',
+                    description:
+                        "If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature.",
+                },
+            ],
+            actions: [
+                {
+                    name: 'Multiattack',
+                    description: 'The aboleth makes three tentacle attacks.',
+                    type: 'common',
+                },
+                {
+                    name: 'Tentacle',
+                    description:
+                        "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+                    type: 'common',
+                },
+                {
+                    name: 'Tail',
+                    description:
+                        'Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.',
+                    type: 'common',
+                },
+                {
+                    name: 'Enslave (3/Day)',
+                    description:
+                        "The aboleth targets one creature it can see within 30 feet of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\n\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+                    type: 'common',
+                },
+                {
+                    name: 'Legendary Actions',
+                    description:
+                        "The aboleth can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The aboleth regains spent legendary actions at the start of its turn.",
+                    type: 'legendary',
+                },
+                {
+                    name: 'Detect',
+                    description: 'The aboleth makes a Wisdom (Perception) check.',
+                    type: 'legendary',
+                },
+                {
+                    name: 'Tail Swipe',
+                    description: 'The aboleth makes one tail attack.',
+                    type: 'legendary',
+                },
+                {
+                    name: 'Psychic Drain (Costs 2 Actions)',
+                    description:
+                        'One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes.',
+                    type: 'legendary',
+                },
+            ],
+            picture: 'https://i.ibb.co/GMGdPht/tumblr-oh3dew-Z0-RW1v9qvuco1-1280.jpg',
+        },
+        pt: {
+            name: 'Aboleth',
+            characteristics: ['grande aberração', 'malígno e leal'],
+            stats: {
+                armorClass: 17,
+                hitPoints: {
+                    hitDice: '18d10 + 36',
+                    default: 135,
+                },
+                speed: '3 metros, nadar 12.1 metros',
+                savingThrows: [
+                    {
+                        name: 'constituição',
+                        value: 6,
+                    },
+                    {
+                        name: 'inteligência',
+                        value: 8,
+                    },
+                    {
+                        name: 'sabedoria',
+                        value: 6,
+                    },
+                ],
+                damageImmunities: [],
+                conditionImmunities: [],
+                damageResistances: [],
+                senses: ['visão no escuro 36.5 metros, Percepção passiva 20'],
+                languages: ['fala profunda', 'telepatia 36.5 metros'],
+                challengeLevel: 10,
+            },
+            abilityScore: [
+                {
+                    name: 'força',
+                    value: 21,
+                    modifier: 5,
+                },
+                {
+                    name: 'destreza',
+                    value: 9,
+                    modifier: -1,
+                },
+                {
+                    name: 'constituição',
+                    value: 15,
+                    modifier: 2,
+                },
+                {
+                    name: 'inteligência',
+                    value: 18,
+                    modifier: 4,
+                },
+                {
+                    name: 'sabedoria',
+                    value: 15,
+                    modifier: 2,
+                },
+                {
+                    name: 'carisma',
+                    value: 18,
+                    modifier: 4,
+                },
+            ],
+            skills: [
+                {
+                    name: 'Anfíbio',
+                    description: 'O aboleth pode respirar ar e água.',
+                },
+                {
+                    name: 'Nuvem de Muco',
+                    description:
+                        "Enquanto estiver submerso, o aboleth é cercado por um muco transformador. Uma criatura que toque o aboleth ou o atinja com um ataque corpo-a-corpo a até 1.5 metros dele deve fazer um teste de resistência de Constituição CD 14. Em caso de falha, a criatura fica doente por 1d4 horas e só pode respirar debaixo d'água.",
+                },
+                {
+                    name: 'Telepatia de Sonda',
+                    description:
+                        'Se uma criatura se comunicar telepaticamente com o aboleth, o aboleth descobre os maiores desejos da criatura, se puder vê-la.',
+                },
+            ],
+            actions: [
+                {
+                    name: 'Multiataque',
+                    description: 'O aboleth faz três ataques com seus tentáculos.',
+                    type: 'comum',
+                },
+                {
+                    name: 'Tentáculo',
+                    description:
+                        "Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 12 (2d6 + 5) de dano concussão. Se o alvo for uma criatura, ele deve ser bem-sucedido em um teste de resistência de Constituição CD 14 ou ficará doente. A doença não tem efeito durante 1 minuto e pode ser removida por qualquer magia que cure doenças. Após 1 minuto, a pele da criatura doente fica translúcida e viscosa, e ela não pode recuperar pontos de vida, a menos que esteja debaixo d'água, e a doença só pode ser removida por magia cura ou outra magia de cura de doenças de 6º nível ou superior. Quando a criatura está fora da água, ela sofre 6 (1d12) de dano ácido a cada 10 minutos, a menos que a pele seja umedecida antes de 10 minutos passarem.",
+                    type: 'comum',
+                },
+                {
+                    name: 'Cauda',
+                    description:
+                        'Ataque Corpo-a-Corpo: +9 para atingir, alcance 3 metros, um alvo. Acerto: 15 (3d6 + 5) de dano concussão.',
+                    type: 'comum',
+                },
+                {
+                    name: 'Escravizar (3/Vezes ao Dia)',
+                    description:
+                        'O aboleth escolhe uma criatura que pode ver a até 9.1 metros dele. O alvo deve ser bem-sucedido em um teste de resistência de Sabedoria CD 14 ou ficará enfeitiçado magicamente pelo aboleth até que o aboleth morra ou até que o alvo esteja em um plano diferente de existência em relação ao aboleth. O alvo enfeitiçado está sob o controle do aboleth e não pode reagir, e o aboleth e o alvo podem se comunicar telepaticamente um com o outro, em qualquer distância.\n\nSempre que o alvo enfeitiçado sofrer dano, ele pode repetir o teste de resistência. Em caso de sucesso, o efeito termina. No máximo uma vez a cada 24 horas, o alvo pode repetir o teste de resistência quando estiver a pelo menos 1 milha do aboleth.',
+                    type: 'comum',
+                },
+                {
+                    name: 'Ações Lendárias',
+                    description:
+                        'O aboleth pode fazer 3 ações lendárias, escolhendo entre as opções abaixo. Somente uma opção de ação lendária pode ser usada de cada vez e somente no final do turno de outra criatura. O aboleth recupera as ações lendárias gastas no início de seu turno.',
+                    type: 'lendário',
+                },
+                {
+                    name: 'Detectar',
+                    description: 'O aboleth faz um teste de Sabedoria (Percepção).',
+                    type: 'lendário',
+                },
+                {
+                    name: 'Golpe de Cauda',
+                    description: 'O aboleth faz um ataque com a cauda.',
+                    type: 'lendário',
+                },
+                {
+                    name: 'Dreno Psíquico (Custa 2 Ações)',
+                    description:
+                        'Uma criatura enfeitiçada pelo aboleth sofre 10 (3d6) de dano psíquico, e o aboleth recupera pontos de vida iguais ao dano causado à criatura.',
+                    type: 'lendário',
+                },
+            ],
+            picture: 'https://i.ibb.co/GMGdPht/tumblr-oh3dew-Z0-RW1v9qvuco1-1280.jpg',
+        },
+    };
+}
+
+function createItemsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Item> & { itemId: string } {
+    return {
+        itemId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Abacus',
+            description: '2',
+            cost: {
+                currency: 'gp',
+                value: 2,
+            },
+            type: 'adventuring gear',
+            weight: 0.9,
+            mountOrVehicle: {
+                isValid: false,
+                speed: '2',
+                carryingCapacity: '2',
+            },
+            tradeGoods: {
+                isValid: false,
+                goods: '2',
+            },
+        },
+        pt: {
+            name: 'Ábaco',
+            description: '2',
+            cost: {
+                currency: 'po',
+                value: 2,
+            },
+            type: 'equipamento de aventura',
+            weight: 0.9,
+            mountOrVehicle: {
+                isValid: false,
+                speed: '2',
+                carryingCapacity: '2',
+            },
+            tradeGoods: {
+                isValid: false,
+                goods: '2',
+            },
+        },
+    };
+}
+
+function createRacesFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Race> & { raceId: string } {
+    return {
+        raceId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Dwarf',
+            description:
+                "Where is my boot? I need to go to the mines to check on the progress of the Ruby extraction, said the Dwarf King to the Queen, who was reading a letter directly from the Elven Kingdom. My love, the Queen said, the Elf King is requesting a visit to our kingdom to negotiate some diamond mines. Do these pointy-eared ones think our things are for sale whenever they want? That's not how things work! - Bornovok III, King of the Dwarf Kingdom, holder of the Avirath orb.\n\nDwarves are an incredibly resilient race, known for their mining abilities. Dwarves are widely sought after for dealing with weapons, jewelry, and other magical tools, as they possess vast reserves of magical items and extensive knowledge of weapon crafting and other objects.\n\nThe Dwarf Kingdom is incredibly beautiful, with its castle being a tourist attraction for people from all over the world. It is said that the throne room of this castle is entirely made of pure gold, and the throne itself is constructed from ruby and diamond stones!\n\nAlthough they are extremely serious when it comes to mining and their creations, dwarves (for the most part) are very kind to those who are kind to them. But make no mistake, they know how to defend themselves, and if there's a people who can wreak havoc with magical weapons when provoked, it's the dwarf people.",
+            abilityScoreIncrease: {
+                name: 'Constitution',
+                value: 2,
+            },
+            size: 'small',
+            tale: 'bold heroes',
+            ageMax: 350,
+            alignment: ['lawful', 'good'],
+            heightMax: 1.2,
+            weightMax: 68,
+            speed: [7.6, 'speed not reduced by wearing heavy armor'],
+            language: ['Common', 'Dwarvish'],
+            subRaces: [
+                {
+                    name: 'Hill Dwarf',
+                    description:
+                        'Hill Dwarves are remarkably resilient and wise. Their lives in the hills of the kingdom make them excellent explorers, which gives these dwarves a strong instinct for survival and intuition.',
+                    abilityScoreIncrease: {
+                        name: 'Wisdom',
+                        value: 1,
+                    },
+                    characteristics: [
+                        {
+                            name: 'Dwarven Toughness',
+                            description:
+                                'Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.',
+                        },
+                    ],
+                },
+                {
+                    name: 'Mystic Dwarf',
+                    description:
+                        'Mystic Dwarves are well-versed in the magical arts. Over time, these dwarves have separated themselves from the others as they have no interest in mining or craftsmanship, but rather in using the products of these activities for study and, for some, power.\n\nBecause their studies and practice of magic are their main focus, these dwarves are generally slightly weaker and have a maximum average weight of 50 kg.',
+                    abilityScoreIncrease: {
+                        name: 'Intelligence',
+                        value: 2,
+                    },
+                    characteristics: [
+                        {
+                            name: 'Lack of Strength',
+                            description:
+                                'You have disadvantage on strength checks related to objects, such as pulling, pushing, and carrying.',
+                        },
+                        {
+                            name: 'Magic Specialist',
+                            description:
+                                'When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item.',
+                        },
+                    ],
+                },
+            ],
+            skillProficiencies: [],
+            characteristics: [
+                {
+                    name: 'Darkvision',
+                    description:
+                        'Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.',
+                    suggested: {
+                        personalityTrait: ['personality'],
+                        ideal: ['ideal'],
+                        bond: ['bond'],
+                        flaw: ['flaw'],
+                    },
+                },
+                {
+                    name: 'Dwarven Resilience',
+                    description:
+                        'You have advantage on saving throws against poison, and you have resistance against poison damage.',
+                    suggested: {
+                        personalityTrait: ['personality'],
+                        ideal: ['ideal'],
+                        bond: ['bond'],
+                        flaw: ['flaw'],
+                    },
+                },
+                {
+                    name: 'Dwarven Combat Training',
+                    description:
+                        'You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.',
+                    suggested: {
+                        personalityTrait: ['personality'],
+                        ideal: ['ideal'],
+                        bond: ['bond'],
+                        flaw: ['flaw'],
+                    },
+                },
+                {
+                    name: 'Tool Proficiency',
+                    description:
+                        'You gain proficiency with the artisan’s tools of your choice: smith’s tools, brewer’s supplies, or mason’s tools.',
+                    suggested: {
+                        personalityTrait: ['personality'],
+                        ideal: ['ideal'],
+                        bond: ['bond'],
+                        flaw: ['flaw'],
+                    },
+                },
+                {
+                    name: 'Stonecunning',
+                    description:
+                        'Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.',
+                    suggested: {
+                        personalityTrait: ['personality'],
+                        ideal: ['ideal'],
+                        bond: ['bond'],
+                        flaw: ['flaw'],
+                    },
+                },
+            ],
+        },
+        pt: {
+            name: 'Anão',
+            description:
+                'Onde está minha bota? Preciso ir às minas verificar o andamento da extração de Rubi, disse o Rei Anão para a Rainha, que estava lendo uma carta vinda diretamente do Reino dos Elfos. Meu amor, disse a Rainha, o Rei Elfo está solicitando uma visita ao nosso reino para negociar algumas minas de diamante. Esses orelhas pontudas acham que nossas coisas estão à venda sempre que desejam? Não é assim que as coisas funcionam! - Bornovok III, Rei do Reino Anão, portador da orbe de Avirath.\n\nOs anões são uma raça incrivelmente resiliente, conhecida por suas habilidades em mineração. Os anões são amplamente procurados para lidar com armas, joias e outras ferramentas mágicas, pois possuem vastas reservas de itens mágicos e amplo conhecimento em confecção de armas e outros objetos.\n\nO Reino Anão é incrivelmente bonito, sendo seu castelo uma atração turística para pessoas de todo o mundo. Dizem que a sala do trono deste castelo é inteiramente feita de ouro puro, e o trono em si é construído a partir de pedras de rubi e diamante!\n\nEmbora sejam extremamente sérios quando se trata de mineração e suas criações, os anões (na maioria das vezes) são muito gentis com aqueles que são gentis com eles. Mas não se engane, eles sabem se defender, e se há um povo que pode causar estragos com armas mágicas quando provocados, são os anões.',
+            size: 'small',
+            tale: 'bold heroes',
+            abilityScoreIncrease: {
+                name: 'Constituição',
+                value: 2,
+            },
+            ageMax: 350,
+            alignment: ['leal', 'bom'],
+            heightMax: 1.2,
+            weightMax: 68,
+            speed: [7.6, 'velocidade não reduzida ao usar armadura pesada'],
+            language: ['Comum', 'Anão'],
+            subRaces: [
+                {
+                    name: 'Anão da Colina',
+                    description:
+                        'Anões da colina são notavelmente resistentes e sábios. Sua vida nas colinas do reino os coloca à frente no quesito exploração, o que dá a esses anões um grande instinto de sobrevivência e intuição.',
+                    abilityScoreIncrease: {
+                        name: 'Sabedoria',
+                        value: 1,
+                    },
+                    characteristics: [
+                        {
+                            name: 'Resistência Anã',
+                            description:
+                                'Seu máximo de pontos de vida aumenta em 1, e aumenta em 1 a cada vez que você ganha um nível.',
+                        },
+                    ],
+                },
+                {
+                    name: 'Anão Místico',
+                    description:
+                        'Anões místicos são versados nas artes mágicas. Com o tempo, esses anões se separaram dos demais, pois não têm interesse em mineração ou artesanato, mas sim em utilizar os produtos dessas atividades para estudo e, para alguns, poder.\n\nPor terem os estudos e prática da magia como seu foco principal, esses anões geralmente são um pouco mais fracos e têm um peso médio máximo de 50 kg.',
+                    abilityScoreIncrease: {
+                        name: 'Inteligência',
+                        value: 2,
+                    },
+                    characteristics: [
+                        {
+                            name: 'Falta de Força Anã',
+                            description:
+                                'Você tem desvantagem em testes de força relacionados a objetos, como puxar, empurrar e carregar.',
+                        },
+                        {
+                            name: 'Especialista em Magia',
+                            description:
+                                'Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico.',
+                        },
+                    ],
+                },
+            ],
+            skillProficiencies: [],
+            characteristics: [
+                {
+                    name: 'Visão no Escuro',
+                    description:
+                        'Acostumado à vida subterrânea, você possui uma visão superior em condições de escuridão e pouca luz. Você pode enxergar em luz fraca em um raio de 18 metros como se fosse luz plena, e em escuridão como se fosse luz fraca. Você não consegue distinguir cores na escuridão, apenas tons de cinza.',
+                    suggested: {
+                        personalityTrait: ['personalidade'],
+                        ideal: ['ideal'],
+                        bond: ['laço'],
+                        flaw: ['desvantagem'],
+                    },
+                },
+                {
+                    name: 'Resistência Anã',
+                    description:
+                        'Você possui vantagem em testes de resistência contra veneno e possui resistência a danos por veneno.',
+                    suggested: {
+                        personalityTrait: ['personalidade'],
+                        ideal: ['ideal'],
+                        bond: ['laço'],
+                        flaw: ['desvantagem'],
+                    },
+                },
+                {
+                    name: 'Treinamento em Combate Anão',
+                    description:
+                        'Você possui proficiência com o machado de guerra, machadinho, martelo leve e martelo de guerra.',
+                    suggested: {
+                        personalityTrait: ['personalidade'],
+                        ideal: ['ideal'],
+                        bond: ['laço'],
+                        flaw: ['desvantagem'],
+                    },
+                },
+                {
+                    name: 'Proficiência em Ferramentas',
+                    description:
+                        'Você ganha proficiência com ferramentas de artesão à sua escolha: ferramentas de ferreiro, suprimentos de cervejeiro ou ferramentas de pedreiro.',
+                    suggested: {
+                        personalityTrait: ['personalidade'],
+                        ideal: ['ideal'],
+                        bond: ['laço'],
+                        flaw: ['desvantagem'],
+                    },
+                },
+                {
+                    name: 'Inteligência em Rochas',
+                    description:
+                        'Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal.',
+                    suggested: {
+                        personalityTrait: ['personalidade'],
+                        ideal: ['ideal'],
+                        bond: ['laço'],
+                        flaw: ['desvantagem'],
+                    },
+                },
+            ],
+        },
+    };
+}
+
+function createRealmsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Realm> & { realmId: string } {
+    return {
+        realmId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'The Material Plane',
+            description:
+                'The Material Plane is the nexus where the philosophical and elemental forces that define the other planes collide in the jumbled existence of mortal life and mundane matter. All fantasy gaming worlds exist within the Material Plane, making it the starting point for most campaigns and adventures. The rest of the multiverse is defined in relation to the Material Plane.\n\nThe worlds of the Material Plane are infinitely diverse, for they reflect the creative imagination of the GMs who set their games there, as well as the players whose heroes adventure there. They include magic-wasted desert planets and island-dotted water worlds, worlds where magic combines with advanced technology and others trapped in an endless Stone Age, worlds where the gods walk and places they have abandoned.',
+            thumbnail: 'https://i.ibb.co/MkSDFng/Material-Plane.png',
+        },
+        pt: {
+            name: 'O Plano Material',
+            description:
+                'O Plano Material é o ponto de encontro onde as forças filosóficas e elementais que definem os outros planos colidem na existência confusa da vida mortal e da matéria mundana. Todos os mundos de jogos de fantasia existem dentro do Plano Material, tornando-o o ponto de partida para a maioria das campanhas e aventuras. O restante do multiverso é definido em relação ao Plano Material.\n\nOs mundos do Plano Material são infinitamente diversos, pois refletem a imaginação criativa dos Mestres do Jogo que estabelecem seus jogos lá, assim como dos jogadores cujos heróis aventuram-se ali. Eles incluem planetas desérticos devastados pela magia e mundos aquáticos salpicados de ilhas, mundos onde a magia se combina com tecnologia avançada e outros presos em uma Idade da Pedra interminável, mundos onde os deuses caminham e lugares que eles abandonaram.',
+            thumbnail: 'https://i.ibb.co/MkSDFng/Material-Plane.png',
+        },
+    };
+}
+
+function createWikisFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Wiki> & { wikiId: string } {
+    return {
+        wikiId: entityId || newUUID(),
+        active: true,
+        en: {
+            title: 'Races',
+            description: '',
+            subTopics: [
+                {
+                    subTitle: 'Racial Traits',
+                    description:
+                        'The description of each race includes racial traits that are common to members of that race. The following entries appear among the traits of most races.',
+                },
+                {
+                    subTitle: 'Ability Score Increase',
+                    description:
+                        "Every race increases one or more of a character's ability scores.",
+                },
+                {
+                    subTitle: 'Age',
+                    description:
+                        "The age entry notes the age when a member of the race is considered an adult, as well as the race's expected lifespan. This information can help you decide how old your character is at the start of the game. You can choose any age for your character, which could provide an explanation for some of your ability scores. For example, if you play a young or very old character, your age could explain a particularly low Strength or Constitution score, while advanced age could account for a high Intelligence or Wisdom.",
+                },
+                {
+                    subTitle: 'Alignment',
+                    description:
+                        'Most races have tendencies toward certain alignments, described in this entry. These are not binding for player characters, but considering why your dwarf is chaotic, for example, in defiance of lawful dwarf society can help you better define your character.',
+                },
+                {
+                    subTitle: 'Size',
+                    description:
+                        'Characters of most races are Medium, a size category including creatures that are roughly 4 to 8 feet tall. Members of a few races are Small (between 2 and 4 feet tall), which means that certain rules of the game affect them differently. The most important of these rules is that Small characters have trouble wielding heavy weapons, as explained in “Equipment.”',
+                },
+                {
+                    subTitle: 'Speed',
+                    description:
+                        "Your speed determines how far you can move when traveling ('Adventuring') and fighting ('Combat').",
+                },
+                {
+                    subTitle: 'Languages',
+                    description:
+                        'By virtue of your race, your character can speak, read, and write certain languages.',
+                },
+                {
+                    subTitle: 'Subraces',
+                    description:
+                        'Some races have subraces. Members of a subrace have the traits of the parent race in addition to the traits specified for their subrace. Relationships among subraces vary significantly from race to race and world to world.',
+                },
+            ],
+            reference: 'SRD D&D 5e - pg. 3',
+            image: 'https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg',
+        },
+        pt: {
+            title: 'Raças',
+            description: '',
+            subTopics: [
+                {
+                    subTitle: 'Traços Raciais',
+                    description:
+                        'A descrição de cada raça inclui traços raciais que são comuns aos membros dessa raça. As seguintes entradas aparecem entre os traços da maioria das raças.',
+                },
+                {
+                    subTitle: 'Aumento de Atributos',
+                    description: 'Cada raça aumenta um ou mais atributos do personagem.',
+                },
+                {
+                    subTitle: 'Idade',
+                    description:
+                        'A entrada de idade indica a idade em que um membro da raça é considerado adulto, bem como a expectativa de vida da raça. Essas informações podem ajudar a decidir a idade do seu personagem no início do jogo. Você pode escolher qualquer idade para o seu personagem, o que pode explicar alguns dos seus atributos. Por exemplo, se você interpretar um personagem jovem ou muito idoso, a idade pode explicar um atributo de Força ou Constituição particularmente baixo, enquanto uma idade avançada pode justificar um alto atributo de Inteligência ou Sabedoria.',
+                },
+                {
+                    subTitle: 'Alinhamento',
+                    description:
+                        'A maioria das raças tem tendências para certos alinhamentos. Essas tendências não são obrigatórias para personagens jogadores, mas considerar por que seu anão é caótico, por exemplo, em desafio à sociedade anã ordeira, pode ajudá-lo a definir melhor o seu personagem.',
+                },
+                {
+                    subTitle: 'Tamanho',
+                    description:
+                        "Personagens da maioria das raças são de tamanho Médio, uma categoria de tamanho que inclui criaturas com aproximadamente 1,2 a 2,4 metros de altura. Membros de algumas raças são de tamanho Pequeno (entre 0,6 a 1,2 metros de altura), o que significa que certas regras do jogo os afetam de forma diferente. A regra mais importante é que personagens Pequenos têm dificuldade em empunhar armas pesadas, como explicado em 'Equipamento'.",
+                },
+                {
+                    subTitle: 'Velocidade',
+                    description:
+                        "Sua velocidade determina o quão longe você pode se mover ao viajar ('Aventurar-se') e ao lutar ('Combate').",
+                },
+
+                {
+                    subTitle: 'Idiomas',
+                    description:
+                        'Por causa de sua raça, seu personagem pode falar, ler e escrever certos idiomas.',
+                },
+
+                {
+                    subTitle: 'Sub-raças',
+                    description:
+                        'Algumas raças possuem sub-raças. Membros de uma sub-raça possuem os traços da raça principal, além dos traços especificados para sua sub-raça. As relações entre as sub-raças variam significativamente de raça para raça e de mundo para mundo.',
+                },
+            ],
+            reference: 'SRD D&D 5e - pg. 3',
+            image: 'https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg',
+        },
+    };
+}
+
+function createWeaponsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Weapon> & { weaponId: string } {
+    return {
+        weaponId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Club',
+            description: '',
+            cost: {
+                currency: 'sp',
+                value: 1,
+            },
+            type: 'simple melee weapon',
+            weight: 0.9,
+            damage: '1d4 bludgeoning',
+            properties: ['light'],
+        },
+        pt: {
+            name: 'Clava',
+            description: '',
+            cost: {
+                currency: 'po',
+                value: 1,
+            },
+            type: 'arma branca simples',
+            weight: 0.9,
+            damage: '1d4 de concussão',
+            properties: ['leve'],
+        },
+    };
+}
+
+function createSpellsFaker({
+    entityId,
+}: {
+    entityId: string;
+}): Internacional<Spell> & { spellId: string } {
+    return {
+        spellId: entityId || newUUID(),
+        active: true,
+        en: {
+            name: 'Dancing Light',
+            description:
+                "You create up to four torch-sized lights within range, making them appear as torches, lanterns, or glowing orbs that hover in the air for the duration. You can also combine the four lights into one glowing vaguely humanoid form of Medium size. Whichever form you choose, each light sheds dim light in a 10-foot radius.\n\nAs a bonus action on your turn, you can move the lights up to 60 feet to a new spot within range. A light must be within 20 feet of another light created by this spell, and a light winks out if it exceeds the spell's range.",
+            type: 'evocation-cantrip',
+            level: 0,
+            higherLevels: [],
+            damage: null,
+            castingTime: '1 action',
+            duration: 'concentration, up to 1 minute',
+            range: '120 feet',
+            components: 'V, S, M (a bit of phosphorus or wychwood, or a glowworm)',
+            buffs: ['no-buff'],
+            debuffs: ['no-debuffs'],
+        },
+        pt: {
+            name: 'Luz Dançante',
+            description:
+                'Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou orbes brilhantes que flutuam no ar durante a duração. Você também pode combinar as quatro luzes em uma forma vagamente humanoides brilhante de tamanho Médio. Independentemente da forma escolhida, cada luz emite uma luz fraca em um raio de 3 metros.\n\nComo uma ação bônus em seu turno, você pode mover as luzes até 18 metros para um novo local dentro do alcance. Uma luz deve estar a até 6 metros de outra luz criada por este feitiço, e uma luz se apaga se ultrapassar o alcance do feitiço.',
+            type: 'evocação-cantrip',
+            level: 0,
+            higherLevels: [],
+            damage: null,
+            castingTime: '1 ação',
+            duration: 'concentração, até 1 minuto',
+            range: '36.5 metros',
+            components: 'V, S, M (um pouco de fósforo ou madeira mágica, ou um vagalume)',
+            buffs: ['no-buff'],
+            debuffs: ['no-debuffs'],
+        },
+    };
+}
+
 const dungeonsAndDragonsFunctions = {
     armors: createArmorsFaker,
     backgrounds: createBackgroundsFaker,
     classes: createClassesFaker,
     feats: createFeatsFaker,
+    gods: createGodsFaker,
+    magicItems: createMagicItemsFaker,
+    monsters: createMonstersFaker,
+    items: createItemsFaker,
+    races: createRacesFaker,
+    realms: createRealmsFaker,
+    wikis: createWikisFaker,
+    weapons: createWeaponsFaker,
+    spells: createSpellsFaker,
 };
 
 export default function generateDungeonsAndDragonsFaker({
@@ -653,13 +1481,31 @@ export default function generateDungeonsAndDragonsFaker({
     entityId: string | undefined;
     entity: string | undefined;
 }): any[] {
-    const entityArray: Array<Internacional<Armor | Background | Class | Feat>> = [];
+    const entityArray: Array<
+        Internacional<
+            | Armor
+            | Background
+            | Class
+            | Feat
+            | God
+            | MagicItem
+            | Monster
+            | Item
+            | Race
+            | Realm
+            | Wiki
+            | Weapon
+            | Spell
+        >
+    > = [];
 
     for (let index = 0; index <= count; index += 1) {
         entityArray.push(
             dungeonsAndDragonsFunctions[
                 entity as keyof typeof dungeonsAndDragonsFunctions
-            ]({ entityId } as { entityId: string })
+            ]({
+                entityId,
+            } as { entityId: string })
         );
     }
 

@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Response, Request, Express } from 'express';
 import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
@@ -8,6 +8,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -18,6 +19,7 @@ export default class UsersController {
     private readonly _confirmEmailOperation;
     private readonly _activateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
+    private readonly _resetTwoFactorOperation;
     private readonly _updateEmailOperation;
     private readonly _updatePasswordOperation;
     private readonly _updateGameInfoOperation;
@@ -36,6 +38,7 @@ export default class UsersController {
         confirmEmailOperation,
         activateSecretQuestionOperation,
         activateTwoFactorOperation,
+        resetTwoFactorOperation,
         updateEmailOperation,
         updatePasswordOperation,
         updateGameInfoOperation,
@@ -53,6 +56,7 @@ export default class UsersController {
         this._confirmEmailOperation = confirmEmailOperation;
         this._activateSecretQuestionOperation = activateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
+        this._resetTwoFactorOperation = resetTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
         this._updatePasswordOperation = updatePasswordOperation;
         this._updateGameInfoOperation = updateGameInfoOperation;
@@ -70,6 +74,7 @@ export default class UsersController {
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.confirmEmail = this.confirmEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
+        this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
@@ -84,6 +89,8 @@ export default class UsersController {
         const payload = req.body as RegisterUserPayload;
 
         const result = await this._createUserOperation.execute(payload);
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
@@ -92,6 +99,8 @@ export default class UsersController {
         const payload = req.body as RegisterUserPayload;
 
         const result = await this._updateUserOperation.execute({ userId: id, payload });
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
@@ -104,6 +113,8 @@ export default class UsersController {
 
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const result = await this._getUsersOperation.execute();
+        result.map((user) => delete (user as Partial<RegisterUserResponse>).password);
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -111,14 +122,15 @@ export default class UsersController {
         const { id } = req.params;
 
         const result = await this._getUserByIdOperation.execute({ userId: id });
+        delete (result as Partial<RegisterUserResponse>).password;
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async login(req: Request, res: Response): Promise<Response> {
-        const { user: token } = req;
+        const { token } = req.user as Express.User;
 
         const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
-            token
+            token as string
         );
 
         return res
@@ -149,12 +161,15 @@ export default class UsersController {
 
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { isReset } = req.query;
 
-        const result = await this._activateTwoFactorOperation.execute(
-            id,
-            isReset === 'true'
-        );
+        const result = await this._activateTwoFactorOperation.execute(id);
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this._resetTwoFactorOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -181,6 +196,8 @@ export default class UsersController {
             userId: id,
             image: req.file as FileObject,
         });
+        delete (result as Partial<RegisterUserResponse>).password;
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 

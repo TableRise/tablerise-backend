@@ -6,15 +6,17 @@ import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
 import schemas from './domains/users/schemas';
+import campaignsSchemas from './domains/campaigns/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
-import Serializer from './domains/users/helpers/Serializer';
-import VerifyIdMiddleware from './interface/users/middlewares/VerifyIdMiddleware';
+import Serializer from './domains/common/helpers/Serializer';
+import VerifyIdMiddleware from './interface/common/middlewares/VerifyIdMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
 import RoutesWrapper from './interface/common/RoutesWrapper';
 import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
-import AuthErrorMiddleware from './interface/users/middlewares/AuthErrorMiddleware';
+import CampaignsRoutesBuilder from './interface/campaigns/CampaignsRoutesBuilder';
+import AuthErrorMiddleware from './interface/common/middlewares/AuthErrorMiddleware';
 import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import { ContainerContract } from './types/container';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
@@ -23,6 +25,7 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
+import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -35,10 +38,15 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         [
             `./core/**/*.${loadExt}`,
             `./infra/repositories/**/*.${loadExt}`,
+            `./interface/common/middlewares/**/*.${loadExt}`,
             `./interface/users/presentation/**/*.${loadExt}`,
             `./interface/users/middlewares/**/*.${loadExt}`,
+            `./interface/campaigns/presentation/**/*.${loadExt}`,
+            `./interface/campaigns/middlewares/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/middlewares/**/*.${loadExt}`,
+            `./interface/campaigns/presentation/**/*.${loadExt}`,
+            `./interface/campaigns/middlewares/**/*.${loadExt}`,
         ],
         {
             formatName: 'camelCase',
@@ -52,6 +60,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         application: asClass(Application).singleton(),
         routesWrapper: asClass(RoutesWrapper).singleton(),
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
+        campaignsRoutesBuilder: asClass(CampaignsRoutesBuilder).singleton(),
         dungeonsAndDragonsRoutesBuilder: asClass(
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
@@ -66,9 +75,11 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),
+        managerCronJob: asClass(ManagerCronJob).singleton(),
 
         // #Schemas
         usersSchema: asValue(schemas),
+        campaignsSchema: asValue(campaignsSchemas),
 
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),

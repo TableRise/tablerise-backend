@@ -28,12 +28,11 @@ export default class ActivateTwoFactorService {
         this._logger('info', 'Activate - ActivateTwoFactorService');
         const userInDb = await this._usersRepository.findOne({ userId });
 
-        if (!userInDb.twoFactorSecret.active && isReset)
-            HttpRequestErrors.throwError('2fa-no-active');
-        if (userInDb.twoFactorSecret.active && !isReset)
+        if (userInDb.twoFactorSecret.active)
             HttpRequestErrors.throwError('2fa-already-active');
 
         userInDb.twoFactorSecret = await this._twoFactorHandler.create(userInDb.email);
+
         const userDetailInDb = await this._usersDetailsRepository.findOne({
             userId: userInDb.userId,
         });

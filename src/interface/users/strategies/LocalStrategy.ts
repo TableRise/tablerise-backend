@@ -12,6 +12,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import { container } from 'src/container';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import { Express } from 'express';
 
 const ALLOWED_STATUS_TO_LOGIN = ['done', 'wait_to_complete'];
 const LocalStrategy = Local.Strategy;
@@ -84,7 +85,7 @@ passport.use(
 
                 const token = JWTGenerator.generate(user);
 
-                done(null, token);
+                done(null, { token } as Express.User);
             } catch (error) {
                 return done(error);
             }

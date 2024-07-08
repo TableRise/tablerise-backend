@@ -24,10 +24,10 @@ module.exports = {
     },
     api: {
         imgur: {
-            baseUrl: 'https://api.imgur.com/3',
-            authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+            baseUrl: 'https://api.imgbb.com/1',
+            authorization: `?key=${process.env.IMGBB_CLIENT_SECRET}`,
             endpoints: {
-                postImage: '/image',
+                postImage: '/upload',
             },
         },
     },

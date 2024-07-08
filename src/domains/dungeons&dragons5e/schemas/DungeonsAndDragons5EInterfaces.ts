@@ -264,6 +264,8 @@ export interface SubRace {
 export interface Race {
     name: string;
     description: string;
+    size: string;
+    tale: string;
     abilityScoreIncrease: AbilityScoreIncrease;
     ageMax: number;
     alignment: string[];

@@ -4,6 +4,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 export interface UpdateTimestampPayload {
     userId?: string;
     userDetailId?: string;
+    campaignId?: string;
 }
 
 export interface __UserWithID {
@@ -66,7 +67,16 @@ export interface __UserSerialized {
     userDetailsSerialized: UserDetailInstance;
 }
 
+export interface __TokenObject {
+    token: string;
+}
+
 export interface __UserSaved {
     userSaved: UserInstance;
     userDetailsSaved: UserDetailInstance;
+}
+
+export interface UpdateMatchPlayersResponse {
+    campaign: CampaignInstance;
+    userDetails: UserDetailInstance;
 }
