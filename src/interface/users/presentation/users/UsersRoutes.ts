@@ -190,25 +190,35 @@ export default class UsersRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(4, [
-                        { name: 'question', type: 'string', required: 'off' },
-                        { name: 'answer', type: 'string', required: 'off' },
-                        { name: 'code', type: 'string' },
-                        { name: 'isReset', type: 'boolean', required: 'off' },
-                    ]),
-                ],
+                parameters: [...generateIDParam()],
                 controller: this._usersController.activateTwoFactor,
+                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
-                        this._verifyEmailCodeMiddleware.verify,
                         this._authorizationMiddleware.secretQuestion,
                     ],
                     tag: 'authorization',
                     description: desc.activate2FA,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/reset`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
+                ],
+                controller: this._usersController.resetTwoFactor,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                        this._authorizationMiddleware.twoFactor,
+                    ],
+                    tag: 'authorization',
+                    description: desc.reset2FA,
                 },
             },
             {

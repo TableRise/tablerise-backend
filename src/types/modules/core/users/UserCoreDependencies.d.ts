@@ -41,6 +41,7 @@ export default interface UserCoreDependencies {
     // Operations
     activateSecretQuestionOperationContract: ActivateSecretQuestionOperationContract;
     activateTwoFactorOperationContract: ActivateTwoFactorOperationContract;
+    resetTwoFactorOperationContract: ResetTwoFactorOperationContract;
     confirmEmailOperationContract: ConfirmEmailOperationContract;
     createUserOperationContract: CreateUserOperationContract;
     deleteUserOperationContract: DeleteUserOperationContract;
@@ -60,6 +61,7 @@ export default interface UserCoreDependencies {
     // Services
     activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
     activateTwoFactorServiceContract: ActivateTwoFactorServiceContract;
+    resetTwoFactorServiceContract: ResetTwoFactorServiceContract;
     confirmEmailServiceContract: ConfirmEmailServiceContract;
     createUserServiceContract: CreateUserServiceContract;
     deleteUserServiceContract: DeleteUserServiceContract;

@@ -33,13 +33,11 @@ describe('Core :: Users :: Operations :: ActivateTwoFactorOperation', () => {
         });
 
         it('should return the correct data and call correct methods', async () => {
-            const userTest = await activateTwoFactorOperation.execute('userId', false);
+            const userTest = await activateTwoFactorOperation.execute('userId');
 
             expect(activateTwoFactorService.activate).to.have.been.called();
             expect(activateTwoFactorService.save).to.have.been.called();
-            expect(userTest).to.be.deep.equal({
-                active: true,
-            });
+            expect(userTest).to.be.deep.equal({ active: true });
         });
     });
 });

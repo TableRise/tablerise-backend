@@ -3,7 +3,8 @@ MESSAGE=$(cat $1)
 COMMITFORMAT="^(feat|fix|docs|style|ref|test|setup)(\((.*)\))?:\s?(.*)$"
 
 if ! [[ "$MESSAGE" =~ $COMMITFORMAT ]]; then
-  echo "========================"
+  echo ""
+  echo -e "\033[34m===============================\033[0m\n\033[34m||   TableRise Commit Hook   ||\033[0m\n\033[34m===============================\033[0m"
   echo " "
   echo -e "\e[31mYour commit was rejected due to the commit message. COMMIT FAILED !\e[0m" 
   echo ""
