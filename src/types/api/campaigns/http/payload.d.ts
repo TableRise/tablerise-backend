@@ -27,7 +27,7 @@ export interface GetCampaignByIdPayload {
     campaignId: string;
 }
 
-export interface PublishPostPayload {
+export interface publishmentPayload {
     campaignId: string;
     userId: string;
     payload: {

@@ -1,12 +1,12 @@
 import sinon from 'sinon';
-import PublishPostService from 'src/core/campaigns/services/PublishPostService';
+import PublishmentService from 'src/core/campaigns/services/PublishmentService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
 
-describe('Core :: Services :: PublishPostService', () => {
-    let publishPostService: PublishPostService,
+describe('Core :: Services :: publishmentService', () => {
+    let publishmentService: PublishmentService,
         campaignsRepository: any,
         usersRepository: any,
         postPayload: any,
@@ -39,7 +39,7 @@ describe('Core :: Services :: PublishPostService', () => {
                 },
             };
 
-            publishPostService = new PublishPostService({
+            publishmentService = new PublishmentService({
                 campaignsRepository,
                 usersRepository,
                 logger,
@@ -47,7 +47,7 @@ describe('Core :: Services :: PublishPostService', () => {
         });
 
         it('should return correct data', async () => {
-            const campaignWithPost = await publishPostService.addPost(postPayload);
+            const campaignWithPost = await publishmentService.addPost(postPayload);
 
             expect(campaignWithPost.infos).to.have.property('announcements');
             expect(campaignWithPost.infos.announcements).to.be.an('array');
@@ -79,7 +79,7 @@ describe('Core :: Services :: PublishPostService', () => {
                 findOne: sinon.spy(() => user),
             };
 
-            publishPostService = new PublishPostService({
+            publishmentService = new PublishmentService({
                 campaignsRepository,
                 usersRepository,
                 logger,
@@ -87,7 +87,7 @@ describe('Core :: Services :: PublishPostService', () => {
         });
 
         it('should return correct data', async () => {
-            const campaignSaved = await publishPostService.save(campaign);
+            const campaignSaved = await publishmentService.save(campaign);
 
             expect(campaignsRepository.update).to.have.been.calledWith({
                 query: { campaignId: campaign.campaignId },
