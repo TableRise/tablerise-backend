@@ -1,20 +1,20 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { PublishPostPayload } from 'src/types/api/campaigns/http/payload';
+import { publishmentPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
-export default class PublishPostOperation {
-    private readonly _publishPostService;
+export default class PublishmentOperation {
+    private readonly _publishmentService;
     private readonly _schemaValidator;
     private readonly _campaignsSchema;
     private readonly _logger;
 
     constructor({
-        publishPostService,
+        publishmentService,
         schemaValidator,
         campaignsSchema,
         logger,
-    }: CampaignCoreDependencies['publishPostOperationContract']) {
-        this._publishPostService = publishPostService;
+    }: CampaignCoreDependencies['publishmentOperationContract']) {
+        this._publishmentService = publishmentService;
         this._schemaValidator = schemaValidator;
         this._campaignsSchema = campaignsSchema;
         this._logger = logger;
@@ -26,16 +26,16 @@ export default class PublishPostOperation {
         campaignId,
         userId,
         payload,
-    }: PublishPostPayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - PublishPostOperation');
+    }: publishmentPayload): Promise<CampaignInstance> {
+        this._logger('info', 'Execute - publishmentOperation');
         this._schemaValidator.entry(this._campaignsSchema.campaignPost, payload);
 
-        const campaignWithPost = await this._publishPostService.addPost({
+        const campaignWithPost = await this._publishmentService.addPost({
             campaignId,
             userId,
             payload,
         });
-        const campaignSaved = await this._publishPostService.save(campaignWithPost);
+        const campaignSaved = await this._publishmentService.save(campaignWithPost);
 
         return campaignSaved;
     }
