@@ -295,7 +295,6 @@ export default class UsersRoutes {
                 controller: this._usersController.resetProfile,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'token', type: 'string' }]),
                 ],
                 options: {
                     middlewares: [
