@@ -250,7 +250,7 @@ export default class UsersRoutes {
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(5, [
                         { name: 'question', type: 'string', required: 'off' },
                         { name: 'answer', type: 'string', required: 'off' },
                         { name: 'code', type: 'string' },
