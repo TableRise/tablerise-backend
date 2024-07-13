@@ -293,9 +293,7 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/reset`,
                 controller: this._usersController.resetProfile,
-                parameters: [
-                    ...generateIDParam(),
-                ],
+                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
