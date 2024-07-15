@@ -200,6 +200,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.INTERNAL_SERVER),
                 });
 
+            case 'avatar-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Doens\'t exists any avatar in this game',
+                    code: HttpStatusCode.INTERNAL_SERVER,
+                    name: getErrorName(HttpStatusCode.INTERNAL_SERVER),
+                });
+
             default:
                 throw new HttpRequestErrors({
                     message: 'Some error not specified ocurred',
