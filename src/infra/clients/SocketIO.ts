@@ -232,7 +232,7 @@ export default class SocketIO {
         userId,
     }: disconnectAvatarSocketEvent): Promise<void> {
         const actualMatch = this._matches[matchId];
-        actualMatch.avatars = actualMatch.avatarsInGame as Avatar[];
+        actualMatch.avatars = actualMatch.avatarsInGame;
 
         const { avatarsInGame, ...matchToSave } = actualMatch;
 
