@@ -73,8 +73,7 @@ export default class SocketIO {
             campaignId,
         });
 
-        if (!matchData)
-            HttpRequestErrors.throwError('campaign-match-inexistent');
+        if (!matchData) HttpRequestErrors.throwError('campaign-match-inexistent');
 
         await socket.join(matchData.matchId);
         this._matches[matchData.matchId] = matchData;
@@ -135,7 +134,7 @@ export default class SocketIO {
 
         await this._campaignsRepository.update({
             query: { campaignId },
-            payload: campaign
+            payload: campaign,
         });
 
         return avatarData;
@@ -204,7 +203,7 @@ export default class SocketIO {
             link: imageLink,
             uploadDate: new Date().toISOString(),
             deleteUrl: '',
-            request: { success: true, status: 200 }
+            request: { success: true, status: 200 },
         };
 
         this._io.to(matchId).emit('avatar-picture-uploaded', avatarId, imageLink);

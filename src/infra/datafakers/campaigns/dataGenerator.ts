@@ -40,7 +40,7 @@ export default {
             link: '',
             uploadDate: '',
             deleteUrl: '',
-            request: { success: true, status: 200 }
+            request: { success: true, status: 200 },
         },
         logs: [],
     },
