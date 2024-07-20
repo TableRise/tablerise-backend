@@ -116,8 +116,10 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const imageDefaultKeys = Object.keys(imageDefault);
             const image = {
                 data: {
-                    thumb: {},
-                    medium: {},
+                    data: {
+                        thumb: {},
+                        medium: {},
+                    }
                 },
                 success: true,
                 status: 200,
@@ -135,9 +137,11 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const imageDefaultKeys = Object.keys(imageDefault);
             const image = {
                 data: {
-                    time: new Date().getTime(),
-                    thumb: {},
-                    medium: {},
+                    data: {
+                        time: new Date().getTime(),
+                        thumb: {},
+                        medium: {},
+                    }
                 },
                 success: true,
                 status: 200,
