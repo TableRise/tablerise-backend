@@ -119,7 +119,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
                     data: {
                         thumb: {},
                         medium: {},
-                    }
+                    },
                 },
                 success: true,
                 status: 200,
@@ -141,7 +141,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
                         time: new Date().getTime(),
                         thumb: {},
                         medium: {},
-                    }
+                    },
                 },
                 success: true,
                 status: 200,

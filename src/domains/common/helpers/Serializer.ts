@@ -134,15 +134,7 @@ export default class Serializer {
     public imageResult(result: ApiImgBBResponse): ImageObject {
         const { data } = result;
 
-        const {
-            id,
-            title,
-            url,
-            time, 
-            thumb,
-            medium,
-            delete_url: deleteUrl
-        } = data.data;
+        const { id, title, url, time, thumb, medium, delete_url: deleteUrl } = data.data;
 
         const dataSerialized = {} as any;
 

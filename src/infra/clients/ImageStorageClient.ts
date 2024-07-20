@@ -45,29 +45,30 @@ export default class ImageStorageClient {
             },
         };
 
-        imageUploaded= {
+        imageUploaded = {
             data: {
                 data: {
                     thumb: {},
                     medium: {},
                     delete_url: '',
-                }
+                },
             },
             success: true,
             status: 200,
         } as ApiImgBBResponse;
 
         try {
-            imageUploaded = process.env.NODE_ENV === 'production'
-                ? await this._httpRequest(imageUploadPayload)
-                : imageUploaded;
-        } catch(error) {
+            imageUploaded =
+                process.env.NODE_ENV === 'production'
+                    ? await this._httpRequest(imageUploadPayload)
+                    : imageUploaded;
+        } catch (error) {
             const err = error as AxiosError;
 
             throw new HttpRequestErrors({
                 message: err.message,
                 code: 500,
-                name: err.name
+                name: err.name,
             });
         }
 
