@@ -17,18 +17,10 @@ export default class ActivateSecretQuestionOperation {
 
     public async execute(
         { userId, payload }: ActivateSecretQuestionPayload,
-        isUpdate: boolean
     ): Promise<void> {
         this._logger('info', 'Execute - ActivateSecretQuestionOperation');
 
-        const { user, userDetails } = await this._activateSecretQuestionService.activate(
-            {
-                userId,
-                payload,
-            },
-            isUpdate
-        );
+        await this._activateSecretQuestionService.activate({userId, payload});
 
-        await this._activateSecretQuestionService.save({ user, userDetails });
     }
 }

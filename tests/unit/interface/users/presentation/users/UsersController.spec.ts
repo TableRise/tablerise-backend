@@ -14,6 +14,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         getUserByIdOperation: any,
         confirmEmailOperation: any,
         activateSecretQuestionOperation: any,
+        updateSecretQuestionOperation: any,
         activateTwoFactorOperation: any,
         resetTwoFactorOperation: any,
         updateEmailOperation: any,

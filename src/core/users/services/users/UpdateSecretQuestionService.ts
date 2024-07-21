@@ -18,10 +18,12 @@ export default class UpdateSecretQuestionService {
         this._logger('info', 'Update - UpdateSecretQuestionService');
 
         const { new: newQuestion } = payload;
+
+        if (!newQuestion) HttpRequestErrors.throwError('new-structure-secret-question-missing');
+        
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
-        if (!userDetailsInDb.secretQuestion)
-            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
 
         userDetailsInDb.secretQuestion.question = newQuestion.question;
         userDetailsInDb.secretQuestion.answer = newQuestion.answer;

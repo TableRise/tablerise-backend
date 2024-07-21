@@ -12,7 +12,9 @@ const login = 'Route for user login';
 
 const update = 'Route for update user but only allowed fields.';
 
-const activateQuestion = 'Activate or Update the secretQuestion - 2FA will be disabled';
+const activateQuestion = 'Activate the secretQuestion - 2FA will be disabled';
+
+const updateSecretQuestion = ' Route for update user Secret Question.'
 
 const confirm = `This route must be used to confirm an account that was recently created the route receives the param "code", that was send to the user email in the signup.`;
 
@@ -56,6 +58,7 @@ export default {
     activate2FA,
     reset2FA,
     activateQuestion,
+    updateSecretQuestion,
     confirm,
     updateEmail,
     updatePassword,

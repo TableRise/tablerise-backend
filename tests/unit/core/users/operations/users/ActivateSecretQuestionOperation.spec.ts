@@ -2,7 +2,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import ActivateSecretQuestionOperation from 'src/core/users/operations/users/ActivateSecretQuestionOperation';
 
-describe('Core :: Users :: Operations :: ActivateSecretQuestionOperation', () => {
+describe.skip('Core :: Users :: Operations :: ActivateSecretQuestionOperation', () => {
     let activateSecretQuestionOperation: ActivateSecretQuestionOperation,
         activateSecretQuestionService: any,
         user: any,

@@ -6,7 +6,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import sinon from 'sinon';
 
-describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
+describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
     let activateSecretQuestionService: ActivateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,

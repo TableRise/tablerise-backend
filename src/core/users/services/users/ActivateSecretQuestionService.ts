@@ -4,7 +4,6 @@ import {
     ActivateSecretQuestionPayload,
     UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
-import { __FullUser } from 'src/types/api/users/methods';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
@@ -21,48 +20,28 @@ export default class ActivateSecretQuestionService {
         this._logger = logger;
 
         this.activate = this.activate.bind(this);
-        this.save = this.save.bind(this);
     }
 
     public async activate(
         { userId, payload }: ActivateSecretQuestionPayload,
-        isUpdate: boolean = false
-    ): Promise<__FullUser> {
+    ): Promise<void> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
+
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
-        if (!userDetailsInDb.secretQuestion && isUpdate)
-            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
 
         const data = payload as UpdateSecretQuestion;
 
-        if (isUpdate && !data.new)
-            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+        if (!data.new) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
-        const newQuestion = isUpdate ? data.new.question : data.question;
-        const newAnswer = isUpdate ? data.new.answer : data.answer;
+        userInDb.twoFactorSecret.active = false;
 
-        userInDb.twoFactorSecret = { active: false };
-
-        userDetailsInDb.secretQuestion = {
-            question: newQuestion,
-            answer: newAnswer,
-        };
-
-        return { user: userInDb, userDetails: userDetailsInDb };
-    }
-
-    public async save({ user, userDetails }: __FullUser): Promise<void> {
-        this._logger('info', 'Save - ActivateSecretQuestionService');
         await this._usersRepository.update({
-            query: { userId: user.userId },
-            payload: user,
-        });
-
-        await this._usersDetailsRepository.update({
-            query: { userId: user.userId },
-            payload: userDetails,
+            query: { userId: userInDb.userId },
+            payload: userInDb,
         });
     }
 }
