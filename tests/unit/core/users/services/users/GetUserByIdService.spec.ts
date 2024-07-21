@@ -85,7 +85,7 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('User does not exist');
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);               
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                 }
             });
         });
