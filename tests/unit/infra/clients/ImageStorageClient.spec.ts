@@ -28,9 +28,9 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                         },
                     },
                 };
-    
+
                 httpRequest = () => ({ data: { title: 'upload test' } });
-    
+
                 imageMock = {
                     buffer: bufferMock,
                     mimetype: 'image/png',
@@ -39,11 +39,11 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                     encoding: 'utf-8',
                     size: 154,
                 };
-    
+
                 serializer = {
                     imageResult: () => DomainDataFaker.generateImagesObjectJSON()[0],
                 };
-    
+
                 imageStorageClient = new ImageStorageClient({
                     logger,
                     configs,
@@ -51,11 +51,11 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                     httpRequest,
                 });
             });
-    
+
             it('should correctly upload the picture', async () => {
                 process.env.NODE_ENV = 'production';
                 const imageUp = await imageStorageClient.upload(imageMock);
-    
+
                 expect(imageUp).to.have.property('id');
                 expect(imageUp).to.have.property('title');
                 expect(imageUp).to.have.property('link');
@@ -63,7 +63,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 expect(imageUp).to.have.property('request');
                 process.env.NODE_ENV = 'develop';
             });
-    
+
             it('should correctly upload the picture - No Prod', async () => {
                 const imageUp = await imageStorageClient.upload(imageMock);
                 expect(imageUp).to.have.property('id');
@@ -72,7 +72,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 expect(imageUp).to.have.property('uploadDate');
                 expect(imageUp).to.have.property('request');
             });
-    
+
             it('should correctly upload the picture - No Prod and Custom title', async () => {
                 const imageUp = await imageStorageClient.upload(imageMock, 'custom');
                 expect(imageUp).to.have.property('id');
@@ -99,7 +99,9 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                     },
                 };
 
-                httpRequest = () => { throw new Error('error test') };
+                httpRequest = () => {
+                    throw new Error('error test');
+                };
 
                 imageMock = {
                     buffer: bufferMock,
