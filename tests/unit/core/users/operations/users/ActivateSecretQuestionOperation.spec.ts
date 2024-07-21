@@ -31,14 +31,8 @@ describe.skip('Core :: Users :: Operations :: ActivateSecretQuestionOperation', 
         });
 
         it('should call correct methods', async () => {
-            const payload = {
-                question: '',
-                answer: '',
-            };
-            await activateSecretQuestionOperation.execute(
-                { userId: 'userId', payload },
-                false
-            );
+            const payload = { question: '', answer: ''};
+            await activateSecretQuestionOperation.execute({ userId: 'userId', payload });
 
             expect(activateSecretQuestionService.activate).to.have.been.called();
             expect(activateSecretQuestionService.save).to.have.been.called();

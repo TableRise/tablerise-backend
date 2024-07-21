@@ -42,16 +42,16 @@ describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () =
                     question: 'newQuestion',
                     answer: 'newAnswer',
                 };
-                const userTest = await activateSecretQuestionService.activate({
+                await activateSecretQuestionService.activate({
                     userId: 'userId',
                     payload,
                 });
 
-                expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
+                expect(user).to.be.equal(user);
+                expect(userDetails.secretQuestion?.question).to.be.equal(
                     'newQuestion'
                 );
-                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal(
+                expect(userDetails.secretQuestion?.answer).to.be.equal(
                     'newAnswer'
                 );
             });
@@ -87,19 +87,17 @@ describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () =
                         answer: 'newAnswer',
                     },
                 };
-                const userTest = await activateSecretQuestionService.activate(
+                await activateSecretQuestionService.activate(
                     {
                         userId: 'userId',
                         payload,
-                    },
-                    true
-                );
+                    });
 
-                expect(userTest.user).to.be.equal(user);
-                expect(userTest.userDetails.secretQuestion?.question).to.be.equal(
+                expect(user).to.be.equal(user);
+                expect(userDetails.secretQuestion?.question).to.be.equal(
                     'newQuestion'
                 );
-                expect(userTest.userDetails.secretQuestion?.answer).to.be.equal(
+                expect(userDetails.secretQuestion?.answer).to.be.equal(
                     'newAnswer'
                 );
             });
@@ -143,9 +141,7 @@ describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () =
                             {
                                 userId: 'userId',
                                 payload,
-                            },
-                            true
-                        );
+                            });
                     } catch (error) {
                         const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal('Secret question is incorrect');
@@ -189,9 +185,7 @@ describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () =
                             {
                                 userId: 'userId',
                                 payload,
-                            },
-                            true
-                        );
+                            });
                     } catch (error) {
                         const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal(
@@ -228,8 +222,6 @@ describe.skip('Core :: Users :: Services :: ActivateSecretQuestionService', () =
             });
 
             it('should return the correct result', async () => {
-                await activateSecretQuestionService.save({ user, userDetails });
-
                 expect(usersRepository.update).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.called();
             });
