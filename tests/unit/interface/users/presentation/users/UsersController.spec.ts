@@ -2,6 +2,7 @@
 import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
 import { Readable } from 'stream';
 
@@ -684,6 +685,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
     context('#updatePassword', () => {
         const request = {} as Request;
         const response = {} as Response;
+        const userId = newUUID();
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
@@ -730,12 +732,13 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { code: '123', email: 'email@email.com' };
+            request.query = { code: '123' };
+            request.user = { userId } as Express.User;
             request.body = { password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                email: request.query.email,
+                userId: request.user.userId,
                 code: request.query.code,
                 password: request.body.password,
             });
