@@ -183,10 +183,11 @@ export default class UsersController {
     }
 
     public async updatePassword(req: Request, res: Response): Promise<Response> {
-        const { email, code } = req.query as { email: string; code: string };
+        const { code } = req.query as { email: string; code: string };
+        const { userId } = req.user as Express.User;
         const { password } = req.body;
 
-        await this._updatePasswordOperation.execute({ email, code, password });
+        await this._updatePasswordOperation.execute({ userId, code, password });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
