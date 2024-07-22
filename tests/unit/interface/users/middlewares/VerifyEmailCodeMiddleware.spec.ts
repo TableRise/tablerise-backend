@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
@@ -14,6 +15,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
     context('When the user has the email code verified', () => {
         const request = {} as Request;
         const response = {} as Response;
+        const userId = newUUID();
         const next = sinon.spy(() => {}) as NextFunction;
 
         response.status = sinon.spy(() => response);
@@ -43,6 +45,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             it('should call next - when has ID', async () => {
                 request.params = { id: '123' };
                 request.query = { code: 'KLI44' };
+                request.user = { userId } as Express.User;
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
@@ -69,6 +72,21 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 });
                 expect(next).to.have.been.called();
             });
+
+            it('should call next - when has userId', async () => {
+                delete request.params.id;
+                request.user = { userId } as Express.User;
+
+                await verifyEmailCodeMiddleware.verify(request, response, next);
+
+                user.inProgress.status = 'done';
+
+                expect(usersRepository.update).to.have.been.calledWith({
+                    query: { userId: '123' },
+                    payload: user,
+                });
+                expect(next).to.have.been.called();
+            });
         });
 
         context('And params are incorrect', () => {
@@ -81,10 +99,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 });
             });
 
-            it('should throw an error - no id or email', async () => {
+            it('should throw an error - no id or email or userId', async () => {
                 try {
                     delete request.params.id;
                     request.query = { code: 'KLI44' };
+                    request.user = { userId: '' } as Express.User;
                     await verifyEmailCodeMiddleware.verify(request, response, next);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
