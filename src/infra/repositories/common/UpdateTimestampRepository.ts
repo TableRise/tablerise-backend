@@ -23,7 +23,6 @@ export default class UpdateTimestampRepository {
     public async updateTimestamp(query: UpdateTimestampPayload): Promise<void> {
         this._logger('info', 'UpdateTimestamp - UpdateTimestampRepository');
 
-
         const dicionario = {
             userId: this.updateToUserId,
             userDetailId: this.updateToUserDetail,
@@ -36,7 +35,7 @@ export default class UpdateTimestampRepository {
             name: 'BadRequest',
         });
 
-        dicionario[Object.keys(query)[0] as keyof UpdateTimestampPayload](query)
+         dicionario[Object.keys(query)[0] as keyof UpdateTimestampPayload].call(this, query)
 
     }
 
