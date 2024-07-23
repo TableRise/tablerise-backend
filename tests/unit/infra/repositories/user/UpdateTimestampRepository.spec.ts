@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import UpdateTimestampRepository from 'src/infra/repositories/user/UpdateTimestampRepository';
+import UpdateTimestampRepository from 'src/infra/repositories/common/UpdateTimestampRepository';
 import { Logger } from 'src/types/shared/logger';
 
 describe('Infra :: Repositories :: User :: UpdateTimestampRepository', () => {
