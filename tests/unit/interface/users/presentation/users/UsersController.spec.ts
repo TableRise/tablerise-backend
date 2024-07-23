@@ -685,7 +685,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
     context('#updatePassword', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const userId = newUUID();
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
@@ -732,13 +731,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { code: '123' };
-            request.user = { userId } as Express.User;
+            request.query = { email: 'test@email.com' , code: '123' };
             request.body = { password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                userId: request.user.userId,
+                email: request.query.email,
                 code: request.query.code,
                 password: request.body.password,
             });
