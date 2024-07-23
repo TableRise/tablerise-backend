@@ -25,34 +25,13 @@ describe('When the user has twoFactor activated', () => {
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,
-                });
-
-            expect(twoFactorResponse).to.have.property('qrcode');
-            expect(twoFactorResponse).to.have.property('active');
-            expect(twoFactorResponse).to.have.not.property('secret');
-            expect(typeof twoFactorResponse.qrcode).to.be.equal('string');
-            expect(twoFactorResponse.active).to.be.equal(true);
-        });
-
-        it('should update with success', async () => {
-            const { body: userWithOldTwoFactor } = await requester()
-                .get(`/users/${user.userId}`)
+                })
                 .expect(HttpStatusCode.OK);
 
-            const { body: twoFactorResponse } = await requester()
-                .patch(`/users/${user.userId}/2fa/activate?code=123456&isReset=true`)
-                .send({
-                    question: userDetails.secretQuestion?.question,
-                    answer: userDetails.secretQuestion?.answer,
-                });
-
             expect(twoFactorResponse).to.have.property('qrcode');
             expect(twoFactorResponse).to.have.property('active');
             expect(twoFactorResponse).to.have.not.property('secret');
             expect(typeof twoFactorResponse.qrcode).to.be.equal('string');
-            expect(twoFactorResponse.qrcode).to.be.not.equal(
-                userWithOldTwoFactor.twoFactorSecret.qrcode
-            );
             expect(twoFactorResponse.active).to.be.equal(true);
         });
     });

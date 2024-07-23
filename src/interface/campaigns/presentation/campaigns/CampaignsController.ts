@@ -12,7 +12,7 @@ export default class CampaignsController {
     private readonly _createCampaignOperation;
     private readonly _updateCampaignOperation;
     private readonly _getCampaignByIdOperation;
-    private readonly _publishPostOperation;
+    private readonly _publishmentOperation;
     private readonly _getAllCampaignsOperation;
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
@@ -23,7 +23,7 @@ export default class CampaignsController {
 
     constructor({
         getCampaignByIdOperation,
-        publishPostOperation,
+        publishmentOperation,
         createCampaignOperation,
         getAllCampaignsOperation,
         updateCampaignOperation,
@@ -37,7 +37,7 @@ export default class CampaignsController {
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
-        this._publishPostOperation = publishPostOperation;
+        this._publishmentOperation = publishmentOperation;
         this._getAllCampaignsOperation = getAllCampaignsOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
@@ -49,7 +49,7 @@ export default class CampaignsController {
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
-        this.publishPost = this.publishPost.bind(this);
+        this.publishment = this.publishment.bind(this);
         this.update = this.update.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
@@ -83,12 +83,12 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async publishPost(req: Request, res: Response): Promise<Response> {
+    public async publishment(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { userId } = req.query as { userId: string };
         const payload = req.body;
 
-        const result = await this._publishPostOperation.execute({
+        const result = await this._publishmentOperation.execute({
             campaignId: id,
             userId,
             payload,

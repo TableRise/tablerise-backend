@@ -43,4 +43,5 @@ export type ErrorTypes =
     | 'date-already-added'
     | 'player-already-in-match'
     | 'player-banned'
-    | 'campaign-match-inexistent';
+    | 'campaign-match-inexistent'
+    | 'avatar-inexistent';
