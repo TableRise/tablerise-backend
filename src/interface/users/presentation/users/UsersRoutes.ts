@@ -250,18 +250,12 @@ export default class UsersRoutes {
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateQueryParam(3, [
-                        { name: 'question', type: 'string', required: 'off' },
-                        { name: 'answer', type: 'string', required: 'off' },
-                        { name: 'token', type: 'string', required: 'off' },
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string'},
+                        { name: 'code', type: 'string'},
                     ]),
                 ],
                 options: {
-                    middlewares: [
-                        this._authorizationMiddleware.twoFactor,
-                        this._authorizationMiddleware.secretQuestion,
-                        this._verifyEmailCodeMiddleware.verify,
-                    ],
                     tag: 'management',
                     description: desc.updatePassword,
                 },
