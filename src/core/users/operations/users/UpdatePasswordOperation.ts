@@ -22,12 +22,12 @@ export default class UpdatePasswordOperation {
     }
 
     public async execute({
-        userId,
+        email,
         code,
         password,
     }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Execute - UpdatePasswordOperation');
         this._schemaValidator.entry(this._usersSchema.passwordUpdateZod, { password });
-        await this._updatePasswordService.update({ userId, code, password });
+        await this._updatePasswordService.update({ email, code, password });
     }
 }
