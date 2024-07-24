@@ -68,9 +68,7 @@ describe('Infra :: Repositories :: User :: UpdateTimestampRepository', () => {
                 await updateTimestampRepository.updateTimestamp({});
             } catch (error) {
                 const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal(
-                    'Query missing to update user timestamp'
-                );
+                expect(err.message).to.be.equal('Query missing to update user timestamp');
                 expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 expect(err.name).to.be.equal('BadRequest');
             }
