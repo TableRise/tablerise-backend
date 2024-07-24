@@ -29,7 +29,7 @@ export default class UpdateTimestampRepository {
             campaignId: this.updateToCampaignId,
         };
 
-        if (!query)
+        if (!Object.keys(query).length)
             throw new HttpRequestErrors({
                 message: 'Query missing to update user timestamp',
                 code: HttpStatusCode.BAD_REQUEST,
