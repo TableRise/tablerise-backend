@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import UpdateTimestampRepository from 'src/infra/repositories/user/UpdateTimestampRepository';
+import UpdateTimestampRepository from 'src/infra/repositories/common/UpdateTimestampRepository';
 import { Logger } from 'src/types/shared/logger';
 
 describe('Infra :: Repositories :: User :: UpdateTimestampRepository', () => {
@@ -68,9 +68,7 @@ describe('Infra :: Repositories :: User :: UpdateTimestampRepository', () => {
                 await updateTimestampRepository.updateTimestamp({});
             } catch (error) {
                 const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal(
-                    'Query not valid or missing to update user timestamp'
-                );
+                expect(err.message).to.be.equal('Query missing to update user timestamp');
                 expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 expect(err.name).to.be.equal('BadRequest');
             }
