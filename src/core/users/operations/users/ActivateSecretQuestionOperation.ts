@@ -1,5 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
+import { ActivateSecretQuestionResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateSecretQuestionOperation {
     private readonly _activateSecretQuestionService;
@@ -17,10 +18,10 @@ export default class ActivateSecretQuestionOperation {
 
     public async execute(
         { userId, payload }: ActivateSecretQuestionPayload,
-    ): Promise<void> {
+    ): Promise<ActivateSecretQuestionResponse> {
         this._logger('info', 'Execute - ActivateSecretQuestionOperation');
 
-        await this._activateSecretQuestionService.activate({userId, payload});
-
+        const user = await this._activateSecretQuestionService.activate({userId, payload});
+        return await this._activateSecretQuestionService.save(user);
     }
 }

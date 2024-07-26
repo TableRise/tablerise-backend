@@ -570,7 +570,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = {};
             await usersController.updateSecretQuestion(request, response);
 
-            expect(activateSecretQuestionOperation.execute).to.have.been.calledWith({ 
+            expect(updateSecretQuestionOperation.execute).to.have.been.calledWith({ 
                 userId: request.params.id, 
                 payload: request.body 
             });

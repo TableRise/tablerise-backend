@@ -83,6 +83,6 @@ export interface VerifyEmailPayload {
 }
 
 export interface ActivateSecretQuestionPayload {
-    userId: string;
-    payload: UserSecretQuestion;
+    userId: string,
+    payload: UserSecretQuestion
 }

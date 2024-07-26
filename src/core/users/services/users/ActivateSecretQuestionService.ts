@@ -2,8 +2,9 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import {
     ActivateSecretQuestionPayload,
-    UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import { ActivateSecretQuestionResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
@@ -20,11 +21,12 @@ export default class ActivateSecretQuestionService {
         this._logger = logger;
 
         this.activate = this.activate.bind(this);
+        this.save = this.save.bind(this);
     }
 
     public async activate(
         { userId, payload }: ActivateSecretQuestionPayload,
-    ): Promise<void> {
+    ): Promise<UserInstance> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
 
         const userInDb = await this._usersRepository.findOne({ userId });
@@ -32,16 +34,19 @@ export default class ActivateSecretQuestionService {
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
         if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
-
-        const data = payload as UpdateSecretQuestion;
-
-        if (!data.new) HttpRequestErrors.throwError('new-structure-secret-question-missing');
+        if (!payload) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
         userInDb.twoFactorSecret.active = false;
 
-        await this._usersRepository.update({
-            query: { userId: userInDb.userId },
-            payload: userInDb,
+        return userInDb;
+
+    }
+
+    public async save( user: UserInstance ) : Promise<ActivateSecretQuestionResponse> {
+        const userInDb =  await this._usersRepository.update({
+            query: { userId: user.userId },
+            payload: user,
         });
+        return { active:  userInDb.twoFactorSecret.active };
     }
 }

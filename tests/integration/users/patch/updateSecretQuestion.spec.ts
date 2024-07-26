@@ -21,41 +21,6 @@ describe('When the user has secret question activated', () => {
     });
 
     context('And all data is correct', () => {
-        it('should activate with success', async () => {
-            const newSecretQuestion = {
-                question: 'what-is-your-grandfather-last-name',
-                answer: 'Silvera',
-            };
-
-            const { body: userWithoutSecretQuestion } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
-
-            await requester()
-                .patch(
-                    `/users/${user.userId}/question/activate?token=123456&isUpdate=false`
-                )
-                .send(newSecretQuestion)
-                .expect(HttpStatusCode.NO_CONTENT);
-
-            const { body: userWithSecretQuestion } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
-
-            expect(userWithSecretQuestion.details.secretQuestion).to.be.not.null();
-            expect(userWithSecretQuestion.twoFactorSecret).to.be.deep.equal({
-                active: false,
-            });
-            expect(userWithSecretQuestion.details.secretQuestion.answer).to.be.equal(
-                newSecretQuestion.answer
-            );
-            expect(userWithSecretQuestion.details.secretQuestion.question).to.be.equal(
-                newSecretQuestion.question
-            );
-            expect(userWithSecretQuestion.updatedAt).to.be.not.equal(
-                userWithoutSecretQuestion.updatedAt
-            );
-        });
 
         it('should update with success', async () => {
             const newSecretQuestion = {

@@ -1,5 +1,5 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetailInstance, UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { CookieOptions } from 'express';
 import { JWTResponse } from '../methods';
 
@@ -25,4 +25,12 @@ export interface LoginResponse {
 export interface TwoFactorResponse {
     qrcode: string;
     active: boolean;
+}
+
+export interface ActivateSecretQuestionResponse {
+    active: boolean;
+}
+
+export interface UpdateSecretQuestionResponse {
+    newQuestion: UserSecretQuestion;
 }
