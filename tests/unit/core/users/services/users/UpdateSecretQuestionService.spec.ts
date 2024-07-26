@@ -107,4 +107,37 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
             }
         );
     });
+
+    context('#save', () => {
+        context('When save an user secret question with success', () => {
+            beforeEach(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                payload = {
+                    new: {
+                        question: 'newQuestion',
+                        answer: 'newAnswer',
+                    },
+                };
+                userDetails.secretQuestion =  payload.new;
+
+                usersDetailsRepository = {
+                    update: sinon.spy(() => userDetails),
+                };
+
+                updateSecretQuestionService = new UpdateSecretQuestionService({
+                    usersDetailsRepository,
+                    httpRequestErrors,
+                    logger,
+                });
+            });
+
+            it('should return the correct result', async () => {
+                const { newQuestion } = await updateSecretQuestionService.save(userDetails);
+
+                expect(usersDetailsRepository.update).to.have.been.called();
+                expect(newQuestion.question).to.be.equal(payload.new.question);
+                expect(newQuestion.answer).to.be.equal(payload.new.answer);
+            });
+        });
+    });
 });
