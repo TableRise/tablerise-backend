@@ -1,8 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import {
-    ActivateSecretQuestionPayload,
-} from 'src/types/api/users/http/payload';
+import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { ActivateSecretQuestionResponse } from 'src/types/api/users/http/response';
 
@@ -24,29 +22,31 @@ export default class ActivateSecretQuestionService {
         this.save = this.save.bind(this);
     }
 
-    public async activate(
-        { userId, payload }: ActivateSecretQuestionPayload,
-    ): Promise<UserInstance> {
+    public async activate({
+        userId,
+        payload,
+    }: ActivateSecretQuestionPayload): Promise<UserInstance> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
-        
-        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
-        if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
-        if (!payload) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
-        userInDb.twoFactorSecret = { active:  false };
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
+        if (!userDetailsInDb.secretQuestion)
+            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (!payload)
+            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+
+        userInDb.twoFactorSecret = { active: false };
 
         return userInDb;
-
     }
 
-    public async save( user: UserInstance ) : Promise<ActivateSecretQuestionResponse> {
-        const userInDb =  await this._usersRepository.update({
+    public async save(user: UserInstance): Promise<ActivateSecretQuestionResponse> {
+        const userInDb = await this._usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
-        return { active:  userInDb.twoFactorSecret.active };
+        return { active: userInDb.twoFactorSecret.active };
     }
 }

@@ -3,7 +3,7 @@ import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
     VerifyEmailPayload,
-    UpdateSecretQuestion
+    UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';

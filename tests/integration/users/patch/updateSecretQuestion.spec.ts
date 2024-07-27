@@ -13,7 +13,6 @@ describe.only('When the user has secret question activated', () => {
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
         user.inProgress = { status: 'done', code: '' };
-        user.twoFactorSecret = { active: true, qrcode: '' };
         userDetails.secretQuestion = {
             question: 'to-be-updated-question',
             answer: 'to-be-updated-answer',
@@ -24,11 +23,10 @@ describe.only('When the user has secret question activated', () => {
     });
 
     context('And all data is correct', () => {
-
         it('should update with success', async () => {
             const newSecretQuestion = {
-                question: 'what-is-your-grandfather-last-name',
-                answer: 'Silvera',
+                question: 'to-be-updated-question',
+                answer: 'to-be-updated-answer',
                 new: {
                     question: 'what-is-your-grandfather-last-name',
                     answer: 'Marcus',
@@ -40,9 +38,7 @@ describe.only('When the user has secret question activated', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(
-                    `/users/${user.userId}/question/update?token=123456&isUpdate=true`
-                )
+                .patch(`/users/${user.userId}/question/update?token=123456&isUpdate=true`)
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 

@@ -19,7 +19,10 @@ export default class UpdateSecretQuestionOperation {
         payload,
     }: UpdateSecretQuestionPayload): Promise<UpdateSecretQuestionResponse> {
         this._logger('info', 'Execute - UpdateSecretQuestionOperation');
-        const userDetailsInDb = await this._updateSecretQuestionService.update({ userId, payload });
+        const userDetailsInDb = await this._updateSecretQuestionService.update({
+            userId,
+            payload,
+        });
         return await this._updateSecretQuestionService.save(userDetailsInDb);
     }
 }

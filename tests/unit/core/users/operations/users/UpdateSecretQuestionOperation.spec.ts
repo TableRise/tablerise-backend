@@ -3,7 +3,6 @@ import UpdateSecretQuestionOperation from 'src/core/users/operations/users/Updat
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
-
 describe('Core :: Users :: Operations :: UpdateSecretQuestionOperation', () => {
     let updateSecretQuestionOperation: UpdateSecretQuestionOperation,
         updateSecretQuestionService: any,
@@ -21,9 +20,9 @@ describe('Core :: Users :: Operations :: UpdateSecretQuestionOperation', () => {
                 answer: 'newAnswer',
             };
 
-            updateSecretQuestionService  = {
+            updateSecretQuestionService = {
                 update: sinon.spy(() => ({ userDetails })),
-                save: sinon.spy(() =>  ({ newQuestion }) )
+                save: sinon.spy(() => ({ newQuestion })),
             };
 
             payload = {
@@ -39,13 +38,15 @@ describe('Core :: Users :: Operations :: UpdateSecretQuestionOperation', () => {
         });
 
         it('should return the correct data and call correct methods', async () => {
-            const response = await updateSecretQuestionOperation.execute({ userId: '123', payload });
+            const response = await updateSecretQuestionOperation.execute({
+                userId: '123',
+                payload,
+            });
 
             expect(updateSecretQuestionService.update).to.have.been.called();
             expect(updateSecretQuestionService.save).to.have.been.called();
             expect(response.newQuestion.question).to.be.equal(payload.new.question);
             expect(response.newQuestion.answer).to.be.equal(payload.new.answer);
-            
         });
     });
 });

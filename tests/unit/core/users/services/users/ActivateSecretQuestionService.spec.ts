@@ -43,7 +43,6 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
             });
 
             it('should return the correct result', async () => {
-
                 const user = await activateSecretQuestionService.activate({
                     userId: 'userId',
                     payload,
@@ -63,7 +62,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     answer: 'newAnswer',
                 };
                 usersRepository = {
-                    findOne: sinon.spy(() => {})
+                    findOne: sinon.spy(() => {}),
                 };
 
                 activateSecretQuestionService = new ActivateSecretQuestionService({
@@ -101,12 +100,12 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     answer: 'newAnswer',
                 };
                 usersRepository = {
-                    findOne: () => user
+                    findOne: () => user,
                 };
 
                 usersDetailsRepository = {
-                    findOne: sinon.spy(() => userDetails)
-                }
+                    findOne: sinon.spy(() => userDetails),
+                };
                 activateSecretQuestionService = new ActivateSecretQuestionService({
                     usersRepository,
                     usersDetailsRepository,
@@ -126,7 +125,9 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Secret question is incorrect');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.UNAUTHORIZED)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
                 }
             });
@@ -139,11 +140,11 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 userDetails.userId = user.userId;
                 payload = null;
                 usersRepository = {
-                    findOne: () => user
+                    findOne: () => user,
                 };
                 usersDetailsRepository = {
-                    findOne: () => userDetails
-                }
+                    findOne: () => userDetails,
+                };
 
                 activateSecretQuestionService = new ActivateSecretQuestionService({
                     usersRepository,
@@ -153,7 +154,6 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
             });
 
             it('should throw an error if - new-structure-secret-question-missing', async () => {
-
                 try {
                     await activateSecretQuestionService.activate({
                         userId: '123',
@@ -162,8 +162,12 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Structure of new for new question and answer is missing');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'Structure of new for new question and answer is missing'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -190,7 +194,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 const twoFactorSecret = await activateSecretQuestionService.save(user);
 
                 expect(usersRepository.update).to.have.been.called();
-                expect (twoFactorSecret.active).to.be.equal(false);
+                expect(twoFactorSecret.active).to.be.equal(false);
             });
         });
     });

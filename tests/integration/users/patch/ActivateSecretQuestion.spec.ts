@@ -6,9 +6,7 @@ import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector'
 import requester from 'tests/support/requester';
 
 describe('When the user has secret question activated', () => {
-    let user: UserInstance,
-    secretQuestion: any, 
-    userDetails: UserDetailInstance;
+    let user: UserInstance, secretQuestion: any, userDetails: UserDetailInstance;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -27,7 +25,6 @@ describe('When the user has secret question activated', () => {
 
     context('And all data is correct', () => {
         it('should activate with success', async () => {
-
             await requester()
                 .patch(
                     `/users/${user.userId}/question/activate?token=123456&isUpdate=false`

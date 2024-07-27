@@ -1,7 +1,3 @@
-
-
-
-
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import ActivateSecretQuestionOperation from 'src/core/users/operations/users/ActivateSecretQuestionOperation';
@@ -19,11 +15,11 @@ describe('Core :: Users :: Operations :: ActivateSecretQuestionOperation', () =>
 
             activateSecretQuestionService = {
                 activate: sinon.spy(() => ({
-                    user
+                    user,
                 })),
-                save: sinon.spy(() => ({ 
-                    active: false 
-                }))
+                save: sinon.spy(() => ({
+                    active: false,
+                })),
             };
 
             activateSecretQuestionOperation = new ActivateSecretQuestionOperation({
@@ -33,8 +29,11 @@ describe('Core :: Users :: Operations :: ActivateSecretQuestionOperation', () =>
         });
 
         it('should call correct methods', async () => {
-            const payload = { question: '', answer: ''};
-            const twofactor = await activateSecretQuestionOperation.execute({ userId: 'userId', payload });
+            const payload = { question: '', answer: '' };
+            const twofactor = await activateSecretQuestionOperation.execute({
+                userId: 'userId',
+                payload,
+            });
 
             expect(activateSecretQuestionService.activate).to.have.been.called();
             expect(activateSecretQuestionService.save).to.have.been.called();

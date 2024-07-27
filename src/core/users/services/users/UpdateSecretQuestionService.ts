@@ -18,16 +18,21 @@ export default class UpdateSecretQuestionService {
         this.save = this.save.bind(this);
     }
 
-    public async update({ userId, payload }: UpdateSecretQuestionPayload): Promise<UserDetailInstance> {
+    public async update({
+        userId,
+        payload,
+    }: UpdateSecretQuestionPayload): Promise<UserDetailInstance> {
         this._logger('info', 'Update - UpdateSecretQuestionService');
 
         const { new: newQuestion } = payload;
 
-        if (!newQuestion) HttpRequestErrors.throwError('new-structure-secret-question-missing');
-        
+        if (!newQuestion)
+            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
-        if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
+        if (!userDetailsInDb.secretQuestion)
+            HttpRequestErrors.throwError('incorrect-secret-question');
 
         userDetailsInDb.secretQuestion.question = newQuestion.question;
         userDetailsInDb.secretQuestion.answer = newQuestion.answer;
@@ -35,11 +40,13 @@ export default class UpdateSecretQuestionService {
         return userDetailsInDb;
     }
 
-    public async save( userDetails: UserDetailInstance ) : Promise<UpdateSecretQuestionResponse> {
-        const userDetailsInDb =  await this._usersDetailsRepository.update({
+    public async save(
+        userDetails: UserDetailInstance
+    ): Promise<UpdateSecretQuestionResponse> {
+        const userDetailsInDb = await this._usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
-        return { newQuestion: userDetailsInDb.secretQuestion } ;
+        return { newQuestion: userDetailsInDb.secretQuestion };
     }
 }

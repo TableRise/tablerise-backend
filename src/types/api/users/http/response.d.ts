@@ -1,5 +1,8 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserDetailInstance, UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import {
+    UserDetailInstance,
+    UserSecretQuestion,
+} from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { CookieOptions } from 'express';
 import { JWTResponse } from '../methods';
 

@@ -505,9 +505,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = {};
             await usersController.activateSecretQuestion(request, response);
 
-            expect(activateSecretQuestionOperation.execute).to.have.been.calledWith({ 
-                userId: request.params.id, 
-                payload: request.body 
+            expect(activateSecretQuestionOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                payload: request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.not.have.been.called();
@@ -570,9 +570,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = {};
             await usersController.updateSecretQuestion(request, response);
 
-            expect(updateSecretQuestionOperation.execute).to.have.been.calledWith({ 
-                userId: request.params.id, 
-                payload: request.body 
+            expect(updateSecretQuestionOperation.execute).to.have.been.calledWith({
+                userId: request.params.id,
+                payload: request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.not.have.been.called();
