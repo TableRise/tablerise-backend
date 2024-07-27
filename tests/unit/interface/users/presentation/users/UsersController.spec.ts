@@ -2,7 +2,6 @@
 import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import newUUID from 'src/domains/common/helpers/newUUID';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
 import { Readable } from 'stream';
 
