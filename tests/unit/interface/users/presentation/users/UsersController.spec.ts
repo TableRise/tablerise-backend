@@ -192,7 +192,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { email: 'test20@email.com', newEmail: 'test30@email.com' };
+            request.query = { email: 'test20@email.com' };
             await usersController.verifyEmail(request, response);
 
             expect(verifyEmailOperation.execute).to.have.been.calledWith(request.query);
@@ -672,7 +672,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
             expect(updateEmailOperation.execute).to.have.been.calledWith({
                 userId: request.params.id,
-                code: request.query.code,
                 email: request.body.email,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);

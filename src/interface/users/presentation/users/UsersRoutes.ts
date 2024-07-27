@@ -39,12 +39,7 @@ export default class UsersRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/verify`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'newEmail', type: 'string', required: 'off' },
-                    ]),
-                ],
+                parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
                 controller: this._usersController.verifyEmail,
                 options: {
                     tag: 'authentication',
@@ -236,7 +231,6 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                         this._verifyEmailCodeMiddleware.verify,
                     ],
