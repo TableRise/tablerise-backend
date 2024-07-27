@@ -21,12 +21,11 @@ export default class VerifyEmailCodeMiddleware {
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'Verify - VerifyEmailCodeMiddleware');
         const { id } = req.params;
-        const { userId } = req.user as Express.User;
         const { email, code } = req.query;
         this._logger('info', `Code from Request is = ${code as string}`);
         let userInDb = {} as UserInstance;
 
-        if (!id && !email && !userId)
+        if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
                 code: HttpStatusCode.BAD_REQUEST,
@@ -34,7 +33,6 @@ export default class VerifyEmailCodeMiddleware {
             });
 
         if (id) userInDb = await this._usersRepository.findOne({ userId: id });
-        if (userId) userInDb = await this._usersRepository.findOne({ userId });
         if (email) userInDb = await this._usersRepository.findOne({ email });
         this._logger(
             'info',
