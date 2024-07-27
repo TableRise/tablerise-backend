@@ -39,7 +39,9 @@ export default class UsersRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/verify`,
-                parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
+                parameters: [
+                    ...generateQueryParam(1, [{ name: 'email', type: 'string' }]),
+                ],
                 controller: this._usersController.verifyEmail,
                 options: {
                     tag: 'authentication',
