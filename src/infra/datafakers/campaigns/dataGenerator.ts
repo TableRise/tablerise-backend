@@ -31,8 +31,17 @@ export default {
     matchData: {
         matchId: faker.string.uuid(),
         avatars: [],
+        avatarsInGame: [],
         musics: [],
         mapImages: [],
+        actualMapImage: {
+            id: '',
+            title: '',
+            link: '',
+            uploadDate: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        },
         logs: [],
     },
     infos: {

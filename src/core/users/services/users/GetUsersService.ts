@@ -36,6 +36,6 @@ export default class GetUsersService {
 
         await Promise.all(response);
 
-        return response;
+        return response.filter((user) => user.inProgress.status !== 'wait_to_delete');
     }
 }
