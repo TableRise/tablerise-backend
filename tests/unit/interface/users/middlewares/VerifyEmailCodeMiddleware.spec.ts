@@ -45,14 +45,13 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             it('should call next - when has ID', async () => {
                 request.params = { id: '123' };
                 request.query = { code: 'KLI44' };
-                request.user = { userId } as Express.User;
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
                 user.inProgress.status = 'done';
 
                 expect(usersRepository.update).to.have.been.calledWith({
-                    query: { userId: '123' },
+                    query: { id: '123' },
                     payload: user,
                 });
                 expect(next).to.have.been.called();
