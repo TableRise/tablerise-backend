@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import newUUID from 'src/domains/common/helpers/newUUID';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
@@ -15,7 +14,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
     context('When the user has the email code verified', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const userId = newUUID();
         const next = sinon.spy(() => {}) as NextFunction;
 
         response.status = sinon.spy(() => response);
@@ -51,7 +49,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 user.inProgress.status = 'done';
 
                 expect(usersRepository.update).to.have.been.calledWith({
-                    query: { id: '123' },
+                    query: { userId: '123' },
                     payload: user,
                 });
                 expect(next).to.have.been.called();
