@@ -153,9 +153,8 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(1, [
                         { name: 'token', type: 'string', required: 'off' },
-                        { name: 'isUpdate', type: 'boolean', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.activateSecretQuestion,
@@ -164,11 +163,31 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('cookie', { session: false }),
-                        this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
                     tag: 'authorization',
                     description: desc.activateQuestion,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/question/update`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [
+                        { name: 'token', type: 'string', required: 'off' },
+                    ]),
+                ],
+                controller: this._usersController.updateSecretQuestion,
+                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
+                options: {
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('cookie', { session: false }),
+                        this._authorizationMiddleware.secretQuestion,
+                    ],
+                    tag: 'authorization',
+                    description: desc.updateSecretQuestion,
                 },
             },
             {

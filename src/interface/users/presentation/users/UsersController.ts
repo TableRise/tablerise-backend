@@ -3,6 +3,7 @@ import {
     RegisterUserPayload,
     UpdateGameInfoPayload,
     VerifyEmailPayload,
+    UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
@@ -18,6 +19,7 @@ export default class UsersController {
     private readonly _getUserByIdOperation;
     private readonly _confirmEmailOperation;
     private readonly _activateSecretQuestionOperation;
+    private readonly _updateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
     private readonly _resetTwoFactorOperation;
     private readonly _updateEmailOperation;
@@ -37,6 +39,7 @@ export default class UsersController {
         getUserByIdOperation,
         confirmEmailOperation,
         activateSecretQuestionOperation,
+        updateSecretQuestionOperation,
         activateTwoFactorOperation,
         resetTwoFactorOperation,
         updateEmailOperation,
@@ -55,6 +58,7 @@ export default class UsersController {
         this._getUserByIdOperation = getUserByIdOperation;
         this._confirmEmailOperation = confirmEmailOperation;
         this._activateSecretQuestionOperation = activateSecretQuestionOperation;
+        this._updateSecretQuestionOperation = updateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
         this._resetTwoFactorOperation = resetTwoFactorOperation;
         this._updateEmailOperation = updateEmailOperation;
@@ -72,6 +76,7 @@ export default class UsersController {
         this.getUsers = this.getUsers.bind(this);
         this.getUserById = this.getUserById.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
+        this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.confirmEmail = this.confirmEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
@@ -141,13 +146,18 @@ export default class UsersController {
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { isUpdate } = req.query;
         const payload = req.body as UserSecretQuestion;
 
-        await this._activateSecretQuestionOperation.execute(
-            { userId: id, payload },
-            isUpdate === 'true'
-        );
+        await this._activateSecretQuestionOperation.execute({ userId: id, payload });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as UpdateSecretQuestion;
+
+        await this._updateSecretQuestionOperation.execute({ userId: id, payload });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }

@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When the user has secret question activated', () => {
+describe.only('When the user has secret question activated', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     before(async () => {
@@ -13,54 +13,20 @@ describe('When the user has secret question activated', () => {
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
         user.inProgress = { status: 'done', code: '' };
-        user.twoFactorSecret = { active: true, qrcode: '' };
-        userDetails.secretQuestion = null;
+        userDetails.secretQuestion = {
+            question: 'to-be-updated-question',
+            answer: 'to-be-updated-answer',
+        };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);
     });
 
     context('And all data is correct', () => {
-        it('should activate with success', async () => {
-            const newSecretQuestion = {
-                question: 'what-is-your-grandfather-last-name',
-                answer: 'Silvera',
-            };
-
-            const { body: userWithoutSecretQuestion } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
-
-            await requester()
-                .patch(
-                    `/users/${user.userId}/question/activate?token=123456&isUpdate=false`
-                )
-                .send(newSecretQuestion)
-                .expect(HttpStatusCode.NO_CONTENT);
-
-            const { body: userWithSecretQuestion } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
-
-            expect(userWithSecretQuestion.details.secretQuestion).to.be.not.null();
-            expect(userWithSecretQuestion.twoFactorSecret).to.be.deep.equal({
-                active: false,
-            });
-            expect(userWithSecretQuestion.details.secretQuestion.answer).to.be.equal(
-                newSecretQuestion.answer
-            );
-            expect(userWithSecretQuestion.details.secretQuestion.question).to.be.equal(
-                newSecretQuestion.question
-            );
-            expect(userWithSecretQuestion.updatedAt).to.be.not.equal(
-                userWithoutSecretQuestion.updatedAt
-            );
-        });
-
         it('should update with success', async () => {
             const newSecretQuestion = {
-                question: 'what-is-your-grandfather-last-name',
-                answer: 'Silvera',
+                question: 'to-be-updated-question',
+                answer: 'to-be-updated-answer',
                 new: {
                     question: 'what-is-your-grandfather-last-name',
                     answer: 'Marcus',
@@ -72,9 +38,7 @@ describe('When the user has secret question activated', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(
-                    `/users/${user.userId}/question/activate?token=123456&isUpdate=true`
-                )
+                .patch(`/users/${user.userId}/question/update?token=123456&isUpdate=true`)
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 

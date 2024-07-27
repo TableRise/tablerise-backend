@@ -1,5 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
+import { UpdateSecretQuestionResponse } from 'src/types/api/users/http/response';
 
 export default class UpdateSecretQuestionOperation {
     private readonly _updateSecretQuestionService;
@@ -16,8 +17,12 @@ export default class UpdateSecretQuestionOperation {
     public async execute({
         userId,
         payload,
-    }: UpdateSecretQuestionPayload): Promise<void> {
+    }: UpdateSecretQuestionPayload): Promise<UpdateSecretQuestionResponse> {
         this._logger('info', 'Execute - UpdateSecretQuestionOperation');
-        await this._updateSecretQuestionService.update({ userId, payload });
+        const userDetailsInDb = await this._updateSecretQuestionService.update({
+            userId,
+            payload,
+        });
+        return await this._updateSecretQuestionService.save(userDetailsInDb);
     }
 }
