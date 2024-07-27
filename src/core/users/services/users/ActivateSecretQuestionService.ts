@@ -31,12 +31,12 @@ export default class ActivateSecretQuestionService {
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
-
+        
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
         if (!userDetailsInDb.secretQuestion) HttpRequestErrors.throwError('incorrect-secret-question');
         if (!payload) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
-        userInDb.twoFactorSecret.active = false;
+        userInDb.twoFactorSecret = { active:  false };
 
         return userInDb;
 

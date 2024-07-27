@@ -163,7 +163,6 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('cookie', { session: false }),
-                        this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
                     tag: 'authorization',
@@ -180,13 +179,12 @@ export default class UsersRoutes {
                     ]),
                 ],
                 controller: this._usersController.updateSecretQuestion,
-                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
+                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.secretQuestion,
-                        this._authorizationMiddleware.twoFactor,
                     ],
                     tag: 'authorization',
                     description: desc.updateSecretQuestion,

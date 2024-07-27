@@ -168,48 +168,6 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 }
             });
         });
-
-        // context('When activate an user secret question fail', () => {
-        //     beforeEach(() => {
-        //         user = DomainDataFaker.generateUsersJSON()[0];
-        //         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-        //         userDetails.userId = user.userId;
-        //         payload = {
-        //             question: 'newQuestion',
-        //             answer: 'newAnswer',
-        //         };
-        //         usersRepository = {
-        //             findOne: () =>  user, 
-        //         };
-
-        //         usersDetailsRepository = {
-        //             findOne: sinon.spy(() => {})
-        //         };
-
-        //         activateSecretQuestionService = new ActivateSecretQuestionService({
-        //             usersRepository,
-        //             usersDetailsRepository,
-        //             logger,
-        //         });
-        //     });
-
-
-        //     it('should throw an error if - incorrect-secret-question', async () => {
-        //         try {
-        //             await activateSecretQuestionService.activate({
-        //                 userId: '123',
-        //                 payload,
-        //             });
-        //             expect(usersDetailsRepository.findOne).to.have.been.called();
-        //             expect('it should not be here').to.be.equal(false);
-        //         } catch (error) {
-        //             const err = error as HttpRequestErrors;
-        //             expect(err.message).to.be.equal('Secret question is incorrect');
-        //             expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
-        //             expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-        //         }
-        //     });
-        // });
     });
     context('#save', () => {
         context('When save an user secret question with success', () => {

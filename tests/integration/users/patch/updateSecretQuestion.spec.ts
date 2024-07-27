@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When the user has secret question activated', () => {
+describe.only('When the user has secret question activated', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     before(async () => {
@@ -14,7 +14,10 @@ describe('When the user has secret question activated', () => {
 
         user.inProgress = { status: 'done', code: '' };
         user.twoFactorSecret = { active: true, qrcode: '' };
-        userDetails.secretQuestion = null;
+        userDetails.secretQuestion = {
+            question: 'to-be-updated-question',
+            answer: 'to-be-updated-answer',
+        };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);
@@ -38,7 +41,7 @@ describe('When the user has secret question activated', () => {
 
             await requester()
                 .patch(
-                    `/users/${user.userId}/question/activate?token=123456&isUpdate=true`
+                    `/users/${user.userId}/question/update?token=123456&isUpdate=true`
                 )
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
