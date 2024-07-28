@@ -251,8 +251,8 @@ export default class UsersRoutes {
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
                     ...generateQueryParam(2, [
-                        { name: 'email', type: 'string'},
-                        { name: 'code', type: 'string'},
+                        { name: 'email', type: 'string' },
+                        { name: 'code', type: 'string' },
                     ]),
                 ],
                 options: {

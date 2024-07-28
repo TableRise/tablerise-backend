@@ -730,7 +730,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { email: 'test@email.com' , code: '123' };
+            request.query = { email: 'test@email.com', code: '123' };
             request.body = { password: '321' };
             await usersController.updatePassword(request, response);
 
