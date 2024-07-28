@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import newUUID from 'src/domains/common/helpers/newUUID';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
@@ -15,7 +14,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
     context('When the user has the email code verified', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const userId = newUUID();
         const next = sinon.spy(() => {}) as NextFunction;
 
         response.status = sinon.spy(() => response);
@@ -45,7 +43,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             it('should call next - when has ID', async () => {
                 request.params = { id: '123' };
                 request.query = { code: 'KLI44' };
-                request.user = { userId } as Express.User;
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
