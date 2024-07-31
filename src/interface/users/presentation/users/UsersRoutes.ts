@@ -150,9 +150,8 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/activate`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(2, [
+                    ...generateQueryParam(1, [
                         { name: 'token', type: 'string', required: 'off' },
-                        { name: 'isUpdate', type: 'boolean', required: 'off' },
                     ]),
                 ],
                 controller: this._usersController.activateSecretQuestion,
@@ -161,11 +160,31 @@ export default class UsersRoutes {
                     middlewares: [
                         this._verifyIdMiddleware,
                         passport.authenticate('cookie', { session: false }),
-                        this._authorizationMiddleware.secretQuestion,
                         this._authorizationMiddleware.twoFactor,
                     ],
                     tag: 'authorization',
                     description: desc.activateQuestion,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/question/update`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [
+                        { name: 'token', type: 'string', required: 'off' },
+                    ]),
+                ],
+                controller: this._usersController.updateSecretQuestion,
+                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
+                options: {
+                    middlewares: [
+                        this._verifyIdMiddleware,
+                        passport.authenticate('cookie', { session: false }),
+                        this._authorizationMiddleware.secretQuestion,
+                    ],
+                    tag: 'authorization',
+                    description: desc.updateSecretQuestion,
                 },
             },
             {
@@ -247,19 +266,11 @@ export default class UsersRoutes {
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
                     ...generateQueryParam(2, [
-                        { name: 'question', type: 'string', required: 'off' },
-                        { name: 'answer', type: 'string', required: 'off' },
-                        { name: 'code', type: 'string' },
                         { name: 'email', type: 'string' },
-                        { name: 'token', type: 'string', required: 'off' },
+                        { name: 'code', type: 'string' },
                     ]),
                 ],
                 options: {
-                    middlewares: [
-                        this._authorizationMiddleware.twoFactor,
-                        this._authorizationMiddleware.secretQuestion,
-                        this._verifyEmailCodeMiddleware.verify,
-                    ],
                     tag: 'management',
                     description: desc.updatePassword,
                 },

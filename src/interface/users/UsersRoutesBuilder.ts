@@ -12,6 +12,7 @@ const ROUTES_WITH_NO_VERIFY = [
     '/verify',
     '/:id/delete',
     '/confirm',
+    '/update/password',
 ];
 
 export default class UsersRoutesBuilder {

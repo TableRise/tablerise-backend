@@ -82,5 +82,5 @@ export interface VerifyEmailPayload {
 
 export interface ActivateSecretQuestionPayload {
     userId: string;
-    payload: UserSecretQuestion | UpdateSecretQuestion;
+    payload: UserSecretQuestion;
 }
