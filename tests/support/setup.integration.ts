@@ -3,7 +3,7 @@ import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import setup from 'src/container';
 import logger from '@tablerise/dynamic-logger';
 import sinon from 'sinon';
-import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/common/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import EmailSender from 'src/domains/users/helpers/EmailSender';
 import {

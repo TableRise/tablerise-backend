@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Express } from 'express';
 import sinon from 'sinon';
-import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
+import AuthorizationMiddleware from 'src/interface/common/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/users/enums/questionEnum';
