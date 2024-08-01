@@ -23,6 +23,6 @@ export default class UpdateSecretQuestionOperation {
             userId,
             payload,
         });
-        return await this._updateSecretQuestionService.save(userDetailsInDb);
+        return this._updateSecretQuestionService.save(userDetailsInDb);
     }
 }

@@ -35,8 +35,7 @@ export default class PublishmentOperation {
             userId,
             payload,
         });
-        const campaignSaved = await this._publishmentService.save(campaignWithPost);
 
-        return campaignSaved;
+        return this._publishmentService.save(campaignWithPost);
     }
 }
