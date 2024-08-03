@@ -20,22 +20,14 @@ export default class UpdateEmailService {
 
     private _changeEmail({ user, email }: UserEmail): UserInstance {
         this._logger('info', 'ChangeEmail - UpdateEmailService');
-
         user.email = email;
         user.inProgress.status = 'done';
-
         return user;
     }
 
-    public async update({ userId, code, email }: UpdateEmailPayload): Promise<void> {
+    public async update({ userId, email }: UpdateEmailPayload): Promise<void> {
         this._logger('info', 'Update - UpdateEmailService');
         const userInDb = await this._usersRepository.findOne({ userId });
-
-        if (userInDb.inProgress.status !== 'wait_to_verify')
-            HttpRequestErrors.throwError('invalid-user-status');
-
-        if (userInDb.inProgress.code !== code)
-            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const emailAlreadyExist = await this._usersRepository.find({ email });
 

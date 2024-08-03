@@ -8,7 +8,7 @@ const router = Router();
 const ROUTES_WITH_NO_VERIFY = [
     '/register',
     '/login',
-    '/:id/update',
+    '/:id/update/email',
     '/verify',
     '/:id/delete',
     '/confirm',
