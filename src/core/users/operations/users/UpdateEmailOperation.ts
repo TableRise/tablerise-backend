@@ -21,9 +21,9 @@ export default class UpdateEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, code, email }: UpdateEmailPayload): Promise<void> {
+    public async execute({ userId, email }: UpdateEmailPayload): Promise<void> {
         this._logger('info', 'Execute - UpdateEmailOperation');
         this._schemaValidator.entry(this._usersSchema.emailUpdateZod, { email });
-        await this._updateEmailService.update({ userId, code, email });
+        await this._updateEmailService.update({ userId, email });
     }
 }

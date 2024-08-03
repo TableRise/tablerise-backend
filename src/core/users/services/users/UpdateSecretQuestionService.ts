@@ -1,6 +1,8 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
+import { UpdateSecretQuestionResponse } from 'src/types/api/users/http/response';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class UpdateSecretQuestionService {
     private readonly _usersDetailsRepository;
@@ -12,12 +14,21 @@ export default class UpdateSecretQuestionService {
     }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
+        this.update = this.update.bind(this);
+        this.save = this.save.bind(this);
     }
 
-    public async update({ userId, payload }: UpdateSecretQuestionPayload): Promise<void> {
+    public async update({
+        userId,
+        payload,
+    }: UpdateSecretQuestionPayload): Promise<UserDetailInstance> {
         this._logger('info', 'Update - UpdateSecretQuestionService');
 
         const { new: newQuestion } = payload;
+
+        if (!newQuestion)
+            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
         if (!userDetailsInDb.secretQuestion)
@@ -26,9 +37,16 @@ export default class UpdateSecretQuestionService {
         userDetailsInDb.secretQuestion.question = newQuestion.question;
         userDetailsInDb.secretQuestion.answer = newQuestion.answer;
 
-        await this._usersDetailsRepository.update({
-            query: { userDetailId: userDetailsInDb.userDetailId },
-            payload: userDetailsInDb,
+        return userDetailsInDb;
+    }
+
+    public async save(
+        userDetails: UserDetailInstance
+    ): Promise<UpdateSecretQuestionResponse> {
+        const userDetailsInDb = await this._usersDetailsRepository.update({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
         });
+        return { newQuestion: userDetailsInDb.secretQuestion };
     }
 }

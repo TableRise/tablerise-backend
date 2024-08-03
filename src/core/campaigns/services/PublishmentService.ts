@@ -37,11 +37,9 @@ export default class PublishmentService {
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
         this._logger('info', 'Save - publishmentService');
-        const camapaignUpdated = await this._campaignsRepository.update({
+        return this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
-
-        return camapaignUpdated;
     }
 }

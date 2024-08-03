@@ -27,8 +27,6 @@ export default class UpdateCampaignOperation {
         this._schemaValidator.entry(this._campaignsSchema.campaignUpdateZod, payload);
 
         const campaignUpdated = await this._updateCampaignService.update(payload);
-        const campaignSaved = await this._updateCampaignService.save(campaignUpdated);
-
-        return campaignSaved;
+        return this._updateCampaignService.save(campaignUpdated);
     }
 }

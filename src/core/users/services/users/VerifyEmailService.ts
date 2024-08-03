@@ -18,7 +18,7 @@ export default class VerifyEmailService {
         this._logger = logger;
     }
 
-    private async _send(user: UserInstance, newEmail: string): Promise<UserInstance> {
+    private async _send(user: UserInstance): Promise<UserInstance> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
 
@@ -27,7 +27,7 @@ export default class VerifyEmailService {
                 username: user.nickname,
                 subject: 'Email de verificação - TableRise',
             },
-            newEmail || user.email
+            user.email
         );
 
         if (!emailSendResult.success) {
@@ -46,13 +46,11 @@ export default class VerifyEmailService {
         return user;
     }
 
-    public async sendEmail({ email, newEmail }: VerifyEmailPayload): Promise<void> {
+    public async sendEmail({ email }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - VerifyEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
 
-        const userToUpdate = await this._send(userInDb, newEmail);
-
-        userToUpdate.updatedAt = new Date().toISOString();
+        const userToUpdate = await this._send(userInDb);
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
