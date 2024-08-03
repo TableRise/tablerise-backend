@@ -77,11 +77,9 @@ export default class UpdateMatchPlayersService {
             payload: userDetails,
         });
 
-        const savedCampaign = await this._campaignsRepository.update({
+        return this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
-
-        return savedCampaign;
     }
 }

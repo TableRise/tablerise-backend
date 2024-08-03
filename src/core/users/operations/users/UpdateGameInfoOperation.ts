@@ -35,12 +35,11 @@ export default class UpdateGameInfoOperation {
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
 
-        const gameInfoUpdated = await this._updateGameInfoService.update({
+        return this._updateGameInfoService.update({
             userId,
             infoId,
             targetInfo,
             operation,
         });
-        return gameInfoUpdated;
     }
 }
