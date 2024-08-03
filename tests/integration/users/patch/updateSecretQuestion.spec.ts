@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe.only('When the user has secret question activated', () => {
+describe('When the user has secret question activated', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
 
     before(async () => {
