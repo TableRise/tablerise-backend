@@ -42,6 +42,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'date-already-added': 'Date already added',
         'player-already-in-match': 'Player already in match',
         'player-banned': 'Player is banned',
+        'avatar-inexistent': "Doens't exists any avatar in this game",
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

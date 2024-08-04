@@ -1,6 +1,7 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { GetByIdPayload } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class GetUserByIdService {
     private readonly _usersRepository;
@@ -23,6 +24,9 @@ export default class GetUserByIdService {
         this._logger('info', 'Get - GetUserByIdService');
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
+
+        if (userInDb.inProgress.status === 'wait_to_delete')
+            HttpRequestErrors.throwError('user-inexistent');
 
         return {
             ...userInDb,

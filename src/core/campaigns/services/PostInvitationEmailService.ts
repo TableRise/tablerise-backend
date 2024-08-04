@@ -49,7 +49,6 @@ export default class PostInvitationEmailService {
         username,
     }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - PostInvitationEmailService');
-
         await this._send(campaignId, userId, username, targetEmail);
     }
 }

@@ -133,15 +133,16 @@ export default class Serializer {
 
     public imageResult(result: ApiImgBBResponse): ImageObject {
         const { data } = result;
-        const { thumb, medium, delete_url: deleteUrl } = data;
+
+        const { id, title, url, time, thumb, medium, delete_url: deleteUrl } = data.data;
 
         const dataSerialized = {} as any;
 
-        dataSerialized.id = data.id || '';
-        dataSerialized.title = data.title || '';
-        dataSerialized.link = data.url || '';
-        dataSerialized.uploadDate = data.time
-            ? new Date(data.time).toISOString()
+        dataSerialized.id = id || '';
+        dataSerialized.title = title || '';
+        dataSerialized.link = url || '';
+        dataSerialized.uploadDate = time
+            ? new Date(time).toISOString()
             : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
         dataSerialized.mediumSizeUrl = medium.url || '';

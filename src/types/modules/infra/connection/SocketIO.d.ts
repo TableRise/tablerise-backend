@@ -1,8 +1,10 @@
+import { MatchData } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { Socket } from 'socket.io';
+import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface SocketIOContract {
-    campaignsRepository: any;
+    campaignsRepository: CampaignsRepository;
     logger: Logger;
 }
 
@@ -37,17 +39,7 @@ export interface Logs {
     content: string;
 }
 
-export interface SocketMatchesInfo {
-    match_id: string;
-    avatarsInGame: MatchAvatar[];
-    avatars?: MatchAvatar[];
-    musics: MatchMusics[];
-    actual_map_image: MatchMapImages;
-    map_images: MatchMapImages[];
-    logs: Logs[];
-}
-
-export type SocketMatches = Record<string, SocketMatchesInfo>;
+export type SocketMatches = Record<string, MatchData>;
 
 export interface SquareSize {
     width: number;

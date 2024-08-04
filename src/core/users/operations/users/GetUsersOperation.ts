@@ -17,7 +17,6 @@ export default class GetUsersOperation {
 
     public async execute(): Promise<RegisterUserResponse[]> {
         this._logger('info', 'Execute - GetUsersOperation');
-        const users = await this._getUsersService.get();
-        return users;
+        return this._getUsersService.get();
     }
 }

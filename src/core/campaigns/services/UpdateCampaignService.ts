@@ -41,11 +41,9 @@ export default class UpdateCampaignService {
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
         this._logger('info', 'Save - UpdateCampaignService');
-        const savedCampaign = await this._campaignsRepository.update({
+        return this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
-
-        return savedCampaign;
     }
 }

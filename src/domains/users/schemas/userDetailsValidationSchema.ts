@@ -14,11 +14,11 @@ export const secretQuestionZodSchema = z.object({
 });
 
 export const updateUserDetails = z.object({
-    firstName: z.string().max(16),
-    lastName: z.string().max(80),
-    pronoun: z.enum(pronounEnum.values),
-    birthday: z.string(),
-    biography: z.string().max(500),
+    firstName: z.string().max(16).optional(),
+    lastName: z.string().max(80).optional(),
+    pronoun: z.enum(pronounEnum.values).optional(),
+    birthday: z.string().optional(),
+    biography: z.string().max(500).optional(),
 });
 
 const userDetailsZodSchema = z.object({

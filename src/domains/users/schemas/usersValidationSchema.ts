@@ -23,8 +23,8 @@ export const passwordUpdateZodSchema = z.object({
 });
 
 export const updateUserZodSchema = z.object({
-    nickname: z.string().max(32),
-    details: updateUserDetails,
+    nickname: z.string().max(32).optional(),
+    details: updateUserDetails.optional(),
 });
 
 export const userLoginZodSchema = z.object({

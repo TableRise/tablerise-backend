@@ -16,7 +16,6 @@ export default class GetUserByIdOperation {
 
     public async execute({ userId }: GetByIdPayload): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - GetUserByIdOperation');
-        const user = await this._getUserByIdService.get({ userId });
-        return user;
+        return this._getUserByIdService.get({ userId });
     }
 }

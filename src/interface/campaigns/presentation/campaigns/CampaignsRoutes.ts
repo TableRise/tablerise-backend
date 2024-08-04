@@ -76,16 +76,16 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/publish-post`,
-                schema: DomainDataFaker.mocks.publishPost,
+                path: `${BASE_PATH}/:id/publishment`,
+                schema: DomainDataFaker.mocks.publishment,
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'userId', type: 'string' }]),
                 ],
-                controller: this._campaignsController.publishPost,
+                controller: this._campaignsController.publishment,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.publishPost,
+                    description: desc.publishment,
                     tag: 'create',
                 },
             },

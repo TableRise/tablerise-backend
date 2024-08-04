@@ -8,7 +8,7 @@ import CampaignsController from 'src/interface/campaigns/presentation/campaigns/
 describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsController', () => {
     let campaignsController: CampaignsController,
         createCampaignOperation: any,
-        publishPostOperation: any,
+        publishmentOperation: any,
         updateMatchMapImagesOperation: any,
         updateMatchMusicsOperation: any,
         updateCampaignOperation: any,
@@ -31,7 +31,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: sinon.spy(() => ({})) };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
@@ -43,7 +43,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -81,7 +81,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: sinon.spy(() => ({})) };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
@@ -93,7 +93,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 createCampaignOperation,
                 updateCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchDatesOperation,
                 updateMatchMusicsOperation,
                 getCampaignByIdOperation,
@@ -145,7 +145,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -180,7 +180,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: sinon.spy(() => ({})) };
             updateMatchMapImagesOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: sinon.spy(() => ({})) };
@@ -189,7 +189,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchMapImagesOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -211,7 +211,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#publishPost', () => {
+    context('#publishment', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -223,7 +223,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
-            publishPostOperation = { execute: sinon.spy(() => ({})) };
+            publishmentOperation = { execute: sinon.spy(() => ({})) };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             updateMatchPlayersOperation = { execute: () => {} };
@@ -233,7 +233,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -252,9 +252,9 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 title: 'Some new title',
                 content: 'Some new content',
             };
-            await campaignsController.publishPost(request, response);
+            await campaignsController.publishment(request, response);
 
-            expect(publishPostOperation.execute).to.have.been.calledWith({
+            expect(publishmentOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
                 userId: request.query.userId,
                 payload: request.body,
@@ -279,7 +279,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             updateMatchPlayersOperation = { execute: () => {} };
@@ -289,7 +289,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -331,7 +331,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: sinon.spy(() => ({})) };
@@ -345,7 +345,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 createCampaignOperation,
                 updateCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
@@ -385,7 +385,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: sinon.spy(() => ({})) };
@@ -397,7 +397,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
@@ -438,7 +438,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: sinon.spy(() => ({})) };
@@ -449,7 +449,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             campaignsController = new CampaignsController({
                 createCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 updateCampaignOperation,
@@ -489,7 +489,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
@@ -500,7 +500,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchMapImagesOperation,
                 updateCampaignOperation,
                 updateMatchMusicsOperation,
@@ -541,7 +541,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
-            publishPostOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
@@ -555,7 +555,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 createCampaignOperation,
                 updateCampaignOperation,
                 updateMatchMapImagesOperation,
-                publishPostOperation,
+                publishmentOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,

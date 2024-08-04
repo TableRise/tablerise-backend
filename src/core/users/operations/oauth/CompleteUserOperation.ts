@@ -36,12 +36,10 @@ export default class CompleteUserOperation {
             payload
         );
 
-        const userSaved = await this._completeUserService.save({
+        return this._completeUserService.save({
             userId,
             user: mainUser,
             userDetails,
         });
-
-        return userSaved;
     }
 }

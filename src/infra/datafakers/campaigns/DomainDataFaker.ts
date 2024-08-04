@@ -69,7 +69,7 @@ const mocks = {
         description,
         cover: { isBinary: true },
     },
-    publishPost: {
+    publishment: {
         title,
         content: 'A new character will be added to campaign in next match',
     },

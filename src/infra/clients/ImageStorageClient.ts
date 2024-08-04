@@ -3,6 +3,8 @@ import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import FormData from 'form-data';
+import { AxiosError, AxiosResponse } from 'axios';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ImageStorageClient {
     private readonly _logger;
@@ -30,27 +32,45 @@ export default class ImageStorageClient {
 
         const form = new FormData();
         form.append('name', image.originalname);
-        form.append('image', image.buffer);
+        form.append('image', Buffer.from(image.buffer).toString('base64'));
 
-        const imageUploaded =
-            process.env.NODE_ENV === 'production'
-                ? await this._httpRequest({
-                      method: 'post',
-                      url,
-                      data: form,
-                      headers: {
-                          'Content-Type': 'text/plain',
-                      },
-                  })
-                : {
-                      data: {
-                          thumb: {},
-                          medium: {},
-                          delete_url: '',
-                      },
-                      success: true,
-                      status: 200,
-                  };
+        let imageUploaded: AxiosResponse | ApiImgBBResponse;
+
+        const imageUploadPayload = {
+            method: 'post',
+            url,
+            data: form,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        imageUploaded = {
+            data: {
+                data: {
+                    thumb: {},
+                    medium: {},
+                    delete_url: '',
+                },
+            },
+            success: true,
+            status: 200,
+        } as ApiImgBBResponse;
+
+        try {
+            imageUploaded =
+                process.env.NODE_ENV === 'production'
+                    ? await this._httpRequest(imageUploadPayload)
+                    : imageUploaded;
+        } catch (error) {
+            const err = error as AxiosError;
+
+            throw new HttpRequestErrors({
+                message: err.message,
+                code: 500,
+                name: err.name,
+            });
+        }
 
         imageUploaded.data.title = customTitle ?? imageUploaded.data.title;
 

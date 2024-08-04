@@ -22,7 +22,6 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
                 updateEmailPayload = {
                     userId,
-                    code: 'AS451L',
                     email: 'newemail@email.com',
                 };
 

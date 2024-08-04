@@ -40,8 +40,6 @@ export default class CreateCampaignOperation {
             image
         );
 
-        const entitySaved = await this._createCampaignService.save(entityEnriched);
-
-        return entitySaved;
+        return this._createCampaignService.save(entityEnriched);
     }
 }

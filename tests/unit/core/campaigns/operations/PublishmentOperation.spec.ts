@@ -1,12 +1,12 @@
 import sinon from 'sinon';
-import PublishPostOperation from 'src/core/campaigns/operations/PublishPostOperation';
+import PublishmentOperation from 'src/core/campaigns/operations/PublishmentOperation';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
-describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
-    let publishPostOperation: PublishPostOperation,
-        publishPostService: any,
+describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
+    let publishmentOperation: PublishmentOperation,
+        publishmentService: any,
         schemaValidator: any,
         campaign: CampaignInstance,
         postPayload: any,
@@ -26,7 +26,7 @@ describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
                 },
             ];
 
-            publishPostService = {
+            publishmentService = {
                 addPost: sinon.spy(() => campaign),
                 save: sinon.spy(() => campaign),
             };
@@ -45,8 +45,8 @@ describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
                 payload: {},
             };
 
-            publishPostOperation = new PublishPostOperation({
-                publishPostService,
+            publishmentOperation = new PublishmentOperation({
+                publishmentService,
                 schemaValidator,
                 campaignsSchema,
                 logger,
@@ -54,10 +54,10 @@ describe('Core :: Campaigns :: Operations :: PublishPostOperation', () => {
         });
 
         it('should return correct data with correct call', async () => {
-            const campaignToPost = await publishPostOperation.execute(postPayload);
+            const campaignToPost = await publishmentOperation.execute(postPayload);
 
-            expect(publishPostService.addPost).to.have.been.calledWith(postPayload);
-            expect(publishPostService.save).to.have.been.calledWith(campaign);
+            expect(publishmentService.addPost).to.have.been.calledWith(postPayload);
+            expect(publishmentService.save).to.have.been.calledWith(campaign);
             expect(campaignToPost).to.be.deep.equal(campaign);
         });
     });

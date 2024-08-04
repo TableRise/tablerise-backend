@@ -38,7 +38,7 @@ describe('When a post is published', () => {
         it('should add new post to campaign', async () => {
             const { body } = await requester()
                 .post(
-                    `/campaigns/${campaign.campaignId}/publish-post?userId=${user.userId}`
+                    `/campaigns/${campaign.campaignId}/publishment?userId=${user.userId}`
                 )
                 .send(payload)
                 .expect(HttpStatusCode.CREATED);

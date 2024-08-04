@@ -3,7 +3,6 @@ import { Server } from 'http';
 import {
     SocketMatches,
     SquareSize,
-    MatchAvatar,
     addAvatarSocketEventPayload,
     joinMatchSocketEventPayload,
     changeMapImageSocketEventPayload,
@@ -14,6 +13,9 @@ import {
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import avatarStatusEnum from 'src/domains/campaigns/enums/avatarStatusEnum';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { Avatar } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class SocketIO {
     private _io = {} as socket.Server;
@@ -21,8 +23,8 @@ export default class SocketIO {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({ logger }: InfraDependencies['socketIOContract']) {
-        this._campaignsRepository = '';
+    constructor({ campaignsRepository, logger }: InfraDependencies['socketIOContract']) {
+        this._campaignsRepository = campaignsRepository;
         this._logger = logger;
 
         this.connect = this.connect.bind(this);
@@ -67,63 +69,73 @@ export default class SocketIO {
         campaignId,
         socket,
     }: joinMatchSocketEventPayload): Promise<void> {
-        // @ts-expect-error Temporary
-        const { match_data: matchData } = await this._campaignsRepository.findOne({
-            campaign_id: campaignId,
+        const { matchData } = await this._campaignsRepository.findOne({
+            campaignId,
         });
 
-        await socket.join(matchData.match_id);
-        this._matches[matchData.match_id] = matchData;
-        socket.emit('joined-in-match', this._matches[matchData.match_id]);
+        if (!matchData) HttpRequestErrors.throwError('campaign-match-inexistent');
+
+        await socket.join(matchData.matchId);
+        this._matches[matchData.matchId] = matchData;
+        socket.emit('joined-in-match', this._matches[matchData.matchId]);
     }
 
     private _changeMapImageSocketEvent({
         matchId,
         mapId,
     }: changeMapImageSocketEventPayload): void {
-        const mapToActual = this._matches[matchId].map_images.find(
+        const mapToActual = this._matches[matchId].mapImages.find(
             (map) => map.id === mapId
         );
 
-        this._matches[matchId].actual_map_image =
-            mapToActual ?? this._matches[matchId].actual_map_image;
+        this._matches[matchId].actualMapImage =
+            mapToActual ?? this._matches[matchId].actualMapImage;
+
         this._io.to(matchId).emit('match-background-changed', mapToActual);
     }
 
     private async _addAvatar({
         avatarId,
         campaignId,
-    }: addAvatarSocketEventPayload): Promise<MatchAvatar> {
-        // @ts-expect-error Temporary
+    }: addAvatarSocketEventPayload): Promise<Avatar | undefined> {
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
-        return campaign.match_data.avatars.find(
-            (avatar: MatchAvatar) => avatar.avatar_id === avatarId
+
+        if (!campaign.matchData)
+            HttpRequestErrors.throwError('campaign-match-inexistent');
+
+        return campaign.matchData.avatars.find(
+            (avatar: Avatar) => avatar.avatarId === avatarId
         );
     }
 
     private async _createAvatar({
         userId,
         campaignId,
-    }: addAvatarSocketEventPayload): Promise<MatchAvatar> {
-        const avatarData: MatchAvatar = {
-            avatar_id: newUUID(),
-            user_id: userId,
-            picture: '',
+    }: addAvatarSocketEventPayload): Promise<Avatar> {
+        const avatarData: Avatar = {
+            avatarId: newUUID(),
+            userId,
+            picture: {} as ImageObject,
             position: { x: 0, y: 0 },
             size: { width: 200, height: 200 },
             status: avatarStatusEnum.enum.ALIVE,
         };
 
-        // @ts-expect-error Temporary
         const campaign = await this._campaignsRepository.findOne({
-            campaign_id: campaignId,
+            campaignId,
         });
+
+        if (!campaign.matchData)
+            HttpRequestErrors.throwError('campaign-match-inexistent');
+
         campaign.matchData.avatars.push(avatarData);
 
-        // @ts-expect-error Temporary
-        await this._campaignsRepository.update(campaign);
+        await this._campaignsRepository.update({
+            query: { campaignId },
+            payload: campaign,
+        });
 
         return avatarData;
     }
@@ -138,7 +150,11 @@ export default class SocketIO {
             ? await this._addAvatar({ matchId, userId, campaignId, avatarId })
             : await this._createAvatar({ matchId, userId, campaignId, avatarId });
 
-        this._matches[matchId].avatarsInGame.push(avatarData);
+        this._matches[matchId].avatarsInGame = this._matches[matchId].avatarsInGame.length
+            ? this._matches[matchId].avatarsInGame
+            : [];
+
+        this._matches[matchId].avatarsInGame.push(avatarData as Avatar);
         this._io.to(matchId).emit('avatar-added-to-the-match', avatarData);
     }
 
@@ -149,7 +165,7 @@ export default class SocketIO {
         socketId,
     }: moveAvatarSocketEventPayload): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatar_id === avatarId
+            (avatar) => avatar.avatarId === avatarId
         );
 
         this._matches[matchId].avatarsInGame[avatarIndex].position.x = coordinates.x;
@@ -166,7 +182,7 @@ export default class SocketIO {
         avatarId,
     }: deleteAvatarSocketEventPayload): void {
         const avatars = this._matches[matchId].avatarsInGame.filter(
-            (avatar) => avatar.avatar_id !== avatarId
+            (avatar) => avatar.avatarId !== avatarId
         );
         this._matches[matchId].avatarsInGame = avatars;
         this._io.to(matchId).emit('box-deleted', avatarId);
@@ -178,9 +194,18 @@ export default class SocketIO {
         imageLink: string
     ): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatar_id === avatarId
+            (avatar) => avatar.avatarId === avatarId
         );
-        this._matches[matchId].avatarsInGame[avatarIndex].picture = imageLink;
+
+        this._matches[matchId].avatarsInGame[avatarIndex].picture = {
+            id: '',
+            title: '',
+            link: imageLink,
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+
         this._io.to(matchId).emit('avatar-picture-uploaded', avatarId, imageLink);
     }
 
@@ -191,7 +216,7 @@ export default class SocketIO {
         socketId: string
     ): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatar_id === avatarId
+            (avatar) => avatar.avatarId === avatarId
         );
 
         this._matches[matchId].avatarsInGame[avatarIndex].size.width = size.width;
@@ -210,7 +235,6 @@ export default class SocketIO {
 
         const { avatarsInGame, ...matchToSave } = actualMatch;
 
-        // @ts-expect-error Temporary
         await this._campaignsRepository.update({
             query: { campaignId },
             payload: matchToSave,

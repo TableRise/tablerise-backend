@@ -15,8 +15,8 @@ export default class VerifyEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ email, newEmail }: VerifyEmailPayload): Promise<void> {
+    public async execute({ email }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'Execute - VerifyEmailOperation');
-        await this._verifyEmailService.sendEmail({ email, newEmail });
+        await this._verifyEmailService.sendEmail({ email });
     }
 }

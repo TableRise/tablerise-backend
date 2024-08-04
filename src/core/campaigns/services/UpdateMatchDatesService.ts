@@ -40,11 +40,9 @@ export default class UpdateMatchDatesService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
-        const savedCampaign = await this._campaignsRepository.update({
+        return this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
-
-        return savedCampaign;
     }
 }

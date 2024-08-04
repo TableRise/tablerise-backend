@@ -34,8 +34,6 @@ export default class UpdateUserOperation {
             payload,
         });
 
-        const userUpdated = await this._updateUserService.save({ user, userDetails });
-
-        return userUpdated;
+        return this._updateUserService.save({ user, userDetails });
     }
 }
