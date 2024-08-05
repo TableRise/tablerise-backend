@@ -23,13 +23,21 @@ export default class VerifyUserMiddleware {
     ): Promise<void> {
         this._logger('info', 'UserStatus - VerifyUserMiddleware');
 
-        const { userId } = req.user as Express.User;
+        try {
+            const { userId } = req.user as Express.User;
 
-        const userInDb = await this._usersRepository.findOne({ userId });
+            const userInDb = await this._usersRepository.findOne({ userId });
 
-        if (userInDb.inProgress.status !== 'done')
-            HttpRequestErrors.throwError('invalid-user-status');
+            if (userInDb.inProgress.status !== 'done')
+                HttpRequestErrors.throwError('invalid-user-status');
 
-        next();
+            next();
+        } catch (error: HttpRequestErrors | any) {
+            error.details = {
+                attribute: 'status',
+                path: 'user.inProgress.status',
+                reason: 'Wrong status - ${status atual do usuário}'
+            }
+        }
     }
 }
