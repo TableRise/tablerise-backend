@@ -99,11 +99,16 @@ export default class AuthorizationMiddleware {
 
         if (id)
             userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+            const userInDb = await this._usersRepository.findOne({ userId: id });
+
+            userInDb.inProgress.status = 'waiting_question'
         if (email && !id) {
             const userInDb = await this._usersRepository.findOne({ email });
             userDetailsInDb = await this._usersDetailsRepository.findOne({
                 userId: userInDb.userId,
             });
+
+            userInDb.inProgress.status = 'waiting_question'
         }
 
         if (!userDetailsInDb.secretQuestion) {
