@@ -3,6 +3,7 @@ import UsersController from 'src/interface/users/presentation/users/UsersControl
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
+import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 
 export interface UsersRoutesContract {
     usersController: UsersController;
@@ -10,4 +11,5 @@ export interface UsersRoutesContract {
     authorizationMiddleware: AuthorizationMiddleware;
     imageMiddleware: ImageMiddleware;
     verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware;
+    verifyUserMiddleware: VerifyUserMiddleware;
 }

@@ -18,6 +18,7 @@ export default class UsersRoutes {
     private readonly _authorizationMiddleware;
     private readonly _imageMiddleware;
     private readonly _verifyEmailCodeMiddleware;
+    private readonly _verifyUserMiddleware;
 
     constructor({
         usersController,
@@ -25,12 +26,14 @@ export default class UsersRoutes {
         verifyIdMiddleware,
         imageMiddleware,
         verifyEmailCodeMiddleware,
+        verifyUserMiddleware,
     }: InterfaceDependencies['usersRoutesContract']) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._imageMiddleware = imageMiddleware;
         this._verifyEmailCodeMiddleware = verifyEmailCodeMiddleware;
         this._authorizationMiddleware = authorizationMiddleware;
+        this._verifyUserMiddleware = verifyUserMiddleware
     }
 
     public routes(): routeInstance[] {
@@ -59,6 +62,7 @@ export default class UsersRoutes {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.checkAdminRole,
+                        this._verifyUserMiddleware.userStatus,
                     ],
                     tag: 'users',
                     description: desc.getAll,
