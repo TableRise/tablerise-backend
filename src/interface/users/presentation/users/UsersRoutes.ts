@@ -279,6 +279,10 @@ export default class UsersRoutes {
                     ]),
                 ],
                 options: {
+                    middlewares: [
+                        this._verifyUserMiddleware.userStatus,
+                        this._verifyEmailCodeMiddleware.verify,
+                    ],
                     tag: 'management',
                     description: desc.updatePassword,
                 },
