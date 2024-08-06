@@ -388,7 +388,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
     });
 
-    context('#confirmCode', () => {
+    context('#confirmEmail', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -445,8 +445,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 email: request.query.email,
                 code: request.query.code,
             });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.end).to.have.been.called();
         });
     });
 
