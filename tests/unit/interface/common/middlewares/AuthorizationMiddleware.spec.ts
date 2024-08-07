@@ -5,7 +5,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/users/enums/questionEnum';
 
-describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
+describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
         usersRepository: any,
         usersDetailsRepository: any,
@@ -334,7 +334,13 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             };
 
             beforeEach(() => {
-                usersRepository = {};
+                usersRepository = {
+                    findOne: () => ({
+                        inProgress: {
+                            status: '',
+                        }
+                    }),
+                };
 
                 usersDetailsRepository = {
                     findOne: () => ({
@@ -380,6 +386,9 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
                 usersRepository = {
                     findOne: () => ({
                         email: '123@email.com',
+                        inProgress: {
+                            status: '',
+                        }
                     }),
                 };
 
@@ -430,7 +439,14 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             };
 
             beforeEach(() => {
-                usersRepository = {};
+                usersRepository = {
+                    findOne: () => ({
+                        email: '123@email.com',
+                        inProgress: {
+                            status: '',
+                        }
+                    }),
+                };
 
                 usersDetailsRepository = {
                     findOne: () => ({
@@ -485,7 +501,14 @@ describe('Interface :: Users :: Middlewares :: AuthorizationMiddleware', () => {
             };
 
             beforeEach(() => {
-                usersRepository = {};
+                usersRepository = {
+                    findOne: () => ({
+                        email: '123@email.com',
+                        inProgress: {
+                            status: '',
+                        }
+                    }),
+                };
 
                 usersDetailsRepository = {
                     findOne: () => ({

@@ -23,7 +23,6 @@ export interface UsersControllerContract {
     verifyEmailOperation: VerifyEmailOperation;
     getUsersOperation: GetUsersOperation;
     getUserByIdOperation: GetUserByIdOperation;
-    confirmEmailOperation: ConfirmEmailOperation;
     activateSecretQuestionOperation: ActivateSecretQuestionOperation;
     updateSecretQuestionOperation: UpdateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
