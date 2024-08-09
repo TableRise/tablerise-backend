@@ -794,6 +794,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
                 email: request.query.email,
+                code: request.query.code,
                 password: request.body.password,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);

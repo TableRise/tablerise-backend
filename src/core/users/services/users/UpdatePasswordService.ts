@@ -33,7 +33,7 @@ export default class UpdatePasswordService {
         this._logger('info', 'Update - UpdatePasswordService');
         const userInDb = await this._usersRepository.findOne({ email });
 
-        if (userInDb.inProgress.status !== 'done')
+        if (userInDb.inProgress.status !== 'wait_to_verify')
             HttpRequestErrors.throwError('invalid-user-status');
 
         if (userInDb.inProgress.code !== code)
