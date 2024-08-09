@@ -38,7 +38,9 @@ export default class VerifyUserMiddleware {
                 attribute: 'status',
                 path: userInDb.inProgress.status,
                 reason: `Wrong status - ${userInDb.inProgress.status}`
-            }
+              }
+
+            throw error;
         }
     }
 }
