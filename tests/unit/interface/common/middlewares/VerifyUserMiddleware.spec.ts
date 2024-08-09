@@ -70,8 +70,8 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
                     expect(err.details).to.deep.equal({
                         attribute: 'status',
                         path: user.inProgress.status,
-                        reason: `Wrong status - ${user.inProgress.status}`
-                      });
+                        reason: `Wrong status - ${user.inProgress.status}`,
+                    });
                     expect(err.message).to.be.equal(
                         'User status is invalid to perform this operation'
                     );

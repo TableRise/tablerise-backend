@@ -338,7 +338,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     findOne: () => ({
                         inProgress: {
                             status: '',
-                        }
+                        },
                     }),
                 };
 
@@ -388,7 +388,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         email: '123@email.com',
                         inProgress: {
                             status: '',
-                        }
+                        },
                     }),
                 };
 
@@ -444,7 +444,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         email: '123@email.com',
                         inProgress: {
                             status: '',
-                        }
+                        },
                     }),
                 };
 
@@ -506,7 +506,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         email: '123@email.com',
                         inProgress: {
                             status: '',
-                        }
+                        },
                     }),
                 };
 

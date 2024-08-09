@@ -33,7 +33,7 @@ export default class UsersRoutes {
         this._imageMiddleware = imageMiddleware;
         this._verifyEmailCodeMiddleware = verifyEmailCodeMiddleware;
         this._authorizationMiddleware = authorizationMiddleware;
-        this._verifyUserMiddleware = verifyUserMiddleware
+        this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
     public routes(): routeInstance[] {
