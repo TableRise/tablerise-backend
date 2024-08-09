@@ -107,9 +107,9 @@ export default class UsersController {
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
-        const { email, newEmail } = req.query as unknown as VerifyEmailPayload;
+        const { email } = req.query as unknown as VerifyEmailPayload;
 
-        await this._verifyEmailOperation.execute({ email, newEmail });
+        await this._verifyEmailOperation.execute({ email });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
@@ -179,10 +179,9 @@ export default class UsersController {
 
     public async updateEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { code } = req.query as { code: string };
         const { email } = req.body;
 
-        await this._updateEmailOperation.execute({ userId: id, code, email });
+        await this._updateEmailOperation.execute({ userId: id, email });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

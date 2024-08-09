@@ -32,9 +32,7 @@ export default class CreateCampaignService {
 
     public async serialize(campaign: CampaignPayload): Promise<__CampaignSerialized> {
         this._logger('info', 'Serialize - CreateCampaignService');
-        const campaignSerialized = this._serializer.postCampaign(campaign);
-
-        return campaignSerialized;
+        return this._serializer.postCampaign(campaign);
     }
 
     public async enrichment(
@@ -69,11 +67,8 @@ export default class CreateCampaignService {
 
     public async save(campaign: __FullCampaign): Promise<__CampaignSaved> {
         this._logger('info', 'Save - CreateCampaignService');
-
-        const campaignSaved = await this._campaignsRepository.create({
+        return this._campaignsRepository.create({
             ...campaign,
         });
-
-        return campaignSaved;
     }
 }

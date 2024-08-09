@@ -67,7 +67,6 @@ export interface UpdateSecretQuestionPayload {
 
 export interface UpdateEmailPayload {
     userId: string;
-    code: string;
     email: string;
 }
 
@@ -79,7 +78,6 @@ export interface UpdatePasswordPayload {
 
 export interface VerifyEmailPayload {
     email: string;
-    newEmail: string;
 }
 
 export interface ActivateSecretQuestionPayload {
