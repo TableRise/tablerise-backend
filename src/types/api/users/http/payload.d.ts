@@ -72,6 +72,7 @@ export interface UpdateEmailPayload {
 }
 
 export interface UpdatePasswordPayload {
+    code: string;
     email: string;
     password: string;
 }

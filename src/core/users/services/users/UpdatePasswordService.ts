@@ -3,6 +3,7 @@ import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandl
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class UpdatePasswordService {
     private readonly _usersRepository;
@@ -28,9 +29,15 @@ export default class UpdatePasswordService {
         return user;
     }
 
-    public async update({ email, password }: UpdatePasswordPayload): Promise<void> {
+    public async update({ email, code, password }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Update - UpdatePasswordService');
         const userInDb = await this._usersRepository.findOne({ email });
+
+        if (userInDb.inProgress.status !== 'done')
+            HttpRequestErrors.throwError('invalid-user-status');
+
+        if (userInDb.inProgress.code !== code)
+            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const passwordChanged = await this._changePassword({ user: userInDb, password });
 
