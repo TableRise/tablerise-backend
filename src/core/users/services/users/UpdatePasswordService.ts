@@ -1,5 +1,4 @@
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';

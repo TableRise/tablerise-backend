@@ -3,7 +3,6 @@ import UpdatePasswordService from 'src/core/users/services/users/UpdatePasswordS
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
     let updatePasswordService: UpdatePasswordService,

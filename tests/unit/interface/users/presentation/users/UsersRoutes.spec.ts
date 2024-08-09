@@ -14,7 +14,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
         verifyEmailCodeMiddleware = {};
-        verifyUserMiddleware = {},
+        verifyUserMiddleware = {};
         imageMiddleware = { multer: () => ({ single: () => {} }) };
 
         usersRoutes = new UsersRoutes({
