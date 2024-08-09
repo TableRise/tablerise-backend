@@ -21,7 +21,11 @@ export default class UpdatePasswordOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ email, code, password }: UpdatePasswordPayload): Promise<void> {
+    public async execute({
+        email,
+        code,
+        password,
+    }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Execute - UpdatePasswordOperation');
         this._schemaValidator.entry(this._usersSchema.passwordUpdateZod, { password });
         await this._updatePasswordService.update({ email, code, password });
