@@ -6,6 +6,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
         verifyIdMiddleware: any,
         authorizationMiddleware: any,
         verifyEmailCodeMiddleware: any,
+        verifyUserMiddleware: any,
         imageMiddleware: any;
 
     context('When all the routes are correctly implemented', () => {
@@ -13,6 +14,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
         verifyEmailCodeMiddleware = {};
+        verifyUserMiddleware = {};
         imageMiddleware = { multer: () => ({ single: () => {} }) };
 
         usersRoutes = new UsersRoutes({
@@ -20,6 +22,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             authorizationMiddleware,
             verifyIdMiddleware,
             verifyEmailCodeMiddleware,
+            verifyUserMiddleware,
             imageMiddleware,
         });
 
