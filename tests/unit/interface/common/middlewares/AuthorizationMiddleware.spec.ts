@@ -4,6 +4,7 @@ import AuthorizationMiddleware from 'src/interface/common/middlewares/Authorizat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/users/enums/questionEnum';
+import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
 describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
@@ -340,6 +341,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: '',
                         },
                     }),
+                    update: (user: UserInstance) => {},
                 };
 
                 usersDetailsRepository = {
@@ -390,6 +392,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: '',
                         },
                     }),
+                    update: (user: UserInstance) => {},
                 };
 
                 usersDetailsRepository = {
@@ -446,6 +449,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: '',
                         },
                     }),
+                    update: (user: UserInstance) => {},
                 };
 
                 usersDetailsRepository = {
@@ -508,6 +512,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: '',
                         },
                     }),
+                    update: (user: UserInstance) => {},
                 };
 
                 usersDetailsRepository = {

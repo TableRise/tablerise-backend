@@ -96,19 +96,17 @@ export default class AuthorizationMiddleware {
         const query = (req.query as UserSecretQuestion) || {};
 
         let userDetailsInDb = {} as UserDetailInstance;
+        let userInDb = {} as UserInstance;
 
         if (id)
             userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
-        const userInDb = await this._usersRepository.findOne({ userId: id });
+        userInDb = await this._usersRepository.findOne({ userId: id });
 
-        userInDb.inProgress.status = 'waiting_question';
         if (email && !id) {
-            const userInDb = await this._usersRepository.findOne({ email });
+            userInDb = await this._usersRepository.findOne({ email });
             userDetailsInDb = await this._usersDetailsRepository.findOne({
                 userId: userInDb.userId,
             });
-
-            userInDb.inProgress.status = 'waiting_question';
         }
 
         if (!userDetailsInDb.secretQuestion) {
@@ -123,6 +121,13 @@ export default class AuthorizationMiddleware {
             HttpRequestErrors.throwError('incorrect-secret-question');
         if (answer !== userDetailsInDb.secretQuestion.answer)
             HttpRequestErrors.throwError('incorrect-secret-question');
+
+        userInDb.inProgress.status = 'waiting_question';
+
+        await this._usersRepository.update({
+            query: { userId: userInDb.userId },
+            payload: userInDb,
+        });
 
         next();
     }
