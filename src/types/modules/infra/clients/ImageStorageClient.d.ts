@@ -36,7 +36,7 @@ interface ResponseData {
 }
 
 export interface ApiImgBBResponse {
-    data: ResponseData;
+    data: { data: ResponseData };
     success: boolean;
     status: number;
 }

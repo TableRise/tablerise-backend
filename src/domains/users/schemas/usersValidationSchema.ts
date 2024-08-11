@@ -23,8 +23,8 @@ export const passwordUpdateZodSchema = z.object({
 });
 
 export const updateUserZodSchema = z.object({
-    nickname: z.string().max(32),
-    details: updateUserDetails,
+    nickname: z.string().max(32).optional(),
+    details: updateUserDetails.optional(),
 });
 
 export const userLoginZodSchema = z.object({
@@ -42,7 +42,8 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
             | 'wait_to_complete'
             | 'wait_to_confirm'
             | 'wait_to_delete'
-            | 'wait_to_verify';
+            | 'wait_to_verify'
+            | 'waiting_question';
         code: string;
     };
     twoFactorSecret: {
