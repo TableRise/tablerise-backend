@@ -27,9 +27,19 @@ export default class VerifyUserMiddleware {
 
         const userInDb = await this._usersRepository.findOne({ userId });
 
-        if (userInDb.inProgress.status !== 'done')
-            HttpRequestErrors.throwError('invalid-user-status');
+        try {
+            if (userInDb.inProgress.status !== 'done')
+                HttpRequestErrors.throwError('invalid-user-status');
 
-        next();
+            next();
+        } catch (error: HttpRequestErrors | any) {
+            error.details = {
+                attribute: 'status',
+                path: userInDb.inProgress.status,
+                reason: `Wrong status - ${userInDb.inProgress.status}`,
+            };
+
+            throw error;
+        }
     }
 }

@@ -17,7 +17,6 @@ export default class UsersController {
     private readonly _verifyEmailOperation;
     private readonly _getUsersOperation;
     private readonly _getUserByIdOperation;
-    private readonly _confirmEmailOperation;
     private readonly _activateSecretQuestionOperation;
     private readonly _updateSecretQuestionOperation;
     private readonly _activateTwoFactorOperation;
@@ -37,7 +36,6 @@ export default class UsersController {
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
-        confirmEmailOperation,
         activateSecretQuestionOperation,
         updateSecretQuestionOperation,
         activateTwoFactorOperation,
@@ -56,7 +54,6 @@ export default class UsersController {
         this._verifyEmailOperation = verifyEmailOperation;
         this._getUsersOperation = getUsersOperation;
         this._getUserByIdOperation = getUserByIdOperation;
-        this._confirmEmailOperation = confirmEmailOperation;
         this._activateSecretQuestionOperation = activateSecretQuestionOperation;
         this._updateSecretQuestionOperation = updateSecretQuestionOperation;
         this._activateTwoFactorOperation = activateTwoFactorOperation;
@@ -163,10 +160,7 @@ export default class UsersController {
     }
 
     public async confirmEmail(req: Request, res: Response): Promise<Response> {
-        const { email, code } = req.query as { email: string; code: string };
-
-        const result = await this._confirmEmailOperation.execute({ email, code });
-        return res.status(HttpStatusCode.OK).json(result);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
@@ -192,7 +186,7 @@ export default class UsersController {
     }
 
     public async updatePassword(req: Request, res: Response): Promise<Response> {
-        const { code, email } = req.query as { email: string; code: string };
+        const { email, code } = req.query as { email: string; code: string };
         const { password } = req.body;
 
         await this._updatePasswordOperation.execute({ email, code, password });

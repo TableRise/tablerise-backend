@@ -12,7 +12,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         verifyEmailOperation: any,
         getUsersOperation: any,
         getUserByIdOperation: any,
-        confirmEmailOperation: any,
         activateSecretQuestionOperation: any,
         updateSecretQuestionOperation: any,
         activateTwoFactorOperation: any,
@@ -39,7 +38,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -59,7 +57,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 resetTwoFactorOperation,
@@ -98,7 +95,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -118,7 +114,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -162,7 +157,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: sinon.spy(() => ({})) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -182,7 +176,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -222,7 +215,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: sinon.spy(() => [{ password: '123' }]) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -242,7 +234,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -280,7 +271,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: sinon.spy(() => ({})) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -300,7 +290,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -342,7 +331,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -362,7 +350,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -388,20 +375,20 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
     });
 
-    context('#confirmCode', () => {
+    context('#confirmEmail', () => {
         const request = {} as Request;
         const response = {} as Response;
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
 
             createUserOperation = { execute: () => ({}) };
             updateUserOperation = { execute: () => ({}) };
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: sinon.spy(() => ({})) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -421,7 +408,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -441,12 +427,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.query = { email: 'test@email.com', code: '123' };
             await usersController.confirmEmail(request, response);
 
-            expect(confirmEmailOperation.execute).to.have.been.calledWith({
-                email: request.query.email,
-                code: request.query.code,
-            });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.end).to.have.been.called();
         });
     });
 
@@ -464,7 +446,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: sinon.spy(() => ({})) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -484,7 +465,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -529,7 +509,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: sinon.spy(() => ({})) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -549,7 +528,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -593,7 +571,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: sinon.spy(() => ({})) };
@@ -612,7 +589,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -653,7 +629,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -673,7 +648,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -715,7 +689,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -735,7 +708,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -781,7 +753,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -801,7 +772,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -846,7 +816,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -866,7 +835,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -910,7 +878,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -930,7 +897,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -973,7 +939,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -993,7 +958,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -1048,7 +1012,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -1067,7 +1030,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,
@@ -1110,7 +1072,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation = { execute: () => ({}) };
             getUsersOperation = { execute: () => ({}) };
             getUserByIdOperation = { execute: () => ({}) };
-            confirmEmailOperation = { execute: () => ({}) };
             activateSecretQuestionOperation = { execute: () => ({}) };
             updateSecretQuestionOperation = { execute: () => ({}) };
             activateTwoFactorOperation = { execute: () => ({}) };
@@ -1129,7 +1090,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
                 verifyEmailOperation,
                 getUsersOperation,
                 getUserByIdOperation,
-                confirmEmailOperation,
                 activateSecretQuestionOperation,
                 updateSecretQuestionOperation,
                 activateTwoFactorOperation,

@@ -7,10 +7,6 @@ import {
     ActivateTwoFactorServiceContract,
 } from './users/ActivateTwoFactor';
 import {
-    ConfirmEmailOperationContract,
-    ConfirmEmailServiceContract,
-} from './users/ConfirmEmail';
-import {
     CreateUserOperationContract,
     CreateUserServiceContract,
 } from './users/CreateUser';
@@ -42,7 +38,6 @@ export default interface UserCoreDependencies {
     activateSecretQuestionOperationContract: ActivateSecretQuestionOperationContract;
     activateTwoFactorOperationContract: ActivateTwoFactorOperationContract;
     resetTwoFactorOperationContract: ResetTwoFactorOperationContract;
-    confirmEmailOperationContract: ConfirmEmailOperationContract;
     createUserOperationContract: CreateUserOperationContract;
     deleteUserOperationContract: DeleteUserOperationContract;
     getUserByIdOperationContract: GetUserByIdOperationContract;
@@ -62,7 +57,6 @@ export default interface UserCoreDependencies {
     activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
     activateTwoFactorServiceContract: ActivateTwoFactorServiceContract;
     resetTwoFactorServiceContract: ResetTwoFactorServiceContract;
-    confirmEmailServiceContract: ConfirmEmailServiceContract;
     createUserServiceContract: CreateUserServiceContract;
     deleteUserServiceContract: DeleteUserServiceContract;
     getUserByIdServiceContract: GetUserByIdServiceContract;
