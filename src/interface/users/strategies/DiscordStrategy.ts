@@ -10,7 +10,7 @@ passport.use(
             clientID: (DISCORD_CLIENT_ID as string) || 'default',
             clientSecret: (DISCORD_CLIENT_SECRET as string) || 'secret',
             scope: ['identify', 'email', 'guilds', 'guilds.join'],
-            callbackURL: `${process.env.SWAGGER_URL as string}/oauth/discord/callback`,
+            callbackURL: `${process.env.SWAGGER_URL as string}oauth/discord/callback`,
             passReqToCallback: true,
         },
         (request, accessToken, refreshToken, profile, done) => {
