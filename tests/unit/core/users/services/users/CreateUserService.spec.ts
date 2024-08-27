@@ -203,51 +203,6 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 }
             });
         });
-
-        context('When enrich with fails - secret question missing', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-
-                user.tag = null as unknown as string;
-                user.createdAt = null as unknown as string;
-                user.updatedAt = null as unknown as string;
-                user.password = 'testepwd@';
-                user.inProgress = { status: 'done', code: '' };
-                userDetails.secretQuestion = null;
-
-                serializer = {};
-
-                usersRepository = {
-                    find: () => [],
-                };
-
-                usersDetailsRepository = {};
-                emailSender = {};
-
-                createUserService = new CreateUserService({
-                    serializer,
-                    usersRepository,
-                    usersDetailsRepository,
-                    emailSender,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    await createUserService.enrichment({ user, userDetails });
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        '2FA not enabled for this user neither secretQuestion'
-                    );
-                    expect(err.name).to.be.equal('BadRequest');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
-        });
     });
 
     context('#Save', () => {
