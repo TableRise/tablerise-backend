@@ -95,7 +95,7 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
             });
 
             userCreated = {
-                ...DomainDataFaker.generateUsersJSON()[0]
+                ...DomainDataFaker.generateUsersJSON()[0],
             };
 
             createUserService = {

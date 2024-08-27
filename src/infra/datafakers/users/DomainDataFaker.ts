@@ -48,8 +48,7 @@ function generateGoogleProfileJSON(
 }
 
 const [{ email, password, nickname }] = generateUsersJSON();
-const [{ firstName, lastName, pronoun, birthday, biography }] =
-    generateUserDetailsJSON();
+const [{ firstName, lastName, pronoun, birthday, biography }] = generateUserDetailsJSON();
 
 const mocks = {
     loginMock: { email, password },
