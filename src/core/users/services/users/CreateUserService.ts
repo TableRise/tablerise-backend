@@ -4,10 +4,10 @@ import {
     __UserSaved,
     __UserSerialized,
 } from 'src/types/api/users/methods';
-import { RegisterUserPayload } from 'src/types/api/users/http/payload';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 
 export default class CreateUserService {
     private readonly _usersRepository;
@@ -34,11 +34,10 @@ export default class CreateUserService {
         this.serialize = this.serialize.bind(this);
     }
 
-    public async serialize(user: RegisterUserPayload): Promise<__UserSerialized> {
+    public async serialize(user: UserPayload): Promise<__UserSerialized> {
         this._logger('info', 'Serialize - CreateUserService');
-        const { details: userDetails, ...userMain } = user;
-        const userSerialized = this._serializer.postUser(userMain);
-        const userDetailsSerialized = this._serializer.postUserDetails(userDetails);
+        const userSerialized = this._serializer.postUser(user);
+        const userDetailsSerialized = this._serializer.postUserDetails({});
 
         const userInDb = await this._usersRepository.find({
             email: userSerialized.email,
@@ -74,15 +73,18 @@ export default class CreateUserService {
             request: { success: true, status: 200 },
         };
 
-        if (!userDetails.secretQuestion)
-            HttpRequestErrors.throwError('2fa-and-secret-question-no-active');
-
-        userDetails.role = 'user';
+        userDetails.firstName = '';
+        userDetails.lastName = '';
+        userDetails.pronoun = '';
+        userDetails.biography = '';
+        userDetails.secretQuestion = null;
+        userDetails.birthday = '';
         userDetails.gameInfo = {
             campaigns: [],
             characters: [],
             badges: [],
         };
+        userDetails.role = 'user';
 
         return {
             userEnriched: user,

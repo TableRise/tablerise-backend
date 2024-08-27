@@ -79,7 +79,7 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
 
             schemaValidator = { entry: sinon.stub() };
 
-            schemaValidator.entry.onCall(1).callsFake(() => {
+            schemaValidator.entry.callsFake(() => {
                 throw new HttpRequestErrors({
                     message: 'Schema error',
                     name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
@@ -95,8 +95,7 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
             });
 
             userCreated = {
-                ...DomainDataFaker.generateUsersJSON()[0],
-                details: DomainDataFaker.generateUserDetailsJSON()[0],
+                ...DomainDataFaker.generateUsersJSON()[0]
             };
 
             createUserService = {

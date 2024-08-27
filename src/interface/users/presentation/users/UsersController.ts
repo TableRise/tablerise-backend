@@ -10,6 +10,7 @@ import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidat
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
+import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 
 export default class UsersController {
     private readonly _createUserOperation;
@@ -88,7 +89,7 @@ export default class UsersController {
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
-        const payload = req.body as RegisterUserPayload;
+        const payload = req.body as UserPayload;
 
         const result = await this._createUserOperation.execute(payload);
         delete (result as Partial<RegisterUserResponse>).password;
