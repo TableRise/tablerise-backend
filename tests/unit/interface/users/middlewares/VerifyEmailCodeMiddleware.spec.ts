@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
@@ -24,7 +25,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 user = {
                     userId: '123',
                     inProgress: {
-                        status: 'wait_to_verify',
+                        status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
                         code: 'KLI44',
                     },
                 };
@@ -46,7 +47,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = 'done';
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
@@ -61,7 +62,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = 'done';
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
@@ -146,7 +147,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 usersRepository = {
                     findOne: () => ({
                         inProgress: {
-                            status: 'wait_to_verify',
+                            status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
                             code: 'KLI44',
                         },
                     }),
@@ -179,7 +180,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 usersRepository = {
                     findOne: () => ({
                         inProgress: {
-                            status: 'done',
+                            status: InProgressStatusEnum.enum.DONE,
                             code: 'KLI44',
                         },
                     }),

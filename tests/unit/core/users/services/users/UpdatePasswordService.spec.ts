@@ -4,6 +4,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
     let updatePasswordService: UpdatePasswordService,
@@ -18,7 +19,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
         context('When update an user password with success', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.status = 'wait_to_verify';
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_VERIFY;
                 user.inProgress.code = '123456';
 
                 usersRepository = {
@@ -86,7 +87,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
         context('When update an user password fail - invalid code', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.status = 'wait_to_verify';
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_VERIFY;
 
                 usersRepository = {
                     findOne: () => user,

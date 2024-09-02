@@ -4,6 +4,10 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import StateMachine from 'src/domains/users/StateMachine';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+
+const status = InProgressStatusEnum.enum;
 
 export default class UpdatePasswordService {
     private readonly _usersRepository;
@@ -24,20 +28,17 @@ export default class UpdatePasswordService {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
 
         user.password = await SecurePasswordHandler.hashPassword(password);
-        user.inProgress.status = 'done';
+        user.inProgress.status = StateMachine('updatePassword', user.inProgress.status);
 
         return user;
     }
 
-    public async update({ email, code, password }: UpdatePasswordPayload): Promise<void> {
+    public async update({ email, password }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Update - UpdatePasswordService');
         const userInDb = await this._usersRepository.findOne({ email });
 
-        if (userInDb.inProgress.status !== 'wait_to_verify')
+        if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_PASSWORD_CHANGE)
             HttpRequestErrors.throwError('invalid-user-status');
-
-        if (userInDb.inProgress.code !== code)
-            HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const passwordChanged = await this._changePassword({ user: userInDb, password });
 

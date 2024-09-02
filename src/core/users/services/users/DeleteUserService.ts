@@ -1,4 +1,5 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
@@ -25,7 +26,7 @@ export default class DeleteUserService {
             'info',
             `ChangeInProgesStatusToDelete - User InProgress Status change to wait_to_delete`
         );
-        user.inProgress.status = 'wait_to_delete';
+        user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
         return user;
     }
 

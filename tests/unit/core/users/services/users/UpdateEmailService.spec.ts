@@ -3,6 +3,7 @@ import UpdateEmailService from 'src/core/users/services/users/UpdateEmailService
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
@@ -20,7 +21,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = 'wait_to_verify';
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_VERIFY;
 
                 updateEmailPayload = {
                     userId: user.userId,
@@ -31,7 +32,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                 newUser = {
                     ...user,
                     email: updateEmailPayload.email,
-                    inProgress: { status: 'done', code: updateEmailPayload.code },
+                    inProgress: { status: InProgressStatusEnum.enum.DONE, code: updateEmailPayload.code },
                 };
 
                 usersRepository = {
@@ -60,7 +61,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = 'wait_to_verify';
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_VERIFY;
 
                 updateEmailPayload = {
                     userId: user.userId,
@@ -71,7 +72,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                 newUser = {
                     ...user,
                     email: updateEmailPayload.email,
-                    inProgress: { status: 'done', code: updateEmailPayload.code },
+                    inProgress: { status: InProgressStatusEnum.enum.DONE, code: updateEmailPayload.code },
                 };
 
                 usersRepository = {

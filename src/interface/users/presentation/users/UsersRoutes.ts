@@ -43,7 +43,10 @@ export default class UsersRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/verify`,
                 parameters: [
-                    ...generateQueryParam(1, [{ name: 'email', type: 'string' }]),
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'flow', type: 'string' }
+                    ]),
                 ],
                 controller: this._usersController.verifyEmail,
                 options: {
@@ -149,6 +152,26 @@ export default class UsersRoutes {
             },
 
             // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/authenticate/email`,
+                parameters: [
+                    ...generateQueryParam(3, [
+                        { name: 'email', type: 'string' },
+                        { name: 'code', type: 'string' },
+                        { name: 'flow', type: 'string' }
+                    ])
+                ],
+                controller: this._usersController.internalAuthentication,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyEmailCodeMiddleware.verify
+                    ],
+                    tag: 'authorization',
+                    description: desc.emailCode
+                }
+            },
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/question/activate`,
@@ -269,9 +292,8 @@ export default class UsersRoutes {
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'code', type: 'string' },
+                    ...generateQueryParam(1, [
+                        { name: 'email', type: 'string' }
                     ]),
                 ],
                 options: {

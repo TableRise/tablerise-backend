@@ -12,6 +12,7 @@ import {
     __UserSaved,
     __UserSerialized,
 } from 'src/types/api/users/methods';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class OAuthService {
     private readonly _usersRepository;
@@ -70,7 +71,7 @@ export default class OAuthService {
         user.password = 'oauth';
         user.twoFactorSecret = { active: false };
         user.inProgress = {
-            status: 'wait_to_complete',
+            status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             code: '',
         };
 

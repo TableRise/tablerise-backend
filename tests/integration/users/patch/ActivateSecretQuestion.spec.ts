@@ -1,4 +1,5 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -16,7 +17,7 @@ describe('When the user has secret question activated', () => {
             answer: 'Silvera',
         };
         userDetails.secretQuestion = secretQuestion;
-        user.inProgress = { status: 'done', code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
         user.twoFactorSecret = { active: true, qrcode: '' };
 
         await InjectNewUser(user);

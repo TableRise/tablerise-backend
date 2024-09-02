@@ -32,6 +32,10 @@ import {
     ResetProfileOperationContract,
     ResetProfileServiceContract,
 } from './users/ResetProfile';
+import {
+    VerifyEmailOperationContract,
+    VerifyEmailServiceContract,
+} from './users/VerifyEmail';
 
 export default interface UserCoreDependencies {
     // Operations

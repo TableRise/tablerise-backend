@@ -1,5 +1,6 @@
 import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
@@ -16,7 +17,7 @@ describe('When an user has the password changed', () => {
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
             model = new DatabaseManagement().modelInstance('user', 'Users');
 
-            user.inProgress = { status: 'wait_to_verify', code: 'H45J7F' };
+            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_VERIFY, code: 'H45J7F' };
             userDetails.secretQuestion = null;
 
             await InjectNewUser(user);
@@ -45,7 +46,7 @@ describe('When an user has the password changed', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: 'wait_to_verify', code: 'H45J7F' };
+            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_VERIFY, code: 'H45J7F' };
             user.twoFactorSecret = { active: false };
 
             await InjectNewUser(user);

@@ -3,6 +3,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 import { UserEmail } from 'src/types/modules/core/users/users/UpdateEmail';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class UpdateEmailService {
     private readonly _usersRepository;
@@ -21,7 +22,7 @@ export default class UpdateEmailService {
     private _changeEmail({ user, email }: UserEmail): UserInstance {
         this._logger('info', 'ChangeEmail - UpdateEmailService');
         user.email = email;
-        user.inProgress.status = 'done';
+        user.inProgress.status = InProgressStatusEnum.enum.DONE;
         return user;
     }
 

@@ -6,6 +6,7 @@ import {
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class AuthorizationMiddleware {
     private readonly _usersRepository;
@@ -122,7 +123,7 @@ export default class AuthorizationMiddleware {
         if (answer !== userDetailsInDb.secretQuestion.answer)
             HttpRequestErrors.throwError('incorrect-secret-question');
 
-        userInDb.inProgress.status = 'waiting_question';
+        userInDb.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_SECRET_QUESTION;
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },

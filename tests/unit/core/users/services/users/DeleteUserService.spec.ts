@@ -6,6 +6,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
 import sinon from 'sinon';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Core :: Users :: Services :: DeleteUserService', () => {
     let deleteUsersService: DeleteUserService,
@@ -26,7 +27,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = 'wait_to_delete';
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
                 sinon.spy(usersRepository, 'update');
@@ -59,7 +60,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = 'wait_to_delete';
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => {} };
 
@@ -89,7 +90,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi'];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = 'wait_to_delete';
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
 

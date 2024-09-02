@@ -1,4 +1,4 @@
-import userStatusEnum from 'src/domains/users/enums/userStatusEnum';
+import userStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Domains :: User :: Enum :: UserStatusEnum', () => {
     const enumKeysFixed = [

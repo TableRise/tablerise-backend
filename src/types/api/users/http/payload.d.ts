@@ -71,13 +71,13 @@ export interface UpdateEmailPayload {
 }
 
 export interface UpdatePasswordPayload {
-    code: string;
     email: string;
     password: string;
 }
 
 export interface VerifyEmailPayload {
     email: string;
+    flow: StateMachineFlowKeys;
 }
 
 export interface ActivateSecretQuestionPayload {

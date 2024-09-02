@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { updateUserDetails } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import { InProgressStatus } from '../enums/InProgressStatusEnum';
 
 const twoFactorSecretZodSchema = z.object({
     secret: z.string().optional(),
@@ -13,6 +15,11 @@ const usersZodSchema = z.object({
     password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
     nickname: z.string().max(32),
 });
+
+export const verifyEmailZodSchema = z.object({
+    email: z.string().email(),
+    flow: z.enum(stateFlowsEnum.values)
+})
 
 export const emailUpdateZodSchema = z.object({
     email: z.string().email(),
@@ -37,13 +44,7 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     userId: string;
     providerId: string;
     inProgress: {
-        status:
-            | 'done'
-            | 'wait_to_complete'
-            | 'wait_to_confirm'
-            | 'wait_to_delete'
-            | 'wait_to_verify'
-            | 'waiting_question';
+        status: InProgressStatus,
         code: string;
     };
     twoFactorSecret: {
@@ -59,5 +60,6 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
 
 export type UserLogin = z.infer<typeof userLoginZodSchema>;
 export type UserTwoFactor = z.infer<typeof twoFactorSecretZodSchema>;
+export type UserVerifyEmail = z.infer<typeof verifyEmailZodSchema>;
 
 export default usersZodSchema;

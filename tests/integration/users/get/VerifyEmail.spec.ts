@@ -1,4 +1,5 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -13,7 +14,7 @@ describe('When an email is verified', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: 'done', code: '' };
+            user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
             user.email = 'test@email.com';
 
             userDetails.gameInfo.badges = [];
