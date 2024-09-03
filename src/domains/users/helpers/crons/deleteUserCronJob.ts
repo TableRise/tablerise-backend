@@ -15,7 +15,8 @@ export default async function deleteUserCronJob(
 
         const users = await usersRepository.find();
         const deleteUserList = users.filter(
-            (user: UserInstance) => user.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
+            (user: UserInstance) =>
+                user.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
         );
 
         deleteUserList.forEach(async (user: UserInstance) => {

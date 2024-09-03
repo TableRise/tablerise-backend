@@ -69,5 +69,5 @@ export default {
     profilePicture,
     deleteProfile,
     logoutUser,
-    emailCode
+    emailCode,
 };

@@ -32,7 +32,10 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                 newUser = {
                     ...user,
                     email: updateEmailPayload.email,
-                    inProgress: { status: InProgressStatusEnum.enum.DONE, code: updateEmailPayload.code },
+                    inProgress: {
+                        status: InProgressStatusEnum.enum.DONE,
+                        code: updateEmailPayload.code,
+                    },
                 };
 
                 usersRepository = {
@@ -72,7 +75,10 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                 newUser = {
                     ...user,
                     email: updateEmailPayload.email,
-                    inProgress: { status: InProgressStatusEnum.enum.DONE, code: updateEmailPayload.code },
+                    inProgress: {
+                        status: InProgressStatusEnum.enum.DONE,
+                        code: updateEmailPayload.code,
+                    },
                 };
 
                 usersRepository = {

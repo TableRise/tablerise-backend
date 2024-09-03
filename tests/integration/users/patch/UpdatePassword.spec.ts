@@ -17,7 +17,10 @@ describe('When an user has the password changed', () => {
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
             model = new DatabaseManagement().modelInstance('user', 'Users');
 
-            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_VERIFY, code: 'H45J7F' };
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
+                code: 'H45J7F',
+            };
             userDetails.secretQuestion = null;
 
             await InjectNewUser(user);
@@ -46,7 +49,10 @@ describe('When an user has the password changed', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_VERIFY, code: 'H45J7F' };
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
+                code: 'H45J7F',
+            };
             user.twoFactorSecret = { active: false };
 
             await InjectNewUser(user);

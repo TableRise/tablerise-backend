@@ -37,6 +37,9 @@ export default class GetUsersService {
 
         await Promise.all(response);
 
-        return response.filter((user) => user.inProgress.status !== InProgressStatusEnum.enum.WAIT_TO_DELETE_USER);
+        return response.filter(
+            (user) =>
+                user.inProgress.status !== InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
+        );
     }
 }

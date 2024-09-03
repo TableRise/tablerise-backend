@@ -75,7 +75,6 @@ export default class UsersController {
         this.getUserById = this.getUserById.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
-        this.confirmEmail = this.confirmEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
@@ -161,10 +160,6 @@ export default class UsersController {
 
         await this._updateSecretQuestionOperation.execute({ userId: id, payload });
 
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
-    public async confirmEmail(req: Request, res: Response): Promise<Response> {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

@@ -65,7 +65,8 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
                 users = DomainDataFaker.generateUsersJSON({ count: 2 });
                 usersDetails = DomainDataFaker.generateUserDetailsJSON({ count: 2 });
 
-                users[0].inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                users[0].inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 userIdTest = users[0].userId;
 
                 usersDetails.forEach(

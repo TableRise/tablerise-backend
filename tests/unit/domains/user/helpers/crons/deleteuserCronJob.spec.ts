@@ -30,13 +30,15 @@ describe('Domains :: Users :: Helpers :: Crons :: DeleteuserConJob', () => {
                 before(() => {
                     user = DomainDataFaker.generateUsersJSON()[0];
                     user.updatedAt = new Date().toISOString();
-                    user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                    user.inProgress.status =
+                        InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                     userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                     userToExclude = DomainDataFaker.generateUsersJSON()[0];
                     userDetailsToExclude = DomainDataFaker.generateUserDetailsJSON()[0];
                     userDetailsToExclude.userId = userToExclude.userId;
-                    userToExclude.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                    userToExclude.inProgress.status =
+                        InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                     userToExclude.updatedAt = new Date('2023-05-10').toISOString();
 
                     users = [user, userToExclude];

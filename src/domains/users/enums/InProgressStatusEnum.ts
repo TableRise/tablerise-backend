@@ -8,7 +8,7 @@ enum InProgressStatusEnum {
     WAIT_TO_START_PASSWORD_CHANGE = 'wait-to-start-password-change',
     WAIT_TO_FINISH_PASSWORD_CHANGE = 'wait-to-finish-password-change',
     WAIT_TO_DELETE_USER = 'wait-to-delete-user',
-    WAIT_TO_SECRET_QUESTION  ='wait-to-secret-question',
+    WAIT_TO_SECRET_QUESTION = 'wait-to-secret-question',
     DONE = 'done',
 }
 

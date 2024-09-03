@@ -375,63 +375,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
     });
 
-    context('#confirmEmail', () => {
-        const request = {} as Request;
-        const response = {} as Response;
-
-        beforeEach(() => {
-            response.status = sinon.spy(() => response);
-            response.json = sinon.spy(() => response);
-            response.end = sinon.spy(() => response);
-
-            createUserOperation = { execute: () => ({}) };
-            updateUserOperation = { execute: () => ({}) };
-            verifyEmailOperation = { execute: () => ({}) };
-            getUsersOperation = { execute: () => ({}) };
-            getUserByIdOperation = { execute: () => ({}) };
-            activateSecretQuestionOperation = { execute: () => ({}) };
-            updateSecretQuestionOperation = { execute: () => ({}) };
-            activateTwoFactorOperation = { execute: () => ({}) };
-            resetTwoFactorOperation = { execute: () => ({}) };
-            updateEmailOperation = { execute: () => ({}) };
-            updatePasswordOperation = { execute: () => ({}) };
-            updateGameInfoOperation = { execute: () => ({}) };
-            resetProfileOperation = { execute: () => ({}) };
-            pictureProfileOperation = { execute: () => ({}) };
-            deleteUserOperation = { execute: () => ({}) };
-            logoutUserOperation = { execute: () => ({}) };
-            loginUserOperation = { execute: () => ({}) };
-
-            usersController = new UsersController({
-                createUserOperation,
-                updateUserOperation,
-                verifyEmailOperation,
-                getUsersOperation,
-                getUserByIdOperation,
-                activateSecretQuestionOperation,
-                updateSecretQuestionOperation,
-                activateTwoFactorOperation,
-                resetTwoFactorOperation,
-                updateEmailOperation,
-                updatePasswordOperation,
-                updateGameInfoOperation,
-                resetProfileOperation,
-                pictureProfileOperation,
-                deleteUserOperation,
-                logoutUserOperation,
-                loginUserOperation,
-            });
-        });
-
-        it('should correctly call the methods and functions', async () => {
-            request.query = { email: 'test@email.com', code: '123' };
-            await usersController.confirmEmail(request, response);
-
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-            expect(response.end).to.have.been.called();
-        });
-    });
-
     context('#activateSecretQuestion', () => {
         const request = {} as Request;
         const response = {} as Response;

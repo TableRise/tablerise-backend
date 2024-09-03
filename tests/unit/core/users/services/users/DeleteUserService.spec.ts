@@ -27,7 +27,8 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                userUpdated.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
                 sinon.spy(usersRepository, 'update');
@@ -60,7 +61,8 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 code = HttpStatusCode.NOT_FOUND;
                 userDetails.gameInfo.campaigns = ['Lavanda'];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                userUpdated.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => {} };
 
@@ -90,7 +92,8 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.gameInfo.campaigns = ['1st Mission'];
                 userDetails.gameInfo.characters = ['Levi'];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                userUpdated.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
 

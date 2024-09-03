@@ -4,7 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import StateMachine from 'src/domains/users/StateMachine';
-import { StateMachineFlowKeys } from 'src/types/modules/domains/users/StateMachine';
+import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
@@ -47,7 +47,10 @@ export default class VerifyEmailCodeMiddleware {
         if (code !== userInDb.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        userInDb.inProgress.status = StateMachine(flow as StateMachineFlowKeys, userInDb.inProgress.status);
+        userInDb.inProgress.status = StateMachine(
+            flow as stateFlowsKeys,
+            userInDb.inProgress.status
+        );
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
@@ -60,8 +63,8 @@ export default class VerifyEmailCodeMiddleware {
             accountSecurityMethod: !userInDb.twoFactorSecret.active
                 ? 'secret-question'
                 : 'two-factor',
-            lastUpdate: userInDb.updatedAt
-        }
+            lastUpdate: userInDb.updatedAt,
+        };
 
         next();
     }

@@ -14,7 +14,10 @@ describe('When an user has the email changed', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_VERIFY, code: 'H45J7F' };
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
+                code: 'H45J7F',
+            };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);

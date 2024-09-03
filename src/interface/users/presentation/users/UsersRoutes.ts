@@ -45,7 +45,7 @@ export default class UsersRoutes {
                 parameters: [
                     ...generateQueryParam(2, [
                         { name: 'email', type: 'string' },
-                        { name: 'flow', type: 'string' }
+                        { name: 'flow', type: 'string' },
                     ]),
                 ],
                 controller: this._usersController.verifyEmail,
@@ -159,18 +159,15 @@ export default class UsersRoutes {
                     ...generateQueryParam(3, [
                         { name: 'email', type: 'string' },
                         { name: 'code', type: 'string' },
-                        { name: 'flow', type: 'string' }
-                    ])
+                        { name: 'flow', type: 'string' },
+                    ]),
                 ],
                 controller: this._usersController.internalAuthentication,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyEmailCodeMiddleware.verify
-                    ],
-                    tag: 'authorization',
-                    description: desc.emailCode
-                }
+                    middlewares: [this._verifyEmailCodeMiddleware.verify],
+                    tag: 'authentication',
+                    description: desc.emailCode,
+                },
             },
             {
                 method: 'patch',
@@ -189,7 +186,7 @@ export default class UsersRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.twoFactor,
                     ],
-                    tag: 'authorization',
+                    tag: 'management',
                     description: desc.activateQuestion,
                 },
             },
@@ -210,24 +207,8 @@ export default class UsersRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._authorizationMiddleware.secretQuestion,
                     ],
-                    tag: 'authorization',
+                    tag: 'management',
                     description: desc.updateSecretQuestion,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/confirm`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'code', type: 'string' },
-                    ]),
-                ],
-                controller: this._usersController.confirmEmail,
-                options: {
-                    middlewares: [this._verifyEmailCodeMiddleware.verify],
-                    tag: 'register',
-                    description: desc.confirm,
                 },
             },
             {
@@ -242,7 +223,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         this._authorizationMiddleware.secretQuestion,
                     ],
-                    tag: 'authorization',
+                    tag: 'management',
                     description: desc.activate2FA,
                 },
             },
@@ -260,7 +241,7 @@ export default class UsersRoutes {
                         this._verifyIdMiddleware,
                         this._authorizationMiddleware.twoFactor,
                     ],
-                    tag: 'authorization',
+                    tag: 'management',
                     description: desc.reset2FA,
                 },
             },
@@ -292,9 +273,7 @@ export default class UsersRoutes {
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
                 parameters: [
-                    ...generateQueryParam(1, [
-                        { name: 'email', type: 'string' }
-                    ]),
+                    ...generateQueryParam(1, [{ name: 'email', type: 'string' }]),
                 ],
                 options: {
                     tag: 'management',

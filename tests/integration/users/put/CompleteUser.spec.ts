@@ -15,7 +15,10 @@ describe('When an user has the account completed', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE, code: 'KJJH45' };
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
+                code: 'KJJH45',
+            };
             user.password = 'oauth';
             user.picture = null;
             user.nickname = null as unknown as string;

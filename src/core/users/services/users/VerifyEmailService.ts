@@ -1,8 +1,12 @@
-import { UserInstance, UserVerifyEmail } from 'src/domains/users/schemas/usersValidationSchema';
+import {
+    UserInstance,
+    UserVerifyEmail,
+} from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import StateMachine from 'src/domains/users/StateMachine';
 import { StateMachineFlowKeys } from 'src/types/modules/domains/users/StateMachine';
+import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailService {
     private readonly _usersRepository;
@@ -19,7 +23,10 @@ export default class VerifyEmailService {
         this._logger = logger;
     }
 
-    private async _send(user: UserInstance, flow: StateMachineFlowKeys): Promise<UserInstance> {
+    private async _send(
+        user: UserInstance,
+        flow: StateMachineFlowKeys
+    ): Promise<UserInstance> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
 
@@ -40,7 +47,7 @@ export default class VerifyEmailService {
         }
 
         user.inProgress = {
-            status: StateMachine(flow, user.inProgress.status),
+            status: StateMachine(flow as stateFlowsKeys, user.inProgress.status),
             code: emailSendResult.verificationCode as string,
         };
 

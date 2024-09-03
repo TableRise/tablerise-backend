@@ -18,8 +18,8 @@ const usersZodSchema = z.object({
 
 export const verifyEmailZodSchema = z.object({
     email: z.string().email(),
-    flow: z.enum(stateFlowsEnum.values)
-})
+    flow: z.enum(stateFlowsEnum.values),
+});
 
 export const emailUpdateZodSchema = z.object({
     email: z.string().email(),
@@ -44,7 +44,7 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     userId: string;
     providerId: string;
     inProgress: {
-        status: InProgressStatus,
+        status: InProgressStatus;
         code: string;
     };
     twoFactorSecret: {

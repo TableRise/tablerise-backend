@@ -6,8 +6,10 @@ import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword'
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import StateMachine from 'src/domains/users/StateMachine';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 const status = InProgressStatusEnum.enum;
+const flows = stateFlowsEnum.enum;
 
 export default class UpdatePasswordService {
     private readonly _usersRepository;
@@ -28,7 +30,10 @@ export default class UpdatePasswordService {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
 
         user.password = await SecurePasswordHandler.hashPassword(password);
-        user.inProgress.status = StateMachine('updatePassword', user.inProgress.status);
+        user.inProgress.status = StateMachine(
+            flows.UPDATE_PASSWORD,
+            user.inProgress.status
+        );
 
         return user;
     }
