@@ -27,26 +27,14 @@ describe('When an email is verified', () => {
 
         it('should verify and change status - email', async () => {
             await requester()
-                .get(`/users/verify?email=test@email.com`)
+                .get(`/users/verify?email=test@email.com&flow=update-password`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body } = await requester()
                 .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
-            expect(body.inProgress.status).to.be.equal('wait_to_verify');
-        });
-
-        it('should verify and change status - newEmail', async () => {
-            await requester()
-                .get(`/users/verify?newEmail=test2@email.com&email=test@email.com`)
-                .expect(HttpStatusCode.NO_CONTENT);
-
-            const { body } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
-
-            expect(body.inProgress.status).to.be.equal('wait_to_verify');
+            expect(body.inProgress.status).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE);
         });
     });
 });
