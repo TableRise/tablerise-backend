@@ -41,10 +41,14 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
                 const SwaggerDocumentUser = require('../../../../api-docs/swagger-doc-users.json');
 
-                router.use('/api-docs/users', swaggerUI.serve, (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentUser);
-                    res.send(html);
-                });
+                router.use(
+                    '/api-docs/users',
+                    swaggerUI.serve,
+                    (req: Request, res: Response) => {
+                        const html = swaggerUI.generateHTML(SwaggerDocumentUser);
+                        res.send(html);
+                    }
+                );
             })
             .catch((error: any) => {
                 console.log(error);
@@ -59,10 +63,14 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
                 const SwaggerDocumentCampaign = require('../../../../api-docs/swagger-doc-campaigns.json');
 
-                router.use('/api-docs/campaigns', swaggerUI.serve, (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
-                    res.send(html);
-                });
+                router.use(
+                    '/api-docs/campaigns',
+                    swaggerUI.serve,
+                    (req: Request, res: Response) => {
+                        const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
+                        res.send(html);
+                    }
+                );
             })
             .catch((error: any) => {
                 console.log(error);
