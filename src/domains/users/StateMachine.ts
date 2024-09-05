@@ -34,15 +34,5 @@ export default function StateMachine(
     }
 
     const stepIndex = selectFlow.findIndex((flowState) => flowState === status);
-    const nextStep = selectFlow[stepIndex + 1];
-
-    if (!selectFlow.includes(nextStep)) {
-        throw new HttpRequestErrors({
-            message: `Status [${nextStep}] and flow [${flow}] are not related`,
-            name: getErrorName(HttpStatusCode.BAD_REQUEST),
-            code: HttpStatusCode.BAD_REQUEST,
-        });
-    }
-
-    return nextStep;
+    return selectFlow[stepIndex + 1];
 }
