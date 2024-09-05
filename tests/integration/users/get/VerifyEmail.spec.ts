@@ -34,7 +34,9 @@ describe('When an email is verified', () => {
                 .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
-            expect(body.inProgress.status).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE);
+            expect(body.inProgress.status).to.be.equal(
+                InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE
+            );
         });
     });
 });

@@ -28,7 +28,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                         status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                         code: 'KLI44',
                     },
-                    twoFactorSecret: { active: true }
+                    twoFactorSecret: { active: true },
                 };
 
                 usersRepository = {
@@ -59,7 +59,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
             it('should call next - when has email', async () => {
                 delete request.params.id;
-                request.query = { email: 'test@email.com', code: 'KLI44', flow: 'update-password' };
+                request.query = {
+                    email: 'test@email.com',
+                    code: 'KLI44',
+                    flow: 'update-password',
+                };
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
@@ -81,7 +85,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                         status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                         code: 'KLI44',
                     },
-                    twoFactorSecret: { active: false }
+                    twoFactorSecret: { active: false },
                 };
 
                 usersRepository = {
@@ -112,7 +116,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
             it('should call next - when has email', async () => {
                 delete request.params.id;
-                request.query = { email: 'test@email.com', code: 'KLI44', flow: 'update-password' };
+                request.query = {
+                    email: 'test@email.com',
+                    code: 'KLI44',
+                    flow: 'update-password',
+                };
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 

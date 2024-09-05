@@ -34,7 +34,7 @@ describe('When an user has the password changed', () => {
                 .patch(`/users/update/password?email=${user.email}`)
                 .send({ password: 'TheWorld@123' })
                 .expect(HttpStatusCode.NO_CONTENT);
-            
+
             const userInDb = await model.findOne({ email: user.email });
             const isPasswordValid = await SecurePasswordHandler.comparePassword(
                 'TheWorld@123',

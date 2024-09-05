@@ -33,7 +33,11 @@ export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
 }) as any;
 
-export default function setup({ loadExt }: ContainerContract = { loadExt: process.env.NODE_ENV === 'develop' ? 'ts' : 'js' }): void {
+export default function setup(
+    { loadExt }: ContainerContract = {
+        loadExt: process.env.NODE_ENV === 'develop' ? 'ts' : 'js',
+    }
+): void {
     container.loadModules(
         [
             `./core/**/*.${loadExt}`,

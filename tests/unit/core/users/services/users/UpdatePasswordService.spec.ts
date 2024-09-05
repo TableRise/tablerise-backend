@@ -19,7 +19,8 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
         context('When update an user password with success', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
+                user.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
                 user.inProgress.code = '123456';
 
                 usersRepository = {

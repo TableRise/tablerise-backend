@@ -2,7 +2,9 @@ import DatabaseManagement from '@tablerise/database-management';
 import ErrorMiddleware from 'src/interface/common/middlewares/ErrorMiddleware';
 import UsersRoutesMiddleware from 'src/interface/users/middlewares/UsersRoutesMiddleware';
 import CampaignsRoutesMiddleware from 'src/interface/campaigns/middlewares/CampaignsRoutesMiddleware';
-import swaggerGenerator, { generateSwaggerFiles } from 'src/domains/common/helpers/swaggerGenerator';
+import swaggerGenerator, {
+    generateSwaggerFiles,
+} from 'src/domains/common/helpers/swaggerGenerator';
 import { Logger } from '../../Logger';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
 import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHeadersMiddleware';
