@@ -146,6 +146,12 @@ export interface Class {
     characteristics: ClassCharacteristics[];
 }
 
+export interface SubClass {
+    title: string;
+    description: string;
+    characteristics: ClassCharacteristics;
+}
+
 // Feat entity
 export interface Feat {
     name: string;
