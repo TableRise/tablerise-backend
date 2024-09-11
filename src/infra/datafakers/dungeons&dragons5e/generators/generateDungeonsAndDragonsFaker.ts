@@ -428,6 +428,14 @@ function createClassesFaker({
                         'Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon attack against that creature.',
                 },
             ],
+            subClass:[{
+                title:'Trail of the Beast',
+                description: 'Transform into a beast with deadly unarmed attacks.',
+                characteristics: [{
+                    title:'Shape of the Beast',
+                    description: 'You can transform, revealing the bestial power within you. Choose bite, claw or tail as your attack method',
+            }]
+        }]
         },
         pt: {
             name: 'Bárbaro',
@@ -642,6 +650,14 @@ function createClassesFaker({
                         'A partir do 14º nível, quando você sofrer dano de uma criatura que esteja a até 1.5 metros de você, você pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura.',
                 },
             ],
+            subClass:[{
+                title:'Trilha da Besta',
+                description: 'Transforme-se em uma besta com ataques desarmados mortais.',
+                characteristics: [{
+                    title:'Forma da Fera',
+                    description: 'Você pode se transformar, revelando o poder bestial dentro de você. Escolha mordida, garra ou cauda como forma de ataque'
+            }]
+        }]
         },
     };
 }
