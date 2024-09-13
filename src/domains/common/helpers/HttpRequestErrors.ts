@@ -95,6 +95,13 @@ export default class HttpRequestErrors extends Error {
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
 
+            case 'nickname-already-exist':
+                throw new HttpRequestErrors({
+                    message: 'Nickname already exists in database',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+
             case 'tag-already-exist':
                 throw new HttpRequestErrors({
                     message: 'User with this tag already exists in database',

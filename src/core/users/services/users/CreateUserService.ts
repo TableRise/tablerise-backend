@@ -40,10 +40,15 @@ export default class CreateUserService {
         const userDetailsSerialized = this._serializer.postUserDetails({});
 
         const userInDb = await this._usersRepository.find({
-            email: userSerialized.email,
+            $or: [{ email: userSerialized.email }, { nickname: userSerialized.nickname }],
         });
 
-        if (userInDb.length) HttpRequestErrors.throwError('email-already-exist');
+        if (userInDb.length) {
+            if (userInDb[0].email === userSerialized.email)
+                HttpRequestErrors.throwError('email-already-exist');
+            if (userInDb[0].nickname === userSerialized.nickname)
+                HttpRequestErrors.throwError('nickname-already-exist');
+        }
 
         return { userSerialized, userDetailsSerialized };
     }

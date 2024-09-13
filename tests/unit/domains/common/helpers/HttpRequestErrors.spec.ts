@@ -7,6 +7,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {
         unauthorized: 'Unauthorized',
         'email-already-exist': 'Email already exists in database',
+        'nickname-already-exist': 'Nickname already exists in database',
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',
         '2fa-no-active': '2FA not enabled for this user',
