@@ -17,7 +17,7 @@ describe('When an user has the account completed', () => {
             user.inProgress = { status: 'wait_to_complete', code: 'KJJH45' };
             user.password = 'oauth';
             user.picture = null;
-            user.nickname = null as unknown as string;
+            user.nickname = 'newUser' as unknown as string;
             user.providerId = newUUID();
 
             userDetails.secretQuestion = { question: 'oauth', answer: 'Google' };
