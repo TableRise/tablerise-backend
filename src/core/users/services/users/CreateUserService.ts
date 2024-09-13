@@ -43,12 +43,10 @@ export default class CreateUserService {
             $or: [{ email: userSerialized.email }, { nickname: userSerialized.nickname }],
         });
 
-        if (userInDb.length) {
-            if (userInDb[0].email === userSerialized.email)
-                HttpRequestErrors.throwError('email-already-exist');
-            if (userInDb[0].nickname === userSerialized.nickname)
-                HttpRequestErrors.throwError('nickname-already-exist');
-        }
+        if (userInDb[0]?.email === userSerialized.email)
+            HttpRequestErrors.throwError('email-already-exist');
+        if (userInDb[0]?.nickname === userSerialized.nickname)
+            HttpRequestErrors.throwError('nickname-already-exist');
 
         return { userSerialized, userDetailsSerialized };
     }

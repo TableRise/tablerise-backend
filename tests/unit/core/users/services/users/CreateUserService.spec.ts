@@ -59,7 +59,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             });
         });
 
-        context('When serialize with fails', () => {
+        context('When serialize with fails: Email already exists', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
@@ -92,6 +92,47 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
 
             it('should throw an error', async () => {
                 try {
+                    const userPayload = { ...user };
+
+                    await createUserService.serialize(userPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Email already exists in database');
+                    expect(err.name).to.be.equal('BadRequest');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
+
+        context('When serialize with fails: Nickname already exists', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                serializer = {
+                    postUser: () => user,
+                    postUserDetails: () => userDetails,
+                };
+
+                usersRepository = {
+                    find: () => [{ nickname: user.nickname }],
+                };
+
+                usersDetailsRepository = {};
+                emailSender = {};
+
+                createUserService = new CreateUserService({
+                    serializer,
+                    usersRepository,
+                    usersDetailsRepository,
+                    emailSender,
+                    logger,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
                     const userPayload = {
                         ...user,
                         details: userDetails,
@@ -101,7 +142,9 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Email already exists in database');
+                    expect(err.message).to.be.equal(
+                        'Nickname already exists in database'
+                    );
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
