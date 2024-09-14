@@ -10,7 +10,9 @@ const twoFactorSecretZodSchema = z.object({
 
 const usersZodSchema = z.object({
     email: z.string().email(),
-    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
+    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
+        message: 'Invalid password',
+    }),
     nickname: z.string().max(32),
 });
 
@@ -19,7 +21,9 @@ export const emailUpdateZodSchema = z.object({
 });
 
 export const passwordUpdateZodSchema = z.object({
-    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/),
+    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
+        message: 'Invalid password',
+    }),
 });
 
 export const updateUserZodSchema = z.object({
