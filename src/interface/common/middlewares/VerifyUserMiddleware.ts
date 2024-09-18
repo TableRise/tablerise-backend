@@ -6,7 +6,7 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 const FORBIDDEN_STATUS = [
     StateMachineProps.status.WAIT_TO_CONFIRM,
     StateMachineProps.status.WAIT_TO_DELETE_USER,
-    StateMachineProps.status.WAIT_TO_COMPLETE
+    StateMachineProps.status.WAIT_TO_COMPLETE,
 ];
 
 export default class VerifyUserMiddleware {

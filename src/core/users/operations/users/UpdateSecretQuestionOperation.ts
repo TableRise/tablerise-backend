@@ -22,7 +22,7 @@ export default class UpdateSecretQuestionOperation {
             userId,
             payload,
         });
-        
+
         await this._updateSecretQuestionService.save(userDetailsInDb);
     }
 }

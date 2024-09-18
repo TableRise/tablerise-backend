@@ -233,7 +233,9 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
+                    );
                 }
             });
         });

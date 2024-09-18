@@ -25,23 +25,23 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-    
+
                 user.inProgress.status = StateMachineProps.status.WAIT_TO_RESET_PROFILE;
-    
+
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = ['123'];
                 currentUserDetails.gameInfo.characters = ['123'];
-    
+
                 usersRepository = {
                     findOne: sinon.spy(() => user),
                     update: sinon.spy(),
                 };
-    
+
                 usersDetailsRepository = {
                     findOne: sinon.spy(() => currentUserDetails),
                     update: sinon.spy(),
                 };
-    
+
                 resetProfileService = new ResetProfileService({
                     usersRepository,
                     usersDetailsRepository,
@@ -49,7 +49,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     stateMachineProps: StateMachineProps,
                 });
             });
-    
+
             it('should call correct methods', async () => {
                 await resetProfileService.reset(userId);
                 expect(usersRepository.findOne).to.have.been.called();
@@ -68,23 +68,24 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-    
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
-    
+
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = ['123'];
                 currentUserDetails.gameInfo.characters = ['123'];
-    
+
                 usersRepository = {
                     findOne: sinon.spy(() => user),
                     update: sinon.spy(),
                 };
-    
+
                 usersDetailsRepository = {
                     findOne: sinon.spy(() => currentUserDetails),
                     update: sinon.spy(),
                 };
-    
+
                 resetProfileService = new ResetProfileService({
                     usersRepository,
                     usersDetailsRepository,
@@ -92,15 +93,19 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     stateMachineProps: StateMachineProps,
                 });
             });
-    
+
             it('should call correct methods', async () => {
                 try {
                     await resetProfileService.reset(userId);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

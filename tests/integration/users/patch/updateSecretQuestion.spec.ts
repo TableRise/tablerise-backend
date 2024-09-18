@@ -13,7 +13,10 @@ describe('When the user has secret question activated', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_UPDATE_SECRET_QUESTION, code: '' };
+        user.inProgress = {
+            status: InProgressStatusEnum.enum.WAIT_TO_UPDATE_SECRET_QUESTION,
+            code: '',
+        };
         userDetails.secretQuestion = {
             question: 'to-be-updated-question',
             answer: 'to-be-updated-answer',

@@ -136,8 +136,12 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

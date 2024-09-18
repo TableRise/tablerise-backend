@@ -357,8 +357,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
             const secretQuestion = {
                 question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
                 answer: 'red',
-                flow: 'update-password'
-
+                flow: 'update-password',
             };
 
             beforeEach(() => {
@@ -454,7 +453,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                 request.query = {
                     ...secretQuestion,
                     email: '123@email.com',
-                    flow: 'update-password'
+                    flow: 'update-password',
                 };
                 await authorizationMiddleware.secretQuestion(request, response, next);
 

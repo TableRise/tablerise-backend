@@ -286,7 +286,9 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect(err.message).to.be.equal(
                         'Some problem ocurred in email sending'
                     );
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.EXTERNAL_ERROR));
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.EXTERNAL_ERROR)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.EXTERNAL_ERROR);
                 }
             });

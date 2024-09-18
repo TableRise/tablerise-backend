@@ -13,7 +13,10 @@ describe('When the user has twoFactor activated', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_TWO_FACTOR, code: '' };
+        user.inProgress = {
+            status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_TWO_FACTOR,
+            code: '',
+        };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);

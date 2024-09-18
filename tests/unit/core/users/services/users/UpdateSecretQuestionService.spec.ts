@@ -24,7 +24,8 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: sinon.spy(() => user),
@@ -64,7 +65,8 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
                 userDetails.secretQuestion = null;
 
                 usersRepository = {

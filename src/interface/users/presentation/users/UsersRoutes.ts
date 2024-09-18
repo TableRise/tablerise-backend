@@ -235,7 +235,7 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [
                         this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false })
+                        passport.authenticate('cookie', { session: false }),
                     ],
                     tag: 'management',
                     description: desc.updateSecretQuestion,

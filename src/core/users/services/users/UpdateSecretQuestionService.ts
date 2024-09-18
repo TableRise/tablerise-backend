@@ -18,7 +18,7 @@ export default class UpdateSecretQuestionService {
     }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachineProps = stateMachineProps; 
+        this._stateMachineProps = stateMachineProps;
         this._logger = logger;
 
         this.update = this.update.bind(this);
@@ -40,7 +40,7 @@ export default class UpdateSecretQuestionService {
 
         userDetailsInDb.secretQuestion = {
             question: payload.question,
-            answer: payload.answer
+            answer: payload.answer,
         };
 
         userInDb.inProgress.status = StateMachine(
@@ -48,15 +48,13 @@ export default class UpdateSecretQuestionService {
             userInDb.inProgress.status
         );
 
-        return { user: userInDb , userDetails: userDetailsInDb };
+        return { user: userInDb, userDetails: userDetailsInDb };
     }
 
-    public async save(
-        fullUser: __FullUser
-    ): Promise<void> {
+    public async save(fullUser: __FullUser): Promise<void> {
         await this._usersRepository.update({
             query: { userId: fullUser.user.userId },
-            payload: fullUser.user
+            payload: fullUser.user,
         });
 
         await this._usersDetailsRepository.update({

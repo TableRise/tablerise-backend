@@ -28,7 +28,8 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
                 userDetails.userId = user.userId;
 
                 usersRepository = {
@@ -92,8 +93,12 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -104,7 +109,8 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 userDetails.userId = user.userId;
                 user.twoFactorSecret.active = true;

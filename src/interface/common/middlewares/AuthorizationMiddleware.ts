@@ -111,7 +111,7 @@ export default class AuthorizationMiddleware {
         const { email, flow } = req.query;
 
         const payload = (req.body as UserSecretQuestion) || {};
-        const query = (req.query as UserSecretQuestion);
+        const query = req.query as UserSecretQuestion;
 
         let userDetailsInDb = {} as UserDetailInstance;
         let userInDb = {} as UserInstance;

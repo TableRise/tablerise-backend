@@ -22,7 +22,8 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
+                user.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
 
                 updateEmailPayload = {
                     userId: user.userId,
@@ -102,8 +103,12 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -113,7 +118,8 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
+                user.inProgress.status =
+                    InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
 
                 updateEmailPayload = {
                     userId: user.userId,
