@@ -14,7 +14,7 @@ describe('When game info of an user is reset', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+            user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_RESET_PROFILE, code: '' };
 
             userDetails.gameInfo.badges = ['123'];
             userDetails.gameInfo.campaigns = ['123', '123', '123'];

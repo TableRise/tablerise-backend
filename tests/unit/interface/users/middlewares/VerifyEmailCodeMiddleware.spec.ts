@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
@@ -231,8 +232,8 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal('BadRequest');
+                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                 }
             });
         });

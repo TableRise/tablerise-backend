@@ -15,7 +15,7 @@ describe('When an user has the email changed', () => {
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
             user.inProgress = {
-                status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
+                status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                 code: 'H45J7F',
             };
 
@@ -25,7 +25,7 @@ describe('When an user has the email changed', () => {
 
         it('should update email with success', async () => {
             await requester()
-                .patch(`/users/${user.userId}/update/email?code=H45J7F&token=123456`)
+                .patch(`/users/${user.userId}/update/email`)
                 .send({ email: 'test155@email.com' })
                 .expect(HttpStatusCode.NO_CONTENT);
 

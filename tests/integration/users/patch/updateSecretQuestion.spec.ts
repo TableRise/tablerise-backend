@@ -13,7 +13,7 @@ describe('When the user has secret question activated', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_UPDATE_SECRET_QUESTION, code: '' };
         userDetails.secretQuestion = {
             question: 'to-be-updated-question',
             answer: 'to-be-updated-answer',
@@ -26,12 +26,8 @@ describe('When the user has secret question activated', () => {
     context('And all data is correct', () => {
         it('should update with success', async () => {
             const newSecretQuestion = {
-                question: 'to-be-updated-question',
-                answer: 'to-be-updated-answer',
-                new: {
-                    question: 'what-is-your-grandfather-last-name',
-                    answer: 'Marcus',
-                },
+                question: 'what-is-your-grandfather-last-name',
+                answer: 'Marcus',
             };
 
             const { body: userWithOldSecretQuestion } = await requester()
@@ -39,7 +35,7 @@ describe('When the user has secret question activated', () => {
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/users/${user.userId}/question/update?token=123456&isUpdate=true`)
+                .patch(`/users/${user.userId}/question/update`)
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
@@ -52,13 +48,13 @@ describe('When the user has secret question activated', () => {
                 active: false,
             });
             expect(userWithNewQuestion.details.secretQuestion.answer).to.be.equal(
-                newSecretQuestion.new.answer
-            );
-            expect(userWithNewQuestion.details.secretQuestion.answer).to.be.not.equal(
                 newSecretQuestion.answer
             );
+            expect(userWithNewQuestion.details.secretQuestion.answer).to.be.not.equal(
+                userDetails.secretQuestion?.answer
+            );
             expect(userWithNewQuestion.details.secretQuestion.question).to.be.equal(
-                newSecretQuestion.new.question
+                newSecretQuestion.question
             );
             expect(userWithNewQuestion.updatedAt).to.be.not.equal(
                 userWithOldSecretQuestion.updatedAt

@@ -1,9 +1,9 @@
+import StateMachine from 'src/domains/common/StateMachine';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import StateMachine from 'src/domains/users/StateMachine';
 
 describe('Domains :: User :: StateMachine', () => {
     context('When a flow is used in StateMachine', () => {
@@ -20,6 +20,13 @@ describe('Domains :: User :: StateMachine', () => {
                     StateMachine(
                         stateFlowsEnum.enum.UPDATE_PASSWORD,
                         InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE
+                    )
+                ).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH);
+
+                expect(
+                    StateMachine(
+                        stateFlowsEnum.enum.UPDATE_PASSWORD,
+                        InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH
                     )
                 ).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE);
 

@@ -5,13 +5,13 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import { StateMachineProps } from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
     let updatePasswordService: UpdatePasswordService,
         usersRepository: any,
         user: UserInstance,
-        payload: any,
-        httpRequestErrors: HttpRequestErrors;
+        payload: any;
 
     const logger = (): void => {};
 
@@ -36,7 +36,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
 
                 updatePasswordService = new UpdatePasswordService({
                     usersRepository,
-                    httpRequestErrors,
+                    stateMachineProps: StateMachineProps,
                     logger,
                 });
             });
@@ -64,7 +64,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
 
                 updatePasswordService = new UpdatePasswordService({
                     usersRepository,
-                    httpRequestErrors,
+                    stateMachineProps: StateMachineProps,
                     logger,
                 });
             });

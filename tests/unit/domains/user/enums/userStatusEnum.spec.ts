@@ -10,6 +10,16 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'WAIT_TO_FINISH_PASSWORD_CHANGE',
         'WAIT_TO_DELETE_USER',
         'WAIT_TO_SECRET_QUESTION',
+        'WAIT_TO_SECOND_AUTH',
+        'WAIT_TO_ACTIVATE_SECRET_QUESTION',
+        'WAIT_TO_UPDATE_SECRET_QUESTION',
+        'WAIT_TO_ACTIVATE_TWO_FACTOR',
+        'WAIT_TO_START_RESET_TWO_FACTOR',
+        'WAIT_TO_FINISH_RESET_TWO_FACTOR',
+        'WAIT_TO_START_EMAIL_CHANGE',
+        'WAIT_TO_FINISH_EMAIL_CHANGE',
+        'WAIT_TO_RESET_PROFILE',
+        'WAIT_TO_FINISH_DELETE_USER',
         'DONE',
     ];
     const enumValuesFixed = [
@@ -21,6 +31,16 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'wait-to-finish-password-change',
         'wait-to-delete-user',
         'wait-to-secret-question',
+        'wait-to-second-auth',
+        'wait-to-activate-secret-question',
+        'wait-to-update-secret-question',
+        'wait-to-activate-two-factor',
+        'wait-to-start-reset-two-factor',
+        'wait-to-finish-reset-two-factor',
+        'wait-to-start-email-change',
+        'wait-to-finish-email-change',
+        'wait-to-reset-profile',
+        'wait-to-finish-delete-user',
         'done',
     ];
 

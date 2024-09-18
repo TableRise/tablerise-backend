@@ -17,7 +17,7 @@ describe('When the user has secret question activated', () => {
             answer: 'Silvera',
         };
         userDetails.secretQuestion = secretQuestion;
-        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_SECRET_QUESTION, code: '' };
         user.twoFactorSecret = { active: true, qrcode: '' };
 
         await InjectNewUser(user);
@@ -28,7 +28,7 @@ describe('When the user has secret question activated', () => {
         it('should activate with success', async () => {
             await requester()
                 .patch(
-                    `/users/${user.userId}/question/activate?token=123456&isUpdate=false`
+                    `/users/${user.userId}/question/activate`
                 )
                 .send(secretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);

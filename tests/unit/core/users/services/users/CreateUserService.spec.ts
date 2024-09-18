@@ -5,6 +5,7 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Users :: Services :: CreateUserService', () => {
     let createUserService: CreateUserService,
@@ -285,8 +286,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect(err.message).to.be.equal(
                         'Some problem ocurred in email sending'
                     );
-                    expect(err.name).to.be.equal('BadRequest');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.EXTERNAL_ERROR));
+                    expect(err.code).to.be.equal(HttpStatusCode.EXTERNAL_ERROR);
                 }
             });
         });

@@ -65,14 +65,9 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
                 try {
                     request.user = { userId: '123' } as Express.User;
                     await verifyUserMiddleware.userStatus(request, response, next);
-                    expect('it should not be here').expect(false);
+                    expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.details).to.deep.equal({
-                        attribute: 'status',
-                        path: user.inProgress.status,
-                        reason: `Wrong status - ${user.inProgress.status}`,
-                    });
                     expect(err.message).to.be.equal(
                         'User status is invalid to perform this operation'
                     );

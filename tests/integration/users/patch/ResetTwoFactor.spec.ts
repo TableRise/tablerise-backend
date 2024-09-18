@@ -13,7 +13,7 @@ describe('When the user has twoFactor reset', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_FINISH_RESET_TWO_FACTOR, code: '' };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);
@@ -22,7 +22,7 @@ describe('When the user has twoFactor reset', () => {
     context('And all data is correct', () => {
         it('should reset with success', async () => {
             const { body: twoFactorResponse } = await requester()
-                .patch(`/users/${user.userId}/2fa/reset?token=123456`)
+                .patch(`/users/${user.userId}/2fa/reset`)
                 .expect(HttpStatusCode.OK);
 
             expect(twoFactorResponse).to.have.property('qrcode');
