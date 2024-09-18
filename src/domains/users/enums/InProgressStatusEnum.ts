@@ -9,6 +9,16 @@ enum InProgressStatusEnum {
     WAIT_TO_FINISH_PASSWORD_CHANGE = 'wait-to-finish-password-change',
     WAIT_TO_DELETE_USER = 'wait-to-delete-user',
     WAIT_TO_SECRET_QUESTION = 'wait-to-secret-question',
+    WAIT_TO_SECOND_AUTH = 'wait-to-second-auth',
+    WAIT_TO_ACTIVATE_SECRET_QUESTION = 'wait-to-activate-secret-question',
+    WAIT_TO_UPDATE_SECRET_QUESTION = 'wait-to-update-secret-question',
+    WAIT_TO_ACTIVATE_TWO_FACTOR = 'wait-to-activate-two-factor',
+    WAIT_TO_START_RESET_TWO_FACTOR = 'wait-to-start-reset-two-factor',
+    WAIT_TO_FINISH_RESET_TWO_FACTOR = 'wait-to-finish-reset-two-factor',
+    WAIT_TO_START_EMAIL_CHANGE = 'wait-to-start-email-change',
+    WAIT_TO_FINISH_EMAIL_CHANGE = 'wait-to-finish-email-change',
+    WAIT_TO_RESET_PROFILE = 'wait-to-reset-profile',
+    WAIT_TO_FINISH_DELETE_USER = 'wait-to-finish-delete-user',
     DONE = 'done',
 }
 

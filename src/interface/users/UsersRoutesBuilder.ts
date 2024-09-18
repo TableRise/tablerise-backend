@@ -11,6 +11,8 @@ const ROUTES_WITH_NO_VERIFY = [
     '/verify',
     '/:id/delete',
     '/authenticate/email',
+    '/authenticate/2fa',
+    '/authenticate/secret-question',
     '/update/password',
 ];
 

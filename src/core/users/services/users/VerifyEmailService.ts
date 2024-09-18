@@ -4,7 +4,7 @@ import {
 } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import StateMachine from 'src/domains/users/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 import { StateMachineFlowKeys } from 'src/types/modules/domains/users/StateMachine';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 

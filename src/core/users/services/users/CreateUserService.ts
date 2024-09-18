@@ -78,7 +78,7 @@ export default class CreateUserService {
         userDetails.lastName = '';
         userDetails.pronoun = '';
         userDetails.biography = '';
-        userDetails.secretQuestion = null;
+        userDetails.secretQuestion = { question: 'default', answer: 'default' };
         userDetails.birthday = '';
         userDetails.gameInfo = {
             campaigns: [],

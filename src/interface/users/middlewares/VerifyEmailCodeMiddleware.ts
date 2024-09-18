@@ -3,7 +3,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import StateMachine from 'src/domains/users/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailCodeMiddleware {

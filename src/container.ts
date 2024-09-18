@@ -26,6 +26,9 @@ import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
 import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
+import { StateMachineProps } from './domains/common/StateMachine';
+import LoginPassport from './interface/users/strategies/LocalStrategy';
+import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -72,6 +75,10 @@ export default function setup(
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),
 
+        // #Strategies
+        loginPassport: asClass(LoginPassport).singleton(),
+        authenticatePassport: asClass(AuthenticatePassport).singleton(),
+
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),
         emailSender: asClass(EmailSender).singleton(),
@@ -98,6 +105,7 @@ export default function setup(
 
         // #Values
         emailType: asValue('common'),
+        stateMachineProps: asValue(StateMachineProps),
 
         // #Function Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
