@@ -150,7 +150,7 @@ export interface Class {
     equipment: Equipment[];
     levelingSpecs: LevelingSpecs;
     characteristics: ClassCharacteristics[];
-    subClass: SubClass[]
+    subClass: SubClass[];
 }
 
 // Feat entity
