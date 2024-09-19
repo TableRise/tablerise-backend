@@ -1,40 +1,37 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import StateMachine from 'src/domains/common/StateMachine';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class DeleteUserService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _stateMachineProps;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
+        stateMachineProps,
         logger,
     }: UserCoreDependencies['deleteUserServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._stateMachineProps = stateMachineProps;
         this._logger = logger;
 
         this.delete = this.delete.bind(this);
-        this._changeInProgresStatusToDelete.bind(this);
-    }
-
-    private _changeInProgresStatusToDelete(user: UserInstance): UserInstance {
-        this._logger(
-            'info',
-            `ChangeInProgesStatusToDelete - User InProgress Status change to wait_to_delete`
-        );
-        user.inProgress.status = 'wait_to_delete';
-        return user;
     }
 
     public async delete(userId: string): Promise<void> {
         this._logger('info', `Delete - DeleteUserService - ReceivedID is ${userId}`);
+        const { status, flows } = this._stateMachineProps;
+
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
 
         if (!userInDb || !userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
+        if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_DELETE_USER)
+            HttpRequestErrors.throwError('invalid-user-status');
         if (
             userDetailInDb.gameInfo.campaigns.length ||
             userDetailInDb.gameInfo.characters.length
@@ -42,10 +39,14 @@ export default class DeleteUserService {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 
-        let userUpdated = this._changeInProgresStatusToDelete(userInDb);
-        userUpdated = await this._usersRepository.update({
+        userInDb.inProgress.status = StateMachine(
+            flows.DELETE_PROFILE,
+            userInDb.inProgress.status
+        );
+
+        const userUpdated = await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userUpdated,
+            payload: userInDb,
         });
 
         this._logger(

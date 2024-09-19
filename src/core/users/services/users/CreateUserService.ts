@@ -8,6 +8,7 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class CreateUserService {
     private readonly _usersRepository;
@@ -62,7 +63,7 @@ export default class CreateUserService {
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = await SecurePasswordHandler.hashPassword(user.password);
-        user.inProgress = { status: 'wait_to_confirm', code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM, code: '' };
         user.twoFactorSecret = { active: false };
         user.picture = {
             link: 'https://i.imgur.com/WxNkK7J.png',
@@ -77,7 +78,7 @@ export default class CreateUserService {
         userDetails.lastName = '';
         userDetails.pronoun = '';
         userDetails.biography = '';
-        userDetails.secretQuestion = null;
+        userDetails.secretQuestion = { question: 'default', answer: 'default' };
         userDetails.birthday = '';
         userDetails.gameInfo = {
             campaigns: [],

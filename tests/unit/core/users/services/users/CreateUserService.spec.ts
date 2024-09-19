@@ -4,6 +4,8 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Users :: Services :: CreateUserService', () => {
     let createUserService: CreateUserService,
@@ -119,7 +121,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.createdAt = null as unknown as string;
                 user.updatedAt = null as unknown as string;
                 user.password = 'testepwd@';
-                user.inProgress = { status: 'done', code: '' };
+                user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
                 user.twoFactorSecret = { active: true };
 
@@ -168,7 +170,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.createdAt = null as unknown as string;
                 user.updatedAt = null as unknown as string;
                 user.password = 'testepwd@';
-                user.inProgress = { status: 'done', code: '' };
+                user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
 
                 serializer = {};
@@ -284,8 +286,10 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect(err.message).to.be.equal(
                         'Some problem ocurred in email sending'
                     );
-                    expect(err.name).to.be.equal('BadRequest');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.EXTERNAL_ERROR)
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.EXTERNAL_ERROR);
                 }
             });
         });

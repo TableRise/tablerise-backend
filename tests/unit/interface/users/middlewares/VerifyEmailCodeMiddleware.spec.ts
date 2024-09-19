@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import sinon from 'sinon';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
@@ -24,9 +26,10 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 user = {
                     userId: '123',
                     inProgress: {
-                        status: 'wait_to_verify',
+                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                         code: 'KLI44',
                     },
+                    twoFactorSecret: { active: true },
                 };
 
                 usersRepository = {
@@ -42,11 +45,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
             it('should call next - when has ID', async () => {
                 request.params = { id: '123' };
-                request.query = { code: 'KLI44' };
+                request.query = { code: 'KLI44', flow: 'update-password' };
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = 'done';
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
@@ -57,11 +60,72 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
             it('should call next - when has email', async () => {
                 delete request.params.id;
-                request.query = { email: 'test@email.com', code: 'KLI44' };
+                request.query = {
+                    email: 'test@email.com',
+                    code: 'KLI44',
+                    flow: 'update-password',
+                };
 
                 await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = 'done';
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+
+                expect(usersRepository.update).to.have.been.calledWith({
+                    query: { userId: '123' },
+                    payload: user,
+                });
+                expect(next).to.have.been.called();
+            });
+        });
+
+        context('And params are correct - user has secret question', () => {
+            beforeEach(() => {
+                user = {
+                    userId: '123',
+                    inProgress: {
+                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                        code: 'KLI44',
+                    },
+                    twoFactorSecret: { active: false },
+                };
+
+                usersRepository = {
+                    findOne: () => user,
+                    update: sinon.spy(),
+                };
+
+                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                    usersRepository,
+                    logger,
+                });
+            });
+
+            it('should call next - when has ID', async () => {
+                request.params = { id: '123' };
+                request.query = { code: 'KLI44', flow: 'update-password' };
+
+                await verifyEmailCodeMiddleware.verify(request, response, next);
+
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+
+                expect(usersRepository.update).to.have.been.calledWith({
+                    query: { userId: '123' },
+                    payload: user,
+                });
+                expect(next).to.have.been.called();
+            });
+
+            it('should call next - when has email', async () => {
+                delete request.params.id;
+                request.query = {
+                    email: 'test@email.com',
+                    code: 'KLI44',
+                    flow: 'update-password',
+                };
+
+                await verifyEmailCodeMiddleware.verify(request, response, next);
+
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
                 expect(usersRepository.update).to.have.been.calledWith({
                     query: { userId: '123' },
@@ -146,7 +210,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 usersRepository = {
                     findOne: () => ({
                         inProgress: {
-                            status: 'wait_to_verify',
+                            status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
                             code: 'KLI44',
                         },
                     }),
@@ -168,43 +232,10 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal('BadRequest');
-                }
-            });
-        });
-
-        context('And params are correct - but status is invalid', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: 'done',
-                            code: 'KLI44',
-                        },
-                    }),
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI00' };
-
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
+                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
                     );
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal('BadRequest');
                 }
             });
         });

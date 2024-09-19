@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./build/src/server.js",
         "build": "tsc",
-        "local": "npm run build && npm start",
+        "local": "npx nodemon ./src/server.ts",
         "test": "npm run test:unit && npm run test:integration",
         "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
         "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration --timeout 10000 tests/integration/**/*.spec.ts --exit",
