@@ -75,7 +75,6 @@ export default class UsersController {
         this.getUserById = this.getUserById.bind(this);
         this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
         this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
-        this.confirmEmail = this.confirmEmail.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
@@ -97,6 +96,10 @@ export default class UsersController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
+    public async internalAuthentication(req: Request, res: Response): Promise<Response> {
+        return res.status(HttpStatusCode.OK).json(res.locals);
+    }
+
     public async update(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body as RegisterUserPayload;
@@ -108,9 +111,9 @@ export default class UsersController {
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
-        const { email } = req.query as unknown as VerifyEmailPayload;
+        const { email, flow } = req.query as unknown as VerifyEmailPayload;
 
-        await this._verifyEmailOperation.execute({ email });
+        await this._verifyEmailOperation.execute({ email, flow });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
@@ -160,10 +163,6 @@ export default class UsersController {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
-    public async confirmEmail(req: Request, res: Response): Promise<Response> {
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
@@ -187,10 +186,10 @@ export default class UsersController {
     }
 
     public async updatePassword(req: Request, res: Response): Promise<Response> {
-        const { email, code } = req.query as { email: string; code: string };
+        const { email } = req.query as { email: string };
         const { password } = req.body;
 
-        await this._updatePasswordOperation.execute({ email, code, password });
+        await this._updatePasswordOperation.execute({ email, password });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

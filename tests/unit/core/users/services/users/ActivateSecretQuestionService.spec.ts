@@ -6,12 +6,14 @@ import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
+import { StateMachineProps } from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
     let activateSecretQuestionService: ActivateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,
         user: UserInstance,
+        details: UserDetailInstance,
         payload: any,
         userDetails: UserDetailInstance;
 
@@ -22,7 +24,11 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
+
                 payload = {
                     question: 'newQuestion',
                     answer: 'newAnswer',
@@ -39,6 +45,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
+                    stateMachineProps: StateMachineProps,
                 });
             });
 
@@ -48,15 +55,19 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     payload,
                 });
 
-                expect(user.twoFactorSecret.active).to.be.equal(false);
+                expect(user.user.twoFactorSecret.active).to.be.equal(false);
             });
         });
 
-        context('When activate an user secret question fail', () => {
+        context('When activate an user secret question fail - User not exists', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
+
                 payload = {
                     question: 'newQuestion',
                     answer: 'newAnswer',
@@ -69,6 +80,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
+                    stateMachineProps: StateMachineProps,
                 });
             });
 
@@ -89,55 +101,61 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
             });
         });
 
-        context('When activate an user secret question fail', () => {
+        context('When activate an user secret question fail - Wrong user status', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                user.inProgress.status = StateMachineProps.status.WAIT_TO_COMPLETE;
                 userDetails.userId = user.userId;
-                userDetails.secretQuestion = null;
+
                 payload = {
                     question: 'newQuestion',
                     answer: 'newAnswer',
                 };
+
                 usersRepository = {
-                    findOne: () => user,
+                    findOne: sinon.spy(() => user),
                 };
 
-                usersDetailsRepository = {
-                    findOne: sinon.spy(() => userDetails),
-                };
                 activateSecretQuestionService = new ActivateSecretQuestionService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
+                    stateMachineProps: StateMachineProps,
                 });
             });
 
-            it('should throw an error if - incorrect-secret-question', async () => {
+            it('should throw an error if user is missing - user-inexistent', async () => {
                 try {
                     await activateSecretQuestionService.activate({
                         userId: '123',
                         payload,
                     });
                     expect(usersRepository.findOne).to.have.been.called();
-                    expect(usersDetailsRepository.findOne).to.have.been.called();
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Secret question is incorrect');
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNAUTHORIZED)
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
                     );
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
         });
 
-        context('When activate an user secret question fail', () => {
+        context('When activate an user secret question fail - Missing payload', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                user.inProgress.status =
+                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
+
                 payload = null;
                 usersRepository = {
                     findOne: () => user,
@@ -150,6 +168,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
+                    stateMachineProps: StateMachineProps,
                 });
             });
 
@@ -166,32 +185,43 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                         'Structure of new for new question and answer is missing'
                     );
                     expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
                     );
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });
         });
     });
+
     context('#save', () => {
         context('When save an user secret question with success', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
+                details = DomainDataFaker.generateUserDetailsJSON()[0];
+
                 user.twoFactorSecret.active = false;
 
                 usersRepository = {
                     update: sinon.spy(() => user),
                 };
 
+                usersDetailsRepository = {
+                    update: sinon.spy(() => details),
+                };
+
                 activateSecretQuestionService = new ActivateSecretQuestionService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
+                    stateMachineProps: StateMachineProps,
                 });
             });
 
             it('should return the correct result', async () => {
-                const twoFactorSecret = await activateSecretQuestionService.save(user);
+                const twoFactorSecret = await activateSecretQuestionService.save({
+                    user,
+                    details,
+                });
 
                 expect(usersRepository.update).to.have.been.called();
                 expect(twoFactorSecret.active).to.be.equal(false);

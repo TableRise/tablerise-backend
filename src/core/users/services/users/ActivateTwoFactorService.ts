@@ -2,21 +2,25 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { TwoFactorResponse } from 'src/types/api/users/http/response';
 import { __FullUser } from 'src/types/api/users/methods';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import StateMachine from 'src/domains/common/StateMachine';
 
 export default class ActivateTwoFactorService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _stateMachineProps;
     private readonly _twoFactorHandler;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
+        stateMachineProps,
         twoFactorHandler,
         logger,
     }: UserCoreDependencies['activateTwoFactorServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._stateMachineProps = stateMachineProps;
         this._twoFactorHandler = twoFactorHandler;
         this._logger = logger;
 
@@ -26,8 +30,12 @@ export default class ActivateTwoFactorService {
 
     public async activate(userId: string, isReset: boolean = false): Promise<__FullUser> {
         this._logger('info', 'Activate - ActivateTwoFactorService');
+        const { status, flows } = this._stateMachineProps;
+
         const userInDb = await this._usersRepository.findOne({ userId });
 
+        if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_TWO_FACTOR)
+            HttpRequestErrors.throwError('invalid-user-status');
         if (userInDb.twoFactorSecret.active)
             HttpRequestErrors.throwError('2fa-already-active');
 
@@ -38,6 +46,11 @@ export default class ActivateTwoFactorService {
         });
 
         userDetailInDb.secretQuestion = null;
+
+        userInDb.inProgress.status = StateMachine(
+            flows.ACTIVATE_TWO_FACTOR,
+            userInDb.inProgress.status
+        );
 
         return { user: userInDb, userDetails: userDetailInDb };
     }

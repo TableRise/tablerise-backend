@@ -7,6 +7,7 @@ import requester from 'tests/support/requester';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('When a campaign is created', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -18,7 +19,7 @@ describe('When a campaign is created', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: 'done', code: '' };
+            user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
