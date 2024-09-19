@@ -5,10 +5,10 @@
             "name": "Dwarf",
             "description": "Your dwarf character has an assortment of inborn abilities, part and parcel of dwarven nature.",
             "tale": "Where is my boot? I need to go to the mines to check on the progress of the Ruby extraction, said the Dwarf King to the Queen, who was reading a letter directly from the Elven Kingdom. My love, the Queen said, the Elf King is requesting a visit to our kingdom to negotiate some diamond mines. Do these pointy-eared ones think our things are for sale whenever they want? That's not how things work! - Bornovok III, King of the Dwarf Kingdom, holder of the Avirath orb.\n\nDwarves are an incredibly resilient race, known for their mining abilities. Dwarves are widely sought after for dealing with weapons, jewelry, and other magical tools, as they possess vast reserves of magical items and extensive knowledge of weapon crafting and other objects.\n\nThe Dwarf Kingdom is incredibly beautiful, with its castle being a tourist attraction for people from all over the world. It is said that the throne room of this castle is entirely made of pure gold, and the throne itself is constructed from ruby and diamond stones!\n\nAlthough they are extremely serious when it comes to mining and their creations, dwarves (for the most part) are very kind to those who are kind to them. But make no mistake, they know how to defend themselves, and if there's a people who can wreak havoc with magical weapons when provoked, it's the dwarf people.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Constitution",
                 "value": 2
-            }],
+            },
             "ageMax": 350,
             "alignment": ["lawful", "good"],
             "heightMax": 1.2,
@@ -20,10 +20,10 @@
                 {
                     "name": "Hill Dwarf",
                     "description": "Hill Dwarves are remarkably resilient and wise. Their lives in the hills of the kingdom make them excellent explorers, which gives these dwarves a strong instinct for survival and intuition.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Wisdom",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Dwarven Toughness",
@@ -34,10 +34,10 @@
                 {
                     "name": "Mystic Dwarf",
                     "description": "Mystic Dwarves are well-versed in the magical arts. Over time, these dwarves have separated themselves from the others as they have no interest in mining or craftsmanship, but rather in using the products of these activities for study and, for some, power.\n\nBecause their studies and practice of magic are their main focus, these dwarves are generally slightly weaker and have a maximum average weight of 50 kg.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Intelligence",
                         "value": 2
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Lack of Strength",
@@ -78,10 +78,10 @@
             "name": "Anão",
             "description": "Seu personagem anão possui um conjunto de habilidades inatas, parte integrante da natureza dos anões.",
             "tale": "Onde está minha bota? Preciso ir às minas verificar o andamento da extração de Rubi, disse o Rei Anão para a Rainha, que estava lendo uma carta vinda diretamente do Reino dos Elfos. Meu amor, disse a Rainha, o Rei Elfo está solicitando uma visita ao nosso reino para negociar algumas minas de diamante. Esses orelhas pontudas acham que nossas coisas estão à venda sempre que desejam? Não é assim que as coisas funcionam! - Bornovok III, Rei do Reino Anão, portador da orbe de Avirath.\n\nOs anões são uma raça incrivelmente resiliente, conhecida por suas habilidades em mineração. Os anões são amplamente procurados para lidar com armas, joias e outras ferramentas mágicas, pois possuem vastas reservas de itens mágicos e amplo conhecimento em confecção de armas e outros objetos.\n\nO Reino Anão é incrivelmente bonito, sendo seu castelo uma atração turística para pessoas de todo o mundo. Dizem que a sala do trono deste castelo é inteiramente feita de ouro puro, e o trono em si é construído a partir de pedras de rubi e diamante!\n\nEmbora sejam extremamente sérios quando se trata de mineração e suas criações, os anões (na maioria das vezes) são muito gentis com aqueles que são gentis com eles. Mas não se engane, eles sabem se defender, e se há um povo que pode causar estragos com armas mágicas quando provocados, são os anões.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Constituição",
                 "value": 2
-            }],
+            },
             "ageMax": 350,
             "alignment": ["leal", "bom"],
             "heightMax": 1.2,
@@ -93,10 +93,10 @@
                 {
                     "name": "Anão da Colina",
                     "description": "Anões da colina são notavelmente resistentes e sábios. Sua vida nas colinas do reino os coloca à frente no quesito exploração, o que dá a esses anões um grande instinto de sobrevivência e intuição.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Sabedoria",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Resistência Anã",
@@ -107,10 +107,10 @@
                 {
                     "name": "Anão Místico",
                     "description": "Anões místicos são versados nas artes mágicas. Com o tempo, esses anões se separaram dos demais, pois não têm interesse em mineração ou artesanato, mas sim em utilizar os produtos dessas atividades para estudo e, para alguns, poder.\n\nPor terem os estudos e prática da magia como seu foco principal, esses anões geralmente são um pouco mais fracos e têm um peso médio máximo de 50 kg.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Inteligência",
                         "value": 2
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Falta de Força Anã",
@@ -154,10 +154,10 @@
             "name": "Elf",
             "description": "Your elf character has a variety of natural abilities, the result of thousands of years of elven refinement.",
             "tale": "Never has there been, there isn't, and there never will be a race as evolved as us Elves, said the elder to the Elven child sitting near his feet. She turned and asked, But then why don't we dominate everyone, great elder? Why don't we make everyone our subjects and show our strength? That way, no one would ever mess with us again! said the child with a piercing look. The elder took a breath, looked at the child, and calmly responded, saying among other things: \"Everyone believes that war is the solution. The bad part is being alive after it ends to realize that it was the problem\".\n\nThis elder was none other than Illithys, the great mage who saved all the kingdoms in the war of Ahktur, a war that was responsible for redefining the concept of magic among the realms. Elves have always been patient and very dedicated; their long lifespan allows them to analyze life from a different and less alarmist perspective.\n\nThe Elven Kingdom would easily be considered a mirage or a figment of imagination if some unsuspecting person found it. Floating statues and well-dressed soldiers adorned the landscape. Knowledge and personal improvement are some of the laws among the Elves, where reaching death having been the best version of oneself is the greatest achievement they could strive for.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Dexterity",
                 "value": 2
-            }],
+            },
             "ageMax": 750,
             "alignment": ["chaotic", "good"],
             "heightMax": 1.8,
@@ -169,10 +169,10 @@
                 {
                     "name": "High Elf",
                     "description": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Intelligence",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Elf Weapon Training",
@@ -191,10 +191,10 @@
                 {
                     "name": "Arcane Elf",
                     "description": "Arcane Elves are known for their high manipulation of magic and follow an ancient belief that elves are the guardians of magic in the world. They have grayish skin and are almost entirely slim and tall. It is well known in the Elven Kingdom that Arcane Elves consider themselves superior to their peers because they do not rely on external tools to augment their power.\n\nThis type of elf rarely or almost never uses amulets or symbols as power conduits, as they believe that doing so symbolizes the weakening of the purity of elven magic.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Charism",
                         "value": 2
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Pure Magic",
@@ -213,10 +213,10 @@
                 {
                     "name": "Warrior Elf",
                     "description": "Warrior Elves have specialized over time in imbuing their magic into weapons to maximize their potential in battle. They are respected by common elves and high elves but are despised by and have a millennia-old feud with Arcane Elves, which extends from the population to politics. These warriors are generally a bit shorter in stature, resembling humans, and are extremely fearless.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Intelligence",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Elven Vitality",
@@ -257,10 +257,10 @@
             "name": "Elfo",
             "description": "Seu personagem elfo possui uma variedade de habilidades naturais, resultado de milhares de anos de refinamento élfico.",
             "tale": "Não existiram, não existem e nunca existirá uma raça tão evoluída quanto nós Elfos, disse o ancião a criança Élfica sentada próxima a seus pés, ela se vira e pergunta, mas porque então não dominamos a todos grande ancião? Porque não fazemos de todos nossos súditos e mostramos nossa força? Assim nunca mais mexeriam conosco! Diz a criança com um olhar penetrante, o ancião respira, olha para a criança e calmamente responde, dizendo entre outras coisas: \"Todos acreditam que a guerra é a solução, a parte ruim é estar vivo após ela acabar pra perceber que ela foi o problema\".\n\nEste ancião era ninguém menos que Illithys, o grande mago que salvou todos os reinos na guerra de Ahktur, guerra essa que foi responsável por redefinir o conceito de magia entre os reinos, Elfos sempre foram pacientes e muito dedicados, o longo tempo de vida deles os permite analisar a vida de um olhar diferente e menos alarmista.\n\nO Reino dos Elfos seria considerado facilmente uma miragem ou fruto de imaginação caso algum desavisado o encontrasse, estatuas flutuantes e soldados bem trajados, o conhecimento e aprimoramento pessoal é uma das leis dos Elfos, onde chegar até a morte tendo sido o melhor de si mesmo é o melhor que poderiam fazer.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Destreza",
                 "value": 2
-            }],
+            },
             "ageMax": 750,
             "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
@@ -272,10 +272,10 @@
                 {
                     "name": "Alto Elfo",
                     "description": "Como um alto elfo, você possui uma mente perspicaz e domínio pelo menos dos fundamentos da magia. Em muitos mundos de jogos de fantasia, existem dois tipos de altos elfos. Um tipo é arrogante e recluso, acreditando-se superior a não-elfos e até mesmo a outros elfos. O outro tipo é mais comum e amigável, frequentemente encontrado entre humanos e outras raças.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Inteligência",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Treinamento de Armas Élficas",
@@ -294,10 +294,10 @@
                 {
                     "name": "Elfo Arcano",
                     "description": "Os Elfos Arcanos são conhecidos por sua alta manipulação da magia e seguem uma antiga crença de que os elfos são os guardiões da magia no mundo. Eles têm pele acinzentada e são quase inteiramente magros e altos. É bem conhecido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares porque não dependem de ferramentas externas para aumentar seu poder. Este tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Carisma",
                         "value": 2
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Magia Pura",
@@ -316,10 +316,10 @@
                 {
                     "name": "Elfo Guerreiro",
                     "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia em armas para maximizar seu potencial em batalha. São respeitados pelos elfos comuns e elfos de alta linhagem, mas são desprezados e têm uma rixa milenar com os Elfos Arcanos, que se estende desde a população até a política. Esses guerreiros geralmente são um pouco mais baixos em estatura, assemelhando-se aos humanos, e são extremamente destemidos.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Inteligência",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Vitalidade Élfica",
@@ -357,16 +357,16 @@
             ]
         }
     },
-     {
+    {
         "active": true,
         "en": {
             "name": "Halfling",
             "description": "Your halfling character has a number of traits in common with all other halflings.",
             "tale": "Once, a halfling was resting in the shade of a giant oak tree, his protuberant belly rising and falling with his calm breathing. Standing at just 60 centimeters tall, he was often underestimated, but his sharp mind and stealthy skills made him a master thief. While chewing on a succulent roasted rabbit leg, the halfling stroked his lucky amulet, a tooth from a giant wolf he had defeated alone. His dark eyes gleamed with the prospect of his next adventure, a daring plan to infiltrate the fortress of a great mage and achieve glory by recovering the legendary Moon Diamond.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Dexterity",
                 "value": 2
-            }],
+            },
             "ageMax": 180,
             "alignment": ["lawful", "good"],
             "heightMax": 0.9,
@@ -378,10 +378,10 @@
                 {
                     "name": "Lightfoot",
                     "description": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You\u2019re inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Charisma",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Naturally Stealthy",
@@ -410,10 +410,10 @@
             "name": "Halfling",
             "description": "Seu personagem halfling tem várias características em comum com todos os outros halflings.",
             "tale": "Certa vez um halfling, descansava à sombra de um carvalho gigante, sua barriga protuberante subindo e descendo com a respiração tranquila. Com apenas 60 centímetros de altura, ele era frequentemente subestimado, mas sua mente afiada e habilidades furtivas o tornavam um ladrão mestre. Enquanto mastigava uma suculenta perna de coelho assada, o halfling acariciava seu amuleto da sorte, um dente de um lobo gigante que ele havia derrotado sozinho. Seus olhos negros brilhavam com a perspectiva de sua próxima aventura, um plano ousado para se infiltrar na fortaleza de grande mago e obter glória recuperando o lendário Diamante da Lua.",
-            "abilityScoreIncrease": [{
+            "abilityScoreIncrease": {
                 "name": "Destreza",
                 "value": 2
-            }],
+            },
             "ageMax": 180,
             "alignment": ["leal", "bom"],
             "heightMax": 0.9,
@@ -425,10 +425,10 @@
                 {
                     "name": "Pés Leves",
                     "description": "Como um halfling pés leves, você pode se esconder facilmente de olhares, até mesmo usando outras pessoas como cobertura. Você tende a ser afável e se dá bem com os outros. Os Pés Leves são mais propensos a terem espírito aventureiro do que outros halflings, e frequentemente vivem ao lado de outras raças ou levam uma vida nômade.",
-                    "abilityScoreIncrease": [{
+                    "abilityScoreIncrease": {
                         "name": "Carisma",
                         "value": 1
-                    }],
+                    },
                     "characteristics": [
                         {
                             "name": "Furtivo Naturalmente",
@@ -460,36 +460,14 @@
             "name": "human",
             "description": "It's hard to make generalizations about humans, but your human character has these traits.",
             "tale": "Dorn, a traveler well-known among humans, once shared in a tavern a tale of one of his greatest adventures: the quest for the Sacred Sword of Oksha.\n\nIt is said that Oksha was a dwarf king who, many centuries ago, conquered worlds beyond our own.\n\nDuring this adventure, Dorn met beings from all realms: elves, draconians, dwarves, among others.\n\nWhile the full story is too long to detail here, as a human, Dorn gained knowledge and experience from each encounter. His human ability to humbly absorb knowledge and adapt was what made him one of the most renowned travelers in the Kingdom and a hero to many.",
-            "abilityScoreincrease": [
-                {
-                    "name": "strength",
-                    "value": 1
-                },
-                {
-                    "name": "dexterity",
-                    "value": 1
-                },
-                {
-                    "name": "constitution",
-                    "value": 1
-                },
-                {
-                    "name": "intelligence",
-                    "value": 1
-                },
-                {
-                    "name": "wisdom",
-                    "value": 1
-                },
-                {
-                    "name": "charisma",
-                    "value": 1
-                }
-            ],
-            "agemax": 100,
-            "alignment": [],
-            "heightmax": 90,
-            "weightmax": 90,
+            "abilityScoreIncrease": {
+                "name": "strength",
+                "value": 1
+            },
+            "ageMax": 100,
+            "alignment": ["lawful", "good"],
+            "heightMax": 90,
+            "weightMax": 90,
             "speed": [9.1],
             "size": "medium",
             "language": ["common", "one extra of your choice"],
@@ -501,36 +479,14 @@
             "name": "humano",
             "description": "Dorn, um viajante entre os reinos muito conhecido entre os humanos, certa vez compartilhou em uma taverna um relato de uma das suas maiores aventuras, a busca pela Espada Sagrada de Oksha.\n\nConta-se que Oksha foi um rei anão que a muitos séculos atrás conquistou mundos além do mundo que vivemos.\n\nEnquanto essa aventura se desenrolava, Dorn conheceu seres de todos os reinos, elfos, dracontes, anões, entre outros.\n\nNão convém contar a história em detalhes aqui, mas por ser um humano ele adquiriu conhecimento e experiência com cada um desses que conheceu, a habilidade humana de absorver conhecimento com humildade e se adaptar foi o que levou Dorn a se tornar um dos viajantes mais conhecidos do Reino além de um herói para muitos.",
             "tale": "É difícil fazer generalizações sobre os humanos, mas seu personagem humano possui essas características.",
-            "abilityscoreincrease": [
-                {
-                    "name": "força",
-                    "value": 1
-                },
-                {
-                    "name": "destreza",
-                    "value": 1
-                },
-                {
-                    "name": "constituição",
-                    "value": 1
-                },
-                {
-                    "name": "inteligência",
-                    "value": 1
-                },
-                {
-                    "name": "sabedoria",
-                    "value": 1
-                },
-                {
-                    "name": "carisma",
-                    "value": 1
-                }
-            ],
-            "agemax": 100,
-            "alignment": [],
-            "heightmax": 90,
-            "weightmax": 90,
+            "abilityscoreincrease": {
+                "name": "força",
+                "value": 1
+            },
+            "ageMax": 100,
+            "alignment": ["leal", "bom"],
+            "heightMax": 90,
+            "weightMax": 90,
             "speed": [9.1],
             "size": "médio",
             "language": ["comum", "um extra à sua escolha"],
@@ -539,5 +495,4 @@
             "characteristics": []
         }
     }
-   
 ]
