@@ -32,18 +32,22 @@
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Mystic Dwarf",
                     "description": "Mystic Dwarves are well-versed in the magical arts. Over time, these dwarves have separated themselves from the others as they have no interest in mining or craftsmanship, but rather in using the products of these activities for study and, for some, power.\n\nBecause their studies and practice of magic are their main focus, these dwarves are generally slightly weaker and have a maximum average weight of 50 kg.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Intelligence",
                         "value": 2
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Lack of Strength",
                             "description": "You have disadvantage on strength checks related to objects, such as pulling, pushing, and carrying."
                         },
                         {
+                            "original": false,
                             "name": "Magic Specialist",
                             "description": "When using any magical item, you can roll 1d2 to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item. After succeeding once on the 1d2 roll, this characteristic can no longer be used."
                         }
@@ -69,6 +73,7 @@
                     "description": "You gain proficiency with the artisan’s tools of your choice: smith’s tools, brewer’s supplies, or mason’s tools."
                 },
                 {
+                    "original": false,
                     "name": "Stonecunning",
                     "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus."
                 }
@@ -108,15 +113,18 @@
                     "name": "Anão Místico",
                     "description": "Anões místicos são versados nas artes mágicas. Com o tempo, esses anões se separaram dos demais, pois não têm interesse em mineração ou artesanato, mas sim em utilizar os produtos dessas atividades para estudo e, para alguns, poder.\n\nPor terem os estudos e prática da magia como seu foco principal, esses anões geralmente são um pouco mais fracos e têm um peso médio máximo de 50 kg.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Inteligência",
                         "value": 2
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Falta de Força Anã",
                             "description": "Você tem desvantagem em testes de força relacionados a objetos, como puxar, empurrar e carregar."
                         },
                         {
+                            "original": false,
                             "name": "Especialista em Magia",
                             "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico. Após ter sucesso uma vez na rolagem do 1d2 essa caracteristica não pode mais ser usada."
                         }
@@ -142,6 +150,7 @@
                     "description": "Você ganha proficiência com ferramentas de artesão à sua escolha: ferramentas de ferreiro, suprimentos de cervejeiro ou ferramentas de pedreiro."
                 },
                 {
+                    "original": false,
                     "name": "Inteligência em Rochas",
                     "description": "Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal."
                 }
@@ -189,44 +198,54 @@
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Arcane Elf",
                     "description": "Arcane Elves are known for their high manipulation of magic and follow an ancient belief that elves are the guardians of magic in the world. They have grayish skin and are almost entirely slim and tall. It is well known in the Elven Kingdom that Arcane Elves consider themselves superior to their peers because they do not rely on external tools to augment their power.\n\nThis type of elf rarely or almost never uses amulets or symbols as power conduits, as they believe that doing so symbolizes the weakening of the purity of elven magic.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Charism",
                         "value": 2
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Pure Magic",
                             "description": "You can reroll the damage dice of a spell once to try to achieve its maximum purity. To use this ability again, a long rest is required."
                         },
                         {
+                            "original": false,
                             "name": "Light Body",
                             "description": "Your base walking speed increases to 10.5 meters."
                         },
                         {
+                            "original": false,
                             "name": "Magical Knowledge",
                             "description": "You have advantage on checks involving learning new spells."
                         }
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Warrior Elf",
                     "description": "Warrior Elves have specialized over time in imbuing their magic into weapons to maximize their potential in battle. They are respected by common elves and high elves but are despised by and have a millennia-old feud with Arcane Elves, which extends from the population to politics. These warriors are generally a bit shorter in stature, resembling humans, and are extremely fearless.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Intelligence",
                         "value": 1
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Elven Vitality",
                             "description": "Your keen physical training grants you 1 extra hit point per level."
                         },
                         {
+                            "original": false,
                             "name": "Weaponized Magic",
                             "description": "When attacking with a weapon, use your magical ability inherited from the elves and roll 1d20 to add damage to your attack, if the result is greater than 15 add 2 damage if it is less add 1. Can be used twice and then requires a rest short to use again."
                         },
                         {
+                            "original": false,
                             "name": "Elven War Weapon Training",
                             "description": "You have proficiency with longswords, shortswords, daggers, longbows, shortbows, rapiers, shortswords, and hand crossbows."
                         }
@@ -292,44 +311,54 @@
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Elfo Arcano",
                     "description": "Os Elfos Arcanos são conhecidos por sua alta manipulação da magia e seguem uma antiga crença de que os elfos são os guardiões da magia no mundo. Eles têm pele acinzentada e são quase inteiramente magros e altos. É bem conhecido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares porque não dependem de ferramentas externas para aumentar seu poder. Este tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Carisma",
                         "value": 2
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Magia Pura",
                             "description": "Você pode rolar novamente os dados de dano de uma magia uma vez para tentar atingir sua pureza máxima. Para utilizar essa habilidade novamente, é necessário um descanso longo."
                         },
                         {
+                            "original": false,
                             "name": "Corpo Leve",
                             "description": "Seu deslocamento base de caminhada aumenta para 10,5 metros."
                         },
                         {
+                            "original": false,
                             "name": "Conhecimento Mágico",
                             "description": "Você tem vantagem em testes que envolvam aprender novos feitiços."
                         }
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Elfo Guerreiro",
                     "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia em armas para maximizar seu potencial em batalha. São respeitados pelos elfos comuns e elfos de alta linhagem, mas são desprezados e têm uma rixa milenar com os Elfos Arcanos, que se estende desde a população até a política. Esses guerreiros geralmente são um pouco mais baixos em estatura, assemelhando-se aos humanos, e são extremamente destemidos.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Inteligência",
                         "value": 1
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Vitalidade Élfica",
                             "description": "Seu treinamento físico aguçado lhe concede 1 ponto de vida a mais por nível."
                         },
                         {
+                            "original": false,
                             "name": "Magia Armada",
                             "description": "Ao atacar com uma arma, use sua habilidade mágica herdada dos elfos e role 1d20 para adicionar dano ao seu ataque. Se o resultado for maior que 15, adicione 2 de dano; se for menor, adicione 1. Pode ser usado duas vezes e depois requer um descanso curto para ser usado novamente."
                         },
                         {
+                            "original": false,
                             "name": "Treinamento de Armas de Guerra Élfico",
                             "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
                         }
@@ -655,18 +684,22 @@
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Island Gnome",
                     "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Constitution",
                         "value": 1
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Protectors of Nature",
                             "description": "You have proficiency in Nature and receive a +1 bonus in this skill. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen additional skill will also receive a +1 bonus."
                         },
                         {
+                            "original": false,
                             "name": "Maritime Affinity",
                             "description": "You have an affinity for aquatic animals and environments, have advantage when trying to tame these animals, and your swimming speed is doubled"
                         }
@@ -720,18 +753,22 @@
                     ]
                 },
                 {
+                    "original": false,
                     "name": "Gnomo das Ilhas",
                     "description": "Gnomos das ilhas têm uma grande conexão com a natureza, tanto com as florestas quanto com o mar. Eles têm uma forte afinidade com animais terrestres e aquáticos. Eles tendem a ser pacíficos, mas estão sempre prontos para se proteger.",
                     "abilityScoreIncrease": {
+                        "original": false,
                         "name": "Constituição",
                         "value": 1
                     },
                     "characteristics": [
                         {
+                            "original": false,
                             "name": "Protetores da Natureza",
                             "description": "Você tem proficiência em Natureza e recebe um bônus de +1 nessa perícia. Além disso, você pode escolher uma das seguintes perícias: Acrobacia, Furtividade, Lidar com Animais ou Sobrevivência. A perícia adicional escolhida também receberá um bônus de +1."
                         },
                         {
+                            "original": false,
                             "name": "Afinidade Marítima",
                             "description": "Você tem afinidade com animais e ambientes aquáticos, tem vantagem ao tentar domar esses animais, e sua velocidade de nado é dobrada."
                         }
