@@ -5,10 +5,12 @@
             "name": "Dwarf",
             "description": "Your dwarf character has an assortment of inborn abilities, part and parcel of dwarven nature.",
             "tale": "Where is my boot? I need to go to the mines to check on the progress of the Ruby extraction, said the Dwarf King to the Queen, who was reading a letter directly from the Elven Kingdom. My love, the Queen said, the Elf King is requesting a visit to our kingdom to negotiate some diamond mines. Do these pointy-eared ones think our things are for sale whenever they want? That's not how things work! - Bornovok III, King of the Dwarf Kingdom, holder of the Avirath orb.\n\nDwarves are an incredibly resilient race, known for their mining abilities. Dwarves are widely sought after for dealing with weapons, jewelry, and other magical tools, as they possess vast reserves of magical items and extensive knowledge of weapon crafting and other objects.\n\nThe Dwarf Kingdom is incredibly beautiful, with its castle being a tourist attraction for people from all over the world. It is said that the throne room of this castle is entirely made of pure gold, and the throne itself is constructed from ruby and diamond stones!\n\nAlthough they are extremely serious when it comes to mining and their creations, dwarves (for the most part) are very kind to those who are kind to them. But make no mistake, they know how to defend themselves, and if there's a people who can wreak havoc with magical weapons when provoked, it's the dwarf people.",
-            "abilityScoreIncrease": [{
-                "name": "Constitution",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Constitution",
+                    "value": 2
+                }
+            ],
             "ageMax": 350,
             "alignment": ["lawful", "good"],
             "heightMax": 1.2,
@@ -276,10 +278,12 @@
             "name": "Elfo",
             "description": "Seu personagem elfo possui uma variedade de habilidades naturais, resultado de milhares de anos de refinamento élfico.",
             "tale": "Não existiram, não existem e nunca existirá uma raça tão evoluída quanto nós Elfos, disse o ancião à criança Élfica sentada próxima a seus pés, ela se vira e pergunta, mas porque então não dominamos a todos grande ancião? Porque não fazemos de todos nossos súditos e mostramos nossa força? Assim nunca mais mexeriam conosco! Diz a criança com um olhar penetrante, o ancião respira, olha para a criança e calmamente responde, dizendo entre outras coisas: \"Todos acreditam que a guerra é a solução, a parte ruim é estar vivo após ela acabar pra perceber que ela foi o problema\".\n\nEste ancião era ninguém menos que Illithys, o grande mago que salvou todos os reinos na guerra de Ahktur, guerra essa que foi responsável por redefinir o conceito de magia entre os reinos. Elfos sempre foram pacientes e muito dedicados, o longo tempo de vida deles os permite analisar a vida de um olhar diferente e menos alarmista.\n\nO Reino dos Elfos seria considerado facilmente uma miragem ou fruto de imaginação caso algum desavisado o encontrasse, estatuas flutuantes e soldados bem trajados, o conhecimento e aprimoramento pessoal é uma das leis dos Elfos, onde chegar até a morte tendo sido o melhor de si mesmo é o melhor que poderiam fazer.",
-            "abilityScoreIncrease": [{
-                "name": "Destreza",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Destreza",
+                    "value": 2
+                }
+            ],
             "ageMax": 750,
             "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
@@ -454,10 +458,12 @@
                 {
                     "name": "Pés Leves",
                     "description": "Como um halfling pés leves, você pode se esconder facilmente de olhares, até mesmo usando outras pessoas como cobertura. Você tende a ser afável e se dá bem com os outros. Os Pés Leves são mais propensos a terem espírito aventureiro do que outros halflings, e frequentemente vivem ao lado de outras raças ou levam uma vida nômade.",
-                    "abilityScoreIncrease": [{
-                        "name": "Carisma",
-                        "value": 1
-                    }],
+                    "abilityScoreIncrease": [
+                        {
+                            "name": "Carisma",
+                            "value": 1
+                        }
+                    ],
                     "characteristics": [
                         {
                             "name": "Furtivo Naturalmente",
@@ -653,10 +659,12 @@
             "name": "Gnome",
             "description": "Your gnome character has certain characteristics in common with all other gnomes.",
             "tale": "Oh, the Kingdom of the Gnomes, who would have thought that such small beings could build something so grand? There is no denying that their work is phenomenal. I felt like I was in a kingdom of the future, with great constructions and elevators, large gears that make things work without needing to be handled, all incredible! Although I have heard of gnomes who are less inventive and more connected to nature, I believe that at this rate, this Kingdom will soon receive the recognition it deserves. - Dvinir, Elven Merchant.",
-            "abilityScoreIncrease": [{
-                "name": "Intelligence",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Intelligence",
+                    "value": 2
+                }
+            ],
             "ageMax": 500,
             "alignment": ["good"],
             "size": "small",
@@ -668,10 +676,12 @@
                 {
                     "name": "Rock Gnome",
                     "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
-                    "abilityScoreIncrease": [{
-                        "name": "Constitution",
-                        "value": 1
-                    }],
+                    "abilityScoreIncrease": [
+                        {
+                            "name": "Constitution",
+                            "value": 1
+                        }
+                    ],
                     "characteristics": [
                         {
                             "name": "Artificers Lore",
@@ -687,11 +697,13 @@
                     "original": false,
                     "name": "Island Gnome",
                     "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
-                    "abilityScoreIncrease": [{
-                        "original": false,
-                        "name": "Constitution",
-                        "value": 1
-                    }],
+                    "abilityScoreIncrease": [
+                        {
+                            "original": false,
+                            "name": "Constitution",
+                            "value": 1
+                        }
+                    ],
                     "characteristics": [
                         {
                             "original": false,
@@ -722,10 +734,12 @@
             "name": "Gnomo",
             "description": "Seu personagem gnomo tem certas características em comum com todos os outros gnomos.",
             "tale": "Ah o Reino dos Gnomos, quem diria que seres pequeninos poderiam construir algo tão grande, não tem como negar que o trabalho deles é fenomenal, me senti em um reino do futuro, grandes construções e elevadores, grandes engrenagens que fazem coisas sem precisar manuseá-las, tudo incrível! Apesar de ter ouvido falar sobre Gnomos não tão inventivos e mais ligados a natureza eu acredito que nesse rumo, logo esse Reino terá o reconhecimento que merece - Dvinir, Comerciante Élfico",
-            "abilityScoreIncrease": [{
-                "name": "Inteligência",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Inteligência",
+                    "value": 2
+                }
+            ],
             "ageMax": 500,
             "alignment": ["bom"],
             "size": "pequeno",
@@ -737,10 +751,12 @@
                 {
                     "name": "Gnomo das Rochas",
                     "description": "Como um gnomo das rochas, você tem uma inventividade natural e resistência além da dos outros gnomos.",
-                    "abilityScoreIncrease": [{
-                        "name": "Constituição",
-                        "value": 1
-                    }],
+                    "abilityScoreIncrease": [
+                        {
+                            "name": "Constituição",
+                            "value": 1
+                        }
+                    ],
                     "characteristics": [
                         {
                             "name": "Conhecimento dos Artífices",
@@ -756,11 +772,13 @@
                     "original": false,
                     "name": "Gnomo das Ilhas",
                     "description": "Gnomos das ilhas têm uma grande conexão com a natureza, tanto com as florestas quanto com o mar. Eles têm uma forte afinidade com animais terrestres e aquáticos. Eles tendem a ser pacíficos, mas estão sempre prontos para se proteger.",
-                    "abilityScoreIncrease": [{
-                        "original": false,
-                        "name": "Constituição",
-                        "value": 1
-                    }],
+                    "abilityScoreIncrease": [
+                        {
+                            "original": false,
+                            "name": "Constituição",
+                            "value": 1
+                        }
+                    ],
                     "characteristics": [
                         {
                             "original": false,
@@ -787,16 +805,19 @@
                 }
             ]
         }
-    }, {
+    },
+    {
         "active": true,
         "en": {
             "name": "Half-Elf",
             "description": "Your half-elf character has some qualities in common with elves and some that are unique to half-elves.",
             "tale": "\"Living between two worlds is like walking between the sun and the moon without knowing which to choose,\" says the half-elf to the dwarf he was talking to. The dwarf retorts, asking, \"But then, what would you be? A curious human or a skilled elf?\" After thinking for a few seconds, the half-elf responds, \"I am the best of both...\".\n\nHalf-elves have acquired abilities and characteristics from both races and face unique difficulties. Human restlessness makes it hard to live with elves, and elven longevity makes living with humans somewhat morbid. It's not uncommon to see wandering half-elves traveling around, seeking groups of misfits and many adventures to live.",
-            "abilityScoreIncrease": [{
-                "name": "Charisma",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Charisma",
+                    "value": 2
+                }
+            ],
             "ageMax": 180,
             "alignment": ["chaotic"],
             "size": "medium",
@@ -825,10 +846,12 @@
             "name": "Meio-Elfo",
             "description": "Seu personagem meio-elfo tem algumas qualidades em comum com os elfos e outras que são únicas dos meio-elfos.",
             "tale": "\"Viver entre dois mundos é como caminhar entre o sol e a lua sem saber qual escolher,\" diz o meio-elfo ao anão com quem conversava. O anão retruca, perguntando: \"Mas então, o que tu serias? Um humano curioso ou um elfo habilidoso?\" Após pensar por alguns segundos, o meio-elfo responde: \"Sou o melhor dos dois...\"\n\nOs meio-elfos adquiriram habilidades e características de ambas as raças e enfrentam dificuldades únicas. A inquietude humana dificulta a convivência com os elfos, e a longevidade élfica torna a convivência com os humanos um tanto mórbida. Não é incomum ver meio-elfos errantes viajando por aí, procurando grupos de desajustados e muitas aventuras para viver.",
-            "abilityScoreIncrease": [{
-                "name": "Carisma",
-                "valUE": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Carisma",
+                    "valUE": 2
+                }
+            ],
             "ageMax": 180,
             "alignment": ["caótico"],
             "size": "médio",
@@ -860,10 +883,12 @@
             "name": "Half-Orc",
             "description": "Your half-orc character has certain traits deriving from your orc ancestry.",
             "tale": "LEADER NICORDEN was a leader among the half-orcs who for a long time championed the idea that half-orcs could be more than what other races believed. They were seen as impure by the orc tribes and as abominations by many humans. This sentiment often weighed heavily on the hearts of this race's tribes. Nicorden was the leader who once subdued both kingdoms and gained respect for his people through battle strategies ahead of their time.",
-            "abilityScoreIncrease": [{
-                "name": "Strength",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Strength",
+                    "value": 2
+                }
+            ],
             "ageMax": 75,
             "alignment": ["chaotic"],
             "size": "medium",
@@ -896,10 +921,12 @@
             "name": "Meio-Orc",
             "description": "Seu personagem meio-orc possui certas características derivadas de sua ancestralidade orc.",
             "tale": "LIDER NICORDEN, foi um líder nos meio-orcs que por muito tempo levantou a bandeira de que os meio orcs poderiam ser mais do que as outras raças acreditavam, pela tribo orc são vistos como impuros e por muitos humanos como aberrações, esse sentimento por muitas vezes tomou o coração das tribos desta raça e Nicorden foi o líder que certa vez subjugou os dois reinos e conseguiu respeito para seu povo através de estratégias de batalhas a frente do seu tempo.",
-            "abilityScoreIncrease": [{
-                "name": "Força",
-                "value": 2
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Força",
+                    "value": 2
+                }
+            ],
             "ageMax": 75,
             "alignment": ["caótico"],
             "size": "médio",
@@ -935,10 +962,12 @@
             "name": "Tiefling",
             "description": "Tieflings share certain racial traits as a result of their infernal descent.",
             "tale": "My dear diary, I can no longer bear it! The stares, the judgments, even without guilt, I carry the burden of a sin committed long ago. A pact by a strange ancestor seeking power condemned me, hundreds of years later, to live on the fringes of the Realms, wandering and being despised by all. I have only one joy in this life: a human woman named Nitara. She makes my miserable life have some meaning. I don't know what I would do without her.\n\nAmnon wrote this shortly before receiving the news that Nitara had been murdered by her family upon discovering her relationship with a Tiefling, losing all hope of a happy life.",
-            "abilityScoreIncrease": [{
-                "name": "Intelligence",
-                "value": 1
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Intelligence",
+                    "value": 1
+                }
+            ],
             "ageMax": 0,
             "alignment": ["chaotic"],
             "size": "medium",
@@ -967,10 +996,12 @@
             "name": "Tiefling",
             "description": "Os tieflings compartilham certas características raciais como resultado de sua descendência infernal.",
             "tale": "Meu querido diário, eu não posso mais suportar! Os olhares, os julgamentos, mesmo sem culpa, carrego o fardo de um pecado consumado há muito tempo. Um pacto de um ancestral estranho que buscava poder me condenou, centenas de anos depois, a viver à margem dos Reinos, vagando e sendo desprezado por todos. Tenho apenas uma felicidade nesta vida: uma humana chamada Nitara. Ela faz minha vida horrível ganhar algum sentido. Não sei o que faria sem ela.\n\nAmnon escreveu isso pouco antes de receber a notícia de que Nitara havia sido assassinada por sua família ao descobrirem seu relacionamento com um Tiefling, perdendo toda esperança de uma vida feliz.",
-            "abilityScoreIncrease": [{
-                "name": "Inteligência",
-                "value": 1
-            }],
+            "abilityScoreIncrease": [
+                {
+                    "name": "Inteligência",
+                    "value": 1
+                }
+            ],
             "ageMax": 0,
             "alignment": ["caótico"],
             "size": "médio",
