@@ -1,21 +1,27 @@
+import StateMachine from 'src/domains/common/StateMachine';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { ActivateSecretQuestionResponse } from 'src/types/api/users/http/response';
+import {
+    ActivateSecretQuestionResponse,
+    CompleteUserResponse,
+} from 'src/types/api/users/http/response';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _stateMachineProps;
     private readonly _logger;
 
     constructor({
         usersDetailsRepository,
         usersRepository,
+        stateMachineProps,
         logger,
     }: UserCoreDependencies['activateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._stateMachineProps = stateMachineProps;
         this._logger = logger;
 
         this.activate = this.activate.bind(this);
@@ -25,28 +31,45 @@ export default class ActivateSecretQuestionService {
     public async activate({
         userId,
         payload,
-    }: ActivateSecretQuestionPayload): Promise<UserInstance> {
+    }: ActivateSecretQuestionPayload): Promise<CompleteUserResponse> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
+        const { status, flows } = this._stateMachineProps;
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
-        if (!userDetailsInDb.secretQuestion)
-            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_SECRET_QUESTION)
+            HttpRequestErrors.throwError('invalid-user-status');
         if (!payload)
             HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
         userInDb.twoFactorSecret = { active: false };
+        userDetailsInDb.secretQuestion = payload;
 
-        return userInDb;
+        userInDb.inProgress.status = StateMachine(
+            flows.ACTIVATE_SECRET_QUESTION,
+            userInDb.inProgress.status
+        );
+
+        return { user: userInDb, details: userDetailsInDb };
     }
 
-    public async save(user: UserInstance): Promise<ActivateSecretQuestionResponse> {
+    public async save(
+        payload: CompleteUserResponse
+    ): Promise<ActivateSecretQuestionResponse> {
+        const { user, details } = payload;
+
         const userInDb = await this._usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
+
+        await this._usersDetailsRepository.update({
+            query: { userId: user.userId },
+            payload: details,
+        });
+
         return { active: userInDb.twoFactorSecret.active };
     }
 }

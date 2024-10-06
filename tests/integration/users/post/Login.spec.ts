@@ -4,6 +4,7 @@ import requester from 'tests/support/requester';
 // import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('When the user is logged in', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -13,7 +14,7 @@ describe('When the user is logged in', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: 'done', code: '' };
+            user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);

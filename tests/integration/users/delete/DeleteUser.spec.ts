@@ -1,4 +1,5 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import { StateMachineProps } from 'src/domains/common/StateMachine';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -13,6 +14,7 @@ describe('When an user is deleted', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+            user.inProgress.status = StateMachineProps.status.WAIT_TO_FINISH_DELETE_USER;
             user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
             userDetails.secretQuestion = null;
 
@@ -22,7 +24,7 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/users/${user.userId}/delete?token=123456`)
+                .delete(`/users/${user.userId}/delete`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             await requester()
@@ -36,6 +38,7 @@ describe('When an user is deleted', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+            user.inProgress.status = StateMachineProps.status.WAIT_TO_FINISH_DELETE_USER;
             user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
 
             await InjectNewUser(user);

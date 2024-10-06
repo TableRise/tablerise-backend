@@ -106,9 +106,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchPlayersService', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Player already in match');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
                     );
                 }
             });

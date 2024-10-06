@@ -1,5 +1,6 @@
 import path from 'path';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser } from 'tests/support/dataInjector';
@@ -11,7 +12,7 @@ describe('When a profile picture is uploaded', () => {
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
 
-        user.inProgress = { status: 'done', code: '' };
+        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
         user.picture = null;
 
         filePath = path.resolve(
