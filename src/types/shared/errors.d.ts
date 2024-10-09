@@ -9,6 +9,7 @@ export interface Errors {
     code: number;
     name?: string;
     details?: ErrorDetails[];
+    redirectTo?: string;
 }
 
 export type ErrorTypes =
