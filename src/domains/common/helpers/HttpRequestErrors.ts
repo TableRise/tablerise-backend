@@ -94,7 +94,7 @@ export default class HttpRequestErrors extends Error {
                 });
             case 'email-already-exist':
                 throw new HttpRequestErrors({
-                    message: 'Email already exists in',
+                    message: 'Email already exists in database',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                     redirectTo,
