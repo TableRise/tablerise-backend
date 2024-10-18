@@ -69,7 +69,9 @@ describe('Interface :: Common :: Middlewares :: ErrorMiddleware', () => {
 
             ErrorMiddleware(error, request, response, next);
 
-            expect(response.redirect).to.have.been.calledWith('http://example:3000/error-page?error=Redirecting due to error');
+            expect(response.redirect).to.have.been.calledWith(
+                'http://example:3000/error-page?error=Redirecting due to error'
+            );
         });
 
         it('should redirect to the default URL when redirectTo is present but URL_TO_REDIRECT is not defined', async () => {
@@ -83,7 +85,9 @@ describe('Interface :: Common :: Middlewares :: ErrorMiddleware', () => {
 
             ErrorMiddleware(error, request, response, next);
 
-            expect(response.redirect).to.have.been.calledWith('http://localhost:3000/error-page?error=Redirecting due to error'); // Verificando redirecionamento padrão
+            expect(response.redirect).to.have.been.calledWith(
+                'http://localhost:3000/error-page?error=Redirecting due to error'
+            ); // Verificando redirecionamento padrão
         });
     });
 });

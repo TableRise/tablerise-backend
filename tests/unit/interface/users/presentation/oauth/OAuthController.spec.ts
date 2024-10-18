@@ -41,36 +41,36 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
-    
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
                 completeUserOperation,
                 loginUserOperation,
             });
-    
+
             await oauthController.google(request, response);
-    
+
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://localhost:3000');
         });
-    
+
         it('should redirect to the URL specified in URL_TO_REDIRECT', async () => {
             process.env.URL_TO_REDIRECT = 'http://example.com';
-    
+
             request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
-    
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
                 completeUserOperation,
                 loginUserOperation,
             });
-    
+
             await oauthController.google(request, response);
-    
+
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://example.com');
         });
@@ -151,36 +151,36 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
-    
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
                 completeUserOperation,
                 loginUserOperation,
             });
-    
+
             await oauthController.discord(request, response);
-    
+
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://localhost:3000');
         });
-    
+
         it('should redirect to the URL specified in URL_TO_REDIRECT', async () => {
             process.env.URL_TO_REDIRECT = 'http://example.com';
-    
+
             request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
-    
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
                 completeUserOperation,
                 loginUserOperation,
             });
-    
+
             await oauthController.discord(request, response);
-    
+
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://example.com');
         });
