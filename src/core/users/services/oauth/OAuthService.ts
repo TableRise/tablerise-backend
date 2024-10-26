@@ -41,7 +41,8 @@ export default class OAuthService {
         this._logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
-        if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist');
+        if (!isProviderIdValid)
+            HttpRequestErrors.throwError('email-already-exist', '/register');
 
         return { token: JWTGenerator.generate(userInDb) };
     }

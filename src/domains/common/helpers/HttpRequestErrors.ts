@@ -7,16 +7,24 @@ import { ErrorMessage } from './errorMessage';
 export default class HttpRequestErrors extends Error {
     code: number;
     details: ErrorDetails[];
+    redirectTo: string;
 
-    constructor({ message = '', code = 0, details = [], name = '' }: Errors) {
+    constructor({
+        message = '',
+        code = 0,
+        details = [],
+        name = '',
+        redirectTo = '',
+    }: Errors) {
         logger('error', `${message} - ${code}`);
         super(message);
         this.code = code;
         this.details = details;
         this.name = name;
+        this.redirectTo = redirectTo;
     }
 
-    static throwError(errorType: ErrorTypes): never {
+    static throwError(errorType: ErrorTypes, redirectTo?: string): never {
         switch (errorType) {
             case 'campaign-match-inexistent':
                 throw new HttpRequestErrors({
@@ -89,6 +97,7 @@ export default class HttpRequestErrors extends Error {
                     message: 'Email already exists in database',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    redirectTo,
                 });
             case 'tag-already-exist':
                 throw new HttpRequestErrors({
