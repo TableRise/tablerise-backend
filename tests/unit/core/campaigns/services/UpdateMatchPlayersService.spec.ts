@@ -116,6 +116,50 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchPlayersService', () => {
             });
         });
 
+        context('When a player is added to match - no character', () => {
+            before(() => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                userDetails.userId = '555';
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                updatePlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: userDetails.userId,
+                    operation: 'add',
+                };
+
+                updateMatchPlayersService = new UpdateMatchPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await updateMatchPlayersService.updateMatchPlayers(
+                        updatePlayersPayload
+                    );
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Character not found or not belongs to user');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.NOT_FOUND)
+                    );
+                }
+            });
+        });
+
         context(
             'When a player is added to match - player already is dungeon master',
             () => {

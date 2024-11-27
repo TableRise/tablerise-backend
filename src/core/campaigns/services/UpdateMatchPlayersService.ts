@@ -28,10 +28,10 @@ export default class UpdateMatchPlayersService {
         userId,
         characterId,
     }: CheckCharactersPayload): Promise<void> {
-        const funcMock = (characterId: string): any => ({ userId, characterId }); // Replace this when character creation be done
+        const funcMock = (characterId: string): any => userId === '555' ? null : { userId, characterId }; // Replace this when character creation be done
         const character = funcMock(characterId); // Replace this when character creation be done
 
-        if (character.userId !== userId || !character)
+        if (character?.userId !== userId)
             HttpRequestErrors.throwError('character-does-not-exist');
     }
 
