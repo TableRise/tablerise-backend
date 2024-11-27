@@ -151,11 +151,11 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchPlayersService', () => {
                     );
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Character not found or not belongs to user');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.NOT_FOUND)
+                    expect(err.message).to.be.equal(
+                        'Character not found or not belongs to user'
                     );
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                 }
             });
         });
