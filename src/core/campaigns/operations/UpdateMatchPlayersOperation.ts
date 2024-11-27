@@ -25,9 +25,13 @@ export default class UpdateMatchPlayersOperation {
     async execute(payload: UpdateMatchPlayersPayload): Promise<Player[]> {
         this._logger('info', 'Execute - UpdateMatchPlayersOperation');
 
-        this._schemaValidator.entry(this._campaignsSchema.campaignsUpdateMatchPlayersZod, payload);
+        this._schemaValidator.entry(
+            this._campaignsSchema.campaignsUpdateMatchPlayersZod,
+            payload
+        );
 
-        const { campaign, userDetails } = await this._updateMatchPlayersService.updateMatchPlayers(payload);
+        const { campaign, userDetails } =
+            await this._updateMatchPlayersService.updateMatchPlayers(payload);
 
         const savedCampaign = await this._updateMatchPlayersService.save(
             campaign,

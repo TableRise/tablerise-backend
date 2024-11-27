@@ -20,7 +20,11 @@ describe('When a player is added or removed from a match', () => {
 
     it('should sucessfully add a player to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId}/update/match/players?operation=add&characterId=${newUUID()}`)
+            .patch(
+                `/campaigns/${
+                    campaign.campaignId
+                }/update/match/players?operation=add&characterId=${newUUID()}`
+            )
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(2);

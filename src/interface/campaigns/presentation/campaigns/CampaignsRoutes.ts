@@ -187,7 +187,7 @@ export default class CampaignsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
                         { name: 'operation', type: 'string' },
-                        { name: 'characterId', type: 'string' }
+                        { name: 'characterId', type: 'string' },
                     ]),
                 ],
                 controller: this._campaignsController.updateMatchPlayers,

@@ -45,11 +45,11 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchPlayersOperation', () =>
                 };
 
                 schemaValidator = {
-                    entry: () => {}
+                    entry: () => {},
                 };
 
                 campaignsSchema = {
-                    campaignsUpdateMatchPlayersZod: {}
+                    campaignsUpdateMatchPlayersZod: {},
                 };
 
                 updateMatchPlayersOperation = new UpdateMatchPlayersOperation({

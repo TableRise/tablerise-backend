@@ -11,7 +11,7 @@ const schemas = {
     campaignsUpdateMatchDatesZod,
     campaignPost,
     campaignInvitationEmailZod,
-    campaignsUpdateMatchPlayersZod
+    campaignsUpdateMatchPlayersZod,
 };
 
 export type SchemasCampaignType = typeof schemas;
