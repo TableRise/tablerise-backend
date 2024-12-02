@@ -98,7 +98,10 @@ export default class CampaignsRoutes {
                 ],
                 controller: this._campaignsController.inviteEmail,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
                     tag: 'invite',
                     description: desc.inviteEmail,
                 },
