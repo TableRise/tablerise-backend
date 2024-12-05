@@ -45,4 +45,6 @@ export type ErrorTypes =
     | 'player-already-in-match'
     | 'player-banned'
     | 'campaign-match-inexistent'
-    | 'avatar-inexistent';
+    | 'avatar-inexistent'
+    | 'character-does-not-exist'
+    | 'player-master-equal';

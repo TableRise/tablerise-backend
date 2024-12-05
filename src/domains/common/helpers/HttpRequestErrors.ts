@@ -32,6 +32,18 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'character-does-not-exist':
+                throw new HttpRequestErrors({
+                    message: 'Character not found or not belongs to user',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+            case 'player-master-equal':
+                throw new HttpRequestErrors({
+                    message: 'The new player can not be also the master',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign does not exist',

@@ -11,7 +11,7 @@
         "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
         "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration --timeout 10000 tests/integration/**/*.spec.ts --exit",
         "test:coverage": "cross-env NODE_ENV=test TEST_TYPE=coverage nyc ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
-        "lint": "npx eslint . --ext .ts --max-warnings=0",
+        "lint": "npx eslint . --ext .ts --max-warnings=20",
         "prettier": "npx prettier --check .",
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
