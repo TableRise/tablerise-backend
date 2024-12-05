@@ -5,16 +5,20 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import StateMachine from 'src/domains/common/StateMachine';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
+    private readonly _usersDetailsRepository;
     private readonly _logger;
 
     constructor({
         usersRepository,
+        usersDetailsRepository,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this._usersRepository = usersRepository;
+        this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 
         this.verify = this.verify.bind(this);
@@ -27,7 +31,9 @@ export default class VerifyEmailCodeMiddleware {
         const { email, code, flow } = req.query;
 
         this._logger('info', `Code from Request is = ${code as string}`);
+
         let userInDb = {} as UserInstance;
+        let userDetailsInDb = {} as UserDetailInstance;
 
         if (!id && !email)
             throw new HttpRequestErrors({
@@ -36,8 +42,17 @@ export default class VerifyEmailCodeMiddleware {
                 name: 'BadRequest',
             });
 
-        if (id) userInDb = await this._usersRepository.findOne({ userId: id });
-        if (email) userInDb = await this._usersRepository.findOne({ email });
+        if (id) {
+            userInDb = await this._usersRepository.findOne({ userId: id });
+            userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
+        }
+        
+        if (email && !id) {
+            userInDb = await this._usersRepository.findOne({ email });
+            userDetailsInDb = await this._usersDetailsRepository.findOne({
+                userId: userInDb.userId,
+            });
+        }
 
         this._logger(
             'info',
@@ -63,6 +78,8 @@ export default class VerifyEmailCodeMiddleware {
             accountSecurityMethod: !userInDb.twoFactorSecret.active
                 ? 'secret-question'
                 : 'two-factor',
+            ...(!userInDb.twoFactorSecret.active?
+                { secretQuestion: userDetailsInDb.secretQuestion?.question } : {}),
             lastUpdate: userInDb.updatedAt,
         };
 
