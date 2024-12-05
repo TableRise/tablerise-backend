@@ -46,7 +46,7 @@ export default class VerifyEmailCodeMiddleware {
             userInDb = await this._usersRepository.findOne({ userId: id });
             userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
         }
-        
+
         if (email && !id) {
             userInDb = await this._usersRepository.findOne({ email });
             userDetailsInDb = await this._usersDetailsRepository.findOne({
@@ -78,8 +78,9 @@ export default class VerifyEmailCodeMiddleware {
             accountSecurityMethod: !userInDb.twoFactorSecret.active
                 ? 'secret-question'
                 : 'two-factor',
-            ...(!userInDb.twoFactorSecret.active?
-                { secretQuestion: userDetailsInDb.secretQuestion?.question } : {}),
+            ...(!userInDb.twoFactorSecret.active
+                ? { secretQuestion: userDetailsInDb.secretQuestion?.question }
+                : {}),
             lastUpdate: userInDb.updatedAt,
         };
 
