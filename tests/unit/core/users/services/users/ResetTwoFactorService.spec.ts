@@ -3,7 +3,7 @@ import ResetTwoFactorService from 'src/core/users/services/users/ResetTwoFactorS
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -18,13 +18,18 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
 
     const logger = (): void => {};
 
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
+
     context('#reset', () => {
         context('When reset an user two factor with success', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_FINISH_RESET_TWO_FACTOR;
+                    stateMachine.props.status.WAIT_TO_FINISH_RESET_TWO_FACTOR;
 
                 usersRepository = {
                     findOne: () => user,
@@ -35,7 +40,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                 resetTwoFactorService = new ResetTwoFactorService({
                     usersRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -51,7 +56,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: () => user,
@@ -62,7 +67,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                 resetTwoFactorService = new ResetTwoFactorService({
                     usersRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -101,7 +106,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                 resetTwoFactorService = new ResetTwoFactorService({
                     usersRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });

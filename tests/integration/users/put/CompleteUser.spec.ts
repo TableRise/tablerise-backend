@@ -17,6 +17,8 @@ describe('When an user has the account completed', () => {
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'KJJH45',
             };
             user.password = 'oauth';

@@ -4,7 +4,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -18,6 +18,11 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
 
     const logger = (): void => {};
 
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
+
     context('#reset', () => {
         context('When user profile is reseted with success', () => {
             const userId = newUUID();
@@ -26,7 +31,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_RESET_PROFILE;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_RESET_PROFILE;
 
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = ['123'];
@@ -46,7 +51,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -70,7 +75,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = ['123'];
@@ -90,7 +95,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 

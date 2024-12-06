@@ -16,6 +16,8 @@ describe('When game info of an user is reset', () => {
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_RESET_PROFILE,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
 

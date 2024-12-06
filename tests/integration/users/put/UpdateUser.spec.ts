@@ -13,7 +13,12 @@ describe('When the user is updated', () => {
         user = DomainDataFaker.generateUsersJSON()[0];
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+        user.inProgress = {
+            status: InProgressStatusEnum.enum.DONE,
+            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+            code: '',
+        };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);

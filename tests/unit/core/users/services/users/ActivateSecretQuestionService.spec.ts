@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
     let activateSecretQuestionService: ActivateSecretQuestionService,
@@ -15,6 +15,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
         user: UserInstance,
         details: UserDetailInstance,
         payload: any,
+        stateMachine: any,
         userDetails: UserDetailInstance;
 
     const logger = (): void => {};
@@ -25,8 +26,18 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -45,7 +56,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -64,8 +75,18 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -80,7 +101,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -106,7 +127,17 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_COMPLETE;
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_COMPLETE;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -122,7 +153,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -152,8 +183,18 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => {},
+                };
+
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = null;
@@ -168,7 +209,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -213,7 +254,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 

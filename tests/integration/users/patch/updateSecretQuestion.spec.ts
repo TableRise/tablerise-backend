@@ -15,6 +15,8 @@ describe('When the user has secret question activated', () => {
 
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_UPDATE_SECRET_QUESTION,
+            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
         userDetails.secretQuestion = {

@@ -19,7 +19,12 @@ describe('When user game info are updated', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.DONE,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                code: '',
+            };
 
             userDetails.gameInfo.badges = [];
             userDetails.gameInfo.campaigns = [];

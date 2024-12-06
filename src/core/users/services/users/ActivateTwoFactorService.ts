@@ -2,25 +2,24 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { TwoFactorResponse } from 'src/types/api/users/http/response';
 import { __FullUser } from 'src/types/api/users/methods';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import StateMachine from 'src/domains/common/StateMachine';
 
 export default class ActivateTwoFactorService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _twoFactorHandler;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
-        stateMachineProps,
+        stateMachine,
         twoFactorHandler,
         logger,
     }: UserCoreDependencies['activateTwoFactorServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._twoFactorHandler = twoFactorHandler;
         this._logger = logger;
 
@@ -30,7 +29,7 @@ export default class ActivateTwoFactorService {
 
     public async activate(userId: string, isReset: boolean = false): Promise<__FullUser> {
         this._logger('info', 'Activate - ActivateTwoFactorService');
-        const { status, flows } = this._stateMachineProps;
+        const { status, flows } = this._stateMachine.props;
 
         const userInDb = await this._usersRepository.findOne({ userId });
 
@@ -47,10 +46,7 @@ export default class ActivateTwoFactorService {
 
         userDetailInDb.secretQuestion = null;
 
-        userInDb.inProgress.status = StateMachine(
-            flows.ACTIVATE_TWO_FACTOR,
-            userInDb.inProgress.status
-        );
+        await this._stateMachine.machine(flows.ACTIVATE_TWO_FACTOR, userInDb);
 
         return { user: userInDb, userDetails: userDetailInDb };
     }

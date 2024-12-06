@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import UpdateEmailService from 'src/core/users/services/users/UpdateEmailService';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -17,13 +18,23 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
 
     const logger = (): void => {};
 
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
+
     context('#update', () => {
         context('When an email is updated', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
+                user.inProgress = {
+                    ...user.inProgress,
+                    status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
+                    currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
+                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                };
 
                 updateEmailPayload = {
                     userId: user.userId,
@@ -35,7 +46,10 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     ...user,
                     email: updateEmailPayload.email,
                     inProgress: {
-                        status: InProgressStatusEnum.enum.DONE,
+                        status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
+                        currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
+                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
                 };
@@ -48,7 +62,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
 
                 updateEmailService = new UpdateEmailService({
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -80,6 +94,9 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     email: updateEmailPayload.email,
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
+                        currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
+                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
                 };
@@ -92,7 +109,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
 
                 updateEmailService = new UpdateEmailService({
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -132,6 +149,9 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     email: updateEmailPayload.email,
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
+                        currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
+                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
                 };
@@ -144,7 +164,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
 
                 updateEmailService = new UpdateEmailService({
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });

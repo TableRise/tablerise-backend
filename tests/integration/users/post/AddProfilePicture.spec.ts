@@ -12,7 +12,12 @@ describe('When a profile picture is uploaded', () => {
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
 
-        user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+        user.inProgress = {
+            status: InProgressStatusEnum.enum.DONE,
+            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+            code: '',
+        };
         user.picture = null;
 
         filePath = path.resolve(

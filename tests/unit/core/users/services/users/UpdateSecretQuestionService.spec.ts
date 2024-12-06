@@ -6,7 +6,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
     let updateSecretQuestionService: UpdateSecretQuestionService,
@@ -18,6 +18,11 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
 
     const logger = (): void => {};
 
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
+
     context('#update', () => {
         context('When update an user secret question with success', () => {
             beforeEach(() => {
@@ -25,7 +30,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: sinon.spy(() => user),
@@ -43,7 +48,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 updateSecretQuestionService = new UpdateSecretQuestionService({
                     usersDetailsRepository,
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -66,7 +71,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
                 userDetails.secretQuestion = null;
 
                 usersRepository = {
@@ -86,7 +91,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 updateSecretQuestionService = new UpdateSecretQuestionService({
                     usersDetailsRepository,
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -139,7 +144,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 updateSecretQuestionService = new UpdateSecretQuestionService({
                     usersDetailsRepository,
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });

@@ -6,6 +6,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: VerifyEmailService', () => {
     let verifyEmailService: VerifyEmailService,
@@ -16,6 +17,11 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
         httpRequestErrors: HttpRequestErrors;
 
     const logger = (): void => {};
+
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
 
     context('#sendEmail', () => {
         context('When sendEmail with success - Without newEmail', () => {
@@ -43,6 +49,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
 
                 verifyEmailService = new VerifyEmailService({
                     usersRepository,
+                    stateMachine,
                     emailSender,
                     httpRequestErrors,
                     logger,
@@ -81,6 +88,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
 
                 verifyEmailService = new VerifyEmailService({
                     usersRepository,
+                    stateMachine,
                     emailSender,
                     httpRequestErrors,
                     logger,
@@ -119,6 +127,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
 
                 verifyEmailService = new VerifyEmailService({
                     usersRepository,
+                    stateMachine,
                     emailSender,
                     httpRequestErrors,
                     logger,

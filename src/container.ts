@@ -26,7 +26,7 @@ import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
 import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
-import { StateMachineProps } from './domains/common/StateMachine';
+import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
 
@@ -74,6 +74,7 @@ export default function setup(
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),
+        stateMachine: asClass(StateMachine).singleton(),
 
         // #Strategies
         loginPassport: asClass(LoginPassport).singleton(),
@@ -105,7 +106,6 @@ export default function setup(
 
         // #Values
         emailType: asValue('common'),
-        stateMachineProps: asValue(StateMachineProps),
 
         // #Function Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),

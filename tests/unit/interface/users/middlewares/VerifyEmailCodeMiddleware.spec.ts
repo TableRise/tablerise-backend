@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import StateMachine from 'src/domains/common/StateMachine';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 
@@ -12,6 +13,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
         user: any;
 
     const logger = (): unknown => ({});
+
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => {},
+    } as any;
 
     context('When the user has the email code verified', () => {
         const request = {} as Request;
@@ -39,6 +45,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });
@@ -96,6 +103,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });
@@ -141,6 +149,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });
@@ -173,6 +182,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });
@@ -210,13 +220,14 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 usersRepository = {
                     findOne: () => ({
                         inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_VERIFY,
+                            status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
                             code: 'KLI44',
                         },
                     }),
                 };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                    stateMachine,
                     usersRepository,
                     logger,
                 });
