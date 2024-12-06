@@ -1,4 +1,5 @@
 import path from 'path';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
@@ -14,6 +15,7 @@ describe('When a profile picture is uploaded', () => {
 
         user.inProgress = {
             status: InProgressStatusEnum.enum.DONE,
+            currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
             prevStatusMustBe: InProgressStatusEnum.enum.DONE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',

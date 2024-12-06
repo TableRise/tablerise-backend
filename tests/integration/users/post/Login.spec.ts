@@ -5,6 +5,7 @@ import requester from 'tests/support/requester';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 describe('When the user is logged in', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -16,6 +17,7 @@ describe('When the user is logged in', () => {
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
+                currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
                 prevStatusMustBe: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
