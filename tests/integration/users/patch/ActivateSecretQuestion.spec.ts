@@ -1,3 +1,4 @@
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
@@ -19,6 +20,7 @@ describe('When the user has secret question activated', () => {
         userDetails.secretQuestion = secretQuestion;
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_SECRET_QUESTION,
+            currentFlow: stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION,
             prevStatusMustBe: InProgressStatusEnum.enum.DONE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',

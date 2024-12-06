@@ -1,3 +1,4 @@
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
@@ -21,6 +22,7 @@ describe('When user game info are updated', () => {
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
+                currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
                 prevStatusMustBe: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
