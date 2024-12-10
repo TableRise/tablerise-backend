@@ -15,6 +15,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         updateMatchDatesOperation: any,
         getCampaignByIdOperation: any,
         updateMatchPlayersOperation: any,
+        postBanPlayerOperation: any,
         getAllCampaignsOperation: any,
         postInvitationEmailOperation: any,
         updateCampaignImagesOperation: any;
@@ -527,6 +528,57 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#banPlayer', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchDatesOperation = { execute: () => {} };
+            updateMatchPlayersOperation = { execute: () => {} };
+            postBanPlayerOperation = { execute: sinon.spy(() => ({})) };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                publishmentOperation,
+                updateMatchMapImagesOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDatesOperation,
+                getCampaignByIdOperation,
+                updateMatchPlayersOperation,
+                postBanPlayerOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { playerId: '321' };
+
+            await campaignsController.banPlayer(request, response);
+
+            expect(postBanPlayerOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                playerId: request.query.playerId,
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         });
     });
 
