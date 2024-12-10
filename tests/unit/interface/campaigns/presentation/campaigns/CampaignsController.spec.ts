@@ -53,6 +53,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -102,6 +103,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -155,6 +157,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -200,6 +203,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -243,6 +247,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 updateMatchPlayersOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -299,6 +304,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 updateMatchPlayersOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -354,6 +360,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -407,6 +414,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -459,6 +467,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -511,6 +520,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                postBanPlayerOperation,
             });
         });
 
@@ -615,6 +625,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 updateCampaignImagesOperation,
                 postInvitationEmailOperation,
+                postBanPlayerOperation,
             });
         });
 

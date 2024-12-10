@@ -43,7 +43,7 @@ export default {
             deleteUrl: '',
             request: { success: true, status: 200 },
         },
-        password: faker.number.int({ min: 1, max: 999 }),
+        password: faker.word.sample(),
         logs: [],
     },
     infos: {
