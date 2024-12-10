@@ -28,6 +28,7 @@ export default {
             status: faker.helpers.arrayElement(['pending']),
         },
     ],
+    bannedPlayers: [faker.string.uuid()],
     matchData: {
         matchId: faker.string.uuid(),
         avatars: [],
@@ -42,6 +43,7 @@ export default {
             deleteUrl: '',
             request: { success: true, status: 200 },
         },
+        password: faker.number.int({ min: 1, max: 999 }),
         logs: [],
     },
     infos: {
