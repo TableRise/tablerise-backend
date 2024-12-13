@@ -19,7 +19,12 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
 
     const stateMachine = {
         props: StateMachine.prototype.props,
-        machine: () => {},
+        machine: sinon.spy(() => ({
+            userId: '123',
+            inProgress: { status: 'done' },
+            twoFactorSecret: { active: true },
+            updatedAt: '12-12-2024T00:00:00Z',
+        })),
     } as any;
 
     context('When user has the role checked', () => {
@@ -224,8 +229,64 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                 await authorizationMiddleware.twoFactor(request, response, next);
 
                 expect(twoFactorHandler.validate).to.have.been.called();
-                expect(usersRepository.update).to.have.been.called();
+                expect(stateMachine.machine).to.have.been.called();
                 expect(next).to.have.been.called();
+            });
+        });
+
+        context('And the 2FA token is correct but wrong status', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => ({
+                        inProgress: {
+                            status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                        },
+                        twoFactorSecret: {
+                            active: true,
+                        },
+                    }),
+                    update: sinon.spy(),
+                };
+
+                usersDetailsRepository = {};
+
+                twoFactorHandler = {
+                    validate: sinon.spy(() => true),
+                };
+
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    stateMachine,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
+                });
+            });
+
+            afterEach(() => {
+                sinon.restore();
+            });
+
+            it('should call next', async () => {
+                try {
+                    request.query = {
+                        email: '123@email.com',
+                        token: '123',
+                        flow: 'update-password',
+                    };
+
+                    await authorizationMiddleware.twoFactor(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal(
+                        'User status is invalid to perform this operation'
+                    );
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
             });
         });
 
@@ -479,6 +540,72 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                 expect(next).to.have.been.called();
             });
         });
+
+        context(
+            'And question/answer are correct with email but user status is invalid',
+            () => {
+                const secretQuestion = {
+                    question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                    answer: 'red',
+                };
+
+                beforeEach(() => {
+                    usersRepository = {
+                        findOne: () => ({
+                            email: '123@email.com',
+                            inProgress: {
+                                status: stateMachine.props.status.WAIT_TO_CONFIRM,
+                            },
+                        }),
+                        update: (user: UserInstance) => {},
+                    };
+
+                    usersDetailsRepository = {
+                        findOne: () => ({
+                            inProgress: { status: 'done' },
+                            secretQuestion,
+                        }),
+                    };
+
+                    twoFactorHandler = {};
+
+                    authorizationMiddleware = new AuthorizationMiddleware({
+                        usersRepository,
+                        stateMachine,
+                        usersDetailsRepository,
+                        twoFactorHandler,
+                        logger,
+                    });
+                });
+
+                it('should call next', async () => {
+                    try {
+                        request.params = {};
+                        request.query = {
+                            email: '123@email.com',
+                            flow: 'update-password',
+                        };
+                        request.body = secretQuestion;
+
+                        await authorizationMiddleware.secretQuestion(
+                            request,
+                            response,
+                            next
+                        );
+                        expect('it should not be here').to.be.equal(false);
+                    } catch (error) {
+                        const err = error as HttpRequestErrors;
+                        expect(err.message).to.be.equal(
+                            'User status is invalid to perform this operation'
+                        );
+                        expect(err.name).to.be.equal(
+                            getErrorName(HttpStatusCode.BAD_REQUEST)
+                        );
+                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    }
+                });
+            }
+        );
 
         context('And question/answer are incorrect', () => {
             const secretQuestionWrong = {

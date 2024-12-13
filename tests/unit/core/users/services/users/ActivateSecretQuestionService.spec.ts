@@ -28,12 +28,22 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 user.inProgress.status =
@@ -77,12 +87,22 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 user.inProgress.status =
@@ -129,12 +149,22 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 user.inProgress.status = stateMachine.props.status.WAIT_TO_COMPLETE;
@@ -185,12 +215,22 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 stateMachine = {
                     props: StateMachine.prototype.props,
-                    machine: () => {},
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
                 };
 
                 user.inProgress.status =

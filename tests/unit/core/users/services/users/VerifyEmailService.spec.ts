@@ -20,7 +20,12 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
 
     const stateMachine = {
         props: StateMachine.prototype.props,
-        machine: () => {},
+        machine: () => ({
+            userId: '123',
+            inProgress: { status: 'done' },
+            twoFactorSecret: { active: true },
+            updatedAt: '12-12-2024T00:00:00Z',
+        }),
     } as any;
 
     context('#sendEmail', () => {
