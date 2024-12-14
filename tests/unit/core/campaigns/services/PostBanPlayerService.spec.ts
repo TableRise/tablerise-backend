@@ -4,7 +4,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
-describe.only('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
+describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
     let postBanPlayerService: PostBanPlayerService,
         usersDetailsRepository: any,
         campaignsRepository: any,
