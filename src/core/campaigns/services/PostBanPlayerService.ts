@@ -39,7 +39,12 @@ export default class PostBanPlayerService {
         }
     }
 
-    private _updateInformation(campaign: any, playerId: string, campaignId: string, userDetailInDb: any): void {
+    private _updateInformation(
+        campaign: any,
+        playerId: string,
+        campaignId: string,
+        userDetailInDb: any
+    ): void {
         this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter(
@@ -79,10 +84,8 @@ export default class PostBanPlayerService {
             userId: playerId,
         });
 
-        this._updateInformation(campaign, playerId, campaignId, userDetailInDb);             
+        this._updateInformation(campaign, playerId, campaignId, userDetailInDb);
 
         await this._saveUpdates(campaign, userDetailInDb);
     }
-
-
 }
