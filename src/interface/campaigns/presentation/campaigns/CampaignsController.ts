@@ -124,7 +124,7 @@ export default class CampaignsController {
             playerId,
         });
 
-        return res.status(HttpStatusCode.OK).end();
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {

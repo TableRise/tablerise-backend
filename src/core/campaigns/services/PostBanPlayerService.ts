@@ -17,17 +17,12 @@ export default class PostBanPlayerService {
         this._logger = logger;
     }
 
-    public async banPlayer({
-        campaignId,
-        playerId,
-    }: PostBanPlayerPayload): Promise<void> {
-        this._logger('info', 'banPlayer - PostBanPlayerService');
+    private _validateBanPlayer(campaign: any, playerId: string): void {
+        this._logger('info', 'validateBanPlayer - PostBanPlayerService');
 
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        const isBanned = campaign.bannedPlayers.some((data: string) => data === playerId);
 
-        const isbanned = campaign.bannedPlayers.some((data: string) => data === playerId);
-
-        if (isbanned) {
+        if (isBanned) {
             HttpRequestErrors.throwError('player-already-banned');
         }
 
@@ -42,6 +37,10 @@ export default class PostBanPlayerService {
         if (playerInCampaign.role === 'dungeon_master') {
             HttpRequestErrors.throwError('player-is-the-dungeon-master');
         }
+    }
+
+    private _updateInformation(campaign: any, playerId: string, campaignId: string, userDetailInDb: any): void {
+        this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter(
             (player: { userId: string }) => player.userId !== playerId
@@ -49,20 +48,41 @@ export default class PostBanPlayerService {
 
         campaign.bannedPlayers.push(playerId);
 
+        userDetailInDb.gameInfo.bannedFromCampaigns.push(campaignId);
+    }
+
+    private async _saveUpdates(campaign: any, userDetailInDb: any): Promise<void> {
+        this._logger('info', 'saveUpdates - PostBanPlayerService');
+
         await this._campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
-
-        const userDetailInDb = await this._usersDetailsRepository.findOne({
-            userId: playerId,
-        });
-
-        userDetailInDb.gameInfo.bannedFromCampaigns.push(campaignId);
 
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
     }
+
+    public async banPlayer({
+        campaignId,
+        playerId,
+    }: PostBanPlayerPayload): Promise<void> {
+        this._logger('info', 'banPlayer - PostBanPlayerService');
+
+        const campaign = await this._campaignsRepository.findOne({ campaignId });
+
+        this._validateBanPlayer(campaign, playerId);
+
+        const userDetailInDb = await this._usersDetailsRepository.findOne({
+            userId: playerId,
+        });
+
+        this._updateInformation(campaign, playerId, campaignId, userDetailInDb);             
+
+        await this._saveUpdates(campaign, userDetailInDb);
+    }
+
+
 }
