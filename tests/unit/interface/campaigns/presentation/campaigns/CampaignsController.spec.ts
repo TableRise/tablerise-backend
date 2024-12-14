@@ -588,7 +588,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 campaignId: request.params.id,
                 playerId: request.query.playerId,
             });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
         });
     });
 

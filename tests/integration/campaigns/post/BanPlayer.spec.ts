@@ -31,7 +31,7 @@ describe('when the player is banned', () => {
         it('must ban player successfully', async () => {
             await requester()
                 .post(`/campaigns/${campaign.campaignId}/ban?playerId=${user.userId}`)
-                .expect(HttpStatusCode.OK);
+                .expect(HttpStatusCode.NO_CONTENT);
         });
     });
 });
