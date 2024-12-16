@@ -6,25 +6,33 @@ import {
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import StateMachine from 'src/domains/common/StateMachine';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class AuthorizationMiddleware {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _stateMachine;
     private readonly _twoFactorHandler;
     private readonly _logger;
+    private readonly _ALLOWED_STATUS;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
+        stateMachine,
         twoFactorHandler,
         logger,
     }: InterfaceDependencies['authorizationMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._stateMachine = stateMachine;
         this._twoFactorHandler = twoFactorHandler;
         this._logger = logger;
+
+        this._ALLOWED_STATUS = [
+            stateMachine.props.status.DONE,
+            stateMachine.props.status.WAIT_TO_SECOND_AUTH,
+        ];
 
         this.checkAdminRole = this.checkAdminRole.bind(this);
         this.twoFactor = this.twoFactor.bind(this);
@@ -73,6 +81,9 @@ export default class AuthorizationMiddleware {
             HttpRequestErrors.throwError('2fa-no-active');
         }
 
+        if (!this._ALLOWED_STATUS.includes(userInDb.inProgress.status))
+            HttpRequestErrors.throwError('invalid-user-status');
+
         const validateSecret = this._twoFactorHandler.validate({
             secret: userInDb.twoFactorSecret.secret as string,
             token: token as string,
@@ -80,21 +91,16 @@ export default class AuthorizationMiddleware {
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
-        userInDb.inProgress.status = StateMachine(
+        const userAuthorized = await this._stateMachine.machine(
             flow as stateFlowsKeys,
-            userInDb.inProgress.status
+            userInDb
         );
 
-        await this._usersRepository.update({
-            query: { userId: userInDb.userId },
-            payload: userInDb,
-        });
-
         res.locals = {
-            userId: userInDb.userId,
-            userStatus: userInDb.inProgress.status,
+            userId: userAuthorized.userId,
+            userStatus: userAuthorized.inProgress.status,
             accountSecurityMethod: 'two-factor',
-            lastUpdate: userInDb.updatedAt,
+            lastUpdate: userAuthorized.updatedAt,
         };
 
         next();
@@ -133,6 +139,9 @@ export default class AuthorizationMiddleware {
             return;
         }
 
+        if (!this._ALLOWED_STATUS.includes(userInDb.inProgress.status))
+            HttpRequestErrors.throwError('invalid-user-status');
+
         const question = payload.question || query.question;
         const answer = payload.answer || query.answer;
 
@@ -141,21 +150,16 @@ export default class AuthorizationMiddleware {
         if (answer !== userDetailsInDb.secretQuestion.answer)
             HttpRequestErrors.throwError('incorrect-secret-question');
 
-        userInDb.inProgress.status = StateMachine(
+        const userAuthorized = await this._stateMachine.machine(
             flow as stateFlowsKeys,
-            userInDb.inProgress.status
+            userInDb
         );
 
-        await this._usersRepository.update({
-            query: { userId: userInDb.userId },
-            payload: userInDb,
-        });
-
         res.locals = {
-            userId: userInDb.userId,
-            userStatus: userInDb.inProgress.status,
+            userId: userAuthorized.userId,
+            userStatus: userAuthorized.inProgress.status,
             accountSecurityMethod: 'secret-question',
-            lastUpdate: userInDb.updatedAt,
+            lastUpdate: userAuthorized.updatedAt,
         };
 
         next();

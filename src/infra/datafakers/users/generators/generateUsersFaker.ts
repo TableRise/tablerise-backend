@@ -4,11 +4,18 @@ import { UserJSONPayload } from 'src/types/modules/infra/datafakers/users/Domain
 import dataGenerator from '../dataGenerator';
 import DomainDataFaker from '../../campaigns/DomainDataFaker';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 function createUserFaker({ userId = newUUID() }: UserInstance): UserInstance {
     return {
         userId,
-        inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM, code: 'HJS74' },
+        inProgress: {
+            status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            currentFlow: stateFlowsEnum.enum.CREATE_USER,
+            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+            code: 'HJS74',
+        },
         providerId: '',
         email: dataGenerator.email(),
         password: 'TheWorld@122',

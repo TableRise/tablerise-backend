@@ -4,29 +4,27 @@ import {
 } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import StateMachine from 'src/domains/common/StateMachine';
-import { StateMachineFlowKeys } from 'src/types/modules/domains/users/StateMachine';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailService {
     private readonly _usersRepository;
+    private readonly _stateMachine;
     private readonly _emailSender;
     private readonly _logger;
 
     constructor({
         usersRepository,
+        stateMachine,
         emailSender,
         logger,
     }: UserCoreDependencies['verifyEmailServiceContract']) {
         this._usersRepository = usersRepository;
+        this._stateMachine = stateMachine;
         this._emailSender = emailSender;
         this._logger = logger;
     }
 
-    private async _send(
-        user: UserInstance,
-        flow: StateMachineFlowKeys
-    ): Promise<UserInstance> {
+    private async _send(user: UserInstance, flow: stateFlowsKeys): Promise<UserInstance> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
 
@@ -46,10 +44,9 @@ export default class VerifyEmailService {
             HttpRequestErrors.throwError('user-inexistent');
         }
 
-        user.inProgress = {
-            status: StateMachine(flow as stateFlowsKeys, user.inProgress.status),
-            code: emailSendResult.verificationCode as string,
-        };
+        user.inProgress.code = emailSendResult.verificationCode as string;
+
+        await this._stateMachine.machine(flow, user);
 
         return user;
     }
@@ -58,7 +55,7 @@ export default class VerifyEmailService {
         this._logger('info', 'SendEmail - VerifyEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
 
-        const userToUpdate = await this._send(userInDb, flow as StateMachineFlowKeys);
+        const userToUpdate = await this._send(userInDb, flow as stateFlowsKeys);
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },

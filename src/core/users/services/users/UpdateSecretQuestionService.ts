@@ -1,24 +1,23 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
-import StateMachine from 'src/domains/common/StateMachine';
 import { __FullUser } from 'src/types/api/users/methods';
 
 export default class UpdateSecretQuestionService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['updateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
 
         this.update = this.update.bind(this);
@@ -30,7 +29,7 @@ export default class UpdateSecretQuestionService {
         payload,
     }: UpdateSecretQuestionPayload): Promise<__FullUser> {
         this._logger('info', 'Update - UpdateSecretQuestionService');
-        const { flows } = this._stateMachineProps;
+        const { flows } = this._stateMachine.props;
 
         if (!payload.answer || !payload.question)
             HttpRequestErrors.throwError('new-structure-secret-question-missing');
@@ -43,10 +42,7 @@ export default class UpdateSecretQuestionService {
             answer: payload.answer,
         };
 
-        userInDb.inProgress.status = StateMachine(
-            flows.UPDATE_SECRET_QUESTION,
-            userInDb.inProgress.status
-        );
+        await this._stateMachine.machine(flows.UPDATE_SECRET_QUESTION, userInDb);
 
         return { user: userInDb, userDetails: userDetailsInDb };
     }

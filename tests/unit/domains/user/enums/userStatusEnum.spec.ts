@@ -2,6 +2,7 @@ import userStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Domains :: User :: Enum :: UserStatusEnum', () => {
     const enumKeysFixed = [
+        'WAIT_FOR_NEW_FLOW',
         'WAIT_TO_CONFIRM',
         'WAIT_TO_COMPLETE',
         'WAIT_TO_VERIFY',
@@ -23,6 +24,7 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'DONE',
     ];
     const enumValuesFixed = [
+        'wait-for-new-flow',
         'wait-to-confirm',
         'wait-to-complete',
         'wait-to-verify',

@@ -4,7 +4,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 
 export interface UpdateEmailOperationContract {
     updateEmailService: UpdateEmailService;
@@ -15,7 +15,7 @@ export interface UpdateEmailOperationContract {
 
 export interface UpdateEmailServiceContract {
     usersRepository: UsersRepository;
-    stateMachineProps: typeof StateMachineProps;
+    stateMachine: StateMachine;
     logger: Logger;
 }
 
