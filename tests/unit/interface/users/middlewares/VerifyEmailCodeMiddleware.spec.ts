@@ -9,6 +9,7 @@ import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEma
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
     let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
         usersRepository: any,
+        usersDetailsRepository: any,
         user: any;
 
     const logger = (): unknown => ({});
@@ -16,7 +17,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
     context('When the user has the email code verified', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const next = sinon.spy(() => {}) as NextFunction;
+        const next = sinon.spy(() => { }) as NextFunction;
 
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
@@ -37,8 +38,15 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     update: sinon.spy(),
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -94,8 +102,15 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     update: sinon.spy(),
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -139,8 +154,11 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             beforeEach(() => {
                 usersRepository = { findOne: () => null };
 
+                usersDetailsRepository = { findOne: () => null }
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -171,8 +189,16 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     },
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => {
+                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                        throw HttpRequestErrors.throwError('user-inexistent');
+                    },
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -216,8 +242,15 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
