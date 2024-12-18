@@ -43,6 +43,7 @@ export default {
             request: { success: true, status: 200 },
         },
         logs: [],
+        password: '1234',
     },
     infos: {
         campaignAge: '1',
@@ -50,6 +51,7 @@ export default {
         announcements: [],
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     },
+    password: '1234',
     lores: {
         playerCharacters: [],
         dungeonMasterCharacters: [],
