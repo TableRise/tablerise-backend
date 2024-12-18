@@ -4,19 +4,23 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
+    private readonly _usersDetailsRepository;
     private readonly _stateMachine;
     private readonly _logger;
     private readonly _ALLOWED_STATUS;
 
     constructor({
         usersRepository,
+        usersDetailsRepository,
         stateMachine,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this._usersRepository = usersRepository;
+        this._usersDetailsRepository = usersDetailsRepository;
         this._stateMachine = stateMachine;
         this._logger = logger;
 
@@ -31,7 +35,10 @@ export default class VerifyEmailCodeMiddleware {
         this.verify = this.verify.bind(this);
     }
 
-    private async _getUserToValidate(id: string, email: string): Promise<UserInstance> {
+    private async _getUserToValidate(
+        id: string,
+        email: string
+    ): Promise<{ userInDb: UserInstance; userDetailsInDb: UserDetailInstance }> {
         if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
@@ -39,9 +46,19 @@ export default class VerifyEmailCodeMiddleware {
                 name: 'BadRequest',
             });
 
-        if (id) return this._usersRepository.findOne({ userId: id });
+        if (id) {
+            const userInDb = await this._usersRepository.findOne({ userId: id });
+            const userDetailsInDb = await this._usersDetailsRepository.findOne({
+                userId: id,
+            });
 
-        return this._usersRepository.findOne({ email });
+            return { userInDb, userDetailsInDb };
+        }
+
+        const userInDb = await this._usersRepository.findOne({ email });
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({ email });
+
+        return { userInDb, userDetailsInDb };
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -52,20 +69,26 @@ export default class VerifyEmailCodeMiddleware {
 
         this._logger('info', `Code from Request is = ${code as string}`);
 
-        const userInDb = await this._getUserToValidate(id, email as string);
+        const userRepository = await this._getUserToValidate(id, email as string);
 
-        this._logger('info', `Code in Database is = ${userInDb.inProgress.code}`);
-        this._logger('info', `User status = ${userInDb.inProgress.status}`);
+        this._logger(
+            'info',
+            `Code in Database is = ${userRepository.userInDb.inProgress.code}`
+        );
+        this._logger(
+            'info',
+            `User status = ${userRepository.userInDb.inProgress.status}`
+        );
 
-        if (!this._ALLOWED_STATUS.includes(userInDb.inProgress.status))
+        if (!this._ALLOWED_STATUS.includes(userRepository.userInDb.inProgress.status))
             HttpRequestErrors.throwError('invalid-user-status');
 
-        if (code !== userInDb.inProgress.code)
+        if (code !== userRepository.userInDb.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const userVerified = await this._stateMachine.machine(
             flow as stateFlowsKeys,
-            userInDb
+            userRepository.userInDb
         );
 
         res.locals = {
@@ -74,6 +97,12 @@ export default class VerifyEmailCodeMiddleware {
             accountSecurityMethod: !userVerified.twoFactorSecret.active
                 ? 'secret-question'
                 : 'two-factor',
+            ...(!userRepository.userInDb.twoFactorSecret.active
+                ? {
+                      secretQuestion:
+                          userRepository.userDetailsInDb.secretQuestion?.question,
+                  }
+                : null),
             lastUpdate: userVerified.updatedAt,
         };
 

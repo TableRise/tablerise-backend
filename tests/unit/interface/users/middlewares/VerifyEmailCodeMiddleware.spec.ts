@@ -49,6 +49,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     update: sinon.spy(),
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
@@ -104,6 +110,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     updatedAt: '12-12-2024T00:00:00Z',
                 }));
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 usersRepository = {
                     findOne: () => user,
                     update: sinon.spy(),
@@ -152,6 +164,8 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             beforeEach(() => {
                 usersRepository = { findOne: () => null };
 
+                usersDetailsRepository = { findOne: () => null };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
@@ -180,6 +194,13 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
         context('And params are incorrect - id or email inexistent', () => {
             beforeEach(() => {
                 usersRepository = {
+                    findOne: () => {
+                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                        throw HttpRequestErrors.throwError('user-inexistent');
+                    },
+                };
+
+                usersDetailsRepository = {
                     findOne: () => {
                         // eslint-disable-next-line @typescript-eslint/no-throw-literal
                         throw HttpRequestErrors.throwError('user-inexistent');
@@ -233,6 +254,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
+                    }),
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     stateMachine,
                     usersRepository,
@@ -267,6 +294,12 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                             status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
                             code: 'KLI44',
                         },
+                    }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        secretQuestion: { question: 'What is your favorite color?' },
                     }),
                 };
 
