@@ -118,6 +118,51 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
             });
         });
 
+        context('When a player is added to match data - wrong password', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                hashPassword = await SecurePasswordHandler.hashPassword('1234');
+                campaign.password = hashPassword;
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaignPlayersLength = campaign.campaignPlayers.length;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    characterId: newUUID(),
+                    userId: userDetails.userId,
+                    password: '0000',
+                };
+
+                addMatchPlayersService = new AddMatchPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should return the add campaign', async () => {
+                try {
+                    await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal(
+                        'Unauthorized'
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+                }
+            });
+        });
+
         context('When a player is added to match - no character', () => {
             before(async () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];

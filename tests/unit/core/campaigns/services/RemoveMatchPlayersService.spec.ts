@@ -4,6 +4,9 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
     let removeMatchPlayersService: RemoveMatchPlayersService,
@@ -83,6 +86,62 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                 expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.equal(
                     campaignPlayersLength - 1
                 );
+            });
+        });
+
+        context('When a player is removed from match but the player is the dungeon_master', () => {
+            before(() => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaign.campaignPlayers = [
+                    {
+                        userId: userDetails.userId,
+                        characterIds: [],
+                        role: 'dungeon_master',
+                        status: 'active',
+                    },
+                ];
+
+                userDetails.gameInfo.campaigns = [campaign.campaignId];
+
+                userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
+                campaignPlayersLength = campaign.campaignPlayers.length;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                removePlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: userDetails.userId,
+                };
+                removeMatchPlayersService = new RemoveMatchPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await removeMatchPlayersService.removeMatchPlayers(
+                        removePlayersPayload
+                    );
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal(
+                        'The new player can not be also the master'
+                    );
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.BAD_REQUEST)
+                    );
+                }
             });
         });
     });
