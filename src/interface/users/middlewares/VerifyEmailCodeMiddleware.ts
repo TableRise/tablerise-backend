@@ -4,22 +4,15 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
     private readonly _stateMachine;
     private readonly _logger;
     private readonly _ALLOWED_STATUS;
 
     constructor({
         usersRepository,
-        usersDetailsRepository,
-        logger,
-    }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
         stateMachine,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
@@ -59,22 +52,7 @@ export default class VerifyEmailCodeMiddleware {
 
         this._logger('info', `Code from Request is = ${code as string}`);
 
-        let userInDb = {} as UserInstance;
-        let userDetailsInDb = {} as UserDetailInstance;
-
         const userInDb = await this._getUserToValidate(id, email as string);
-
-        if (id) {
-            userInDb = await this._usersRepository.findOne({ userId: id });
-            userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: id });
-        }
-
-        if (email && !id) {
-            userInDb = await this._usersRepository.findOne({ email });
-            userDetailsInDb = await this._usersDetailsRepository.findOne({
-                userId: userInDb.userId,
-            });
-        }
 
         this._logger('info', `Code in Database is = ${userInDb.inProgress.code}`);
         this._logger('info', `User status = ${userInDb.inProgress.status}`);
@@ -96,9 +74,6 @@ export default class VerifyEmailCodeMiddleware {
             accountSecurityMethod: !userVerified.twoFactorSecret.active
                 ? 'secret-question'
                 : 'two-factor',
-            ...(!userInDb.twoFactorSecret.active
-                ? { secretQuestion: userDetailsInDb.secretQuestion?.question }
-                : {}),
             lastUpdate: userVerified.updatedAt,
         };
 

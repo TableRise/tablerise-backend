@@ -28,7 +28,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
     context('When the user has the email code verified', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const next = sinon.spy(() => { }) as NextFunction;
+        const next = sinon.spy(() => {}) as NextFunction;
 
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
@@ -47,12 +47,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 usersRepository = {
                     findOne: () => user,
                     update: sinon.spy(),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
                 };
 
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
@@ -115,12 +109,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     update: sinon.spy(),
                 };
 
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
@@ -164,12 +152,10 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             beforeEach(() => {
                 usersRepository = { findOne: () => null };
 
-                usersDetailsRepository = { findOne: () => null }
-
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
-                    stateMachine
+                    stateMachine,
                     logger,
                 });
             });
@@ -194,13 +180,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
         context('And params are incorrect - id or email inexistent', () => {
             beforeEach(() => {
                 usersRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
-
-                usersDetailsRepository = {
                     findOne: () => {
                         // eslint-disable-next-line @typescript-eslint/no-throw-literal
                         throw HttpRequestErrors.throwError('user-inexistent');
@@ -254,12 +233,6 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     stateMachine,
                     usersRepository,
@@ -300,6 +273,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     stateMachine,
                     usersRepository,
+                    usersDetailsRepository,
                     logger,
                 });
             });
