@@ -89,61 +89,64 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
             });
         });
 
-        context('When a player is removed from match but the player is the dungeon_master', () => {
-            before(() => {
-                campaign = DomainDataFaker.generateCampaignsJSON()[0];
-                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+        context(
+            'When a player is removed from match but the player is the dungeon_master',
+            () => {
+                before(() => {
+                    campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                    userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
 
-                campaign.campaignPlayers = [
-                    {
+                    campaign.campaignPlayers = [
+                        {
+                            userId: userDetails.userId,
+                            characterIds: [],
+                            role: 'dungeon_master',
+                            status: 'active',
+                        },
+                    ];
+
+                    userDetails.gameInfo.campaigns = [campaign.campaignId];
+
+                    userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
+                    campaignPlayersLength = campaign.campaignPlayers.length;
+
+                    campaignsRepository = {
+                        findOne: () => ({ ...campaign }),
+                    };
+
+                    usersDetailsRepository = {
+                        findOne: () => ({ ...userDetails }),
+                    };
+
+                    removePlayersPayload = {
+                        campaignId: campaign.campaignId,
                         userId: userDetails.userId,
-                        characterIds: [],
-                        role: 'dungeon_master',
-                        status: 'active',
-                    },
-                ];
-
-                userDetails.gameInfo.campaigns = [campaign.campaignId];
-
-                userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
-                campaignPlayersLength = campaign.campaignPlayers.length;
-
-                campaignsRepository = {
-                    findOne: () => ({ ...campaign }),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({ ...userDetails }),
-                };
-
-                removePlayersPayload = {
-                    campaignId: campaign.campaignId,
-                    userId: userDetails.userId,
-                };
-                removeMatchPlayersService = new RemoveMatchPlayersService({
-                    logger,
-                    campaignsRepository,
-                    usersDetailsRepository,
+                    };
+                    removeMatchPlayersService = new RemoveMatchPlayersService({
+                        logger,
+                        campaignsRepository,
+                        usersDetailsRepository,
+                    });
                 });
-            });
 
-            it('should throw an error', async () => {
-                try {
-                    await removeMatchPlayersService.removeMatchPlayers(
-                        removePlayersPayload
-                    );
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'The new player can not be also the master'
-                    );
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
-                }
-            });
-        });
+                it('should throw an error', async () => {
+                    try {
+                        await removeMatchPlayersService.removeMatchPlayers(
+                            removePlayersPayload
+                        );
+                    } catch (error) {
+                        const err = error as HttpRequestErrors;
+                        expect(err.message).to.be.equal(
+                            'The new player can not be also the master'
+                        );
+                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                        expect(err.name).to.be.equal(
+                            getErrorName(HttpStatusCode.BAD_REQUEST)
+                        );
+                    }
+                });
+            }
+        );
     });
 
     context('#save', () => {

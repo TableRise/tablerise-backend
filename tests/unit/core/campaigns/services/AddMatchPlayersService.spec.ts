@@ -154,11 +154,11 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Unauthorized'
-                    );
+                    expect(err.message).to.be.equal('Unauthorized');
                     expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+                    expect(err.name).to.be.equal(
+                        getErrorName(HttpStatusCode.UNAUTHORIZED)
+                    );
                 }
             });
         });
