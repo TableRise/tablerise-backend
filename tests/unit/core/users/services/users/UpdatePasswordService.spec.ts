@@ -5,7 +5,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
     let updatePasswordService: UpdatePasswordService,
@@ -14,6 +14,16 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
         payload: any;
 
     const logger = (): void => {};
+
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => ({
+            userId: '123',
+            inProgress: { status: 'done' },
+            twoFactorSecret: { active: true },
+            updatedAt: '12-12-2024T00:00:00Z',
+        }),
+    } as any;
 
     context('#update', () => {
         context('When update an user password with success', () => {
@@ -36,7 +46,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
 
                 updatePasswordService = new UpdatePasswordService({
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -64,7 +74,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
 
                 updatePasswordService = new UpdatePasswordService({
                     usersRepository,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });

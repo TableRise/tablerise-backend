@@ -7,6 +7,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
     let verifyUserMiddleware: VerifyUserMiddleware,
@@ -14,6 +15,16 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
         usersRepository: any;
 
     const logger = (): void => {};
+
+    const stateMachine = {
+        props: StateMachine.prototype.props,
+        machine: () => ({
+            userId: '123',
+            inProgress: { status: 'done' },
+            twoFactorSecret: { active: true },
+            updatedAt: '12-12-2024T00:00:00Z',
+        }),
+    } as any;
 
     context('#userStatus', () => {
         context('When the user has the status validated', () => {
@@ -31,6 +42,7 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
 
                 verifyUserMiddleware = new VerifyUserMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });
@@ -57,6 +69,7 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
 
                 verifyUserMiddleware = new VerifyUserMiddleware({
                     usersRepository,
+                    stateMachine,
                     logger,
                 });
             });

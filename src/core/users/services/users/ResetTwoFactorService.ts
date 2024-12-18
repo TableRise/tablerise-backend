@@ -1,24 +1,23 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { TwoFactorResponse } from 'src/types/api/users/http/response';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import StateMachine from 'src/domains/common/StateMachine';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ResetTwoFactorService {
     private readonly _usersRepository;
     private readonly _twoFactorHandler;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersRepository,
         twoFactorHandler,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['resetTwoFactorServiceContract']) {
         this._usersRepository = usersRepository;
         this._twoFactorHandler = twoFactorHandler;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
 
         this.reset = this.reset.bind(this);
@@ -27,7 +26,7 @@ export default class ResetTwoFactorService {
 
     public async reset(userId: string): Promise<UserInstance> {
         this._logger('info', 'Reset - ResetTwoFactorService');
-        const { status, flows } = this._stateMachineProps;
+        const { status, flows } = this._stateMachine.props;
         const userInDb = await this._usersRepository.findOne({ userId });
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_RESET_TWO_FACTOR)
@@ -35,10 +34,7 @@ export default class ResetTwoFactorService {
 
         userInDb.twoFactorSecret = await this._twoFactorHandler.create(userInDb.email);
 
-        userInDb.inProgress.status = StateMachine(
-            flows.RESET_TWO_FACTOR,
-            userInDb.inProgress.status
-        );
+        await this._stateMachine.machine(flows.RESET_TWO_FACTOR, userInDb);
 
         return userInDb;
     }
