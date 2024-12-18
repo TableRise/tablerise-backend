@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { updateUserDetails } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import stateFlowsEnum, { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 import { InProgressStatus } from '../enums/InProgressStatusEnum';
 
 const twoFactorSecretZodSchema = z.object({
@@ -49,6 +49,9 @@ export type UserInstance = z.infer<typeof usersZodSchema> & {
     providerId: string;
     inProgress: {
         status: InProgressStatus;
+        currentFlow: stateFlowsKeys;
+        prevStatusMustBe: InProgressStatus;
+        nextStatusWillBe: InProgressStatus;
         code: string;
     };
     twoFactorSecret: {

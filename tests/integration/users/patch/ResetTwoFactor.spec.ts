@@ -1,3 +1,4 @@
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
@@ -15,6 +16,9 @@ describe('When the user has twoFactor reset', () => {
 
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_FINISH_RESET_TWO_FACTOR,
+            currentFlow: stateFlowsEnum.enum.RESET_TWO_FACTOR,
+            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_START_RESET_TWO_FACTOR,
+            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
 
