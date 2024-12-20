@@ -96,9 +96,9 @@ export default class VerifyEmailCodeMiddleware {
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
                 ? `secret-question${
-                      userRepository.userDetailsInDb.secretQuestion
-                          ? `%${userRepository.userDetailsInDb.secretQuestion.question}`
-                          : ''
+                      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                      userRepository.userDetailsInDb.secretQuestion &&
+                      `%${userRepository.userDetailsInDb.secretQuestion.question}`
                   }`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
