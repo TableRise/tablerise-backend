@@ -95,14 +95,11 @@ export default class VerifyEmailCodeMiddleware {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? 'secret-question'
+                ? `secret-question%${
+                      userRepository.userDetailsInDb.secretQuestion &&
+                      userRepository.userDetailsInDb.secretQuestion.question
+                  }`
                 : 'two-factor',
-            ...(!userRepository.userInDb.twoFactorSecret.active
-                ? {
-                      secretQuestion:
-                          userRepository.userDetailsInDb.secretQuestion?.question,
-                  }
-                : null),
             lastUpdate: userVerified.updatedAt,
         };
 
