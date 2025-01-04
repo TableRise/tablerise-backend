@@ -4,7 +4,10 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import { UserDetailInstance, UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import {
+    UserDetailInstance,
+    UserSecretQuestion,
+} from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
@@ -95,7 +98,12 @@ export default class VerifyEmailCodeMiddleware {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${(userRepository.userDetailsInDb.secretQuestion as UserSecretQuestion).question}`
+                ? `secret-question%${
+                      (
+                          userRepository.userDetailsInDb
+                              .secretQuestion as UserSecretQuestion
+                      ).question
+                  }`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
         };
