@@ -4,10 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import {
-    UserDetailInstance,
-    UserSecretQuestion,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
@@ -38,10 +35,7 @@ export default class VerifyEmailCodeMiddleware {
         this.verify = this.verify.bind(this);
     }
 
-    private async _getUserToValidate(
-        id: string,
-        email: string
-    ): Promise<{ userInDb: UserInstance; userDetailsInDb: UserDetailInstance }> {
+    private async _getUserToValidate(id: string, email: string): Promise<UserInstance> {
         if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
@@ -51,17 +45,13 @@ export default class VerifyEmailCodeMiddleware {
 
         if (id) {
             const userInDb = await this._usersRepository.findOne({ userId: id });
-            const userDetailsInDb = await this._usersDetailsRepository.findOne({
-                userId: id,
-            });
 
-            return { userInDb, userDetailsInDb };
+            return userInDb;
         }
 
         const userInDb = await this._usersRepository.findOne({ email });
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ email });
 
-        return { userInDb, userDetailsInDb };
+        return userInDb;
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -74,35 +64,30 @@ export default class VerifyEmailCodeMiddleware {
 
         const userRepository = await this._getUserToValidate(id, email as string);
 
-        this._logger(
-            'info',
-            `Code in Database is = ${userRepository.userInDb.inProgress.code}`
-        );
-        this._logger(
-            'info',
-            `User status = ${userRepository.userInDb.inProgress.status}`
-        );
+        this._logger('info', `Code in Database is = ${userRepository.inProgress.code}`);
+        this._logger('info', `User status = ${userRepository.inProgress.status}`);
 
-        if (!this._ALLOWED_STATUS.includes(userRepository.userInDb.inProgress.status))
+        if (!this._ALLOWED_STATUS.includes(userRepository.inProgress.status))
             HttpRequestErrors.throwError('invalid-user-status');
 
-        if (code !== userRepository.userInDb.inProgress.code)
+        if (code !== userRepository.inProgress.code)
             HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const userVerified = await this._stateMachine.machine(
             flow as stateFlowsKeys,
-            userRepository.userInDb
+            userRepository
         );
+
+        const userDetails = await this._usersDetailsRepository.findOne({
+            userId: userRepository.userId,
+        });
 
         res.locals = {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
                 ? `secret-question%${
-                      (
-                          userRepository.userDetailsInDb
-                              .secretQuestion as UserSecretQuestion
-                      ).question
+                      (userDetails.secretQuestion as UserSecretQuestion).question
                   }`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
