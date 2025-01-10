@@ -43,7 +43,7 @@ console.log(
 console.log(chalk.blue('🔍 Executando lint...'));
 execSilent('npm run lint');
 console.log(chalk.blue('🔍 Executando prettier...'));
-execSilent('npm run prettier');
+exec('npm run prettier');
 
 // Verificação do nome da branch
 if (!REGEX.test(BRANCH)) {
