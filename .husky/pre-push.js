@@ -18,13 +18,14 @@ const BRANCH = execSync('git symbolic-ref --short HEAD').toString().trim();
 // Regex corrigido
 const REGEX = /^(feat|bugfix|hotfix)\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)$/;
 
-
 // Exibição do título do hook
 console.log(
     chalk.white.bold(
         '\n╔══════════════════════════════════╗\n' +
-        '║ ' + chalk.blue.bold('   🧙 TableRise Push Hook 🌙') + '     ║\n' +
-        '╚══════════════════════════════════╝'
+            '║ ' +
+            chalk.blue.bold('   🧙 TableRise Push Hook 🌙') +
+            '     ║\n' +
+            '╚══════════════════════════════════╝'
     )
 );
 
@@ -35,7 +36,6 @@ try {
     console.log(chalk.red('❌ É necessária a correção do linter'));
     process.exit(1);
 }
-
 
 try {
     console.log(chalk.magenta('🔍 Executando prettier...'));
