@@ -23,7 +23,7 @@ const handlePrettierError = () => {
     execSilent('npm run prettier:fix');
     execSilent('git add .');
     execSilent('git commit -m "fix: prettier"');
-    execSilent('git push -u origin ' + BRANCH);
+    exec('git push -u origin ' + BRANCH);
     console.log(chalk.green('✅ Prettier corrigido e alterações enviadas.'));
 };
 
