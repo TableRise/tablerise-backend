@@ -6,7 +6,8 @@ const execSilent = (command) => {
     try {
         execSync(command, { stdio: 'ignore' }); // Redireciona stdout e stderr para "nada"
     } catch (error) {
-        if (command === 'npm run prettier') return;
+        if (command === 'npm run prettier' || error.message.includes('github.com'))
+            return;
         process.exit(1);
     }
 };
@@ -15,34 +16,39 @@ const execSilent = (command) => {
 const BRANCH = execSync('git symbolic-ref --short HEAD').toString().trim();
 
 // Regex corrigido
-const REGEX = '/^(feat|bugfix|hotfix)\\/([a-zA-Z0-9-]+)\\/([a-zA-Z0-9-]+)$/';
+const REGEX = /^(feat|bugfix|hotfix)\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)$/;
 
-const handlePrettierError = () => {
+
+// Exibição do título do hook
+console.log(
+    chalk.white.bold(
+        '\n╔══════════════════════════════════╗\n' +
+        '║ ' + chalk.blue.bold('   🧙 TableRise Push Hook 🌙') + '     ║\n' +
+        '╚══════════════════════════════════╝'
+    )
+);
+
+try {
+    console.log(chalk.magenta('🔍 Executando lint...'));
+    execSilent('npm run lint');
+} catch (error) {
+    console.log(chalk.red('❌ É necessária a correção do linter'));
+    process.exit(1);
+}
+
+
+try {
+    console.log(chalk.magenta('🔍 Executando prettier...'));
+    execSilent('npm run prettier');
+    console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
+} catch (error) {
     console.log(chalk.yellow('⚠️  Corrigindo o Prettier...'));
     execSilent('npm run prettier:fix');
     execSilent('git add .');
     execSilent('git commit -m "fix: prettier"');
     execSilent('git push -u origin ' + BRANCH);
     console.log(chalk.green('✅ Prettier corrigido e alterações enviadas.'));
-};
-
-const trap = (callback) => {
-    process.on('uncaughtException', callback);
-    process.on('unhandledRejection', callback);
-};
-
-trap(() => handlePrettierError());
-
-// Exibição do título do hook
-console.log(
-    chalk.green(
-        '=============================\n||   TableRise Push Hook   ||\n============================='
-    )
-);
-console.log(chalk.blue('🔍 Executando lint...'));
-execSilent('npm run lint');
-console.log(chalk.blue('🔍 Executando prettier...'));
-execSilent('npm run prettier');
+}
 
 // Verificação do nome da branch
 if (!REGEX.test(BRANCH)) {
