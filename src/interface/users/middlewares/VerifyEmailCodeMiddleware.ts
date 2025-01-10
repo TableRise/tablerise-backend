@@ -4,7 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetailInstance, UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
@@ -78,17 +78,24 @@ export default class VerifyEmailCodeMiddleware {
             userRepository
         );
 
-        const userDetails = await this._usersDetailsRepository.findOne({
-            userId: userRepository.userId,
-        });
+        let userDetails: any;
+
+        try {
+            const result = await this._usersDetailsRepository.findOne({
+                userId: userRepository.userId,
+            });
+
+            userDetails = result;
+        } catch (error) {
+            userDetails = { secretQuestion: '' }
+        }
 
         res.locals = {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${
-                      (userDetails.secretQuestion as UserSecretQuestion).question
-                  }`
+                ? `secret-question%${(userDetails.secretQuestion as UserSecretQuestion).question
+                }`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
         };
