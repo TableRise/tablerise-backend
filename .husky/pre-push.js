@@ -23,7 +23,7 @@ const handlePrettierError = () => {
     execSilent('npm run prettier:fix');
     execSilent('git add .');
     execSilent('git commit -m "fix: prettier"');
-    execSync('git push -u origin ' + BRANCH);
+    execSilent('git push -u origin ' + BRANCH);
     console.log(chalk.green('✅ Prettier corrigido e alterações enviadas.'));
 };
 
@@ -43,7 +43,7 @@ console.log(
 console.log(chalk.blue('🔍 Executando lint...'));
 execSilent('npm run lint');
 console.log(chalk.blue('🔍 Executando prettier...'));
-execSync('npm run prettier');
+execSilent('npm run prettier');
 
 // Verificação do nome da branch
 if (!REGEX.test(BRANCH)) {
