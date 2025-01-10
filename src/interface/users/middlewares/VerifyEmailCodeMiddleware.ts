@@ -87,15 +87,16 @@ export default class VerifyEmailCodeMiddleware {
 
             userDetails = result;
         } catch (error) {
-            userDetails = { secretQuestion: '' }
+            userDetails = { secretQuestion: '' };
         }
 
         res.locals = {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${(userDetails.secretQuestion as UserSecretQuestion).question
-                }`
+                ? `secret-question%${
+                      (userDetails.secretQuestion as UserSecretQuestion).question
+                  }`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
         };
