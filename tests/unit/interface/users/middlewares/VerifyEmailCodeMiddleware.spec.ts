@@ -92,65 +92,69 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             });
         });
 
-        context('And the parameters are correct but userRepositoryDetails has not been created yet', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: true },
-                };
+        context(
+            'And the parameters are correct but userRepositoryDetails has not been created yet',
+            () => {
+                beforeEach(() => {
+                    user = {
+                        userId: '123',
+                        inProgress: {
+                            status: InProgressStatusEnum.enum
+                                .WAIT_TO_START_PASSWORD_CHANGE,
+                            code: 'KLI44',
+                        },
+                        twoFactorSecret: { active: true },
+                    };
 
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
+                    usersRepository = {
+                        findOne: () => user,
+                        update: sinon.spy(),
+                    };
 
-                usersDetailsRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
+                    usersDetailsRepository = {
+                        findOne: () => {
+                            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                            throw HttpRequestErrors.throwError('user-inexistent');
+                        },
+                    };
 
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    logger,
+                    verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                        usersRepository,
+                        usersDetailsRepository,
+                        stateMachine,
+                        logger,
+                    });
                 });
-            });
 
-            it('should call next - when has ID', async () => {
-                request.params = { id: '123' };
-                request.query = { code: 'KLI44', flow: 'update-password' };
+                it('should call next - when has ID', async () => {
+                    request.params = { id: '123' };
+                    request.query = { code: 'KLI44', flow: 'update-password' };
 
-                await verifyEmailCodeMiddleware.verify(request, response, next);
+                    await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+                    user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
+                    expect(stateMachine.machine).to.have.been.called();
+                    expect(next).to.have.been.called();
+                });
 
-            it('should call next - when has email', async () => {
-                delete request.params.id;
-                request.query = {
-                    email: 'test@email.com',
-                    code: 'KLI44',
-                    flow: 'update-password',
-                };
+                it('should call next - when has email', async () => {
+                    delete request.params.id;
+                    request.query = {
+                        email: 'test@email.com',
+                        code: 'KLI44',
+                        flow: 'update-password',
+                    };
 
-                await verifyEmailCodeMiddleware.verify(request, response, next);
+                    await verifyEmailCodeMiddleware.verify(request, response, next);
 
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+                    user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
+                    expect(stateMachine.machine).to.have.been.called();
+                    expect(next).to.have.been.called();
+                });
+            }
+        );
 
         context('And params are correct - user has secret question', () => {
             beforeEach(() => {
