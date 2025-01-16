@@ -35,6 +35,7 @@ export default {
         avatarsInGame: [],
         musics: [],
         mapImages: [],
+        password: '123',
         actualMapImage: {
             id: '',
             title: '',

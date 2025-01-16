@@ -7,12 +7,13 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
 import sinon from 'sinon';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import StateMachine from 'src/domains/common/StateMachine';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Users :: Services :: DeleteUserService', () => {
     let deleteUsersService: DeleteUserService,
         usersRepository: any,
+        stateMachine: any,
         usersDetailsRepository: any,
         user: UserInstance,
         userUpdated: UserInstance,
@@ -27,19 +28,34 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
                 userDetails.userId = user.userId;
                 userUpdated = { ...user };
+
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
+                };
+
                 userUpdated.inProgress.status =
                     InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+
                 usersRepository = { findOne: () => user, update: () => userUpdated };
+
                 usersDetailsRepository = { findOne: () => userDetails };
+
                 sinon.spy(usersRepository, 'update');
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -71,7 +87,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -110,7 +126,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 
@@ -142,7 +158,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     logger,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                 });
             });
 

@@ -52,7 +52,7 @@ export default class CampaignsRoutes {
                 controller: this._campaignsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    tag: 'access',
+                    tag: 'recover',
                     description: desc.getAll,
                 },
             },
@@ -102,7 +102,7 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
                     ],
-                    tag: 'invite',
+                    tag: 'management',
                     description: desc.inviteEmail,
                 },
             },
