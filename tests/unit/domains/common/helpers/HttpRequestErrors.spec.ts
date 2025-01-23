@@ -5,6 +5,8 @@ import { ErrorTypes, Errors } from 'src/types/shared/errors';
 
 describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {
+        'save-forbidden-content':
+            'Forbidden content was sent to save in database - check business rules',
         unauthorized: 'Unauthorized',
         'email-already-exist': 'Email already exists in database',
         'tag-already-exist': 'User with this tag already exists in database',

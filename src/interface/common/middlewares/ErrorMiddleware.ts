@@ -8,21 +8,28 @@ function ErrorMiddleware(
     res: Response,
     _next: NextFunction
 ): Response | undefined {
-    if (!(err instanceof HttpRequestErrors)) {
+    if (err.name.includes('Error')) {
         logger('error', `error internal throwed - code: 500 [ ${err.name} ]`);
         return res.status(500).send(err.message);
     }
 
-    if (err.redirectTo) {
-        logger('error', `error with redirect - redirecting to [ ${err.redirectTo} ]`);
+    const errorToThrow = err as HttpRequestErrors;
+
+    if (errorToThrow.redirectTo) {
+        logger(
+            'error',
+            `error with redirect - redirecting to [ ${errorToThrow.redirectTo} ]`
+        );
         const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
-        res.redirect(`${urlToRedirect}${err.redirectTo}?error=${err.message}`);
+        res.redirect(
+            `${urlToRedirect}${errorToThrow.redirectTo}?error=${errorToThrow.message}`
+        );
         return;
     }
 
-    return res.status(err.code).json({
-        ...err,
-        message: err.message,
+    return res.status(errorToThrow.code).json({
+        ...errorToThrow,
+        message: errorToThrow.message,
     });
 }
 

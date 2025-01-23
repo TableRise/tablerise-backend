@@ -11,11 +11,13 @@ import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHead
 import SocketIO from 'src/infra/clients/SocketIO';
 import ManagerCronJob from 'src/domains/users/helpers/ManagerCronJob';
 import RoutesWrapper from 'src/interface/common/RoutesWrapper';
+import CharactersRoutesMiddleware from 'src/interface/characters/middlewares/CharactersRoutesMiddleware';
 
 export interface ApplicationContract {
     usersRoutesMiddleware: UsersRoutesMiddleware;
     campaignsRoutesMiddleware: CampaignsRoutesMiddleware;
     dungeonsAndDragonsRoutesMiddleware: DungeonsAndDragonsRoutesMiddleware;
+    charactersRoutesMiddleware: CharactersRoutesMiddleware;
     campaignsRoutesMiddleware: CampaignsRoutesMiddleware;
     swaggerGenerator: typeof swaggerGenerator;
     generateSwaggerFiles: typeof generateSwaggerFiles;

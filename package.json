@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./build/src/server.js",
         "build": "tsc",
-        "local": "npx nodemon ./src/server.ts",
+        "local": "npm run build && npx nodemon ./src/server.ts",
         "test": "npm run test:unit && npm run test:integration",
         "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
         "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration --timeout 10000 tests/integration/**/*.spec.ts --exit",
@@ -85,7 +85,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "3.4.0",
-        "@tablerise/database-management": "5.2.1",
+        "@tablerise/database-management": "5.3.4",
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",
         "awilix": "9.0.0",

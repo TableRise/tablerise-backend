@@ -5,6 +5,7 @@ import { UsersDetailsRepositoryContract } from 'src/types/modules/infra/reposito
 import { UpdateTimestampRepositoryContract } from 'src/types/modules/infra/repositories/users/UpdateTimestampRepository';
 import { CampaignsRepositoryContract } from './repositories/campaigns/CampaignsRepository';
 import { ManagerCronJobContract } from 'src/types/modules/infra/cronJob/CronJob';
+import { CharacterRepositoryContract } from './repositories/character/CharacterRepository';
 
 export default interface InfraDependencies {
     // <--------- USERS DOMAIN --------->
@@ -18,4 +19,7 @@ export default interface InfraDependencies {
     // <--------- CAMPAIGN DOMAIN --------->
     socketIOContract: SocketIOContract;
     campaignsRepositoryContract: CampaignsRepositoryContract;
+
+    // <--------- CHARACTER DOMAIN --------->
+    characterRepositoryContract: CharacterRepositoryContract;
 }
