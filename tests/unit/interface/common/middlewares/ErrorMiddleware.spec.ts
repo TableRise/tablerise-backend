@@ -14,7 +14,7 @@ describe('Interface :: Common :: Middlewares :: ErrorMiddleware', () => {
             response.status = sinon.spy(() => response);
             response.json = sinon.spy(() => response);
             response.send = sinon.spy(() => response);
-            response.redirect = sinon.spy(() => response); // Adicionando o método redirect
+            response.redirect = sinon.spy(() => response);
         });
 
         it('should return error 500 - internal', async () => {
