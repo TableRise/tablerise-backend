@@ -6,8 +6,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CharactersController from 'src/interface/characters/presentation/character/CharactersController';
 
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
-    let charactersController: CharactersController,
-        createCharacterOperation: any;
+    let charactersController: CharactersController, createCharacterOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -21,7 +20,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
 
             charactersController = new CharactersController({
-                createCharacterOperation
+                createCharacterOperation,
             });
         });
 
@@ -32,7 +31,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             expect(createCharacterOperation.execute).to.have.been.calledWith({
                 payload: request.body,
-                userId
+                userId,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();

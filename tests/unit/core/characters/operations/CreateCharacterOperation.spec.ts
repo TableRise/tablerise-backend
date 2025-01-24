@@ -4,10 +4,10 @@ import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 
 describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
     let createCharacterOperation: CreateCharacterOperation,
-    createCharacterService: any,
-    schemaValidator: any,
-    charactersSchema: any,
-    characterPayloadMock: any;
+        createCharacterService: any,
+        schemaValidator: any,
+        charactersSchema: any,
+        characterPayloadMock: any;
 
     const logger = (): any => {};
 
@@ -16,11 +16,11 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
             before(() => {
                 characterPayloadMock = {
                     payload: DomainDataFaker.mocks.createCharacterMock,
-                    userId: '123'
+                    userId: '123',
                 };
 
                 schemaValidator = {
-                    entry: () => {}
+                    entry: () => {},
                 };
 
                 createCharacterService = {
@@ -30,14 +30,14 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                 };
 
                 charactersSchema = {
-                    characterPostZod: {}
+                    characterPostZod: {},
                 };
 
                 createCharacterOperation = new CreateCharacterOperation({
                     schemaValidator,
                     createCharacterService,
                     charactersSchema,
-                    logger
+                    logger,
                 });
             });
 
@@ -54,24 +54,26 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
             before(() => {
                 characterPayloadMock = {
                     payload: DomainDataFaker.mocks.createCharacterMock,
-                    userId: '123'
+                    userId: '123',
                 };
 
                 schemaValidator = {
-                    entry: () => { throw new Error('Some error') }
+                    entry: () => {
+                        throw new Error('Some error');
+                    },
                 };
 
                 createCharacterService = {};
 
                 charactersSchema = {
-                    characterPostZod: {}
+                    characterPostZod: {},
                 };
 
                 createCharacterOperation = new CreateCharacterOperation({
                     schemaValidator,
                     createCharacterService,
                     charactersSchema,
-                    logger
+                    logger,
                 });
             });
 

@@ -125,7 +125,9 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
                     expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Character not found or not belongs to user');
+                    expect(err.message).to.be.equal(
+                        'Character not found or not belongs to user'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal('NotFound');
                 }
@@ -170,7 +172,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
                     characterId,
                 } as CharacterInstance;
 
-                characterToUpdate = { ...character, npc: true  };
+                characterToUpdate = { ...character, npc: true };
 
                 database = {
                     modelInstance: () => ({ update: () => characterToUpdate }),
@@ -245,7 +247,9 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
                     expect.fail('it should bot be here');
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Character not found or not belongs to user');
+                    expect(err.message).to.be.equal(
+                        'Character not found or not belongs to user'
+                    );
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal('NotFound');
                 }

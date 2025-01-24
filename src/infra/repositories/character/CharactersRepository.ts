@@ -45,7 +45,9 @@ export default class CharactersRepository {
         this._logger('warn', `Find - CharactersRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((data: CharacterInstance) => this._formatAndSerializeData(data));
+        return request.map((data: CharacterInstance) =>
+            this._formatAndSerializeData(data)
+        );
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CharacterInstance> {
