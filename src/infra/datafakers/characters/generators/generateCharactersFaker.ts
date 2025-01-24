@@ -99,7 +99,7 @@ function createCharacterFaker({
                         {
                             type: 'magic',
                             bonus: 5,
-                            dice: '',
+                            dice: '2d10',
                         },
                     ],
                 },
@@ -164,7 +164,7 @@ function createCharacterFaker({
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         },
-        NPC: false,
+        npc: false,
         picture: DomainDataFaker.generateImagesObjectJSON()[0],
         logs: [],
         createdAt: new Date().toISOString(),

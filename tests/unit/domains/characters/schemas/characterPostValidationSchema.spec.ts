@@ -26,7 +26,7 @@ describe('Domains :: Characters :: Schemas :: CharactersValidationSchema', () =>
     context('When data is not correct with schema', () => {
         beforeEach(() => {
             character = DomainDataFaker.mocks.createCharacterMock;
-            delete character.NPC;
+            delete character.data;
         });
 
         it('should throw errors', () => {
@@ -40,7 +40,7 @@ describe('Domains :: Characters :: Schemas :: CharactersValidationSchema', () =>
                 expect(err.name).to.be.equal('UnprocessableEntity');
 
                 expect(err.details).to.have.length(1);
-                expect(err.details[0].attribute).to.be.equal('NPC');
+                expect(err.details[0].attribute).to.be.equal('data');
                 expect(err.details[0].reason).to.be.equal('Required');
             }
         });

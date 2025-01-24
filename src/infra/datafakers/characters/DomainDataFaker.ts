@@ -24,7 +24,7 @@ delete character.data.updatedAt;
 const mocks = {
     createCharacterMock: {
         data: character.data,
-        NPC: character.NPC,
+        npc: character.npc,
     },
 };
 

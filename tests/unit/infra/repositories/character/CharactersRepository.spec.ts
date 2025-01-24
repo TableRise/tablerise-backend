@@ -170,7 +170,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
                     characterId,
                 } as CharacterInstance;
 
-                characterToUpdate = { ...character, NPC: true  };
+                characterToUpdate = { ...character, npc: true  };
 
                 database = {
                     modelInstance: () => ({ update: () => characterToUpdate }),

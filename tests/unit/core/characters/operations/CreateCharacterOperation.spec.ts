@@ -1,5 +1,5 @@
 import Sinon from 'sinon';
-import CreateCharacterOperation from 'src/core/character/operations/CreateCharacterOperation';
+import CreateCharacterOperation from 'src/core/characters/operations/CreateCharacterOperation';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 
 describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {

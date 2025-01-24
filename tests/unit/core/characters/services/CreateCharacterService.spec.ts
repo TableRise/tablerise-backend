@@ -1,4 +1,4 @@
-import CreateCharacterService from 'src/core/character/services/CreateCharacterService';
+import CreateCharacterService from 'src/core/characters/services/CreateCharacterService';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';

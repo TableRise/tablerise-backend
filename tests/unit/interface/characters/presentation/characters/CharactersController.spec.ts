@@ -26,7 +26,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.body = { NPC: true };
+            request.body = { npc: true };
             request.user = { userId } as Express.User;
             await charactersController.createCharacter(request, response);
 

@@ -140,7 +140,7 @@ const dataCharacterZodSchema = z.object({
 
 const characterPostZodSchema = z.object({
     data: dataCharacterZodSchema,
-    NPC: z.boolean(),
+    npc: z.boolean().default(false),
     picture: imageObjectZodSchema.optional().nullable(),
 });
 

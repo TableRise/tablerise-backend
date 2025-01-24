@@ -138,7 +138,7 @@ export default class Serializer {
         matchId = null,
         author = null,
         data = null,
-        NPC = null,
+        npc = null,
         picture = null,
         logs = null,
     }: any): CharacterInstance {
@@ -148,7 +148,7 @@ export default class Serializer {
             matchId,
             author,
             data,
-            NPC,
+            npc,
             picture,
             logs,
         };
