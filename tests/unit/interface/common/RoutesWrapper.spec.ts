@@ -23,13 +23,13 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
 
             campaignsRoutesBuilder = {
                 get: () => ({
-                    campaignsSwagger: ['camp1', 'camp2'],
+                    campaignsRoutes: 'camp',
                 }),
             };
 
             charactersRoutesBuilder = {
                 get: () => ({
-                    charactersSwagger: 'char',
+                    charactersRoutes: 'char',
                 }),
             };
 
@@ -49,8 +49,8 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
             expect(routes).to.have.property('campaign');
             expect(routes).to.have.property('character');
             expect(routes.user).to.be.equal('user');
-            expect(routes.campaign).to.be.equal('campaign');
-            expect(routes.character).to.be.equal('character');
+            expect(routes.campaign).to.be.equal('camp');
+            expect(routes.character).to.be.equal('char');
             expect(routes['dungeons&dragons5e']).to.be.equal('dnd5e');
         });
     });
@@ -77,7 +77,7 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
 
             charactersRoutesBuilder = {
                 get: () => ({
-                    campaignsSwagger: ['char1', 'char2'],
+                    charactersSwagger: ['char1', 'char2'],
                 }),
             };
 

@@ -5,20 +5,20 @@ import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class CreateCharacterService {
-    private readonly _characterRepository;
+    private readonly _charactersRepository;
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
     private readonly _serializer;
     private readonly _logger;
 
     constructor({
-        characterRepository,
+        charactersRepository,
         usersRepository,
         usersDetailsRepository,
         serializer,
         logger,
     }: CharacterCoreDependencies['createCharacterServiceContract']) {
-        this._characterRepository = characterRepository;
+        this._charactersRepository = charactersRepository;
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._serializer = serializer;
@@ -208,6 +208,6 @@ export default class CreateCharacterService {
 
         character.characterId = characterId;
 
-        return this._characterRepository.create(character);
+        return this._charactersRepository.create(character);
     }
 }

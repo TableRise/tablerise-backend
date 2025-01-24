@@ -3,7 +3,7 @@ import Serializer from 'src/domains/common/helpers/Serializer';
 import UpdateTimestampRepository from 'src/infra/repositories/user/UpdateTimestampRepository';
 import { Logger } from 'src/types/shared/logger';
 
-export interface CharacterRepositoryContract {
+export interface CharactersRepositoryContract {
     database: DatabaseManagement;
     updateTimestampRepository: UpdateTimestampRepository;
     serializer: Serializer;
