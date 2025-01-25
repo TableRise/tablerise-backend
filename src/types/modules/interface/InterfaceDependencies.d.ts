@@ -13,6 +13,9 @@ import { CampaignsRoutesContract } from 'src/types/modules/interface/campaigns/p
 import { VerifyMatchMiddlewareContract } from './campaigns/middlewares/VerifyMatchMiddlewareContract';
 import { VerifyUserMiddlewareContract } from './common/middlewares/VerifyUserMiddleware';
 import { StateMachineFlowsMiddlewareContract } from './common/middlewares/StateMachineFlowsMiddleware';
+import { CharactersRoutesContract } from './characters/presentation/characters/CharactersRoutes';
+import { CharactersControllerContract } from './characters/presentation/characters/CharactersController';
+import { CharactersRoutesMiddlewareContract } from './characters/middlewares/CharactersRoutesMiddleware';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -45,4 +48,12 @@ export default interface InterfaceDependencies {
     campaignsRoutesContract: CampaignsRoutesContract;
     campaignsControllerContract: CampaignsControllerContract;
     campaignsRoutesBuilderContract: CampaignsRoutesBuilderContract;
+
+    // <--------- CHARACTERS DOMAIN --------->
+    // Middlewares
+    charactersRoutesMiddlewareContract: CharactersRoutesMiddlewareContract;
+
+    // Routes and Controllers
+    charactersRoutesContract: CharactersRoutesContract;
+    charactersControllerContract: CharactersControllerContract;
 }

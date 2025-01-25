@@ -50,4 +50,5 @@ export type ErrorTypes =
     | 'campaign-match-inexistent'
     | 'avatar-inexistent'
     | 'character-does-not-exist'
-    | 'player-master-equal';
+    | 'player-master-equal'
+    | 'save-forbidden-content';

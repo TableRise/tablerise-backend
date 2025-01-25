@@ -32,6 +32,13 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'save-forbidden-content':
+                throw new HttpRequestErrors({
+                    message:
+                        'Forbidden content was sent to save in database - check business rules',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'character-does-not-exist':
                 throw new HttpRequestErrors({
                     message: 'Character not found or not belongs to user',
