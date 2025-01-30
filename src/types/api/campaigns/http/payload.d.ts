@@ -81,6 +81,11 @@ export interface PostInvitationEmailPayload {
     username: string;
 }
 
+export interface PostBanPlayerPayload {
+    campaignId: string;
+    playerId: string;
+}
+
 export interface UpdateCampaignImagesPayload {
     campaignId: string;
     image?: FileObject;

@@ -53,6 +53,11 @@ import {
     PostInvitationEmailServiceContract,
 } from './campaigns/PostInvitationEmail';
 
+import {
+    PostBanPlayerOperation,
+    PostBanPlayerServiceContract,
+} from './campaigns/PostBanPlayerOperation';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -65,6 +70,7 @@ export default interface CampaignCoreDependencies {
     addMatchPlayersOperationContract: AddMatchPlayersOperationContract;
     removeMatchPlayersOperationContract: RemoveMatchPlayersOperationContract;
     postInvitationEmailOperation: PostInvitationEmailOperation;
+    postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
 
     // Services
@@ -78,5 +84,6 @@ export default interface CampaignCoreDependencies {
     addMatchPlayersServiceContract: AddMatchPlayersServiceContract;
     removeMatchPlayersServiceContract: RemoveMatchPlayersServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
+    postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
 }

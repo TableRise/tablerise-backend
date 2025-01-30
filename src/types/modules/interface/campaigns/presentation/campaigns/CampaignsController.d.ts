@@ -10,6 +10,7 @@ import AddMatchPlayersOperation from 'src/core/campaigns/operations/campaigns/Ad
 import RemoveMatchPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveMatchPlayersOperation';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import UpdateCampaignImagesOperation from 'src/core/campaigns/operations/UpdateCampaignImagesOperation';
+import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -23,5 +24,6 @@ export interface CampaignsControllerContract {
     addMatchPlayersOperation: AddMatchPlayersOperation;
     removeMatchPlayersOperation: RemoveMatchPlayersOperation;
     postInvitationEmailOperation: PostInvitationEmailOperation;
+    postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperation: UpdateCampaignImagesOperation;
 }

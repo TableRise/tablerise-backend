@@ -7,6 +7,7 @@ import { UserExternal } from 'src/types/api/users/http/payload';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 export default class Serializer {
     private _isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -75,7 +76,7 @@ export default class Serializer {
         pronoun = null,
         secretQuestion = null,
         birthday = null,
-        gameInfo = { campaigns: [], characters: [], badges: [] },
+        gameInfo = { campaigns: [], characters: [], badges: [], bannedCampaigns: [] },
         biography = null,
         role = 'user',
     }: any): UserDetailInstance {
@@ -110,6 +111,7 @@ export default class Serializer {
             visibility,
         },
         password = null,
+        bannedPlayers = [],
         lores = null,
         images = null,
         createdAt = null,
@@ -126,10 +128,33 @@ export default class Serializer {
             matchData,
             infos,
             password,
+            bannedPlayers,
             lores,
             images,
             createdAt,
             updatedAt,
+        };
+    }
+
+    public postCharacter({
+        characterId = null,
+        campaignId = null,
+        matchId = null,
+        author = null,
+        data = null,
+        npc = null,
+        picture = null,
+        logs = null,
+    }: any): CharacterInstance {
+        return {
+            characterId,
+            campaignId,
+            matchId,
+            author,
+            data,
+            npc,
+            picture,
+            logs,
         };
     }
 

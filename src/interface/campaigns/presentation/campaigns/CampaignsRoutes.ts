@@ -52,7 +52,7 @@ export default class CampaignsRoutes {
                 controller: this._campaignsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    tag: 'access',
+                    tag: 'recover',
                     description: desc.getAll,
                 },
             },
@@ -102,8 +102,25 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._verifyIdMiddleware,
                     ],
-                    tag: 'invite',
+                    tag: 'management',
                     description: desc.inviteEmail,
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/ban`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }]),
+                ],
+                controller: this._campaignsController.banPlayer,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'ban',
+                    description: desc.banPlayer,
                 },
             },
 
