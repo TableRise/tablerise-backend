@@ -44,7 +44,7 @@ export default {
             request: { success: true, status: 200 },
         },
         password: faker.word.sample(),
-        logs: []
+        logs: [],
     },
     infos: {
         campaignAge: '1',
