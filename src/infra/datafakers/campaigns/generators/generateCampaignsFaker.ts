@@ -18,6 +18,7 @@ function createCampaignFaker({
         bannedPlayers: dataGenerator.bannedPlayers,
         matchData: dataGenerator.matchData,
         infos: dataGenerator.infos,
+        password: dataGenerator.password,
         lores: dataGenerator.lores,
         images: dataGenerator.images,
         createdAt: dataGenerator.createdAt.toISOString(),
