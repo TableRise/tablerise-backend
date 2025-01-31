@@ -8,20 +8,24 @@ import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { FileObject } from 'src/types/shared/file';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class CreateCampaignService {
     private readonly _campaignsRepository;
+    private readonly _usersDetailsRepository;
     private readonly _serializer;
     private readonly _imageStorageClient;
     private readonly _logger;
 
     constructor({
         campaignsRepository,
+        usersDetailsRepository,
         logger,
         serializer,
         imageStorageClient,
     }: CampaignCoreDependencies['createCampaignServiceContract']) {
         this._campaignsRepository = campaignsRepository;
+        this._usersDetailsRepository = usersDetailsRepository;
         this._serializer = serializer;
         this._imageStorageClient = imageStorageClient;
         this._logger = logger;
@@ -42,6 +46,7 @@ export default class CreateCampaignService {
         image?: FileObject
     ): Promise<__CampaignEnriched> {
         this._logger('info', 'Enrichment - CreateCampaignService');
+
         campaign.campaignPlayers = [
             {
                 userId,
@@ -50,6 +55,7 @@ export default class CreateCampaignService {
                 status: 'active',
             },
         ];
+
         delete campaign.visibility;
 
         if (image) {
@@ -69,8 +75,25 @@ export default class CreateCampaignService {
 
     public async save(campaign: __FullCampaign): Promise<__CampaignSaved> {
         this._logger('info', 'Save - CreateCampaignService');
-        return this._campaignsRepository.create({
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: campaign.campaignPlayers[0].userId });
+
+        const campaignCreated = await this._campaignsRepository.create({
             ...campaign,
         });
+
+        userDetailsInDb.gameInfo.campaigns.push({
+            campaignId: campaignCreated.campaignId,
+            role: campaignCreated.campaignPlayers[0].role,
+            title: campaignCreated.title,
+            description: campaignCreated.description,
+            cover: campaignCreated.cover as ImageObject
+        });
+
+        await this._usersDetailsRepository.update({
+            query: { userId: campaign.campaignPlayers[0].userId },
+            payload: userDetailsInDb
+        });
+
+        return campaignCreated;
     }
 }

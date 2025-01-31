@@ -1,10 +1,10 @@
 import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import {
-    CheckCharactersPayload,
     AddMatchPlayersPayload,
 } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
@@ -23,18 +23,6 @@ export default class AddMatchPlayersService {
         this._campaignsRepository = campaignsRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
-    }
-
-    private async _checkForCharacters({
-        userId,
-        characterId,
-    }: CheckCharactersPayload): Promise<void> {
-        const funcMock = (characterId: string): any =>
-            userId === '555' ? null : { userId, characterId }; // Replace this when character creation be done
-        const character = funcMock(characterId); // Replace this when character creation be done
-
-        if (character?.userId !== userId)
-            HttpRequestErrors.throwError('character-does-not-exist');
     }
 
     public async addMatchPlayers({
@@ -73,11 +61,6 @@ export default class AddMatchPlayersService {
             HttpRequestErrors.throwError('player-already-in-match');
         }
 
-        await this._checkForCharacters({
-            userId,
-            characterId,
-        } as CheckCharactersPayload);
-
         const player: Player = {
             userId,
             characterIds: [],
@@ -85,7 +68,13 @@ export default class AddMatchPlayersService {
             status: 'pending',
         };
 
-        userDetails.gameInfo.campaigns.push(campaignId);
+        userDetails.gameInfo.campaigns.push({
+            campaignId: campaign.campaignId,
+            role: player.role,
+            title: campaign.title,
+            description: campaign.description,
+            cover: campaign.cover as ImageObject
+        });
 
         campaign.campaignPlayers.push(player);
 
