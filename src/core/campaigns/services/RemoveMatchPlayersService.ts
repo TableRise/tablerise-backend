@@ -36,7 +36,7 @@ export default class RemoveMatchPlayersService {
             HttpRequestErrors.throwError('player-master-equal');
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
-            (id) => id !== campaignId
+            (campaign) => campaign.campaignId !== campaignId
         );
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter(
