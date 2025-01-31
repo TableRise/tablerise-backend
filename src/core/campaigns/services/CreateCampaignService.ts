@@ -75,7 +75,9 @@ export default class CreateCampaignService {
 
     public async save(campaign: __FullCampaign): Promise<__CampaignSaved> {
         this._logger('info', 'Save - CreateCampaignService');
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId: campaign.campaignPlayers[0].userId });
+        const userDetailsInDb = await this._usersDetailsRepository.findOne({
+            userId: campaign.campaignPlayers[0].userId,
+        });
 
         const campaignCreated = await this._campaignsRepository.create({
             ...campaign,
@@ -86,12 +88,12 @@ export default class CreateCampaignService {
             role: campaignCreated.campaignPlayers[0].role,
             title: campaignCreated.title,
             description: campaignCreated.description,
-            cover: campaignCreated.cover as ImageObject
+            cover: campaignCreated.cover as ImageObject,
         });
 
         await this._usersDetailsRepository.update({
             query: { userId: campaign.campaignPlayers[0].userId },
-            payload: userDetailsInDb
+            payload: userDetailsInDb,
         });
 
         return campaignCreated;

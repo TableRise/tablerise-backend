@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User'; 
+import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import RemoveMatchPlayersService from 'src/core/campaigns/services/RemoveMatchPlayersService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -36,7 +36,9 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                     },
                 ];
 
-                userDetails.gameInfo.campaigns = [{ campaignId: campaign.campaignId } as GameInfoCampaigns];
+                userDetails.gameInfo.campaigns = [
+                    { campaignId: campaign.campaignId } as GameInfoCampaigns,
+                ];
 
                 userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
                 campaignPlayersLength = campaign.campaignPlayers.length;
@@ -106,7 +108,9 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                         },
                     ];
 
-                    userDetails.gameInfo.campaigns = [{ campaignId: campaign.campaignId } as GameInfoCampaigns];
+                    userDetails.gameInfo.campaigns = [
+                        { campaignId: campaign.campaignId } as GameInfoCampaigns,
+                    ];
 
                     userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
                     campaignPlayersLength = campaign.campaignPlayers.length;

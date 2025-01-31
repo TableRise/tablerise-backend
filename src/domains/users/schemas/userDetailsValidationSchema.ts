@@ -6,10 +6,10 @@ import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidatio
 
 const gameInfoCampaignsZodSchema = z.object({
     campaignId: z.string().length(24),
-    role: z.string(), 
-    title: z.string(), 
-    description: z.string().max(255), 
-    cover: imageObjectZodSchema.optional() 
+    role: z.string(),
+    title: z.string(),
+    description: z.string().max(255),
+    cover: imageObjectZodSchema.optional(),
 });
 
 const gameInfoZodSchema = z.object({

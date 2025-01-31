@@ -33,7 +33,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 };
 
                 usersDetailsRepository = {
-                    findOne: () => userDetails
+                    findOne: () => userDetails,
                 };
 
                 imageStorageClient = {
@@ -82,7 +82,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 };
 
                 usersDetailsRepository = {
-                    findOne: () => userDetails
+                    findOne: () => userDetails,
                 };
 
                 imageStorageClient = {
@@ -152,7 +152,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 usersDetailsRepository = {
                     findOne: () => userDetails,
-                    update: () => {}
+                    update: () => {},
                 };
 
                 imageStorageClient = {

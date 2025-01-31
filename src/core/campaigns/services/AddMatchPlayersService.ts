@@ -4,9 +4,7 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import {
-    AddMatchPlayersPayload,
-} from 'src/types/api/campaigns/http/payload';
+import { AddMatchPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
@@ -73,7 +71,7 @@ export default class AddMatchPlayersService {
             role: player.role,
             title: campaign.title,
             description: campaign.description,
-            cover: campaign.cover as ImageObject
+            cover: campaign.cover as ImageObject,
         });
 
         campaign.campaignPlayers.push(player);
