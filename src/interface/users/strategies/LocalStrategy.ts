@@ -11,7 +11,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
-const NOT_ALLOWED_STATUS_TO_LOGIN = ['wait-to-confirm', 'wait-to-delete-user'];
+const NOT_ALLOWED_STATUS_TO_LOGIN = ['wait-to-delete-user'];
 const LocalStrategy = Local.Strategy;
 
 export default class LoginPassport {
