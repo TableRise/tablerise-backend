@@ -7,7 +7,7 @@ const Datafakers = {
     users: DomainDataFakerUser,
     dungeonsAndDragons: DomainDataFakerDD,
     campaign: DomainDataFakerCampaign,
-    character: DomainDataFakerCharacter
-}
+    character: DomainDataFakerCharacter,
+};
 
 export default Datafakers;

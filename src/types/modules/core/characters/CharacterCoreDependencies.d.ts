@@ -4,7 +4,7 @@ import {
 } from './characters/CreateCharacter';
 import {
     RecoverCharacterByCampaignOperationContract,
-    RecoverCharacterByCampaignServiceContract
+    RecoverCharacterByCampaignServiceContract,
 } from './characters/RecoverCharacterByCampaign';
 
 export default interface CharacterCoreDependencies {

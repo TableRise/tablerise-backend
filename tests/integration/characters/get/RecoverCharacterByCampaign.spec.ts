@@ -2,7 +2,12 @@ import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
-import { InjectNewCampaign, InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import {
+    InjectNewCampaign,
+    InjectNewCharacter,
+    InjectNewUser,
+    InjectNewUserDetails,
+} from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
@@ -11,11 +16,14 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe.only('When characters are recovered by campaign', () => {
-    let user: UserInstance[], userDetails: UserDetailInstance[], campaign: CampaignInstance, character: CharacterInstance[];
+    let user: UserInstance[],
+        userDetails: UserDetailInstance[],
+        campaign: CampaignInstance,
+        character: CharacterInstance[];
 
     context('And player is dungeons_master', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
-        
+
         before(async () => {
             user = DomainDataFaker.users.generateUsersJSON({ count: 2 });
             userDetails = DomainDataFaker.users.generateUserDetailsJSON({ count: 2 });
@@ -23,21 +31,23 @@ describe.only('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
+            campaign.campaignPlayers[0].characterIds = [
+                character[0].characterId as string,
+            ];
             campaign.campaignPlayers[0].role = 'dungeon_master';
 
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
                 characterIds: [character[0].characterId as string],
                 role: 'player',
-                status: 'active'
+                status: 'active',
             };
 
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
                 characterIds: [character[1].characterId as string],
                 role: 'player',
-                status: 'active'
+                status: 'active',
             };
 
             user[0].inProgress = {
@@ -90,7 +100,7 @@ describe.only('When characters are recovered by campaign', () => {
 
     context('And player is player', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
-        
+
         before(async () => {
             user = DomainDataFaker.users.generateUsersJSON({ count: 2 });
             userDetails = DomainDataFaker.users.generateUserDetailsJSON({ count: 2 });
@@ -98,21 +108,23 @@ describe.only('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
+            campaign.campaignPlayers[0].characterIds = [
+                character[0].characterId as string,
+            ];
             campaign.campaignPlayers[0].role = 'player';
 
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
                 characterIds: [character[0].characterId as string],
                 role: 'player',
-                status: 'active'
+                status: 'active',
             };
 
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
                 characterIds: [character[1].characterId as string],
                 role: 'player',
-                status: 'active'
+                status: 'active',
             };
 
             user[0].inProgress = {

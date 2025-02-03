@@ -15,28 +15,34 @@ export default class RecoverCharacterByCampaignService {
     constructor({
         charactersRepository,
         campaignsRepository,
-        logger
+        logger,
     }: CharacterCoreDependencies['recoverCharacterByCampaignServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
 
-        this.recoverByCampaign = this.recoverByCampaign.bind(this);   
+        this.recoverByCampaign = this.recoverByCampaign.bind(this);
     }
 
-    private _mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
+    private _mapCharactersForPlayer(
+        characters: CharacterInstance[]
+    ): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
                 characterId: char.characterId as string,
                 author: char.author,
                 picture: char.picture as ImageObject,
-                profile: char.data.profile as Profile
+                profile: char.data.profile as Profile,
             };
-        })
+        });
     }
 
-    private async _getCharacters(campaign: CampaignInstance): Promise<CharacterInstance[]> {
-        const charactersArrays = campaign.campaignPlayers.map((camPlayer) => camPlayer.characterIds);
+    private async _getCharacters(
+        campaign: CampaignInstance
+    ): Promise<CharacterInstance[]> {
+        const charactersArrays = campaign.campaignPlayers.map(
+            (camPlayer) => camPlayer.characterIds
+        );
         const charactersIds = [] as string[];
         const characters = [] as Array<Promise<CharacterInstance>>;
 
@@ -54,18 +60,24 @@ export default class RecoverCharacterByCampaignService {
         return Promise.all(characters);
     }
 
-    public async recoverByCampaign({ userId, campaignId }: GetCharacterByCampaignPayload): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
+    public async recoverByCampaign({
+        userId,
+        campaignId,
+    }: GetCharacterByCampaignPayload): Promise<
+        CharacterInstance[] | CharacterToPlayerRecover[]
+    > {
         this._logger('info', 'RecoverCharacterByCampaignService - Execute');
 
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
-        const playerInCampaign = campaignInDb.campaignPlayers.find((player) => player.userId === userId);
+        const playerInCampaign = campaignInDb.campaignPlayers.find(
+            (player) => player.userId === userId
+        );
 
         const getCharacters = await this._getCharacters(campaignInDb);
 
         const getCharactersResolved = await Promise.all(getCharacters);
 
-        if (!playerInCampaign)
-            HttpRequestErrors.throwError('campaign-player-not-exists');
+        if (!playerInCampaign) HttpRequestErrors.throwError('campaign-player-not-exists');
 
         if (playerInCampaign.role === 'player')
             return this._mapCharactersForPlayer(getCharactersResolved);

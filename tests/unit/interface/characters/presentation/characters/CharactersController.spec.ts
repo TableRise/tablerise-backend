@@ -7,8 +7,8 @@ import CharactersController from 'src/interface/characters/presentation/characte
 
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
     let charactersController: CharactersController,
-    createCharacterOperation: any,
-    recoverCharacterByCampaignOperation: any;
+        createCharacterOperation: any,
+        recoverCharacterByCampaignOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -24,7 +24,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
-                recoverCharacterByCampaignOperation
+                recoverCharacterByCampaignOperation,
             });
         });
 
@@ -56,13 +56,13 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
-                recoverCharacterByCampaignOperation
+                recoverCharacterByCampaignOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
             request.user = { userId } as Express.User;
-            request.params = { id: '123' }
+            request.params = { id: '123' };
             await charactersController.recoverCharactersByCampaign(request, response);
 
             expect(recoverCharacterByCampaignOperation.execute).to.have.been.calledWith({

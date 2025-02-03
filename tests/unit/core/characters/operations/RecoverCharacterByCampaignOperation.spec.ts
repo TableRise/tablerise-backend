@@ -3,7 +3,7 @@ import RecoverCharacterByCampaignOperation from 'src/core/characters/operations/
 
 describe('Core :: Characters :: Operations :: RecoverCharacterByCampaignOperation', () => {
     let recoverCharacterByCampaignOperation: RecoverCharacterByCampaignOperation,
-    recoverCharacterByCampaignService: any;
+        recoverCharacterByCampaignService: any;
 
     const logger = (): void => {};
 
@@ -13,21 +13,25 @@ describe('Core :: Characters :: Operations :: RecoverCharacterByCampaignOperatio
 
         before(() => {
             recoverCharacterByCampaignService = {
-                recoverByCampaign: Sinon.spy(() => {})
+                recoverByCampaign: Sinon.spy(() => {}),
             };
 
-            recoverCharacterByCampaignOperation = new RecoverCharacterByCampaignOperation({
-                recoverCharacterByCampaignService,
-                logger
-            });
+            recoverCharacterByCampaignOperation = new RecoverCharacterByCampaignOperation(
+                {
+                    recoverCharacterByCampaignService,
+                    logger,
+                }
+            );
         });
 
         it('should return correct character', async () => {
             await recoverCharacterByCampaignOperation.execute({ campaignId, userId });
-            expect(recoverCharacterByCampaignService.recoverByCampaign).to.have.been.calledWith({
+            expect(
+                recoverCharacterByCampaignService.recoverByCampaign
+            ).to.have.been.calledWith({
                 campaignId,
-                userId
+                userId,
             });
         });
-    })
+    });
 });

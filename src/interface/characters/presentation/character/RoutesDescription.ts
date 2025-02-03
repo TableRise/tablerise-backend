@@ -8,5 +8,5 @@ const getByCampaign = 'Recover characters from campaign';
 
 export default {
     create,
-    getByCampaign
+    getByCampaign,
 };
