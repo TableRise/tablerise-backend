@@ -4,3 +4,8 @@ export interface CreateCharacterPayload {
     payload: CharacterPayload;
     userId: string;
 }
+
+export interface GetCharacterByCampaignPayload {
+    userId: string;
+    campaignId: string;
+}

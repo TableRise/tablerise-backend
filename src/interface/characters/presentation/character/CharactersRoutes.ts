@@ -26,6 +26,19 @@ export default class CharactersRoutes {
     public routes(): routeInstance[] {
         return [
             // GET
+            {
+                method: 'get',
+                path: `${BASE_PATH}/by-campaign/:id`,
+                controller: this._charactersController.recoverCharactersByCampaign,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware
+                    ],
+                    description: desc.getByCampaign,
+                    tag: 'recover',
+                },
+            },
 
             // POST
             {

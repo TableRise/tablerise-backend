@@ -6,7 +6,9 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CharactersController from 'src/interface/characters/presentation/character/CharactersController';
 
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
-    let charactersController: CharactersController, createCharacterOperation: any;
+    let charactersController: CharactersController,
+    createCharacterOperation: any,
+    recoverCharacterByCampaignOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -18,9 +20,11 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
+            recoverCharacterByCampaignOperation = { execute: () => {} };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                recoverCharacterByCampaignOperation
             });
         });
 
@@ -34,6 +38,38 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 userId,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#recoverCharactersByCampaign', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+        const userId = newUUID();
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            recoverCharacterByCampaignOperation = { execute: sinon.spy(() => ({})) };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                recoverCharacterByCampaignOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.user = { userId } as Express.User;
+            request.params = { id: '123' }
+            await charactersController.recoverCharactersByCampaign(request, response);
+
+            expect(recoverCharacterByCampaignOperation.execute).to.have.been.calledWith({
+                userId,
+                campaignId: '123',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
     });
