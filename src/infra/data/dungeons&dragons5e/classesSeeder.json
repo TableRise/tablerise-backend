@@ -9,7 +9,7 @@
                 "hitPointsAtFirstLevel": "12 + Constitution modifier",
                 "hitPointsAtHigherLevels": "1d12 (or 7) + Constitution modifier per barbarian level after first level"
             },
-            "proficiences": {
+            "proficiencies": {
                 "armor": ["light armor", "medium armor", "shields"],
                 "weapons": ["simple weapons", "martial weapons"],
                 "tools": [],
@@ -225,7 +225,7 @@
                 "hitPointsAtFirstLevel": "12 + modificador de Constituição",
                 "hitPointsAtHigherLevels": "1d12 (ou 7) + modificador de Constituição por nível de bárbaro após o primeiro nível"
             },
-            "proficiences": {
+            "proficiencies": {
                 "armor": ["armadura leve", "armadura média", "escudos"],
                 "weapons": ["armas simples", "armas marciais"],
                 "tools": [],

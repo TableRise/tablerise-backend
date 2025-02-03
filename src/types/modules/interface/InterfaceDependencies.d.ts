@@ -1,6 +1,6 @@
 import { RoutesWrapperContract } from 'src/types/modules/interface/common/RoutesWrapper';
-import { AuthorizationMiddlewareContract } from 'src/types/modules/interface/users/middlewares/AuthorizationMiddleware';
-import { ImageMiddlewareContract } from 'src/types/modules/interface/users/middlewares/ImageMiddleware';
+import { AuthorizationMiddlewareContract } from 'src/types/modules/interface/common/middlewares/AuthorizationMiddleware';
+import { ImageMiddlewareContract } from 'src/types/modules/interface/common/middlewares/ImageMiddleware';
 import { UsersRoutesMiddlewareContract } from 'src/types/modules/interface/users/middlewares/UsersRoutesMiddleware';
 import { VerifyEmailCodeMiddlewareContract } from 'src/types/modules/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import { UsersRoutesContract } from 'src/types/modules/interface/users/presentation/users/UsersRoutes';
@@ -12,6 +12,10 @@ import { CampaignsRoutesMiddlewareContract } from 'src/types/modules/interface/c
 import { CampaignsRoutesContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsRoutes';
 import { VerifyMatchMiddlewareContract } from './campaigns/middlewares/VerifyMatchMiddlewareContract';
 import { VerifyUserMiddlewareContract } from './common/middlewares/VerifyUserMiddleware';
+import { StateMachineFlowsMiddlewareContract } from './common/middlewares/StateMachineFlowsMiddleware';
+import { CharactersRoutesContract } from './characters/presentation/characters/CharactersRoutes';
+import { CharactersControllerContract } from './characters/presentation/characters/CharactersController';
+import { CharactersRoutesMiddlewareContract } from './characters/middlewares/CharactersRoutesMiddleware';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -20,6 +24,7 @@ export default interface InterfaceDependencies {
 
     // Middlewares
     authorizationMiddlewareContract: AuthorizationMiddlewareContract;
+    stateMachineFlowsMiddlewareContract: StateMachineFlowsMiddlewareContract;
     imageMiddlewareContract: ImageMiddlewareContract;
     usersRoutesMiddlewareContract: UsersRoutesMiddlewareContract;
     verifyEmailCodeMiddlewareContract: VerifyEmailCodeMiddlewareContract;
@@ -43,4 +48,12 @@ export default interface InterfaceDependencies {
     campaignsRoutesContract: CampaignsRoutesContract;
     campaignsControllerContract: CampaignsControllerContract;
     campaignsRoutesBuilderContract: CampaignsRoutesBuilderContract;
+
+    // <--------- CHARACTERS DOMAIN --------->
+    // Middlewares
+    charactersRoutesMiddlewareContract: CharactersRoutesMiddlewareContract;
+
+    // Routes and Controllers
+    charactersRoutesContract: CharactersRoutesContract;
+    charactersControllerContract: CharactersControllerContract;
 }

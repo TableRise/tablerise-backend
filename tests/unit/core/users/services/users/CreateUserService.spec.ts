@@ -6,6 +6,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 describe('Core :: Users :: Services :: CreateUserService', () => {
     let createUserService: CreateUserService,
@@ -121,7 +122,13 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.createdAt = null as unknown as string;
                 user.updatedAt = null as unknown as string;
                 user.password = 'testepwd@';
-                user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.DONE,
+                    currentFlow: stateFlowsEnum.enum.CREATE_USER,
+                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                    code: '',
+                };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
                 user.twoFactorSecret = { active: true };
 
@@ -170,7 +177,13 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.createdAt = null as unknown as string;
                 user.updatedAt = null as unknown as string;
                 user.password = 'testepwd@';
-                user.inProgress = { status: InProgressStatusEnum.enum.DONE, code: '' };
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.DONE,
+                    currentFlow: stateFlowsEnum.enum.CREATE_USER,
+                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                    code: '',
+                };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
 
                 serializer = {};

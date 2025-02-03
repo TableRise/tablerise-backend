@@ -4,6 +4,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 
 describe('Domains :: User :: Helpers :: Serializer', () => {
@@ -100,6 +101,27 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             const serialized = serializer.postCampaign(campaign);
 
             campaignDefaultKeys.forEach((key) => {
+                expect(serialized).to.have.property(key);
+            });
+        });
+    });
+
+    context('When character is serialized', () => {
+        beforeEach(() => {
+            serializer = new Serializer();
+        });
+
+        it('should return correct keys', () => {
+            const characterDefault = CharacterDomainDataFaker.generateCharactersJSON()[0];
+
+            delete characterDefault.createdAt;
+            delete characterDefault.updatedAt;
+
+            const characterDefaultKeys = Object.keys(characterDefault);
+            const character = {};
+            const serialized = serializer.postCharacter(character);
+
+            characterDefaultKeys.forEach((key) => {
                 expect(serialized).to.have.property(key);
             });
         });

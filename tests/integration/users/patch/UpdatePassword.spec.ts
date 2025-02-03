@@ -1,4 +1,5 @@
 import DatabaseManagement, { MongoModel } from '@tablerise/database-management';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
@@ -19,8 +20,12 @@ describe('When an user has the password changed', () => {
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
+                currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
+                prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'H45J7F',
             };
+
             userDetails.secretQuestion = null;
 
             await InjectNewUser(user);

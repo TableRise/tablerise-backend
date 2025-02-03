@@ -3,20 +3,19 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 import { UserEmail } from 'src/types/modules/core/users/users/UpdateEmail';
-import StateMachine from 'src/domains/common/StateMachine';
 
 export default class UpdateEmailService {
     private readonly _usersRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersRepository,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['updateEmailServiceContract']) {
         this._usersRepository = usersRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
 
         this.update = this.update.bind(this);
@@ -30,7 +29,7 @@ export default class UpdateEmailService {
 
     public async update({ userId, email }: UpdateEmailPayload): Promise<void> {
         this._logger('info', 'Update - UpdateEmailService');
-        const { status, flows } = this._stateMachineProps;
+        const { status, flows } = this._stateMachine.props;
 
         const userInDb = await this._usersRepository.findOne({ userId });
 
@@ -40,16 +39,13 @@ export default class UpdateEmailService {
             HttpRequestErrors.throwError('invalid-user-status');
         if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
-        const emailChanged = this._changeEmail({ user: userInDb, email });
+        const userWithEmailChanged = this._changeEmail({ user: userInDb, email });
 
-        emailChanged.inProgress.status = StateMachine(
-            flows.UPDATE_EMAIL,
-            status.WAIT_TO_FINISH_EMAIL_CHANGE
-        );
+        await this._stateMachine.machine(flows.UPDATE_EMAIL, userWithEmailChanged);
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: emailChanged,
+            payload: userWithEmailChanged,
         });
     }
 }

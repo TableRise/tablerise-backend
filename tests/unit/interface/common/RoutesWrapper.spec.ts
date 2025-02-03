@@ -4,7 +4,8 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
     let routesWrapper: RoutesWrapper,
         usersRoutesBuilder: any,
         dungeonsAndDragonsRoutesBuilder: any,
-        campaignsRoutesBuilder: any;
+        campaignsRoutesBuilder: any,
+        charactersRoutesBuilder: any;
 
     context('#routes', () => {
         beforeEach(() => {
@@ -22,7 +23,13 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
 
             campaignsRoutesBuilder = {
                 get: () => ({
-                    campaignsSwagger: ['camp1', 'camp2'],
+                    campaignsRoutes: 'camp',
+                }),
+            };
+
+            charactersRoutesBuilder = {
+                get: () => ({
+                    charactersRoutes: 'char',
                 }),
             };
 
@@ -30,6 +37,7 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
                 usersRoutesBuilder,
                 dungeonsAndDragonsRoutesBuilder,
                 campaignsRoutesBuilder,
+                charactersRoutesBuilder,
             });
         });
 
@@ -38,7 +46,11 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
 
             expect(routes).to.have.property('user');
             expect(routes).to.have.property('dungeons&dragons5e');
+            expect(routes).to.have.property('campaign');
+            expect(routes).to.have.property('character');
             expect(routes.user).to.be.equal('user');
+            expect(routes.campaign).to.be.equal('camp');
+            expect(routes.character).to.be.equal('char');
             expect(routes['dungeons&dragons5e']).to.be.equal('dnd5e');
         });
     });
@@ -63,10 +75,17 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
                 }),
             };
 
+            charactersRoutesBuilder = {
+                get: () => ({
+                    charactersSwagger: ['char1', 'char2'],
+                }),
+            };
+
             routesWrapper = new RoutesWrapper({
                 usersRoutesBuilder,
                 dungeonsAndDragonsRoutesBuilder,
                 campaignsRoutesBuilder,
+                charactersRoutesBuilder,
             });
         });
 
@@ -74,11 +93,19 @@ describe('Interefaces :: Common :: RoutesWrapper', () => {
             const routes = routesWrapper.declareRoutes();
 
             expect(routes).to.have.property('user');
+            expect(routes).to.have.property('campaign');
+            expect(routes).to.have.property('character');
             expect(routes).to.have.property('dungeons&dragons5e');
             expect(routes.user).to.be.an('array').that.has.length(2);
+            expect(routes.campaign).to.be.an('array').that.has.length(2);
+            expect(routes.character).to.be.an('array').that.has.length(2);
             expect(routes['dungeons&dragons5e']).to.be.an('array').that.has.length(2);
             expect(routes.user[0]).to.be.equal('user');
             expect(routes.user[1]).to.be.equal('user2');
+            expect(routes.campaign[0]).to.be.equal('camp1');
+            expect(routes.campaign[1]).to.be.equal('camp2');
+            expect(routes.character[0]).to.be.equal('char1');
+            expect(routes.character[1]).to.be.equal('char2');
             expect(routes['dungeons&dragons5e'][0]).to.be.equal('dnd5e');
             expect(routes['dungeons&dragons5e'][1]).to.be.equal('dnd5e2');
         });

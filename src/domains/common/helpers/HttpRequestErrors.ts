@@ -7,20 +7,47 @@ import { ErrorMessage } from './errorMessage';
 export default class HttpRequestErrors extends Error {
     code: number;
     details: ErrorDetails[];
+    redirectTo: string;
 
-    constructor({ message = '', code = 0, details = [], name = '' }: Errors) {
+    constructor({
+        message = '',
+        code = 0,
+        details = [],
+        name = '',
+        redirectTo = '',
+    }: Errors) {
         logger('error', `${message} - ${code}`);
         super(message);
         this.code = code;
         this.details = details;
         this.name = name;
+        this.redirectTo = redirectTo;
     }
 
-    static throwError(errorType: ErrorTypes): never {
+    static throwError(errorType: ErrorTypes, redirectTo?: string): never {
         switch (errorType) {
             case 'campaign-match-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign Match does not exist and cannot be updated',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'save-forbidden-content':
+                throw new HttpRequestErrors({
+                    message:
+                        'Forbidden content was sent to save in database - check business rules',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'character-does-not-exist':
+                throw new HttpRequestErrors({
+                    message: 'Character not found or not belongs to user',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+            case 'player-master-equal':
+                throw new HttpRequestErrors({
+                    message: 'The new player can not be also the master',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
@@ -42,9 +69,27 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.FORBIDDEN,
                     name: getErrorName(HttpStatusCode.FORBIDDEN),
                 });
+            case 'player-already-banned':
+                throw new HttpRequestErrors({
+                    message: 'Player is already banned',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'player-already-in-match':
                 throw new HttpRequestErrors({
                     message: 'Player already in match',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'player-not-in-match':
+                throw new HttpRequestErrors({
+                    message: 'Player not in match',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+            case 'player-is-the-dungeon-master':
+                throw new HttpRequestErrors({
+                    message: 'Player is the dungeon master',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
@@ -89,6 +134,7 @@ export default class HttpRequestErrors extends Error {
                     message: 'Email already exists in database',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    redirectTo,
                 });
             case 'tag-already-exist':
                 throw new HttpRequestErrors({

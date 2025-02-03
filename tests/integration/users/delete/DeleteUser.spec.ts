@@ -1,5 +1,6 @@
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -14,7 +15,16 @@ describe('When an user is deleted', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress.status = StateMachineProps.status.WAIT_TO_FINISH_DELETE_USER;
+            user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER,
+                currentFlow: stateFlowsEnum.enum.DELETE_PROFILE,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
+                code: '',
+            };
+
             user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
             userDetails.secretQuestion = null;
 
@@ -38,7 +48,14 @@ describe('When an user is deleted', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-            user.inProgress.status = StateMachineProps.status.WAIT_TO_FINISH_DELETE_USER;
+            user.inProgress = {
+                status: InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER,
+                currentFlow: stateFlowsEnum.enum.DELETE_PROFILE,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
+                code: '',
+            };
+
             user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
 
             await InjectNewUser(user);

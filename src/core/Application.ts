@@ -14,6 +14,7 @@ export default class Application {
     private readonly _dungeonsAndDragonsRoutesMiddleware;
     private readonly _usersRoutesMiddleware;
     private readonly _campaignsRoutesMiddleware;
+    private readonly _charactersRoutesMiddleware;
     private readonly _swaggerGenerator;
     private readonly _accessHeadersMiddleware;
     private readonly _errorMiddleware;
@@ -25,6 +26,7 @@ export default class Application {
         dungeonsAndDragonsRoutesMiddleware,
         usersRoutesMiddleware,
         campaignsRoutesMiddleware,
+        charactersRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
         accessHeadersMiddleware,
@@ -35,6 +37,7 @@ export default class Application {
         this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this._usersRoutesMiddleware = usersRoutesMiddleware;
         this._campaignsRoutesMiddleware = campaignsRoutesMiddleware;
+        this._charactersRoutesMiddleware = charactersRoutesMiddleware;
         this._swaggerGenerator = swaggerGenerator;
         this._accessHeadersMiddleware = accessHeadersMiddleware;
         this._errorMiddleware = errorMiddleware;
@@ -53,15 +56,21 @@ export default class Application {
                     credentials: true,
                 })
             )
+            .use(
+                session({
+                    secret: (process.env.COOKIE_SECRET as string) || 'catfish',
+                })
+            )
+            .use(passport.initialize())
+            .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
-            .use(session({ secret: (process.env.COOKIE_SECRET as string) || 'catfish' }))
-            .use(passport.session())
             .use(this._accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
             .use(this._swaggerGenerator)
             .use(this._usersRoutesMiddleware.get())
             .use(this._campaignsRoutesMiddleware.get())
+            .use(this._charactersRoutesMiddleware.get())
             .use(this._dungeonsAndDragonsRoutesMiddleware.get())
             .use(this._errorMiddleware);
 

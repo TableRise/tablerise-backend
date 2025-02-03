@@ -1,22 +1,21 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import StateMachine from 'src/domains/common/StateMachine';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class DeleteUserService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['deleteUserServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
 
         this.delete = this.delete.bind(this);
@@ -24,7 +23,7 @@ export default class DeleteUserService {
 
     public async delete(userId: string): Promise<void> {
         this._logger('info', `Delete - DeleteUserService - ReceivedID is ${userId}`);
-        const { status, flows } = this._stateMachineProps;
+        const { status, flows } = this._stateMachine.props;
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
@@ -39,10 +38,7 @@ export default class DeleteUserService {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 
-        userInDb.inProgress.status = StateMachine(
-            flows.DELETE_PROFILE,
-            userInDb.inProgress.status
-        );
+        await this._stateMachine.machine(flows.DELETE_PROFILE, userInDb);
 
         const userUpdated = await this._usersRepository.update({
             query: { userId: userInDb.userId },
