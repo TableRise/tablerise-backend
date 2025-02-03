@@ -27,6 +27,7 @@ export default class RecoverCharacterByCampaignService {
     private _mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
+                characterId: char.characterId as string,
                 author: char.author,
                 picture: char.picture as ImageObject,
                 profile: char.data.profile as Profile
