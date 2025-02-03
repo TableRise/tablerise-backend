@@ -15,7 +15,7 @@ import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
-describe.only('When characters are recovered by campaign', () => {
+describe('When characters are recovered by campaign', () => {
     let user: UserInstance[],
         userDetails: UserDetailInstance[],
         campaign: CampaignInstance,
