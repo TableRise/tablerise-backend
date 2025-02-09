@@ -6,7 +6,7 @@ import {
 export default interface CharacterCoreDependencies {
     // Operations
     createCharacterOperationContract: CreateCharacterOperationContract;
-    getAllCharactersOperationContract: GetAllCharactersOperationContract; 
+    getAllCharactersOperationContract: GetAllCharactersOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;

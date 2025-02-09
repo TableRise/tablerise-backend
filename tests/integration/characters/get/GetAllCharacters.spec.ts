@@ -7,17 +7,19 @@ import DatabaseManagement from '@tablerise/database-management';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 
 describe('When recover all characters', () => {
-    let characters: CharacterInstance[],
-    modelCharacter: any;
+    let characters: CharacterInstance[], modelCharacter: any;
 
     context('And is succesfull', () => {
         before(async () => {
-            modelCharacter = new DatabaseManagement().modelInstance('characterDnd', 'CharactersDnd');
+            modelCharacter = new DatabaseManagement().modelInstance(
+                'characterDnd',
+                'CharactersDnd'
+            );
             await modelCharacter.erase();
-            characters = DomainDataFaker.generateCharactersJSON({ count : 2});
+            characters = DomainDataFaker.generateCharactersJSON({ count: 2 });
             characters.forEach(async (character) => {
                 await InjectNewCharacter(character);
-            })
+            });
         });
 
         after(async () => {

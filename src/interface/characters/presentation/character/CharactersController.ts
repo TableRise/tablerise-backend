@@ -5,7 +5,7 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 
 export default class CharactersController {
     private readonly _createCharacterOperation;
-    private readonly _getAllCharactersOperation
+    private readonly _getAllCharactersOperation;
 
     constructor({
         createCharacterOperation,

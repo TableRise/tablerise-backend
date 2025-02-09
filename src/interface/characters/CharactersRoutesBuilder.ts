@@ -17,7 +17,6 @@ export default class CharactersRoutesBuilder {
     }
 
     private _character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
-
         const characterRoutes = buildRouter(this._charactersRoutes.routes(), router);
         const characterSwagger = this._charactersRoutes.routes();
 

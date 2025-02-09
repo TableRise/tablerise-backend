@@ -8,5 +8,5 @@ const getAll = 'This route returns all characters';
 
 export default {
     create,
-    getAll
+    getAll,
 };

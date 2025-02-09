@@ -43,8 +43,9 @@ export async function InjectNewCharacter(character: CharacterInstance): Promise<
     character.createdAt = new Date().toISOString();
     character.updatedAt = new Date().toISOString();
 
-    const modelCharacter = new DatabaseManagement().modelInstance('characterDnd', 'CharactersDnd');
+    const modelCharacter = new DatabaseManagement().modelInstance(
+        'characterDnd',
+        'CharactersDnd'
+    );
     await modelCharacter.create(character);
 }
-
-

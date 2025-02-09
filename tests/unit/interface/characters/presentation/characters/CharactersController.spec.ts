@@ -6,9 +6,9 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CharactersController from 'src/interface/characters/presentation/character/CharactersController';
 
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
-    let charactersController: CharactersController, 
-    createCharacterOperation: any,
-    getAllCharactersOperation: any;
+    let charactersController: CharactersController,
+        createCharacterOperation: any,
+        getAllCharactersOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -24,7 +24,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
-                getAllCharactersOperation
+                getAllCharactersOperation,
             });
         });
 
@@ -51,11 +51,11 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: () => {} };
-            getAllCharactersOperation = {  execute: sinon.spy(() => ({}))};
+            getAllCharactersOperation = { execute: sinon.spy(() => ({})) };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
-                getAllCharactersOperation
+                getAllCharactersOperation,
             });
         });
 
@@ -66,5 +66,5 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
-    })
+    });
 });
