@@ -23,6 +23,7 @@ export default class CharactersController {
         this._getAllCharactersOperation = getAllCharactersOperation;
         this._getCharacterByIdOperation = getCharacterByIdOperation;
         this._orgPictureUploadOperation = orgPictureUploadOperation;
+
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
