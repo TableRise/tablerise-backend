@@ -6,7 +6,9 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CharactersController from 'src/interface/characters/presentation/character/CharactersController';
 
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
-    let charactersController: CharactersController, createCharacterOperation: any;
+    let charactersController: CharactersController, 
+    createCharacterOperation: any,
+    getAllCharactersOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -18,9 +20,11 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
+            getAllCharactersOperation = { execute: () => {} };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                getAllCharactersOperation
             });
         });
 
@@ -37,4 +41,30 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             expect(response.json).to.have.been.called();
         });
     });
+
+    context('#getAll', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            getAllCharactersOperation = {  execute: sinon.spy(() => ({}))};
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            await charactersController.getAll(request, response);
+
+            expect(getAllCharactersOperation.execute).to.have.been.calledWith();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    })
 });

@@ -5,13 +5,16 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 
 export default class CharactersController {
     private readonly _createCharacterOperation;
+    private readonly _getAllCharactersOperation
 
     constructor({
         createCharacterOperation,
+        getAllCharactersOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
-
+        this._getAllCharactersOperation = getAllCharactersOperation;
         this.createCharacter = this.createCharacter.bind(this);
+        this.getAll = this.getAll.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -20,5 +23,10 @@ export default class CharactersController {
 
         const result = await this._createCharacterOperation.execute({ payload, userId });
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        const result = await this._getAllCharactersOperation.execute();
+        return res.status(HttpStatusCode.OK).json(result);
     }
 }

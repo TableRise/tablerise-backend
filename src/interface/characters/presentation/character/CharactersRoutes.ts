@@ -26,7 +26,16 @@ export default class CharactersRoutes {
     public routes(): routeInstance[] {
         return [
             // GET
-
+            {
+                method: 'get',
+                path: `${BASE_PATH}`,
+                controller: this._charactersController.getAll,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'recover',
+                    description: desc.getAll,
+                },
+            },
             // POST
             {
                 method: 'post',

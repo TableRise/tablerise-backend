@@ -1,4 +1,5 @@
-import CharactersDependencies from 'src/types/modules/core/characters/CharactersDependencies';
+import CharactersCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 export default class GetAllCharactersService {
     private readonly _charactersRepository;
@@ -7,7 +8,7 @@ export default class GetAllCharactersService {
     constructor({
         charactersRepository,
         logger,
-    }: CharactersDependencies['getAllCharactersServiceContract']) {
+    }: CharactersCoreDependencies['getAllCharactersServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._logger = logger;
     }
@@ -16,6 +17,5 @@ export default class GetAllCharactersService {
         this._logger('info', 'GetAll - GetAllCharactersService');
         const charactersInDb = await this._charactersRepository.find({});
         return charactersInDb;
-
     }
 }

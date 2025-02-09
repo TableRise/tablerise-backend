@@ -1,5 +1,5 @@
-import { CharacterInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import CharactersDependencies from 'src/types/modules/core/campaigns/CharactersDependencies';
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import CharactersCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class GetAllCharactersOperation {
     private readonly _getAllCharactersService;
@@ -8,7 +8,7 @@ export default class GetAllCharactersOperation {
     constructor({
         getAllCharactersService,
         logger,
-    }: CharactersDependencies['getAllCharactersOperationContract']) {
+    }: CharactersCoreDependencies['getAllCharactersOperationContract']) {
         this._getAllCharactersService = getAllCharactersService;
         this._logger = logger;
 
