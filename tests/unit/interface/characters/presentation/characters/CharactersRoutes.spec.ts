@@ -19,7 +19,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
 
         it('Should return the correct number of routes', () => {
             const routes = charactersRoutes.routes();
-            expect(routes).to.have.lengthOf(1);
+            expect(routes).to.have.lengthOf(2);
         });
     });
 });

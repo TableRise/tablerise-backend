@@ -32,6 +32,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'campaign-player-not-exists':
+                throw new HttpRequestErrors({
+                    message: 'This players is not in the campaign',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
             case 'save-forbidden-content':
                 throw new HttpRequestErrors({
                     message:

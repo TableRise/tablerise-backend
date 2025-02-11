@@ -51,4 +51,5 @@ export type ErrorTypes =
     | 'avatar-inexistent'
     | 'character-does-not-exist'
     | 'player-master-equal'
-    | 'save-forbidden-content';
+    | 'save-forbidden-content'
+    | 'campaign-player-not-exists';

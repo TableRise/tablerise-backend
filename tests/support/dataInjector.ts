@@ -1,5 +1,6 @@
 import DatabaseManagement from '@tablerise/database-management';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
@@ -36,4 +37,15 @@ export async function InjectNewCampaign(campaign: CampaignInstance): Promise<voi
 
     const modelCampaign = new DatabaseManagement().modelInstance('campaign', 'Campaigns');
     await modelCampaign.create(campaign);
+}
+
+export async function InjectNewCharacter(character: CharacterInstance): Promise<void> {
+    character.createdAt = new Date().toISOString();
+    character.updatedAt = new Date().toISOString();
+
+    const modelCharacter = new DatabaseManagement().modelInstance(
+        'characterDnd',
+        'CharactersDnd'
+    );
+    await modelCharacter.create(character);
 }
