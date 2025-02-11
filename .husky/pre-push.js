@@ -40,7 +40,6 @@ try {
 try {
     console.log(chalk.magenta('🔍 Executando prettier...'));
     execSync('npm run prettier --max-warnings=0');
-    console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
 } catch (error) {
     console.log(chalk.yellow('⚠️  Corrigindo o Prettier...'));
     execSilent('npm run prettier:fix');
