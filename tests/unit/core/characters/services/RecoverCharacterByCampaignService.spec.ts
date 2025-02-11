@@ -6,7 +6,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import fakers from 'src/infra/datafakers';
 
-describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', () => {
+describe.only('Core :: Characters :: Services :: RecoverCharacterByCampaignService', () => {
     let recoverCharacterByCampaignService: RecoverCharacterByCampaignService,
         charactersRepository: any,
         campaignsRepository: any,
@@ -39,6 +39,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                 };
 
                 result = {
+                    characterId: character.characterId,
                     author: character.author,
                     picture: character.picture,
                     profile: character.data.profile,
