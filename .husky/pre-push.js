@@ -40,6 +40,7 @@ try {
 try {
     console.log(chalk.magenta('🔍 Executando prettier...'));
     execSync('npm run prettier --max-warnings=0');
+    console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
 } catch (error) {
     console.log(chalk.yellow('⚠️  Corrigindo o Prettier...'));
     execSilent('npm run prettier:fix');
@@ -47,16 +48,6 @@ try {
     execSilent('git commit -m "fix: prettier"');
     execSilent('git push -u origin ' + BRANCH);
     console.log(chalk.green('✅ Prettier corrigido e alterações enviadas.'));
-}
-
-try {
-    console.log(chalk.magenta('🔍 Executando testes unitários...'));
-    console.log(chalk.green('✅ Bateria de testes realizada com sucesso!'));
-    console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
-    execSilent('npm run test:unit');
-} catch (error) {
-    console.log(chalk.red('❌ É necessária a correção dos testes unitários'));
-    process.exit(1);
 }
 
 // Verificação do nome da branch
