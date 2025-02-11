@@ -39,7 +39,6 @@ describe.only('Core :: Characters :: Services :: RecoverCharacterByCampaignServi
                 };
 
                 result = {
-                    characterId: character.characterId,
                     author: character.author,
                     picture: character.picture,
                     profile: character.data.profile,
