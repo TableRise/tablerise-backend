@@ -8,10 +8,9 @@ import swaggerUI from 'swagger-ui-express';
 export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => {
     const router = Router();
     const urls = [process.env.SWAGGER_URL as string];
-    let pathLevel = '../../../../..';
+    const pathLevel = process.env.SWAGGER_PATH_LEVEL as string;
 
     if (process.env.NODE_ENV === 'develop') {
-        pathLevel = '../../../..';
 
         autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
             title: 'dungeons&dragons5e',
