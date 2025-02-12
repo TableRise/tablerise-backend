@@ -10,99 +10,96 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
     const urls = [process.env.SWAGGER_URL as string];
     const pathLevel = process.env.SWAGGER_PATH_LEVEL as string;
 
-    if (process.env.NODE_ENV === 'develop') {
+    autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
+        title: 'dungeons&dragons5e',
+        url: urls,
+    })
+        .then((_result: any) => {
+            logger(
+                'info',
+                'SwaggerGenerator - dungeons&dragons5e - document generated'
+            );
 
-        autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
-            title: 'dungeons&dragons5e',
-            url: urls,
+            const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
+
+            router.use(
+                '/api-docs/system/dnd5e',
+                swaggerUI.serve,
+                (req: Request, res: Response) => {
+                    const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
+                    res.send(html);
+                }
+            );
         })
-            .then((_result: any) => {
-                logger(
-                    'info',
-                    'SwaggerGenerator - dungeons&dragons5e - document generated'
-                );
+        .catch((error: any) => {
+            console.log(error);
+        });
 
-                const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
+    autoSwagger(routesWrapper.declareRoutes().user, {
+        title: 'users',
+        url: urls,
+    })
+        .then((_result: any) => {
+            logger('info', 'SwaggerGenerator - user - document generated');
 
-                router.use(
-                    '/api-docs/system/dnd5e',
-                    swaggerUI.serve,
-                    (req: Request, res: Response) => {
-                        const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
-                        res.send(html);
-                    }
-                );
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
+            const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
 
-        autoSwagger(routesWrapper.declareRoutes().user, {
-            title: 'users',
-            url: urls,
+            router.use(
+                '/api-docs/users',
+                swaggerUI.serve,
+                (req: Request, res: Response) => {
+                    const html = swaggerUI.generateHTML(SwaggerDocumentUser);
+                    res.send(html);
+                }
+            );
         })
-            .then((_result: any) => {
-                logger('info', 'SwaggerGenerator - user - document generated');
+        .catch((error: any) => {
+            console.log(error);
+        });
 
-                const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
+    autoSwagger(routesWrapper.declareRoutes().campaign, {
+        title: 'campaigns',
+        url: urls,
+    })
+        .then((_result: any) => {
+            logger('info', 'SwaggerGenerator - campaign - document generated');
 
-                router.use(
-                    '/api-docs/users',
-                    swaggerUI.serve,
-                    (req: Request, res: Response) => {
-                        const html = swaggerUI.generateHTML(SwaggerDocumentUser);
-                        res.send(html);
-                    }
-                );
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
+            const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
 
-        autoSwagger(routesWrapper.declareRoutes().campaign, {
-            title: 'campaigns',
-            url: urls,
+            router.use(
+                '/api-docs/campaigns',
+                swaggerUI.serve,
+                (req: Request, res: Response) => {
+                    const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
+                    res.send(html);
+                }
+            );
         })
-            .then((_result: any) => {
-                logger('info', 'SwaggerGenerator - campaign - document generated');
+        .catch((error: any) => {
+            console.log(error);
+        });
 
-                const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
+    autoSwagger(routesWrapper.declareRoutes().character, {
+        title: 'characters',
+        url: urls,
+    })
+        .then((_result: any) => {
+            logger('info', 'SwaggerGenerator - character - document generated');
 
-                router.use(
-                    '/api-docs/campaigns',
-                    swaggerUI.serve,
-                    (req: Request, res: Response) => {
-                        const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
-                        res.send(html);
-                    }
-                );
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
+            const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
 
-        autoSwagger(routesWrapper.declareRoutes().character, {
-            title: 'characters',
-            url: urls,
+            router.use(
+                '/api-docs/characters',
+                swaggerUI.serve,
+                (req: Request, res: Response) => {
+                    const html = swaggerUI.generateHTML(SwaggerDocumentCharacters);
+                    res.send(html);
+                }
+            );
         })
-            .then((_result: any) => {
-                logger('info', 'SwaggerGenerator - character - document generated');
-
-                const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
-
-                router.use(
-                    '/api-docs/characters',
-                    swaggerUI.serve,
-                    (req: Request, res: Response) => {
-                        const html = swaggerUI.generateHTML(SwaggerDocumentCharacters);
-                        res.send(html);
-                    }
-                );
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
-    }
+        .catch((error: any) => {
+            console.log(error);
+        });
 
     return router;
 };
