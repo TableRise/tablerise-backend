@@ -28,7 +28,7 @@ export default class CampaignsRepository {
     }
 
     public async create(payload: CampaignInstance): Promise<CampaignInstance> {
-        this._logger('info', `Create - CampaignsRepository`);
+        this._logger('warn', `Create - CampaignsRepository`);
 
         payload.campaignId = newUUID();
 
@@ -37,7 +37,7 @@ export default class CampaignsRepository {
     }
 
     public async findOne(query: any = {}): Promise<CampaignInstance> {
-        this._logger('info', 'FindOne - CampaignsRepository');
+        this._logger('warn', 'FindOne - CampaignsRepository');
         const request = await this._model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
@@ -46,14 +46,14 @@ export default class CampaignsRepository {
     }
 
     public async find(query: any = {}): Promise<CampaignInstance[]> {
-        this._logger('info', `Find - DungeonsAndDragonsRepository`);
+        this._logger('warn', `Find - CampaignsRepository`);
         const request = await this._model.findAll(query);
 
         return request.map((data) => this._formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
-        this._logger('info', 'Update - UsersRepository');
+        this._logger('warn', 'Update - CampaignsRepository');
 
         const request = await this._model.update(query, payload);
 

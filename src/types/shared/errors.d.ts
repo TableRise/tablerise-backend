@@ -9,6 +9,7 @@ export interface Errors {
     code: number;
     name?: string;
     details?: ErrorDetails[];
+    redirectTo?: string;
 }
 
 export type ErrorTypes =
@@ -34,6 +35,9 @@ export type ErrorTypes =
     | 'user-database-critical-errror'
     | 'query-fail'
     | 'info-already-added'
+    | 'player-is-the-dungeon-master'
+    | 'player-already-banned'
+    | 'player-not-in-match'
     | 'content-inexistent'
     | 'incorrect-secret-question'
     | 'new-structure-secret-question-missing'
@@ -44,4 +48,8 @@ export type ErrorTypes =
     | 'player-already-in-match'
     | 'player-banned'
     | 'campaign-match-inexistent'
-    | 'avatar-inexistent';
+    | 'avatar-inexistent'
+    | 'character-does-not-exist'
+    | 'player-master-equal'
+    | 'save-forbidden-content'
+    | 'campaign-player-not-exists';

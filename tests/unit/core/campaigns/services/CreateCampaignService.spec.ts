@@ -2,6 +2,7 @@ import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignSer
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
@@ -9,6 +10,8 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         serializer: any,
         imageStorageClient: any,
         campaignsRepository: any,
+        usersDetailsRepository: any,
+        userDetails: any,
         campaign: CampaignInstance,
         image: FileObject,
         userId: any;
@@ -19,6 +22,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         context('When serialize with success', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
 
                 serializer = {
                     postCampaign: () => campaign,
@@ -26,6 +30,10 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 campaignsRepository = {
                     find: () => [],
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => userDetails,
                 };
 
                 imageStorageClient = {
@@ -40,6 +48,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    usersDetailsRepository,
                     imageStorageClient,
                     logger,
                 });
@@ -59,6 +68,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         context('When enrich with success', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
 
                 userId = newUUID();
 
@@ -69,6 +79,10 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 campaignsRepository = {
                     find: () => [],
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => userDetails,
                 };
 
                 imageStorageClient = {
@@ -92,6 +106,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    usersDetailsRepository,
                     imageStorageClient,
                     logger,
                 });
@@ -126,11 +141,17 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         context('When save with success', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
 
                 serializer = {};
 
                 campaignsRepository = {
                     create: () => campaign,
+                    update: () => {},
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => userDetails,
                     update: () => {},
                 };
 
@@ -146,6 +167,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 createCampaignService = new CreateCampaignService({
                     serializer,
                     campaignsRepository,
+                    usersDetailsRepository,
                     imageStorageClient,
                     logger,
                 });

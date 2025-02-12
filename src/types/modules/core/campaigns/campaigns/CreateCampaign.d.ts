@@ -5,6 +5,7 @@ import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import { Logger } from 'src/types/shared/logger';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
+import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 
 export interface CreateCampaignOperationContract {
     campaignsSchema: SchemasCampaignType;
@@ -15,6 +16,7 @@ export interface CreateCampaignOperationContract {
 
 export interface CreateCampaignServiceContract {
     campaignsRepository: CampaignsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     serializer: Serializer;
     imageStorageClient: ImageStorageClient;
     logger: Logger;

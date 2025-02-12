@@ -52,7 +52,7 @@ export default class CampaignsRoutes {
                 controller: this._campaignsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    tag: 'access',
+                    tag: 'recover',
                     description: desc.getAll,
                 },
             },
@@ -98,9 +98,29 @@ export default class CampaignsRoutes {
                 ],
                 controller: this._campaignsController.inviteEmail,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
-                    tag: 'invite',
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'management',
                     description: desc.inviteEmail,
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/ban`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }]),
+                ],
+                controller: this._campaignsController.banPlayer,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'ban',
+                    description: desc.banPlayer,
                 },
             },
 
@@ -182,15 +202,23 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/match/players`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
-                ],
-                controller: this._campaignsController.updateMatchPlayers,
+                path: `${BASE_PATH}/:id/add/match/players`,
+                parameters: [...generateIDParam()],
+                controller: this._campaignsController.addMatchPlayers,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.updateMatchPlayers,
+                    description: desc.addMatchPlayers,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/remove/match/players`,
+                parameters: [...generateIDParam()],
+                controller: this._campaignsController.removeMatchPlayers,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.removeMatchPlayers,
                     tag: 'management',
                 },
             },

@@ -7,6 +7,7 @@ import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
 import schemas from './domains/users/schemas';
 import campaignsSchemas from './domains/campaigns/schemas';
+import charactersSchemas from './domains/characters/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import Serializer from './domains/common/helpers/Serializer';
@@ -26,6 +27,10 @@ import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
 import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
+import StateMachine from './domains/common/StateMachine';
+import LoginPassport from './interface/users/strategies/LocalStrategy';
+import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
+import CharactersRoutesBuilder from './interface/characters/CharactersRoutesBuilder';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -33,7 +38,11 @@ export const container = createContainer({
     injectionMode: InjectionMode.PROXY,
 }) as any;
 
-export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }): void {
+export default function setup(
+    { loadExt }: ContainerContract = {
+        loadExt: process.env.NODE_ENV === 'develop' ? 'ts' : 'js',
+    }
+): void {
     container.loadModules(
         [
             `./core/**/*.${loadExt}`,
@@ -45,8 +54,8 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
             `./interface/campaigns/middlewares/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/presentation/**/*.${loadExt}`,
             `./interface/dungeons&dragons5e/middlewares/**/*.${loadExt}`,
-            `./interface/campaigns/presentation/**/*.${loadExt}`,
-            `./interface/campaigns/middlewares/**/*.${loadExt}`,
+            `./interface/characters/presentation/**/*.${loadExt}`,
+            `./interface/characters/middlewares/**/*.${loadExt}`,
         ],
         {
             formatName: 'camelCase',
@@ -61,12 +70,18 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         routesWrapper: asClass(RoutesWrapper).singleton(),
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
         campaignsRoutesBuilder: asClass(CampaignsRoutesBuilder).singleton(),
+        charactersRoutesBuilder: asClass(CharactersRoutesBuilder).singleton(),
         dungeonsAndDragonsRoutesBuilder: asClass(
             DungeonsAndDragonsRoutesBuilder
         ).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),
+        stateMachine: asClass(StateMachine).singleton(),
+
+        // #Strategies
+        loginPassport: asClass(LoginPassport).singleton(),
+        authenticatePassport: asClass(AuthenticatePassport).singleton(),
 
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),
@@ -80,6 +95,7 @@ export default function setup({ loadExt }: ContainerContract = { loadExt: 'js' }
         // #Schemas
         usersSchema: asValue(schemas),
         campaignsSchema: asValue(campaignsSchemas),
+        charactersSchema: asValue(charactersSchemas),
 
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),

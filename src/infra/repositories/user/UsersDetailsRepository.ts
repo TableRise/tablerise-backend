@@ -28,7 +28,7 @@ export default class UsersDetailsRepository {
     }
 
     public async create(payload: UserDetailInstance): Promise<UserDetailInstance> {
-        this._logger('info', `Create - UsersDetailsRepository`);
+        this._logger('warn', `Create - UsersDetailsRepository`);
 
         payload.userDetailId = newUUID();
 
@@ -37,7 +37,7 @@ export default class UsersDetailsRepository {
     }
 
     public async find(query: any = {}): Promise<UserDetailInstance[]> {
-        this._logger('info', `Find - UsersDetailsRepository`);
+        this._logger('warn', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
 
         return request.map((entity: UserDetailInstance) =>
@@ -46,7 +46,7 @@ export default class UsersDetailsRepository {
     }
 
     public async findOne(query: any = {}): Promise<UserDetailInstance> {
-        this._logger('info', 'FindOne - UsersDetailsRepository');
+        this._logger('warn', 'FindOne - UsersDetailsRepository');
         const request = await this._model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
@@ -55,7 +55,7 @@ export default class UsersDetailsRepository {
     }
 
     public async update({ query, payload }: UpdateObj): Promise<UserDetailInstance> {
-        this._logger('info', 'Update - UsersDetailsRepository');
+        this._logger('warn', 'Update - UsersDetailsRepository');
         const request = await this._model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
