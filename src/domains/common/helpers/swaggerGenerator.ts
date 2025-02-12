@@ -15,10 +15,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
         url: urls,
     })
         .then((_result: any) => {
-            logger(
-                'info',
-                'SwaggerGenerator - dungeons&dragons5e - document generated'
-            );
+            logger('info', 'SwaggerGenerator - dungeons&dragons5e - document generated');
 
             const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
 
