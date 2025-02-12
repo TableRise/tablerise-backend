@@ -8,8 +8,11 @@ import swaggerUI from 'swagger-ui-express';
 export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => {
     const router = Router();
     const urls = [process.env.SWAGGER_URL as string];
+    let pathLevel = '../../../../..';
 
     if (process.env.NODE_ENV === 'develop') {
+        pathLevel = '../../../..';
+
         autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
             title: 'dungeons&dragons5e',
             url: urls,
@@ -20,7 +23,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
                     'SwaggerGenerator - dungeons&dragons5e - document generated'
                 );
 
-                const SwaggerDocumentDnD5E = require('../../../../api-docs/swagger-doc-dungeons&dragons5e.json');
+                const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
 
                 router.use(
                     '/api-docs/system/dnd5e',
@@ -42,7 +45,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - user - document generated');
 
-                const SwaggerDocumentUser = require('../../../../api-docs/swagger-doc-users.json');
+                const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
 
                 router.use(
                     '/api-docs/users',
@@ -64,7 +67,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - campaign - document generated');
 
-                const SwaggerDocumentCampaign = require('../../../../api-docs/swagger-doc-campaigns.json');
+                const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
 
                 router.use(
                     '/api-docs/campaigns',
@@ -86,7 +89,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             .then((_result: any) => {
                 logger('info', 'SwaggerGenerator - character - document generated');
 
-                const SwaggerDocumentCharacters = require('../../../../api-docs/swagger-doc-characters.json');
+                const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
 
                 router.use(
                     '/api-docs/characters',
