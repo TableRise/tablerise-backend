@@ -21,11 +21,13 @@ delete character.data.spells;
 delete character.data.createdAt;
 delete character.data.updatedAt;
 
+
 const mocks = {
     createCharacterMock: {
         data: character.data,
         npc: character.npc,
     },
+    uploadCharacterPictureMock: { picture: { isBinary: true } },
 };
 
 export default {

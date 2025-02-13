@@ -7,6 +7,7 @@ export default class UpdateTimestampRepository {
     private readonly _usersModel;
     private readonly _usersDetailsModel;
     private readonly _campaignsModel;
+    private readonly _charactersModel;
     private readonly _logger;
 
     constructor({
@@ -16,6 +17,7 @@ export default class UpdateTimestampRepository {
         this._usersModel = database.modelInstance('user', 'Users');
         this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
         this._campaignsModel = database.modelInstance('campaign', 'Campaigns');
+        this._charactersModel = database.modelInstance('characterDnd', 'CharactersDnd');
 
         this._logger = logger;
     }
@@ -27,6 +29,7 @@ export default class UpdateTimestampRepository {
             userId: this.updateToUserId,
             userDetailId: this.updateToUserDetail,
             campaignId: this.updateToCampaignId,
+            characterId: this.updateToCharacterId
         };
 
         if (!Object.keys(query).length)
@@ -69,6 +72,17 @@ export default class UpdateTimestampRepository {
         await this._campaignsModel.update(
             { campaignId: campaignInDb.campaignId },
             campaignInDb
+        );
+    }
+
+    public async updateToCharacterId(query: UpdateTimestampPayload): Promise<void> {
+        const characterInDb = await this._charactersModel.findOne(query);
+
+        characterInDb.updatedAt = new Date().toISOString();
+
+        await this._charactersModel.update(
+            { campaignId: characterInDb.characterId },
+            characterInDb
         );
     }
 }

@@ -5,6 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
+import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -30,6 +31,7 @@ export default class CharactersRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/by-campaign/:id`,
                 controller: this._charactersController.recoverCharactersByCampaign,
+                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -52,6 +54,24 @@ export default class CharactersRoutes {
                     tag: 'create',
                 },
             },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/picture`,
+                schema: DomainDataFaker.mocks.uploadCharacterPictureMock,
+                controller: this._charactersController.updateCharacterPicture,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                        this._imageMiddleware.multer().single('picture'),
+                        this._imageMiddleware.fileType,
+                    ],
+                    description: desc.updatePicture,
+                    tag: 'management',
+                    fileUpload: true
+                }
+            }
 
             // PUT
 

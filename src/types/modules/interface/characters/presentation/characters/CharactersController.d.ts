@@ -4,4 +4,5 @@ import RecoverCharacterByCampaignOperation from 'src/core/characters/operations/
 export interface CharactersControllerContract {
     createCharacterOperation: CreateCharacterOperation;
     recoverCharacterByCampaignOperation: RecoverCharacterByCampaignOperation;
+    updateCharacterPictureOperation: any;
 }

@@ -8,7 +8,8 @@ import CharactersController from 'src/interface/characters/presentation/characte
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
     let charactersController: CharactersController,
         createCharacterOperation: any,
-        recoverCharacterByCampaignOperation: any;
+        recoverCharacterByCampaignOperation: any,
+        updateCharacterPictureOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -20,10 +21,12 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
+            updateCharacterPictureOperation = { execute: () => {} };
             recoverCharacterByCampaignOperation = { execute: () => {} };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                updateCharacterPictureOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
@@ -52,10 +55,12 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: () => {} };
+            updateCharacterPictureOperation = { execute: () => {} };
             recoverCharacterByCampaignOperation = { execute: sinon.spy(() => ({})) };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                updateCharacterPictureOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
