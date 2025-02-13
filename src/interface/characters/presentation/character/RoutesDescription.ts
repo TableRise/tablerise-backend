@@ -14,5 +14,5 @@ in one of these formats: [png, jpg, jpeg]
 export default {
     create,
     getByCampaign,
-    updatePicture
+    updatePicture,
 };

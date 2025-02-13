@@ -10,7 +10,7 @@ export default class UpdateCharacterPictureService {
     constructor({
         charactersRepository,
         imageStorageClient,
-        logger
+        logger,
     }: CharacterCoreDependencies['updateCharacterPictureOperationService']) {
         this._charactersRepository = charactersRepository;
         this._imageStorageClient = imageStorageClient;
@@ -19,8 +19,10 @@ export default class UpdateCharacterPictureService {
         this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
     }
 
-    public async updateCharacterPicture(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
-        this._logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService')
+    public async updateCharacterPicture(
+        payload: UpdateCharacterPicturePayload
+    ): Promise<CharacterInstance> {
+        this._logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
         const { characterId, image } = payload;
         const characterInDb = await this._charactersRepository.findOne({ characterId });
 
@@ -28,7 +30,7 @@ export default class UpdateCharacterPictureService {
 
         return this._charactersRepository.update({
             query: { characterId: characterInDb.characterId },
-            payload: characterInDb
+            payload: characterInDb,
         });
     }
 }

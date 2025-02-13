@@ -29,7 +29,7 @@ export default class UpdateTimestampRepository {
             userId: this.updateToUserId,
             userDetailId: this.updateToUserDetail,
             campaignId: this.updateToCampaignId,
-            characterId: this.updateToCharacterId
+            characterId: this.updateToCharacterId,
         };
 
         if (!Object.keys(query).length)

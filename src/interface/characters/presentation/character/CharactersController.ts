@@ -12,7 +12,7 @@ export default class CharactersController {
     constructor({
         createCharacterOperation,
         recoverCharacterByCampaignOperation,
-        updateCharacterPictureOperation
+        updateCharacterPictureOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
@@ -49,7 +49,7 @@ export default class CharactersController {
         const { id } = req.params;
         const result = await this._updateCharacterPictureOperation.execute({
             characterId: id,
-            image: req.file as FileObject
+            image: req.file as FileObject,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

@@ -21,7 +21,6 @@ delete character.data.spells;
 delete character.data.createdAt;
 delete character.data.updatedAt;
 
-
 const mocks = {
     createCharacterMock: {
         data: character.data,

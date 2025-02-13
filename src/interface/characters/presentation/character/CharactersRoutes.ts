@@ -69,9 +69,9 @@ export default class CharactersRoutes {
                     ],
                     description: desc.updatePicture,
                     tag: 'management',
-                    fileUpload: true
-                }
-            }
+                    fileUpload: true,
+                },
+            },
 
             // PUT
 

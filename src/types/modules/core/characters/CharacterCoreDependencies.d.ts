@@ -8,7 +8,7 @@ import {
 } from './characters/RecoverCharacterByCampaign';
 import {
     UpdateCharacterPictureOperationContract,
-    UpdateCharacterPictureOperationService
+    UpdateCharacterPictureOperationService,
 } from './characters/UpdateCharacterPicture';
 
 export default interface CharacterCoreDependencies {
