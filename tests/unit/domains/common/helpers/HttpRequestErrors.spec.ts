@@ -8,6 +8,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'save-forbidden-content':
             'Forbidden content was sent to save in database - check business rules',
         unauthorized: 'Unauthorized',
+        'campaign-player-not-exists': 'This players is not in the campaign',
         'email-already-exist': 'Email already exists in database',
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',

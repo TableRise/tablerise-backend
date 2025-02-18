@@ -52,6 +52,7 @@ export default {
         announcements: [],
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     },
+    password: '1234',
     lores: {
         playerCharacters: [],
         dungeonMasterCharacters: [],

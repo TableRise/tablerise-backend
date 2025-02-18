@@ -115,7 +115,14 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.userId = user.userId;
                 message = 'User does not exist';
                 code = HttpStatusCode.NOT_FOUND;
-                userDetails.gameInfo.campaigns = ['Lavanda'];
+                userDetails.gameInfo.campaigns = [
+                    {
+                        campaignId: '123',
+                        title: 'some title',
+                        role: 'player',
+                        description: 'some desc',
+                    },
+                ];
                 userUpdated = { ...user };
                 userUpdated.inProgress.status =
                     InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
@@ -146,7 +153,14 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.userId = user.userId;
                 message = 'There is a campaign or character linked to this user';
                 code = HttpStatusCode.BAD_REQUEST;
-                userDetails.gameInfo.campaigns = ['1st Mission'];
+                userDetails.gameInfo.campaigns = [
+                    {
+                        campaignId: '123',
+                        title: 'some title',
+                        role: 'player',
+                        description: 'some desc',
+                    },
+                ];
                 userDetails.gameInfo.characters = ['Levi'];
                 userUpdated = { ...user };
                 userUpdated.inProgress.status =

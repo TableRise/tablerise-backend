@@ -39,7 +39,14 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 user.inProgress.status = stateMachine.props.status.WAIT_TO_RESET_PROFILE;
 
                 currentUserDetails.gameInfo.badges = ['123'];
-                currentUserDetails.gameInfo.campaigns = ['123'];
+                currentUserDetails.gameInfo.campaigns = [
+                    {
+                        campaignId: '123',
+                        title: 'some title',
+                        role: 'player',
+                        description: 'some desc',
+                    },
+                ];
                 currentUserDetails.gameInfo.characters = ['123'];
 
                 usersRepository = {
@@ -83,7 +90,14 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 currentUserDetails.gameInfo.badges = ['123'];
-                currentUserDetails.gameInfo.campaigns = ['123'];
+                currentUserDetails.gameInfo.campaigns = [
+                    {
+                        campaignId: '123',
+                        title: 'some title',
+                        role: 'player',
+                        description: 'some desc',
+                    },
+                ];
                 currentUserDetails.gameInfo.characters = ['123'];
 
                 usersRepository = {

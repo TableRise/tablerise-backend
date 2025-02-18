@@ -5,8 +5,10 @@ this association must be done whit other routes available in this API
 `;
 
 const getAll = 'This route returns all characters';
-
+const getByCampaign = 'Recover characters from campaign';
 export default {
     create,
     getAll,
+    getByCampaign,
+
 };
