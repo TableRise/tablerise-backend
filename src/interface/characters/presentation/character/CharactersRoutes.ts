@@ -36,7 +36,7 @@ export default class CharactersRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._authorizathionMiddleware.checkAdminRole
+                        this._authorizathionMiddleware.checkAdminRole,
                     ],
                     tag: 'recover',
                     description: desc.getAll,

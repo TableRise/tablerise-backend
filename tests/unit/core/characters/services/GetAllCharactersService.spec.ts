@@ -28,7 +28,6 @@ describe('Core :: Characters :: Services :: GetAllCharactersService', () => {
                     charactersRepository,
                     logger,
                 });
-
             });
 
             it('should call the correct methods', async () => {

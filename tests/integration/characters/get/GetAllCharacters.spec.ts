@@ -2,7 +2,11 @@ import sinon from 'sinon';
 import requester from 'tests/support/requester';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
-import { InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import {
+    InjectNewCharacter,
+    InjectNewUser,
+    InjectNewUserDetails,
+} from 'tests/support/dataInjector';
 import DatabaseManagement from '@tablerise/database-management';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import UserDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -10,12 +14,12 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 describe('When recover all characters', () => {
-    let characters: CharacterInstance[], 
-    modelCharacter: any,
-    modelUser: any,
-    modelUserDetails: any,
-    user: any,
-    userDetails: any;
+    let characters: CharacterInstance[],
+        modelCharacter: any,
+        modelUser: any,
+        modelUserDetails: any,
+        user: any,
+        userDetails: any;
 
     context('And is succesfull', () => {
         before(async () => {
@@ -23,21 +27,22 @@ describe('When recover all characters', () => {
                 'characterDnd',
                 'CharactersDnd'
             );
- 
+
             await modelCharacter.erase();
             characters = CharacterDomainDataFaker.generateCharactersJSON({ count: 2 });
             characters.forEach(async (character) => {
                 await InjectNewCharacter(character);
             });
-            modelUser = new DatabaseManagement().modelInstance('user',
-                'Users');
-            modelUserDetails = new DatabaseManagement().modelInstance('user',
-                'UserDetails');   
+            modelUser = new DatabaseManagement().modelInstance('user', 'Users');
+            modelUserDetails = new DatabaseManagement().modelInstance(
+                'user',
+                'UserDetails'
+            );
 
             user = UserDomainDataFaker.generateUsersJSON()[0];
             userDetails = UserDomainDataFaker.generateUserDetailsJSON()[0];
-            
-            userDetails.role = 'admin';    
+
+            userDetails.role = 'admin';
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
@@ -49,7 +54,6 @@ describe('When recover all characters', () => {
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
-
         });
 
         after(async () => {
@@ -62,14 +66,14 @@ describe('When recover all characters', () => {
                 password: 'TheWorld@122',
             };
 
-            const response = await requester().post('/users/login').send(login);   
+            const response = await requester().post('/users/login').send(login);
             const { userId } = response.body;
             const { body } = await requester()
-            .get('/characters')
-            .expect(HttpStatusCode.OK);
+                .get('/characters')
+                .expect(HttpStatusCode.OK);
 
-            const userDb = await modelUser.findOne({userId});
-            const { role } = await modelUserDetails.findOne({userId: userDb.userId});
+            const userDb = await modelUser.findOne({ userId });
+            const { role } = await modelUserDetails.findOne({ userId: userDb.userId });
             expect(role).to.be.equal('admin');
             expect(body).to.be.an('array');
             expect(body.length).to.be.equal(characters.length);
