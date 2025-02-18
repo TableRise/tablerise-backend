@@ -47,5 +47,4 @@ export default class CharactersController {
         });
         return res.status(HttpStatusCode.OK).json(result);
     }
-
 }

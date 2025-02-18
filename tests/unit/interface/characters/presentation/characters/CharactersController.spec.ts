@@ -27,7 +27,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
-                
             });
         });
 

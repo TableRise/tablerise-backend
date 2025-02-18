@@ -73,6 +73,5 @@ export default class CharactersRoutes {
 
             // PATCH
         ] as routeInstance[];
-    
-}
+    }
 }
