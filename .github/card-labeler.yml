@@ -1,0 +1,15 @@
+Board of Development:
+  Backlog:
+    - 'backlog'
+  Priorities:
+    - 'important'
+  ReadyToDevelopment:
+    - 'waiting-development'
+  Development:
+    - 'in progress'
+  Test:
+    - 'test-process'
+  CodeReview:
+    - 'waiting'
+  ReadyToProduction:
+    - 'completed'
