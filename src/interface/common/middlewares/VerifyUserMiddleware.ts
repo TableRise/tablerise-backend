@@ -1,24 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-
-const FORBIDDEN_STATUS = [
-    StateMachineProps.status.WAIT_TO_CONFIRM,
-    StateMachineProps.status.WAIT_TO_DELETE_USER,
-    StateMachineProps.status.WAIT_TO_COMPLETE,
-];
 
 export default class VerifyUserMiddleware {
     private readonly _usersRepository;
+    private readonly _stateMachine;
     private readonly _logger;
+    private readonly _FORBIDDEN_STATUS;
 
     constructor({
         usersRepository,
+        stateMachine,
         logger,
     }: InterfaceDependencies['verifyUserMiddlewareContract']) {
         this._usersRepository = usersRepository;
+        this._stateMachine = stateMachine;
         this._logger = logger;
+
+        this._FORBIDDEN_STATUS = [
+            this._stateMachine.props.status.WAIT_TO_CONFIRM,
+            this._stateMachine.props.status.WAIT_TO_DELETE_USER,
+            this._stateMachine.props.status.WAIT_TO_COMPLETE,
+        ];
 
         this.userStatus = this.userStatus.bind(this);
     }
@@ -35,7 +38,7 @@ export default class VerifyUserMiddleware {
         const userInDb = await this._usersRepository.findOne({ userId });
 
         try {
-            if (FORBIDDEN_STATUS.includes(userInDb.inProgress.status))
+            if (this._FORBIDDEN_STATUS.includes(userInDb.inProgress.status))
                 HttpRequestErrors.throwError('invalid-user-status');
 
             next();

@@ -1,4 +1,3 @@
-import StateMachine from 'src/domains/common/StateMachine';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
@@ -10,18 +9,18 @@ import {
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersDetailsRepository,
         usersRepository,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['activateSecretQuestionServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
 
         this.activate = this.activate.bind(this);
@@ -33,7 +32,7 @@ export default class ActivateSecretQuestionService {
         payload,
     }: ActivateSecretQuestionPayload): Promise<CompleteUserResponse> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
-        const { status, flows } = this._stateMachineProps;
+        const { status, flows } = this._stateMachine.props;
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
@@ -47,10 +46,7 @@ export default class ActivateSecretQuestionService {
         userInDb.twoFactorSecret = { active: false };
         userDetailsInDb.secretQuestion = payload;
 
-        userInDb.inProgress.status = StateMachine(
-            flows.ACTIVATE_SECRET_QUESTION,
-            userInDb.inProgress.status
-        );
+        await this._stateMachine.machine(flows.ACTIVATE_SECRET_QUESTION, userInDb);
 
         return { user: userInDb, details: userDetailsInDb };
     }

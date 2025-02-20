@@ -17,12 +17,16 @@ const campaignsZodSchema = z.object({
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
     ageRestriction: z.string().or(z.number()),
+    password: z.string().regex(/^\d{4}$/, {
+        message: 'Invalid password',
+    }),
 });
 
 export type CampaignPayload = z.infer<typeof campaignsZodSchema>;
 export type CampaignInstance = z.infer<typeof campaignsZodSchema> & {
     campaignId: string;
     campaignPlayers: Player[];
+    bannedPlayers: string[];
     matchData?: MatchData;
     infos: Infos;
     lores: Lores;

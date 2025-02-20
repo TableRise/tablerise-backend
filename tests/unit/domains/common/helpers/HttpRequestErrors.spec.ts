@@ -5,7 +5,10 @@ import { ErrorTypes, Errors } from 'src/types/shared/errors';
 
 describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {
+        'save-forbidden-content':
+            'Forbidden content was sent to save in database - check business rules',
         unauthorized: 'Unauthorized',
+        'campaign-player-not-exists': 'This players is not in the campaign',
         'email-already-exist': 'Email already exists in database',
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',
@@ -26,6 +29,9 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
             'User database is not according with User Details database',
         'query-fail': 'Query was not found in database',
         'info-already-added': 'Info already added',
+        'player-is-the-dungeon-master': 'Player is the dungeon master',
+        'player-already-banned': 'Player is already banned',
+        'player-not-in-match': 'Player not in match',
         'content-inexistent': 'This content do not exist in the RPG system',
         'incorrect-secret-question': 'Secret question is incorrect',
         'new-structure-secret-question-missing':

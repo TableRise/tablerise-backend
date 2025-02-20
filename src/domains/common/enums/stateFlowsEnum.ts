@@ -10,6 +10,7 @@ enum stateFlowsEnum {
     UPDATE_EMAIL = 'update-email',
     RESET_PROFILE = 'reset-profile',
     DELETE_PROFILE = 'delete-profile',
+    NO_CURRENT_FLOW = 'no-current-flow',
 }
 
 export default {

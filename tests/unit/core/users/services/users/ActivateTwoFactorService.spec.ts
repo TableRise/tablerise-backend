@@ -6,8 +6,8 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { StateMachineProps } from 'src/domains/common/StateMachine';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
+import StateMachine from 'src/domains/common/StateMachine';
 import sinon from 'sinon';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
@@ -17,6 +17,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
         usersRepository: any,
         usersDetailsRepository: any,
         twoFactorHandler: TwoFactorHandler,
+        stateMachine: any,
         user: UserInstance,
         userDetails: UserDetailInstance;
 
@@ -28,8 +29,18 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
+                };
+
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
                 userDetails.userId = user.userId;
 
                 usersRepository = {
@@ -46,7 +57,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -64,7 +75,17 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status = StateMachineProps.status.WAIT_TO_COMPLETE;
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
+                };
+
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_COMPLETE;
                 userDetails.userId = user.userId;
 
                 usersRepository = {
@@ -81,7 +102,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -109,8 +130,18 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: () => ({
+                        userId: '123',
+                        inProgress: { status: 'done' },
+                        twoFactorSecret: { active: true },
+                        updatedAt: '12-12-2024T00:00:00Z',
+                    }),
+                };
+
                 user.inProgress.status =
-                    StateMachineProps.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 userDetails.userId = user.userId;
                 user.twoFactorSecret.active = true;
@@ -129,7 +160,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });
@@ -173,7 +204,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     usersRepository,
                     usersDetailsRepository,
                     twoFactorHandler,
-                    stateMachineProps: StateMachineProps,
+                    stateMachine,
                     logger,
                 });
             });

@@ -4,20 +4,19 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import StateMachine from 'src/domains/common/StateMachine';
 
 export default class UpdatePasswordService {
     private readonly _usersRepository;
-    private readonly _stateMachineProps;
+    private readonly _stateMachine;
     private readonly _logger;
 
     constructor({
         usersRepository,
-        stateMachineProps,
+        stateMachine,
         logger,
     }: UserCoreDependencies['updatePasswordServiceContract']) {
         this._usersRepository = usersRepository;
-        this._stateMachineProps = stateMachineProps;
+        this._stateMachine = stateMachine;
         this._logger = logger;
     }
 
@@ -26,20 +25,18 @@ export default class UpdatePasswordService {
         password,
     }: UserPassword): Promise<UserInstance> {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
-        const { flows } = this._stateMachineProps;
+        const { flows } = this._stateMachine.props;
 
         user.password = await SecurePasswordHandler.hashPassword(password);
-        user.inProgress.status = StateMachine(
-            flows.UPDATE_PASSWORD,
-            user.inProgress.status
-        );
+
+        await this._stateMachine.machine(flows.UPDATE_PASSWORD, user);
 
         return user;
     }
 
     public async update({ email, password }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Update - UpdatePasswordService');
-        const { status } = this._stateMachineProps;
+        const { status } = this._stateMachine.props;
 
         const userInDb = await this._usersRepository.findOne({ email });
 

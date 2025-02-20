@@ -1,9 +1,19 @@
 import { z } from 'zod';
 import pronounEnum from '../enums/pronounEnum';
 import questionEnum from '../enums/questionEnum';
+import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
+
+const gameInfoCampaignsZodSchema = z.object({
+    campaignId: z.string().length(24),
+    role: z.string(),
+    title: z.string(),
+    description: z.string().max(255),
+    cover: imageObjectZodSchema.optional(),
+});
 
 const gameInfoZodSchema = z.object({
-    campaigns: z.array(z.string().length(24)),
+    campaigns: z.array(gameInfoCampaignsZodSchema),
     characters: z.array(z.string().length(24)),
     badges: z.array(z.string().length(24)),
 });
@@ -34,9 +44,10 @@ export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
     userId: string;
     userDetailId: string;
     gameInfo: {
-        campaigns: string[];
+        campaigns: GameInfoCampaigns[];
         characters: string[];
         badges: string[];
+        bannedFromCampaigns: string[];
     };
     biography: string;
     role: 'user' | 'admin';

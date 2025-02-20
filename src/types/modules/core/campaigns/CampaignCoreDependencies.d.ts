@@ -34,9 +34,15 @@ import {
 } from './campaigns/publishment';
 
 import {
-    UpdateMatchPlayersOperationContract,
-    UpdateMatchPlayersServiceContract,
-} from './campaigns/UpdateMatchPlayers';
+    RemoveMatchPlayersOperationContract,
+    RemoveMatchPlayersServiceContract,
+} from './campaigns/RemoveMatchPlayers';
+
+import {
+    AddMatchPlayersOperationContract,
+    AddMatchPlayersServiceContract,
+} from './campaigns/AddMatchPlayers';
+
 import {
     UpdateCampaignImagesOperationContract,
     UpdateCampaignImagesServiceContract,
@@ -47,6 +53,11 @@ import {
     PostInvitationEmailServiceContract,
 } from './campaigns/PostInvitationEmail';
 
+import {
+    PostBanPlayerOperation,
+    PostBanPlayerServiceContract,
+} from './campaigns/PostBanPlayerOperation';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -56,8 +67,10 @@ export default interface CampaignCoreDependencies {
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
     updateMatchDatesOperationContract: UpdateMatchDatesOperationContract;
-    updateMatchPlayersOperationContract: UpdateMatchPlayersOperationContract;
+    addMatchPlayersOperationContract: AddMatchPlayersOperationContract;
+    removeMatchPlayersOperationContract: RemoveMatchPlayersOperationContract;
     postInvitationEmailOperation: PostInvitationEmailOperation;
+    postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
 
     // Services
@@ -68,7 +81,9 @@ export default interface CampaignCoreDependencies {
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
     updateMatchDatesServiceContract: UpdateMatchDatesServiceContract;
-    updateMatchPlayersServiceContract: UpdateMatchPlayersServiceContract;
+    addMatchPlayersServiceContract: AddMatchPlayersServiceContract;
+    removeMatchPlayersServiceContract: RemoveMatchPlayersServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
+    postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
 }
