@@ -12,20 +12,36 @@ export default class CharactersRoutes {
     private readonly _charactersController;
     private readonly _verifyIdMiddleware;
     private readonly _imageMiddleware;
+    private readonly _authorizathionMiddleware;
 
     constructor({
         charactersController,
         verifyIdMiddleware,
         imageMiddleware,
+        authorizationMiddleware,
     }: InterfaceDependencies['charactersRoutesContract']) {
         this._charactersController = charactersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._imageMiddleware = imageMiddleware;
+        this._authorizathionMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
         return [
             // GET
+            {
+                method: 'get',
+                path: `${BASE_PATH}`,
+                controller: this._charactersController.getAll,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._authorizathionMiddleware.checkAdminRole,
+                    ],
+                    tag: 'recover',
+                    description: desc.getAll,
+                },
+            },
             {
                 method: 'get',
                 path: `${BASE_PATH}/by-campaign/:id`,

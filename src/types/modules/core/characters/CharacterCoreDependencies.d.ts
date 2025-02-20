@@ -10,9 +10,11 @@ import {
 export default interface CharacterCoreDependencies {
     // Operations
     createCharacterOperationContract: CreateCharacterOperationContract;
+    getAllCharactersOperationContract: GetAllCharactersOperationContract;
     recoverCharacterByCampaignOperationContract: RecoverCharacterByCampaignOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;
+    getAllCharactersServiceContract: GetAllCharactersServiceContract;
     recoverCharacterByCampaignServiceContract: RecoverCharacterByCampaignServiceContract;
 }

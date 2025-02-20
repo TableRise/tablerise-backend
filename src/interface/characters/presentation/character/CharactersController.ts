@@ -5,16 +5,19 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 
 export default class CharactersController {
     private readonly _createCharacterOperation;
+    private readonly _getAllCharactersOperation;
     private readonly _recoverCharacterByCampaignOperation;
 
     constructor({
         createCharacterOperation,
+        getAllCharactersOperation,
         recoverCharacterByCampaignOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
+        this._getAllCharactersOperation = getAllCharactersOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
-
         this.createCharacter = this.createCharacter.bind(this);
+        this.getAll = this.getAll.bind(this);
         this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
     }
 
@@ -24,6 +27,11 @@ export default class CharactersController {
 
         const result = await this._createCharacterOperation.execute({ payload, userId });
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        const result = await this._getAllCharactersOperation.execute();
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async recoverCharactersByCampaign(

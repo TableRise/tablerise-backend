@@ -8,6 +8,7 @@ import CharactersController from 'src/interface/characters/presentation/characte
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
     let charactersController: CharactersController,
         createCharacterOperation: any,
+        getAllCharactersOperation: any,
         recoverCharacterByCampaignOperation: any;
 
     context('#create', () => {
@@ -24,6 +25,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
@@ -42,6 +44,33 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         });
     });
 
+    context('#getAll', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            getAllCharactersOperation = { execute: sinon.spy(() => ({})) };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation,
+                recoverCharacterByCampaignOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            await charactersController.getAll(request, response);
+
+            expect(getAllCharactersOperation.execute).to.have.been.calledWith();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
     context('#recoverCharactersByCampaign', () => {
         const request = {} as Request;
         const response = {} as Response;
@@ -56,6 +85,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
