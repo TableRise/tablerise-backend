@@ -19,6 +19,7 @@ export default class CampaignsController {
     private readonly _updateMatchDatesOperation;
     private readonly _addMatchPlayersOperation;
     private readonly _removeMatchPlayersOperation;
+    private readonly _addPlayerCharacterOperation;
     private readonly _postInvitationEmailOperation;
     private readonly _postBanPlayerOperation;
     private readonly _updateCampaignImagesOperation;
@@ -34,6 +35,7 @@ export default class CampaignsController {
         updateMatchDatesOperation,
         addMatchPlayersOperation,
         removeMatchPlayersOperation,
+        addPlayerCharacterOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
@@ -47,6 +49,7 @@ export default class CampaignsController {
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
         this._addMatchPlayersOperation = addMatchPlayersOperation;
+        this._addPlayerCharacterOperation = addPlayerCharacterOperation;
         this._removeMatchPlayersOperation = removeMatchPlayersOperation;
         this._postInvitationEmailOperation = postInvitationEmailOperation;
         this._postBanPlayerOperation = postBanPlayerOperation;
@@ -62,6 +65,7 @@ export default class CampaignsController {
         this.updateMatchDates = this.updateMatchDates.bind(this);
         this.addMatchPlayers = this.addMatchPlayers.bind(this);
         this.removeMatchPlayers = this.removeMatchPlayers.bind(this);
+        this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -212,6 +216,22 @@ export default class CampaignsController {
         });
 
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async addPlayerCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { characterId } = req.query as {
+            characterId: string;
+        };
+
+        const result = await this._addPlayerCharacterOperation.execute({
+            campaignId: id,
+            userId,
+            characterId,
+        });
+
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {

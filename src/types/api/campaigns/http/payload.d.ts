@@ -28,6 +28,12 @@ export interface GetCampaignByIdPayload {
     campaignId: string;
 }
 
+export interface addCharacterPayload {
+    campaignId: string;
+    userId: string;
+    charcaterId: string;
+}
+
 export interface publishmentPayload {
     campaignId: string;
     userId: string;

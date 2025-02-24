@@ -224,6 +224,17 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/update/player/character`,
+                parameters: [...generateIDParam()],
+                controller: this._campaignsController.addPlayerCharacter,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.addPlayerCharacter,
+                    tag: 'management'
+                }
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/update/images`,
                 parameters: [
                     ...generateIDParam(),
