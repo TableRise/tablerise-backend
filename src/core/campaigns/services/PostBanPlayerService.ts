@@ -1,6 +1,10 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { PostBanPlayerPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class PostBanPlayerService {
     private readonly _logger;
@@ -17,14 +21,8 @@ export default class PostBanPlayerService {
         this._logger = logger;
     }
 
-    private _validateBanPlayer(campaign: any, playerId: string): void {
+    private _validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
         this._logger('info', 'validateBanPlayer - PostBanPlayerService');
-
-        const isBanned = campaign.bannedPlayers.some((data: string) => data === playerId);
-
-        if (isBanned) {
-            HttpRequestErrors.throwError('player-already-banned');
-        }
 
         const playerInCampaign = campaign.campaignPlayers.find(
             (player: { userId: string }) => player.userId === playerId
@@ -37,26 +35,32 @@ export default class PostBanPlayerService {
         if (playerInCampaign.role === 'dungeon_master') {
             HttpRequestErrors.throwError('player-is-the-dungeon-master');
         }
+
+        const isBanned = campaign.campaignPlayers.some((data: Player) => data.status === 'banned');
+
+        if (isBanned) {
+            HttpRequestErrors.throwError('player-already-banned');
+        }
     }
 
     private _updateInformation(
-        campaign: any,
+        campaign: CampaignInstance,
         playerId: string,
         campaignId: string,
-        userDetailInDb: any
+        userDetailInDb: UserDetailInstance
     ): void {
         this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
-        campaign.campaignPlayers = campaign.campaignPlayers.filter(
-            (player: { userId: string }) => player.userId !== playerId
+        const playerIndex = campaign.campaignPlayers.findIndex((data: Player) => data.userId === playerId);
+
+        campaign.campaignPlayers[playerIndex].status = 'banned';
+
+        userDetailInDb.gameInfo.campaigns = userDetailInDb.gameInfo.campaigns.filter(
+            (data: GameInfoCampaigns) => data.campaignId !== campaignId
         );
-
-        campaign.bannedPlayers.push(playerId);
-
-        userDetailInDb.gameInfo.bannedFromCampaigns.push(campaignId);
     }
 
-    private async _saveUpdates(campaign: any, userDetailInDb: any): Promise<void> {
+    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetailInstance): Promise<void> {
         this._logger('info', 'saveUpdates - PostBanPlayerService');
 
         await this._campaignsRepository.update({

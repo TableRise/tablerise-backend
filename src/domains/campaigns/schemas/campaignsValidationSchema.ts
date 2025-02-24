@@ -26,7 +26,6 @@ export type CampaignPayload = z.infer<typeof campaignsZodSchema>;
 export type CampaignInstance = z.infer<typeof campaignsZodSchema> & {
     campaignId: string;
     campaignPlayers: Player[];
-    bannedPlayers: string[];
     matchData?: MatchData;
     infos: Infos;
     lores: Lores;
