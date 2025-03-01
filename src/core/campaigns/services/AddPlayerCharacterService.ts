@@ -19,14 +19,14 @@ export default class AddPlayerCharacterService {
         this.save = this.save.bind(this);
     }
 
-    public async addCharacter({ charcaterId, userId, campaignId }: addCharacterPayload): Promise<CampaignInstance> {
+    public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<CampaignInstance> {
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex((player: Player) => player.userId === userId);
 
         if (playerIncampaignIndex === -1)
             HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        campaignInDb.campaignPlayers[playerIncampaignIndex].characterIds.push(charcaterId);
+        campaignInDb.campaignPlayers[playerIncampaignIndex].characterIds.push(characterId);
 
         return campaignInDb;
     }

@@ -31,7 +31,7 @@ export interface GetCampaignByIdPayload {
 export interface addCharacterPayload {
     campaignId: string;
     userId: string;
-    charcaterId: string;
+    characterId: string;
 }
 
 export interface publishmentPayload {

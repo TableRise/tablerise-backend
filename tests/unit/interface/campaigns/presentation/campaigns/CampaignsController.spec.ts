@@ -15,6 +15,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         updateMatchDatesOperation: any,
         getCampaignByIdOperation: any,
         addMatchPlayersOperation: any,
+        addPlayerCharacterOperation: any,
         removeMatchPlayersOperation: any,
         postBanPlayerOperation: any,
         getAllCampaignsOperation: any,
@@ -39,6 +40,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -48,6 +50,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 updateMatchMapImagesOperation,
                 publishmentOperation,
                 updateCampaignOperation,
+                addPlayerCharacterOperation,
                 updateMatchMusicsOperation,
                 updateMatchDatesOperation,
                 getCampaignByIdOperation,
@@ -91,6 +94,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMapImagesOperation = { execute: () => {} };
             updateMatchMusicsOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -109,6 +113,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -147,6 +152,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -165,6 +171,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -212,6 +219,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -240,6 +248,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -258,6 +267,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -299,6 +309,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: sinon.spy(() => ({})) };
@@ -317,6 +328,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -357,6 +369,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -375,6 +388,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -413,6 +427,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: sinon.spy(() => ({})) };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -431,6 +446,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -468,6 +484,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: sinon.spy(() => ({})) };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: () => {} };
@@ -486,6 +503,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -541,6 +559,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -557,6 +576,64 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 ...request.query,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#addPlayerCharacterOperation', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+        const userId = newUUID();
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchDatesOperation = { execute: () => {} };
+            addMatchPlayersOperation = { execute: sinon.spy(() => ({})) };
+            addPlayerCharacterOperation = { execute: sinon.spy(() => ({})) };
+            removeMatchPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                publishmentOperation,
+                updateMatchMapImagesOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDatesOperation,
+                getCampaignByIdOperation,
+                addMatchPlayersOperation,
+                removeMatchPlayersOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+                postBanPlayerOperation,
+                addPlayerCharacterOperation
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { characterId: '321' };
+            request.user = { userId } as Express.User;
+
+            await campaignsController.addPlayerCharacter(request, response);
+
+            expect(addPlayerCharacterOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                userId,
+                characterId: request.query.characterId,
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
     });
@@ -579,6 +656,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: sinon.spy(() => ({})) };
             postBanPlayerOperation = { execute: sinon.spy(() => ({})) };
             postInvitationEmailOperation = { execute: () => {} };
@@ -598,6 +676,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -633,6 +712,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: sinon.spy(() => ({})) };
             postBanPlayerOperation = { execute: sinon.spy(() => ({})) };
             postInvitationEmailOperation = { execute: () => {} };
@@ -652,6 +732,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
+                addPlayerCharacterOperation
             });
         });
 
@@ -687,6 +768,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateMatchMusicsOperation = { execute: () => {} };
             updateMatchDatesOperation = { execute: () => {} };
             addMatchPlayersOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
             removeMatchPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: sinon.spy(() => ({})) };
@@ -705,6 +787,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 updateCampaignImagesOperation,
                 postInvitationEmailOperation,
                 postBanPlayerOperation,
+                addPlayerCharacterOperation
             });
         });
 

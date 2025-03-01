@@ -12,6 +12,7 @@ import {
 } from '@tablerise/database-management/dist/src/types/Envs';
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 setup({ loadExt: 'ts' });
 chai.use(require('dirty-chai'));
@@ -34,7 +35,13 @@ exports.mochaHooks = {
 
         const user = {
             userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
-            inProgress: { status: InProgressStatusEnum.enum.DONE, code: '' },
+            inProgress: {
+                status: InProgressStatusEnum.enum.DONE,
+                currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                code: '',
+            },
             providerId: null,
             email: 'joe@email.com',
             password: '@Password61',
