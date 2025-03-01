@@ -6,7 +6,6 @@ export interface AddPlayerCharacterOperationContract {
     addPlayerCharacterService: any;
 }
 
-
 export interface AddPlayerCharacterServiceContract {
     logger: Logger;
     campaignsRepository: CampaignsRepository;

@@ -30,13 +30,13 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
                     userId,
                     characterIds: [],
                     role: 'player',
-                    status: 'active'
+                    status: 'active',
                 };
 
                 addPlayerCharacterPayload = {
                     campaignId: campaign.campaignId,
                     characterId: newUUID(),
-                    userId
+                    userId,
                 };
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
@@ -51,8 +51,8 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
                 );
 
                 expect(
-                    characterAdded.campaignPlayers[0].characterIds.length
-                    < campaign.campaignPlayers[0].characterIds.length
+                    characterAdded.campaignPlayers[0].characterIds.length <
+                        campaign.campaignPlayers[0].characterIds.length
                 ).to.be.not.equal(true);
             });
         });
@@ -70,7 +70,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
                 addPlayerCharacterPayload = {
                     campaignId: campaign.campaignId,
                     characterId: newUUID(),
-                    userId: '123'
+                    userId: '123',
                 };
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
@@ -81,7 +81,9 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
             it('should return the add campaign', async () => {
                 try {
-                    await addPlayerCharacterService.addCharacter(addPlayerCharacterPayload);
+                    await addPlayerCharacterService.addCharacter(
+                        addPlayerCharacterPayload
+                    );
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -102,20 +104,20 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
-                    update: Sinon.spy(() => campaign)
+                    update: Sinon.spy(() => campaign),
                 };
 
                 campaign.campaignPlayers[0] = {
                     userId,
                     characterIds: ['123'],
                     role: 'player',
-                    status: 'active'
+                    status: 'active',
                 };
 
                 addPlayerCharacterPayload = {
                     campaignId: campaign.campaignId,
                     characterId: newUUID(),
-                    userId: '123'
+                    userId: '123',
                 };
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
@@ -128,7 +130,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
                 await addPlayerCharacterService.save(campaign);
                 expect(campaignsRepository.update).to.have.been.calledWith({
                     query: { campaignId: campaign.campaignId },
-                    payload: campaign
+                    payload: campaign,
                 });
             });
         });

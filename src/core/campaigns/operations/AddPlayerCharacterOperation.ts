@@ -8,7 +8,7 @@ export default class AddPlayerCharacterOperation {
 
     constructor({
         addPlayerCharacterService,
-        logger
+        logger,
     }: CampaignCoreDependencies['addPlayerCharacterOperationContract']) {
         this._addPlayerCharacterService = addPlayerCharacterService;
         this._logger = logger;
@@ -19,7 +19,8 @@ export default class AddPlayerCharacterOperation {
     public async execute(payload: addCharacterPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - AddPlayerCharacterOperation');
 
-        const campaignWithPlayerAdded = await this._addPlayerCharacterService.addCharacter(payload);
+        const campaignWithPlayerAdded =
+            await this._addPlayerCharacterService.addCharacter(payload);
         return this._addPlayerCharacterService.save(campaignWithPlayerAdded);
     }
 }

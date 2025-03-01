@@ -19,12 +19,14 @@ describe('When a character is added to campaign', () => {
 
             character.author.userId = userLoggedId;
 
-            campaign.campaignPlayers = [{
-                userId: userLoggedId,
-                characterIds: [],
-                role: 'player',
-                status: 'active'
-            }];
+            campaign.campaignPlayers = [
+                {
+                    userId: userLoggedId,
+                    characterIds: [],
+                    role: 'player',
+                    status: 'active',
+                },
+            ];
 
             await InjectNewCampaign(campaign);
             await InjectNewCharacter(character);
@@ -36,14 +38,24 @@ describe('When a character is added to campaign', () => {
 
         it('should return correct campaign character added', async () => {
             const { body } = await requester()
-                .patch(`/campaigns/${campaign.campaignId}/update/player/character?characterId=${character.characterId as string}`)
+                .patch(
+                    `/campaigns/${
+                        campaign.campaignId
+                    }/update/player/character?characterId=${
+                        character.characterId as string
+                    }`
+                )
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
             expect(body).to.have.property('campaignPlayers');
             expect(body.campaignPlayers).to.be.an('array').with.lengthOf(1);
-            expect(body.campaignPlayers[0].characterIds).to.be.an('array').with.lengthOf(1);
-            expect(body.campaignPlayers[0].characterIds[0]).to.be.equal(character.characterId);
+            expect(body.campaignPlayers[0].characterIds)
+                .to.be.an('array')
+                .with.lengthOf(1);
+            expect(body.campaignPlayers[0].characterIds[0]).to.be.equal(
+                character.characterId
+            );
         });
     });
 });

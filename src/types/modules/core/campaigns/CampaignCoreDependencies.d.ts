@@ -60,7 +60,7 @@ import {
 
 import {
     AddPlayerCharacterOperationContract,
-    AddPlayerCharacterServiceContract
+    AddPlayerCharacterServiceContract,
 } from './campaigns/AddPlayerCharacter';
 
 export default interface CampaignCoreDependencies {
