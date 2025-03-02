@@ -1,7 +1,6 @@
-import { CharacterInstance } from "src/domains/characters/schemas/characterPostValidationSchema";
-import { orgPicturePayload } from "src/types/api/characters/http/payload";
-import CharacterCoreDependencies from "src/types/modules/core/characters/CharacterCoreDependencies";
-
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { orgPicturePayload } from 'src/types/api/characters/http/payload';
+import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class OrgPictureUploadOperation {
     private readonly _orgPictureUploadService;
@@ -10,7 +9,7 @@ export default class OrgPictureUploadOperation {
     constructor({
         logger,
         orgPictureUploadService,
-    }: CharacterCoreDependencies['orgPictureUploadOperationContract'] ) {
+    }: CharacterCoreDependencies['orgPictureUploadOperationContract']) {
         this._orgPictureUploadService = orgPictureUploadService;
         this._logger = logger;
 
@@ -21,5 +20,4 @@ export default class OrgPictureUploadOperation {
         this._logger('info', 'Execute - OrgPictureUploadOperation');
         return this._orgPictureUploadService.uploadPicture(payload);
     }
-
 }

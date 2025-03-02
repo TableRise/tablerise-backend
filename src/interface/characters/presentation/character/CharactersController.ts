@@ -19,7 +19,7 @@ export default class CharactersController {
         this._createCharacterOperation = createCharacterOperation;
         this._getAllCharactersOperation = getAllCharactersOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
-        this._orgPictureUploadOperation = orgPictureUploadOperation
+        this._orgPictureUploadOperation = orgPictureUploadOperation;
         this.createCharacter = this.createCharacter.bind(this);
         this.getAll = this.getAll.bind(this);
         this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
@@ -33,7 +33,7 @@ export default class CharactersController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
-    public async organizationPicture(req: Request, res: Response): Promise<Response>{
+    public async organizationPicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { orgName } = req.query as { orgName: string };
 

@@ -107,7 +107,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             expect(response.json).to.have.been.called();
         });
     });
-    
+
     context('#organizationPicture', () => {
         const request = {} as Request;
         const response = {} as Response;
@@ -127,7 +127,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 orgPictureUploadOperation,
             });
         });
-        
+
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
             request.query = { orgName: 'string' };

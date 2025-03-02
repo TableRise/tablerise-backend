@@ -5,7 +5,9 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -73,7 +75,10 @@ export default class CharactersRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/symbol`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'orgName', type: 'text'}])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }]),
+                ],
                 schema: DomainDataFaker.mocks.orgPictureUpload,
                 controller: this._charactersController.createCharacter,
                 options: {
@@ -81,7 +86,7 @@ export default class CharactersRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this._imageMiddleware.multer().single('picture'),
                         this._imageMiddleware.fileType,
-                        this._verifyIdMiddleware, 
+                        this._verifyIdMiddleware,
                     ],
                     tag: 'management',
                     description: desc.orgSymbol,

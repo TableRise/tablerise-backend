@@ -6,10 +6,10 @@ import {
     RecoverCharacterByCampaignOperationContract,
     RecoverCharacterByCampaignServiceContract,
 } from './characters/RecoverCharacterByCampaign';
-import { 
+import {
     OrgPictureUploadOperationContract,
     OrgPictureUploadServiceContract,
-} from './characters/OrganizationPicture'
+} from './characters/OrganizationPicture';
 
 export default interface CharacterCoreDependencies {
     // Operations

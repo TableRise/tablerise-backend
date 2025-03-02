@@ -19,18 +19,18 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
                 image: {} as FileObject,
             };
 
-            charactersRepository = { 
+            charactersRepository = {
                 findOne: Sinon.stub().resolves({
                     data: {
                         profile: {
                             characteristics: {
-                                alliesAndOrgs: [{ orgName: 'string', symbol: '' }]
-                            }
-                        }
+                                alliesAndOrgs: [{ orgName: 'string', symbol: '' }],
+                            },
+                        },
                     },
-                    characterId: 'string'
+                    characterId: 'string',
                 }),
-                update: Sinon.stub().resolves({})
+                update: Sinon.stub().resolves({}),
             };
 
             imageStorageClient = { upload: Sinon.stub().resolves('image-url') };
@@ -45,7 +45,9 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
         it('should update the organization picture', async () => {
             await orgPictureUploadService.uploadPicture(payload);
 
-            expect(charactersRepository.findOne).to.have.been.calledWith({ characterId: payload.characterId });
+            expect(charactersRepository.findOne).to.have.been.calledWith({
+                characterId: payload.characterId,
+            });
             expect(imageStorageClient.upload).to.have.been.calledWith(payload.image);
             expect(charactersRepository.update).to.have.been.calledWith({
                 query: { characterId: 'string' },
@@ -68,11 +70,11 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
                 data: {
                     profile: {
                         characteristics: {
-                            alliesAndOrgs: []
-                        }
-                    }
+                            alliesAndOrgs: [],
+                        },
+                    },
                 },
-                characterId: 'string'
+                characterId: 'string',
             });
 
             try {

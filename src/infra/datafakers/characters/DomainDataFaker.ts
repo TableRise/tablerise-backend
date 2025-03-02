@@ -22,7 +22,7 @@ delete character.data.createdAt;
 delete character.data.updatedAt;
 
 const orgPictureUpload = {
-    picture: { isBinary: true }
+    picture: { isBinary: true },
 };
 
 const mocks = {
