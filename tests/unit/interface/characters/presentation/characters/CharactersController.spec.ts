@@ -9,7 +9,8 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
     let charactersController: CharactersController,
         createCharacterOperation: any,
         getAllCharactersOperation: any,
-        recoverCharacterByCampaignOperation: any;
+        recoverCharacterByCampaignOperation: any,
+        orgPictureUploadOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -27,6 +28,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
+                orgPictureUploadOperation,
             });
         });
 
@@ -59,6 +61,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
+                orgPictureUploadOperation,
             });
         });
 
@@ -87,6 +90,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 recoverCharacterByCampaignOperation,
+                orgPictureUploadOperation,
             });
         });
 
@@ -100,6 +104,44 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 campaignId: '123',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+    
+    context('#organizationPicture', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            recoverCharacterByCampaignOperation = { execute: sinon.spy(() => ({})) };
+            orgPictureUploadOperation = { execute: sinon.spy(() => ({})) };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation,
+                recoverCharacterByCampaignOperation,
+                orgPictureUploadOperation,
+            });
+        });
+        
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { orgName: 'string' };
+            request.file = {} as Express.Multer.File;
+
+            await charactersController.organizationPicture(request, response);
+
+            expect(orgPictureUploadOperation.execute).to.have.been.calledWith({
+                orgName: 'string',
+                characterId: request.params.id,
+                image: request.file,
+            });
+
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
     });

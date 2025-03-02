@@ -6,8 +6,10 @@ this association must be done whit other routes available in this API
 
 const getAll = 'This route returns all characters';
 const getByCampaign = 'Recover characters from campaign';
+const orgSymbol = 'Upload a Organization picture';
 export default {
     create,
     getAll,
     getByCampaign,
+    orgSymbol,
 };
