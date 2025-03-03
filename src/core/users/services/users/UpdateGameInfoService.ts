@@ -25,15 +25,17 @@ export default class UpdateGameInfoService {
     private _addId({
         infoId,
         targetInfo,
+        data,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
 
         const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
+        const dataLength = Object.keys(data).length;
 
         hasInfo
             ? HttpRequestErrors.throwError('info-already-added')
-            : gameInfo[targetInfo].push(infoId);
+            : dataLength > 0 ? gameInfo[targetInfo].push(data) : gameInfo[targetInfo].push(infoId);
 
         return gameInfo;
     }
@@ -41,10 +43,22 @@ export default class UpdateGameInfoService {
     private _removeId({
         infoId,
         targetInfo,
+        data: dataToRemove,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'RemoveId - UpdateGameInfoService');
-        const hasInfo = gameInfo[targetInfo].filter((data) => data !== infoId);
+        let hasInfo;
+        const dataLength = Object.keys(dataToRemove).length;
+
+        if (dataLength > 0) {
+            const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
+            hasInfo = gameInfo[targetInfo].filter((data) => data[filterProp] !== dataToRemove[filterProp]);
+            gameInfo[targetInfo] = hasInfo;
+
+            return gameInfo;
+        }
+
+        hasInfo = gameInfo[targetInfo].filter((data) => data !== infoId);
 
         gameInfo[targetInfo] = hasInfo;
 
@@ -54,6 +68,7 @@ export default class UpdateGameInfoService {
     public async update({
         userId,
         infoId,
+        data,
         targetInfo,
         operation,
     }: UpdateGameInfoPayload): Promise<string> {
@@ -62,9 +77,9 @@ export default class UpdateGameInfoService {
 
         let gameInfo = userDetailInDb.gameInfo;
 
-        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo });
+        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
         if (operation === 'remove')
-            gameInfo = this._removeId({ infoId, targetInfo, gameInfo });
+            gameInfo = this._removeId({ infoId, targetInfo, gameInfo, data });
 
         userDetailInDb.gameInfo = gameInfo;
 

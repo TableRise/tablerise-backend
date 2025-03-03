@@ -849,12 +849,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { infoId: '123', targetInfo: 'badges', operation: 'add' };
+            request.body = { infoId: '123', targetInfo: 'badges', operation: 'add', data: {} };
             await usersController.updateGameInfo(request, response);
 
             expect(updateGameInfoOperation.execute).to.have.been.calledWith({
                 userId: request.params.id,
-                ...request.query,
+                ...request.body
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
