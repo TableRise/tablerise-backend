@@ -35,7 +35,9 @@ export default class UpdateGameInfoService {
 
         hasInfo
             ? HttpRequestErrors.throwError('info-already-added')
-            : dataLength > 0 ? gameInfo[targetInfo].push(data) : gameInfo[targetInfo].push(infoId);
+            : dataLength > 0
+            ? gameInfo[targetInfo].push(data)
+            : gameInfo[targetInfo].push(infoId);
 
         return gameInfo;
     }
@@ -52,7 +54,9 @@ export default class UpdateGameInfoService {
 
         if (dataLength > 0) {
             const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
-            hasInfo = gameInfo[targetInfo].filter((data) => data[filterProp] !== dataToRemove[filterProp]);
+            hasInfo = gameInfo[targetInfo].filter(
+                (data) => data[filterProp] !== dataToRemove[filterProp]
+            );
             gameInfo[targetInfo] = hasInfo;
 
             return gameInfo;
@@ -77,7 +81,8 @@ export default class UpdateGameInfoService {
 
         let gameInfo = userDetailInDb.gameInfo;
 
-        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
+        if (operation === 'add')
+            gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
         if (operation === 'remove')
             gameInfo = this._removeId({ infoId, targetInfo, gameInfo, data });
 

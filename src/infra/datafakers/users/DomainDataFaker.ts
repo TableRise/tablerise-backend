@@ -61,7 +61,7 @@ const mocks = {
         infoId: '123',
         targetInfo: 'campaigns',
         operation: 'add',
-        data: {}
+        data: {},
     },
     completeUserMock: {
         nickname,

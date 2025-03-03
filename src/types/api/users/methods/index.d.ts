@@ -28,7 +28,7 @@ export interface __FullUserPayload {
 export interface UpdateGameInfoProcessPayload {
     infoId: string;
     targetInfo: 'campaigns' | 'badges' | 'characters';
-    data: GameInfoCampaigns | any,
+    data: GameInfoCampaigns | any;
     gameInfo: {
         campaigns: GameInfoCampaigns[] | any[];
         characters: string[];

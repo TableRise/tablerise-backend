@@ -42,7 +42,7 @@ describe('When user game info are updated', () => {
                     infoId: userIdFakeOne,
                     targetInfo: 'badges',
                     operation: 'add',
-                    data: {}
+                    data: {},
                 };
 
                 const { body } = await requester()
@@ -72,7 +72,7 @@ describe('When user game info are updated', () => {
                         role: 'string',
                         title: 'string',
                         description: 'string',
-                    }
+                    },
                 };
 
                 const { body } = await requester()
@@ -87,9 +87,9 @@ describe('When user game info are updated', () => {
                 expect(body).to.be.equal(
                     `ID ${userIdFakeTwo} add with success to campaigns`
                 );
-                expect(userWithGameInfoUpdated.details.gameInfo.campaigns[0].campaignId).to.be.equal(
-                    'string'
-                );
+                expect(
+                    userWithGameInfoUpdated.details.gameInfo.campaigns[0].campaignId
+                ).to.be.equal('string');
             });
 
             it('should update the game info - characters', async () => {
@@ -97,7 +97,7 @@ describe('When user game info are updated', () => {
                     infoId: userIdFakeThree,
                     targetInfo: 'characters',
                     operation: 'add',
-                    data: {}
+                    data: {},
                 };
 
                 const { body } = await requester()
@@ -124,7 +124,7 @@ describe('When user game info are updated', () => {
                     infoId: userIdFakeOne,
                     targetInfo: 'badges',
                     operation: 'remove',
-                    data: {}
+                    data: {},
                 };
 
                 const { body } = await requester()
@@ -154,7 +154,7 @@ describe('When user game info are updated', () => {
                         role: 'string',
                         title: 'string',
                         description: 'string',
-                    }
+                    },
                 };
 
                 const { body } = await requester()
@@ -179,7 +179,7 @@ describe('When user game info are updated', () => {
                     infoId: userIdFakeThree,
                     targetInfo: 'characters',
                     operation: 'remove',
-                    data: {}
+                    data: {},
                 };
 
                 const { body } = await requester()

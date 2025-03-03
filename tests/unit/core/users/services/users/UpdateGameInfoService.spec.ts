@@ -72,7 +72,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     userId,
                     infoId,
                     data: {
-                        campaignId: infoId
+                        campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
                     operation: 'add',
@@ -207,7 +207,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     userId,
                     infoId,
                     data: {
-                        campaignId: infoId
+                        campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
                     operation: 'remove',

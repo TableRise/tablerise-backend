@@ -210,9 +210,9 @@ export default class UsersController {
 
         const result = await this._updateGameInfoOperation.execute({
             userId: id,
-            ...payload
+            ...payload,
         });
-        
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 
