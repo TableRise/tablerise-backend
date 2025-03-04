@@ -26,10 +26,14 @@ export default class OrgPictureUploadService {
     }: orgPicturePayload): Promise<CharacterInstance> {
         this._logger('info', 'UploadPicture - OrgPictureUploadService');
         const characterInDb = await this._characterRepository.findOne({ characterId });
-        const allyOrOrgIndex =
+        const allyOrOrgIndex = 
             characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
                 (ally) => ally.orgName === orgName
             );
+
+        if (allyOrOrgIndex === -1) {
+            throw new Error('Organization not found');
+        }
 
         characterInDb.data.profile.characteristics.alliesAndOrgs[allyOrOrgIndex].symbol =
             await this._imageStorageClient.upload(image);
