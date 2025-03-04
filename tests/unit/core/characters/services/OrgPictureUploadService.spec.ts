@@ -20,7 +20,7 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
             };
 
             charactersRepository = {
-                findOne: Sinon.stub().resolves({
+                findOne: Sinon.spy(async () => ({
                     data: {
                         profile: {
                             characteristics: {
@@ -29,11 +29,11 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
                         },
                     },
                     characterId: 'string',
-                }),
-                update: Sinon.stub().resolves({}),
+                })),
+                update: Sinon.spy(async () => ({})),
             };
 
-            imageStorageClient = { upload: Sinon.stub().resolves('image-url') };
+            imageStorageClient = { upload: Sinon.spy(async () => 'image-url') };
 
             orgPictureUploadService = new OrgPictureUploadService({
                 logger,
@@ -56,7 +56,9 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
         });
 
         it('should throw an error if character is not found', async () => {
-            charactersRepository.findOne.rejects(new Error('Character not found'));
+            charactersRepository.findOne = Sinon.spy(async () => {
+                throw new Error('Character not found');
+            });
 
             try {
                 await orgPictureUploadService.uploadPicture(payload);
@@ -66,7 +68,7 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
         });
 
         it('should throw an error if organization is not found', async () => {
-            charactersRepository.findOne.resolves({
+            charactersRepository.findOne = Sinon.spy(async () => ({
                 data: {
                     profile: {
                         characteristics: {
@@ -75,7 +77,7 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
                     },
                 },
                 characterId: 'string',
-            });
+            }));
 
             try {
                 await orgPictureUploadService.uploadPicture(payload);
@@ -85,7 +87,9 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
         });
 
         it('should throw an error if image upload fails', async () => {
-            imageStorageClient.upload.rejects(new Error('Image upload failed'));
+            imageStorageClient.upload = Sinon.spy(async () => {
+                throw new Error('Image upload failed');
+            });
 
             try {
                 await orgPictureUploadService.uploadPicture(payload);
@@ -95,7 +99,9 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
         });
 
         it('should throw an error if repository update fails', async () => {
-            charactersRepository.update.rejects(new Error('Update failed'));
+            charactersRepository.update = Sinon.spy(async () => {
+                throw new Error('Update failed');
+            });
 
             try {
                 await orgPictureUploadService.uploadPicture(payload);
