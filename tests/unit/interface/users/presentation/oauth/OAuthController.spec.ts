@@ -40,12 +40,8 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         it('should redirect to default URL when URL_TO_REDIRECT is not defined', async () => {
             request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
-            loginUserOperation = {
-                execute: () => ({ cookieOptions: {}, tokenData: { userId: '1234' } }),
-            };
-            const encodedUserData = encodeURIComponent(
-                JSON.stringify({ userId: '1234' })
-            );
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
@@ -56,9 +52,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith(
-                `http://localhost:3000/login-redirect?userData=${encodedUserData}`
-            );
+            expect(response.redirect).to.have.been.calledWith('http://localhost:3000');
         });
 
         it('should redirect to the URL specified in URL_TO_REDIRECT', async () => {
@@ -66,12 +60,8 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
             request.user = { username: '' } as Express.User;
             googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
-            loginUserOperation = {
-                execute: () => ({ cookieOptions: {}, tokenData: { userId: '1234' } }),
-            };
-            const encodedUserData = encodeURIComponent(
-                JSON.stringify({ userId: '1234' })
-            );
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
+
             oauthController = new OAuthController({
                 googleOperation,
                 discordOperation,
@@ -82,9 +72,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith(
-                `http://example.com?userData=${encodedUserData}`
-            );
+            expect(response.redirect).to.have.been.calledWith('http://example.com');
         });
 
         it('should correctly call the methods and functions', async () => {
@@ -162,12 +150,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         it('should redirect to default URL when URL_TO_REDIRECT is not defined', async () => {
             request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
-            loginUserOperation = {
-                execute: () => ({ cookieOptions: {}, tokenData: { userId: '1234' } }),
-            };
-            const encodedUserData = encodeURIComponent(
-                JSON.stringify({ userId: '1234' })
-            );
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -179,9 +162,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.discord(request, response);
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith(
-                `http://localhost:3000/login-redirect?userData=${encodedUserData}`
-            );
+            expect(response.redirect).to.have.been.calledWith('http://localhost:3000');
         });
 
         it('should redirect to the URL specified in URL_TO_REDIRECT', async () => {
@@ -189,12 +170,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
             request.user = { username: '' } as Express.User;
             discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
-            loginUserOperation = {
-                execute: () => ({ cookieOptions: {}, tokenData: { userId: '1234' } }),
-            };
-            const encodedUserData = encodeURIComponent(
-                JSON.stringify({ userId: '1234' })
-            );
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -206,9 +182,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.discord(request, response);
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith(
-                `http://example.com?userData=${encodedUserData}`
-            );
+            expect(response.redirect).to.have.been.calledWith('http://example.com');
         });
 
         it('should correctly call the methods and functions', async () => {
