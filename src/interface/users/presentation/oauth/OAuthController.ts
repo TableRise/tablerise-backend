@@ -34,34 +34,38 @@ export default class OAuthController {
             user as unknown as Google.Profile
         );
 
-        const { cookieOptions } = await this._loginUserOperation.execute(
+        const { cookieOptions, tokenData } = await this._loginUserOperation.execute(
             result.token as string
         );
-
-        const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
+        const urlToRedirect =
+            process.env.URL_TO_REDIRECT ?? 'http://localhost:3000/login-redirect';
+        const encondedUserData = encodeURIComponent(JSON.stringify(tokenData));
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)
             .cookie('session.sig', 'no-use', cookieOptions)
-            .redirect(urlToRedirect);
+            .redirect(`${urlToRedirect}?userData=${encondedUserData}`);
     }
 
     public async discord(req: Request, res: Response): Promise<void> {
         const { user } = req;
+
         const result = await this._discordOperation.execute(
             user as unknown as Discord.Profile
         );
 
-        const { cookieOptions } = await this._loginUserOperation.execute(
+        const { cookieOptions, tokenData } = await this._loginUserOperation.execute(
             result.token as string
         );
 
-        const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
+        const urlToRedirect =
+            process.env.URL_TO_REDIRECT ?? 'http://localhost:3000/login-redirect';
+        const encondedUserData = encodeURIComponent(JSON.stringify(tokenData));
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)
             .cookie('session.sig', 'no-use', cookieOptions)
-            .redirect(urlToRedirect);
+            .redirect(`${urlToRedirect}?userData=${encondedUserData}`);
     }
 
     public async complete(req: Request, res: Response): Promise<Response> {
