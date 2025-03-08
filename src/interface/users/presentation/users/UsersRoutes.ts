@@ -301,18 +301,12 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/game-info`,
                 controller: this._usersController.updateGameInfo,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(3, [
-                        { name: 'infoId', type: 'string' },
-                        { name: 'targetInfo', type: 'string' },
-                        { name: 'operation', type: 'string' },
-                    ]),
-                ],
+                schema: DomainDataFaker.mocks.updateGameInfo,
+                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [
-                        this._verifyIdMiddleware,
                         passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
                     ],
                     tag: 'management',
                     description: desc.updateGameInfo,
