@@ -57,6 +57,12 @@ const mocks = {
         password,
         nickname,
     },
+    updateGameInfo: {
+        infoId: '123',
+        targetInfo: 'campaigns',
+        operation: 'add',
+        data: {},
+    },
     completeUserMock: {
         nickname,
         firstName,
