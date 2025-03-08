@@ -23,6 +23,7 @@ export interface CampaignsControllerContract {
     updateMatchDatesOperation: UpdateMatchDatesOperation;
     addMatchPlayersOperation: AddMatchPlayersOperation;
     removeMatchPlayersOperation: RemoveMatchPlayersOperation;
+    addPlayerCharacterOperation: any;
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperation: UpdateCampaignImagesOperation;
