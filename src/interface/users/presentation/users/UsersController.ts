@@ -206,15 +206,13 @@ export default class UsersController {
 
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { infoId, targetInfo, operation } =
-            req.query as unknown as UpdateGameInfoPayload;
+        const payload = req.body as Omit<UpdateGameInfoPayload, 'userId'>;
 
         const result = await this._updateGameInfoOperation.execute({
             userId: id,
-            infoId,
-            targetInfo,
-            operation,
+            ...payload,
         });
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 

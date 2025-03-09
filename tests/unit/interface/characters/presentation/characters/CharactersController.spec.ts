@@ -8,6 +8,8 @@ import CharactersController from 'src/interface/characters/presentation/characte
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
     let charactersController: CharactersController,
         createCharacterOperation: any,
+        getAllCharactersOperation: any,
+        getCharacterByIdOperation: any,
         recoverCharacterByCampaignOperation: any;
 
     context('#create', () => {
@@ -21,9 +23,13 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
             recoverCharacterByCampaignOperation = { execute: () => {} };
+            getAllCharactersOperation = { execute: () => {} };
+            getCharacterByIdOperation = { execute: () => {} };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                getAllCharactersOperation,
+                getCharacterByIdOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
@@ -42,6 +48,68 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         });
     });
 
+    context('#getAll', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            getAllCharactersOperation = { execute: sinon.spy(() => ({})) };
+            getCharacterByIdOperation = { execute: () => {} };
+            recoverCharacterByCampaignOperation = { execute: () => {} };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation,
+                getCharacterByIdOperation,
+                recoverCharacterByCampaignOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            await charactersController.getAll(request, response);
+
+            expect(getAllCharactersOperation.execute).to.have.been.calledWith();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#getById', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            getCharacterByIdOperation = { execute: sinon.spy(() => ({})) };
+            recoverCharacterByCampaignOperation = { execute: () => {} };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation,
+                getCharacterByIdOperation,
+                recoverCharacterByCampaignOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            await charactersController.getById(request, response);
+
+            expect(getCharacterByIdOperation.execute).to.have.been.calledWith(
+                request.params.id
+            );
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
     context('#recoverCharactersByCampaign', () => {
         const request = {} as Request;
         const response = {} as Response;
@@ -53,9 +121,13 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             createCharacterOperation = { execute: () => {} };
             recoverCharacterByCampaignOperation = { execute: sinon.spy(() => ({})) };
+            getAllCharactersOperation = { execute: sinon.spy(() => ({})) };
+            getCharacterByIdOperation = { execute: () => {} };
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                getAllCharactersOperation,
+                getCharacterByIdOperation,
                 recoverCharacterByCampaignOperation,
             });
         });
