@@ -5,6 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
+import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -40,6 +41,20 @@ export default class CharactersRoutes {
                     ],
                     tag: 'recover',
                     description: desc.getAll,
+                },
+            },
+            {
+                method: 'get',
+                parameters: [...generateIDParam()],
+                path: `${BASE_PATH}/:id`,
+                controller: this._charactersController.getById,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'recover',
+                    description: desc.getById,
                 },
             },
             {

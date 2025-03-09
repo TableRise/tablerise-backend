@@ -1,7 +1,12 @@
 import {
     CreateCharacterOperationContract,
     CreateCharacterServiceContract,
+    GetCharacterByIdOperationContract,
+    GetCharacterByIdServiceContract,
+    GetAllCharactersOperationContractract,
+    GetAllCharactersServiceContract,
 } from './characters/CreateCharacter';
+
 import {
     RecoverCharacterByCampaignOperationContract,
     RecoverCharacterByCampaignServiceContract,
@@ -10,11 +15,13 @@ import {
 export default interface CharacterCoreDependencies {
     // Operations
     createCharacterOperationContract: CreateCharacterOperationContract;
-    getAllCharactersOperationContract: GetAllCharactersOperationContract;
+    getAllCharactersOperationContract: GetAllCharactersOperationContractract;
     recoverCharacterByCampaignOperationContract: RecoverCharacterByCampaignOperationContract;
+    getCharacterByIdOperationContract: GetCharacterByIdOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;
     getAllCharactersServiceContract: GetAllCharactersServiceContract;
+    getCharacterByIdServiceContract: GetCharacterByIdServiceContract;
     recoverCharacterByCampaignServiceContract: RecoverCharacterByCampaignServiceContract;
 }
