@@ -16,9 +16,9 @@ export default class CharactersController {
         recoverCharacterByCampaignOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
-        this._getAllCharactersOperation = getAllCharactersOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
         this._getCharacterByIdOperation = getCharacterByIdOperation;
+      
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
