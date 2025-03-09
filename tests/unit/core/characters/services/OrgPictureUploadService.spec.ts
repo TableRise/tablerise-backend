@@ -4,7 +4,6 @@ import { FileObject } from 'src/types/shared/file';
 import { orgPicturePayload } from 'src/types/api/characters/http/payload';
 
 describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
-    // Improved comment: Initialize test dependencies
     let orgPictureUploadService: OrgPictureUploadService,
         charactersRepository: any,
         imageStorageClient: any,
