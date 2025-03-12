@@ -17,7 +17,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
             charactersController,
             verifyIdMiddleware,
             imageMiddleware,
-            authorizationMiddleware
+            authorizationMiddleware,
         });
 
         it('Should return the correct number of routes', () => {
