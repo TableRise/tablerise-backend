@@ -7,17 +7,17 @@ describe('Core :: Characters :: Operations :: OrgPictureUploadOperation', () => 
         orgPictureUploadService: any,
         payload: any;
 
-    const logger = ():void => {};
+    const logger = (): void => {};
 
     context('When a picture is uploaded to organization', () => {
         beforeEach(() => {
-            payload = { 
+            payload = {
                 orgName: 'string',
                 characterId: 'string',
                 image: {} as FileObject,
-            }
+            };
 
-            orgPictureUploadService = { uploadPicture: Sinon.spy(() => {}) }
+            orgPictureUploadService = { uploadPicture: Sinon.spy(() => {}) };
 
             orgPictureUploadOperation = new OrgPictureUploadOperation({
                 logger,
@@ -28,8 +28,9 @@ describe('Core :: Characters :: Operations :: OrgPictureUploadOperation', () => 
         it('should update the organization picture', async () => {
             await orgPictureUploadOperation.execute(payload);
 
-            expect(orgPictureUploadService.uploadPicture).to.have.been.calledWith(payload);
+            expect(orgPictureUploadService.uploadPicture).to.have.been.calledWith(
+                payload
+            );
         });
-
     });
 });

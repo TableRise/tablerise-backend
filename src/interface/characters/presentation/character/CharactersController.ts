@@ -44,7 +44,7 @@ export default class CharactersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async organizationPicture(req: Request, res: Response): Promise<Response>{
+    public async organizationPicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { orgName } = req.query as { orgName: string };
 
