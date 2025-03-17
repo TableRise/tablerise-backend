@@ -77,8 +77,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
-
-            
     });
 
     context('#updateCharacterPicture', () => {
@@ -104,12 +102,12 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         it('should correctly call the methods and functions', async () => {
             request.params = { id: characterId };
             request.file = { filename: 'test.jpg' } as Express.Multer.File;
-            
+
             await charactersController.updateCharacterPicture(request, response);
 
             expect(updateCharacterPictureOperation.execute).to.have.been.calledWith({
                 characterId,
-                image: request.file
+                image: request.file,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();

@@ -17,49 +17,51 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
             character = {
                 characterId: '1',
                 author: {
-                    userId: '123'
+                    userId: '123',
                 },
-                picture: 'old-picture.jpg'
+                picture: 'old-picture.jpg',
             };
 
             payload = {
                 characterId: character.characterId,
-                image: {} as FileObject
+                image: {} as FileObject,
             };
 
             charactersRepository = {
                 findOne: Sinon.spy(async () => character),
                 update: Sinon.spy(async (params) => ({
                     ...character,
-                    picture: params.payload.picture
-                }))
+                    picture: params.payload.picture,
+                })),
             };
 
             imageStorageClient = {
-                upload: Sinon.spy(async () => 'new-picture.jpg')
+                upload: Sinon.spy(async () => 'new-picture.jpg'),
             };
 
             updateCharacterPictureService = new UpdateCharacterPictureService({
                 charactersRepository,
                 imageStorageClient,
-                logger
+                logger,
             });
         });
 
         it('should upload image and update character picture successfully', async () => {
-            const response = await updateCharacterPictureService.updateCharacterPicture(payload);
+            const response = await updateCharacterPictureService.updateCharacterPicture(
+                payload
+            );
 
             expect(charactersRepository.findOne).to.be.calledWith({
-                characterId: character.characterId
+                characterId: character.characterId,
             });
             expect(imageStorageClient.upload).to.be.calledWith(payload.image);
             expect(charactersRepository.update).to.be.calledWith({
                 query: { characterId: character.characterId },
-                payload: Sinon.match.object
+                payload: Sinon.match.object,
             });
             expect(response).to.deep.equal({
                 ...character,
-                picture: 'new-picture.jpg'
+                picture: 'new-picture.jpg',
             });
         });
     });
