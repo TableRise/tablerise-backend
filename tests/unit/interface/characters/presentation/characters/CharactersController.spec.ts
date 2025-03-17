@@ -77,5 +77,42 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
+
+            
+    });
+
+    context('#updateCharacterPicture', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+        const characterId = newUUID();
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            updateCharacterPictureOperation = { execute: sinon.spy(() => ({})) };
+            recoverCharacterByCampaignOperation = { execute: () => {} };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                updateCharacterPictureOperation,
+                recoverCharacterByCampaignOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: characterId };
+            request.file = { filename: 'test.jpg' } as Express.Multer.File;
+            
+            await charactersController.updateCharacterPicture(request, response);
+
+            expect(updateCharacterPictureOperation.execute).to.have.been.calledWith({
+                characterId,
+                image: request.file
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
     });
 });
