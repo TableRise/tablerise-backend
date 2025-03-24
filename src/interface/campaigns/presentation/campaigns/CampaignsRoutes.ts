@@ -123,6 +123,28 @@ export default class CampaignsRoutes {
                     description: desc.banPlayer,
                 },
             },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/update/player/add`,
+                parameters: [...generateIDParam()],
+                controller: this._campaignsController.addCampaignPlayers,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.addCampaignPlayers,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/update/player/remove`,
+                parameters: [...generateIDParam()],
+                controller: this._campaignsController.removeCampaignPlayers,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    description: desc.removeCampaignPlayers,
+                    tag: 'management',
+                },
+            },
 
             // PUT
             {
@@ -200,28 +222,7 @@ export default class CampaignsRoutes {
                     tag: 'update',
                 },
             },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/add/match/players`,
-                parameters: [...generateIDParam()],
-                controller: this._campaignsController.addMatchPlayers,
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.addMatchPlayers,
-                    tag: 'management',
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/remove/match/players`,
-                parameters: [...generateIDParam()],
-                controller: this._campaignsController.removeMatchPlayers,
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.removeMatchPlayers,
-                    tag: 'management',
-                },
-            },
+
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/player/character`,

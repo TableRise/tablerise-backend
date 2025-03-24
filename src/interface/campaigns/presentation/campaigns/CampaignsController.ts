@@ -17,8 +17,8 @@ export default class CampaignsController {
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
     private readonly _updateMatchDatesOperation;
-    private readonly _addMatchPlayersOperation;
-    private readonly _removeMatchPlayersOperation;
+    private readonly _addCampaignPlayersOperation;
+    private readonly _removeCampaignPlayersOperation;
     private readonly _addPlayerCharacterOperation;
     private readonly _postInvitationEmailOperation;
     private readonly _postBanPlayerOperation;
@@ -33,8 +33,8 @@ export default class CampaignsController {
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
         updateMatchDatesOperation,
-        addMatchPlayersOperation,
-        removeMatchPlayersOperation,
+        addCampaignPlayersOperation,
+        removeCampaignPlayersOperation,
         addPlayerCharacterOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
@@ -48,9 +48,9 @@ export default class CampaignsController {
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
         this._updateMatchDatesOperation = updateMatchDatesOperation;
-        this._addMatchPlayersOperation = addMatchPlayersOperation;
+        this._addCampaignPlayersOperation = addCampaignPlayersOperation;
         this._addPlayerCharacterOperation = addPlayerCharacterOperation;
-        this._removeMatchPlayersOperation = removeMatchPlayersOperation;
+        this._removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this._postInvitationEmailOperation = postInvitationEmailOperation;
         this._postBanPlayerOperation = postBanPlayerOperation;
         this._updateCampaignImagesOperation = updateCampaignImagesOperation;
@@ -63,8 +63,8 @@ export default class CampaignsController {
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
         this.updateMatchDates = this.updateMatchDates.bind(this);
-        this.addMatchPlayers = this.addMatchPlayers.bind(this);
-        this.removeMatchPlayers = this.removeMatchPlayers.bind(this);
+        this.addCampaignPlayers = this.addCampaignPlayers.bind(this);
+        this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
@@ -188,7 +188,7 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async addMatchPlayers(req: Request, res: Response): Promise<Response> {
+    public async addCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { characterId, password } = req.query as {
             characterId: string;
@@ -196,7 +196,7 @@ export default class CampaignsController {
         };
         const { userId } = req.user as Express.User;
 
-        const result = await this._addMatchPlayersOperation.execute({
+        const result = await this._addCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
             characterId,
@@ -206,11 +206,11 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async removeMatchPlayers(req: Request, res: Response): Promise<Response> {
+    public async removeCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this._removeMatchPlayersOperation.execute({
+        const result = await this._removeCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
         });

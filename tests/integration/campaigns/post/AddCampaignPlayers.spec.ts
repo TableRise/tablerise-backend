@@ -23,10 +23,10 @@ describe('When a player is added to a match', () => {
 
     it('should sucessfully add a player to a campaign', async () => {
         const { body } = await requester()
-            .patch(
+            .post(
                 `/campaigns/${
                     campaign.campaignId
-                }/add/match/players?password=1234&characterId=${newUUID()}`
+                }/update/player/add?password=1234&characterId=${newUUID()}`
             )
             .expect(HttpStatusCode.OK);
 

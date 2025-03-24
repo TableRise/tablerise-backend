@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const campaignsAddMatchPlayersZodSchema = z.object({
+const campaignsAddCampaignPlayersZodSchema = z.object({
     campaignId: z.string(),
     characterId: z.string(),
     userId: z.string(),
@@ -9,5 +9,5 @@ const campaignsAddMatchPlayersZodSchema = z.object({
     }),
 });
 
-export type CampaignAddPayload = z.infer<typeof campaignsAddMatchPlayersZodSchema>;
-export default campaignsAddMatchPlayersZodSchema;
+export type CampaignAddPayload = z.infer<typeof campaignsAddCampaignPlayersZodSchema>;
+export default campaignsAddCampaignPlayersZodSchema;

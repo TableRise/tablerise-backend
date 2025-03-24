@@ -4,11 +4,11 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { AddMatchPlayersPayload } from 'src/types/api/campaigns/http/payload';
+import { AddCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
-export default class AddMatchPlayersService {
+export default class AddCampaignPlayersService {
     private readonly _campaignsRepository;
     private readonly _usersDetailsRepository;
     private readonly _logger;
@@ -17,19 +17,19 @@ export default class AddMatchPlayersService {
         campaignsRepository,
         usersDetailsRepository,
         logger,
-    }: CampaignCoreDependencies['addMatchPlayersServiceContract']) {
+    }: CampaignCoreDependencies['addCampaignPlayersServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
     }
 
-    public async addMatchPlayers({
+    public async addCampaignPlayers({
         campaignId,
         userId,
         characterId,
         password,
-    }: AddMatchPlayersPayload): Promise<UpdateMatchPlayersResponse> {
-        this._logger('info', 'AddMatchPlayers - AddMatchPlayersService');
+    }: AddCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
+        this._logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
         const isPasswordValid = await SecurePasswordHandler.comparePassword(
