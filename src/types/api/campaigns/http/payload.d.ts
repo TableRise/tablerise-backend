@@ -63,14 +63,14 @@ export interface UpdateMatchDatesPayload {
     operation: 'add' | 'remove';
 }
 
-export interface AddMatchPlayersPayload {
+export interface AddCampaignPlayersPayload {
     campaignId: string;
     userId: string;
     characterId?: string;
     password: string;
 }
 
-export interface RemoveMatchPlayersPayload {
+export interface RemoveCampaignPlayersPayload {
     campaignId: string;
     userId: string;
 }
