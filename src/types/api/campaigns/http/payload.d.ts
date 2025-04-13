@@ -28,6 +28,12 @@ export interface GetCampaignByIdPayload {
     campaignId: string;
 }
 
+export interface addCharacterPayload {
+    campaignId: string;
+    userId: string;
+    characterId: string;
+}
+
 export interface publishmentPayload {
     campaignId: string;
     userId: string;
@@ -57,14 +63,14 @@ export interface UpdateMatchDatesPayload {
     operation: 'add' | 'remove';
 }
 
-export interface AddMatchPlayersPayload {
+export interface AddCampaignPlayersPayload {
     campaignId: string;
     userId: string;
     characterId?: string;
     password: string;
 }
 
-export interface RemoveMatchPlayersPayload {
+export interface RemoveCampaignPlayersPayload {
     campaignId: string;
     userId: string;
 }

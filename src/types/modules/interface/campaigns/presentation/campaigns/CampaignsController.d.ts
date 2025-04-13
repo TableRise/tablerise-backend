@@ -6,8 +6,8 @@ import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/campaigns/
 import UpdateCampaignOperation from 'src/core/campaigns/operations/campaigns/UpdateCampaignOperation';
 import UpdateMatchDatesOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchDatesOperation';
 import PublishmentOperation from 'src/core/campaigns/operations/campaigns/PublishmentOperation';
-import AddMatchPlayersOperation from 'src/core/campaigns/operations/campaigns/AddMatchPlayersOperation';
-import RemoveMatchPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveMatchPlayersOperation';
+import AddCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/AddCampaignPlayersOperation';
+import RemoveCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveCampaignPlayersOperation';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import UpdateCampaignImagesOperation from 'src/core/campaigns/operations/UpdateCampaignImagesOperation';
 import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerOperation';
@@ -21,8 +21,9 @@ export interface CampaignsControllerContract {
     updateMatchMapImagesOperation: UpdateMatchMapImagesOperation;
     updateMatchMusicsOperation: UpdateMatchMusicsOperation;
     updateMatchDatesOperation: UpdateMatchDatesOperation;
-    addMatchPlayersOperation: AddMatchPlayersOperation;
-    removeMatchPlayersOperation: RemoveMatchPlayersOperation;
+    addCampaignPlayersOperation: AddCampaignPlayersOperation;
+    removeCampaignPlayersOperation: RemoveCampaignPlayersOperation;
+    addPlayerCharacterOperation: any;
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperation: UpdateCampaignImagesOperation;

@@ -15,3 +15,9 @@ export interface UpdateCharacterPicturePayload {
     characterId: string;
     image: FileObject;
 }
+
+export interface orgPicturePayload {
+    orgName: string;
+    characterId: string;
+    image: FileObject;
+}

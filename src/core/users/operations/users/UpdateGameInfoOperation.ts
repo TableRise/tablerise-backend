@@ -18,28 +18,18 @@ export default class UpdateGameInfoOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        userId,
-        infoId,
-        targetInfo,
-        operation,
-    }: UpdateGameInfoPayload): Promise<string> {
+    public async execute(payload: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Execute - UpdateGameInfoOperation');
         const isValidUUID =
             /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
-        if (!isValidUUID.test(infoId))
+        if (!isValidUUID.test(payload.infoId))
             throw new HttpRequestErrors({
                 message: 'The parameter infoId is invalid',
                 code: HttpStatusCode.BAD_REQUEST,
                 name: getErrorName(HttpStatusCode.BAD_REQUEST),
             });
 
-        return this._updateGameInfoService.update({
-            userId,
-            infoId,
-            targetInfo,
-            operation,
-        });
+        return this._updateGameInfoService.update(payload);
     }
 }

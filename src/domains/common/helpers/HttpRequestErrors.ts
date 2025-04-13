@@ -34,7 +34,7 @@ export default class HttpRequestErrors extends Error {
                 });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
-                    message: 'This players is not in the campaign',
+                    message: 'This player is not in the campaign',
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });

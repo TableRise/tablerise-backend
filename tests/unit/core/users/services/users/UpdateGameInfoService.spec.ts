@@ -27,6 +27,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'add',
                 };
@@ -36,6 +37,52 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     gameInfo: {
                         ...userDetails.gameInfo,
                         badges: [infoId],
+                    },
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods', async () => {
+                await updateGameInfoService.update(updateGameInfoPayload);
+                expect(usersDetailsRepository.findOne).to.have.been.called();
+                expect(usersDetailsRepository.update).to.have.been.calledWith({
+                    query: { userDetailId: userDetails.userDetailId },
+                    payload: newUserDetails,
+                });
+            });
+        });
+
+        context('When a game info is added - with data', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {
+                        campaignId: infoId,
+                    },
+                    targetInfo: 'campaigns',
+                    operation: 'add',
+                };
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        campaigns: [updateGameInfoPayload.data],
                     },
                 };
 
@@ -72,6 +119,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'add',
                 };
@@ -114,6 +162,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'remove',
                 };
@@ -123,6 +172,54 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     gameInfo: {
                         ...userDetails.gameInfo,
                         badges: [],
+                    },
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods', async () => {
+                await updateGameInfoService.update(updateGameInfoPayload);
+                expect(usersDetailsRepository.findOne).to.have.been.called();
+                expect(usersDetailsRepository.update).to.have.been.calledWith({
+                    query: { userDetailId: userDetails.userDetailId },
+                    payload: newUserDetails,
+                });
+            });
+        });
+
+        context('When a game info is removed - with data', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {
+                        campaignId: infoId,
+                    },
+                    targetInfo: 'campaigns',
+                    operation: 'remove',
+                };
+
+                userDetails.gameInfo.campaigns = [updateGameInfoPayload.data];
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        campaigns: [],
                     },
                 };
 

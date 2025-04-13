@@ -3,8 +3,8 @@ import campaignUpdateZod from './campaignsUpdateValidationSchema';
 import campaignsUpdateMatchDatesZod from './campaignsUpdateMatchDatesValidationSchema';
 import campaignPost from './campaignsPostValidationSchema';
 import campaignInvitationEmailZod from './campaignsInvitationEmailValidation';
-import campaignsAddMatchPlayersZod from './campaignsAddMatchPlayersValidationSchema';
-import campaignsRemoveMatchPlayersZod from './campaignsRemoveMatchPlayersValidationSchema';
+import campaignsAddCampaignPlayersZod from './campaignsAddCampaignPlayersValidationSchema';
+import campaignsRemoveCampaignPlayersZod from './campaignsRemoveCampaignPlayersValidationSchema';
 import campaignBanPlayerZod from './campaignsBanPlayerValidation';
 
 const schemas = {
@@ -13,8 +13,8 @@ const schemas = {
     campaignsUpdateMatchDatesZod,
     campaignPost,
     campaignInvitationEmailZod,
-    campaignsAddMatchPlayersZod,
-    campaignsRemoveMatchPlayersZod,
+    campaignsAddCampaignPlayersZod,
+    campaignsRemoveCampaignPlayersZod,
     campaignBanPlayerZod,
 };
 

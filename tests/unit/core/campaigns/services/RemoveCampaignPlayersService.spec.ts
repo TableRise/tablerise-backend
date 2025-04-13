@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
-import RemoveMatchPlayersService from 'src/core/campaigns/services/RemoveMatchPlayersService';
+import RemoveCampaignPlayersService from 'src/core/campaigns/services/RemoveCampaignPlayersService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -9,8 +9,8 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
-describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
-    let removeMatchPlayersService: RemoveMatchPlayersService,
+describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () => {
+    let removeCampaignPlayersService: RemoveCampaignPlayersService,
         campaignsRepository: any,
         usersDetailsRepository: any,
         removePlayersPayload: any,
@@ -21,7 +21,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
 
     const logger = (): void => {};
 
-    context('#removeMatchPlayers', () => {
+    context('#removeCampaignPlayers', () => {
         context('When a player is removed from match', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
@@ -56,7 +56,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                     userId: userDetails.userId,
                     operation: 'remove',
                 };
-                removeMatchPlayersService = new RemoveMatchPlayersService({
+                removeCampaignPlayersService = new RemoveCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -65,7 +65,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
 
             it('should remove the user details game info campaigns', async () => {
                 const matchDataRemoved =
-                    await removeMatchPlayersService.removeMatchPlayers(
+                    await removeCampaignPlayersService.removeCampaignPlayers(
                         removePlayersPayload
                     );
 
@@ -80,7 +80,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
 
             it('should return the removed campaign', async () => {
                 const matchDataRemoved =
-                    await removeMatchPlayersService.removeMatchPlayers(
+                    await removeCampaignPlayersService.removeCampaignPlayers(
                         removePlayersPayload
                     );
                 expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.not.equal(
@@ -127,7 +127,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                         campaignId: campaign.campaignId,
                         userId: userDetails.userId,
                     };
-                    removeMatchPlayersService = new RemoveMatchPlayersService({
+                    removeCampaignPlayersService = new RemoveCampaignPlayersService({
                         logger,
                         campaignsRepository,
                         usersDetailsRepository,
@@ -136,7 +136,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
 
                 it('should throw an error', async () => {
                     try {
-                        await removeMatchPlayersService.removeMatchPlayers(
+                        await removeCampaignPlayersService.removeCampaignPlayers(
                             removePlayersPayload
                         );
                     } catch (error) {
@@ -177,7 +177,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
                     update: sinon.spy(() => {}),
                 };
 
-                removeMatchPlayersService = new RemoveMatchPlayersService({
+                removeCampaignPlayersService = new RemoveCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -185,7 +185,7 @@ describe('Core :: Camapaigns :: Services :: RemoveMatchPlayersService', () => {
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await removeMatchPlayersService.save(
+                const saveCamapaignTest = await removeCampaignPlayersService.save(
                     campaign,
                     userDetails
                 );

@@ -1,18 +1,18 @@
-import AddMatchPlayersService from 'src/core/campaigns/services/campaigns/AddMatchPlayersService';
+import AddCampaignPlayersService from 'src/core/campaigns/services/campaigns/AddCampaignPlayersService';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { SchemasCampaignType } from 'src/domains/campaigns/schemas';
 import { Logger } from 'src/types/shared/logger';
 
-export interface AddMatchPlayersOperationContract {
-    addMatchPlayersService: AddMatchPlayersService;
+export interface AddCampaignPlayersOperationContract {
+    addCampaignPlayersService: AddCampaignPlayersService;
     schemaValidator: SchemaValidator;
     campaignsSchema: SchemasCampaignType;
     logger: Logger;
 }
 
-export interface AddMatchPlayersServiceContract {
+export interface AddCampaignPlayersServiceContract {
     campaignsRepository: CampaignsRepository;
     usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
