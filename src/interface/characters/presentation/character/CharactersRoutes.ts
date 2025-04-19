@@ -85,7 +85,6 @@ export default class CharactersRoutes {
                     tag: 'create',
                 },
             },
-
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/symbol`,
@@ -109,7 +108,20 @@ export default class CharactersRoutes {
             },
 
             // PUT
-
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id`,
+                schema: DomainDataFaker.mocks.updateCharacterMock,
+                controller: this._charactersController.updateCharacter,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware
+                    ],
+                    description: desc.update,
+                    tag: 'management'
+                }
+            }
             // PATCH
         ] as routeInstance[];
     }

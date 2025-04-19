@@ -8,6 +8,7 @@ export default class CharactersController {
     private readonly _createCharacterOperation;
     private readonly _getAllCharactersOperation;
     private readonly _getCharacterByIdOperation;
+    private readonly _updateCharacterOperation;
     private readonly _recoverCharacterByCampaignOperation;
     private readonly _orgPictureUploadOperation;
 
@@ -17,12 +18,14 @@ export default class CharactersController {
         getCharacterByIdOperation,
         recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
+        updateCharacterOperation
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
         this._getAllCharactersOperation = getAllCharactersOperation;
         this._getCharacterByIdOperation = getCharacterByIdOperation;
         this._orgPictureUploadOperation = orgPictureUploadOperation;
+        this._updateCharacterOperation = updateCharacterOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
@@ -56,6 +59,15 @@ export default class CharactersController {
         });
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async updateCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body;
+
+        const result = await this._updateCharacterOperation.execute({ characterId: id, payload });
+
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {

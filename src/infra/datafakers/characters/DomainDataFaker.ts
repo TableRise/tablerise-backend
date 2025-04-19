@@ -9,6 +9,7 @@ function generateCharactersJSON(
 }
 
 const [character] = generateCharactersJSON();
+const [characterToUpdate] = generateCharactersJSON();
 
 delete character.data.profile.level;
 delete character.data.profile.xp;
@@ -21,6 +22,16 @@ delete character.data.spells;
 delete character.data.createdAt;
 delete character.data.updatedAt;
 
+delete character.data.profile.characteristics.appearance.picture;
+delete character.data.profile.characteristics.alliesAndOrgs[0].symbol;
+delete character.characterId;
+// @ts-expect-error Remove requried prop to swagger schema
+delete character.author;
+delete character.campaignId;
+delete character.matchId;
+// @ts-expect-error Remove requried prop to swagger schema
+delete character.npc;
+
 const orgPictureUpload = {
     picture: { isBinary: true },
 };
@@ -30,6 +41,7 @@ const mocks = {
         data: character.data,
         npc: character.npc,
     },
+    updateCharacterMock: characterToUpdate,
     orgPictureUpload,
 };
 
