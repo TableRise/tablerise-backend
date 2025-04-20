@@ -30,8 +30,6 @@ export default class UpdateCharacterService {
             payload.data.profile.characteristics.appearance = {} as any;
         if (!payload.data.profile.characteristics.other)
             payload.data.profile.characteristics.other = {} as any;
-        if (!payload.data.profile.characteristics.other)
-            payload.data.profile.characteristics.other = {} as any;
         if (!payload.data.stats.hitPoints) payload.data.stats.hitPoints = {} as any;
         if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
         if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
