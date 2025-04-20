@@ -6,6 +6,7 @@ export interface UpdateTimestampPayload {
     userId?: string;
     userDetailId?: string;
     campaignId?: string;
+    characterId?: string;
 }
 
 export interface __UserWithID {
