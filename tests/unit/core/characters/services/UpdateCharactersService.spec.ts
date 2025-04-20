@@ -22,7 +22,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                 payload = {
                     data: { ...character.data },
                     createdAt: createdAttest,
-                    updatedAt: createdAttest
+                    updatedAt: createdAttest,
                 };
 
                 payload.data.profile.name = 'some name';
@@ -33,14 +33,14 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                         ...character.data,
                         profile: {
                             ...character.data.profile,
-                            name: payload.data.profile.name
-                        }
-                    }
-                }
+                            name: payload.data.profile.name,
+                        },
+                    },
+                };
 
                 charactersRepository = {
                     update: sinon.spy(() => result),
-                    findOne: sinon.spy(() => character)
+                    findOne: sinon.spy(() => character),
                 };
 
                 updateCharacterService = new UpdateCharacterService({
@@ -50,7 +50,10 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
             });
 
             it('should call the correct methods', async () => {
-                const charactersTest = await updateCharacterService.update({ characterId: '112', payload });
+                const charactersTest = await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
                 expect(charactersRepository.findOne).to.have.been.called();
                 expect(charactersRepository.update).to.have.been.called();
                 expect(charactersTest.data.profile.name).to.be.deep.equal('some name');

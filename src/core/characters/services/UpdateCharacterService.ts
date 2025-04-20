@@ -1,6 +1,6 @@
-import { CharacterInstance } from "src/domains/characters/schemas/characterPostValidationSchema";
-import { updateCharacterPayload } from "src/types/api/characters/http/payload";
-import CharacterCoreDependencies from "src/types/modules/core/characters/CharacterCoreDependencies";
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { updateCharacterPayload } from 'src/types/api/characters/http/payload';
+import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterService {
     private readonly _charactersRepository;
@@ -8,7 +8,7 @@ export default class UpdateCharacterService {
 
     constructor({
         charactersRepository,
-        logger
+        logger,
     }: CharacterCoreDependencies['updateCharacterServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._logger = logger;
@@ -16,19 +16,25 @@ export default class UpdateCharacterService {
         this.update = this.update.bind(this);
     }
 
-    async update({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
+    async update({
+        characterId,
+        payload,
+    }: updateCharacterPayload): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterService - Update');
 
         const characterInDb = await this._charactersRepository.findOne({ characterId });
 
-        if (!payload.data.profile.characteristics) payload.data.profile.characteristics = {} as any;
-        if (!payload.data.profile.characteristics.appearance) payload.data.profile.characteristics.appearance = {} as any;
-        if (!payload.data.profile.characteristics.other) payload.data.profile.characteristics.other = {} as any;
-        if (!payload.data.profile.characteristics.other) payload.data.profile.characteristics.other = {} as any;
+        if (!payload.data.profile.characteristics)
+            payload.data.profile.characteristics = {} as any;
+        if (!payload.data.profile.characteristics.appearance)
+            payload.data.profile.characteristics.appearance = {} as any;
+        if (!payload.data.profile.characteristics.other)
+            payload.data.profile.characteristics.other = {} as any;
+        if (!payload.data.profile.characteristics.other)
+            payload.data.profile.characteristics.other = {} as any;
         if (!payload.data.stats.hitPoints) payload.data.stats.hitPoints = {} as any;
         if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
-        if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting= {} as any;
-
+        if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
 
         const characterToUpdate = {
             ...characterInDb,
@@ -48,8 +54,8 @@ export default class UpdateCharacterService {
                         other: {
                             ...characterInDb.data.profile.characteristics.other,
                             ...payload.data.profile.characteristics.other,
-                        }
-                    }
+                        },
+                    },
                 },
                 stats: {
                     ...characterInDb.data.stats,
@@ -69,19 +75,22 @@ export default class UpdateCharacterService {
                 },
                 money: {
                     ...characterInDb.data.money,
-                    ...payload.data.money
+                    ...payload.data.money,
                 },
-            }
+            },
         };
 
-        characterToUpdate.data.profile.characteristics.alliesAndOrgs = characterInDb.data.profile.characteristics.alliesAndOrgs;
-        characterToUpdate.data.profile.characteristics.treasure = characterInDb.data.profile.characteristics.treasure;
-        characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
+        characterToUpdate.data.profile.characteristics.alliesAndOrgs =
+            characterInDb.data.profile.characteristics.alliesAndOrgs;
+        characterToUpdate.data.profile.characteristics.treasure =
+            characterInDb.data.profile.characteristics.treasure;
+        characterToUpdate.data.stats.abilityScores =
+            characterInDb.data.stats.abilityScores;
         characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
 
         return this._charactersRepository.update({
             query: { characterId },
-            payload: characterToUpdate
+            payload: characterToUpdate,
         });
     }
 }

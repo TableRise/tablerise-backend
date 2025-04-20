@@ -3,7 +3,7 @@ import characterPutZod from './characterPutValidationSchema';
 
 const schemas = {
     characterPostZod,
-    characterPutZod
+    characterPutZod,
 };
 
 export type SchemasCharacterType = typeof schemas;

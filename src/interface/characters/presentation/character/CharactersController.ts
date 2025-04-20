@@ -18,7 +18,7 @@ export default class CharactersController {
         getCharacterByIdOperation,
         recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
-        updateCharacterOperation
+        updateCharacterOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
@@ -66,7 +66,10 @@ export default class CharactersController {
         const { id } = req.params;
         const payload = req.body;
 
-        const result = await this._updateCharacterOperation.execute({ characterId: id, payload });
+        const result = await this._updateCharacterOperation.execute({
+            characterId: id,
+            payload,
+        });
 
         return res.status(HttpStatusCode.OK).json(result);
     }

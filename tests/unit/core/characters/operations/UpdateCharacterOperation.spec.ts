@@ -19,12 +19,12 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
 
                 payloadToUpdate = {
                     characterId: '123',
-                    payload: {}
-                }
+                    payload: {},
+                };
 
                 charactersSchema = {};
 
-                schemaValidator = { entry: Sinon.spy() }
+                schemaValidator = { entry: Sinon.spy() };
 
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,

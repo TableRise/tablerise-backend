@@ -116,12 +116,12 @@ export default class CharactersRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware
+                        this._verifyIdMiddleware,
                     ],
                     description: desc.update,
-                    tag: 'management'
-                }
-            }
+                    tag: 'management',
+                },
+            },
             // PATCH
         ] as routeInstance[];
     }
