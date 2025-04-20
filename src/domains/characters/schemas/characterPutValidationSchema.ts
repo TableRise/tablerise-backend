@@ -32,7 +32,7 @@ const profileCharacterZodSchema = z.object({
     race: z.string().optional(),
     level: z.number().default(0).optional(),
     xp: z.number().default(0).optional(),
-    characteristics: characteristicsCharacterZodSchema,
+    characteristics: characteristicsCharacterZodSchema.optional(),
 });
 
 const hitPointsCharacterZodSchema = z.object({

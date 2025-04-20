@@ -45,7 +45,7 @@ describe('When some character is updated', () => {
             sinon.restore();
         });
 
-        it('should return correct character created', async () => {
+        it('should return correct character updated', async () => {
             const characterUpdatePayload = {
                 data: {
                     ...character.data,
