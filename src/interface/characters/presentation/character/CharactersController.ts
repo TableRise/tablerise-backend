@@ -31,6 +31,7 @@ export default class CharactersController {
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
         this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
+        this.updateCharacter = this.updateCharacter.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
