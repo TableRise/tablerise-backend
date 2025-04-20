@@ -1,3 +1,4 @@
+import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
@@ -5,6 +6,7 @@ export interface UpdateTimestampPayload {
     userId?: string;
     userDetailId?: string;
     campaignId?: string;
+    characterId?: string;
 }
 
 export interface __UserWithID {
@@ -14,7 +16,7 @@ export interface __UserWithID {
 }
 
 export interface UserGameInfoDoneResponse {
-    campaigns: string[];
+    campaigns: GameInfoCampaigns[] | any[];
     characters: string[];
     badges: string[];
 }
@@ -27,8 +29,9 @@ export interface __FullUserPayload {
 export interface UpdateGameInfoProcessPayload {
     infoId: string;
     targetInfo: 'campaigns' | 'badges' | 'characters';
+    data: GameInfoCampaigns | any;
     gameInfo: {
-        campaigns: string[];
+        campaigns: GameInfoCampaigns[] | any[];
         characters: string[];
         badges: string[];
     };

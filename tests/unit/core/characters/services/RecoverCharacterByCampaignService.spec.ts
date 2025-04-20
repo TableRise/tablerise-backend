@@ -64,7 +64,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                         campaignId,
                         userId,
                     });
-                expect(charactersTest).to.be.an('array').with.lengthOf(1);
+                expect(charactersTest).to.be.an('array').with.lengthOf(2);
                 expect(charactersTest[0]).to.be.deep.equal(result);
             });
         });
@@ -153,9 +153,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'This players is not in the campaign'
-                    );
+                    expect(err.message).to.be.equal('This player is not in the campaign');
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                 }

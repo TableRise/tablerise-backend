@@ -5,7 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
-import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -13,20 +13,50 @@ export default class CharactersRoutes {
     private readonly _charactersController;
     private readonly _verifyIdMiddleware;
     private readonly _imageMiddleware;
+    private readonly _authorizationMiddleware;
 
     constructor({
         charactersController,
         verifyIdMiddleware,
         imageMiddleware,
+        authorizationMiddleware,
     }: InterfaceDependencies['charactersRoutesContract']) {
         this._charactersController = charactersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
         this._imageMiddleware = imageMiddleware;
+        this._authorizationMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
         return [
             // GET
+            {
+                method: 'get',
+                path: `${BASE_PATH}`,
+                controller: this._charactersController.getAll,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._authorizationMiddleware.checkAdminRole,
+                    ],
+                    tag: 'recover',
+                    description: desc.getAll,
+                },
+            },
+            {
+                method: 'get',
+                parameters: [...generateIDParam()],
+                path: `${BASE_PATH}/:id`,
+                controller: this._charactersController.getById,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'recover',
+                    description: desc.getById,
+                },
+            },
             {
                 method: 'get',
                 path: `${BASE_PATH}/by-campaign/:id`,
@@ -69,12 +99,46 @@ export default class CharactersRoutes {
                     ],
                     description: desc.updatePicture,
                     tag: 'management',
+                    fileUpload: true
+                }
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/symbol`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }]),
+                ],
+                schema: DomainDataFaker.mocks.orgPictureUpload,
+                controller: this._charactersController.createCharacter,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._imageMiddleware.multer().single('picture'),
+                        this._imageMiddleware.fileType,
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'management',
+                    description: desc.orgSymbol,
                     fileUpload: true,
                 },
             },
 
             // PUT
-
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id`,
+                schema: DomainDataFaker.mocks.updateCharacterMock,
+                controller: this._charactersController.updateCharacter,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    description: desc.update,
+                    tag: 'management',
+                },
+            },
             // PATCH
         ] as routeInstance[];
     }

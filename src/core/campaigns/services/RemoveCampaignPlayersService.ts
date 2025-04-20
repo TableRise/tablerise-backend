@@ -1,11 +1,11 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { RemoveMatchPlayersPayload } from 'src/types/api/campaigns/http/payload';
+import { RemoveCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
-export default class RemoveMatchPlayersService {
+export default class RemoveCampaignPlayersService {
     private readonly _campaignsRepository;
     private readonly _usersDetailsRepository;
     private readonly _logger;
@@ -14,17 +14,17 @@ export default class RemoveMatchPlayersService {
         campaignsRepository,
         usersDetailsRepository,
         logger,
-    }: CampaignCoreDependencies['removeMatchPlayersServiceContract']) {
+    }: CampaignCoreDependencies['removeCampaignPlayersServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
     }
 
-    async removeMatchPlayers({
+    async removeCampaignPlayers({
         campaignId,
         userId,
-    }: RemoveMatchPlayersPayload): Promise<UpdateMatchPlayersResponse> {
-        this._logger('info', 'RemoveMatchPlayers - RemoveMatchPlayersService');
+    }: RemoveCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
+        this._logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
         const userDetails = await this._usersDetailsRepository.findOne({ userId });

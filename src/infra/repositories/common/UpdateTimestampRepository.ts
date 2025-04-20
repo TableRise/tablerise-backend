@@ -81,7 +81,7 @@ export default class UpdateTimestampRepository {
         characterInDb.updatedAt = new Date().toISOString();
 
         await this._charactersModel.update(
-            { campaignId: characterInDb.characterId },
+            { characterId: characterInDb.characterId },
             characterInDb
         );
     }
