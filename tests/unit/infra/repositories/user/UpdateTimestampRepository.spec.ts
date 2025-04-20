@@ -99,4 +99,29 @@ describe('Infra :: Repositories :: User :: UpdateTimestampRepository', () => {
             expect(update).to.have.been.calledWith({ campaignId: '123' });
         });
     });
+
+    context('#updateTimestamp - Character', () => {
+        const findOne = sinon.spy(() => ({ characterId: '123' }));
+        const update = sinon.spy(() => ({ characterId: '123' }));
+
+        beforeEach(() => {
+            database = {
+                modelInstance: sinon.spy(() => ({
+                    findOne,
+                    update,
+                })),
+            };
+
+            updateTimestampRepository = new UpdateTimestampRepository({
+                database,
+                logger,
+            });
+        });
+
+        it('should update timestamp - characterId', async () => {
+            await updateTimestampRepository.updateTimestamp({ characterId: '123' });
+            expect(findOne).to.have.been.called();
+            expect(update).to.have.been.called();
+        });
+    });
 });

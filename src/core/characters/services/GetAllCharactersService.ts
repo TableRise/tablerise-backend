@@ -15,7 +15,6 @@ export default class GetAllCharactersService {
 
     async getAll(): Promise<CharacterInstance[]> {
         this._logger('info', 'GetAll - GetAllCharactersService');
-        const charactersInDb = await this._charactersRepository.find({});
-        return charactersInDb;
+        return this._charactersRepository.find({});
     }
 }

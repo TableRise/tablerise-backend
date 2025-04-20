@@ -15,6 +15,10 @@ import {
     OrgPictureUploadOperationContract,
     OrgPictureUploadServiceContract,
 } from './characters/OrganizationPicture';
+import {
+    UpdateCharacterOperationContract,
+    UpdateCharacterServiceContract,
+} from './characters/UpdateCharacter';
 
 export default interface CharacterCoreDependencies {
     // Operations
@@ -23,6 +27,7 @@ export default interface CharacterCoreDependencies {
     getCharacterByIdOperationContract: GetCharacterByIdOperationContract;
     recoverCharacterByCampaignOperationContract: RecoverCharacterByCampaignOperationContract;
     orgPictureUploadOperationContract: OrgPictureUploadOperationContract;
+    updateCharacterOperationContract: UpdateCharacterOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;
@@ -30,4 +35,5 @@ export default interface CharacterCoreDependencies {
     getCharacterByIdServiceContract: GetCharacterByIdServiceContract;
     recoverCharacterByCampaignServiceContract: RecoverCharacterByCampaignServiceContract;
     orgPictureUploadServiceContract: OrgPictureUploadServiceContract;
+    updateCharacterServiceContract: UpdateCharacterServiceContract;
 }
