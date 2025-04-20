@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import AddMatchPlayersService from 'src/core/campaigns/services/AddMatchPlayersService';
+import AddCampaignPlayersService from 'src/core/campaigns/services/AddCampaignPlayersService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -10,8 +10,8 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import newUUID from 'src/domains/common/helpers/newUUID';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
-describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () => {
-    let addMatchPlayersService: AddMatchPlayersService,
+describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async () => {
+    let addCampaignPlayersService: AddCampaignPlayersService,
         campaignsRepository: any,
         usersDetailsRepository: any,
         addPlayersPayload: any,
@@ -22,7 +22,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
     const logger = (): void => {};
 
-    context('#addMatchPlayers', () => {
+    context('#addCampaignPlayers', () => {
         context('When a player is added to match data', () => {
             before(async () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
@@ -47,7 +47,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     password: '1234',
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -55,7 +55,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
             });
 
             it('should return the add campaign', async () => {
-                const matchDataAdded = await addMatchPlayersService.addMatchPlayers(
+                const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(
                     addPlayersPayload
                 );
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(
@@ -97,7 +97,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     password: '1234',
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -106,7 +106,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
             it('should throw an error', async () => {
                 try {
-                    await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Player already in match');
@@ -142,7 +142,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     password: '0000',
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -151,7 +151,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
             it('should return the add campaign', async () => {
                 try {
-                    await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Unauthorized');
@@ -186,7 +186,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     password: '1234',
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -195,7 +195,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
             it('should throw an error', async () => {
                 try {
-                    await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal(
@@ -240,7 +240,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                         password: '1234',
                     };
 
-                    addMatchPlayersService = new AddMatchPlayersService({
+                    addCampaignPlayersService = new AddCampaignPlayersService({
                         logger,
                         campaignsRepository,
                         usersDetailsRepository,
@@ -249,7 +249,9 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
                 it('should throw an error', async () => {
                     try {
-                        await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                        await addCampaignPlayersService.addCampaignPlayers(
+                            addPlayersPayload
+                        );
                     } catch (error) {
                         const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal(
@@ -294,7 +296,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     password: '1234',
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -303,7 +305,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
 
             it('should throw an error', async () => {
                 try {
-                    await addMatchPlayersService.addMatchPlayers(addPlayersPayload);
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Player is banned');
@@ -339,7 +341,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
                     update: sinon.spy(() => {}),
                 };
 
-                addMatchPlayersService = new AddMatchPlayersService({
+                addCampaignPlayersService = new AddCampaignPlayersService({
                     logger,
                     campaignsRepository,
                     usersDetailsRepository,
@@ -347,7 +349,7 @@ describe('Core :: Camapaigns :: Services :: AddMatchPlayersService', async () =>
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await addMatchPlayersService.save(
+                const saveCamapaignTest = await addCampaignPlayersService.save(
                     campaign,
                     userDetails
                 );
