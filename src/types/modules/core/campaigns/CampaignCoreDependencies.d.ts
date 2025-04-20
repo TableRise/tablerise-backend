@@ -34,14 +34,14 @@ import {
 } from './campaigns/publishment';
 
 import {
-    RemoveMatchPlayersOperationContract,
-    RemoveMatchPlayersServiceContract,
-} from './campaigns/RemoveMatchPlayers';
+    RemoveCampaignPlayersOperationContract,
+    RemoveCampaignPlayersServiceContract,
+} from './campaigns/RemoveCampaignPlayers';
 
 import {
-    AddMatchPlayersOperationContract,
-    AddMatchPlayersServiceContract,
-} from './campaigns/AddMatchPlayers';
+    AddCampaignPlayersOperationContract,
+    AddCampaignPlayersServiceContract,
+} from './campaigns/AddCampaignPlayers';
 
 import {
     UpdateCampaignImagesOperationContract,
@@ -72,8 +72,8 @@ export default interface CampaignCoreDependencies {
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
     updateMatchDatesOperationContract: UpdateMatchDatesOperationContract;
-    addMatchPlayersOperationContract: AddMatchPlayersOperationContract;
-    removeMatchPlayersOperationContract: RemoveMatchPlayersOperationContract;
+    addCampaignPlayersOperationContract: AddCampaignPlayersOperationContract;
+    removeCampaignPlayersOperationContract: RemoveCampaignPlayersOperationContract;
     addPlayerCharacterOperationContract: AddPlayerCharacterOperationContract;
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postBanPlayerOperation: PostBanPlayerOperation;
@@ -87,8 +87,8 @@ export default interface CampaignCoreDependencies {
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
     updateMatchDatesServiceContract: UpdateMatchDatesServiceContract;
-    addMatchPlayersServiceContract: AddMatchPlayersServiceContract;
-    removeMatchPlayersServiceContract: RemoveMatchPlayersServiceContract;
+    addCampaignPlayersServiceContract: AddCampaignPlayersServiceContract;
+    removeCampaignPlayersServiceContract: RemoveCampaignPlayersServiceContract;
     addPlayerCharacterServiceContract: AddPlayerCharacterServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
