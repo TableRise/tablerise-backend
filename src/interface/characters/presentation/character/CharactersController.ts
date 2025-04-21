@@ -20,7 +20,7 @@ export default class CharactersController {
         recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
         updateCharacterOperation,
-        updateCharacterPictureOperation     
+        updateCharacterPictureOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;

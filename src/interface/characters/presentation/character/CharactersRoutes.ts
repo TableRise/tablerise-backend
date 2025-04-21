@@ -5,7 +5,9 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, {
+    generateQueryParam,
+} from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -99,8 +101,8 @@ export default class CharactersRoutes {
                     ],
                     description: desc.updatePicture,
                     tag: 'management',
-                    fileUpload: true
-                }
+                    fileUpload: true,
+                },
             },
             {
                 method: 'post',

@@ -28,9 +28,9 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                         {
                             userId: playerId,
                             role: 'any',
-                            status: 'active'
+                            status: 'active',
                         },
-                    ]
+                    ],
                 };
 
                 userDetail = {
@@ -286,9 +286,9 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                             {
                                 userId: playerId,
                                 role: 'any',
-                                status: 'banned'
+                                status: 'banned',
                             },
-                        ]
+                        ],
                     };
 
                     userDetail = {

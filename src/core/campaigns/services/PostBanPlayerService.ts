@@ -36,7 +36,9 @@ export default class PostBanPlayerService {
             HttpRequestErrors.throwError('player-is-the-dungeon-master');
         }
 
-        const isBanned = campaign.campaignPlayers.some((data: Player) => data.status === 'banned');
+        const isBanned = campaign.campaignPlayers.some(
+            (data: Player) => data.status === 'banned'
+        );
 
         if (isBanned) {
             HttpRequestErrors.throwError('player-already-banned');
@@ -51,7 +53,9 @@ export default class PostBanPlayerService {
     ): void {
         this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
-        const playerIndex = campaign.campaignPlayers.findIndex((data: Player) => data.userId === playerId);
+        const playerIndex = campaign.campaignPlayers.findIndex(
+            (data: Player) => data.userId === playerId
+        );
 
         campaign.campaignPlayers[playerIndex].status = 'banned';
 
@@ -60,7 +64,10 @@ export default class PostBanPlayerService {
         );
     }
 
-    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetailInstance): Promise<void> {
+    private async _saveUpdates(
+        campaign: CampaignInstance,
+        userDetailInDb: UserDetailInstance
+    ): Promise<void> {
         this._logger('info', 'saveUpdates - PostBanPlayerService');
 
         await this._campaignsRepository.update({
