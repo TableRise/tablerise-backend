@@ -8,6 +8,7 @@ import CharactersController from 'src/interface/characters/presentation/characte
 describe('Interface :: Characters :: Presentation :: Characters :: CharactersController', () => {
     let charactersController: CharactersController,
         createCharacterOperation: any,
+        updateCharacterPictureOperation: any,
         getAllCharactersOperation: any,
         getCharacterByIdOperation: any,
         recoverCharacterByCampaignOperation: any,
@@ -24,6 +25,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: sinon.spy(() => ({})) };
+            updateCharacterPictureOperation = { execute: () => {} };
             recoverCharacterByCampaignOperation = { execute: () => {} };
             getAllCharactersOperation = { execute: () => {} };
             getCharacterByIdOperation = { execute: () => {} };
@@ -31,6 +33,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                updateCharacterPictureOperation,
                 getAllCharactersOperation,
                 getCharacterByIdOperation,
                 updateCharacterOperation,
@@ -70,6 +73,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             charactersController = new CharactersController({
                 createCharacterOperation,
                 getAllCharactersOperation,
+                updateCharacterPictureOperation,
                 getCharacterByIdOperation,
                 updateCharacterOperation,
                 recoverCharacterByCampaignOperation,
@@ -105,6 +109,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 getCharacterByIdOperation,
+                updateCharacterPictureOperation,
                 updateCharacterOperation,
                 orgPictureUploadOperation,
                 recoverCharacterByCampaignOperation,
@@ -133,6 +138,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             response.json = sinon.spy(() => response);
 
             createCharacterOperation = { execute: () => {} };
+            updateCharacterPictureOperation = { execute: () => {} };
             recoverCharacterByCampaignOperation = { execute: sinon.spy(() => ({})) };
             getAllCharactersOperation = { execute: sinon.spy(() => ({})) };
             getCharacterByIdOperation = { execute: () => {} };
@@ -141,6 +147,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
             charactersController = new CharactersController({
                 createCharacterOperation,
+                updateCharacterPictureOperation,
                 getAllCharactersOperation,
                 getCharacterByIdOperation,
                 updateCharacterOperation,
@@ -159,6 +166,49 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 campaignId: '123',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#updateCharacterPicture', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCharacterOperation = { execute: () => {} };
+            getAllCharactersOperation = { execute: () => {} };
+            getCharacterByIdOperation = { execute: () => {} };
+            recoverCharacterByCampaignOperation = { execute: () => {} };
+            orgPictureUploadOperation = { execute: () => {} };
+            updateCharacterOperation = { execute: () => {} };
+            updateCharacterPictureOperation = { execute: sinon.spy(() => ({})) };
+
+            charactersController = new CharactersController({
+                createCharacterOperation,
+                getAllCharactersOperation,
+                getCharacterByIdOperation,
+                updateCharacterPictureOperation,
+                updateCharacterOperation,
+                recoverCharacterByCampaignOperation,
+                orgPictureUploadOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.file = {} as Express.Multer.File;
+
+            await charactersController.updateCharacterPicture(request, response);
+
+            expect(updateCharacterPictureOperation.execute).to.have.been.calledWith({
+                characterId: request.params.id,
+                image: request.file,
+            });
+
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
         });
     });
@@ -182,6 +232,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 getCharacterByIdOperation,
+                updateCharacterPictureOperation,
                 updateCharacterOperation,
                 recoverCharacterByCampaignOperation,
                 orgPictureUploadOperation,
@@ -225,6 +276,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
                 createCharacterOperation,
                 getAllCharactersOperation,
                 getCharacterByIdOperation,
+                updateCharacterPictureOperation,
                 updateCharacterOperation,
                 recoverCharacterByCampaignOperation,
                 orgPictureUploadOperation,

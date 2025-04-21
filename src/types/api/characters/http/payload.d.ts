@@ -14,6 +14,10 @@ export interface GetCharacterByCampaignPayload {
     campaignId: string;
 }
 
+export interface UpdateCharacterPicturePayload {
+    characterId: string;
+    image: FileObject;
+}
 export interface orgPicturePayload {
     orgName: string;
     characterId: string;

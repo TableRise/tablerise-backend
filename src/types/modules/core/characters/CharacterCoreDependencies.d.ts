@@ -12,6 +12,10 @@ import {
     RecoverCharacterByCampaignServiceContract,
 } from './characters/RecoverCharacterByCampaign';
 import {
+    UpdateCharacterPictureOperationContract,
+    UpdateCharacterPictureOperationService,
+} from './characters/UpdateCharacterPicture';
+import {
     OrgPictureUploadOperationContract,
     OrgPictureUploadServiceContract,
 } from './characters/OrganizationPicture';
@@ -26,6 +30,7 @@ export default interface CharacterCoreDependencies {
     getAllCharactersOperationContract: GetAllCharactersOperationContractract;
     getCharacterByIdOperationContract: GetCharacterByIdOperationContract;
     recoverCharacterByCampaignOperationContract: RecoverCharacterByCampaignOperationContract;
+    updateCharacterPictureOperationContract: UpdateCharacterPictureOperationContract;
     orgPictureUploadOperationContract: OrgPictureUploadOperationContract;
     updateCharacterOperationContract: UpdateCharacterOperationContract;
 
@@ -34,6 +39,7 @@ export default interface CharacterCoreDependencies {
     getAllCharactersServiceContract: GetAllCharactersServiceContract;
     getCharacterByIdServiceContract: GetCharacterByIdServiceContract;
     recoverCharacterByCampaignServiceContract: RecoverCharacterByCampaignServiceContract;
+    updateCharacterPictureOperationService: UpdateCharacterPictureOperationService;
     orgPictureUploadServiceContract: OrgPictureUploadServiceContract;
     updateCharacterServiceContract: UpdateCharacterServiceContract;
 }

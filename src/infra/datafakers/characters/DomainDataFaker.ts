@@ -44,6 +44,7 @@ const mocks = {
         data: character.data,
         npc: character.npc,
     },
+    uploadCharacterPictureMock: { picture: { isBinary: true } },
     updateCharacterMock: {
         data: {
             profile: characterToUpdate.data.profile,

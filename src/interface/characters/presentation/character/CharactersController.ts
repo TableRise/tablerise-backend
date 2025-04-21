@@ -10,6 +10,7 @@ export default class CharactersController {
     private readonly _getCharacterByIdOperation;
     private readonly _updateCharacterOperation;
     private readonly _recoverCharacterByCampaignOperation;
+    private readonly _updateCharacterPictureOperation;
     private readonly _orgPictureUploadOperation;
 
     constructor({
@@ -19,19 +20,23 @@ export default class CharactersController {
         recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
         updateCharacterOperation,
+        updateCharacterPictureOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this._createCharacterOperation = createCharacterOperation;
         this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
         this._getAllCharactersOperation = getAllCharactersOperation;
         this._getCharacterByIdOperation = getCharacterByIdOperation;
         this._orgPictureUploadOperation = orgPictureUploadOperation;
+        this._updateCharacterPictureOperation = updateCharacterPictureOperation;
         this._updateCharacterOperation = updateCharacterOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
         this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
+        this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
         this.updateCharacter = this.updateCharacter.bind(this);
+        this.organizationPicture = this.organizationPicture.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -91,5 +96,15 @@ export default class CharactersController {
             campaignId,
         });
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCharacterPicture(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const result = await this._updateCharacterPictureOperation.execute({
+            characterId: id,
+            image: req.file as FileObject,
+        });
+
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 }
