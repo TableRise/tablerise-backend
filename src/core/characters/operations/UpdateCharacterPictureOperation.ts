@@ -18,6 +18,6 @@ export default class UpdateCharacterPictureOperation {
         payload: UpdateCharacterPicturePayload
     ): Promise<CharacterInstance> {
         this._logger('info', 'Execute - UpdateCharacterPictureOperation');
-        return this._updateCharacterPictureService.updateCharacterPicture(payload);
+        return this._updateCharacterPictureService.uploadPicture(payload);
     }
 }

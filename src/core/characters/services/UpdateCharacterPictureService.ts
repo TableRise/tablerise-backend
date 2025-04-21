@@ -16,10 +16,10 @@ export default class UpdateCharacterPictureService {
         this._imageStorageClient = imageStorageClient;
         this._logger = logger;
 
-        this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
+        this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async updateCharacterPicture(
+    public async uploadPicture(
         payload: UpdateCharacterPicturePayload
     ): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
