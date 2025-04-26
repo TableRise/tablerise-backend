@@ -66,6 +66,7 @@ export default class CreateCampaignService {
 
         campaign.ageRestriction = Number(campaign.ageRestriction);
 
+        campaign.infos.nextMatchDate = 'no-date';
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);

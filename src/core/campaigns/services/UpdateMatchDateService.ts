@@ -1,40 +1,38 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UpdateMatchDatesPayload } from 'src/types/api/campaigns/http/payload';
+import { updateMatchDatePayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
-export default class UpdateMatchDatesService {
+export default class updateMatchDateService {
     private readonly _campaignsRepository;
     private readonly _logger;
 
     constructor({
         campaignsRepository,
         logger,
-    }: CampaignCoreDependencies['updateMatchDatesServiceContract']) {
+    }: CampaignCoreDependencies['updateMatchDateServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
     }
 
-    async updateMatchDates({
+    async updateMatchDate({
         campaignId,
         date,
         operation,
-    }: UpdateMatchDatesPayload): Promise<CampaignInstance> {
-        this._logger('info', 'UpdateMatchDates - UpdateMatchDatesService');
+    }: updateMatchDatePayload): Promise<CampaignInstance> {
+        this._logger('info', 'updateMatchDate - updateMatchDateService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
         if (operation === 'add') {
-            const dateExist = campaign.infos.matchDates.find((dbDate) => dbDate === date);
+            const dateExist = campaign.infos.nextMatchDate;
 
-            if (dateExist) HttpRequestErrors.throwError('date-already-added');
+            if (dateExist !== 'no-date')
+                HttpRequestErrors.throwError('date-already-added');
 
-            campaign.infos.matchDates.push(date);
+            campaign.infos.nextMatchDate = date;
         }
 
-        if (operation === 'remove')
-            campaign.infos.matchDates = campaign.infos.matchDates.filter(
-                (dbDate) => dbDate !== date
-            );
+        if (operation === 'remove') campaign.infos.nextMatchDate = 'no-date';
 
         return campaign;
     }

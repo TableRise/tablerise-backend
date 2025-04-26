@@ -1,6 +1,6 @@
 import campaignZod from './campaignsValidationSchema';
 import campaignUpdateZod from './campaignsUpdateValidationSchema';
-import campaignsUpdateMatchDatesZod from './campaignsUpdateMatchDatesValidationSchema';
+import campaignsUpdateMatchDateZod from './campaignsUpdateMatchDateValidationSchema';
 import campaignPost from './campaignsPostValidationSchema';
 import campaignInvitationEmailZod from './campaignsInvitationEmailValidation';
 import campaignsAddCampaignPlayersZod from './campaignsAddCampaignPlayersValidationSchema';
@@ -10,7 +10,7 @@ import campaignBanPlayerZod from './campaignsBanPlayerValidation';
 const schemas = {
     campaignZod,
     campaignUpdateZod,
-    campaignsUpdateMatchDatesZod,
+    campaignsUpdateMatchDateZod,
     campaignPost,
     campaignInvitationEmailZod,
     campaignsAddCampaignPlayersZod,

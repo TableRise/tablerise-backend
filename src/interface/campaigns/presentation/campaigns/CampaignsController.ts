@@ -3,12 +3,13 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
     CampaignPayload,
     UpdateMatchMusicsPayload,
-    // UpdateMatchDatesPayload,
+    // updateMatchDatePayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
+    private readonly _getCampaignsByUserIdOperation;
     private readonly _createCampaignOperation;
     private readonly _updateCampaignOperation;
     private readonly _getCampaignByIdOperation;
@@ -16,7 +17,7 @@ export default class CampaignsController {
     private readonly _getAllCampaignsOperation;
     private readonly _updateMatchMusicsOperation;
     private readonly _updateMatchMapImagesOperation;
-    private readonly _updateMatchDatesOperation;
+    private readonly _updateMatchDateOperation;
     private readonly _addCampaignPlayersOperation;
     private readonly _removeCampaignPlayersOperation;
     private readonly _addPlayerCharacterOperation;
@@ -26,13 +27,14 @@ export default class CampaignsController {
 
     constructor({
         getCampaignByIdOperation,
+        getCampaignsByUserIdOperation,
         publishmentOperation,
         createCampaignOperation,
         getAllCampaignsOperation,
         updateCampaignOperation,
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
-        updateMatchDatesOperation,
+        updateMatchDateOperation,
         addCampaignPlayersOperation,
         removeCampaignPlayersOperation,
         addPlayerCharacterOperation,
@@ -40,6 +42,7 @@ export default class CampaignsController {
         postBanPlayerOperation,
         updateCampaignImagesOperation,
     }: CampaignsControllerContract) {
+        this._getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this._createCampaignOperation = createCampaignOperation;
         this._updateCampaignOperation = updateCampaignOperation;
         this._getCampaignByIdOperation = getCampaignByIdOperation;
@@ -47,7 +50,7 @@ export default class CampaignsController {
         this._getAllCampaignsOperation = getAllCampaignsOperation;
         this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
         this._updateMatchMusicsOperation = updateMatchMusicsOperation;
-        this._updateMatchDatesOperation = updateMatchDatesOperation;
+        this._updateMatchDateOperation = updateMatchDateOperation;
         this._addCampaignPlayersOperation = addCampaignPlayersOperation;
         this._addPlayerCharacterOperation = addPlayerCharacterOperation;
         this._removeCampaignPlayersOperation = removeCampaignPlayersOperation;
@@ -55,6 +58,7 @@ export default class CampaignsController {
         this._postBanPlayerOperation = postBanPlayerOperation;
         this._updateCampaignImagesOperation = updateCampaignImagesOperation;
 
+        this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -62,7 +66,7 @@ export default class CampaignsController {
         this.update = this.update.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
-        this.updateMatchDates = this.updateMatchDates.bind(this);
+        this.updateMatchDate = this.updateMatchDate.bind(this);
         this.addCampaignPlayers = this.addCampaignPlayers.bind(this);
         this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
@@ -95,6 +99,13 @@ export default class CampaignsController {
         const { id } = req.params;
 
         const result = await this._getCampaignByIdOperation.execute({ campaignId: id });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getByUserId(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this._getCampaignsByUserIdOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -172,14 +183,14 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async updateMatchDates(req: Request, res: Response): Promise<Response> {
+    public async updateMatchDate(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { operation, date } = req.query as {
             operation: 'add' | 'remove';
             date: string;
         };
 
-        const result = await this._updateMatchDatesOperation.execute({
+        const result = await this._updateMatchDateOperation.execute({
             campaignId: id,
             date,
             operation,
@@ -190,8 +201,7 @@ export default class CampaignsController {
 
     public async addCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { characterId, password } = req.query as {
-            characterId: string;
+        const { password } = req.query as {
             password: string;
         };
         const { userId } = req.user as Express.User;
@@ -199,7 +209,6 @@ export default class CampaignsController {
         const result = await this._addCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
-            characterId,
             password,
         });
 

@@ -56,6 +56,20 @@ export default class CampaignsRoutes {
                     description: desc.getAll,
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/user/:id`,
+                controller: this._campaignsController.getByUserId,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this._verifyIdMiddleware,
+                    ],
+                    tag: 'recover',
+                    description: desc.getAll,
+                },
+            },
 
             // POST
             {
@@ -126,7 +140,10 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/add`,
-                parameters: [...generateIDParam()],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'password', type: 'string' }]),
+                ],
                 controller: this._campaignsController.addCampaignPlayers,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -215,10 +232,10 @@ export default class CampaignsRoutes {
                         { name: 'operation', type: 'string' },
                     ]),
                 ],
-                controller: this._campaignsController.updateMatchDates,
+                controller: this._campaignsController.updateMatchDate,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
-                    description: desc.updateMatchDates,
+                    description: desc.updateMatchDate,
                     tag: 'update',
                 },
             },
@@ -228,7 +245,7 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/update/player/character`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'characterId', type: 'text' }]),
+                    ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }]),
                 ],
                 controller: this._campaignsController.addPlayerCharacter,
                 options: {

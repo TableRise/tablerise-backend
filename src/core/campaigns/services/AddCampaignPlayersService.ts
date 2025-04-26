@@ -26,7 +26,6 @@ export default class AddCampaignPlayersService {
     public async addCampaignPlayers({
         campaignId,
         userId,
-        characterId,
         password,
     }: AddCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
         this._logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');

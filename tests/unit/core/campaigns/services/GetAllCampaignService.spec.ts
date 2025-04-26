@@ -32,7 +32,7 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                         campaign.ageRestriction = Number.MAX_SAFE_INTEGER;
                         campaign.infos = {
                             campaignAge: '1',
-                            matchDates: [],
+                            nextMatchDate: 'no-date',
                             announcements: [],
                             visibility: 'hidden',
                         };

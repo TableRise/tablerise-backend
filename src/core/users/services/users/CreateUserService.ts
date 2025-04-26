@@ -91,7 +91,6 @@ export default class CreateUserService {
             campaigns: [],
             characters: [],
             badges: [],
-            bannedFromCampaigns: [],
         };
         userDetails.role = 'user';
 
