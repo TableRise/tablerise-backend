@@ -1,16 +1,16 @@
 import sinon from 'sinon';
-import UpdateMatchDatesOperation from 'src/core/campaigns/operations/UpdateMatchDatesOperation';
+import UpdateMatchDateOperation from 'src/core/campaigns/operations/UpdateMatchDateOperation';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
-describe('Core :: Campaigns :: Operations :: UpdateMatchDatesOperation', () => {
-    let updateMatchDatesOperation: UpdateMatchDatesOperation,
+describe('Core :: Campaigns :: Operations :: UpdateMatchDateOperation', () => {
+    let updateMatchDatesOperation: UpdateMatchDateOperation,
         campaignsSchema: any,
         schemaValidator: any,
-        updateMatchDatesService: any,
+        updateMatchDateService: any,
         matchDatesPayload: any,
         campaign: CampaignInstance;
 
@@ -33,15 +33,15 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchDatesOperation', () => {
                     operation: 'add',
                 };
 
-                campaign.infos.matchDates = [matchDatesPayload.date];
+                campaign.infos.nextMatchDate = matchDatesPayload.date;
 
-                updateMatchDatesService = {
-                    updateMatchDates: sinon.spy(),
+                updateMatchDateService = {
+                    updateMatchDate: sinon.spy(),
                     save: sinon.spy(() => campaign),
                 };
 
-                updateMatchDatesOperation = new UpdateMatchDatesOperation({
-                    updateMatchDatesService,
+                updateMatchDatesOperation = new UpdateMatchDateOperation({
+                    updateMatchDateService,
                     campaignsSchema,
                     schemaValidator,
                     logger,
@@ -53,9 +53,9 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchDatesOperation', () => {
                     matchDatesPayload
                 );
 
-                expect(updateMatchDatesService.updateMatchDates).to.have.been.called();
-                expect(updateMatchDatesService.save).to.have.been.called();
-                expect(updateDateTest[0]).to.be.equal(campaign.infos.matchDates[0]);
+                expect(updateMatchDateService.updateMatchDate).to.have.been.called();
+                expect(updateMatchDateService.save).to.have.been.called();
+                expect(updateDateTest).to.be.equal(campaign.infos.nextMatchDate);
             });
         });
     });
@@ -89,8 +89,8 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchDatesOperation', () => {
                 operation: 'add',
             };
 
-            updateMatchDatesOperation = new UpdateMatchDatesOperation({
-                updateMatchDatesService,
+            updateMatchDatesOperation = new UpdateMatchDateOperation({
+                updateMatchDateService,
                 campaignsSchema,
                 schemaValidator,
                 logger,

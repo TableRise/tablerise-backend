@@ -10,3 +10,8 @@ export interface GetAllCampaignsResponse {
     ageRestriction;
     updatedAt;
 }
+
+export interface GetCampaignByUserIdResponse {
+    master: CampaignInstance[];
+    player: CampaignInstance[];
+}

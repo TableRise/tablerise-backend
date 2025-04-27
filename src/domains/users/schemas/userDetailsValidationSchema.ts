@@ -47,7 +47,6 @@ export type UserDetailInstance = z.infer<typeof userDetailsZodSchema> & {
         campaigns: GameInfoCampaigns[];
         characters: string[];
         badges: string[];
-        bannedFromCampaigns: string[];
     };
     biography: string;
     role: 'user' | 'admin';

@@ -21,8 +21,8 @@ describe('When a date is added or removed from a match', () => {
             )
             .expect(HttpStatusCode.OK);
 
-        expect(body).to.be.an('array').with.lengthOf(1);
-        expect(body[0]).to.be.equal(date);
+        expect(body).to.be.an('string');
+        expect(body).to.be.equal(date);
     });
 
     it('should sucessfully remove a date from a campaign', async () => {
@@ -32,6 +32,6 @@ describe('When a date is added or removed from a match', () => {
             )
             .expect(HttpStatusCode.OK);
 
-        expect(body).to.be.an('array').with.lengthOf(0);
+        expect(body).to.be.an('string');
     });
 });

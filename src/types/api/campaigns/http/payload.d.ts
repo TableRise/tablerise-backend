@@ -57,7 +57,7 @@ export interface UpdateMatchMusicsPayload {
     operation: 'add' | 'remove';
 }
 
-export interface UpdateMatchDatesPayload {
+export interface updateMatchDatePayload {
     campaignId: string;
     date: string;
     operation: 'add' | 'remove';
@@ -66,7 +66,6 @@ export interface UpdateMatchDatesPayload {
 export interface AddCampaignPlayersPayload {
     campaignId: string;
     userId: string;
-    characterId?: string;
     password: string;
 }
 

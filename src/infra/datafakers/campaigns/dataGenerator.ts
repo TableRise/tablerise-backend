@@ -48,7 +48,7 @@ export default {
     },
     infos: {
         campaignAge: '1',
-        matchDates: [],
+        nextMatchDate: 'no-date',
         announcements: [],
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     },
