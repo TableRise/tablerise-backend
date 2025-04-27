@@ -42,7 +42,7 @@ describe('Core :: Campaigns :: Services :: GetCampaignsByUserIdService', () => {
                     {
                         campaignId: campaignIdThree,
                         role: 'player_admin',
-                    }
+                    },
                 ];
 
                 usersDetailsRepository = {
@@ -63,9 +63,17 @@ describe('Core :: Campaigns :: Services :: GetCampaignsByUserIdService', () => {
             });
 
             it('should call the correct methods', async () => {
-                const userCampaigns = await getCampaignsByUserIdService.getByUserId(userDetails.userId);
-                expect(userCampaigns).to.have.property('master').to.be.an('array').that.has.lengthOf(1);
-                expect(userCampaigns).to.have.property('player').to.be.an('array').that.has.lengthOf(2);
+                const userCampaigns = await getCampaignsByUserIdService.getByUserId(
+                    userDetails.userId
+                );
+                expect(userCampaigns)
+                    .to.have.property('master')
+                    .to.be.an('array')
+                    .that.has.lengthOf(1);
+                expect(userCampaigns)
+                    .to.have.property('player')
+                    .to.be.an('array')
+                    .that.has.lengthOf(2);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(campaignsRepository.findOne).to.have.been.called();
             });

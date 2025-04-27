@@ -4,11 +4,18 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UserDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import {
+    InjectNewCampaign,
+    InjectNewUser,
+    InjectNewUserDetails,
+} from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let campaignOne: CampaignInstance, campaignTwo: CampaignInstance, user: UserInstance, userDetails: UserDetailInstance;
+    let campaignOne: CampaignInstance,
+        campaignTwo: CampaignInstance,
+        user: UserInstance,
+        userDetails: UserDetailInstance;
 
     context('And data is correct', () => {
         before(async () => {
@@ -39,7 +46,7 @@ describe('When recover user by id', () => {
                     role: 'dungeon_master',
                     characterIds: [],
                     status: 'active',
-                }
+                },
             ];
 
             campaignTwo.campaignPlayers = [
@@ -48,7 +55,7 @@ describe('When recover user by id', () => {
                     role: 'player',
                     characterIds: [],
                     status: 'active',
-                }
+                },
             ];
 
             await InjectNewUser(user);
@@ -64,8 +71,14 @@ describe('When recover user by id', () => {
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
-            expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);
-            expect(body).to.have.property('player').to.be.an('array').that.has.lengthOf(1);
+            expect(body)
+                .to.have.property('master')
+                .to.be.an('array')
+                .that.has.lengthOf(1);
+            expect(body)
+                .to.have.property('player')
+                .to.be.an('array')
+                .that.has.lengthOf(1);
             expect(body.master[0]).to.have.property('campaignId');
             expect(body.player[0]).to.have.property('campaignId');
             expect(body.master[0].campaignId).to.be.equal(campaignOne.campaignId);
