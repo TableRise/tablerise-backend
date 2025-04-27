@@ -33,7 +33,7 @@ export default class GetCampaignsByUserIdService {
         );
 
         if (userCampaignIds.length === 0)
-            HttpRequestErrors.throwError('campaign-inexistent');
+            HttpRequestErrors.throwError('campaign-player-not-exists');
 
         const userCampaignsPromises = [] as Array<Promise<CampaignInstance>>;
 
