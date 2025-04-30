@@ -56,6 +56,7 @@ export interface Coordinates {
 export interface joinMatchSocketEventPayload {
     campaignId: string;
     socket: Socket;
+    userId: string;
 }
 
 export interface changeMapImageSocketEventPayload {
@@ -75,6 +76,7 @@ export interface moveAvatarSocketEventPayload {
     avatarId: string;
     coordinates: Coordinates;
     socketId: string;
+    userId: string;
 }
 
 export interface deleteAvatarSocketEventPayload {
