@@ -18,44 +18,6 @@
             "size": "medium",
             "speed": [7.6, "speed not reduced by wearing heavy armor"],
             "language": ["Common", "Dwarvish"],
-            "subRaces": [
-                {
-                    "name": "Hill Dwarf",
-                    "description": "Hill Dwarves are remarkably resilient and wise. Their lives in the hills of the kingdom make them excellent explorers, which gives these dwarves a strong instinct for survival and intuition.",
-                    "abilityScoreIncrease": {
-                        "name": "Wisdom",
-                        "value": 1
-                    },
-                    "characteristics": [
-                        {
-                            "name": "Dwarven Toughness",
-                            "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
-                        }
-                    ]
-                },
-                {
-                    "original": false,
-                    "name": "Mystic Dwarf",
-                    "description": "Mystic Dwarves are well-versed in the magical arts. Over time, these dwarves have separated themselves from the others as they have no interest in mining or craftsmanship, but rather in using the products of these activities for study and, for some, power.\n\nBecause their studies and practice of magic are their main focus, these dwarves are generally slightly weaker and have a maximum average weight of 50 kg.",
-                    "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Intelligence",
-                        "value": 2
-                    },
-                    "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Lack of Strength",
-                            "description": "You have disadvantage on strength checks related to objects, such as pulling, pushing, and carrying."
-                        },
-                        {
-                            "original": false,
-                            "name": "Magic Specialist",
-                            "description": "When using any magical item, you can roll 1d2 to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item. After succeeding once on the 1d2 roll, this characteristic can no longer be used."
-                        }
-                    ]
-                }
-            ],
             "skillProficiencies": [],
             "characteristics": [
                 {
@@ -79,6 +41,51 @@
                     "name": "Stonecunning",
                     "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus."
                 }
+            ],
+            "subRaces": [
+                {
+                    "name": "Hill Dwarf",
+                    "description": "Hill Dwarves are remarkably resilient and wise. Their lives in the hills of the kingdom make them excellent explorers, which gives these dwarves a strong instinct for survival and intuition.",
+                    "abilityScoreIncrease": {
+                        "name": "Wisdom",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                        "name": "Dwarven Toughness",
+                        "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
+                        }
+                    ]
+                    },
+                    {
+                    "original": false,
+                    "name": "Mystic Dwarf",
+                    "description": "Mystic Dwarves dedicate their lives to understanding the arcane arts. Unlike their kin, who focus on forging and mining, these dwarves channel their intellect and discipline to master magic. Though physically frailer, they are recognized for their profound magical knowledge and their connection to ancient arcane relics.",
+                    "abilityScoreIncrease": {
+                        "original": false,
+                        "name": "Intelligence",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                        "original": false,
+                        "name": "Lesser Constitution",
+                        "description": "Your Constitution score increases by 0 instead of 2, as with other dwarves."
+                        },
+                        {
+                        "original": false,
+                        "name": "Runic Tradition",
+                        "description": "You know the *Light* cantrip. When you reach 3rd level, you can cast *Mage Armor* once per long rest. When you reach 5th level, you can cast *Detect Magic* once per long rest. Intelligence is your spellcasting ability for these spells.",
+                        "activationLevel": "3",
+                        "popUp": true
+                        },
+                        {
+                        "original": false,
+                        "name": "Affinity for Magical Items",
+                        "description": "You are proficient in Intelligence (Arcana) checks to identify or understand magical items. Additionally, when using a magical item of dwarven origin (at the DM's discretion), you have advantage on your first check to use the item (such as activating it or resisting side effects)."
+                        }
+                    ]
+                }
             ]
         },
         "pt": {
@@ -96,43 +103,6 @@
             "size": "médio",
             "speed": [7.6, "velocidade não reduzida ao usar armadura pesada"],
             "language": ["Comum", "Anão"],
-            "subRaces": [
-                {
-                    "name": "Anão da Colina",
-                    "description": "Anões da colina são notavelmente resistentes e sábios. Sua vida nas colinas do reino os coloca à frente no quesito exploração, o que dá a esses anões um grande instinto de sobrevivência e intuição.",
-                    "abilityScoreIncrease": {
-                        "name": "Sabedoria",
-                        "value": 1
-                    },
-                    "characteristics": [
-                        {
-                            "name": "Resistência Anã",
-                            "description": "Seu máximo de pontos de vida aumenta em 1, e aumenta em 1 a cada vez que você ganha um nível."
-                        }
-                    ]
-                },
-                {
-                    "name": "Anão Místico",
-                    "description": "Anões místicos são versados nas artes mágicas. Com o tempo, esses anões se separaram dos demais, pois não têm interesse em mineração ou artesanato, mas sim em utilizar os produtos dessas atividades para estudo e, para alguns, poder.\n\nPor terem os estudos e prática da magia como seu foco principal, esses anões geralmente são um pouco mais fracos e têm um peso médio máximo de 50 kg.",
-                    "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Inteligência",
-                        "value": 2
-                    },
-                    "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Falta de Força Anã",
-                            "description": "Você tem desvantagem em testes de força relacionados a objetos, como puxar, empurrar e carregar."
-                        },
-                        {
-                            "original": false,
-                            "name": "Especialista em Magia",
-                            "description": "Ao utilizar qualquer item mágico você pode rolar 1d2 para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico. Após ter sucesso uma vez na rolagem do 1d2 essa caracteristica não pode mais ser usada."
-                        }
-                    ]
-                }
-            ],
             "skillProficiencies": [],
             "characteristics": [
                 {
@@ -156,7 +126,52 @@
                     "name": "Inteligência em Rochas",
                     "description": "Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal."
                 }
-            ]
+            ],
+            "subRaces": [
+                {
+                    "name": "Hill Dwarf",
+                    "description": "Hill Dwarves are remarkably resilient and wise. Their lives in the hills of the kingdom make them excellent explorers, which gives these dwarves a strong instinct for survival and intuition.",
+                    "abilityScoreIncrease": {
+                        "name": "Wisdom",
+                        "value": 1
+                    },
+                    "characteristics": [
+                        {
+                        "name": "Dwarven Toughness",
+                        "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
+                        }
+                    ]
+                    },
+                    {
+                    "original": false,
+                    "name": "Mystic Dwarf",
+                    "description": "Mystic Dwarves dedicate their lives to understanding the arcane arts. Unlike their kin, who focus on forging and mining, these dwarves channel their intellect and discipline to master magic. Though physically frailer, they are recognized for their profound magical knowledge and their connection to ancient arcane relics.",
+                    "abilityScoreIncrease": {
+                        "original": false,
+                        "name": "Intelligence",
+                        "value": 2
+                    },
+                    "characteristics": [
+                        {
+                            "original": false,
+                            "name": "Lesser Constitution",
+                            "description": "Your Constitution score increases by 0 instead of 2, as with other dwarves."
+                        },
+                        {
+                            "original": false,
+                            "name": "Runic Tradition",
+                            "description": "You know the *Light* cantrip. When you reach 3rd level, you can cast *Mage Armor* once per long rest. When you reach 5th level, you can cast *Detect Magic* once per long rest. Intelligence is your spellcasting ability for these spells.",
+                            "activationLevel": "3",
+                            "popUp": true
+                        },
+                        {
+                            "original": false,
+                            "name": "Affinity for Magical Items",
+                            "description": "You are proficient in Intelligence (Arcana) checks to identify or understand magical items. Additionally, when using a magical item of dwarven origin (at the DM's discretion), you have advantage on your first check to use the item (such as activating it or resisting side effects)."
+                        }
+                    ]
+                }
+            ]     
         }
     },
     {
@@ -176,6 +191,25 @@
             "size": "medium",
             "speed": 9.1,
             "language": ["Common", "Elvish"],
+            "skillProficiencies": ["Perception"],
+            "characteristics": [
+                {
+                    "name": "Darkvision",
+                    "description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+                },
+                {
+                    "name": "Keen Senses",
+                    "description": "You have proficiency in the Perception skill."
+                },
+                {
+                    "name": "Fey Ancestry",
+                    "description": "You have advantage on saving throws against being charmed, and magic can’t put you to sleep."
+                },
+                {
+                    "name": "Trance",
+                    "description": "Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+                }
+            ],
             "subRaces": [
                 {
                     "name": "High Elf",
@@ -204,26 +238,26 @@
                     "name": "Arcane Elf",
                     "description": "Arcane Elves are known for their high manipulation of magic and follow an ancient belief that elves are the guardians of magic in the world. They have grayish skin and are almost entirely slim and tall. It is well known in the Elven Kingdom that Arcane Elves consider themselves superior to their peers because they do not rely on external tools to augment their power.\n\nThis type of elf rarely or almost never uses amulets or symbols as power conduits, as they believe that doing so symbolizes the weakening of the purity of elven magic.",
                     "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Charism",
-                        "value": 2
+                      "original": false,
+                      "name": "Charisma",
+                      "value": 2
                     },
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Pure Magic",
-                            "description": "You can reroll the damage dice of a spell once to try to achieve its maximum purity. To use this ability again, a long rest is required."
-                        },
-                        {
-                            "original": false,
-                            "name": "Light Body",
-                            "description": "Your base walking speed increases to 10.5 meters."
-                        },
-                        {
-                            "original": false,
-                            "name": "Magical Knowledge",
-                            "description": "You have advantage on checks involving learning new spells."
-                        }
+                      {
+                        "original": false,
+                        "name": "Pure Magic",
+                        "description": "Once per long rest, when you cast a spell that deals damage, you can reroll a number of damage dice equal to your Charisma modifier (minimum of one). You must use the new results."
+                      },
+                      {
+                        "original": false,
+                        "name": "Graceful Movement",
+                        "description": "Your base walking speed increases to 35 feet (10.5 meters)."
+                      },
+                      {
+                        "original": false,
+                        "name": "Innate Magical Knowledge",
+                        "description": "You gain proficiency in the Arcana skill. Additionally, you learn one cantrip of your choice from the wizard spell list. Charisma is your spellcasting ability for this cantrip."
+                      }
                     ]
                 },
                 {
@@ -231,47 +265,28 @@
                     "name": "Warrior Elf",
                     "description": "Warrior Elves have specialized over time in imbuing their magic into weapons to maximize their potential in battle. They are respected by common elves and high elves but are despised by and have a millennia-old feud with Arcane Elves, which extends from the population to politics. These warriors are generally a bit shorter in stature, resembling humans, and are extremely fearless.",
                     "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Intelligence",
-                        "value": 1
+                      "original": false,
+                      "name": "Intelligence",
+                      "value": 1
                     },
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Elven Vitality",
-                            "description": "Your keen physical training grants you 1 extra hit point per level."
-                        },
-                        {
-                            "original": false,
-                            "name": "Weaponized Magic",
-                            "description": "When attacking with a weapon, use your magical ability inherited from the elves and roll 1d20 to add damage to your attack, if the result is greater than 15 add 2 damage if it is less add 1. Can be used twice and then requires a rest short to use again."
-                        },
-                        {
-                            "original": false,
-                            "name": "Elven War Weapon Training",
-                            "description": "You have proficiency with longswords, shortswords, daggers, longbows, shortbows, rapiers, shortswords, and hand crossbows."
-                        }
+                      {
+                        "original": false,
+                        "name": "Elven Vitality",
+                        "description": "Your keen physical training grants you 1 extra hit point per level, up to a maximum of 10 additional hit points at 10th level."
+                      },
+                      {
+                        "original": false,
+                        "name": "Weaponized Magic",
+                        "description": "When you make an attack with a weapon, you can use your magical affinity to enhance your strike. Once per turn, you may roll 1d20. If the result is 15 or higher, you add +2 damage to your attack. If the result is below 15, you add +1 damage. This ability can be used twice per short rest."
+                      },
+                      {
+                        "original": false,
+                        "name": "Elven War Weapon Training",
+                        "description": "You have proficiency with longswords, shortswords, daggers, longbows, shortbows, and rapiers."
+                      }
                     ]
-                }
-            ],
-            "skillProficiencies": ["Perception"],
-            "characteristics": [
-                {
-                    "name": "Darkvision",
-                    "description": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
-                },
-                {
-                    "name": "Keen Senses",
-                    "description": "You have proficiency in the Perception skill."
-                },
-                {
-                    "name": "Fey Ancestry",
-                    "description": "You have advantage on saving throws against being charmed, and magic can’t put you to sleep."
-                },
-                {
-                    "name": "Trance",
-                    "description": "Elves don’t need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is “trance.”) While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
-                }
+                }                  
             ]
         },
         "pt": {
@@ -291,6 +306,25 @@
             "size": "médio",
             "speed": 9.1,
             "language": ["Comum", "Élfico"],
+            "skillProficiencies": ["Percepção"],
+            "characteristics": [
+                {
+                    "name": "Visão no Escuro",
+                    "description": "Acostumado a florestas crepusculares e ao céu noturno, você tem visão superior em condições de escuridão e penumbra. Você pode ver em luz fraca dentro de 18 metros de você como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não pode discernir cores na escuridão, apenas tons de cinza."
+                },
+                {
+                    "name": "Sentidos Aguçados",
+                    "description": "Você tem proficiência na habilidade de Percepção."
+                },
+                {
+                    "name": "Ancestralidade Feérica",
+                    "description": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode fazer você dormir."
+                },
+                {
+                    "name": "Transe",
+                    "description": "Elfos não precisam dormir. Em vez disso, eles meditam profundamente, permanecendo semiconscientes, por 4 horas por dia. (A palavra Comum para tal meditação é “transe.”) Enquanto meditam, eles podem sonhar de uma maneira; tais sonhos são na verdade exercícios mentais que se tornaram reflexivos através de anos de prática. Após descansar dessa maneira, você ganha o mesmo benefício que um humano ganha de 8 horas de sono."
+                }
+            ],
             "subRaces": [
                 {
                     "name": "Alto Elfo",
@@ -317,76 +351,57 @@
                 {
                     "original": false,
                     "name": "Elfo Arcano",
-                    "description": "Os Elfos Arcanos são conhecidos por sua alta manipulação da magia e seguem uma antiga crença de que os elfos são os guardiões da magia no mundo. Eles têm pele acinzentada e são quase inteiramente magros e altos. É bem conhecido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares porque não dependem de ferramentas externas para aumentar seu poder. Este tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
+                    "description": "Os Elfos Arcanos são conhecidos por sua grande manipulação da magia e seguem uma crença antiga de que os elfos são os guardiões da magia no mundo. Eles têm a pele acinzentada e são quase totalmente magros e altos. É bem sabido no Reino Élfico que os Elfos Arcanos se consideram superiores aos seus pares, pois não dependem de ferramentas externas para aumentar seu poder.\n\nEste tipo de elfo raramente ou quase nunca usa amuletos ou símbolos como condutores de poder, pois acreditam que isso simboliza o enfraquecimento da pureza da magia élfica.",
                     "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Carisma",
-                        "value": 2
+                      "original": false,
+                      "name": "Carisma",
+                      "value": 2
                     },
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Magia Pura",
-                            "description": "Você pode rolar novamente os dados de dano de uma magia uma vez para tentar atingir sua pureza máxima. Para utilizar essa habilidade novamente, é necessário um descanso longo."
-                        },
-                        {
-                            "original": false,
-                            "name": "Corpo Leve",
-                            "description": "Seu deslocamento base de caminhada aumenta para 10,5 metros."
-                        },
-                        {
-                            "original": false,
-                            "name": "Conhecimento Mágico",
-                            "description": "Você tem vantagem em testes que envolvam aprender novos feitiços."
-                        }
+                      {
+                        "original": false,
+                        "name": "Magia Pura",
+                        "description": "Uma vez por descanso longo, quando você lançar um feitiço que cause dano, você pode rerrolar um número de dados de dano igual ao seu modificador de Carisma (mínimo de um). Você deve usar os novos resultados."
+                      },
+                      {
+                        "original": false,
+                        "name": "Movimento Gracioso",
+                        "description": "Sua velocidade base de movimento aumenta para 35 pés (10,5 metros)."
+                      },
+                      {
+                        "original": false,
+                        "name": "Conhecimento Mágico Inato",
+                        "description": "Você ganha proficiência na perícia Arcanismo. Além disso, aprende um truque à sua escolha da lista de magias de mago. Carisma é sua habilidade de conjuração para esse truque."
+                      }
                     ]
-                },
+                }, 
                 {
                     "original": false,
                     "name": "Elfo Guerreiro",
-                    "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia em armas para maximizar seu potencial em batalha. São respeitados pelos elfos comuns e elfos de alta linhagem, mas são desprezados e têm uma rixa milenar com os Elfos Arcanos, que se estende desde a população até a política. Esses guerreiros geralmente são um pouco mais baixos em estatura, assemelhando-se aos humanos, e são extremamente destemidos.",
+                    "description": "Os Elfos Guerreiros se especializaram ao longo do tempo em imbuir sua magia nas armas para maximizar seu potencial em combate. Eles são respeitados pelos elfos comuns e elfos altos, mas são desprezados por e possuem uma rixa milenar com os Elfos Arcanos, que se estende da população até a política. Esses guerreiros geralmente têm uma estatura um pouco menor, se assemelhando a humanos, e são extremamente destemidos.",
                     "abilityScoreIncrease": {
-                        "original": false,
-                        "name": "Inteligência",
-                        "value": 1
+                      "original": false,
+                      "name": "Inteligência",
+                      "value": 1
                     },
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Vitalidade Élfica",
-                            "description": "Seu treinamento físico aguçado lhe concede 1 ponto de vida a mais por nível."
-                        },
-                        {
-                            "original": false,
-                            "name": "Magia Armada",
-                            "description": "Ao atacar com uma arma, use sua habilidade mágica herdada dos elfos e role 1d20 para adicionar dano ao seu ataque. Se o resultado for maior que 15, adicione 2 de dano; se for menor, adicione 1. Pode ser usado duas vezes e depois requer um descanso curto para ser usado novamente."
-                        },
-                        {
-                            "original": false,
-                            "name": "Treinamento de Armas de Guerra Élfico",
-                            "description": "Você possui proficiência com espadas longas, espadas curtas, adagas, arcos longos e arcos curtos, rapieiras, espadas curtas e bestas de mão."
-                        }
+                      {
+                        "original": false,
+                        "name": "Vitalidade Élfica",
+                        "description": "Seu treinamento físico aguçado concede 1 ponto de vida extra por nível, até um máximo de 10 pontos de vida adicionais no 10º nível."
+                      },
+                      {
+                        "original": false,
+                        "name": "Magia Armada",
+                        "description": "Quando você faz um ataque com uma arma, pode usar sua afinidade mágica para aprimorar seu golpe. Uma vez por turno, você pode rolar 1d20. Se o resultado for 15 ou mais, você adiciona +2 de dano ao seu ataque. Se o resultado for inferior a 15, você adiciona +1 de dano. Essa habilidade pode ser usada duas vezes por descanso curto."
+                      },
+                      {
+                        "original": false,
+                        "name": "Treinamento em Armas de Guerra Élfica",
+                        "description": "Você tem proficiência com espadas longas, espadas curtas, adagas, arcos longos, arcos curtos e rapiers."
+                      }
                     ]
-                }
-            ],
-            "skillProficiencies": ["Percepção"],
-            "characteristics": [
-                {
-                    "name": "Visão no Escuro",
-                    "description": "Acostumado a florestas crepusculares e ao céu noturno, você tem visão superior em condições de escuridão e penumbra. Você pode ver em luz fraca dentro de 18 metros de você como se fosse luz brilhante, e na escuridão como se fosse penumbra. Você não pode discernir cores na escuridão, apenas tons de cinza."
-                },
-                {
-                    "name": "Sentidos Aguçados",
-                    "description": "Você tem proficiência na habilidade de Percepção."
-                },
-                {
-                    "name": "Ancestralidade Feérica",
-                    "description": "Você tem vantagem em testes de resistência contra ser enfeitiçado, e magia não pode fazer você dormir."
-                },
-                {
-                    "name": "Transe",
-                    "description": "Elfos não precisam dormir. Em vez disso, eles meditam profundamente, permanecendo semiconscientes, por 4 horas por dia. (A palavra Comum para tal meditação é “transe.”) Enquanto meditam, eles podem sonhar de uma maneira; tais sonhos são na verdade exercícios mentais que se tornaram reflexivos através de anos de prática. Após descansar dessa maneira, você ganha o mesmo benefício que um humano ganha de 8 horas de sono."
-                }
+                }                  
             ]
         }
     },
@@ -696,27 +711,27 @@
                 {
                     "original": false,
                     "name": "Island Gnome",
-                    "description": "Island gnomes have a great connection with nature, both forests and the sea. They have a strong affinity with both terrestrial and aquatic animals. They tend to be peaceful but are eager to protect themselves.",
+                    "description": "Island gnomes have a strong connection with nature, both forests and the sea. They have a deep affinity with both terrestrial and aquatic animals. While generally peaceful, they are quick to protect their home and allies when needed.",
                     "abilityScoreIncrease": [
-                        {
-                            "original": false,
-                            "name": "Constitution",
-                            "value": 1
-                        }
+                      {
+                        "original": false,
+                        "name": "Constitution",
+                        "value": 1
+                      }
                     ],
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Protectors of Nature",
-                            "description": "You have proficiency in Nature and receive a +1 bonus in this skill. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen additional skill will also receive a +1 bonus."
-                        },
-                        {
-                            "original": false,
-                            "name": "Maritime Affinity",
-                            "description": "You have an affinity for aquatic animals and environments, have advantage when trying to tame these animals, and your swimming speed is doubled"
-                        }
+                      {
+                        "original": false,
+                        "name": "Protectors of Nature",
+                        "description": "You have proficiency in the Nature skill and gain a +1 bonus to Nature checks. Additionally, you can choose one of the following skills: Acrobatics, Stealth, Animal Handling, or Survival. The chosen skill will gain proficiency if you don’t already have it, or gain a +1 bonus if you are already proficient."
+                      },
+                      {
+                        "original": false,
+                        "name": "Maritime Affinity",
+                        "description": "You have an affinity for aquatic environments and creatures. You have advantage on Animal Handling checks to tame aquatic animals, and your swimming speed is 30 feet."
+                      }
                     ]
-                }
+                }  
             ],
             "skillProficiencies": [],
             "characteristics": [
@@ -770,28 +785,28 @@
                 },
                 {
                     "original": false,
-                    "name": "Gnomo das Ilhas",
-                    "description": "Gnomos das ilhas têm uma grande conexão com a natureza, tanto com as florestas quanto com o mar. Eles têm uma forte afinidade com animais terrestres e aquáticos. Eles tendem a ser pacíficos, mas estão sempre prontos para se proteger.",
+                    "name": "Gnomo da Ilha",
+                    "description": "Os gnomos da ilha têm uma forte conexão com a natureza, tanto com as florestas quanto com o mar. Eles possuem uma profunda afinidade com animais terrestres e aquáticos. Embora geralmente pacíficos, são rápidos em proteger sua casa e aliados quando necessário.",
                     "abilityScoreIncrease": [
-                        {
-                            "original": false,
-                            "name": "Constituição",
-                            "value": 1
-                        }
+                      {
+                        "original": false,
+                        "name": "Constituição",
+                        "value": 1
+                      }
                     ],
                     "characteristics": [
-                        {
-                            "original": false,
-                            "name": "Protetores da Natureza",
-                            "description": "Você tem proficiência em Natureza e recebe um bônus de +1 nessa perícia. Além disso, você pode escolher uma das seguintes perícias: Acrobacia, Furtividade, Lidar com Animais ou Sobrevivência. A perícia adicional escolhida também receberá um bônus de +1."
-                        },
-                        {
-                            "original": false,
-                            "name": "Afinidade Marítima",
-                            "description": "Você tem afinidade com animais e ambientes aquáticos, tem vantagem ao tentar domar esses animais, e sua velocidade de nado é dobrada."
-                        }
+                      {
+                        "original": false,
+                        "name": "Protetores da Natureza",
+                        "description": "Você possui proficiência na habilidade Natureza e recebe um bônus de +1 em testes dessa habilidade. Além disso, você pode escolher uma das seguintes habilidades: Acrobacia, Furtividade, Tratamento de Animais ou Sobrevivência. A habilidade escolhida ganhará proficiência caso você não tenha, ou ganhará um bônus de +1 caso já seja proficiente."
+                      },
+                      {
+                        "original": false,
+                        "name": "Afinidade Marinha",
+                        "description": "Você tem uma afinidade com ambientes e criaturas aquáticas. Você tem vantagem em testes de Tratamento de Animais para domesticar animais aquáticos e sua velocidade de natação é de 9 metros."
+                      }
                     ]
-                }
+                }                  
             ],
             "skillProficiencies": [],
             "characteristics": [
