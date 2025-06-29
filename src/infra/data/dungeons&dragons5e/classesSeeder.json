@@ -126,94 +126,142 @@
                 },
                 {
                     "title": "Reckless Attack",
-                    "description": "Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn."
+                    "description": "Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn.",
+                    "activationLevel": "2",
+                    "popUp": true
                 },
                 {
                     "title": "Danger Sense",
-                    "description": "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger.\n\nYou have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated."
+                    "description": "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger.\n\nYou have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated.",
+                    "activationLevel": "2",
+                    "popUp": true
                 },
                 {
                     "title": "Primal Path",
-                    "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels."
+                    "description": "At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels.",
+                    "activationLevel": "3",
+                    "popUp": true
                 },
                 {
                     "title": "Ability Score Improvement",
-                    "description": "When you reach 4th level, and again at 8th, 12th, 16th and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature."
+                    "description": "When you reach 4th level, and again at 8th, 12th, 16th and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                    "activationLevel": "4",
+                    "popUp": true
                 },
                 {
                     "title": "Extra Attack",
-                    "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+                    "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+                    "activationLevel": "5",
+                    "popUp": true
                 },
                 {
                     "title": "Fast Movement",
-                    "description": "Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor."
+                    "description": "Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor.",
+                    "activationLevel": "5",
+                    "popUp": true
                 },
                 {
                     "title": "Feral Instinct",
-                    "description": "By 7th level, your instincts are so honed that you have advantage on initiative rolls.\n\nAdditionally, if you are surprised at the beginning of combat and aren't incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn."
+                    "description": "By 7th level, your instincts are so honed that you have advantage on initiative rolls.\n\nAdditionally, if you are surprised at the beginning of combat and aren't incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn.",
+                    "activationLevel": "7",
+                    "popUp": true
                 },
                 {
                     "title": "Brutal Critical",
-                    "description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack.\n\nThis increases to two additional dice at 13th level and three additional dice at 17th level."
+                    "description": "Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack.\n\nThis increases to two additional dice at 13th level and three additional dice at 17th level.",
+                    "activationLevel": "9",
+                    "popUp": true
                 },
                 {
                     "title": "Relentless Rage",
-                    "description": "Starting at 11th level, your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you're raging and don't die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead.\n\nEach time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10."
+                    "description": "Starting at 11th level, your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you're raging and don't die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead.\n\nEach time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10.",
+                    "activationLevel": "11",
+                    "popUp": true
                 },
                 {
                     "title": "Persistent Rage",
-                    "description": "Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it."
+                    "description": "Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it.",
+                    "activationLevel": "15",
+                    "popUp": true
                 },
                 {
                     "title": "Indomitable Might",
-                    "description": "Beginning at 18th level, if your total for a Strength check is less than your Strength score, you can use that score in place of the total."
+                    "description": "Beginning at 18th level, if your total for a Strength check is less than your Strength score, you can use that score in place of the total.",
+                    "activationLevel": "18",
+                    "popUp": true
                 },
                 {
                     "title": "Primal Champion",
-                    "description": "At 20th level, you embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24."
-                },
+                    "description": "At 20th level, you embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.",
+                    "activationLevel": "20",
+                    "popUp": true
+                }
+            ],
+            "subClass": [
                 {
-                    "title": "Path of the Berserker",
-                    "description": "For some barbarians, rage is a means to an end–that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being."
-                },
-                {
-                    "title": "Frenzy",
-                    "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage."
-                },
-                {
-                    "title": "Mindless Rage",
-                    "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage."
-                },
-                {
-                    "title": "Intimidating Presence",
-                    "description": "Beginning at 10th level, you can use your action to frighten someone with your menacing presence. When you do so, choose one creature that you can see within 30 feet of you. If the creature can see or hear you, it must succeed on a Wisdom saving throw (DC equal to 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. On subsequent turns, you can use your action to extend the duration of this effect on the frightened creature until the end of your next turn. This effect ends if the creature ends its turn out of line of sight or more than 60 feet away from you.\n\nIf the creature succeeds on its saving throw, you can't use this feature on that creature again for 24 hours."
-                },
-                {
-                    "title": "Retaliation",
-                    "description": "Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon attack against that creature."
-                },
-                {
-                    "title": "Spiritual Path",
-                    "description": "A barbarian who follows this path has contact with ancient spiritual creatures and deities, which in turn increase their strength through magic. With an intense journey of self-discovery, this type of barbarian is generally more restrained in their actions and seeks more peaceful ways to resolve conflicts. If none exist, spiritual forces will help them achieve their goal."
-                },
-                {
-                    "title": "Weak Spiritual Connection",
-                    "description": "Upon choosing this path at the 3rd level, you gain the ability to learn 1 cantrip or spell up to level 2 and can use this spell once per long rest."
-                },
-                {
-                    "original": false,
-                    "title": "Arcane Ancestry",
-                    "description": "Upon choosing this path at the 3rd level, you must embark on a journey of at least 2 days to discover your arcane ancestor. In this journey, it is important that you look within yourself and find your arcane ancestor, who will grant you power to fight or help those in need. In the campaign, this journey can be narrated by you or it can be just two days in the campaign during which you do not participate in the story and return with a defined ancestor. You can choose from:\n\nNivagard, The Brutal\nWhen raging, you gain advantage on attacks against enemies with more hit points than you. When the enemy's hit points are equal to or less than yours, the advantage ends. This ability can be used on up to two enemies before a short rest.\n\nKurish, The Wise\nWhen raging, you can use a learned spell one more time before resting.\n\nBjorn, The Great\nLike your arcane ancestor Bjorn, known for his impressive vitality, when raging, your hit points increase instead of decreasing when attacked, up to a total of 20. After that, attacks reduce your hit points normally, and when the fight ends, you receive the 20 damage plus 10. Using this ability is not mandatory and can only be activated at the start of the fight."
-                },
-                {
-                    "original": false,
-                    "title": "Strong Spiritual Connection",
-                    "description": "At the 6th level, you gain the ability to learn 1 cantrip or spell up to level 2 and can use this spell once per long rest."
+                    "name": "Path of the Berserker",
+                    "description": "For some barbarians, rage is a means to an end–that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being.",
+                    "characteristics": [
+                        {
+                            "name": "Frenzy",
+                            "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Mindless Rage",
+                            "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Intimidating Presence",
+                            "description": "Beginning at 10th level, you can use your action to frighten someone with your menacing presence. When you do so, choose one creature that you can see within 30 feet of you. If the creature can see or hear you, it must succeed on a Wisdom saving throw (DC equal to 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. On subsequent turns, you can use your action to extend the duration of this effect on the frightened creature until the end of your next turn. This effect ends if the creature ends its turn out of line of sight or more than 60 feet away from you.\n\nIf the creature succeeds on its saving throw, you can't use this feature on that creature again for 24 hours.",
+                            "activationLevel": "10",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Retaliation",
+                            "description": "Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon attack against that creature.",
+                            "activationLevel": "14",
+                            "popUp": true
+                        }
+                    ]
                 },
                 {
                     "original": false,
-                    "title": "Spiritual Invocation",
-                    "description": "At the 10th level, you can summon your ancestor to fight alongside you. They have the same attributes and weapons you have, except their hit points are half of yours. They attack when you attack and use their hit points to defend you when you are attacked by enemies. However, each ancestor has a peculiarity:\n\nNivagard, The Brutal\nhas advantage on their attacks if you have less than 20 hit points.\n\nKurish, The Wise\ncan use one 6th-level spell of your choice when summoned.\n\nBjorn, The Great\nhas disadvantage on attacks but has double your hit points.\n\nEach turn, you must make a luck check to decide if the ancestor continues to assist you in the material world."
+                    "name": "Spiritual Path",
+                    "description": "A barbarian who follows this path has contact with ancient spiritual creatures and deities, which in turn increase their strength through magic. With an intense journey of self-discovery, this type of barbarian is generally more restrained in their actions and seeks more peaceful ways to resolve conflicts. If none exist, spiritual forces will help them achieve their goal.",
+                    "characteristics": [
+                        {
+                            "original": false,
+                            "name": "Weak Spiritual Connection",
+                            "description": "Upon choosing this path at the 3rd level, you gain the ability to learn 1 cantrip or spell up to level 2 and can use this spell once per long rest.",
+                            "activationLevel": "3",
+                            "popUp": true
+                        },
+                        {
+                            "original": false,
+                            "name": "Arcane Ancestry",
+                            "description": "Upon choosing this path at the 3rd level, you must embark on a journey of at least 2 days to discover your arcane ancestor. In this journey, it is important that you look within yourself and find your arcane ancestor, who will grant you power to fight or help those in need. In the campaign, this journey can be narrated by you or it can be just two days in the campaign during which you do not participate in the story and return with a defined ancestor. You can choose from:\n\nNivagard, The Brutal:\nWhen raging, you gain advantage on attacks against enemies with more hit points than you. When the enemy's hit points are equal to or less than yours, the advantage ends. This ability can be used on up to two enemies before a short rest.\n\nKurish, The Wise:\nWhen raging, you can use a learned spell one more time before resting.\n\nBjorn, The Great:\nLike your arcane ancestor Bjorn, known for his unmatched vitality and fearless final charges, you may invoke his power at the start of a combat. While raging, the first time you would take damage, you instead gain hit points equal to the damage taken, up to a maximum of 20. Once this limit is reached, further damage affects you normally. At the end of the combat, the spiritual energy collapses, and you suffer 30 points of force damage. This damage ignores resistances and immunities. If this damage would reduce you to 0 hit points or lower, you may make a Constitution saving throw (DC 15). On a success, you remain at 1 hit point. This ability can only be used once per long rest.",
+                            "activationLevel": "3",
+                            "popUp": true
+                        },
+                        {
+                            "original": false,
+                            "name": "Strong Spiritual Connection",
+                            "description": "At the 6th level, you gain the ability to learn 1 cantrip or spell up to level 2 and can use this spell once per long rest.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "original": false,
+                            "name": "Spiritual Invocation",
+                            "description": "At the 10th level, you can summon your ancestor to fight alongside you. They have the same attributes and weapons you have, except their hit points are half of yours. They attack when you attack and use their hit points to defend you when you are attacked by enemies. However, each ancestor has a peculiarity:\n\nNivagard, The Brutal:\nhas advantage on their attacks if you have less than 20 hit points.\n\nKurish, The Wise:\ncan use one 6th-level spell of your choice when summoned.\n\nBjorn, The Great:\nhas disadvantage on attacks but has double your hit points.\n\nEach turn, you must make a luck check to decide if the ancestor continues to assist you in the material world.",
+                            "activationLevel": "10",
+                            "popUp": true
+                        }
+                    ]
                 }
             ]
         },
@@ -342,15 +390,21 @@
                 },
                 {
                     "title": "Ataque Despreocupado",
-                    "description": "A partir do 2º nível, você pode deixar de lado toda preocupação com defesa para atacar com uma fúria feroz. Quando você fizer seu primeiro ataque em seu turno, você pode decidir atacar despreocupadamente. Ao fazer isso, você tem vantagem em rolagens de ataque com arma corpo a corpo usando Força durante este turno, mas rolagens de ataque contra você têm vantagem até o seu próximo turno."
+                    "description": "A partir do 2º nível, você pode deixar de lado toda preocupação com defesa para atacar com uma fúria feroz. Quando você fizer seu primeiro ataque em seu turno, você pode decidir atacar despreocupadamente. Ao fazer isso, você tem vantagem em rolagens de ataque com arma corpo a corpo usando Força durante este turno, mas rolagens de ataque contra você têm vantagem até o seu próximo turno.",
+                    "activationLevel": "2",
+                    "popUp": true
                 },
                 {
                     "title": "Sentido de Perigo",
-                    "description": "No 2º nível, você desenvolve um sentido inigualável para quando as coisas ao seu redor não estão como deveriam, o que lhe dá uma vantagem ao se esquivar do perigo.\n\nVocê tem vantagem em testes de resistência de Destreza contra efeitos que você pode ver, como armadilhas e magias. Para obter esse benefício, você não pode estar cego, surdo ou incapacitado."
+                    "description": "No 2º nível, você desenvolve um sentido inigualável para quando as coisas ao seu redor não estão como deveriam, o que lhe dá uma vantagem ao se esquivar do perigo.\n\nVocê tem vantagem em testes de resistência de Destreza contra efeitos que você pode ver, como armadilhas e magias. Para obter esse benefício, você não pode estar cego, surdo ou incapacitado.",
+                    "activationLevel": "2",
+                    "popUp": true
                 },
                 {
                     "title": "Caminho Primitivo",
-                    "description": "No 3º nível, você escolhe um caminho que molda a natureza de sua raiva. Escolha o Caminho do Berserker ou o Caminho do Guerreiro Totêmico, ambos detalhados no final da descrição da classe. Sua escolha concede características a você no 3º nível e novamente nos níveis 6, 10 e 14."
+                    "description": "No 3º nível, você escolhe um caminho que molda a natureza de sua raiva. Escolha o Caminho do Berserker ou o Caminho do Guerreiro Totêmico, ambos detalhados no final da descrição da classe. Sua escolha concede características a você no 3º nível e novamente nos níveis 6, 10 e 14.",
+                    "activationLevel": "3",
+                    "popUp": true
                 },
                 {
                     "title": "Melhoria de Atributo",
@@ -358,78 +412,113 @@
                 },
                 {
                     "title": "Ataque Extra",
-                    "description": "A partir do 5º nível, você pode atacar duas vezes, em vez de uma, sempre que executar a ação Atacar em seu turno."
+                    "description": "A partir do 5º nível, você pode atacar duas vezes, em vez de uma, sempre que executar a ação Atacar em seu turno.",
+                    "activationLevel": "5",
+                    "popUp": true
                 },
                 {
                     "title": "Movimento Rápido",
-                    "description": "A partir do 5º nível, sua velocidade aumenta em 3 metros enquanto você não estiver usando armadura pesada."
+                    "description": "A partir do 5º nível, sua velocidade aumenta em 3 metros enquanto você não estiver usando armadura pesada.",
+                    "activationLevel": "5",
+                    "popUp": true
                 },
                 {
                     "title": "Instinto Selvagem",
-                    "description": "Aos 7º nível, seus instintos estão tão apurados que você tem vantagem em rolagens de iniciativa.\n\nAlém disso, se você estiver surpreso no início do combate e não estiver incapacitado, você pode agir normalmente em seu primeiro turno, mas somente se você entrar em sua raiva antes de fazer qualquer outra coisa naquele turno."
+                    "description": "Aos 7º nível, seus instintos estão tão apurados que você tem vantagem em rolagens de iniciativa.\n\nAlém disso, se você estiver surpreso no início do combate e não estiver incapacitado, você pode agir normalmente em seu primeiro turno, mas somente se você entrar em sua raiva antes de fazer qualquer outra coisa naquele turno.",
+                    "activationLevel": "7",
+                    "popUp": true
                 },
                 {
                     "title": "Crítico Brutal",
-                    "description": "A partir do 9º nível, você pode rolar um dado de dano adicional ao determinar o dano extra para um acerto crítico com um ataque corpo a corpo.\n\nIsso aumenta para dois dados adicionais no 13º nível e três dados adicionais no 17º nível."
+                    "description": "A partir do 9º nível, você pode rolar um dado de dano adicional ao determinar o dano extra para um acerto crítico com um ataque corpo a corpo.\n\nIsso aumenta para dois dados adicionais no 13º nível e três dados adicionais no 17º nível.",
+                    "activationLevel": "9",
+                    "popUp": true
                 },
                 {
                     "title": "Raiva Implacável",
-                    "description": "A partir do 11º nível, sua raiva pode mantê-lo lutando mesmo com ferimentos graves. Se você chegar a 0 pontos de vida enquanto estiver em raiva e não morrer imediatamente, poderá fazer um teste de resistência de Constituição CD 10. Se tiver sucesso, em vez disso, você cairá a 1 ponto de vida.\n\nCada vez que você usa essa característica depois da primeira, a CD aumenta em 5. Quando você termina um descanso curto ou longo, a CD é redefinida para 10."
+                    "description": "A partir do 11º nível, sua raiva pode mantê-lo lutando mesmo com ferimentos graves. Se você chegar a 0 pontos de vida enquanto estiver em raiva e não morrer imediatamente, poderá fazer um teste de resistência de Constituição CD 10. Se tiver sucesso, em vez disso, você cairá a 1 ponto de vida.\n\nCada vez que você usa essa característica depois da primeira, a CD aumenta em 5. Quando você termina um descanso curto ou longo, a CD é redefinida para 10.",
+                    "activationLevel": "11",
+                    "popUp": true
                 },
                 {
                     "title": "Raiva Persistente",
-                    "description": "A partir do 15º nível, sua raiva é tão intensa que ela termina antecipadamente apenas se você ficar inconsciente ou se escolher terminá-la."
+                    "description": "A partir do 15º nível, sua raiva é tão intensa que ela termina antecipadamente apenas se você ficar inconsciente ou se escolher terminá-la.",
+                    "activationLevel": "15",
+                    "popUp": true
                 },
                 {
                     "title": "Força Indomável",
-                    "description": "A partir do 18º nível, se o total de um teste de Força for inferior ao seu valor de Força, você pode usar esse valor no lugar do total."
+                    "description": "A partir do 18º nível, se o total de um teste de Força for inferior ao seu valor de Força, você pode usar esse valor no lugar do total.",
+                    "activationLevel": "18",
+                    "popUp": true
                 },
                 {
                     "title": "Campeão Primitivo",
-                    "description": "No 20º nível, você personifica o poder das terras selvagens. Seus valores de Força e Constituição aumentam em 4. Seus valores máximos para esses atributos agora são 24."
+                    "description": "No 20º nível, você personifica o poder das terras selvagens. Seus valores de Força e Constituição aumentam em 4. Seus valores máximos para esses atributos agora são 24.",
+                    "activationLevel": "20",
+                    "popUp": true
+                }
+            ],
+            "subClass": [
+                {
+                    "name": "Caminho do Berserker",
+                    "description": "Para alguns bárbaros, a fúria é apenas um meio para um fim — esse fim sendo a violência. O Caminho do Berserker é um caminho de fúria desenfreada, encharcado de sangue. Ao entrar na fúria do berserker, você se deleita com o caos da batalha, sem se importar com sua própria saúde ou bem-estar.",
+                    "characteristics": [
+                        {
+                            "name": "Frenesi",
+                            "description": "A partir do 6º nível, você não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Se estiver enfeitiçado ou amedrontado ao entrar em fúria, o efeito é suspenso enquanto a fúria durar.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Fúria Sem Mente",
+                            "description": "A partir do 6º nível, você não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Se estiver enfeitiçado ou amedrontado ao entrar em fúria, o efeito é suspenso enquanto a fúria durar.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Presença Intimidadora",
+                            "description": "A partir do 10º nível, você pode usar sua ação para amedrontar alguém com sua presença ameaçadora. Escolha uma criatura que você possa ver a até 9 metros. Se a criatura puder vê-lo ou ouvi-lo, ela deve passar em um teste de resistência de Sabedoria (CD igual a 8 + seu bônus de proficiência + seu modificador de Carisma) ou ficará amedrontada até o final do seu próximo turno. Em turnos subsequentes, você pode usar sua ação para prolongar essa condição até o final do seu próximo turno. O efeito termina se a criatura sair de sua linha de visão ou ficar a mais de 18 metros de distância.\n\nSe a criatura tiver sucesso no teste de resistência, você não poderá usar esse recurso nela novamente por 24 horas.",
+                            "activationLevel": "10",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Retaliação",
+                            "description": "A partir do 14º nível, quando você sofre dano de uma criatura a até 1,5 metro de você, pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura.",
+                            "activationLevel": "14",
+                            "popUp": true
+                        }
+                    ]
                 },
                 {
-                    "title": "Caminho do Berserker",
-                    "description": "Para alguns bárbaros, a raiva é um meio para um fim - esse fim sendo a violência. O Caminho do Berserker é um caminho de fúria indomada, encharcado de sangue. Ao entrar na raiva do berserker, você se delicia no caos da batalha, sem se importar com sua própria saúde ou bem-estar."
-                },
-                {
-                    "title": "Frenesi",
-                    "description": "A partir do 6º nível, você não pode ser encantado ou amedrontado enquanto estiver em raiva. Se você estiver encantado ou amedrontado quando entrar em sua raiva, o efeito é suspenso durante a duração da raiva."
-                },
-                {
-                    "title": "Fúria Sem Mente",
-                    "description": "A partir do 6º nível, você não pode ser encantado ou amedrontado enquanto estiver em fúria. Se você estiver encantado ou amedrontado quando entrar em fúria, o efeito é suspenso durante a duração da fúria."
-                },
-                {
-                    "title": "Presença Intimidadora",
-                    "description": "A partir do 10º nível, você pode usar sua ação para amedrontar alguém com sua presença ameaçadora. Ao fazer isso, escolha uma criatura que você possa ver a até 9.1 metros de você. Se a criatura puder ver ou ouvir você, ela deve ter sucesso em um teste de resistência de Sabedoria (CD igual a 8 + seu bônus de proficiência + seu modificador de Carisma) ou ficar amedrontada por você até o final de seu próximo turno. Em turnos subsequentes, você pode usar sua ação para estender a duração desse efeito na criatura amedrontada até o final de seu próximo turno. Esse efeito termina se a criatura terminar seu turno fora do alcance da sua visão ou a mais de 18.2 metros de você.\n\nSe a criatura tiver sucesso em seu teste de resistência, você não pode usar essa característica novamente nessa criatura durante 24 horas."
-                },
-                {
-                    "title": "Retaliação",
-                    "description": "A partir do 14º nível, quando você sofrer dano de uma criatura que esteja a até 1.5 metros de você, você pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura."
-                },
-                {
-                    "title": "Caminho Espiritual",
-                    "description": "Um bárbaro que segue esse caminho têm contato com criaturas e divindades espirituais antigas e essas por sua vez aumentam sua força através de magia. Com uma jornada de auto-conhecimento intensa esse tipo de bárbaro geralmente é mais comedido em suas ações e procura por maneiras mais pacifícas de resolver os conflitos, caso não haja, forças espirituais lhe ajudarão a atingir seu objetivo."
-                },
-                {
-                    "title": "Conexão Espiritual Fraca",
-                    "description": "Ao escolher este caminho no 3º nível você recebe a habilidade de aprender 1 magia de truques ou até nível 2 e pode utilizar esta magia até 1 vez a cada descanso longo."
-                },
-                {
-                    "original": false,
-                    "title": "Ancestralidade Arcana",
-                    "description": "Ao escolher este caminho no 3º nível você deve partir em uma jornada de pelo menos 2 dias para descobrir seu ancestral arcano, nesta jornada é importante que você olhe para dentro de sí e encontre o seu ancestral arcano que ira lhe conferir poder para lutar ou ajudar aqueles que necessitam, na campanha essa jornada pode ser narrada por você ou pode ser apenas dois dias da campanha em que você não participa da história e retorna com um ancestral definido, pode escolher entre:\n\nNivagard, O Brutal\nQuando estiver em fúria recebe vantagem em ataques com inimigos que estejam com mais pontos de vida que você, quando os pontos de vida do inimigo estiverem iguais ou menores que o seu a vantagem termina. Esta habilidade pode ser utilizada em até dois inimigos antes de um descanso curto.\n\nKurish, O Sábio\nQuando estiver em fúria você pode utilizar alguma magia aprendida mais uma vez antes de descansar.\n\nBjorn, O Grande\nTal qual seu ancestral arcano Bjorn que foi conhecido por sua vitalidade impressionante quando estiver em fúria seus pontos de vida ao ser atacado aumentam ao invés de diminuir até o total de 20, depois disso os ataques diminuem sua vida normalmente e quando a luta acaba voce recebe os 20 de dano + 10, não é obrigatória a utilização dessa habilidade e ela pode ser ativada apenas no inicio da luta."
-                },
-                {
-                    "original": false,
-                    "title": "Conexão Espiritual Forte",
-                    "description": "No 6º nível você recebe a habilidade de aprender 1 magia de truques ou até nível 2 e pode utilizar esta magia até 1 vez a cada descanso longo."
-                },
-                {
-                    "original": false,
-                    "title": "Invocação Espiritual",
-                    "description": "No 10º nível você pode invocar seu ancestral para lutar junto a você, eles tem os mesmos atributos e armas que você tem exceto os pontos de vida que são metade dos seus, atacam quando você ataca e usam seus pontos de vida para te defender quando você é atacado por inimigos, porém cada ancestral tem uma particularidade:\n\nNivagard, O Brutal\ntem vantagem em seus ataques caso você esteja com menos de 20 pontos de vida.\n\nKurish, O Sábio\n pode utilizar 1 magia de nivel 6 a sua escolha quando é invocado.\n\nBjorn, O Grande\n tem desvantagem em ataques mas tem o dobro dos seus pontos de vida.\n\nA cada turno você deve fazer um teste de sorte para decidir se o ancestral continua ou não no mundo material lhe ajudando."
+                    "name": "Caminho Espiritual",
+                    "description": "Um bárbaro que segue esse caminho tem contato com criaturas espirituais antigas e divindades, que por sua vez aumentam sua força através da magia. Com uma intensa jornada de autoconhecimento, esse tipo de bárbaro geralmente é mais contido em suas ações e busca maneiras pacíficas de resolver conflitos. Se não existirem, forças espirituais o ajudarão a alcançar seu objetivo.",
+                    "characteristics": [
+                        {
+                            "name": "Conexão Espiritual Fraca",
+                            "description": "Ao escolher esse caminho no 3º nível, você ganha a habilidade de aprender 1 truque ou magia de até 2º nível e pode usar essa magia uma vez por descanso longo.",
+                            "activationLevel": "3",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Ancestral Arcano",
+                            "description": "Ao escolher esse caminho no 3º nível, você deve embarcar em uma jornada de pelo menos 2 dias para descobrir seu ancestral arcano. Nessa jornada, é importante que você olhe para dentro de si mesmo e encontre seu ancestral, que concederá poder para lutar ou ajudar os necessitados. Na campanha, essa jornada pode ser narrada por você ou pode ser apenas dois dias no jogo em que você não participa da história e retorna com um ancestral definido. Você pode escolher entre:\n\n**Nivagard, O Brutal:**\nQuando em fúria, você ganha vantagem em ataques contra inimigos com mais pontos de vida que você. Quando os pontos de vida do inimigo forem iguais ou menores que os seus, a vantagem termina. Essa habilidade pode ser usada contra até dois inimigos antes de um descanso curto.\n\n**Kurish, O Sábio:**\nQuando em fúria, você pode usar uma magia aprendida mais uma vez antes de descansar.\n\n**Bjorn, O Grande:**\nComo seu ancestral arcano Bjorn, conhecido por sua resistência lendária e coragem diante da morte, você pode invocar seu poder no início de um combate. Durante essa fúria, na primeira vez que você receber dano, em vez de perder pontos de vida, você ganha pontos de vida iguais ao dano sofrido, até um máximo de 20. Após atingir esse limite, o dano passa a afetá-lo normalmente. Ao final do combate, a energia espiritual se desfaz e você sofre 30 pontos de dano de força, que ignora resistências e imunidades. Se esse dano reduzir você a 0 pontos de vida ou menos, você pode fazer um teste de resistência de Constituição (CD 15). Em caso de sucesso, você permanece com 1 ponto de vida. Essa habilidade só pode ser usada uma vez por descanso longo.",
+                            "activationLevel": "3",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Conexão Espiritual Forte",
+                            "description": "No 6º nível, você ganha a habilidade de aprender 1 truque ou magia de até 2º nível e pode usar essa magia uma vez por descanso longo.",
+                            "activationLevel": "6",
+                            "popUp": true
+                        },
+                        {
+                            "name": "Invocação Espiritual",
+                            "description": "No 10º nível, você pode invocar seu ancestral para lutar ao seu lado. Ele possui os mesmos atributos e armas que você, exceto que seus pontos de vida são metade dos seus. Ele ataca quando você ataca e usa seus pontos de vida para defendê-lo quando você for atacado. No entanto, cada ancestral tem uma peculiaridade:\n\n**Nivagard, O Brutal:**\ntem vantagem em seus ataques se você tiver menos de 20 pontos de vida.\n\n**Kurish, O Sábio:**\npode usar uma magia de 6º nível de sua escolha ao ser invocado.\n\n**Bjorn, O Grande:**\ntem desvantagem nos ataques, mas possui o dobro dos seus pontos de vida.\n\nA cada turno, você deve realizar um teste de sorte para decidir se o ancestral continua ajudando no mundo material.",
+                            "activationLevel": "10",
+                            "popUp": true
+                        }
+                    ]
                 }
             ]
         }
