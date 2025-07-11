@@ -110,40 +110,40 @@
                 "name": "Voice of Trust",
                 "description": "Due to your history of neutrality and service, you are often trusted where others are not. You can usually secure an audience with minor officials, nobles, or religious figures willing to hear what you have to say. In settlements you've visited before, you can find shelter among locals or waystations affiliated with your former organization. Additionally, as long as you speak honestly and clearly, common folk are less likely to view you with suspicion.",
                 "suggested": {
-                "personalityTrait": [
-                    "I prefer to listen before I speak; words carry weight.",
-                    "I never forget a face, or the name attached to it.",
-                    "My loyalty is to truth, not to those in power.",
-                    "I'm a storyteller at heart and can't resist a good tale.",
-                    "I use coded language or metaphors out of habit, even when it’s not needed.",
-                    "I treat every letter or message as sacred, no matter how trivial.",
-                    "I am driven to go where others cannot or will not.",
-                    "I keep a mental map of every road and shortcut I've traveled."
-                ],
-                "ideal": [
-                    "Truth. Information must flow freely for justice to thrive. (Good)",
-                    "Discretion. Some truths are best left unsaid. (Neutral)",
-                    "Service. I exist to serve something greater—an ideal, a house, a people. (Lawful)",
-                    "Freedom. No message is worth my chains. (Chaotic)",
-                    "Change. I bring word of the future, not the past. (Chaotic)",
-                    "Loyalty. I keep my oaths, even when the world changes. (Any)"
-                ],
-                "bond": [
-                    "I once carried a letter that changed the fate of a kingdom. I still wonder what would've happened if I hadn't.",
-                    "Someone out there wants me silenced for what I once delivered.",
-                    "I owe my life to a fellow wanderer who saved me in the wilds.",
-                    "There’s one message I never managed to deliver, and it haunts me.",
-                    "The symbol I carry is more than decoration—it marks me as part of something ancient.",
-                    "I travel not just for duty, but to find a place I can call home."
-                ],
-                "flaw": [
-                    "I sometimes reveal too much in the name of honesty.",
-                    "I never back down from delivering a message, even if it puts others in danger.",
-                    "I find it hard to trust stationary people—they never see the whole picture.",
-                    "I’ve told so many stories I’ve started to believe my own exaggerations.",
-                    "I carry grudges longer than letters.",
-                    "If someone demands silence, I instinctively want to speak louder."
-                ]
+                    "personalityTrait": [
+                        "I prefer to listen before I speak; words carry weight.",
+                        "I never forget a face, or the name attached to it.",
+                        "My loyalty is to truth, not to those in power.",
+                        "I'm a storyteller at heart and can't resist a good tale.",
+                        "I use coded language or metaphors out of habit, even when it’s not needed.",
+                        "I treat every letter or message as sacred, no matter how trivial.",
+                        "I am driven to go where others cannot or will not.",
+                        "I keep a mental map of every road and shortcut I've traveled."
+                    ],
+                    "ideal": [
+                        "Truth. Information must flow freely for justice to thrive. (Good)",
+                        "Discretion. Some truths are best left unsaid. (Neutral)",
+                        "Service. I exist to serve something greater—an ideal, a house, a people. (Lawful)",
+                        "Freedom. No message is worth my chains. (Chaotic)",
+                        "Change. I bring word of the future, not the past. (Chaotic)",
+                        "Loyalty. I keep my oaths, even when the world changes. (Any)"
+                    ],
+                    "bond": [
+                        "I once carried a letter that changed the fate of a kingdom. I still wonder what would've happened if I hadn't.",
+                        "Someone out there wants me silenced for what I once delivered.",
+                        "I owe my life to a fellow wanderer who saved me in the wilds.",
+                        "There’s one message I never managed to deliver, and it haunts me.",
+                        "The symbol I carry is more than decoration—it marks me as part of something ancient.",
+                        "I travel not just for duty, but to find a place I can call home."
+                    ],
+                    "flaw": [
+                        "I sometimes reveal too much in the name of honesty.",
+                        "I never back down from delivering a message, even if it puts others in danger.",
+                        "I find it hard to trust stationary people—they never see the whole picture.",
+                        "I’ve told so many stories I’ve started to believe my own exaggerations.",
+                        "I carry grudges longer than letters.",
+                        "If someone demands silence, I instinctively want to speak louder."
+                    ]
                 }
             }
         },
@@ -158,40 +158,40 @@
                 "name": "Voz da Confiança",
                 "description": "Devido ao seu histórico de neutralidade e serviço, você costuma ser confiável onde outros não são. Normalmente, consegue garantir uma audiência com oficiais menores, nobres ou figuras religiosas dispostos a ouvir o que você tem a dizer. Em assentamentos que você já visitou antes, pode encontrar abrigo entre locais ou postos de apoio afiliados à sua antiga organização. Além disso, enquanto falar com honestidade e clareza, o povo comum tende a não desconfiar de você.",
                 "suggested": {
-                "personalityTrait": [
-                    "Prefiro ouvir antes de falar; palavras têm peso.",
-                    "Nunca esqueço um rosto, nem o nome que o acompanha.",
-                    "Minha lealdade é com a verdade, não com o poder.",
-                    "Sou contador de histórias por natureza e não resisto a uma boa narrativa.",
-                    "Uso linguagem codificada ou metáforas por hábito, mesmo quando não é necessário.",
-                    "Trato cada carta ou mensagem como sagrada, por mais trivial que seja.",
-                    "Sou movido a ir onde outros não podem ou não querem.",
-                    "Tenho um mapa mental de cada estrada e atalho por onde já passei."
-                ],
-                "ideal": [
-                    "Verdade. A informação precisa fluir livremente para que a justiça prospere. (Bom)",
-                    "Discrição. Algumas verdades devem permanecer não ditas. (Neutro)",
-                    "Serviço. Existo para servir algo maior — um ideal, uma casa, um povo. (Leal)",
-                    "Liberdade. Nenhuma mensagem vale minhas correntes. (Caótico)",
-                    "Mudança. Trago palavras do futuro, não do passado. (Caótico)",
-                    "Lealdade. Cumpro meus juramentos, mesmo quando o mundo muda. (Qualquer)"
-                ],
-                "bond": [
-                    "Uma vez carreguei uma carta que mudou o destino de um reino. Ainda me pergunto o que teria acontecido se não a tivesse entregue.",
-                    "Alguém por aí quer me silenciar pelo que uma vez entreguei.",
-                    "Devo minha vida a outro errante que me salvou nas terras selvagens.",
-                    "Há uma mensagem que nunca consegui entregar, e isso me assombra.",
-                    "O símbolo que carrego é mais que decoração — ele me marca como parte de algo antigo.",
-                    "Viajo não apenas por dever, mas para encontrar um lugar que eu possa chamar de lar."
-                ],
-                "flaw": [
-                    "Às vezes revelo demais em nome da honestidade.",
-                    "Nunca recuo de entregar uma mensagem, mesmo que coloque outros em perigo.",
-                    "Acho difícil confiar em pessoas que não viajam — elas não veem o mundo como ele é.",
-                    "Contei tantas histórias que comecei a acreditar nas minhas próprias exagerações.",
-                    "Guardo rancores por mais tempo do que cartas.",
-                    "Se alguém exige silêncio, sinto vontade imediata de falar ainda mais alto."
-                ]
+                    "personalityTrait": [
+                        "Prefiro ouvir antes de falar; palavras têm peso.",
+                        "Nunca esqueço um rosto, nem o nome que o acompanha.",
+                        "Minha lealdade é com a verdade, não com o poder.",
+                        "Sou contador de histórias por natureza e não resisto a uma boa narrativa.",
+                        "Uso linguagem codificada ou metáforas por hábito, mesmo quando não é necessário.",
+                        "Trato cada carta ou mensagem como sagrada, por mais trivial que seja.",
+                        "Sou movido a ir onde outros não podem ou não querem.",
+                        "Tenho um mapa mental de cada estrada e atalho por onde já passei."
+                    ],
+                    "ideal": [
+                        "Verdade. A informação precisa fluir livremente para que a justiça prospere. (Bom)",
+                        "Discrição. Algumas verdades devem permanecer não ditas. (Neutro)",
+                        "Serviço. Existo para servir algo maior — um ideal, uma casa, um povo. (Leal)",
+                        "Liberdade. Nenhuma mensagem vale minhas correntes. (Caótico)",
+                        "Mudança. Trago palavras do futuro, não do passado. (Caótico)",
+                        "Lealdade. Cumpro meus juramentos, mesmo quando o mundo muda. (Qualquer)"
+                    ],
+                    "bond": [
+                        "Uma vez carreguei uma carta que mudou o destino de um reino. Ainda me pergunto o que teria acontecido se não a tivesse entregue.",
+                        "Alguém por aí quer me silenciar pelo que uma vez entreguei.",
+                        "Devo minha vida a outro errante que me salvou nas terras selvagens.",
+                        "Há uma mensagem que nunca consegui entregar, e isso me assombra.",
+                        "O símbolo que carrego é mais que decoração — ele me marca como parte de algo antigo.",
+                        "Viajo não apenas por dever, mas para encontrar um lugar que eu possa chamar de lar."
+                    ],
+                    "flaw": [
+                        "Às vezes revelo demais em nome da honestidade.",
+                        "Nunca recuo de entregar uma mensagem, mesmo que coloque outros em perigo.",
+                        "Acho difícil confiar em pessoas que não viajam — elas não veem o mundo como ele é.",
+                        "Contei tantas histórias que comecei a acreditar nas minhas próprias exagerações.",
+                        "Guardo rancores por mais tempo do que cartas.",
+                        "Se alguém exige silêncio, sinto vontade imediata de falar ainda mais alto."
+                    ]
                 }
             }
         }
@@ -208,40 +208,40 @@
                 "name": "Master’s Hands",
                 "description": "You can quickly identify the quality of tools, weapons, or armor. You can also repair simple objects (like a broken tool or damaged armor piece) at no cost if you have access to appropriate tools. In villages or small communities, craftsmen and workers tend to respect you and offer help when possible.",
                 "suggested": {
-                "personalityTrait": [
-                    "I always check the quality of gear before trusting someone.",
-                    "I admire well-made work, even from an enemy.",
-                    "The sound of tools at work calms me.",
-                    "I tend to solve problems with my hands before using words.",
-                    "I carry a project with me that I still haven't finished.",
-                    "I'm overly proud of my craft and don’t take criticism well.",
-                    "I treat my tools better than some people.",
-                    "I prefer the company of fellow artisans over nobles or soldiers."
-                ],
-                "ideal": [
-                    "Tradition. Every strike of the hammer echoes generations of wisdom. (Lawful)",
-                    "Progress. There’s always a better way to do something. (Chaotic)",
-                    "Service. My craft should serve the greater good. (Good)",
-                    "Wealth. A good artisan is worth their weight in gold. (Neutral)",
-                    "Self-Sufficiency. I'd rather make something than ask for it. (Neutral)",
-                    "Excellence. I want my work to be remembered for generations. (Any)"
-                ],
-                "bond": [
-                    "I'm searching for the master who taught me, now missing for years.",
-                    "My family depends on what I can make with my hands.",
-                    "I promised to forge a weapon worthy of legend.",
-                    "I carry the ashes of the forge where I grew up.",
-                    "I was betrayed by an apprentice, and I want justice.",
-                    "I forged something I don’t fully understand—and now many want it."
-                ],
-                "flaw": [
-                    "I look down on those who can't work with their hands.",
-                    "I refuse to use weapons or armor I didn’t make myself.",
-                    "I undervalue others’ work, even if it’s good.",
-                    "I can’t stop improving a project, even when it’s already done.",
-                    "I judge people by the quality of their possessions.",
-                    "I hate leaving a job half-finished, even if it puts my life at risk."
-                ]
+                    "personalityTrait": [
+                        "I always check the quality of gear before trusting someone.",
+                        "I admire well-made work, even from an enemy.",
+                        "The sound of tools at work calms me.",
+                        "I tend to solve problems with my hands before using words.",
+                        "I carry a project with me that I still haven't finished.",
+                        "I'm overly proud of my craft and don’t take criticism well.",
+                        "I treat my tools better than some people.",
+                        "I prefer the company of fellow artisans over nobles or soldiers."
+                    ],
+                    "ideal": [
+                        "Tradition. Every strike of the hammer echoes generations of wisdom. (Lawful)",
+                        "Progress. There’s always a better way to do something. (Chaotic)",
+                        "Service. My craft should serve the greater good. (Good)",
+                        "Wealth. A good artisan is worth their weight in gold. (Neutral)",
+                        "Self-Sufficiency. I'd rather make something than ask for it. (Neutral)",
+                        "Excellence. I want my work to be remembered for generations. (Any)"
+                    ],
+                    "bond": [
+                        "I'm searching for the master who taught me, now missing for years.",
+                        "My family depends on what I can make with my hands.",
+                        "I promised to forge a weapon worthy of legend.",
+                        "I carry the ashes of the forge where I grew up.",
+                        "I was betrayed by an apprentice, and I want justice.",
+                        "I forged something I don’t fully understand—and now many want it."
+                    ],
+                    "flaw": [
+                        "I look down on those who can't work with their hands.",
+                        "I refuse to use weapons or armor I didn’t make myself.",
+                        "I undervalue others’ work, even if it’s good.",
+                        "I can’t stop improving a project, even when it’s already done.",
+                        "I judge people by the quality of their possessions.",
+                        "I hate leaving a job half-finished, even if it puts my life at risk."
+                    ]
                 }
             }
         },
@@ -256,40 +256,40 @@
                 "name": "Mãos de Mestre",
                 "description": "Você pode identificar rapidamente a qualidade de ferramentas, armas ou armaduras. Além disso, você pode consertar objetos simples (como uma ferramenta quebrada ou uma peça danificada de armadura) gratuitamente com acesso às ferramentas apropriadas. Em vilarejos ou comunidades pequenas, artesãos e trabalhadores tendem a respeitá-lo e ajudá-lo quando possível.",
                 "suggested": {
-                "personalityTrait": [
-                    "Sempre verifico a qualidade do equipamento antes de confiar em alguém.",
-                    "Admiro trabalho bem feito, mesmo de um inimigo.",
-                    "O som de ferramentas em uso me acalma.",
-                    "Tendo a resolver problemas com as mãos antes das palavras.",
-                    "Carrego comigo um projeto que ainda não consegui completar.",
-                    "Tenho orgulho excessivo do meu ofício e não aceito críticas com facilidade.",
-                    "Trato minhas ferramentas melhor do que algumas pessoas.",
-                    "Prefiro a companhia de colegas de ofício à de nobres ou soldados."
-                ],
-                "ideal": [
-                    "Tradição. Cada martelada ecoa séculos de sabedoria. (Leal)",
-                    "Progresso. Sempre há algo novo a ser feito melhor. (Caótico)",
-                    "Serviço. Meu ofício deve servir ao bem comum. (Bom)",
-                    "Riqueza. Um bom artesão vale seu peso em ouro. (Neutro)",
-                    "Autossuficiência. Prefiro fazer algo do que pedir por ele. (Neutro)",
-                    "Excelência. Quero que minha obra seja lembrada por gerações. (Qualquer)"
-                ],
-                "bond": [
-                    "Procuro o mestre que me ensinou, desaparecido há anos.",
-                    "Minha família depende do que eu faço com as mãos.",
-                    "Prometi forjar uma arma digna de uma lenda.",
-                    "Levo comigo as cinzas da forja onde cresci.",
-                    "Fui traído por um aprendiz, e quero justiça.",
-                    "Forjei algo que não compreendo totalmente — e agora muitos o desejam."
-                ],
-                "flaw": [
-                    "Desprezo aqueles que não sabem trabalhar com as mãos.",
-                    "Me recuso a usar armas ou armaduras que eu não tenha feito.",
-                    "Desvalorizo o trabalho de outros, mesmo que seja bom.",
-                    "Não consigo parar de melhorar um projeto, mesmo quando ele já está pronto.",
-                    "Julgo as pessoas pela qualidade de suas posses.",
-                    "Odeio deixar um serviço pela metade, mesmo que minha vida dependa disso."
-                ]
+                    "personalityTrait": [
+                        "Sempre verifico a qualidade do equipamento antes de confiar em alguém.",
+                        "Admiro trabalho bem feito, mesmo de um inimigo.",
+                        "O som de ferramentas em uso me acalma.",
+                        "Tendo a resolver problemas com as mãos antes das palavras.",
+                        "Carrego comigo um projeto que ainda não consegui completar.",
+                        "Tenho orgulho excessivo do meu ofício e não aceito críticas com facilidade.",
+                        "Trato minhas ferramentas melhor do que algumas pessoas.",
+                        "Prefiro a companhia de colegas de ofício à de nobres ou soldados."
+                    ],
+                    "ideal": [
+                        "Tradição. Cada martelada ecoa séculos de sabedoria. (Leal)",
+                        "Progresso. Sempre há algo novo a ser feito melhor. (Caótico)",
+                        "Serviço. Meu ofício deve servir ao bem comum. (Bom)",
+                        "Riqueza. Um bom artesão vale seu peso em ouro. (Neutro)",
+                        "Autossuficiência. Prefiro fazer algo do que pedir por ele. (Neutro)",
+                        "Excelência. Quero que minha obra seja lembrada por gerações. (Qualquer)"
+                    ],
+                    "bond": [
+                        "Procuro o mestre que me ensinou, desaparecido há anos.",
+                        "Minha família depende do que eu faço com as mãos.",
+                        "Prometi forjar uma arma digna de uma lenda.",
+                        "Levo comigo as cinzas da forja onde cresci.",
+                        "Fui traído por um aprendiz, e quero justiça.",
+                        "Forjei algo que não compreendo totalmente — e agora muitos o desejam."
+                    ],
+                    "flaw": [
+                        "Desprezo aqueles que não sabem trabalhar com as mãos.",
+                        "Me recuso a usar armas ou armaduras que eu não tenha feito.",
+                        "Desvalorizo o trabalho de outros, mesmo que seja bom.",
+                        "Não consigo parar de melhorar um projeto, mesmo quando ele já está pronto.",
+                        "Julgo as pessoas pela qualidade de suas posses.",
+                        "Odeio deixar um serviço pela metade, mesmo que minha vida dependa disso."
+                    ]
                 }
             }
         }
@@ -306,40 +306,40 @@
                 "name": "Touched by the Beyond",
                 "description": "You are recognized by those sensitive to the supernatural as someone touched by the otherworldly. Fey, spectral, or extraplanar creatures are more likely to approach (or avoid) you, depending on their nature. In places touched by ancient magic or planar corruption, you may sense subtle changes—scents, feelings, or hidden symbols—before anyone else.",
                 "suggested": {
-                "personalityTrait": [
-                    "I speak with entities that others cannot see.",
-                    "I'm obsessed with dreams and omens.",
-                    "I have an aura that confuses animals and children.",
-                    "I avoid sacred or profane places—they make me uneasy.",
-                    "I don’t fully trust what I perceive as real.",
-                    "I collect strange objects that 'call' to me.",
-                    "I long for a place I’ve never visited.",
-                    "Sometimes, my voice sounds like someone else is speaking through me."
-                ],
-                "ideal": [
-                    "Acceptance. The world must welcome what it doesn't understand. (Good)",
-                    "Mystery. Not everything should be explained. (Neutral)",
-                    "Self-Knowledge. I must understand what I am and why I was chosen. (Any)",
-                    "Fear. The presence of the beyond must be feared and kept away. (Lawful)",
-                    "Control. I intend to master the power that flows through me. (Evil)",
-                    "Balance. The natural and the supernatural must coexist in harmony. (Neutral)"
-                ],
-                "bond": [
-                    "An entity visits me in dreams, guiding my journey.",
-                    "I left behind someone who still suffers from the forces that shaped me.",
-                    "I have recurring visions of a catastrophe I must prevent.",
-                    "Someone hunts me because of what I am.",
-                    "I discovered I am not the only one—others like me exist, and I must find them.",
-                    "I carry a true name that must never be spoken aloud."
-                ],
-                "flaw": [
-                    "I believe the world isn’t real, and act accordingly.",
-                    "I sometimes follow impulses that clearly aren’t mine.",
-                    "I can’t resist the call of ancient or cursed places.",
-                    "I struggle to bond with ordinary mortals.",
-                    "My visions overwhelm me at critical moments.",
-                    "I keep too many secrets—even from my allies."
-                ]
+                    "personalityTrait": [
+                        "I speak with entities that others cannot see.",
+                        "I'm obsessed with dreams and omens.",
+                        "I have an aura that confuses animals and children.",
+                        "I avoid sacred or profane places—they make me uneasy.",
+                        "I don’t fully trust what I perceive as real.",
+                        "I collect strange objects that 'call' to me.",
+                        "I long for a place I’ve never visited.",
+                        "Sometimes, my voice sounds like someone else is speaking through me."
+                    ],
+                    "ideal": [
+                        "Acceptance. The world must welcome what it doesn't understand. (Good)",
+                        "Mystery. Not everything should be explained. (Neutral)",
+                        "Self-Knowledge. I must understand what I am and why I was chosen. (Any)",
+                        "Fear. The presence of the beyond must be feared and kept away. (Lawful)",
+                        "Control. I intend to master the power that flows through me. (Evil)",
+                        "Balance. The natural and the supernatural must coexist in harmony. (Neutral)"
+                    ],
+                    "bond": [
+                        "An entity visits me in dreams, guiding my journey.",
+                        "I left behind someone who still suffers from the forces that shaped me.",
+                        "I have recurring visions of a catastrophe I must prevent.",
+                        "Someone hunts me because of what I am.",
+                        "I discovered I am not the only one—others like me exist, and I must find them.",
+                        "I carry a true name that must never be spoken aloud."
+                    ],
+                    "flaw": [
+                        "I believe the world isn’t real, and act accordingly.",
+                        "I sometimes follow impulses that clearly aren’t mine.",
+                        "I can’t resist the call of ancient or cursed places.",
+                        "I struggle to bond with ordinary mortals.",
+                        "My visions overwhelm me at critical moments.",
+                        "I keep too many secrets—even from my allies."
+                    ]
                 }
             }
         },
@@ -354,40 +354,40 @@
                 "name": "Marca do Além",
                 "description": "Você é reconhecido por pessoas sensíveis ao sobrenatural como alguém tocado pelo além. Criaturas feéricas, espectrais ou extraplanares são mais propensas a se comunicar (ou a evitar você), dependendo de sua natureza. Em locais tocados por magia antiga ou corrupção planar, você pode perceber sutis mudanças — cheiros, sensações ou símbolos ocultos — antes de outros.",
                 "suggested": {
-                "personalityTrait": [
-                    "Falo com entidades que os outros não veem.",
-                    "Sou obcecado por sonhos e presságios.",
-                    "Tenho uma aura que confunde animais e crianças.",
-                    "Evito lugares sagrados ou profanos — sinto-me desconfortável.",
-                    "Não confio totalmente no que percebo como real.",
-                    "Coleciono objetos estranhos que 'me chamam'.",
-                    "Sinto saudade de um lugar que nunca visitei.",
-                    "Às vezes, minha voz soa como se fosse outra pessoa falando por mim."
-                ],
-                "ideal": [
-                    "Aceitação. O mundo precisa acolher aquilo que não entende. (Bom)",
-                    "Mistério. Nem tudo deve ser explicado. (Neutro)",
-                    "Autoconhecimento. Preciso entender o que sou e por que fui escolhido. (Qualquer)",
-                    "Medo. A presença do além precisa ser temida e mantida à distância. (Leal)",
-                    "Domínio. Pretendo controlar o poder que flui através de mim. (Mal)",
-                    "Equilíbrio. O natural e o sobrenatural devem coexistir em harmonia. (Neutro)"
-                ],
-                "bond": [
-                    "Uma entidade aparece para mim em sonhos, guiando-me em minha jornada.",
-                    "Deixei para trás alguém que ainda sofre com as forças que me criaram.",
-                    "Tenho visões recorrentes de uma catástrofe que devo impedir.",
-                    "Alguém me caça por causa do que sou.",
-                    "Descobri que não fui o único — há outros como eu, e preciso encontrá-los.",
-                    "Carrego um nome verdadeiro que não devo jamais pronunciar."
-                ],
-                "flaw": [
-                    "Acredito que o mundo não é real, e ajo como tal.",
-                    "Às vezes, sigo impulsos que claramente não são meus.",
-                    "Não consigo resistir ao chamado de locais antigos ou amaldiçoados.",
-                    "Tenho dificuldades em formar laços com mortais comuns.",
-                    "Minhas visões me dominam em momentos críticos.",
-                    "Guardo segredos demais — até dos meus aliados."
-                ]
+                    "personalityTrait": [
+                        "Falo com entidades que os outros não veem.",
+                        "Sou obcecado por sonhos e presságios.",
+                        "Tenho uma aura que confunde animais e crianças.",
+                        "Evito lugares sagrados ou profanos — sinto-me desconfortável.",
+                        "Não confio totalmente no que percebo como real.",
+                        "Coleciono objetos estranhos que 'me chamam'.",
+                        "Sinto saudade de um lugar que nunca visitei.",
+                        "Às vezes, minha voz soa como se fosse outra pessoa falando por mim."
+                    ],
+                    "ideal": [
+                        "Aceitação. O mundo precisa acolher aquilo que não entende. (Bom)",
+                        "Mistério. Nem tudo deve ser explicado. (Neutro)",
+                        "Autoconhecimento. Preciso entender o que sou e por que fui escolhido. (Qualquer)",
+                        "Medo. A presença do além precisa ser temida e mantida à distância. (Leal)",
+                        "Domínio. Pretendo controlar o poder que flui através de mim. (Mal)",
+                        "Equilíbrio. O natural e o sobrenatural devem coexistir em harmonia. (Neutro)"
+                    ],
+                    "bond": [
+                        "Uma entidade aparece para mim em sonhos, guiando-me em minha jornada.",
+                        "Deixei para trás alguém que ainda sofre com as forças que me criaram.",
+                        "Tenho visões recorrentes de uma catástrofe que devo impedir.",
+                        "Alguém me caça por causa do que sou.",
+                        "Descobri que não fui o único — há outros como eu, e preciso encontrá-los.",
+                        "Carrego um nome verdadeiro que não devo jamais pronunciar."
+                    ],
+                    "flaw": [
+                        "Acredito que o mundo não é real, e ajo como tal.",
+                        "Às vezes, sigo impulsos que claramente não são meus.",
+                        "Não consigo resistir ao chamado de locais antigos ou amaldiçoados.",
+                        "Tenho dificuldades em formar laços com mortais comuns.",
+                        "Minhas visões me dominam em momentos críticos.",
+                        "Guardo segredos demais — até dos meus aliados."
+                    ]
                 }
             }
         }
@@ -405,40 +405,40 @@
                 "name": "Vault Sense",
                 "description": "You have a knack for identifying places of hidden historical significance. When exploring ruins or ancient sites, you can often discern original function, religious affiliation, or cultural origin without needing to roll. In places of lost knowledge or mystical history, scholars and archivists may show you deference or curiosity.",
                 "suggested": {
-                "personalityTrait": [
-                    "I always carry a sketchbook and take notes obsessively.",
-                    "I believe every object has a story worth uncovering.",
-                    "I romanticize ancient civilizations and their wisdom.",
-                    "I don’t trust museums—they imprison culture.",
-                    "I’m very careful with old things—sometimes more than with people.",
-                    "I get visibly excited when discovering even minor artifacts.",
-                    "I always try to return things to where they belong.",
-                    "I use old sayings and idioms from lost tongues."
-                ],
-                "ideal": [
-                    "Preservation. What is old must be respected and protected. (Lawful)",
-                    "Discovery. There is always more buried beneath the surface. (Chaotic)",
-                    "Education. The past should be studied and shared. (Good)",
-                    "Profit. Lost treasure is just unclaimed wealth. (Neutral)",
-                    "Legacy. I want to be remembered for what I unearthed. (Any)",
-                    "Curiosity. I must know what lies behind every sealed door. (Neutral)"
-                ],
-                "bond": [
-                    "An artifact I uncovered changed the course of my life.",
-                    "I betrayed a former expedition partner and live with the guilt.",
-                    "I’m racing against a rival explorer who will stop at nothing.",
-                    "I lost someone I cared about during an expedition and seek closure.",
-                    "I uncovered something I wish I hadn’t and now must protect it.",
-                    "There’s a lost civilization I dream of restoring or honoring."
-                ],
-                "flaw": [
-                    "I can’t resist touching or taking artifacts I find.",
-                    "I overestimate my knowledge of ancient traps and structures.",
-                    "I hold grudges against anyone who disrespects history.",
-                    "I’m obsessed with proving a controversial theory about the past.",
-                    "I downplay dangers to satisfy my curiosity.",
-                    "I often ignore laws around protected sites."
-                ]
+                    "personalityTrait": [
+                        "I always carry a sketchbook and take notes obsessively.",
+                        "I believe every object has a story worth uncovering.",
+                        "I romanticize ancient civilizations and their wisdom.",
+                        "I don’t trust museums—they imprison culture.",
+                        "I’m very careful with old things—sometimes more than with people.",
+                        "I get visibly excited when discovering even minor artifacts.",
+                        "I always try to return things to where they belong.",
+                        "I use old sayings and idioms from lost tongues."
+                    ],
+                    "ideal": [
+                        "Preservation. What is old must be respected and protected. (Lawful)",
+                        "Discovery. There is always more buried beneath the surface. (Chaotic)",
+                        "Education. The past should be studied and shared. (Good)",
+                        "Profit. Lost treasure is just unclaimed wealth. (Neutral)",
+                        "Legacy. I want to be remembered for what I unearthed. (Any)",
+                        "Curiosity. I must know what lies behind every sealed door. (Neutral)"
+                    ],
+                    "bond": [
+                        "An artifact I uncovered changed the course of my life.",
+                        "I betrayed a former expedition partner and live with the guilt.",
+                        "I’m racing against a rival explorer who will stop at nothing.",
+                        "I lost someone I cared about during an expedition and seek closure.",
+                        "I uncovered something I wish I hadn’t and now must protect it.",
+                        "There’s a lost civilization I dream of restoring or honoring."
+                    ],
+                    "flaw": [
+                        "I can’t resist touching or taking artifacts I find.",
+                        "I overestimate my knowledge of ancient traps and structures.",
+                        "I hold grudges against anyone who disrespects history.",
+                        "I’m obsessed with proving a controversial theory about the past.",
+                        "I downplay dangers to satisfy my curiosity.",
+                        "I often ignore laws around protected sites."
+                    ]
                 }
             }
         },
@@ -453,40 +453,40 @@
                 "name": "Instinto de Catacumba",
                 "description": "Você tem talento para identificar locais de importância histórica escondida. Ao explorar ruínas ou locais antigos, pode frequentemente discernir a função original, afiliação religiosa ou origem cultural sem precisar rolar dados. Em locais de conhecimento perdido ou história mística, estudiosos e arquivistas podem tratá-lo com deferência ou curiosidade.",
                 "suggested": {
-                "personalityTrait": [
-                    "Sempre carrego um caderno e faço anotações obsessivamente.",
-                    "Acredito que todo objeto tem uma história a ser descoberta.",
-                    "Romantizo civilizações antigas e sua sabedoria.",
-                    "Não confio em museus — eles aprisionam a cultura.",
-                    "Sou muito cuidadoso com coisas antigas — às vezes mais que com pessoas.",
-                    "Fico visivelmente empolgado ao descobrir até mesmo artefatos menores.",
-                    "Sempre tento devolver as coisas ao lugar de onde pertencem.",
-                    "Uso ditados e expressões de línguas perdidas."
-                ],
-                "ideal": [
-                    "Preservação. O que é antigo deve ser respeitado e protegido. (Leal)",
-                    "Descoberta. Sempre há algo enterrado esperando por ser revelado. (Caótico)",
-                    "Educação. O passado deve ser estudado e compartilhado. (Bom)",
-                    "Lucro. Tesouro perdido é apenas riqueza não reivindicada. (Neutro)",
-                    "Legado. Quero ser lembrado pelo que desenterrei. (Qualquer)",
-                    "Curiosidade. Preciso saber o que há por trás de cada porta selada. (Neutro)"
-                ],
-                "bond": [
-                    "Um artefato que encontrei mudou o rumo da minha vida.",
-                    "Traí um antigo parceiro de expedição e vivo com essa culpa.",
-                    "Estou em uma corrida contra um explorador rival que não tem escrúpulos.",
-                    "Perdi alguém que amava durante uma expedição e busco encerramento.",
-                    "Descobri algo que preferia não ter descoberto — agora devo protegê-lo.",
-                    "Existe uma civilização perdida que sonho em restaurar ou homenagear."
-                ],
-                "flaw": [
-                    "Não resisto a tocar ou pegar artefatos que encontro.",
-                    "Superestimo meu conhecimento sobre armadilhas e estruturas antigas.",
-                    "Guardo rancor contra quem desrespeita a história.",
-                    "Sou obcecado em provar uma teoria controversa sobre o passado.",
-                    "Minimizo perigos em nome da curiosidade.",
-                    "Frequentemente ignoro leis sobre locais protegidos."
-                ]
+                    "personalityTrait": [
+                        "Sempre carrego um caderno e faço anotações obsessivamente.",
+                        "Acredito que todo objeto tem uma história a ser descoberta.",
+                        "Romantizo civilizações antigas e sua sabedoria.",
+                        "Não confio em museus — eles aprisionam a cultura.",
+                        "Sou muito cuidadoso com coisas antigas — às vezes mais que com pessoas.",
+                        "Fico visivelmente empolgado ao descobrir até mesmo artefatos menores.",
+                        "Sempre tento devolver as coisas ao lugar de onde pertencem.",
+                        "Uso ditados e expressões de línguas perdidas."
+                    ],
+                    "ideal": [
+                        "Preservação. O que é antigo deve ser respeitado e protegido. (Leal)",
+                        "Descoberta. Sempre há algo enterrado esperando por ser revelado. (Caótico)",
+                        "Educação. O passado deve ser estudado e compartilhado. (Bom)",
+                        "Lucro. Tesouro perdido é apenas riqueza não reivindicada. (Neutro)",
+                        "Legado. Quero ser lembrado pelo que desenterrei. (Qualquer)",
+                        "Curiosidade. Preciso saber o que há por trás de cada porta selada. (Neutro)"
+                    ],
+                    "bond": [
+                        "Um artefato que encontrei mudou o rumo da minha vida.",
+                        "Traí um antigo parceiro de expedição e vivo com essa culpa.",
+                        "Estou em uma corrida contra um explorador rival que não tem escrúpulos.",
+                        "Perdi alguém que amava durante uma expedição e busco encerramento.",
+                        "Descobri algo que preferia não ter descoberto — agora devo protegê-lo.",
+                        "Existe uma civilização perdida que sonho em restaurar ou homenagear."
+                    ],
+                    "flaw": [
+                        "Não resisto a tocar ou pegar artefatos que encontro.",
+                        "Superestimo meu conhecimento sobre armadilhas e estruturas antigas.",
+                        "Guardo rancor contra quem desrespeita a história.",
+                        "Sou obcecado em provar uma teoria controversa sobre o passado.",
+                        "Minimizo perigos em nome da curiosidade.",
+                        "Frequentemente ignoro leis sobre locais protegidos."
+                    ]
                 }
             }
         }
@@ -504,40 +504,40 @@
                 "name": "Symbol of Resolve",
                 "description": "When you speak of your past or invoke your cause, common folk and allies are more inclined to listen. In military encampments, among revolutionaries, or in groups who respect bravery, you can often request shelter, supplies, or aid as a respected symbol. You can use a standard, emblem, or chant to inspire courage in others (at the DM’s discretion, granting minor morale bonuses or advantage on fear checks).",
                 "suggested": {
-                "personalityTrait": [
-                    "I always carry myself with pride, even when I’m scared.",
-                    "I speak in poetic or inspiring language.",
-                    "I feel the weight of every name I remember.",
-                    "I polish my banner or emblem daily.",
-                    "I encourage others, but keep my own wounds private.",
-                    "I find symbolic meaning in everyday things.",
-                    "I follow orders well, but question leadership in private.",
-                    "I still sing the songs of the march or battlefield."
-                ],
-                "ideal": [
-                    "Unity. A cause is only as strong as those who stand together. (Good)",
-                    "Endurance. Even in loss, we must not falter. (Lawful)",
-                    "Honor. Carrying the weight of a symbol means carrying it with dignity. (Neutral)",
-                    "Defiance. We will not bow again. (Chaotic)",
-                    "Faith. My banner is also my prayer. (Any)",
-                    "Memory. Those who came before must never be forgotten. (Lawful)"
-                ],
-                "bond": [
-                    "A commander or comrade I once followed gave me everything—I still live by their example.",
-                    "I carry a bloodstained relic from a failed stand.",
-                    "I’m building a book of stories from everyone who marched beside me.",
-                    "I wear a piece of cloth for every friend lost.",
-                    "My banner once fell in battle—I swore it would never fall again.",
-                    "I’m the last of my unit, and the legacy rests on me alone."
-                ],
-                "flaw": [
-                    "I hold on to the past too tightly and resist change.",
-                    "I hesitate when others are in danger—I’ve lost too many.",
-                    "I expect others to live up to the same ideals I do.",
-                    "I secretly crave leadership, but fear I’ll fail.",
-                    "I sometimes embellish the truth to preserve morale.",
-                    "I judge those who never sacrificed for a greater cause."
-                ]
+                    "personalityTrait": [
+                        "I always carry myself with pride, even when I’m scared.",
+                        "I speak in poetic or inspiring language.",
+                        "I feel the weight of every name I remember.",
+                        "I polish my banner or emblem daily.",
+                        "I encourage others, but keep my own wounds private.",
+                        "I find symbolic meaning in everyday things.",
+                        "I follow orders well, but question leadership in private.",
+                        "I still sing the songs of the march or battlefield."
+                    ],
+                    "ideal": [
+                        "Unity. A cause is only as strong as those who stand together. (Good)",
+                        "Endurance. Even in loss, we must not falter. (Lawful)",
+                        "Honor. Carrying the weight of a symbol means carrying it with dignity. (Neutral)",
+                        "Defiance. We will not bow again. (Chaotic)",
+                        "Faith. My banner is also my prayer. (Any)",
+                        "Memory. Those who came before must never be forgotten. (Lawful)"
+                    ],
+                    "bond": [
+                        "A commander or comrade I once followed gave me everything—I still live by their example.",
+                        "I carry a bloodstained relic from a failed stand.",
+                        "I’m building a book of stories from everyone who marched beside me.",
+                        "I wear a piece of cloth for every friend lost.",
+                        "My banner once fell in battle—I swore it would never fall again.",
+                        "I’m the last of my unit, and the legacy rests on me alone."
+                    ],
+                    "flaw": [
+                        "I hold on to the past too tightly and resist change.",
+                        "I hesitate when others are in danger—I’ve lost too many.",
+                        "I expect others to live up to the same ideals I do.",
+                        "I secretly crave leadership, but fear I’ll fail.",
+                        "I sometimes embellish the truth to preserve morale.",
+                        "I judge those who never sacrificed for a greater cause."
+                    ]
                 }
             }
         },
@@ -552,40 +552,40 @@
                 "name": "Símbolo de Determinação",
                 "description": "Quando fala de seu passado ou invoca sua causa, aliados e pessoas comuns tendem a ouvi-lo. Em acampamentos militares, entre revolucionários ou em grupos que respeitam bravura, você pode pedir abrigo, suprimentos ou ajuda como um símbolo de respeito. Você pode usar um estandarte, emblema ou canto para inspirar coragem (a critério do Mestre, concedendo pequenos bônus morais ou vantagem contra medo).",
                 "suggested": {
-                "personalityTrait": [
-                    "Sempre mantenho uma postura orgulhosa, mesmo com medo.",
-                    "Falo de forma poética ou inspiradora.",
-                    "Sinto o peso de cada nome que lembro.",
-                    "Lustro meu estandarte ou emblema diariamente.",
-                    "Incentivo os outros, mas escondo minhas próprias feridas.",
-                    "Vejo significados simbólicos em coisas cotidianas.",
-                    "Obedeço bem, mas questiono líderes em particular.",
-                    "Ainda canto as canções da marcha ou do campo de batalha."
-                ],
-                "ideal": [
-                    "Unidade. Uma causa é tão forte quanto aqueles que a sustentam. (Bom)",
-                    "Resistência. Mesmo na derrota, não devemos vacilar. (Leal)",
-                    "Honra. Carregar um símbolo é um ato de dignidade. (Neutro)",
-                    "Desafio. Não nos curvaremos novamente. (Caótico)",
-                    "Fé. Meu estandarte também é minha oração. (Qualquer)",
-                    "Memória. Aqueles que vieram antes não devem ser esquecidos. (Leal)"
-                ],
-                "bond": [
-                    "Um comandante ou aliado me inspirou profundamente — ainda vivo por seu exemplo.",
-                    "Carrego uma relíquia manchada de sangue de uma batalha perdida.",
-                    "Estou criando um livro de histórias de todos que marcharam ao meu lado.",
-                    "Uso um pedaço de pano por cada amigo perdido.",
-                    "Meu estandarte caiu em batalha uma vez — jurei que nunca mais cairá.",
-                    "Sou o último do meu destacamento, e o legado recai sobre mim."
-                ],
-                "flaw": [
-                    "Me apego demais ao passado e resisto a mudanças.",
-                    "Hesito quando os outros estão em perigo — já perdi demais.",
-                    "Espero que os outros vivam os mesmos ideais que sigo.",
-                    "Desejo secretamente liderar, mas temo fracassar.",
-                    "Às vezes exagero histórias para manter a moral.",
-                    "Julgo aqueles que nunca sacrificaram por uma causa maior."
-                ]
+                    "personalityTrait": [
+                        "Sempre mantenho uma postura orgulhosa, mesmo com medo.",
+                        "Falo de forma poética ou inspiradora.",
+                        "Sinto o peso de cada nome que lembro.",
+                        "Lustro meu estandarte ou emblema diariamente.",
+                        "Incentivo os outros, mas escondo minhas próprias feridas.",
+                        "Vejo significados simbólicos em coisas cotidianas.",
+                        "Obedeço bem, mas questiono líderes em particular.",
+                        "Ainda canto as canções da marcha ou do campo de batalha."
+                    ],
+                    "ideal": [
+                        "Unidade. Uma causa é tão forte quanto aqueles que a sustentam. (Bom)",
+                        "Resistência. Mesmo na derrota, não devemos vacilar. (Leal)",
+                        "Honra. Carregar um símbolo é um ato de dignidade. (Neutro)",
+                        "Desafio. Não nos curvaremos novamente. (Caótico)",
+                        "Fé. Meu estandarte também é minha oração. (Qualquer)",
+                        "Memória. Aqueles que vieram antes não devem ser esquecidos. (Leal)"
+                    ],
+                    "bond": [
+                        "Um comandante ou aliado me inspirou profundamente — ainda vivo por seu exemplo.",
+                        "Carrego uma relíquia manchada de sangue de uma batalha perdida.",
+                        "Estou criando um livro de histórias de todos que marcharam ao meu lado.",
+                        "Uso um pedaço de pano por cada amigo perdido.",
+                        "Meu estandarte caiu em batalha uma vez — jurei que nunca mais cairá.",
+                        "Sou o último do meu destacamento, e o legado recai sobre mim."
+                    ],
+                    "flaw": [
+                        "Me apego demais ao passado e resisto a mudanças.",
+                        "Hesito quando os outros estão em perigo — já perdi demais.",
+                        "Espero que os outros vivam os mesmos ideais que sigo.",
+                        "Desejo secretamente liderar, mas temo fracassar.",
+                        "Às vezes exagero histórias para manter a moral.",
+                        "Julgo aqueles que nunca sacrificaram por uma causa maior."
+                    ]
                 }
             }
         }
@@ -603,40 +603,40 @@
                 "name": "Keeper of Rest",
                 "description": "When dealing with death rites, spirits, or undead, people recognize your experience and defer to your knowledge. In communities with burial grounds or ancestral reverence, you can request sanctuary or assistance from elders or caretakers. At the DM’s discretion, you can perform simple rites to ease spirits or sense disturbances in sacred grounds.",
                 "suggested": {
-                "personalityTrait": [
-                    "I speak softly and avoid sudden movements.",
-                    "I find peace among tombstones and silence.",
-                    "I treat all remains with reverence—man, beast, or other.",
-                    "I’m uncomfortable with the undead, even if they are friendly.",
-                    "I maintain a personal journal of the names and dates I tend.",
-                    "I offer small prayers for any soul I pass, living or dead.",
-                    "I carry stories of the dead as if they were my own.",
-                    "I have a strange sense of humor about death."
-                ],
-                "ideal": [
-                    "Respect. The dead deserve dignity and peace. (Good)",
-                    "Balance. Death is part of nature’s cycle. (Neutral)",
-                    "Guardianship. I will protect the boundary between life and death. (Lawful)",
-                    "Freedom. Even death should not be a prison. (Chaotic)",
-                    "Tradition. Old rites hold real power. (Lawful)",
-                    "Knowledge. The dead have lessons yet to teach us. (Any)"
-                ],
-                "bond": [
-                    "I made a promise to guard a specific tomb or burial ground.",
-                    "A ghost once helped me—and I owe them a great debt.",
-                    "I search for the final resting place of a lost loved one.",
-                    "I carry a bone or token of someone I couldn’t bury properly.",
-                    "A terrible force disturbed a grave I once tended—and I must set it right.",
-                    "My family has watched over a crypt for generations—it’s more home than any house."
-                ],
-                "flaw": [
-                    "I find it hard to connect with the living.",
-                    "I sometimes speak to corpses out of habit.",
-                    "I believe spirits are always watching—and act accordingly.",
-                    "I’m haunted by a mistake I made during a funeral or rite.",
-                    "I become obsessive about honoring the dead correctly.",
-                    "I avoid joyful celebrations—they feel disrespectful to those I’ve buried."
-                ]
+                    "personalityTrait": [
+                        "I speak softly and avoid sudden movements.",
+                        "I find peace among tombstones and silence.",
+                        "I treat all remains with reverence—man, beast, or other.",
+                        "I’m uncomfortable with the undead, even if they are friendly.",
+                        "I maintain a personal journal of the names and dates I tend.",
+                        "I offer small prayers for any soul I pass, living or dead.",
+                        "I carry stories of the dead as if they were my own.",
+                        "I have a strange sense of humor about death."
+                    ],
+                    "ideal": [
+                        "Respect. The dead deserve dignity and peace. (Good)",
+                        "Balance. Death is part of nature’s cycle. (Neutral)",
+                        "Guardianship. I will protect the boundary between life and death. (Lawful)",
+                        "Freedom. Even death should not be a prison. (Chaotic)",
+                        "Tradition. Old rites hold real power. (Lawful)",
+                        "Knowledge. The dead have lessons yet to teach us. (Any)"
+                    ],
+                    "bond": [
+                        "I made a promise to guard a specific tomb or burial ground.",
+                        "A ghost once helped me—and I owe them a great debt.",
+                        "I search for the final resting place of a lost loved one.",
+                        "I carry a bone or token of someone I couldn’t bury properly.",
+                        "A terrible force disturbed a grave I once tended—and I must set it right.",
+                        "My family has watched over a crypt for generations—it’s more home than any house."
+                    ],
+                    "flaw": [
+                        "I find it hard to connect with the living.",
+                        "I sometimes speak to corpses out of habit.",
+                        "I believe spirits are always watching—and act accordingly.",
+                        "I’m haunted by a mistake I made during a funeral or rite.",
+                        "I become obsessive about honoring the dead correctly.",
+                        "I avoid joyful celebrations—they feel disrespectful to those I’ve buried."
+                    ]
                 }
             }
         },
@@ -651,40 +651,40 @@
                 "name": "Guardião do Descanso",
                 "description": "Ao lidar com ritos fúnebres, espíritos ou mortos-vivos, as pessoas reconhecem sua experiência e respeitam seu conhecimento. Em comunidades com cemitérios ou que reverenciam ancestrais, você pode pedir abrigo ou ajuda de anciãos ou cuidadores. A critério do Mestre, você pode realizar rituais simples para acalmar espíritos ou detectar perturbações em solo sagrado.",
                 "suggested": {
-                "personalityTrait": [
-                    "Falo suavemente e evito movimentos bruscos.",
-                    "Encontro paz entre lápides e no silêncio.",
-                    "Trato todos os restos mortais com reverência — humanos, animais ou outros.",
-                    "Sinto desconforto na presença de mortos-vivos, mesmo amigáveis.",
-                    "Mantenho um diário com os nomes e datas dos mortos que cuidei.",
-                    "Ofereço pequenas preces a qualquer alma que cruzo, viva ou morta.",
-                    "Carrego histórias dos mortos como se fossem minhas.",
-                    "Tenho um humor estranho sobre a morte."
-                ],
-                "ideal": [
-                    "Respeito. Os mortos merecem dignidade e paz. (Bom)",
-                    "Equilíbrio. A morte faz parte do ciclo natural. (Neutro)",
-                    "Guarda. Protegerei a fronteira entre vida e morte. (Leal)",
-                    "Liberdade. Nem mesmo a morte deve ser uma prisão. (Caótico)",
-                    "Tradição. Ritos antigos têm poder verdadeiro. (Leal)",
-                    "Conhecimento. Os mortos ainda têm lições a ensinar. (Qualquer)"
-                ],
-                "bond": [
-                    "Prometi proteger um túmulo ou campo de sepulturas específico.",
-                    "Um fantasma me ajudou uma vez — e devo um grande favor a ele.",
-                    "Procuro o local de descanso final de um ente querido perdido.",
-                    "Carrego um osso ou lembrança de alguém que não pude enterrar como devia.",
-                    "Uma força terrível profanou uma sepultura que eu cuidava — e preciso corrigir isso.",
-                    "Minha família cuida de uma cripta há gerações — é mais lar do que qualquer casa."
-                ],
-                "flaw": [
-                    "Tenho dificuldade em me conectar com os vivos.",
-                    "Às vezes falo com cadáveres por hábito.",
-                    "Acredito que os espíritos estão sempre observando — e ajo como tal.",
-                    "Sou assombrado por um erro que cometi em um funeral ou rito.",
-                    "Torno-me obcecado em honrar os mortos corretamente.",
-                    "Evito celebrações alegres — parecem desrespeitosas com os que enterrei."
-                ]
+                    "personalityTrait": [
+                        "Falo suavemente e evito movimentos bruscos.",
+                        "Encontro paz entre lápides e no silêncio.",
+                        "Trato todos os restos mortais com reverência — humanos, animais ou outros.",
+                        "Sinto desconforto na presença de mortos-vivos, mesmo amigáveis.",
+                        "Mantenho um diário com os nomes e datas dos mortos que cuidei.",
+                        "Ofereço pequenas preces a qualquer alma que cruzo, viva ou morta.",
+                        "Carrego histórias dos mortos como se fossem minhas.",
+                        "Tenho um humor estranho sobre a morte."
+                    ],
+                    "ideal": [
+                        "Respeito. Os mortos merecem dignidade e paz. (Bom)",
+                        "Equilíbrio. A morte faz parte do ciclo natural. (Neutro)",
+                        "Guarda. Protegerei a fronteira entre vida e morte. (Leal)",
+                        "Liberdade. Nem mesmo a morte deve ser uma prisão. (Caótico)",
+                        "Tradição. Ritos antigos têm poder verdadeiro. (Leal)",
+                        "Conhecimento. Os mortos ainda têm lições a ensinar. (Qualquer)"
+                    ],
+                    "bond": [
+                        "Prometi proteger um túmulo ou campo de sepulturas específico.",
+                        "Um fantasma me ajudou uma vez — e devo um grande favor a ele.",
+                        "Procuro o local de descanso final de um ente querido perdido.",
+                        "Carrego um osso ou lembrança de alguém que não pude enterrar como devia.",
+                        "Uma força terrível profanou uma sepultura que eu cuidava — e preciso corrigir isso.",
+                        "Minha família cuida de uma cripta há gerações — é mais lar do que qualquer casa."
+                    ],
+                    "flaw": [
+                        "Tenho dificuldade em me conectar com os vivos.",
+                        "Às vezes falo com cadáveres por hábito.",
+                        "Acredito que os espíritos estão sempre observando — e ajo como tal.",
+                        "Sou assombrado por um erro que cometi em um funeral ou rito.",
+                        "Torno-me obcecado em honrar os mortos corretamente.",
+                        "Evito celebrações alegres — parecem desrespeitosas com os que enterrei."
+                    ]
                 }
             }
         }
@@ -702,40 +702,40 @@
                 "name": "Marked by the Storm",
                 "description": "People who’ve heard stories of the storm or disaster that changed you might fear or admire you. In regions where natural magic or prophecy is respected, you may be seen as an omen or messenger. You can sense sudden shifts in weather, and at the DM’s discretion, have advantage on saving throws against extreme natural hazards or effects tied to your catastrophe’s origin.",
                 "suggested": {
-                "personalityTrait": [
-                    "I flinch at sudden thunder or flashes of light.",
-                    "I speak of the storm as if it were a person.",
-                    "I find beauty in destruction and chaos.",
-                    "I feel uncomfortable in calm, enclosed spaces.",
-                    "I carry relics from the catastrophe with ritual importance.",
-                    "I tend to warn others of dangers they don’t believe in.",
-                    "I have a strange serenity during chaos.",
-                    "I believe I was spared for a reason I must discover."
-                ],
-                "ideal": [
-                    "Resilience. I survived for a reason—and I will help others do the same. (Good)",
-                    "Control. I must learn to master the powers I carry. (Lawful)",
-                    "Revenge. The forces that scarred my life must answer for it. (Evil)",
-                    "Wanderlust. The storm within me must never be caged. (Chaotic)",
-                    "Rebirth. From destruction, we build again. (Neutral)",
-                    "Fear. My presence is a warning to others. (Any)"
-                ],
-                "bond": [
-                    "I lost someone in the disaster, and I still see them in my dreams.",
-                    "I believe the storm is not over—it’s coming again.",
-                    "I was exiled because of what I survived—or what I became.",
-                    "My home is gone, but I carry its name on my tongue and heart.",
-                    "I follow every sign of a similar event to find answers.",
-                    "There is something alive inside the storm—and it knows me."
-                ],
-                "flaw": [
-                    "I sometimes wish I had perished with the others.",
-                    "I am reckless during storms, as if inviting fate.",
-                    "I push people away to avoid losing them.",
-                    "I talk about the disaster constantly, even when I shouldn't.",
-                    "I fear my power more than I trust it.",
-                    "I act as if I’m already doomed, so nothing matters."
-                ]
+                    "personalityTrait": [
+                        "I flinch at sudden thunder or flashes of light.",
+                        "I speak of the storm as if it were a person.",
+                        "I find beauty in destruction and chaos.",
+                        "I feel uncomfortable in calm, enclosed spaces.",
+                        "I carry relics from the catastrophe with ritual importance.",
+                        "I tend to warn others of dangers they don’t believe in.",
+                        "I have a strange serenity during chaos.",
+                        "I believe I was spared for a reason I must discover."
+                    ],
+                    "ideal": [
+                        "Resilience. I survived for a reason—and I will help others do the same. (Good)",
+                        "Control. I must learn to master the powers I carry. (Lawful)",
+                        "Revenge. The forces that scarred my life must answer for it. (Evil)",
+                        "Wanderlust. The storm within me must never be caged. (Chaotic)",
+                        "Rebirth. From destruction, we build again. (Neutral)",
+                        "Fear. My presence is a warning to others. (Any)"
+                    ],
+                    "bond": [
+                        "I lost someone in the disaster, and I still see them in my dreams.",
+                        "I believe the storm is not over—it’s coming again.",
+                        "I was exiled because of what I survived—or what I became.",
+                        "My home is gone, but I carry its name on my tongue and heart.",
+                        "I follow every sign of a similar event to find answers.",
+                        "There is something alive inside the storm—and it knows me."
+                    ],
+                    "flaw": [
+                        "I sometimes wish I had perished with the others.",
+                        "I am reckless during storms, as if inviting fate.",
+                        "I push people away to avoid losing them.",
+                        "I talk about the disaster constantly, even when I shouldn't.",
+                        "I fear my power more than I trust it.",
+                        "I act as if I’m already doomed, so nothing matters."
+                    ]
                 }
             }
         },
@@ -750,40 +750,40 @@
                 "name": "Marcado pela Tempestade",
                 "description": "Pessoas que ouviram falar da catástrofe que você sobreviveu podem temê-lo ou admirá-lo. Em regiões onde a magia natural ou a profecia são respeitadas, você pode ser visto como um presságio ou mensageiro. Você sente mudanças súbitas no clima, e, a critério do Mestre, tem vantagem em testes de resistência contra perigos naturais extremos ou efeitos ligados à origem da sua catástrofe.",
                 "suggested": {
-                "personalityTrait": [
-                    "Me assusto com trovões ou clarões repentinos.",
-                    "Falo da tempestade como se fosse uma pessoa.",
-                    "Encontro beleza na destruição e no caos.",
-                    "Sinto-me desconfortável em lugares calmos e fechados.",
-                    "Carrego relíquias da catástrofe com valor ritual.",
-                    "Costumo alertar os outros sobre perigos que eles não acreditam.",
-                    "Tenho uma estranha serenidade durante o caos.",
-                    "Acredito que fui poupado por um motivo que ainda preciso descobrir."
-                ],
-                "ideal": [
-                    "Resiliência. Sobrevivi por um motivo — e ajudarei outros a fazerem o mesmo. (Bom)",
-                    "Controle. Preciso dominar os poderes que carrego. (Leal)",
-                    "Vingança. As forças que arruinaram minha vida devem pagar. (Mal)",
-                    "Vagância. A tempestade dentro de mim jamais deve ser aprisionada. (Caótico)",
-                    "Renascimento. Da destruição, erguemos algo novo. (Neutro)",
-                    "Temor. Minha presença é um aviso para os outros. (Qualquer)"
-                ],
-                "bond": [
-                    "Perdi alguém na catástrofe, e ainda o vejo em meus sonhos.",
-                    "Acredito que a tempestade não acabou — ela voltará.",
-                    "Fui exilado por sobreviver — ou pelo que me tornei.",
-                    "Minha terra natal se foi, mas levo seu nome na língua e no coração.",
-                    "Sigo qualquer sinal de um evento semelhante, em busca de respostas.",
-                    "Há algo vivo dentro da tempestade — e ele me conhece."
-                ],
-                "flaw": [
-                    "Às vezes desejo ter perecido com os outros.",
-                    "Sou imprudente durante tempestades, como se desafiando o destino.",
-                    "Afasto as pessoas para não perdê-las.",
-                    "Falo da catástrofe constantemente, mesmo quando não devo.",
-                    "Temo meu próprio poder mais do que confio nele.",
-                    "Ajo como se estivesse condenado, então nada mais importa."
-                ]
+                    "personalityTrait": [
+                        "Me assusto com trovões ou clarões repentinos.",
+                        "Falo da tempestade como se fosse uma pessoa.",
+                        "Encontro beleza na destruição e no caos.",
+                        "Sinto-me desconfortável em lugares calmos e fechados.",
+                        "Carrego relíquias da catástrofe com valor ritual.",
+                        "Costumo alertar os outros sobre perigos que eles não acreditam.",
+                        "Tenho uma estranha serenidade durante o caos.",
+                        "Acredito que fui poupado por um motivo que ainda preciso descobrir."
+                    ],
+                    "ideal": [
+                        "Resiliência. Sobrevivi por um motivo — e ajudarei outros a fazerem o mesmo. (Bom)",
+                        "Controle. Preciso dominar os poderes que carrego. (Leal)",
+                        "Vingança. As forças que arruinaram minha vida devem pagar. (Mal)",
+                        "Vagância. A tempestade dentro de mim jamais deve ser aprisionada. (Caótico)",
+                        "Renascimento. Da destruição, erguemos algo novo. (Neutro)",
+                        "Temor. Minha presença é um aviso para os outros. (Qualquer)"
+                    ],
+                    "bond": [
+                        "Perdi alguém na catástrofe, e ainda o vejo em meus sonhos.",
+                        "Acredito que a tempestade não acabou — ela voltará.",
+                        "Fui exilado por sobreviver — ou pelo que me tornei.",
+                        "Minha terra natal se foi, mas levo seu nome na língua e no coração.",
+                        "Sigo qualquer sinal de um evento semelhante, em busca de respostas.",
+                        "Há algo vivo dentro da tempestade — e ele me conhece."
+                    ],
+                    "flaw": [
+                        "Às vezes desejo ter perecido com os outros.",
+                        "Sou imprudente durante tempestades, como se desafiando o destino.",
+                        "Afasto as pessoas para não perdê-las.",
+                        "Falo da catástrofe constantemente, mesmo quando não devo.",
+                        "Temo meu próprio poder mais do que confio nele.",
+                        "Ajo como se estivesse condenado, então nada mais importa."
+                    ]
                 }
             }
         }
@@ -801,40 +801,40 @@
                 "name": "Lunar Attunement",
                 "description": "You instinctively know the current phase of the moon and can sense the presence of planar or celestial energy nearby. Those who revere the stars, such as astrologers or seers, often treat you with reverence or suspicion. At night, your vision sharpens subtly in moonlight, and you may receive dreams or omens related to celestial alignments (at the DM’s discretion).",
                 "suggested": {
-                "personalityTrait": [
-                    "I track lunar phases obsessively and keep detailed records.",
-                    "I pause to stargaze at any opportunity.",
-                    "I believe my destiny is written in the stars.",
-                    "I speak in cryptic metaphors related to the night sky.",
-                    "I dislike enclosed places where I can’t see the moon.",
-                    "I interpret strange dreams as messages from beyond.",
-                    "I remain calm even in darkness—it comforts me.",
-                    "I mark significant events with star charts or celestial signs."
-                ],
-                "ideal": [
-                    "Mystery. The cosmos should be studied, not conquered. (Neutral)",
-                    "Hope. The stars guide us toward a better future. (Good)",
-                    "Order. Celestial cycles show there is structure in all things. (Lawful)",
-                    "Revelation. I seek truths hidden beyond the veil. (Any)",
-                    "Fate. My life follows a path already drawn. (Lawful)",
-                    "Freedom. The skies are ever-changing, and so should I be. (Chaotic)"
-                ],
-                "bond": [
-                    "A prophecy tied to my birth still haunts me.",
-                    "I follow a celestial map to a destination I’ve never seen.",
-                    "I once glimpsed a being among the stars that spoke directly to me.",
-                    "My family served a lunar order for generations—I uphold their legacy.",
-                    "A rare stellar event is approaching, and I must be ready.",
-                    "I carry a tome that may unlock the meaning of the night sky."
-                ],
-                "flaw": [
-                    "I get lost in visions and fail to see what's around me.",
-                    "I sometimes act on dreams rather than reason.",
-                    "I reject earthly duties in favor of celestial ones.",
-                    "I’m uncomfortable with the idea of randomness—everything must mean something.",
-                    "I speak as though I know the future—even when I don’t.",
-                    "I am obsessed with a coming celestial event and neglect all else."
-                ]
+                    "personalityTrait": [
+                        "I track lunar phases obsessively and keep detailed records.",
+                        "I pause to stargaze at any opportunity.",
+                        "I believe my destiny is written in the stars.",
+                        "I speak in cryptic metaphors related to the night sky.",
+                        "I dislike enclosed places where I can’t see the moon.",
+                        "I interpret strange dreams as messages from beyond.",
+                        "I remain calm even in darkness—it comforts me.",
+                        "I mark significant events with star charts or celestial signs."
+                    ],
+                    "ideal": [
+                        "Mystery. The cosmos should be studied, not conquered. (Neutral)",
+                        "Hope. The stars guide us toward a better future. (Good)",
+                        "Order. Celestial cycles show there is structure in all things. (Lawful)",
+                        "Revelation. I seek truths hidden beyond the veil. (Any)",
+                        "Fate. My life follows a path already drawn. (Lawful)",
+                        "Freedom. The skies are ever-changing, and so should I be. (Chaotic)"
+                    ],
+                    "bond": [
+                        "A prophecy tied to my birth still haunts me.",
+                        "I follow a celestial map to a destination I’ve never seen.",
+                        "I once glimpsed a being among the stars that spoke directly to me.",
+                        "My family served a lunar order for generations—I uphold their legacy.",
+                        "A rare stellar event is approaching, and I must be ready.",
+                        "I carry a tome that may unlock the meaning of the night sky."
+                    ],
+                    "flaw": [
+                        "I get lost in visions and fail to see what's around me.",
+                        "I sometimes act on dreams rather than reason.",
+                        "I reject earthly duties in favor of celestial ones.",
+                        "I’m uncomfortable with the idea of randomness—everything must mean something.",
+                        "I speak as though I know the future—even when I don’t.",
+                        "I am obsessed with a coming celestial event and neglect all else."
+                    ]
                 }
             }
         },
@@ -849,40 +849,40 @@
                 "name": "Sintonização Lunar",
                 "description": "Você sabe instintivamente a fase atual da lua e consegue sentir a presença de energia planar ou celestial nas proximidades. Aqueles que veneram as estrelas, como astrólogos ou videntes, muitas vezes o tratam com reverência — ou suspeita. À noite, sua visão se aguça levemente sob o luar, e você pode receber sonhos ou presságios ligados a alinhamentos celestes (a critério do Mestre).",
                 "suggested": {
-                "personalityTrait": [
-                    "Registro obsessivamente as fases lunares e mantenho anotações detalhadas.",
-                    "Paro para observar as estrelas sempre que posso.",
-                    "Acredito que meu destino está escrito nas estrelas.",
-                    "Falo em metáforas enigmáticas relacionadas ao céu noturno.",
-                    "Não gosto de lugares fechados onde não posso ver a lua.",
-                    "Interpreto sonhos estranhos como mensagens do além.",
-                    "Permaneço calmo mesmo na escuridão — ela me conforta.",
-                    "Marco eventos importantes com mapas estelares ou sinais celestes."
-                ],
-                "ideal": [
-                    "Mistério. O cosmos deve ser estudado, não conquistado. (Neutro)",
-                    "Esperança. As estrelas nos guiam rumo a um futuro melhor. (Bom)",
-                    "Ordem. Os ciclos celestes mostram que há estrutura em todas as coisas. (Leal)",
-                    "Revelação. Busco verdades escondidas além do véu. (Qualquer)",
-                    "Destino. Minha vida segue um caminho já traçado. (Leal)",
-                    "Liberdade. Os céus estão sempre mudando — e eu também devo mudar. (Caótico)"
-                ],
-                "bond": [
-                    "Uma profecia ligada ao meu nascimento ainda me assombra.",
-                    "Sigo um mapa estelar rumo a um destino que nunca vi.",
-                    "Certa vez vi uma entidade entre as estrelas que falou diretamente comigo.",
-                    "Minha família serviu a uma ordem lunar por gerações — mantenho seu legado.",
-                    "Um raro evento estelar está se aproximando — e preciso estar pronto.",
-                    "Carrego um tomo que pode desvendar o significado do céu noturno."
-                ],
-                "flaw": [
-                    "Me perco em visões e não percebo o que está ao meu redor.",
-                    "Às vezes ajo guiado por sonhos em vez da razão.",
-                    "Rejeito deveres terrenos em favor dos celestiais.",
-                    "Fico desconfortável com a ideia de aleatoriedade — tudo deve ter um significado.",
-                    "Falo como se conhecesse o futuro — mesmo quando não sei.",
-                    "Sou obcecado com um evento celeste que está por vir e ignoro todo o resto."
-                ]
+                    "personalityTrait": [
+                        "Registro obsessivamente as fases lunares e mantenho anotações detalhadas.",
+                        "Paro para observar as estrelas sempre que posso.",
+                        "Acredito que meu destino está escrito nas estrelas.",
+                        "Falo em metáforas enigmáticas relacionadas ao céu noturno.",
+                        "Não gosto de lugares fechados onde não posso ver a lua.",
+                        "Interpreto sonhos estranhos como mensagens do além.",
+                        "Permaneço calmo mesmo na escuridão — ela me conforta.",
+                        "Marco eventos importantes com mapas estelares ou sinais celestes."
+                    ],
+                    "ideal": [
+                        "Mistério. O cosmos deve ser estudado, não conquistado. (Neutro)",
+                        "Esperança. As estrelas nos guiam rumo a um futuro melhor. (Bom)",
+                        "Ordem. Os ciclos celestes mostram que há estrutura em todas as coisas. (Leal)",
+                        "Revelação. Busco verdades escondidas além do véu. (Qualquer)",
+                        "Destino. Minha vida segue um caminho já traçado. (Leal)",
+                        "Liberdade. Os céus estão sempre mudando — e eu também devo mudar. (Caótico)"
+                    ],
+                    "bond": [
+                        "Uma profecia ligada ao meu nascimento ainda me assombra.",
+                        "Sigo um mapa estelar rumo a um destino que nunca vi.",
+                        "Certa vez vi uma entidade entre as estrelas que falou diretamente comigo.",
+                        "Minha família serviu a uma ordem lunar por gerações — mantenho seu legado.",
+                        "Um raro evento estelar está se aproximando — e preciso estar pronto.",
+                        "Carrego um tomo que pode desvendar o significado do céu noturno."
+                    ],
+                    "flaw": [
+                        "Me perco em visões e não percebo o que está ao meu redor.",
+                        "Às vezes ajo guiado por sonhos em vez da razão.",
+                        "Rejeito deveres terrenos em favor dos celestiais.",
+                        "Fico desconfortável com a ideia de aleatoriedade — tudo deve ter um significado.",
+                        "Falo como se conhecesse o futuro — mesmo quando não sei.",
+                        "Sou obcecado com um evento celeste que está por vir e ignoro todo o resto."
+                    ]
                 }
             }
         }
@@ -900,40 +900,40 @@
                 "name": "Voice in the Shadows",
                 "description": "In slums, camps, or neglected districts, your reputation precedes you. You can gather support, food, or shelter from those who’ve heard your speeches or benefited from your counsel. You also know how to remain hidden among the desperate or overlooked. In times of unrest, your words might stir loyalty—or fear.",
                 "suggested": {
-                "personalityTrait": [
-                    "I speak in parables and metaphors, rarely plainly.",
-                    "I always find a crowd when I need one.",
-                    "I see every system as corrupt and broken.",
-                    "I treat every stranger as a potential believer—or threat.",
-                    "I live simply, owning only what I can carry.",
-                    "I shout when I should whisper, and whisper when I should shout.",
-                    "I’ve memorized entire texts and recite them when anxious.",
-                    "I keep a record of those who listened—and those who didn’t."
-                ],
-                "ideal": [
-                    "Change. The world must be shaken to awaken. (Chaotic)",
-                    "Compassion. No soul is beneath redemption. (Good)",
-                    "Truth. Even painful truths must be spoken. (Neutral)",
-                    "Justice. The lowly must rise, the mighty must fall. (Lawful)",
-                    "Faith. I believe, even if no one else does. (Any)",
-                    "Fire. Words are sparks, and I am the flame. (Chaotic)"
-                ],
-                "bond": [
-                    "There is a message I was given—I must spread it before I die.",
-                    "I protect the poor and lost in my community as if they were family.",
-                    "I seek an ancient truth hidden beneath city stones.",
-                    "I was saved by a preacher once—and now follow in their steps.",
-                    "I speak for those who have no voice, no name, no shelter.",
-                    "I’m writing a book that will one day change the world—or destroy it."
-                ],
-                "flaw": [
-                    "I can't resist preaching, even when it's dangerous.",
-                    "I believe I'm always right—even when proven wrong.",
-                    "I often alienate people with my intensity.",
-                    "I have enemies in powerful places who want me silenced.",
-                    "I take too many risks for the sake of a 'message'.",
-                    "I sometimes forget to care for myself while helping others."
-                ]
+                    "personalityTrait": [
+                        "I speak in parables and metaphors, rarely plainly.",
+                        "I always find a crowd when I need one.",
+                        "I see every system as corrupt and broken.",
+                        "I treat every stranger as a potential believer—or threat.",
+                        "I live simply, owning only what I can carry.",
+                        "I shout when I should whisper, and whisper when I should shout.",
+                        "I’ve memorized entire texts and recite them when anxious.",
+                        "I keep a record of those who listened—and those who didn’t."
+                    ],
+                    "ideal": [
+                        "Change. The world must be shaken to awaken. (Chaotic)",
+                        "Compassion. No soul is beneath redemption. (Good)",
+                        "Truth. Even painful truths must be spoken. (Neutral)",
+                        "Justice. The lowly must rise, the mighty must fall. (Lawful)",
+                        "Faith. I believe, even if no one else does. (Any)",
+                        "Fire. Words are sparks, and I am the flame. (Chaotic)"
+                    ],
+                    "bond": [
+                        "There is a message I was given—I must spread it before I die.",
+                        "I protect the poor and lost in my community as if they were family.",
+                        "I seek an ancient truth hidden beneath city stones.",
+                        "I was saved by a preacher once—and now follow in their steps.",
+                        "I speak for those who have no voice, no name, no shelter.",
+                        "I’m writing a book that will one day change the world—or destroy it."
+                    ],
+                    "flaw": [
+                        "I can't resist preaching, even when it's dangerous.",
+                        "I believe I'm always right—even when proven wrong.",
+                        "I often alienate people with my intensity.",
+                        "I have enemies in powerful places who want me silenced.",
+                        "I take too many risks for the sake of a 'message'.",
+                        "I sometimes forget to care for myself while helping others."
+                    ]
                 }
             }
         },
@@ -948,40 +948,40 @@
                 "name": "Voz nas Sombras",
                 "description": "Em favelas, acampamentos ou distritos negligenciados, sua reputação o precede. Você pode conseguir apoio, comida ou abrigo daqueles que já ouviram seus discursos ou se beneficiaram de seus conselhos. Também sabe como permanecer oculto entre os desesperados ou esquecidos. Em tempos de agitação, suas palavras podem incitar lealdade — ou medo.",
                 "suggested": {
-                "personalityTrait": [
-                    "Falo em parábolas e metáforas, raramente de forma direta.",
-                    "Sempre encontro uma multidão quando preciso.",
-                    "Vejo todos os sistemas como corruptos e falidos.",
-                    "Trato todo estranho como um possível seguidor — ou ameaça.",
-                    "Vivo de forma simples, possuindo apenas o que posso carregar.",
-                    "Grito quando deveria sussurrar, e sussurro quando deveria gritar.",
-                    "Decorei textos inteiros e os recito quando estou ansioso.",
-                    "Mantenho registros de quem me ouviu — e de quem não ouviu."
-                ],
-                "ideal": [
-                    "Mudança. O mundo precisa ser sacudido para despertar. (Caótico)",
-                    "Compaixão. Nenhuma alma está além da redenção. (Bom)",
-                    "Verdade. Até verdades dolorosas devem ser ditas. (Neutro)",
-                    "Justiça. Os humildes devem ascender, os poderosos devem cair. (Leal)",
-                    "Fé. Eu acredito, mesmo que ninguém mais o faça. (Qualquer)",
-                    "Fogo. Palavras são faíscas, e eu sou a chama. (Caótico)"
-                ],
-                "bond": [
-                    "Recebi uma mensagem — devo espalhá-la antes de morrer.",
-                    "Protejo os pobres e perdidos da minha comunidade como se fossem família.",
-                    "Procuro uma verdade ancestral escondida sob as pedras da cidade.",
-                    "Fui salvo por um pregador — agora sigo seus passos.",
-                    "Falo por aqueles que não têm voz, nome ou abrigo.",
-                    "Estou escrevendo um livro que um dia mudará o mundo — ou o destruirá."
-                ],
-                "flaw": [
-                    "Não resisto a pregar, mesmo quando é perigoso.",
-                    "Acredito estar sempre certo — mesmo quando provam que estou errado.",
-                    "Costumo afastar as pessoas com minha intensidade.",
-                    "Tenho inimigos em lugares poderosos que querem me silenciar.",
-                    "Assumo riscos demais por causa de uma 'mensagem'.",
-                    "Às vezes esqueço de cuidar de mim mesmo ao ajudar os outros."
-                ]
+                    "personalityTrait": [
+                        "Falo em parábolas e metáforas, raramente de forma direta.",
+                        "Sempre encontro uma multidão quando preciso.",
+                        "Vejo todos os sistemas como corruptos e falidos.",
+                        "Trato todo estranho como um possível seguidor — ou ameaça.",
+                        "Vivo de forma simples, possuindo apenas o que posso carregar.",
+                        "Grito quando deveria sussurrar, e sussurro quando deveria gritar.",
+                        "Decorei textos inteiros e os recito quando estou ansioso.",
+                        "Mantenho registros de quem me ouviu — e de quem não ouviu."
+                    ],
+                    "ideal": [
+                        "Mudança. O mundo precisa ser sacudido para despertar. (Caótico)",
+                        "Compaixão. Nenhuma alma está além da redenção. (Bom)",
+                        "Verdade. Até verdades dolorosas devem ser ditas. (Neutro)",
+                        "Justiça. Os humildes devem ascender, os poderosos devem cair. (Leal)",
+                        "Fé. Eu acredito, mesmo que ninguém mais o faça. (Qualquer)",
+                        "Fogo. Palavras são faíscas, e eu sou a chama. (Caótico)"
+                    ],
+                    "bond": [
+                        "Recebi uma mensagem — devo espalhá-la antes de morrer.",
+                        "Protejo os pobres e perdidos da minha comunidade como se fossem família.",
+                        "Procuro uma verdade ancestral escondida sob as pedras da cidade.",
+                        "Fui salvo por um pregador — agora sigo seus passos.",
+                        "Falo por aqueles que não têm voz, nome ou abrigo.",
+                        "Estou escrevendo um livro que um dia mudará o mundo — ou o destruirá."
+                    ],
+                    "flaw": [
+                        "Não resisto a pregar, mesmo quando é perigoso.",
+                        "Acredito estar sempre certo — mesmo quando provam que estou errado.",
+                        "Costumo afastar as pessoas com minha intensidade.",
+                        "Tenho inimigos em lugares poderosos que querem me silenciar.",
+                        "Assumo riscos demais por causa de uma 'mensagem'.",
+                        "Às vezes esqueço de cuidar de mim mesmo ao ajudar os outros."
+                    ]
                 }
             }
         }
@@ -999,40 +999,40 @@
                 "name": "Magitech Aptitude",
                 "description": "You can identify magical tools and their likely purposes with a glance, and gain advantage on Intelligence (Arcana) checks related to crafting or repairing magical items. Those who seek enchanted gear may come to you for repairs or commissions, especially in cities with magical trade.",
                 "suggested": {
-                "personalityTrait": [
-                    "I compulsively tweak and improve anything mechanical.",
-                    "I speak more fluently in formulas than in conversation.",
-                    "I treat magical items as works of art, not tools.",
-                    "I always carry chalk, ink, and scrap parchment.",
-                    "I’m more comfortable with golems than with people.",
-                    "I believe anything broken can be fixed—or reforged.",
-                    "I mentally take apart everything I see.",
-                    "I love seeing my creations used in the world."
-                ],
-                "ideal": [
-                    "Innovation. Magic should evolve with invention. (Chaotic)",
-                    "Purpose. Every item I make must serve a higher goal. (Lawful)",
-                    "Discovery. There's always something new to create. (Neutral)",
-                    "Community. My craft should empower others. (Good)",
-                    "Perfection. Only flawless craftsmanship is acceptable. (Any)",
-                    "Control. Whoever makes the tools, shapes the world. (Lawful)"
-                ],
-                "bond": [
-                    "I lost a mentor whose secrets I still pursue.",
-                    "I once made something dangerous—now I seek to fix that mistake.",
-                    "I crafted a weapon that became legendary—I want to surpass it.",
-                    "I’m building a masterpiece to leave behind as a legacy.",
-                    "A client betrayed me, and I’ve sworn to reclaim what they stole.",
-                    "I’m in debt to a patron who funded my workshop—and owns part of me."
-                ],
-                "flaw": [
-                    "I overestimate my ability to fix magical problems.",
-                    "I hoard magical scraps and refuse to throw anything away.",
-                    "I obsess over unfinished designs and neglect everything else.",
-                    "I underestimate people who aren’t ‘intellectuals’.",
-                    "I’ll risk safety for the thrill of creation.",
-                    "I secretly think my work is never good enough."
-                ]
+                    "personalityTrait": [
+                        "I compulsively tweak and improve anything mechanical.",
+                        "I speak more fluently in formulas than in conversation.",
+                        "I treat magical items as works of art, not tools.",
+                        "I always carry chalk, ink, and scrap parchment.",
+                        "I’m more comfortable with golems than with people.",
+                        "I believe anything broken can be fixed—or reforged.",
+                        "I mentally take apart everything I see.",
+                        "I love seeing my creations used in the world."
+                    ],
+                    "ideal": [
+                        "Innovation. Magic should evolve with invention. (Chaotic)",
+                        "Purpose. Every item I make must serve a higher goal. (Lawful)",
+                        "Discovery. There's always something new to create. (Neutral)",
+                        "Community. My craft should empower others. (Good)",
+                        "Perfection. Only flawless craftsmanship is acceptable. (Any)",
+                        "Control. Whoever makes the tools, shapes the world. (Lawful)"
+                    ],
+                    "bond": [
+                        "I lost a mentor whose secrets I still pursue.",
+                        "I once made something dangerous—now I seek to fix that mistake.",
+                        "I crafted a weapon that became legendary—I want to surpass it.",
+                        "I’m building a masterpiece to leave behind as a legacy.",
+                        "A client betrayed me, and I’ve sworn to reclaim what they stole.",
+                        "I’m in debt to a patron who funded my workshop—and owns part of me."
+                    ],
+                    "flaw": [
+                        "I overestimate my ability to fix magical problems.",
+                        "I hoard magical scraps and refuse to throw anything away.",
+                        "I obsess over unfinished designs and neglect everything else.",
+                        "I underestimate people who aren’t ‘intellectuals’.",
+                        "I’ll risk safety for the thrill of creation.",
+                        "I secretly think my work is never good enough."
+                    ]
                 }
             }
         },
@@ -1047,40 +1047,40 @@
                 "name": "Aptidão Magitécnica",
                 "description": "Você identifica rapidamente ferramentas mágicas e seus possíveis usos, e tem vantagem em testes de Inteligência (Arcanismo) relacionados a criação ou conserto de itens mágicos. Aqueles que buscam equipamentos encantados podem procurá-lo para reparos ou encomendas, especialmente em cidades com comércio arcano.",
                 "suggested": {
-                "personalityTrait": [
-                    "Tenho o hábito de ajustar qualquer mecanismo que vejo.",
-                    "Falo melhor em fórmulas do que em conversas.",
-                    "Trato itens mágicos como obras de arte, não ferramentas.",
-                    "Sempre carrego giz, tinta e pedaços de pergaminho.",
-                    "Sinto-me mais à vontade com autômatos do que com pessoas.",
-                    "Acredito que tudo que está quebrado pode ser consertado — ou refundido.",
-                    "Analiso mentalmente como desmontar tudo que vejo.",
-                    "Adoro ver minhas criações sendo usadas no mundo."
-                ],
-                "ideal": [
-                    "Inovação. A magia deve evoluir junto com a invenção. (Caótico)",
-                    "Propósito. Cada item que crio deve servir a um objetivo maior. (Leal)",
-                    "Descoberta. Sempre há algo novo a ser criado. (Neutro)",
-                    "Comunidade. Meu ofício deve fortalecer os outros. (Bom)",
-                    "Perfeição. Só aceito um artesanato impecável. (Qualquer)",
-                    "Controle. Quem cria as ferramentas, molda o mundo. (Leal)"
-                ],
-                "bond": [
-                    "Perdi um mentor cujos segredos ainda busco.",
-                    "Criei algo perigoso — agora preciso consertar esse erro.",
-                    "Forjei uma arma que se tornou lendária — quero superá-la.",
-                    "Estou construindo uma obra-prima como legado.",
-                    "Um cliente me traiu, e jurei recuperar o que foi roubado.",
-                    "Estou em dívida com um patrono que financiou minha oficina — e agora tem parte de mim."
-                ],
-                "flaw": [
-                    "Superestimo minha capacidade de resolver problemas mágicos.",
-                    "Acumulo sucata mágica e me recuso a descartar qualquer coisa.",
-                    "Fico obcecado por projetos inacabados e ignoro o resto.",
-                    "Subestimo pessoas que não são 'intelectuais'.",
-                    "Arrisco a segurança pela emoção de criar.",
-                    "Secretamente acho que meu trabalho nunca é bom o suficiente."
-                ]
+                    "personalityTrait": [
+                        "Tenho o hábito de ajustar qualquer mecanismo que vejo.",
+                        "Falo melhor em fórmulas do que em conversas.",
+                        "Trato itens mágicos como obras de arte, não ferramentas.",
+                        "Sempre carrego giz, tinta e pedaços de pergaminho.",
+                        "Sinto-me mais à vontade com autômatos do que com pessoas.",
+                        "Acredito que tudo que está quebrado pode ser consertado — ou refundido.",
+                        "Analiso mentalmente como desmontar tudo que vejo.",
+                        "Adoro ver minhas criações sendo usadas no mundo."
+                    ],
+                    "ideal": [
+                        "Inovação. A magia deve evoluir junto com a invenção. (Caótico)",
+                        "Propósito. Cada item que crio deve servir a um objetivo maior. (Leal)",
+                        "Descoberta. Sempre há algo novo a ser criado. (Neutro)",
+                        "Comunidade. Meu ofício deve fortalecer os outros. (Bom)",
+                        "Perfeição. Só aceito um artesanato impecável. (Qualquer)",
+                        "Controle. Quem cria as ferramentas, molda o mundo. (Leal)"
+                    ],
+                    "bond": [
+                        "Perdi um mentor cujos segredos ainda busco.",
+                        "Criei algo perigoso — agora preciso consertar esse erro.",
+                        "Forjei uma arma que se tornou lendária — quero superá-la.",
+                        "Estou construindo uma obra-prima como legado.",
+                        "Um cliente me traiu, e jurei recuperar o que foi roubado.",
+                        "Estou em dívida com um patrono que financiou minha oficina — e agora tem parte de mim."
+                    ],
+                    "flaw": [
+                        "Superestimo minha capacidade de resolver problemas mágicos.",
+                        "Acumulo sucata mágica e me recuso a descartar qualquer coisa.",
+                        "Fico obcecado por projetos inacabados e ignoro o resto.",
+                        "Subestimo pessoas que não são 'intelectuais'.",
+                        "Arrisco a segurança pela emoção de criar.",
+                        "Secretamente acho que meu trabalho nunca é bom o suficiente."
+                    ]
                 }
             }
         }
@@ -1098,40 +1098,40 @@
                 "name": "Bond of the Wild",
                 "description": "You can earn the trust of beasts more easily than most. At the DM’s discretion, animals do not see you as a threat unless provoked. In wild regions, rangers, druids, and handlers often recognize you and may offer aid or shelter. You may also sense when beasts are in pain or danger.",
                 "suggested": {
-                "personalityTrait": [
-                    "I’m calm and still—like a predator waiting to strike.",
-                    "I speak gently, even to the fiercest beasts.",
-                    "I mimic animal calls as a habit.",
-                    "I eat raw or forageable foods whenever possible.",
-                    "I trust animals more than people.",
-                    "I mark trees and paths like a tracker.",
-                    "I feel more at home under open sky than under a roof.",
-                    "I react on instinct—and it usually works."
-                ],
-                "ideal": [
-                    "Freedom. All creatures should roam as they will. (Chaotic)",
-                    "Kinship. Beasts are not tools—they are companions. (Good)",
-                    "Survival. Only the strong endure. (Neutral)",
-                    "Balance. Nature must be respected and preserved. (Lawful)",
-                    "Understanding. We can learn much from the animal world. (Any)",
-                    "Loyalty. Once I bond with a creature, I protect it to the end. (Lawful)"
-                ],
-                "bond": [
-                    "I was raised by a wild creature, and I seek it still.",
-                    "A beast saved my life, and I carry its memory.",
-                    "I made a pact with a forest spirit tied to animal life.",
-                    "My companion was taken from me—I’ll find them or avenge them.",
-                    "I train animals to aid those in need.",
-                    "I search for a legendary beast spoken of in old tales."
-                ],
-                "flaw": [
-                    "I prioritize animals' safety over people's.",
-                    "I don’t know how to behave in cities or crowds.",
-                    "I speak in howls, hisses, or gestures more than words.",
-                    "I distrust anyone who mistreats beasts.",
-                    "I’m overly protective and aggressive when threatened.",
-                    "I bond too quickly with creatures that may not want it."
-                ]
+                    "personalityTrait": [
+                        "I’m calm and still—like a predator waiting to strike.",
+                        "I speak gently, even to the fiercest beasts.",
+                        "I mimic animal calls as a habit.",
+                        "I eat raw or forageable foods whenever possible.",
+                        "I trust animals more than people.",
+                        "I mark trees and paths like a tracker.",
+                        "I feel more at home under open sky than under a roof.",
+                        "I react on instinct—and it usually works."
+                    ],
+                    "ideal": [
+                        "Freedom. All creatures should roam as they will. (Chaotic)",
+                        "Kinship. Beasts are not tools—they are companions. (Good)",
+                        "Survival. Only the strong endure. (Neutral)",
+                        "Balance. Nature must be respected and preserved. (Lawful)",
+                        "Understanding. We can learn much from the animal world. (Any)",
+                        "Loyalty. Once I bond with a creature, I protect it to the end. (Lawful)"
+                    ],
+                    "bond": [
+                        "I was raised by a wild creature, and I seek it still.",
+                        "A beast saved my life, and I carry its memory.",
+                        "I made a pact with a forest spirit tied to animal life.",
+                        "My companion was taken from me—I’ll find them or avenge them.",
+                        "I train animals to aid those in need.",
+                        "I search for a legendary beast spoken of in old tales."
+                    ],
+                    "flaw": [
+                        "I prioritize animals' safety over people's.",
+                        "I don’t know how to behave in cities or crowds.",
+                        "I speak in howls, hisses, or gestures more than words.",
+                        "I distrust anyone who mistreats beasts.",
+                        "I’m overly protective and aggressive when threatened.",
+                        "I bond too quickly with creatures that may not want it."
+                    ]
                 }
             }
         },
@@ -1146,40 +1146,40 @@
                 "name": "Laço Selvagem",
                 "description": "Você conquista a confiança de animais mais facilmente do que a maioria. A critério do Mestre, as feras não o veem como ameaça, a menos que sejam provocadas. Em regiões selvagens, patrulheiros, druidas e treinadores o reconhecem e podem oferecer abrigo ou ajuda. Você também pode perceber quando animais estão em perigo ou sofrimento.",
                 "suggested": {
-                "personalityTrait": [
-                    "Sou calmo e silencioso — como um predador à espreita.",
-                    "Falo com suavidade, até mesmo com as feras mais perigosas.",
-                    "Imito sons de animais por hábito.",
-                    "Prefiro alimentos crus ou coletados na natureza.",
-                    "Confio mais nos animais do que nas pessoas.",
-                    "Marco árvores e caminhos como um rastreador.",
-                    "Sinto-me mais em casa sob o céu aberto do que sob um teto.",
-                    "Reajo por instinto — e quase sempre funciona."
-                ],
-                "ideal": [
-                    "Liberdade. Todas as criaturas devem vagar livremente. (Caótico)",
-                    "Parceria. As feras não são ferramentas — são companheiras. (Bom)",
-                    "Sobrevivência. Só os fortes resistem. (Neutro)",
-                    "Equilíbrio. A natureza deve ser respeitada e preservada. (Leal)",
-                    "Compreensão. Podemos aprender muito com o mundo animal. (Qualquer)",
-                    "Lealdade. Uma vez que me uno a uma criatura, a protegerei até o fim. (Leal)"
-                ],
-                "bond": [
-                    "Fui criado por uma criatura selvagem e ainda a procuro.",
-                    "Uma fera salvou minha vida — e carrego sua memória comigo.",
-                    "Fiz um pacto com um espírito da floresta ligado à vida animal.",
-                    "Meu companheiro foi tirado de mim — vou encontrá-lo ou vingar-me.",
-                    "Treino animais para ajudar quem precisa.",
-                    "Procuro uma criatura lendária das antigas lendas."
-                ],
-                "flaw": [
-                    "Dou prioridade à segurança dos animais em vez das pessoas.",
-                    "Não sei como agir em cidades ou multidões.",
-                    "Falo com rosnados, assobios ou gestos mais do que com palavras.",
-                    "Desconfio de quem maltrata animais.",
-                    "Sou superprotetor e reajo agressivamente quando ameaçado.",
-                    "Crio laços rápidos demais com criaturas que talvez não queiram isso."
-                ]
+                    "personalityTrait": [
+                        "Sou calmo e silencioso — como um predador à espreita.",
+                        "Falo com suavidade, até mesmo com as feras mais perigosas.",
+                        "Imito sons de animais por hábito.",
+                        "Prefiro alimentos crus ou coletados na natureza.",
+                        "Confio mais nos animais do que nas pessoas.",
+                        "Marco árvores e caminhos como um rastreador.",
+                        "Sinto-me mais em casa sob o céu aberto do que sob um teto.",
+                        "Reajo por instinto — e quase sempre funciona."
+                    ],
+                    "ideal": [
+                        "Liberdade. Todas as criaturas devem vagar livremente. (Caótico)",
+                        "Parceria. As feras não são ferramentas — são companheiras. (Bom)",
+                        "Sobrevivência. Só os fortes resistem. (Neutro)",
+                        "Equilíbrio. A natureza deve ser respeitada e preservada. (Leal)",
+                        "Compreensão. Podemos aprender muito com o mundo animal. (Qualquer)",
+                        "Lealdade. Uma vez que me uno a uma criatura, a protegerei até o fim. (Leal)"
+                    ],
+                    "bond": [
+                        "Fui criado por uma criatura selvagem e ainda a procuro.",
+                        "Uma fera salvou minha vida — e carrego sua memória comigo.",
+                        "Fiz um pacto com um espírito da floresta ligado à vida animal.",
+                        "Meu companheiro foi tirado de mim — vou encontrá-lo ou vingar-me.",
+                        "Treino animais para ajudar quem precisa.",
+                        "Procuro uma criatura lendária das antigas lendas."
+                    ],
+                    "flaw": [
+                        "Dou prioridade à segurança dos animais em vez das pessoas.",
+                        "Não sei como agir em cidades ou multidões.",
+                        "Falo com rosnados, assobios ou gestos mais do que com palavras.",
+                        "Desconfio de quem maltrata animais.",
+                        "Sou superprotetor e reajo agressivamente quando ameaçado.",
+                        "Crio laços rápidos demais com criaturas que talvez não queiram isso."
+                    ]
                 }
             }
         }
@@ -1197,40 +1197,40 @@
                 "name": "Respected Among the Common Folk",
                 "description": "You command quiet respect from working people, servants, and laborers. In towns or villages, you can usually find shelter, a warm meal, or honest help from those who recognize your sincerity. You may also know how to speak plainly and earn trust quickly from those who value fairness and humility.",
                 "suggested": {
-                "personalityTrait": [
-                    "I share what little I have without hesitation.",
-                    "I treat everyone with kindness, no matter their station.",
-                    "I always remember where I came from.",
-                    "I value honesty above cleverness.",
-                    "I believe everyone deserves a chance.",
-                    "I work harder when others depend on me.",
-                    "I don’t envy wealth—I pity those who rely on it.",
-                    "I speak little, but I listen well."
-                ],
-                "ideal": [
-                    "Justice. Fairness and dignity are the rights of all. (Good)",
-                    "Compassion. Helping others is the highest purpose. (Good)",
-                    "Humility. We are all equal in worth. (Lawful)",
-                    "Hope. A better future is possible, even for the poor. (Neutral)",
-                    "Integrity. I will never betray what I believe. (Lawful)",
-                    "Responsibility. If I can help, I must. (Good)"
-                ],
-                "bond": [
-                    "I promised someone from my childhood I’d return one day to lift them up.",
-                    "I fight for those who can’t fight for themselves.",
-                    "My family or village depends on me—they are always in my thoughts.",
-                    "A mentor taught me to live honorably—I live by their example.",
-                    "I once received a great kindness from a stranger—I now pay it forward.",
-                    "My community was destroyed or oppressed, and I work to restore it."
-                ],
-                "flaw": [
-                    "I often put others’ needs before my own, to my detriment.",
-                    "I struggle to forgive those who abuse power.",
-                    "I’m too trusting, sometimes to a fault.",
-                    "I dislike asking for help, even when I need it.",
-                    "I hold grudges against those who look down on the poor.",
-                    "I can be stubborn when it comes to doing what I think is right."
-                ]
+                    "personalityTrait": [
+                        "I share what little I have without hesitation.",
+                        "I treat everyone with kindness, no matter their station.",
+                        "I always remember where I came from.",
+                        "I value honesty above cleverness.",
+                        "I believe everyone deserves a chance.",
+                        "I work harder when others depend on me.",
+                        "I don’t envy wealth—I pity those who rely on it.",
+                        "I speak little, but I listen well."
+                    ],
+                    "ideal": [
+                        "Justice. Fairness and dignity are the rights of all. (Good)",
+                        "Compassion. Helping others is the highest purpose. (Good)",
+                        "Humility. We are all equal in worth. (Lawful)",
+                        "Hope. A better future is possible, even for the poor. (Neutral)",
+                        "Integrity. I will never betray what I believe. (Lawful)",
+                        "Responsibility. If I can help, I must. (Good)"
+                    ],
+                    "bond": [
+                        "I promised someone from my childhood I’d return one day to lift them up.",
+                        "I fight for those who can’t fight for themselves.",
+                        "My family or village depends on me—they are always in my thoughts.",
+                        "A mentor taught me to live honorably—I live by their example.",
+                        "I once received a great kindness from a stranger—I now pay it forward.",
+                        "My community was destroyed or oppressed, and I work to restore it."
+                    ],
+                    "flaw": [
+                        "I often put others’ needs before my own, to my detriment.",
+                        "I struggle to forgive those who abuse power.",
+                        "I’m too trusting, sometimes to a fault.",
+                        "I dislike asking for help, even when I need it.",
+                        "I hold grudges against those who look down on the poor.",
+                        "I can be stubborn when it comes to doing what I think is right."
+                    ]
                 }
             }
         },
@@ -1245,40 +1245,40 @@
                 "name": "Respeitado entre o Povo Comum",
                 "description": "Você conquista respeito silencioso de trabalhadores, servos e camponeses. Em vilarejos ou bairros humildes, normalmente consegue abrigo, uma refeição quente ou ajuda sincera de quem reconhece sua honestidade. Também sabe como falar de forma simples e conquistar a confiança de quem valoriza a humildade.",
                 "suggested": {
-                "personalityTrait": [
-                    "Compartilho o pouco que tenho sem hesitar.",
-                    "Trato todos com bondade, não importa sua posição.",
-                    "Nunca esqueço de onde vim.",
-                    "Valorizo a honestidade acima da esperteza.",
-                    "Acredito que todos merecem uma chance.",
-                    "Trabalho com mais afinco quando outros dependem de mim.",
-                    "Não invejo os ricos — tenho pena dos que dependem da riqueza.",
-                    "Falo pouco, mas escuto com atenção."
-                ],
-                "ideal": [
-                    "Justiça. Todos têm direito à dignidade e equidade. (Bom)",
-                    "Compaixão. Ajudar os outros é o propósito mais nobre. (Bom)",
-                    "Humildade. Todos têm o mesmo valor. (Leal)",
-                    "Esperança. Um futuro melhor é possível, mesmo para os pobres. (Neutro)",
-                    "Integridade. Nunca trairei o que acredito. (Leal)",
-                    "Responsabilidade. Se posso ajudar, devo ajudar. (Bom)"
-                ],
-                "bond": [
-                    "Prometi a alguém da minha infância que voltaria um dia para ajudá-lo.",
-                    "Luto por aqueles que não podem lutar por si mesmos.",
-                    "Minha família ou vila depende de mim — sempre penso neles.",
-                    "Um mentor me ensinou a viver com honra — sigo seu exemplo.",
-                    "Certa vez, recebi uma grande bondade de um estranho — agora retribuo.",
-                    "Minha comunidade foi destruída ou oprimida, e busco restaurá-la."
-                ],
-                "flaw": [
-                    "Frequentemente coloco as necessidades dos outros acima das minhas, mesmo que me prejudique.",
-                    "Tenho dificuldade em perdoar quem abusa do poder.",
-                    "Confio demais nas pessoas, às vezes de forma ingênua.",
-                    "Detesto pedir ajuda, mesmo quando preciso.",
-                    "Guardo rancor de quem despreza os pobres.",
-                    "Sou teimoso quando acredito estar fazendo o que é certo."
-                ]
+                    "personalityTrait": [
+                        "Compartilho o pouco que tenho sem hesitar.",
+                        "Trato todos com bondade, não importa sua posição.",
+                        "Nunca esqueço de onde vim.",
+                        "Valorizo a honestidade acima da esperteza.",
+                        "Acredito que todos merecem uma chance.",
+                        "Trabalho com mais afinco quando outros dependem de mim.",
+                        "Não invejo os ricos — tenho pena dos que dependem da riqueza.",
+                        "Falo pouco, mas escuto com atenção."
+                    ],
+                    "ideal": [
+                        "Justiça. Todos têm direito à dignidade e equidade. (Bom)",
+                        "Compaixão. Ajudar os outros é o propósito mais nobre. (Bom)",
+                        "Humildade. Todos têm o mesmo valor. (Leal)",
+                        "Esperança. Um futuro melhor é possível, mesmo para os pobres. (Neutro)",
+                        "Integridade. Nunca trairei o que acredito. (Leal)",
+                        "Responsabilidade. Se posso ajudar, devo ajudar. (Bom)"
+                    ],
+                    "bond": [
+                        "Prometi a alguém da minha infância que voltaria um dia para ajudá-lo.",
+                        "Luto por aqueles que não podem lutar por si mesmos.",
+                        "Minha família ou vila depende de mim — sempre penso neles.",
+                        "Um mentor me ensinou a viver com honra — sigo seu exemplo.",
+                        "Certa vez, recebi uma grande bondade de um estranho — agora retribuo.",
+                        "Minha comunidade foi destruída ou oprimida, e busco restaurá-la."
+                    ],
+                    "flaw": [
+                        "Frequentemente coloco as necessidades dos outros acima das minhas, mesmo que me prejudique.",
+                        "Tenho dificuldade em perdoar quem abusa do poder.",
+                        "Confio demais nas pessoas, às vezes de forma ingênua.",
+                        "Detesto pedir ajuda, mesmo quando preciso.",
+                        "Guardo rancor de quem despreza os pobres.",
+                        "Sou teimoso quando acredito estar fazendo o que é certo."
+                    ]
                 }
             }
         }
