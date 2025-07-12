@@ -43,9 +43,7 @@ export default class UpdateCampaignImagesService {
                 (characterImage: ImageObject) => characterImage.id !== imageId
             );
         } else {
-            campaign.images.maps = campaign.images.maps.filter(
-                (mapImage: ImageObject) => mapImage.id !== imageId
-            );
+            campaign.images.maps = campaign.images.maps.filter((mapImage: ImageObject) => mapImage.id !== imageId);
         }
         return campaign;
     }
@@ -59,8 +57,7 @@ export default class UpdateCampaignImagesService {
     }: UpdateCampaignImagesPayload): Promise<CampaignInstance> {
         this._logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse =
-            image && (await this._imageStorageClient.upload(image, name));
+        const imageUploadResponse = image && (await this._imageStorageClient.upload(image, name));
 
         if (operation === 'add' && imageUploadResponse) {
             this.addCampaignImage(campaign, imageUploadResponse, name);

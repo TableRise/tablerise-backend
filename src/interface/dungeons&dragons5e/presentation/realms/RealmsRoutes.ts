@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { RealmsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/realms/RealmsRoutes';
 
 const BASE_PATH = '/system/dnd5e/realms';
@@ -43,10 +41,7 @@ export default class RealmsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._RealmsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
                 },
             },
@@ -59,10 +54,7 @@ export default class RealmsRoutes {
                 ],
                 controller: this._RealmsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
                 },
             },

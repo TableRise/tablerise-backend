@@ -12,17 +12,12 @@ describe('When a map image is added or removed from a match', () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
         await InjectNewCampaign(campaign);
 
-        filePath = path.resolve(
-            __dirname,
-            '../../../support/assets/test-image-batman.jpeg'
-        );
+        filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
     });
 
     it('should sucessfully add a map image to a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/match/map-images?operation=add`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/match/map-images?operation=add`)
             .attach('mapImage', filePath)
             .expect(HttpStatusCode.OK);
 
@@ -36,9 +31,7 @@ describe('When a map image is added or removed from a match', () => {
 
     it('should sucessfully remove a map image from a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/match/map-images?operation=remove&imageId=${imageId}`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/match/map-images?operation=remove&imageId=${imageId}`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(0);

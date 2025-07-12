@@ -6,10 +6,7 @@ export default class GetDisabledBackgroundsOperation {
     private readonly _getDisabledBackgroundsService;
     private readonly _logger;
 
-    constructor({
-        getDisabledBackgroundsService,
-        logger,
-    }: GetDisabledBackgroundsOperationContract) {
+    constructor({ getDisabledBackgroundsService, logger }: GetDisabledBackgroundsOperationContract) {
         this._getDisabledBackgroundsService = getDisabledBackgroundsService;
         this._logger = logger;
 

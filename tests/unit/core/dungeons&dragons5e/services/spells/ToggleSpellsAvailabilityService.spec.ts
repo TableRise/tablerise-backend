@@ -3,9 +3,7 @@ import ToggleSpellsAvailabilityService from 'src/core/dungeons&dragons5e/service
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleSpellsAvailabilityService', () => {
-    let toggleSpellsAvailabilityService: ToggleSpellsAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        spell: any;
+    let toggleSpellsAvailabilityService: ToggleSpellsAvailabilityService, dungeonsAndDragonsRepository: any, spell: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleSpellsAvailabilityServi
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Spells'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Spells');
             expect(spellsTest).to.be.deep.equal({ ...spell[0], active: false });
         });
     });

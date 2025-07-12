@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetFeatService', () => {
         it('should return the correct data and call correct methods', async () => {
             const featsTest = await getFeatService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Feats'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Feats');
             expect(featsTest).to.be.deep.equal(feat[0]);
         });
     });

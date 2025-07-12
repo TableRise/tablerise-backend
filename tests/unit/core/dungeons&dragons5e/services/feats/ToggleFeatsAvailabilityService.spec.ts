@@ -3,9 +3,7 @@ import ToggleFeatsAvailabilityService from 'src/core/dungeons&dragons5e/services
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleFeatsAvailabilityService', () => {
-    let toggleFeatsAvailabilityService: ToggleFeatsAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        feat: any;
+    let toggleFeatsAvailabilityService: ToggleFeatsAvailabilityService, dungeonsAndDragonsRepository: any, feat: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleFeatsAvailabilityServic
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Feats'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Feats');
             expect(featsTest).to.be.deep.equal({ ...feat[0], active: false });
         });
     });

@@ -14,14 +14,7 @@
                 "weapons": ["simple weapons", "martial weapons"],
                 "tools": [],
                 "savingThrows": ["strength", "constitution"],
-                "skills": [
-                    "animal handling",
-                    "athletics",
-                    "intimidation",
-                    "nature",
-                    "perception",
-                    "survival"
-                ]
+                "skills": ["animal handling", "athletics", "intimidation", "nature", "perception", "survival"]
             },
             "equipment": [
                 {
@@ -38,12 +31,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Range, Unarmored Defense",
                     "Reckless Attack, Danger Sense",
@@ -106,9 +95,7 @@
                 },
                 "Rages": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999
-                    ]
+                    "amount": [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999]
                 },
                 "RageDamage": {
                     "isValidToThisClass": true,
@@ -278,14 +265,7 @@
                 "weapons": ["armas simples", "armas marciais"],
                 "tools": [],
                 "savingThrows": ["força", "constituição"],
-                "skills": [
-                    "adestrar animais",
-                    "atletismo",
-                    "intimidação",
-                    "natureza",
-                    "percepção",
-                    "sobrevivência"
-                ]
+                "skills": ["adestrar animais", "atletismo", "intimidação", "natureza", "percepção", "sobrevivência"]
             },
             "equipment": [
                 {
@@ -302,12 +282,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Raiva, Defesa Inarmada",
                     "Ataque Despreocupado, Sentido de Perigo",
@@ -370,9 +346,7 @@
                 },
                 "Rages": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999
-                    ]
+                    "amount": [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999]
                 },
                 "RageDamage": {
                     "isValidToThisClass": true,
@@ -535,13 +509,7 @@
             },
             "proficiencies": {
                 "armor": ["light armor"],
-                "weapons": [
-                    "simple weapons",
-                    "hand crossbows",
-                    "longswords",
-                    "rapiers",
-                    "shortswords"
-                ],
+                "weapons": ["simple weapons", "hand crossbows", "longswords", "rapiers", "shortswords"],
                 "tools": ["three musical instruments of your choice"],
                 "savingThrows": ["dexterity", "charisma"],
                 "skills": ["choose any three"]
@@ -566,12 +534,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Spellcasting, Bardic Inspiration (d6)",
                     "Jack of All Trades, Song of Rest (d6)",
@@ -626,10 +590,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 15, 16, 18, 19, 19, 20, 22,
-                        22, 22
-                    ]
+                    "amount": [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 15, 16, 18, 19, 19, 20, 22, 22, 22]
                 },
                 "kiPoints": {
                     "isValidToThisClass": false,
@@ -786,13 +747,7 @@
             },
             "proficiencies": {
                 "armor": ["armadura leve"],
-                "weapons": [
-                    "armas simples",
-                    "bestas de mão",
-                    "espadas longas",
-                    "rapieiras",
-                    "espadas curtas"
-                ],
+                "weapons": ["armas simples", "bestas de mão", "espadas longas", "rapieiras", "espadas curtas"],
                 "tools": ["três instrumentos musicais à sua escolha"],
                 "savingThrows": ["destreza", "carisma"],
                 "skills": ["escolha três quaisquer"]
@@ -817,12 +772,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Magia, Inspiração Bárdica (d6)",
                     "Toque de Tudo, Canção de Descanso (d6)",
@@ -877,10 +828,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 15, 16, 18, 19, 19, 20, 22,
-                        22, 22
-                    ]
+                    "amount": [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 15, 16, 18, 19, 19, 20, 22, 22, 22]
                 },
                 "kiPoints": { "isValidToThisClass": false, "amount": [] },
                 "matialArts": { "isValidToThisClass": false, "amount": [] },
@@ -999,12 +947,8 @@
                 { "a": "shield and a holy symbol", "b": "no-alternative" }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Spellcasting, Divine Domain",
                     "Channel Divinity (1/rest), Divine Domain Feature",
@@ -1432,12 +1376,8 @@
                 { "a": "escudo e um símbolo sagrado", "b": "sem alternativa" }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Conjuração, Domínio Divino",
                     "Canalizar Divindade (1/descanso), Recurso do Domínio Divino",
@@ -1895,12 +1835,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Druidic, Spellcasting",
                     "Wild Shape, Druid Circle",
@@ -1959,9 +1895,7 @@
                 },
                 "wildShapeUses": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 999
-                    ]
+                    "amount": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 999]
                 }
             },
             "characteristics": [
@@ -2055,12 +1989,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Druídico, Conjuração",
                     "Forma Selvagem, Círculo Druídico",
@@ -2119,9 +2049,7 @@
                 },
                 "wildShapeUses": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 999
-                    ]
+                    "amount": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 999]
                 }
             },
             "characteristics": [
@@ -2209,12 +2137,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Fighting Style, Second Wind",
                     "Action Surge (1 use)",
@@ -2314,12 +2238,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Estilo de Combate, Fôlego de Luta",
                     "Surto de Ação (1 uso)",
@@ -2392,14 +2312,7 @@
                 "weapons": ["simple weapons", "shortswords"],
                 "tools": ["Choose one type of artisan's tools or one musical instrument"],
                 "savingThrows": ["strength", "dexterity"],
-                "skills": [
-                    "acrobatics",
-                    "athletics",
-                    "history",
-                    "insight",
-                    "religion",
-                    "stealth"
-                ]
+                "skills": ["acrobatics", "athletics", "history", "insight", "religion", "stealth"]
             },
             "equipment": [
                 {
@@ -2416,12 +2329,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Unarmored Defense, Martial Arts",
                     "Ki, Unarmored Movement",
@@ -2459,10 +2368,7 @@
                 },
                 "kiPoints": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                        20
-                    ]
+                    "amount": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
                 },
                 "matialArts": {
                     "isValidToThisClass": true,
@@ -2775,18 +2681,9 @@
             "proficiencies": {
                 "armor": [],
                 "weapons": ["armas simples", "espadas curtas"],
-                "tools": [
-                    "Escolha um tipo de ferramentas de artesão ou um instrumento musical"
-                ],
+                "tools": ["Escolha um tipo de ferramentas de artesão ou um instrumento musical"],
                 "savingThrows": ["força", "destreza"],
-                "skills": [
-                    "acrobacia",
-                    "atletismo",
-                    "história",
-                    "intuição",
-                    "religião",
-                    "furtividade"
-                ]
+                "skills": ["acrobacia", "atletismo", "história", "intuição", "religião", "furtividade"]
             },
             "equipment": [
                 {
@@ -2803,12 +2700,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Defesa Sem Armadura, Artes Marciais",
                     "Ki, Movimento Sem Armadura",
@@ -2846,10 +2739,7 @@
                 },
                 "kiPoints": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                        20
-                    ]
+                    "amount": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
                 },
                 "matialArts": {
                     "isValidToThisClass": true,
@@ -3167,14 +3057,7 @@
                 "weapons": ["simple weapons", "martial weapons"],
                 "tools": [],
                 "savingThrows": ["wisdom", "charisma"],
-                "skills": [
-                    "athletics",
-                    "insight",
-                    "intimidation",
-                    "medicine",
-                    "persuasion",
-                    "religion"
-                ]
+                "skills": ["athletics", "insight", "intimidation", "medicine", "persuasion", "religion"]
             },
             "equipment": [
                 {
@@ -3195,12 +3078,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Divine Sense, Lay on Hands",
                     "Fighting Style, Spellcasting, Divine Smite",
@@ -3510,14 +3389,7 @@
                 "weapons": ["armas simples", "armas marciais"],
                 "tools": [],
                 "savingThrows": ["sabedoria", "carisma"],
-                "skills": [
-                    "atletismo",
-                    "intimidação",
-                    "intuição",
-                    "medicina",
-                    "persuasão",
-                    "religião"
-                ]
+                "skills": ["atletismo", "intimidação", "intuição", "medicina", "persuasão", "religião"]
             },
             "equipment": [
                 {
@@ -3538,12 +3410,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Sentido Divino, Cura pelas Mãos",
                     "Estilo de Luta, Conjuração, Destruição Divina",
@@ -3880,12 +3748,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Favored Enemy, Natural Explorer",
                     "Fighting Style, Spellcasting",
@@ -3940,9 +3804,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11
-                    ]
+                    "amount": [0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11]
                 },
                 "kiPoints": {
                     "isValidToThisClass": false,
@@ -4170,12 +4032,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Inimigo Favorito, Explorador Natural",
                     "Estilo de Luta, Conjuração",
@@ -4230,9 +4088,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11
-                    ]
+                    "amount": [0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11]
                 },
                 "kiPoints": {
                     "isValidToThisClass": false,
@@ -4430,13 +4286,7 @@
             },
             "proficiencies": {
                 "armor": ["light armor"],
-                "weapons": [
-                    "simple weapons",
-                    "hand crossbows",
-                    "longswords",
-                    "rapiers",
-                    "shortswords"
-                ],
+                "weapons": ["simple weapons", "hand crossbows", "longswords", "rapiers", "shortswords"],
                 "tools": ["thieves' tools"],
                 "savingThrows": ["dexterity", "intelligence"],
                 "skills": [
@@ -4473,12 +4323,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Expertise, Sneak Attack, Thieves’ Cant",
                     "Cunning Action",
@@ -4743,13 +4589,7 @@
             },
             "proficiencies": {
                 "armor": ["armaduras leves"],
-                "weapons": [
-                    "armas simples",
-                    "bestas de mão",
-                    "espadas longas",
-                    "rapieiras",
-                    "espadas curtas"
-                ],
+                "weapons": ["armas simples", "bestas de mão", "espadas longas", "rapieiras", "espadas curtas"],
                 "tools": ["ferramentas de ladrão"],
                 "savingThrows": ["destreza", "inteligência"],
                 "skills": [
@@ -4786,12 +4626,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Especialização, Ataque Furtivo, Gíria dos Ladrões",
                     "Ação Ardilosa",
@@ -5059,23 +4895,10 @@
             },
             "proficiencies": {
                 "armor": [],
-                "weapons": [
-                    "daggers",
-                    "darts",
-                    "slings",
-                    "quarterstaffs",
-                    "light crossbows"
-                ],
+                "weapons": ["daggers", "darts", "slings", "quarterstaffs", "light crossbows"],
                 "tools": [],
                 "savingThrows": ["constitution", "charisma"],
-                "skills": [
-                    "arcana",
-                    "deception",
-                    "insight",
-                    "intimidation",
-                    "persuasion",
-                    "religion"
-                ]
+                "skills": ["arcana", "deception", "insight", "intimidation", "persuasion", "religion"]
             },
             "equipment": [
                 {
@@ -5096,12 +4919,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Spellcasting, Sorcerous Origin",
                     "Font of Magic",
@@ -5156,10 +4975,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15,
-                        15, 15
-                    ]
+                    "amount": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15, 15]
                 },
                 "kiPoints": { "isValidToThisClass": false, "amount": [] },
                 "matialArts": { "isValidToThisClass": false, "amount": [] },
@@ -5167,10 +4983,7 @@
                 "sneakAttack": { "isValidToThisClass": false, "amount": [] },
                 "sorceryPoints": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                        20
-                    ]
+                    "amount": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
                 },
                 "invocationsKnown": { "isValidToThisClass": false, "amount": [] },
                 "Rages": { "isValidToThisClass": false, "amount": [] },
@@ -5295,14 +5108,7 @@
                 "weapons": ["adagas", "dardos", "fundas", "bordões", "bestas leves"],
                 "tools": [],
                 "savingThrows": ["constituição", "carisma"],
-                "skills": [
-                    "arcanismo",
-                    "enganação",
-                    "intuição",
-                    "intimidação",
-                    "persuasão",
-                    "religião"
-                ]
+                "skills": ["arcanismo", "enganação", "intuição", "intimidação", "persuasão", "religião"]
             },
             "equipment": [
                 {
@@ -5323,12 +5129,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Conjuração, Origem Feiticeira",
                     "Fonte da Magia",
@@ -5383,10 +5185,7 @@
                 },
                 "spellsKnown": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15,
-                        15, 15
-                    ]
+                    "amount": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15, 15]
                 },
                 "kiPoints": { "isValidToThisClass": false, "amount": [] },
                 "matialArts": { "isValidToThisClass": false, "amount": [] },
@@ -5394,10 +5193,7 @@
                 "sneakAttack": { "isValidToThisClass": false, "amount": [] },
                 "sorceryPoints": {
                     "isValidToThisClass": true,
-                    "amount": [
-                        0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                        20
-                    ]
+                    "amount": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
                 },
                 "invocationsKnown": { "isValidToThisClass": false, "amount": [] },
                 "Rages": { "isValidToThisClass": false, "amount": [] },
@@ -5525,15 +5321,7 @@
                 "weapons": ["simple weapons"],
                 "tools": [],
                 "savingThrows": ["wisdom", "charisma"],
-                "skills": [
-                    "arcana",
-                    "deception",
-                    "history",
-                    "intimidation",
-                    "investigation",
-                    "nature",
-                    "religion"
-                ]
+                "skills": ["arcana", "deception", "history", "intimidation", "investigation", "nature", "religion"]
             },
             "equipment": [
                 {
@@ -5730,15 +5518,7 @@
                 "weapons": ["armas simples"],
                 "tools": [],
                 "savingThrows": ["sabedoria", "carisma"],
-                "skills": [
-                    "arcanismo",
-                    "enganação",
-                    "história",
-                    "intimidação",
-                    "investigação",
-                    "natureza",
-                    "religião"
-                ]
+                "skills": ["arcanismo", "enganação", "história", "intimidação", "investigação", "natureza", "religião"]
             },
             "equipment": [
                 {
@@ -5914,23 +5694,10 @@
             },
             "proficiencies": {
                 "armor": [],
-                "weapons": [
-                    "daggers",
-                    "darts",
-                    "slings",
-                    "quarterstaffs",
-                    "light crossbows"
-                ],
+                "weapons": ["daggers", "darts", "slings", "quarterstaffs", "light crossbows"],
                 "tools": [],
                 "savingThrows": ["intelligence", "wisdom"],
-                "skills": [
-                    "arcana",
-                    "history",
-                    "insight",
-                    "investigation",
-                    "medicine",
-                    "religion"
-                ]
+                "skills": ["arcana", "history", "insight", "investigation", "medicine", "religion"]
             },
             "equipment": [
                 {
@@ -5951,12 +5718,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Spellcasting, Arcane Recovery",
                     "Arcane Tradition",
@@ -6212,14 +5975,7 @@
                 "weapons": ["adagas", "dardos", "fundas", "bastões", "balestras leves"],
                 "tools": [],
                 "savingThrows": ["inteligência", "sabedoria"],
-                "skills": [
-                    "arcanismo",
-                    "história",
-                    "intuição",
-                    "investigação",
-                    "medicina",
-                    "religião"
-                ]
+                "skills": ["arcanismo", "história", "intuição", "investigação", "medicina", "religião"]
             },
             "equipment": [
                 {
@@ -6240,12 +5996,8 @@
                 }
             ],
             "levelingSpecs": {
-                "level": [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-                ],
-                "proficiencyBonus": [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6
-                ],
+                "level": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                "proficiencyBonus": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 "features": [
                     "Conjuração, Recuperação Arcana",
                     "Tradição Arcana",

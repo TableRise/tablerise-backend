@@ -3,10 +3,7 @@ import sinon from 'sinon';
 import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFactorOperation';
 
 describe('Core :: Users :: Operations :: ResetTwoFactorOperation', () => {
-    let resetTwoFactorOperation: ResetTwoFactorOperation,
-        resetTwoFactorService: any,
-        user: any,
-        userDetails: any;
+    let resetTwoFactorOperation: ResetTwoFactorOperation, resetTwoFactorService: any, user: any, userDetails: any;
 
     const logger = (): void => {};
 

@@ -19,9 +19,7 @@ export default class UpdateCharacterPictureService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async uploadPicture(
-        payload: UpdateCharacterPicturePayload
-    ): Promise<CharacterInstance> {
+    public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
         const { characterId, image } = payload;
         const characterInDb = await this._charactersRepository.findOne({ characterId });

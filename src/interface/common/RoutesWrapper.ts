@@ -22,8 +22,7 @@ export default class RoutesWrapper {
 
     public routes(): Route {
         return {
-            'dungeons&dragons5e':
-                this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
+            'dungeons&dragons5e': this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
             user: this._usersRoutesBuilder.get().usersRoutes,
             campaign: this._campaignsRoutesBuilder.get().campaignsRoutes,
             character: this._charactersRoutesBuilder.get().charactersRoutes,

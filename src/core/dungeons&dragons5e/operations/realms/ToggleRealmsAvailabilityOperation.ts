@@ -7,20 +7,14 @@ export default class ToggleRealmsAvailabilityOperation {
     private readonly _toggleRealmsAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleRealmsAvailabilityService,
-        logger,
-    }: ToggleRealmsAvailabilityOperationContract) {
+    constructor({ toggleRealmsAvailabilityService, logger }: ToggleRealmsAvailabilityOperationContract) {
         this._toggleRealmsAvailabilityService = toggleRealmsAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Realm>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Realm>> {
         this._logger('info', 'Execute - ToggleRealmsAvailabilityOperation');
         const realms = await this._toggleRealmsAvailabilityService.toggle({
             id,

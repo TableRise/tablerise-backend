@@ -5,16 +5,14 @@ import { ErrorTypes, Errors } from 'src/types/shared/errors';
 
 describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     const expectedErrors: Record<ErrorTypes, string> = {
-        'save-forbidden-content':
-            'Forbidden content was sent to save in database - check business rules',
+        'save-forbidden-content': 'Forbidden content was sent to save in database - check business rules',
         unauthorized: 'Unauthorized',
         'campaign-player-not-exists': 'This player is not in the campaign',
         'email-already-exist': 'Email already exists in database',
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',
         '2fa-no-active': '2FA not enabled for this user',
-        '2fa-and-secret-question-no-active':
-            '2FA not enabled for this user neither secretQuestion',
+        '2fa-and-secret-question-no-active': '2FA not enabled for this user neither secretQuestion',
         '2fa-already-active': '2FA is already enabled for this user',
         '2fa-incorrect': 'Two factor code does not match',
         'rpg-not-found-id': 'NotFound an object with provided ID',
@@ -22,11 +20,9 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'query-missing': 'Query must not be empty',
         'invalid-user-status': 'User status is invalid to perform this operation',
         'invalid-email-verify-code': 'Invalid email verify code',
-        'linked-mandatory-data-when-delete':
-            'There is a campaign or character linked to this user',
+        'linked-mandatory-data-when-delete': 'There is a campaign or character linked to this user',
         'verification-email-send-fail': 'Some problem ocurred in email sending',
-        'user-database-critical-errror':
-            'User database is not according with User Details database',
+        'user-database-critical-errror': 'User database is not according with User Details database',
         'query-fail': 'Query was not found in database',
         'info-already-added': 'Info already added',
         'player-is-the-dungeon-master': 'Player is the dungeon master',
@@ -34,11 +30,9 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'player-not-in-match': 'Player not in match',
         'content-inexistent': 'This content do not exist in the RPG system',
         'incorrect-secret-question': 'Secret question is incorrect',
-        'new-structure-secret-question-missing':
-            'Structure of new for new question and answer is missing',
+        'new-structure-secret-question-missing': 'Structure of new for new question and answer is missing',
         'blank-question-or-answer': 'Some error not specified ocurred',
-        'campaign-match-inexistent':
-            'Campaign Match does not exist and cannot be updated',
+        'campaign-match-inexistent': 'Campaign Match does not exist and cannot be updated',
 
         login: 'Some error not specified ocurred',
         'linked-data': 'Some error not specified ocurred',
@@ -56,9 +50,7 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
     context('When an error is throwed by HttpRequestErrors', () => {
         it('should throw expected error', () => {
             for (const [key, value] of Object.entries(expectedErrors)) {
-                expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(
-                    value
-                );
+                expect(() => HttpRequestErrors.throwError(key as ErrorTypes)).to.throw(value);
             }
         });
 

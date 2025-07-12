@@ -9,10 +9,7 @@ export default class CampaignsRoutesBuilder {
     private readonly _campaignsRoutes;
     private readonly _verifyUserMiddleware;
 
-    constructor({
-        campaignsRoutes,
-        verifyUserMiddleware,
-    }: CampaignsRoutesBuilderContract) {
+    constructor({ campaignsRoutes, verifyUserMiddleware }: CampaignsRoutesBuilderContract) {
         this._campaignsRoutes = campaignsRoutes;
         this._verifyUserMiddleware = verifyUserMiddleware;
     }

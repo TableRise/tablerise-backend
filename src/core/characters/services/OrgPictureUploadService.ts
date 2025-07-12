@@ -19,17 +19,12 @@ export default class OrgPictureUploadService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async uploadPicture({
-        characterId,
-        image,
-        orgName,
-    }: orgPicturePayload): Promise<CharacterInstance> {
+    public async uploadPicture({ characterId, image, orgName }: orgPicturePayload): Promise<CharacterInstance> {
         this._logger('info', 'UploadPicture - OrgPictureUploadService');
         const characterInDb = await this._characterRepository.findOne({ characterId });
-        const allyOrOrgIndex =
-            characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
-                (ally) => ally.orgName === orgName
-            );
+        const allyOrOrgIndex = characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
+            (ally) => ally.orgName === orgName
+        );
 
         if (allyOrOrgIndex === -1) {
             throw new Error('Organization not found');

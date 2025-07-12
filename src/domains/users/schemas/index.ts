@@ -1,8 +1,4 @@
-import userZod, {
-    emailUpdateZodSchema,
-    passwordUpdateZodSchema,
-    updateUserZodSchema,
-} from './usersValidationSchema';
+import userZod, { emailUpdateZodSchema, passwordUpdateZodSchema, updateUserZodSchema } from './usersValidationSchema';
 import userDetailZod from './userDetailsValidationSchema';
 import { oAuthCompleteZodSchema } from './oAuthValidationSchema';
 

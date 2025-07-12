@@ -45,18 +45,12 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
             });
 
             it('should call the correct methods', async () => {
-                const updateImagesTest = await updateCampaignImagesOperation.execute(
-                    CampaignImagesPayload
-                );
+                const updateImagesTest = await updateCampaignImagesOperation.execute(CampaignImagesPayload);
 
-                expect(
-                    updateCampaignImagesService.updateCampaignImage
-                ).to.have.been.called();
+                expect(updateCampaignImagesService.updateCampaignImage).to.have.been.called();
                 expect(updateCampaignImagesService.save).to.have.been.called();
                 expect(updateImagesTest.maps[0]).to.have.property('id');
-                expect(updateImagesTest.maps[0].id).to.be.equal(
-                    campaign.images.maps[0].id
-                );
+                expect(updateImagesTest.maps[0].id).to.be.equal(campaign.images.maps[0].id);
             });
         });
 
@@ -94,18 +88,12 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignImagesOperation', () 
             });
 
             it('should call the correct methods', async () => {
-                const updateImagesTest = await updateCampaignImagesOperation.execute(
-                    CampaignImagesPayload
-                );
+                const updateImagesTest = await updateCampaignImagesOperation.execute(CampaignImagesPayload);
 
-                expect(
-                    updateCampaignImagesService.updateCampaignImage
-                ).to.have.been.called();
+                expect(updateCampaignImagesService.updateCampaignImage).to.have.been.called();
                 expect(updateCampaignImagesService.save).to.have.been.called();
                 expect(updateImagesTest.characters[0]).to.have.property('id');
-                expect(updateImagesTest.characters[0].id).to.be.equal(
-                    campaign.images.characters[0].id
-                );
+                expect(updateImagesTest.characters[0].id).to.be.equal(campaign.images.characters[0].id);
             });
         });
     });

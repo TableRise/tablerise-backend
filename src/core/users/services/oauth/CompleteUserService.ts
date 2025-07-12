@@ -23,10 +23,7 @@ export default class CompleteUserService {
         this.save = this.save.bind(this);
     }
 
-    public async process(
-        { user, userDetails }: __FullUser,
-        payload: CompleteOAuthPayload
-    ): Promise<__FullUser> {
+    public async process({ user, userDetails }: __FullUser, payload: CompleteOAuthPayload): Promise<__FullUser> {
         this._logger('info', 'Process - CompleteUserService');
         user.nickname = payload.nickname;
 
@@ -46,11 +43,7 @@ export default class CompleteUserService {
         return { user, userDetails };
     }
 
-    public async save({
-        userId,
-        user,
-        userDetails,
-    }: __UserWithID): Promise<RegisterUserResponse> {
+    public async save({ userId, user, userDetails }: __UserWithID): Promise<RegisterUserResponse> {
         this._logger('info', 'Save - CompleteUserService');
         const userUpdated = await this._usersRepository.update({
             query: { userId },

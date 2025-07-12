@@ -17,11 +17,7 @@ export default class PublishmentService {
         this._logger = logger;
     }
 
-    async addPost({
-        campaignId,
-        userId,
-        payload,
-    }: publishmentPayload): Promise<CampaignInstance> {
+    async addPost({ campaignId, userId, payload }: publishmentPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - publishmentService');
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
         const userInDb = await this._usersRepository.findOne({ userId });

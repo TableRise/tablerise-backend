@@ -24,12 +24,7 @@ export default class PostInvitationEmailOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        targetEmail,
-        campaignId,
-        userId,
-        username,
-    }: PostInvitationEmailPayload): Promise<void> {
+    public async execute({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'Execute - PostInvitationEmailOperation');
         this._schemaValidator.entry(this._campaignsSchema.campaignInvitationEmailZod, {
             targetEmail,

@@ -6,10 +6,7 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/common/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import EmailSender from 'src/domains/users/helpers/EmailSender';
-import {
-    MongooseEnvs,
-    RedisEnvs,
-} from '@tablerise/database-management/dist/src/types/Envs';
+import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src/types/Envs';
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
@@ -74,10 +71,7 @@ exports.mochaHooks = {
         };
 
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance(
-            'user',
-            'UserDetails'
-        );
+        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
         await UsersModel.create(user);
         await UserDetailsModel.create(details);
@@ -90,16 +84,12 @@ exports.mochaHooks = {
             });
         logger('test', 'Stub AuthorizationMiddleware.prototype');
 
-        sinon
-            .stub(VerifyEmailCodeMiddleware.prototype, 'verify')
-            .callsFake(async (_req, _res, next): Promise<void> => {
-                next();
-            });
+        sinon.stub(VerifyEmailCodeMiddleware.prototype, 'verify').callsFake(async (_req, _res, next): Promise<void> => {
+            next();
+        });
         logger('test', 'Stub VerifyEmailCodeMiddleware.prototype');
 
-        sinon
-            .stub(EmailSender.prototype, 'send')
-            .resolves({ success: true, verificationCode: 'LOKI74' });
+        sinon.stub(EmailSender.prototype, 'send').resolves({ success: true, verificationCode: 'LOKI74' });
         logger('test', 'Stub EmailSender.prototype');
 
         sinon
@@ -109,24 +99,16 @@ exports.mochaHooks = {
             });
         logger('test', 'Stub AuthorizationMiddleware.prototype');
 
-        sinon
-            .stub(VerifyUserMiddleware.prototype, 'userStatus')
-            .callsFake(async (_req, _res, next): Promise<void> => {
-                next();
-            });
+        sinon.stub(VerifyUserMiddleware.prototype, 'userStatus').callsFake(async (_req, _res, next): Promise<void> => {
+            next();
+        });
         logger('test', 'Stub VerifyUserMiddleware.prototype');
     },
 
     async afterAll() {
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance(
-            'user',
-            'UserDetails'
-        );
-        const modelCampaign = new DatabaseManagement().modelInstance(
-            'campaign',
-            'Campaigns'
-        );
+        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const modelCampaign = new DatabaseManagement().modelInstance('campaign', 'Campaigns');
 
         await modelCampaign.erase();
         await UsersModel.erase();

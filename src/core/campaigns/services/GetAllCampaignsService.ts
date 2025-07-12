@@ -5,10 +5,7 @@ export default class GetAllCampaignsService {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({
-        campaignsRepository,
-        logger,
-    }: CampaignsDependencies['getAllCampaignsServiceContract']) {
+    constructor({ campaignsRepository, logger }: CampaignsDependencies['getAllCampaignsServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
     }
@@ -16,9 +13,7 @@ export default class GetAllCampaignsService {
     async getAll(): Promise<GetAllCampaignsResponse[]> {
         this._logger('info', 'GetAll - GetAllCampaignsService');
         const campaignsInDb = await this._campaignsRepository.find({});
-        const campaignsVisible = campaignsInDb.filter(
-            (campaign) => campaign.infos.visibility === 'visible'
-        );
+        const campaignsVisible = campaignsInDb.filter((campaign) => campaign.infos.visibility === 'visible');
 
         return campaignsVisible.map(
             (campaign) =>

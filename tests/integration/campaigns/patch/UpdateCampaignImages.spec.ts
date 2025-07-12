@@ -12,10 +12,7 @@ describe('When a map or character image is added or removed from a campaign', ()
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
         await InjectNewCampaign(campaign);
 
-        filePath = path.resolve(
-            __dirname,
-            '../../../support/assets/test-image-batman.jpeg'
-        );
+        filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
     });
 
     it('should sucessfully add a map image to a campaign', async () => {
@@ -34,9 +31,7 @@ describe('When a map or character image is added or removed from a campaign', ()
 
     it('should sucessfully remove a map image from a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId=${imageId}`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId=${imageId}`)
             .expect(HttpStatusCode.OK);
 
         expect(body.maps).to.be.an('array').with.lengthOf(0);
@@ -44,9 +39,7 @@ describe('When a map or character image is added or removed from a campaign', ()
 
     it('should sucessfully add a character image to a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/images?operation=add&name=batman`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/images?operation=add&name=batman`)
             .attach('image', filePath)
             .expect(HttpStatusCode.OK);
 
@@ -61,9 +54,7 @@ describe('When a map or character image is added or removed from a campaign', ()
 
     it('should sucessfully remove a character image from a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId&name=batman`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/images?operation=remove&imageId&name=batman`)
             .expect(HttpStatusCode.OK);
 
         expect(body.characters).to.be.an('array').with.lengthOf(0);

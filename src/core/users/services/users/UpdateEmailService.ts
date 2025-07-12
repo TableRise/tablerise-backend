@@ -9,11 +9,7 @@ export default class UpdateEmailService {
     private readonly _stateMachine;
     private readonly _logger;
 
-    constructor({
-        usersRepository,
-        stateMachine,
-        logger,
-    }: UserCoreDependencies['updateEmailServiceContract']) {
+    constructor({ usersRepository, stateMachine, logger }: UserCoreDependencies['updateEmailServiceContract']) {
         this._usersRepository = usersRepository;
         this._stateMachine = stateMachine;
         this._logger = logger;

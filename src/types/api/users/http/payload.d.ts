@@ -1,7 +1,4 @@
-import {
-    UserSecretQuestion,
-    UserDetailPayload,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserSecretQuestion, UserDetailPayload } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import { FileObject } from 'src/types/shared/file';

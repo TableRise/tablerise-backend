@@ -3,9 +3,7 @@ import { FacebookJSONPayload } from 'src/types/modules/infra/datafakers/users/Do
 import newUUID from 'src/domains/common/helpers/newUUID';
 import dataGenerator from '../dataGenerator';
 
-function createFacebookProfileFaker({
-    id = newUUID(),
-}: Facebook.Profile): Facebook.Profile {
+function createFacebookProfileFaker({ id = newUUID() }: Facebook.Profile): Facebook.Profile {
     return {
         id,
         provider: 'facebook',
@@ -16,10 +14,7 @@ function createFacebookProfileFaker({
     } as Facebook.Profile;
 }
 
-export default function generateFacebookProfileFaker({
-    count,
-    id,
-}: FacebookJSONPayload): Facebook.Profile[] {
+export default function generateFacebookProfileFaker({ count, id }: FacebookJSONPayload): Facebook.Profile[] {
     const profiles: Facebook.Profile[] = [];
 
     for (let index = 0; index <= count; index += 1) {

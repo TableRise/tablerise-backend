@@ -2,9 +2,7 @@ import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
@@ -92,10 +90,7 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.getUserById,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'users',
                     description: desc.get,
                 },
@@ -150,10 +145,7 @@ export default class UsersRoutes {
                 controller: this._usersController.update,
                 schema: DomainDataFaker.mocks.updateUserMock,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.update,
                 },
@@ -218,10 +210,7 @@ export default class UsersRoutes {
                 controller: this._usersController.activateSecretQuestion,
                 schema: DomainDataFaker.mocks.activateSecretQuestionMock,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.activateQuestion,
                 },
@@ -233,10 +222,7 @@ export default class UsersRoutes {
                 controller: this._usersController.updateSecretQuestion,
                 schema: DomainDataFaker.mocks.updateSecretQuestionMock,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.updateSecretQuestion,
                 },
@@ -247,10 +233,7 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.activateTwoFactor,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'management',
                     description: desc.activate2FA,
                 },
@@ -261,10 +244,7 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.resetTwoFactor,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'management',
                     description: desc.reset2FA,
                 },
@@ -276,10 +256,7 @@ export default class UsersRoutes {
                 controller: this._usersController.updateEmail,
                 schema: DomainDataFaker.mocks.updateEmailMock,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.updateEmail,
                 },
@@ -289,9 +266,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/update/password`,
                 controller: this._usersController.updatePassword,
                 schema: DomainDataFaker.mocks.updatePasswordMock,
-                parameters: [
-                    ...generateQueryParam(1, [{ name: 'email', type: 'string' }]),
-                ],
+                parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
                 options: {
                     tag: 'management',
                     description: desc.updatePassword,
@@ -304,10 +279,7 @@ export default class UsersRoutes {
                 schema: DomainDataFaker.mocks.updateGameInfo,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'management',
                     description: desc.updateGameInfo,
                 },
@@ -318,10 +290,7 @@ export default class UsersRoutes {
                 controller: this._usersController.resetProfile,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.resetProfile,
                 },
@@ -334,10 +303,7 @@ export default class UsersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._usersController.delete,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
                     description: desc.deleteProfile,
                 },

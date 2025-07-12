@@ -1,6 +1,4 @@
-import userStatusEnum, {
-    InProgressStatus,
-} from 'src/domains/users/enums/InProgressStatusEnum';
+import userStatusEnum, { InProgressStatus } from 'src/domains/users/enums/InProgressStatusEnum';
 import HttpRequestErrors from './helpers/HttpRequestErrors';
 import getErrorName from './helpers/getErrorName';
 import { HttpStatusCode } from './helpers/HttpStatusCode';
@@ -21,21 +19,9 @@ export const StateMachineFlow = {
         status.DONE,
     ],
     [flows.CREATE_USER]: [status.WAIT_TO_CONFIRM, status.DONE],
-    [flows.ACTIVATE_SECRET_QUESTION]: [
-        status.DONE,
-        status.WAIT_TO_ACTIVATE_SECRET_QUESTION,
-        status.DONE,
-    ],
-    [flows.UPDATE_SECRET_QUESTION]: [
-        status.DONE,
-        status.WAIT_TO_UPDATE_SECRET_QUESTION,
-        status.DONE,
-    ],
-    [flows.ACTIVATE_TWO_FACTOR]: [
-        status.DONE,
-        status.WAIT_TO_ACTIVATE_TWO_FACTOR,
-        status.DONE,
-    ],
+    [flows.ACTIVATE_SECRET_QUESTION]: [status.DONE, status.WAIT_TO_ACTIVATE_SECRET_QUESTION, status.DONE],
+    [flows.UPDATE_SECRET_QUESTION]: [status.DONE, status.WAIT_TO_UPDATE_SECRET_QUESTION, status.DONE],
+    [flows.ACTIVATE_TWO_FACTOR]: [status.DONE, status.WAIT_TO_ACTIVATE_TWO_FACTOR, status.DONE],
     [flows.RESET_TWO_FACTOR]: [
         status.DONE,
         status.WAIT_TO_START_RESET_TWO_FACTOR,
@@ -50,21 +36,14 @@ export const StateMachineFlow = {
         status.DONE,
     ],
     [flows.RESET_PROFILE]: [status.DONE, status.WAIT_TO_RESET_PROFILE, status.DONE],
-    [flows.DELETE_PROFILE]: [
-        status.DONE,
-        status.WAIT_TO_FINISH_DELETE_USER,
-        status.WAIT_TO_DELETE_USER,
-    ],
+    [flows.DELETE_PROFILE]: [status.DONE, status.WAIT_TO_FINISH_DELETE_USER, status.WAIT_TO_DELETE_USER],
 };
 
 export default class StateMachine {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({
-        usersRepository,
-        logger,
-    }: DomainsDependencies['stateMachineContract']) {
+    constructor({ usersRepository, logger }: DomainsDependencies['stateMachineContract']) {
         this._usersRepository = usersRepository;
         this._logger = logger;
     }
@@ -85,10 +64,7 @@ export default class StateMachine {
     ): void {
         const prevStatusFromActual = flow[stepIndex === 0 ? stepIndex : stepIndex - 1];
 
-        if (
-            prevStatusFromActual !== prevStatusMustBe &&
-            user.inProgress.currentFlow !== flows.NO_CURRENT_FLOW
-        ) {
+        if (prevStatusFromActual !== prevStatusMustBe && user.inProgress.currentFlow !== flows.NO_CURRENT_FLOW) {
             const errorMessageOne = `Entity actual status is ${status}`;
             const errorMessageTwo = `and previous status should be ${prevStatusMustBe}`;
             const errorMessageThree = `but is actually ${prevStatusFromActual}`;
@@ -109,13 +85,9 @@ export default class StateMachine {
         stepIndex: number,
         user: UserInstance
     ): void {
-        const nextStatusFromActual =
-            flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
+        const nextStatusFromActual = flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
 
-        if (
-            nextStatusFromActual !== nextStatusMustBe &&
-            nextStatusMustBe !== 'wait-for-new-flow'
-        ) {
+        if (nextStatusFromActual !== nextStatusMustBe && nextStatusMustBe !== 'wait-for-new-flow') {
             const errorMessageOne = `Entity actual status is ${status}`;
             const errorMessageTwo = `and next status should be ${nextStatusMustBe}`;
             const errorMessageThree = `but is actually ${nextStatusFromActual}`;
@@ -135,28 +107,19 @@ export default class StateMachine {
         selectFlow: InProgressStatus[],
         flow: stateFlowsKeys
     ): UserInstance['inProgress'] {
-        const userActualStatus =
-            selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
+        const userActualStatus = selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
 
         let userCurrentFlow =
-            stepIndex + 1 === selectFlow.length - 1
-                ? flows.NO_CURRENT_FLOW
-                : user.inProgress.currentFlow;
+            stepIndex + 1 === selectFlow.length - 1 ? flows.NO_CURRENT_FLOW : user.inProgress.currentFlow;
 
-        if (
-            userCurrentFlow === flows.NO_CURRENT_FLOW &&
-            stepIndex === 0 &&
-            selectFlow.length > 2
-        ) {
+        if (userCurrentFlow === flows.NO_CURRENT_FLOW && stepIndex === 0 && selectFlow.length > 2) {
             userCurrentFlow = flow;
         }
 
         const userPrevStatus = selectFlow[stepIndex];
 
         const userNextStatus =
-            stepIndex < selectFlow.length - 2
-                ? selectFlow[stepIndex + 2]
-                : ('wait-for-new-flow' as InProgressStatus);
+            stepIndex < selectFlow.length - 2 ? selectFlow[stepIndex + 2] : ('wait-for-new-flow' as InProgressStatus);
 
         return {
             status: userActualStatus,
@@ -167,18 +130,12 @@ export default class StateMachine {
         };
     }
 
-    public async machine(
-        flow: stateFlowsKeys,
-        user: UserInstance
-    ): Promise<UserInstance> {
+    public async machine(flow: stateFlowsKeys, user: UserInstance): Promise<UserInstance> {
         this._logger('warn', 'Machine - StateMachine');
 
         const { status, nextStatusWillBe, prevStatusMustBe } = user.inProgress;
 
-        this._logger(
-            'info',
-            `Actual user status is ${status} and must change to ${nextStatusWillBe}`
-        );
+        this._logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
 
         const selectFlow = StateMachineFlow[flow as keyof typeof StateMachineFlow];
         const stepIndex = selectFlow.findIndex((flowState) => flowState === status);

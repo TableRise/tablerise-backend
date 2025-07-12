@@ -49,9 +49,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchDateOperation', () => {
             });
 
             it('should call the correct methods', async () => {
-                const updateDateTest = await updateMatchDatesOperation.execute(
-                    matchDatesPayload
-                );
+                const updateDateTest = await updateMatchDatesOperation.execute(matchDatesPayload);
 
                 expect(updateMatchDateService.updateMatchDate).to.have.been.called();
                 expect(updateMatchDateService.save).to.have.been.called();

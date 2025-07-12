@@ -18,9 +18,7 @@ export default class Serializer {
         return 'provider' in obj && obj.provider === 'google';
     }
 
-    public externalUser(
-        userProfile: Google.Profile | Facebook.Profile | Discord.Profile
-    ): UserExternal {
+    public externalUser(userProfile: Google.Profile | Facebook.Profile | Discord.Profile): UserExternal {
         const user: UserExternal = {
             providerId: userProfile.id,
             email: '',
@@ -166,9 +164,7 @@ export default class Serializer {
         dataSerialized.id = id || '';
         dataSerialized.title = title || '';
         dataSerialized.link = url || '';
-        dataSerialized.uploadDate = time
-            ? new Date(time).toISOString()
-            : new Date().toISOString();
+        dataSerialized.uploadDate = time ? new Date(time).toISOString() : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
         dataSerialized.mediumSizeUrl = medium.url || '';
         dataSerialized.deleteUrl = deleteUrl || '';

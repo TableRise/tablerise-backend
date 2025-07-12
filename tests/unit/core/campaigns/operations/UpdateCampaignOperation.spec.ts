@@ -48,16 +48,10 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
             });
 
             it('should call correct methods and return correct data', async () => {
-                const campaignUpdateTest = await updateCampaignOperation.execute(
-                    campaignUpdatePayload
-                );
+                const campaignUpdateTest = await updateCampaignOperation.execute(campaignUpdatePayload);
                 expect(campaignUpdateTest).to.be.deep.equal(campaignUpdated);
-                expect(updateCampaignService.update).to.have.been.calledWith(
-                    campaignUpdatePayload
-                );
-                expect(updateCampaignService.save).to.have.been.calledWith(
-                    campaignUpdated
-                );
+                expect(updateCampaignService.update).to.have.been.calledWith(campaignUpdatePayload);
+                expect(updateCampaignService.save).to.have.been.calledWith(campaignUpdated);
             });
         });
 

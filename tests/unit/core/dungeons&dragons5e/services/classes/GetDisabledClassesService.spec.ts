@@ -3,9 +3,7 @@ import GetDisabledClassesService from 'src/core/dungeons&dragons5e/services/clas
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetDisabledClassesService', () => {
-    let getDisabledClassesService: GetDisabledClassesService,
-        dungeonsAndDragonsRepository: any,
-        classes: any;
+    let getDisabledClassesService: GetDisabledClassesService, dungeonsAndDragonsRepository: any, classes: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetDisabledClassesService', 
         it('should return the correct data and call correct methods', async () => {
             const classesTest = await getDisabledClassesService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Classes'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Classes');
             classesTest.forEach((e: any) => {
                 expect(e.active).to.be.false();
             });

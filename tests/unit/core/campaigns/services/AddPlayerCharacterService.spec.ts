@@ -46,9 +46,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
             });
 
             it('should return the added character campaign', async () => {
-                const characterAdded = await addPlayerCharacterService.addCharacter(
-                    addPlayerCharacterPayload
-                );
+                const characterAdded = await addPlayerCharacterService.addCharacter(addPlayerCharacterPayload);
 
                 expect(
                     characterAdded.campaignPlayers[0].characterIds.length <
@@ -81,9 +79,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
             it('should return the add campaign', async () => {
                 try {
-                    await addPlayerCharacterService.addCharacter(
-                        addPlayerCharacterPayload
-                    );
+                    await addPlayerCharacterService.addCharacter(addPlayerCharacterPayload);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;

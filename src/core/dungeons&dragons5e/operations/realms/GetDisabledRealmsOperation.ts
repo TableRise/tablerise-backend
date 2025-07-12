@@ -6,10 +6,7 @@ export default class GetDisabledRealmsOperation {
     private readonly _getDisabledRealmsService;
     private readonly _logger;
 
-    constructor({
-        getDisabledRealmsService,
-        logger,
-    }: GetDisabledRealmsOperationContract) {
+    constructor({ getDisabledRealmsService, logger }: GetDisabledRealmsOperationContract) {
         this._getDisabledRealmsService = getDisabledRealmsService;
         this._logger = logger;
 

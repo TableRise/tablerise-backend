@@ -42,8 +42,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     }),
                 };
 
-                userUpdated.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
 
                 usersRepository = { findOne: () => user, update: () => userUpdated };
 
@@ -77,8 +76,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.userId = user.userId;
                 userUpdated = { ...user };
-                userUpdated.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_CHANGE_EMAIL;
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_CHANGE_EMAIL;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
                 sinon.spy(usersRepository, 'update');
@@ -97,12 +95,8 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -124,8 +118,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                     },
                 ];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => {} };
 
@@ -163,8 +156,7 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 ];
                 userDetails.gameInfo.characters = ['Levi'];
                 userUpdated = { ...user };
-                userUpdated.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+                userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
                 usersRepository = { findOne: () => user, update: () => userUpdated };
                 usersDetailsRepository = { findOne: () => userDetails };
 

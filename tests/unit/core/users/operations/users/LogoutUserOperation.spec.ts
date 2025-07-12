@@ -18,9 +18,7 @@ describe('Core :: Users :: Operations :: LogoutUserOperation', () => {
 
             it('should execute with success', async () => {
                 await logoutUserOperation.execute('123');
-                expect(logoutUserService.addToForbiddenList).to.have.been.calledWith(
-                    '123'
-                );
+                expect(logoutUserService.addToForbiddenList).to.have.been.calledWith('123');
             });
         });
     });

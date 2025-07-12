@@ -8,11 +8,7 @@ export default class GetUsersService {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
 
-    constructor({
-        usersRepository,
-        usersDetailsRepository,
-        logger,
-    }: UserCoreDependencies['getUsersServiceContract']) {
+    constructor({ usersRepository, usersDetailsRepository, logger }: UserCoreDependencies['getUsersServiceContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -37,9 +33,6 @@ export default class GetUsersService {
 
         await Promise.all(response);
 
-        return response.filter(
-            (user) =>
-                user.inProgress.status !== InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
-        );
+        return response.filter((user) => user.inProgress.status !== InProgressStatusEnum.enum.WAIT_TO_DELETE_USER);
     }
 }

@@ -31,8 +31,7 @@ export default class UpdateCampaignService {
 
         campaignInDb.title = title ?? campaignInDb.title;
         campaignInDb.description = description ?? campaignInDb.description;
-        campaignInDb.infos.visibility =
-            (visibility as 'hidden' | 'visible') ?? campaignInDb.infos.visibility;
+        campaignInDb.infos.visibility = (visibility as 'hidden' | 'visible') ?? campaignInDb.infos.visibility;
 
         if (cover) campaignInDb.cover = await this._imageStorageClient.upload(cover);
 

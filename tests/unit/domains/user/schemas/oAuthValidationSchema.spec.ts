@@ -1,10 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import {
-    CompleteOAuthPayload,
-    oAuthCompleteZodSchema,
-} from 'src/domains/users/schemas/oAuthValidationSchema';
+import { CompleteOAuthPayload, oAuthCompleteZodSchema } from 'src/domains/users/schemas/oAuthValidationSchema';
 
 describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
     let completeOAuthData: CompleteOAuthPayload;

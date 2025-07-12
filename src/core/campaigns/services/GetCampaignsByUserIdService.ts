@@ -28,12 +28,9 @@ export default class GetCampaignsByUserIdService {
         const userDetailsInDb = (await this._usersDetailsRepository.findOne({
             userId,
         })) as UserDetailInstance;
-        const userCampaignIds = userDetailsInDb.gameInfo.campaigns.map(
-            (campaign) => campaign.campaignId
-        );
+        const userCampaignIds = userDetailsInDb.gameInfo.campaigns.map((campaign) => campaign.campaignId);
 
-        if (userCampaignIds.length === 0)
-            HttpRequestErrors.throwError('campaign-player-not-exists');
+        if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');
 
         const userCampaignsPromises = [] as Array<Promise<CampaignInstance>>;
 

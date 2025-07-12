@@ -265,9 +265,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'You only can upload a new profile picture one time in 15-days'
-                    );
+                    expect(err.message).to.be.equal('You only can upload a new profile picture one time in 15-days');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                     expect(err.name).to.be.equal('ForbiddenRequest');
                 }

@@ -7,20 +7,14 @@ export default class ToggleWikisAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: ToggleWikisAvailabilityServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: ToggleWikisAvailabilityServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Wiki>> {
+    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Wiki>> {
         this._logger('info', 'Toggle - ToggleWikisAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('Wikis');
 

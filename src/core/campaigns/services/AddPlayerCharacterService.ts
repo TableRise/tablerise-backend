@@ -8,10 +8,7 @@ export default class AddPlayerCharacterService {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({
-        campaignsRepository,
-        logger,
-    }: CampaignCoreDependencies['addPlayerCharacterServiceContract']) {
+    constructor({ campaignsRepository, logger }: CampaignCoreDependencies['addPlayerCharacterServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
 
@@ -19,22 +16,15 @@ export default class AddPlayerCharacterService {
         this.save = this.save.bind(this);
     }
 
-    public async addCharacter({
-        characterId,
-        userId,
-        campaignId,
-    }: addCharacterPayload): Promise<CampaignInstance> {
+    public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<CampaignInstance> {
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex(
             (player: Player) => player.userId === userId
         );
 
-        if (playerIncampaignIndex === -1)
-            HttpRequestErrors.throwError('campaign-player-not-exists');
+        if (playerIncampaignIndex === -1) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        campaignInDb.campaignPlayers[playerIncampaignIndex].characterIds.push(
-            characterId
-        );
+        campaignInDb.campaignPlayers[playerIncampaignIndex].characterIds.push(characterId);
 
         return campaignInDb;
     }

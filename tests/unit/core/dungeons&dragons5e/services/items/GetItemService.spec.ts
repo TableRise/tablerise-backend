@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetItemService', () => {
         it('should return the correct data and call correct methods', async () => {
             const itemsTest = await getItemService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Items'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Items');
             expect(itemsTest).to.be.deep.equal(item[0]);
         });
     });

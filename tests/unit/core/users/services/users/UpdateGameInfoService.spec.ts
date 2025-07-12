@@ -143,9 +143,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Info already added');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });

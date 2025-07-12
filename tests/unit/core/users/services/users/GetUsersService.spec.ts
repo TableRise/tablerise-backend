@@ -20,9 +20,7 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
                 users = DomainDataFaker.generateUsersJSON();
                 usersDetails = DomainDataFaker.generateUserDetailsJSON();
 
-                usersDetails.forEach(
-                    (userDet: any, i: number) => (userDet.userId = users[i].userId)
-                );
+                usersDetails.forEach((userDet: any, i: number) => (userDet.userId = users[i].userId));
 
                 allUsersWithDetails = users.map((user: any, i: number) => ({
                     ...user,
@@ -48,13 +46,9 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
                 const allUsers = await getUsersService.get();
 
                 expect(allUsers[0].email).to.be.equal(allUsersWithDetails[0].email);
-                expect(allUsers[0].details.firstName).to.be.equal(
-                    allUsersWithDetails[0].details.firstName
-                );
+                expect(allUsers[0].details.firstName).to.be.equal(allUsersWithDetails[0].details.firstName);
                 expect(allUsers[1].email).to.be.equal(allUsersWithDetails[1].email);
-                expect(allUsers[1].details.firstName).to.be.equal(
-                    allUsersWithDetails[1].details.firstName
-                );
+                expect(allUsers[1].details.firstName).to.be.equal(allUsersWithDetails[1].details.firstName);
             });
         });
 
@@ -65,13 +59,10 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
                 users = DomainDataFaker.generateUsersJSON({ count: 2 });
                 usersDetails = DomainDataFaker.generateUserDetailsJSON({ count: 2 });
 
-                users[0].inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
+                users[0].inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
                 userIdTest = users[0].userId;
 
-                usersDetails.forEach(
-                    (userDet: any, i: number) => (userDet.userId = users[i].userId)
-                );
+                usersDetails.forEach((userDet: any, i: number) => (userDet.userId = users[i].userId));
 
                 allUsersWithDetails = users.map((user: any, i: number) => ({
                     ...user,
@@ -99,13 +90,9 @@ describe('Core :: Users :: Services :: GetUsersService', () => {
 
                 expect(userDeleted).to.be.equal(false);
                 expect(allUsers[0].email).to.be.equal(allUsersWithDetails[1].email);
-                expect(allUsers[0].details.firstName).to.be.equal(
-                    allUsersWithDetails[1].details.firstName
-                );
+                expect(allUsers[0].details.firstName).to.be.equal(allUsersWithDetails[1].details.firstName);
                 expect(allUsers[1].email).to.be.equal(allUsersWithDetails[2].email);
-                expect(allUsers[1].details.firstName).to.be.equal(
-                    allUsersWithDetails[2].details.firstName
-                );
+                expect(allUsers[1].details.firstName).to.be.equal(allUsersWithDetails[2].details.firstName);
             });
         });
     });

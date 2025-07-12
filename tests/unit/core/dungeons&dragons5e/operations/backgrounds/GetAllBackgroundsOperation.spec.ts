@@ -3,9 +3,7 @@ import GetAllBackgroundsOperation from 'src/core/dungeons&dragons5e/operations/b
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllBackgroundsOperation', () => {
-    let getAllBackgroundsOperation: GetAllBackgroundsOperation,
-        getAllBackgroundsService: any,
-        backgrounds: any;
+    let getAllBackgroundsOperation: GetAllBackgroundsOperation, getAllBackgroundsService: any, backgrounds: any;
 
     const logger = (): void => {};
 

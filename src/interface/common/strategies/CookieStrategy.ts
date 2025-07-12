@@ -22,9 +22,7 @@ export default class AuthenticatePassport {
         passport.use(
             new CookieStrategy(async (token: string, done: DoneCallback) => {
                 logger('warn', 'Request made to authorize operation in server');
-                const isTokenLoggedOut = await this._tokenForbidden.verifyForbiddenToken(
-                    token
-                );
+                const isTokenLoggedOut = await this._tokenForbidden.verifyForbiddenToken(token);
 
                 if (isTokenLoggedOut)
                     return done(

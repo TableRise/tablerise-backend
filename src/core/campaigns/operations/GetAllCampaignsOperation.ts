@@ -5,10 +5,7 @@ export default class GetAllCampaignsOperation {
     private readonly _getAllCampaignsService;
     private readonly _logger;
 
-    constructor({
-        getAllCampaignsService,
-        logger,
-    }: CampaignsDependencies['getAllCampaignsOperationContract']) {
+    constructor({ getAllCampaignsService, logger }: CampaignsDependencies['getAllCampaignsOperationContract']) {
         this._getAllCampaignsService = getAllCampaignsService;
         this._logger = logger;
 

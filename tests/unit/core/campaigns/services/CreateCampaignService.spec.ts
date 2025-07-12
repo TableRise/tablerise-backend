@@ -55,9 +55,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result', async () => {
-                const campaignSerialized = await createCampaignService.serialize(
-                    campaign
-                );
+                const campaignSerialized = await createCampaignService.serialize(campaign);
 
                 expect(campaignSerialized.campaignId).to.be.equal(campaign.campaignId);
             });
@@ -113,11 +111,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result', async () => {
-                const campaignEnriched = await createCampaignService.enrichment(
-                    campaign,
-                    userId,
-                    image
-                );
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
@@ -125,10 +119,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result without image', async () => {
-                const campaignEnriched = await createCampaignService.enrichment(
-                    campaign,
-                    userId
-                );
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();

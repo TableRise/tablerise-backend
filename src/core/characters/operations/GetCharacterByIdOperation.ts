@@ -5,10 +5,7 @@ export default class GetCharacterByIdOperation {
     private readonly _getCharacterByIdService;
     private readonly _logger;
 
-    constructor({
-        getCharacterByIdService,
-        logger,
-    }: CharacterCoreDependencies['getCharacterByIdOperationContract']) {
+    constructor({ getCharacterByIdService, logger }: CharacterCoreDependencies['getCharacterByIdOperationContract']) {
         this._getCharacterByIdService = getCharacterByIdService;
         this._logger = logger;
 

@@ -33,8 +33,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_FINISH_RESET_TWO_FACTOR;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_FINISH_RESET_TWO_FACTOR;
 
                 usersRepository = {
                     findOne: () => user,
@@ -60,8 +59,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: () => user,
@@ -83,12 +81,8 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

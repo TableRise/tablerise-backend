@@ -44,31 +44,17 @@ describe('When the user is updated', () => {
         });
 
         it('should update with success', async () => {
-            const { body: userBeforeUpdate } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
-            const { body: userUpdated } = await requester()
-                .put(`/users/${user.userId}/update`)
-                .send(userToUpdate);
+            const { body: userUpdated } = await requester().put(`/users/${user.userId}/update`).send(userToUpdate);
 
             expect(userUpdated.nickname).to.not.be.equal(userBeforeUpdate.nickname);
             expect(userUpdated.picture).to.not.be.equal(userBeforeUpdate.picture);
-            expect(userUpdated.details.firstName).to.not.be.equal(
-                userBeforeUpdate.details.firstName
-            );
-            expect(userUpdated.details.lastName).to.not.be.equal(
-                userBeforeUpdate.details.lastName
-            );
-            expect(userUpdated.details.pronoun).to.not.be.equal(
-                userBeforeUpdate.details.pronoun
-            );
-            expect(userUpdated.details.biography).to.not.be.equal(
-                userBeforeUpdate.details.biography
-            );
-            expect(userUpdated.details.birthday).to.not.be.equal(
-                userBeforeUpdate.details.birthday
-            );
+            expect(userUpdated.details.firstName).to.not.be.equal(userBeforeUpdate.details.firstName);
+            expect(userUpdated.details.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
+            expect(userUpdated.details.pronoun).to.not.be.equal(userBeforeUpdate.details.pronoun);
+            expect(userUpdated.details.biography).to.not.be.equal(userBeforeUpdate.details.biography);
+            expect(userUpdated.details.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
         });
     });
 });

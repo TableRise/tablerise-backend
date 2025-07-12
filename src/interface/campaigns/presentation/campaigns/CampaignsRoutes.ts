@@ -5,9 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/campaigns';
 
@@ -38,10 +36,7 @@ export default class CampaignsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._campaignsController.getById,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     description: desc.getById,
                     tag: 'recover',
                 },
@@ -62,10 +57,7 @@ export default class CampaignsRoutes {
                 controller: this._campaignsController.getByUserId,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'recover',
                     description: desc.getAll,
                 },
@@ -92,10 +84,7 @@ export default class CampaignsRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/publishment`,
                 schema: DomainDataFaker.mocks.publishment,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'userId', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
                 controller: this._campaignsController.publishment,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -106,16 +95,10 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/invite`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'targetEmail', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'targetEmail', type: 'string' }])],
                 controller: this._campaignsController.inviteEmail,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'management',
                     description: desc.inviteEmail,
                 },
@@ -123,16 +106,10 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/ban`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }])],
                 controller: this._campaignsController.banPlayer,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'ban',
                     description: desc.banPlayer,
                 },
@@ -140,10 +117,7 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/add`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'password', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'password', type: 'string' }])],
                 controller: this._campaignsController.addCampaignPlayers,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -186,10 +160,7 @@ export default class CampaignsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/match/map-images`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])],
                 controller: this._campaignsController.updateMatchMapImages,
                 schema: DomainDataFaker.mocks.uploadMatchMapImage,
                 options: {
@@ -207,10 +178,7 @@ export default class CampaignsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/match/musics`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])],
                 controller: this._campaignsController.updateMatchMusics,
                 schema: DomainDataFaker.mocks.uploadMatchMusics,
                 options: {
@@ -243,10 +211,7 @@ export default class CampaignsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/player/character`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }])],
                 controller: this._campaignsController.addPlayerCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],

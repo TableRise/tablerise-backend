@@ -65,9 +65,7 @@ export default class OAuthRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/discord`,
                 options: {
-                    middlewares: [
-                        passport.authenticate('discord', { passReqToCallback: true }),
-                    ],
+                    middlewares: [passport.authenticate('discord', { passReqToCallback: true })],
                     tag: 'external',
                     description: desc.discord,
                 },
@@ -114,10 +112,7 @@ export default class OAuthRoutes {
                 controller: this._oAuthController.complete,
                 schema: DomainDataFaker.mocks.completeUserMock,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'register',
                     description: desc.confirmExternal,
                 },

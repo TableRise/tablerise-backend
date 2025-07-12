@@ -14,9 +14,7 @@ export default class UpdateCharacterPictureOperation {
         this._logger = logger;
     }
 
-    public async execute(
-        payload: UpdateCharacterPicturePayload
-    ): Promise<CharacterInstance> {
+    public async execute(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
         this._logger('info', 'Execute - UpdateCharacterPictureOperation');
         return this._updateCharacterPictureService.uploadPicture(payload);
     }

@@ -4,9 +4,7 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 export default class UsersRoutesMiddleware {
     private readonly _routesWrapper;
 
-    constructor({
-        routesWrapper,
-    }: InterfaceDependencies['usersRoutesMiddlewareContract']) {
+    constructor({ routesWrapper }: InterfaceDependencies['usersRoutesMiddlewareContract']) {
         this._routesWrapper = routesWrapper;
     }
 

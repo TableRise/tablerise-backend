@@ -120,9 +120,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             request.params = { id: '123' };
             await charactersController.getById(request, response);
 
-            expect(getCharacterByIdOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(getCharacterByIdOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });

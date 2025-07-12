@@ -51,9 +51,7 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
             });
 
             it('should call correct methods', async () => {
-                const discordProfileCompleted = await discordOperation.execute(
-                    discordProfile
-                );
+                const discordProfileCompleted = await discordOperation.execute(discordProfile);
                 expect(oAuthService.serialize).to.have.been.calledWith(discordProfile);
                 expect(oAuthService.enrichment).to.have.been.called();
                 expect(oAuthService.saveUser).to.have.been.called();
@@ -96,9 +94,7 @@ describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
             });
 
             it('should have correct return', async () => {
-                const discordProfileCompleted = await discordOperation.execute(
-                    discordProfile
-                );
+                const discordProfileCompleted = await discordOperation.execute(discordProfile);
 
                 expect(oAuthService.serialize).to.have.been.called();
                 expect(oAuthService.enrichment).to.not.have.been.called();

@@ -8,11 +8,7 @@ export default class VerifyUserMiddleware {
     private readonly _logger;
     private readonly _FORBIDDEN_STATUS;
 
-    constructor({
-        usersRepository,
-        stateMachine,
-        logger,
-    }: InterfaceDependencies['verifyUserMiddlewareContract']) {
+    constructor({ usersRepository, stateMachine, logger }: InterfaceDependencies['verifyUserMiddlewareContract']) {
         this._usersRepository = usersRepository;
         this._stateMachine = stateMachine;
         this._logger = logger;
@@ -26,11 +22,7 @@ export default class VerifyUserMiddleware {
         this.userStatus = this.userStatus.bind(this);
     }
 
-    public async userStatus(
-        req: Request,
-        _res: Response,
-        next: NextFunction
-    ): Promise<void> {
+    public async userStatus(req: Request, _res: Response, next: NextFunction): Promise<void> {
         this._logger('info', 'UserStatus - VerifyUserMiddleware');
 
         const { userId } = req.user as Express.User;

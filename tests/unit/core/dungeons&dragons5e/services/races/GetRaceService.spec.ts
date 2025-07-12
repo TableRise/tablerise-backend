@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetRaceService', () => {
         it('should return the correct data and call correct methods', async () => {
             const racesTest = await getRaceService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Races'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
             expect(racesTest).to.be.deep.equal(race[0]);
         });
     });

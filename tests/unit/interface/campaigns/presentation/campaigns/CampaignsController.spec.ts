@@ -237,9 +237,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             request.params = { id: '123' };
             await campaignsController.getByUserId(request, response);
 
-            expect(getCampaignsByUserIdOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(getCampaignsByUserIdOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });

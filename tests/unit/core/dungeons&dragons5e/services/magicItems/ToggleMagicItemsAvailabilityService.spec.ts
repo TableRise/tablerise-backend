@@ -22,12 +22,10 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleMagicItemsAvailabilityS
                 setEntity: sinon.spy(() => {}),
             };
 
-            toggleMagicItemsAvailabilityService = new ToggleMagicItemsAvailabilityService(
-                {
-                    dungeonsAndDragonsRepository,
-                    logger,
-                }
-            );
+            toggleMagicItemsAvailabilityService = new ToggleMagicItemsAvailabilityService({
+                dungeonsAndDragonsRepository,
+                logger,
+            });
         });
 
         it('should return the correct data and call correct methods', async () => {
@@ -36,9 +34,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleMagicItemsAvailabilityS
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'MagicItems'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('MagicItems');
             expect(MagicItemsTest).to.be.deep.equal({ ..._magicItems[0], active: false });
         });
     });

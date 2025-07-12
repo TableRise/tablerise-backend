@@ -31,10 +31,7 @@ export default class DeleteUserService {
         if (!userInDb || !userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_DELETE_USER)
             HttpRequestErrors.throwError('invalid-user-status');
-        if (
-            userDetailInDb.gameInfo.campaigns.length ||
-            userDetailInDb.gameInfo.characters.length
-        ) {
+        if (userDetailInDb.gameInfo.campaigns.length || userDetailInDb.gameInfo.characters.length) {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 

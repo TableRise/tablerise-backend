@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetRealmService', () => {
         it('should return the correct data and call correct methods', async () => {
             const realmsTest = await getRealmService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Realms'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Realms');
             expect(realmsTest).to.be.deep.equal(race[0]);
         });
     });

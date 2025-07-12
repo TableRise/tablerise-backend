@@ -1,6 +1,4 @@
-import campaignsZodSchema, {
-    CampaignPayload,
-} from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import campaignsZodSchema, { CampaignPayload } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';

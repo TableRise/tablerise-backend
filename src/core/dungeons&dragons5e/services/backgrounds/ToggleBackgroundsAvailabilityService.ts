@@ -7,20 +7,14 @@ export default class ToggleBackgroundsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: ToggleBackgroundsAvailabilityServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: ToggleBackgroundsAvailabilityServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Background>> {
+    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
         this._logger('info', 'Toggle - ToggleBackgroundsAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('Backgrounds');
 

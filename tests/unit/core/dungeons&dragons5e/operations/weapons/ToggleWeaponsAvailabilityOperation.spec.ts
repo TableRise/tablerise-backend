@@ -3,9 +3,7 @@ import ToggleWeaponOperation from 'src/core/dungeons&dragons5e/operations/weapon
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleWeaponOperation', () => {
-    let toggleWeaponOperation: ToggleWeaponOperation,
-        toggleWeaponsAvailabilityService: any,
-        weapon: any;
+    let toggleWeaponOperation: ToggleWeaponOperation, toggleWeaponsAvailabilityService: any, weapon: any;
 
     const logger = (): void => {};
 

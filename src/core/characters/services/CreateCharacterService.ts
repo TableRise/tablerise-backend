@@ -58,10 +58,7 @@ export default class CreateCharacterService {
         return characterSerialized;
     }
 
-    public async enrichment(
-        payload: CharacterInstance,
-        userId: string
-    ): Promise<CharacterInstance> {
+    public async enrichment(payload: CharacterInstance, userId: string): Promise<CharacterInstance> {
         this._logger('info', 'Enrichment - CreateCharacterService');
 
         const userInDb = await this._usersRepository.findOne({ userId });

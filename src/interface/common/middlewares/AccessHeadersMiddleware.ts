@@ -3,11 +3,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
-export default function AccessHeadersMiddleware(
-    req: Request,
-    res: Response,
-    next: NextFunction
-): void {
+export default function AccessHeadersMiddleware(req: Request, res: Response, next: NextFunction): void {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { accesskey } = req.headers;
 

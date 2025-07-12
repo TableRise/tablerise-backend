@@ -6,9 +6,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () => {
-    let updateGameInfoOperation: UpdateGameInfoOperation,
-        updateGameInfoService: any,
-        updateGameInfoPayload: any;
+    let updateGameInfoOperation: UpdateGameInfoOperation, updateGameInfoService: any, updateGameInfoPayload: any;
 
     const logger = (): void => {};
 
@@ -37,9 +35,7 @@ describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () =
 
             it('should call the correct methods', async () => {
                 await updateGameInfoOperation.execute(updateGameInfoPayload);
-                expect(updateGameInfoService.update).to.have.been.calledWith(
-                    updateGameInfoPayload
-                );
+                expect(updateGameInfoService.update).to.have.been.calledWith(updateGameInfoPayload);
             });
         });
 
@@ -73,9 +69,7 @@ describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () =
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('The parameter infoId is invalid');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });

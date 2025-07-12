@@ -7,20 +7,14 @@ export default class ToggleMagicItemsAvailabilityOperation {
     private readonly _toggleMagicItemsAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleMagicItemsAvailabilityService,
-        logger,
-    }: ToggleMagicItemsAvailabilityOperationContract) {
+    constructor({ toggleMagicItemsAvailabilityService, logger }: ToggleMagicItemsAvailabilityOperationContract) {
         this._toggleMagicItemsAvailabilityService = toggleMagicItemsAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<MagicItem>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<MagicItem>> {
         this._logger('info', 'Execute - GetMagicItemOperation');
         const magicItems = await this._toggleMagicItemsAvailabilityService.toggle({
             id,

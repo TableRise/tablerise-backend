@@ -46,8 +46,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -105,8 +104,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -197,12 +195,8 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -233,8 +227,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = null;
@@ -262,12 +255,8 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Structure of new for new question and answer is missing'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.message).to.be.equal('Structure of new for new question and answer is missing');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });

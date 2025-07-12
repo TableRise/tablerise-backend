@@ -3,8 +3,7 @@ import GetCampaignsByUserIdOperation from 'src/core/campaigns/operations/GetCamp
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Campaigns :: Operations :: GetCampaignsByUserIdOperation', () => {
-    let getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation,
-        getCampaignsByUserIdService: any;
+    let getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation, getCampaignsByUserIdService: any;
 
     const logger = (): void => {};
 

@@ -10,9 +10,7 @@ describe('Domains :: Campaign :: Enum :: campaignVisibilityEnum', () => {
 
             enumKeysFixed.forEach((key: string, index: number) => {
                 expect(enumTest).to.have.property(key);
-                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
-                    enumValuesFixed[index]
-                );
+                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(enumValuesFixed[index]);
             });
         });
     });

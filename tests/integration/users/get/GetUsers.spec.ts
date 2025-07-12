@@ -29,16 +29,10 @@ describe('When recover all users', () => {
         });
 
         it('should retrieve users created', async () => {
-            const { body } = await requester()
-                .get(`/users/all`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/all`).expect(HttpStatusCode.OK);
 
-            const userOneAdded = body.find(
-                (user: RegisterUserResponse) => user.userId === userOne.userId
-            );
-            const userTwoAdded = body.find(
-                (user: RegisterUserResponse) => user.userId === userTwo.userId
-            );
+            const userOneAdded = body.find((user: RegisterUserResponse) => user.userId === userOne.userId);
+            const userTwoAdded = body.find((user: RegisterUserResponse) => user.userId === userTwo.userId);
 
             expect(body).to.be.an('array');
             expect(userOneAdded).to.be.not.null();

@@ -5,10 +5,7 @@ export default class GetUsersOperation {
     private readonly _getUsersService;
     private readonly _logger;
 
-    constructor({
-        getUsersService,
-        logger,
-    }: UserCoreDependencies['getUsersOperationContract']) {
+    constructor({ getUsersService, logger }: UserCoreDependencies['getUsersOperationContract']) {
         this._getUsersService = getUsersService;
         this._logger = logger;
 

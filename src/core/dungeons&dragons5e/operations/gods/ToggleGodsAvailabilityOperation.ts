@@ -7,20 +7,14 @@ export default class ToggleGodsAvailabilityOperation {
     private readonly _toggleGodsAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleGodsAvailabilityService,
-        logger,
-    }: ToggleGodsAvailabilityOperationContract) {
+    constructor({ toggleGodsAvailabilityService, logger }: ToggleGodsAvailabilityOperationContract) {
         this._toggleGodsAvailabilityService = toggleGodsAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<God>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<God>> {
         this._logger('info', 'Execute - GetGodOperation');
         const gods = await this._toggleGodsAvailabilityService.toggle({
             id,

@@ -43,16 +43,12 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
             });
 
             it('should call the correct methods', async () => {
-                const updateMusicTest = await updateMatchMusicsOperation.execute(
-                    matchMusicsPayload
-                );
+                const updateMusicTest = await updateMatchMusicsOperation.execute(matchMusicsPayload);
 
                 expect(updateMatchMusicsService.updateMatchMusics).to.have.been.called();
                 expect(updateMatchMusicsService.save).to.have.been.called();
                 expect(updateMusicTest[0]).to.have.property('title');
-                expect(updateMusicTest[0].title).to.be.equal(
-                    campaign.matchData?.musics[0].title
-                );
+                expect(updateMusicTest[0].title).to.be.equal(campaign.matchData?.musics[0].title);
             });
         });
     });

@@ -10,9 +10,7 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
-    let verifyUserMiddleware: VerifyUserMiddleware,
-        user: UserInstance,
-        usersRepository: any;
+    let verifyUserMiddleware: VerifyUserMiddleware, user: UserInstance, usersRepository: any;
 
     const logger = (): void => {};
 
@@ -81,13 +79,9 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });

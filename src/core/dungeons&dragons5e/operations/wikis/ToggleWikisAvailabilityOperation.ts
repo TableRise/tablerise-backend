@@ -7,20 +7,14 @@ export default class ToggleWikisAvailabilityOperation {
     private readonly _toggleWikisAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleWikisAvailabilityService,
-        logger,
-    }: ToggleWikisAvailabilityOperationContract) {
+    constructor({ toggleWikisAvailabilityService, logger }: ToggleWikisAvailabilityOperationContract) {
         this._toggleWikisAvailabilityService = toggleWikisAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Wiki>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Wiki>> {
         this._logger('info', 'Execute - ToggleWikisAvailabilityOperation');
         const wikis = await this._toggleWikisAvailabilityService.toggle({
             id,

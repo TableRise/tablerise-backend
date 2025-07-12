@@ -15,10 +15,7 @@ function createGoogleProfileFaker({ id = newUUID() }: Google.Profile): Google.Pr
     } as Google.Profile;
 }
 
-export default function generateGoogleProfileFaker({
-    count,
-    id,
-}: GoogleJSONPayload): Google.Profile[] {
+export default function generateGoogleProfileFaker({ count, id }: GoogleJSONPayload): Google.Profile[] {
     const profiles: Google.Profile[] = [];
 
     for (let index = 0; index <= count; index += 1) {

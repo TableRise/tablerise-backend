@@ -11,10 +11,7 @@ describe('When recover all characters', () => {
 
     context('And is succesfull', () => {
         before(async () => {
-            modelCharacter = new DatabaseManagement().modelInstance(
-                'characterDnd',
-                'CharactersDnd'
-            );
+            modelCharacter = new DatabaseManagement().modelInstance('characterDnd', 'CharactersDnd');
             await modelCharacter.erase();
             characters = DomainDataFaker.generateCharactersJSON({ count: 2 });
             characters.forEach(async (character) => {
@@ -27,9 +24,7 @@ describe('When recover all characters', () => {
             await modelCharacter.erase();
         });
         it('should return correct data', async () => {
-            const { body } = await requester()
-                .get('/characters')
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get('/characters').expect(HttpStatusCode.OK);
             expect(body).to.be.an('array');
             expect(body.length).to.be.equal(characters.length);
             body.forEach((char: CharacterInstance) => {

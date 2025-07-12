@@ -5,9 +5,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 
 describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
-    let getAllCampaignsService: GetAllCampaignsService,
-        campaignsRepository: any,
-        campaigns: any;
+    let getAllCampaignsService: GetAllCampaignsService, campaignsRepository: any, campaigns: any;
 
     const logger = (): void => {};
     const HIDDEN = 0;
@@ -58,15 +56,9 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                 expect(campaignsTest.length).to.be.equal(campaigns.length - 1);
                 expect(Object.keys(campaignsTest[0]).length).to.be.equal(6);
                 expect(campaignsTest[0].title).not.to.be.equal(campaigns[HIDDEN].title);
-                expect(campaignsTest[0].description).not.to.be.equal(
-                    campaigns[HIDDEN].description
-                );
-                expect(campaignsTest[0].playersAmount).not.to.be.equal(
-                    campaigns[HIDDEN].campaignPlayers.length
-                );
-                expect(campaignsTest[0].ageRestriction).not.to.be.equal(
-                    campaigns[HIDDEN].ageRestriction
-                );
+                expect(campaignsTest[0].description).not.to.be.equal(campaigns[HIDDEN].description);
+                expect(campaignsTest[0].playersAmount).not.to.be.equal(campaigns[HIDDEN].campaignPlayers.length);
+                expect(campaignsTest[0].ageRestriction).not.to.be.equal(campaigns[HIDDEN].ageRestriction);
                 expect(JSON.stringify(campaignsTest[0].updatedAt)).not.to.be.equal(
                     JSON.stringify(campaigns[HIDDEN].updatedAt)
                 );

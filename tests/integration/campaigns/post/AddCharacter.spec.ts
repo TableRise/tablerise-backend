@@ -39,9 +39,7 @@ describe('When a character is added to campaign', () => {
         it('should return correct campaign character added', async () => {
             const { body } = await requester()
                 .patch(
-                    `/campaigns/${
-                        campaign.campaignId
-                    }/update/player/character?characterId=${
+                    `/campaigns/${campaign.campaignId}/update/player/character?characterId=${
                         character.characterId as string
                     }`
                 )
@@ -50,12 +48,8 @@ describe('When a character is added to campaign', () => {
             expect(body).to.have.property('campaignId');
             expect(body).to.have.property('campaignPlayers');
             expect(body.campaignPlayers).to.be.an('array').with.lengthOf(1);
-            expect(body.campaignPlayers[0].characterIds)
-                .to.be.an('array')
-                .with.lengthOf(1);
-            expect(body.campaignPlayers[0].characterIds[0]).to.be.equal(
-                character.characterId
-            );
+            expect(body.campaignPlayers[0].characterIds).to.be.an('array').with.lengthOf(1);
+            expect(body.campaignPlayers[0].characterIds[0]).to.be.equal(character.characterId);
         });
     });
 });

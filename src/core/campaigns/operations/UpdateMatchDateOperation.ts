@@ -23,16 +23,10 @@ export default class updateMatchDateOperation {
 
     async execute(payload: updateMatchDatePayload): Promise<string> {
         this._logger('info', 'Execute - updateMatchDateOperation');
-        this._schemaValidator.entry(
-            this._campaignsSchema.campaignsUpdateMatchDateZod,
-            payload
-        );
+        this._schemaValidator.entry(this._campaignsSchema.campaignsUpdateMatchDateZod, payload);
 
-        const campaignWithOperationDone =
-            await this._updateMatchDateService.updateMatchDate(payload);
-        const savedCampaign = await this._updateMatchDateService.save(
-            campaignWithOperationDone
-        );
+        const campaignWithOperationDone = await this._updateMatchDateService.updateMatchDate(payload);
+        const savedCampaign = await this._updateMatchDateService.save(campaignWithOperationDone);
 
         return savedCampaign.infos.nextMatchDate;
     }

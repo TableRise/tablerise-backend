@@ -4,9 +4,7 @@ import { CharacterJSONPayload } from 'src/types/modules/infra/datafakers/charact
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import DomainDataFaker from '../../campaigns/DomainDataFaker';
 
-function createCharacterFaker({
-    characterId = newUUID(),
-}: CharacterInstance): CharacterInstance {
+function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): CharacterInstance {
     return {
         characterId,
         campaignId: newUUID(),
@@ -14,9 +12,7 @@ function createCharacterFaker({
         author: {
             userId: newUUID(),
             nickname: dataGenerator.nickname(),
-            fullname: `${dataGenerator.name.first('male')} ${dataGenerator.name.last(
-                'male'
-            )}`,
+            fullname: `${dataGenerator.name.first('male')} ${dataGenerator.name.last('male')}`,
         },
         data: {
             profile: {
@@ -172,10 +168,7 @@ function createCharacterFaker({
     };
 }
 
-export default function generateCharactersFaker({
-    count,
-    characterId,
-}: CharacterJSONPayload): CharacterInstance[] {
+export default function generateCharactersFaker({ count, characterId }: CharacterJSONPayload): CharacterInstance[] {
     const characters: CharacterInstance[] = [];
 
     for (let index = 0; index <= count; index += 1) {

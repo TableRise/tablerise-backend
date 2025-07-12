@@ -10,10 +10,7 @@ export default class UpdateTimestampRepository {
     private readonly _charactersModel;
     private readonly _logger;
 
-    constructor({
-        database,
-        logger,
-    }: InfraDependencies['updateTimestampRepositoryContract']) {
+    constructor({ database, logger }: InfraDependencies['updateTimestampRepositoryContract']) {
         this._usersModel = database.modelInstance('user', 'Users');
         this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
         this._campaignsModel = database.modelInstance('campaign', 'Campaigns');
@@ -39,10 +36,7 @@ export default class UpdateTimestampRepository {
                 name: 'BadRequest',
             });
 
-        await updateMethods[Object.keys(query)[0] as keyof UpdateTimestampPayload].call(
-            this,
-            query
-        );
+        await updateMethods[Object.keys(query)[0] as keyof UpdateTimestampPayload].call(this, query);
     }
 
     public async updateToUserId(query: UpdateTimestampPayload): Promise<void> {
@@ -69,10 +63,7 @@ export default class UpdateTimestampRepository {
 
         campaignInDb.updatedAt = new Date().toISOString();
 
-        await this._campaignsModel.update(
-            { campaignId: campaignInDb.campaignId },
-            campaignInDb
-        );
+        await this._campaignsModel.update({ campaignId: campaignInDb.campaignId }, campaignInDb);
     }
 
     public async updateToCharacterId(query: UpdateTimestampPayload): Promise<void> {
@@ -80,9 +71,6 @@ export default class UpdateTimestampRepository {
 
         characterInDb.updatedAt = new Date().toISOString();
 
-        await this._charactersModel.update(
-            { characterId: characterInDb.characterId },
-            characterInDb
-        );
+        await this._charactersModel.update({ characterId: characterInDb.characterId }, characterInDb);
     }
 }

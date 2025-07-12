@@ -33,13 +33,10 @@ export default class LoginPassport {
                 async (email, password, done) => {
                     logger('warn', 'LocalStrategy used to login the user');
 
-                    const isDataInvalid = this._schemaValidator.entryReturn(
-                        userLoginZodSchema,
-                        {
-                            email,
-                            password,
-                        }
-                    ) as ZodError;
+                    const isDataInvalid = this._schemaValidator.entryReturn(userLoginZodSchema, {
+                        email,
+                        password,
+                    }) as ZodError;
 
                     if (isDataInvalid)
                         return done(
@@ -48,14 +45,11 @@ export default class LoginPassport {
                                 code: HttpStatusCode.UNPROCESSABLE_ENTITY,
                                 name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
                                 // @ts-expect-error Error will exist with sure
-                                details: isDataInvalid.error.issues.map(
-                                    (err: ZodIssue) => ({
-                                        attribute:
-                                            err.path.length > 1 ? err.path : err.path[0],
-                                        reason: err.message,
-                                        path: 'payload',
-                                    })
-                                ),
+                                details: isDataInvalid.error.issues.map((err: ZodIssue) => ({
+                                    attribute: err.path.length > 1 ? err.path : err.path[0],
+                                    reason: err.message,
+                                    path: 'payload',
+                                })),
                             })
                         );
 
@@ -71,11 +65,7 @@ export default class LoginPassport {
                                 })
                             );
 
-                        const isPasswordValid =
-                            await SecurePasswordHandler.comparePassword(
-                                password,
-                                user.password
-                            );
+                        const isPasswordValid = await SecurePasswordHandler.comparePassword(password, user.password);
 
                         if (!isPasswordValid)
                             return done(
@@ -89,8 +79,7 @@ export default class LoginPassport {
                         if (NOT_ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status))
                             return done(
                                 new HttpRequestErrors({
-                                    message:
-                                        'User status is invalid to perform this operation',
+                                    message: 'User status is invalid to perform this operation',
                                     code: HttpStatusCode.BAD_REQUEST,
                                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                                 })

@@ -279,12 +279,8 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -366,9 +362,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('2FA not enabled for this user');
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -541,71 +535,60 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
             });
         });
 
-        context(
-            'And question/answer are correct with email but user status is invalid',
-            () => {
-                const secretQuestion = {
-                    question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                    answer: 'red',
+        context('And question/answer are correct with email but user status is invalid', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red',
+            };
+
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => ({
+                        email: '123@email.com',
+                        inProgress: {
+                            status: stateMachine.props.status.WAIT_TO_CONFIRM,
+                        },
+                    }),
+                    update: (user: UserInstance) => {},
                 };
 
-                beforeEach(() => {
-                    usersRepository = {
-                        findOne: () => ({
-                            email: '123@email.com',
-                            inProgress: {
-                                status: stateMachine.props.status.WAIT_TO_CONFIRM,
-                            },
-                        }),
-                        update: (user: UserInstance) => {},
-                    };
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        inProgress: { status: 'done' },
+                        secretQuestion,
+                    }),
+                };
 
-                    usersDetailsRepository = {
-                        findOne: () => ({
-                            inProgress: { status: 'done' },
-                            secretQuestion,
-                        }),
-                    };
+                twoFactorHandler = {};
 
-                    twoFactorHandler = {};
-
-                    authorizationMiddleware = new AuthorizationMiddleware({
-                        usersRepository,
-                        stateMachine,
-                        usersDetailsRepository,
-                        twoFactorHandler,
-                        logger,
-                    });
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    usersRepository,
+                    stateMachine,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
                 });
+            });
 
-                it('should call next', async () => {
-                    try {
-                        request.params = {};
-                        request.query = {
-                            email: '123@email.com',
-                            flow: 'update-password',
-                        };
-                        request.body = secretQuestion;
+            it('should call next', async () => {
+                try {
+                    request.params = {};
+                    request.query = {
+                        email: '123@email.com',
+                        flow: 'update-password',
+                    };
+                    request.body = secretQuestion;
 
-                        await authorizationMiddleware.secretQuestion(
-                            request,
-                            response,
-                            next
-                        );
-                        expect('it should not be here').to.be.equal(false);
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'User status is invalid to perform this operation'
-                        );
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    }
-                });
-            }
-        );
+                    await authorizationMiddleware.secretQuestion(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
 
         context('And question/answer are incorrect', () => {
             const secretQuestionWrong = {

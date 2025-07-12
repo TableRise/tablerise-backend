@@ -20,11 +20,7 @@ export default {
         {
             userId: faker.string.uuid(),
             characterIds: [],
-            role: faker.helpers.arrayElement([
-                'admin_player',
-                'dungeon_master',
-                'player',
-            ]),
+            role: faker.helpers.arrayElement(['admin_player', 'dungeon_master', 'player']),
             status: faker.helpers.arrayElement(['pending']),
         },
     ],

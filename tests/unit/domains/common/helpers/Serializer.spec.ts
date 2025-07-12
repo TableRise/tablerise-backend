@@ -74,9 +74,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         });
 
         it('should return correct keys', () => {
-            const userDetailsDefaultKeys = Object.keys(
-                DomainDataFaker.generateUserDetailsJSON()[0]
-            );
+            const userDetailsDefaultKeys = Object.keys(DomainDataFaker.generateUserDetailsJSON()[0]);
             const userDetails = {};
             const serialized = serializer.postUserDetails(userDetails);
 

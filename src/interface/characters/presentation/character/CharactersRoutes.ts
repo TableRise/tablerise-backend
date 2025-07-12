@@ -5,9 +5,7 @@ import { routeInstance } from '@tablerise/auto-swagger';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -51,10 +49,7 @@ export default class CharactersRoutes {
                 path: `${BASE_PATH}/:id`,
                 controller: this._charactersController.getById,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     tag: 'recover',
                     description: desc.getById,
                 },
@@ -65,10 +60,7 @@ export default class CharactersRoutes {
                 controller: this._charactersController.recoverCharactersByCampaign,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     description: desc.getByCampaign,
                     tag: 'recover',
                 },
@@ -107,10 +99,7 @@ export default class CharactersRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/symbol`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }]),
-                ],
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }])],
                 schema: DomainDataFaker.mocks.orgPictureUpload,
                 controller: this._charactersController.createCharacter,
                 options: {
@@ -133,10 +122,7 @@ export default class CharactersRoutes {
                 schema: DomainDataFaker.mocks.updateCharacterMock,
                 controller: this._charactersController.updateCharacter,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
                     description: desc.update,
                     tag: 'management',
                 },

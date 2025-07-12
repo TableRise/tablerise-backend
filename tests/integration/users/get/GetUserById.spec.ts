@@ -28,9 +28,7 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve user created', async () => {
-            const { body } = await requester()
-                .get(`/users/${userOne.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${userOne.userId}`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body.userId).to.be.not.equal(userTwo.userId);

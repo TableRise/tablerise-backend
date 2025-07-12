@@ -9,9 +9,7 @@ describe('Domains :: User :: Enum :: SystemEnum', () => {
             const enumTest = systemEnum.enum;
 
             enumKeysFixed.forEach((key: string, index: number) => {
-                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(
-                    enumValuesFixed[index]
-                );
+                expect(enumTest[key as keyof typeof enumTest]).to.be.equal(enumValuesFixed[index]);
             });
         });
     });

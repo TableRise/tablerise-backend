@@ -1,19 +1,13 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
-import {
-    UpdateGameInfoProcessPayload,
-    UserGameInfoDoneResponse,
-} from 'src/types/api/users/methods';
+import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
 
 export default class UpdateGameInfoService {
     private readonly _logger;
     private readonly _usersDetailsRepository;
 
-    constructor({
-        usersDetailsRepository,
-        logger,
-    }: UserCoreDependencies['updateGameInfoServiceContract']) {
+    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['updateGameInfoServiceContract']) {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 
@@ -22,12 +16,7 @@ export default class UpdateGameInfoService {
         this.update = this.update.bind(this);
     }
 
-    private _addId({
-        infoId,
-        targetInfo,
-        data,
-        gameInfo,
-    }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
+    private _addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
 
         const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
@@ -54,9 +43,7 @@ export default class UpdateGameInfoService {
 
         if (dataLength > 0) {
             const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
-            hasInfo = gameInfo[targetInfo].filter(
-                (data) => data[filterProp] !== dataToRemove[filterProp]
-            );
+            hasInfo = gameInfo[targetInfo].filter((data) => data[filterProp] !== dataToRemove[filterProp]);
             gameInfo[targetInfo] = hasInfo;
 
             return gameInfo;
@@ -69,22 +56,14 @@ export default class UpdateGameInfoService {
         return gameInfo;
     }
 
-    public async update({
-        userId,
-        infoId,
-        data,
-        targetInfo,
-        operation,
-    }: UpdateGameInfoPayload): Promise<string> {
+    public async update({ userId, infoId, data, targetInfo, operation }: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Update - UpdateGameInfoService');
         const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
 
         let gameInfo = userDetailInDb.gameInfo;
 
-        if (operation === 'add')
-            gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
-        if (operation === 'remove')
-            gameInfo = this._removeId({ infoId, targetInfo, gameInfo, data });
+        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
+        if (operation === 'remove') gameInfo = this._removeId({ infoId, targetInfo, gameInfo, data });
 
         userDetailInDb.gameInfo = gameInfo;
 

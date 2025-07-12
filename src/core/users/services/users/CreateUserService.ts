@@ -1,9 +1,4 @@
-import {
-    __FullUser,
-    __UserEnriched,
-    __UserSaved,
-    __UserSerialized,
-} from 'src/types/api/users/methods';
+import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -121,8 +116,7 @@ export default class CreateUserService {
             userSaved.email
         );
 
-        if (!emailSended.success)
-            HttpRequestErrors.throwError('verification-email-send-fail');
+        if (!emailSended.success) HttpRequestErrors.throwError('verification-email-send-fail');
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 

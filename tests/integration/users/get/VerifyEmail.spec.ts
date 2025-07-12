@@ -38,13 +38,9 @@ describe('When an email is verified', () => {
                 .get(`/users/verify?email=test@email.com&flow=update-password`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
-            expect(body.inProgress.status).to.be.equal(
-                InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE
-            );
+            expect(body.inProgress.status).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE);
         });
     });
 });

@@ -33,15 +33,11 @@ export default class UsersRoutesBuilder {
     }
 
     private _users(): { usersRoutes: Router; usersSwagger: routeInstance[] } {
-        const usersRoutesToBuild = bindMiddleware(
-            this._verifyUserMiddleware.userStatus,
-            this._usersRoutes.routes(),
-            {
-                substringLoc: 6,
-                addMethod: 'push',
-                pathsToIgnore: ROUTES_WITH_NO_VERIFY,
-            }
-        );
+        const usersRoutesToBuild = bindMiddleware(this._verifyUserMiddleware.userStatus, this._usersRoutes.routes(), {
+            substringLoc: 6,
+            addMethod: 'push',
+            pathsToIgnore: ROUTES_WITH_NO_VERIFY,
+        });
 
         const usersRoutes = buildRouter(usersRoutesToBuild, router);
         const usersSwagger = this._usersRoutes.routes();
@@ -60,10 +56,7 @@ export default class UsersRoutesBuilder {
         usersSwagger: routeInstance[];
         usersRoutes: { users: Router; oAuth: Router };
     } {
-        const usersSwagger = [
-            ...this._oAuth().oAuthSwagger,
-            ...this._users().usersSwagger,
-        ];
+        const usersSwagger = [...this._oAuth().oAuthSwagger, ...this._users().usersSwagger];
         const usersRoutes = {
             users: this._users().usersRoutes,
             oAuth: this._oAuth().oAuthRoutes,

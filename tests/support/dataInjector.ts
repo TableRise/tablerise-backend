@@ -6,10 +6,7 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 
 export async function InjectNewUser(user: UserInstance): Promise<void> {
-    user.password =
-        user.password !== 'oauth'
-            ? await SecurePasswordHandler.hashPassword(user.password)
-            : user.password;
+    user.password = user.password !== 'oauth' ? await SecurePasswordHandler.hashPassword(user.password) : user.password;
 
     user.createdAt = new Date().toISOString();
     user.updatedAt = new Date().toISOString();
@@ -18,16 +15,10 @@ export async function InjectNewUser(user: UserInstance): Promise<void> {
     await model.create(user);
 }
 
-export async function InjectNewUserDetails(
-    userDetails: UserDetailInstance,
-    userId: string
-): Promise<void> {
+export async function InjectNewUserDetails(userDetails: UserDetailInstance, userId: string): Promise<void> {
     userDetails.userId = userId;
 
-    const modelUserDetails = new DatabaseManagement().modelInstance(
-        'user',
-        'UserDetails'
-    );
+    const modelUserDetails = new DatabaseManagement().modelInstance('user', 'UserDetails');
     await modelUserDetails.create(userDetails);
 }
 
@@ -43,9 +34,6 @@ export async function InjectNewCharacter(character: CharacterInstance): Promise<
     character.createdAt = new Date().toISOString();
     character.updatedAt = new Date().toISOString();
 
-    const modelCharacter = new DatabaseManagement().modelInstance(
-        'characterDnd',
-        'CharactersDnd'
-    );
+    const modelCharacter = new DatabaseManagement().modelInstance('characterDnd', 'CharactersDnd');
     await modelCharacter.create(character);
 }

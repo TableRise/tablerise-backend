@@ -2,52 +2,19 @@ import {
     ActivateSecretQuestionOperationContract,
     ActivateSecretQuestionServiceContract,
 } from './users/ActivateSecretQuestion';
-import {
-    ActivateTwoFactorOperationContract,
-    ActivateTwoFactorServiceContract,
-} from './users/ActivateTwoFactor';
-import {
-    CreateUserOperationContract,
-    CreateUserServiceContract,
-} from './users/CreateUser';
-import {
-    DeleteUserOperationContract,
-    DeleteUserServiceContract,
-} from './users/DeleteUser';
-import {
-    GetUserByIdOperationContract,
-    GetUserByIdServiceContract,
-} from './users/GetUserById';
+import { ActivateTwoFactorOperationContract, ActivateTwoFactorServiceContract } from './users/ActivateTwoFactor';
+import { CreateUserOperationContract, CreateUserServiceContract } from './users/CreateUser';
+import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/DeleteUser';
+import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
 import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
-import {
-    LogoutUserOperationContract,
-    LogoutUserServiceContract,
-} from './users/LogoutUser';
-import {
-    PictureProfileOperationContract,
-    PictureProfileServiceContract,
-} from './users/PictureProfile';
-import {
-    ResetProfileOperationContract,
-    ResetProfileServiceContract,
-} from './users/ResetProfile';
-import {
-    ResetTwoFactorOperationContract,
-    ResetTwoFactorServiceContract,
-} from './users/ResetTwoFactor';
-import {
-    VerifyEmailOperationContract,
-    VerifyEmailServiceContract,
-} from './users/VerifyEmail';
-import {
-    UpdateEmailOperationContract,
-    UpdateEmailServiceContract,
-} from './users/UpdateEmail';
-import {
-    UpdatePasswordOperationContract,
-    UpdatePasswordServiceContract,
-} from './users/UpdatePassword';
+import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
+import { PictureProfileOperationContract, PictureProfileServiceContract } from './users/PictureProfile';
+import { ResetProfileOperationContract, ResetProfileServiceContract } from './users/ResetProfile';
+import { ResetTwoFactorOperationContract, ResetTwoFactorServiceContract } from './users/ResetTwoFactor';
+import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './users/VerifyEmail';
+import { UpdateEmailOperationContract, UpdateEmailServiceContract } from './users/UpdateEmail';
+import { UpdatePasswordOperationContract, UpdatePasswordServiceContract } from './users/UpdatePassword';
 import {
     UpdateSecretQuestionOperationContract,
     UpdateSecretQuestionServiceContract,

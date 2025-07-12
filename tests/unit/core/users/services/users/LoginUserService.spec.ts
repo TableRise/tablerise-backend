@@ -37,12 +37,8 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(enrichedToken.username).to.be.equal(`${user.nickname}${user.tag}`);
                 expect(enrichedToken.picture?.id).to.be.equal(user.picture?.id);
                 expect(enrichedToken.picture?.link).to.be.equal(user.picture?.link);
-                expect(enrichedToken.picture?.uploadDate).to.be.equal(
-                    user.picture?.uploadDate
-                );
-                expect(enrichedToken.fullname).to.be.equal(
-                    `${userDetails.firstName} ${userDetails.lastName}`
-                );
+                expect(enrichedToken.picture?.uploadDate).to.be.equal(user.picture?.uploadDate);
+                expect(enrichedToken.fullname).to.be.equal(`${userDetails.firstName} ${userDetails.lastName}`);
             });
         });
     });

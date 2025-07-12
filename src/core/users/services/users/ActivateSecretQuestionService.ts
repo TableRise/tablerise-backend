@@ -1,10 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload';
-import {
-    ActivateSecretQuestionResponse,
-    CompleteUserResponse,
-} from 'src/types/api/users/http/response';
+import { ActivateSecretQuestionResponse, CompleteUserResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateSecretQuestionService {
     private readonly _usersRepository;
@@ -27,10 +24,7 @@ export default class ActivateSecretQuestionService {
         this.save = this.save.bind(this);
     }
 
-    public async activate({
-        userId,
-        payload,
-    }: ActivateSecretQuestionPayload): Promise<CompleteUserResponse> {
+    public async activate({ userId, payload }: ActivateSecretQuestionPayload): Promise<CompleteUserResponse> {
         this._logger('info', 'Activate - ActivateSecretQuestionService');
         const { status, flows } = this._stateMachine.props;
 
@@ -40,8 +34,7 @@ export default class ActivateSecretQuestionService {
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
         if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_SECRET_QUESTION)
             HttpRequestErrors.throwError('invalid-user-status');
-        if (!payload)
-            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+        if (!payload) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
         userInDb.twoFactorSecret = { active: false };
         userDetailsInDb.secretQuestion = payload;
@@ -51,9 +44,7 @@ export default class ActivateSecretQuestionService {
         return { user: userInDb, details: userDetailsInDb };
     }
 
-    public async save(
-        payload: CompleteUserResponse
-    ): Promise<ActivateSecretQuestionResponse> {
+    public async save(payload: CompleteUserResponse): Promise<ActivateSecretQuestionResponse> {
         const { user, details } = payload;
 
         const userInDb = await this._usersRepository.update({

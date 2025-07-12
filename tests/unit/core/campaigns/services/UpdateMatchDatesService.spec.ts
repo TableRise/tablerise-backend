@@ -39,15 +39,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDateService.updateMatchDate(
-                    updateDatesPayload
-                );
-                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(
-                    campaignDatesLength
-                );
-                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(
-                    campaignDatesLength + 1
-                );
+                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength + 1);
             });
         });
 
@@ -80,9 +74,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Date already added');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -112,15 +104,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDateService.updateMatchDate(
-                    updateDatesPayload
-                );
-                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(
-                    campaignDatesLength
-                );
-                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(
-                    campaignDatesLength - 1
-                );
+                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength - 1);
             });
         });
     });

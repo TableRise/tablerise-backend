@@ -135,14 +135,9 @@ export default class UsersController {
     public async login(req: Request, res: Response): Promise<Response> {
         const { token } = req.user as Express.User;
 
-        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(
-            token as string
-        );
+        const { tokenData, cookieOptions } = await this._loginUserOperation.execute(token as string);
 
-        return res
-            .status(HttpStatusCode.OK)
-            .cookie('token', token, cookieOptions)
-            .json(tokenData);
+        return res.status(HttpStatusCode.OK).cookie('token', token, cookieOptions).json(tokenData);
     }
 
     public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {

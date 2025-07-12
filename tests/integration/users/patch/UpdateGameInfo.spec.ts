@@ -54,12 +54,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeOne} add with success to badges`
-                );
-                expect(userWithGameInfoUpdated.details.gameInfo.badges[0]).to.be.equal(
-                    userIdFakeOne
-                );
+                expect(body).to.be.equal(`ID ${userIdFakeOne} add with success to badges`);
+                expect(userWithGameInfoUpdated.details.gameInfo.badges[0]).to.be.equal(userIdFakeOne);
             });
 
             it('should update the game info - campaigns', async () => {
@@ -84,12 +80,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeTwo} add with success to campaigns`
-                );
-                expect(
-                    userWithGameInfoUpdated.details.gameInfo.campaigns[0].campaignId
-                ).to.be.equal('string');
+                expect(body).to.be.equal(`ID ${userIdFakeTwo} add with success to campaigns`);
+                expect(userWithGameInfoUpdated.details.gameInfo.campaigns[0].campaignId).to.be.equal('string');
             });
 
             it('should update the game info - characters', async () => {
@@ -109,12 +101,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeThree} add with success to characters`
-                );
-                expect(
-                    userWithGameInfoUpdated.details.gameInfo.characters[0]
-                ).to.be.equal(userIdFakeThree);
+                expect(body).to.be.equal(`ID ${userIdFakeThree} add with success to characters`);
+                expect(userWithGameInfoUpdated.details.gameInfo.characters[0]).to.be.equal(userIdFakeThree);
             });
         });
 
@@ -136,12 +124,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeOne} remove with success to badges`
-                );
-                expect(userWithGameInfoUpdated.details.gameInfo.badges).to.have.lengthOf(
-                    0
-                );
+                expect(body).to.be.equal(`ID ${userIdFakeOne} remove with success to badges`);
+                expect(userWithGameInfoUpdated.details.gameInfo.badges).to.have.lengthOf(0);
             });
 
             it('should remove the game info - campaigns', async () => {
@@ -166,12 +150,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeThree} remove with success to campaigns`
-                );
-                expect(
-                    userWithGameInfoUpdated.details.gameInfo.campaigns
-                ).to.have.lengthOf(0);
+                expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to campaigns`);
+                expect(userWithGameInfoUpdated.details.gameInfo.campaigns).to.have.lengthOf(0);
             });
 
             it('should remove the game info - characters', async () => {
@@ -191,12 +171,8 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(
-                    `ID ${userIdFakeThree} remove with success to characters`
-                );
-                expect(
-                    userWithGameInfoUpdated.details.gameInfo.characters
-                ).to.have.lengthOf(0);
+                expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to characters`);
+                expect(userWithGameInfoUpdated.details.gameInfo.characters).to.have.lengthOf(0);
             });
         });
     });

@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetWikiService', () => {
         it('should return the correct data and call correct methods', async () => {
             const wikisTest = await getWikiService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Wikis'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Wikis');
             expect(wikisTest).to.be.deep.equal(wiki[0]);
         });
     });

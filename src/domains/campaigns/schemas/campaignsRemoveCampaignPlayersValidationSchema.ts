@@ -6,7 +6,5 @@ const campaignsRemoveCampaignPlayersZodSchema = z.object({
     userId: z.string(),
 });
 
-export type CampaignRemovePayload = z.infer<
-    typeof campaignsRemoveCampaignPlayersZodSchema
->;
+export type CampaignRemovePayload = z.infer<typeof campaignsRemoveCampaignPlayersZodSchema>;
 export default campaignsRemoveCampaignPlayersZodSchema;

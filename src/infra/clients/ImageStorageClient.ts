@@ -12,12 +12,7 @@ export default class ImageStorageClient {
     private readonly _httpRequest;
     private readonly _serializer;
 
-    constructor({
-        logger,
-        httpRequest,
-        configs,
-        serializer,
-    }: InfraDependencies['imageStorageClientContract']) {
+    constructor({ logger, httpRequest, configs, serializer }: InfraDependencies['imageStorageClientContract']) {
         this._logger = logger;
         this._configs = configs;
         this._httpRequest = httpRequest;
@@ -59,9 +54,7 @@ export default class ImageStorageClient {
 
         try {
             imageUploaded =
-                process.env.NODE_ENV === 'production'
-                    ? await this._httpRequest(imageUploadPayload)
-                    : imageUploaded;
+                process.env.NODE_ENV === 'production' ? await this._httpRequest(imageUploadPayload) : imageUploaded;
         } catch (error) {
             const err = error as AxiosError;
 

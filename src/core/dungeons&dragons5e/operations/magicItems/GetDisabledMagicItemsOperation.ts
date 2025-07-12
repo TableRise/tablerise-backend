@@ -6,10 +6,7 @@ export default class GetDisabledMagicItemsOperation {
     private readonly _getDisabledMagicItemsService;
     private readonly _logger;
 
-    constructor({
-        getDisabledMagicItemsService,
-        logger,
-    }: GetDisabledMagicItemsOperationContract) {
+    constructor({ getDisabledMagicItemsService, logger }: GetDisabledMagicItemsOperationContract) {
         this._getDisabledMagicItemsService = getDisabledMagicItemsService;
         this._logger = logger;
 

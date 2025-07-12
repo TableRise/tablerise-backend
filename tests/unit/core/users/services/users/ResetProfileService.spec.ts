@@ -86,8 +86,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = [
@@ -124,12 +123,8 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

@@ -6,10 +6,7 @@ export default class GetAllBackgroundsService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: GetAllBackgroundsServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: GetAllBackgroundsServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 

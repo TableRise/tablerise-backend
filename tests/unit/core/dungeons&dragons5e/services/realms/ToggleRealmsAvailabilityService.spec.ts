@@ -3,9 +3,7 @@ import ToggleRealmsAvailabilityService from 'src/core/dungeons&dragons5e/service
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleRealmsAvailabilityService', () => {
-    let toggleRealmsAvailabilityService: ToggleRealmsAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        realm: any;
+    let toggleRealmsAvailabilityService: ToggleRealmsAvailabilityService, dungeonsAndDragonsRepository: any, realm: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleRealmsAvailabilityServi
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Realms'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Realms');
             expect(realmsTest).to.be.deep.equal({ ...realm[0], active: false });
         });
     });

@@ -25,16 +25,13 @@ export default class UpdateMatchMapImagesService {
     }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
         this._logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse =
-            mapImage && (await this._imageStorageClient.upload(mapImage));
+        const imageUploadResponse = mapImage && (await this._imageStorageClient.upload(mapImage));
 
         if (operation === 'add' && imageUploadResponse && campaign.matchData)
             campaign.matchData.mapImages.push(imageUploadResponse);
 
         if (operation === 'remove' && campaign.matchData)
-            campaign.matchData.mapImages = campaign.matchData.mapImages.filter(
-                (mapImage) => mapImage.id !== imageId
-            );
+            campaign.matchData.mapImages = campaign.matchData.mapImages.filter((mapImage) => mapImage.id !== imageId);
 
         return campaign;
     }

@@ -3,9 +3,7 @@ import GetDisabledArmorsOperation from 'src/core/dungeons&dragons5e/operations/a
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledArmorsOperation', () => {
-    let getDisabledArmorsOperation: GetDisabledArmorsOperation,
-        getDisabledArmorsService: any,
-        armors: any;
+    let getDisabledArmorsOperation: GetDisabledArmorsOperation, getDisabledArmorsService: any, armors: any;
 
     const logger = (): void => {};
 

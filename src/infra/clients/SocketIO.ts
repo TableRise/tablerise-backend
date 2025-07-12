@@ -37,8 +37,7 @@ export default class SocketIO {
         this._deleteAvatarSocketEvent = this._deleteAvatarSocketEvent.bind(this);
         this._moveAvatarSocketEvent = this._moveAvatarSocketEvent.bind(this);
         this._resizeAvatarSocketEvent = this._resizeAvatarSocketEvent.bind(this);
-        this._addOrCreateAvatarSocketEvent =
-            this._addOrCreateAvatarSocketEvent.bind(this);
+        this._addOrCreateAvatarSocketEvent = this._addOrCreateAvatarSocketEvent.bind(this);
     }
 
     public async connect(httpServer: Server): Promise<void> {
@@ -65,10 +64,7 @@ export default class SocketIO {
         });
     }
 
-    private async _joinMatchSocketEvent({
-        campaignId,
-        socket,
-    }: joinMatchSocketEventPayload): Promise<void> {
+    private async _joinMatchSocketEvent({ campaignId, socket }: joinMatchSocketEventPayload): Promise<void> {
         const { matchData } = await this._campaignsRepository.findOne({
             campaignId,
         });
@@ -80,40 +76,25 @@ export default class SocketIO {
         socket.emit('joined-in-match', this._matches[matchData.matchId]);
     }
 
-    private _changeMapImageSocketEvent({
-        matchId,
-        mapId,
-    }: changeMapImageSocketEventPayload): void {
-        const mapToActual = this._matches[matchId].mapImages.find(
-            (map) => map.id === mapId
-        );
+    private _changeMapImageSocketEvent({ matchId, mapId }: changeMapImageSocketEventPayload): void {
+        const mapToActual = this._matches[matchId].mapImages.find((map) => map.id === mapId);
 
-        this._matches[matchId].actualMapImage =
-            mapToActual ?? this._matches[matchId].actualMapImage;
+        this._matches[matchId].actualMapImage = mapToActual ?? this._matches[matchId].actualMapImage;
 
         this._io.to(matchId).emit('match-background-changed', mapToActual);
     }
 
-    private async _addAvatar({
-        avatarId,
-        campaignId,
-    }: addAvatarSocketEventPayload): Promise<Avatar | undefined> {
+    private async _addAvatar({ avatarId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar | undefined> {
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
 
-        if (!campaign.matchData)
-            HttpRequestErrors.throwError('campaign-match-inexistent');
+        if (!campaign.matchData) HttpRequestErrors.throwError('campaign-match-inexistent');
 
-        return campaign.matchData.avatars.find(
-            (avatar: Avatar) => avatar.avatarId === avatarId
-        );
+        return campaign.matchData.avatars.find((avatar: Avatar) => avatar.avatarId === avatarId);
     }
 
-    private async _createAvatar({
-        userId,
-        campaignId,
-    }: addAvatarSocketEventPayload): Promise<Avatar> {
+    private async _createAvatar({ userId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar> {
         const avatarData: Avatar = {
             avatarId: newUUID(),
             userId,
@@ -127,8 +108,7 @@ export default class SocketIO {
             campaignId,
         });
 
-        if (!campaign.matchData)
-            HttpRequestErrors.throwError('campaign-match-inexistent');
+        if (!campaign.matchData) HttpRequestErrors.throwError('campaign-match-inexistent');
 
         campaign.matchData.avatars.push(avatarData);
 
@@ -158,44 +138,23 @@ export default class SocketIO {
         this._io.to(matchId).emit('avatar-added-to-the-match', avatarData);
     }
 
-    private _moveAvatarSocketEvent({
-        matchId,
-        avatarId,
-        coordinates,
-        socketId,
-    }: moveAvatarSocketEventPayload): void {
-        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatarId === avatarId
-        );
+    private _moveAvatarSocketEvent({ matchId, avatarId, coordinates, socketId }: moveAvatarSocketEventPayload): void {
+        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].position.x = coordinates.x;
         this._matches[matchId].avatarsInGame[avatarIndex].position.y = coordinates.y;
 
-        this._io
-            .to(matchId)
-            .except(socketId)
-            .emit('Avatar Moved', coordinates.x, coordinates.y, avatarId);
+        this._io.to(matchId).except(socketId).emit('Avatar Moved', coordinates.x, coordinates.y, avatarId);
     }
 
-    private _deleteAvatarSocketEvent({
-        matchId,
-        avatarId,
-    }: deleteAvatarSocketEventPayload): void {
-        const avatars = this._matches[matchId].avatarsInGame.filter(
-            (avatar) => avatar.avatarId !== avatarId
-        );
+    private _deleteAvatarSocketEvent({ matchId, avatarId }: deleteAvatarSocketEventPayload): void {
+        const avatars = this._matches[matchId].avatarsInGame.filter((avatar) => avatar.avatarId !== avatarId);
         this._matches[matchId].avatarsInGame = avatars;
         this._io.to(matchId).emit('box-deleted', avatarId);
     }
 
-    private _addAvatarPictureSocketEvent(
-        matchId: string,
-        avatarId: string,
-        imageLink: string
-    ): void {
-        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatarId === avatarId
-        );
+    private _addAvatarPictureSocketEvent(matchId: string, avatarId: string, imageLink: string): void {
+        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].picture = {
             id: '',
@@ -209,15 +168,8 @@ export default class SocketIO {
         this._io.to(matchId).emit('avatar-picture-uploaded', avatarId, imageLink);
     }
 
-    private _resizeAvatarSocketEvent(
-        matchId: string,
-        avatarId: string,
-        size: SquareSize,
-        socketId: string
-    ): void {
-        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex(
-            (avatar) => avatar.avatarId === avatarId
-        );
+    private _resizeAvatarSocketEvent(matchId: string, avatarId: string, size: SquareSize, socketId: string): void {
+        const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].size.width = size.width;
         this._matches[matchId].avatarsInGame[avatarIndex].size.height = size.height;
@@ -225,11 +177,7 @@ export default class SocketIO {
         this._io.to(matchId).except(socketId).emit('Box Resized', size, avatarId);
     }
 
-    private async _disconnectSocketEvent({
-        matchId,
-        campaignId,
-        userId,
-    }: disconnectAvatarSocketEvent): Promise<void> {
+    private async _disconnectSocketEvent({ matchId, campaignId, userId }: disconnectAvatarSocketEvent): Promise<void> {
         const actualMatch = this._matches[matchId];
         actualMatch.avatars = actualMatch.avatarsInGame;
 

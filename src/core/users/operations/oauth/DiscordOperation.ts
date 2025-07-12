@@ -10,11 +10,7 @@ export default class DiscordOperation {
     private readonly _usersRepository;
     private readonly _logger;
 
-    constructor({
-        oAuthService,
-        usersRepository,
-        logger,
-    }: OAuthCoreDependencies['oAuthOperationContract']) {
+    constructor({ oAuthService, usersRepository, logger }: OAuthCoreDependencies['oAuthOperationContract']) {
         this._oAuthService = oAuthService;
         this._usersRepository = usersRepository;
         this._logger = logger;
@@ -22,9 +18,7 @@ export default class DiscordOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(
-        payload: Discord.Profile
-    ): Promise<RegisterUserResponse | __TokenObject> {
+    public async execute(payload: Discord.Profile): Promise<RegisterUserResponse | __TokenObject> {
         this._logger('info', 'Execute - DiscordOperation');
 
         const entitySerialized = await this._oAuthService.serialize(payload);
@@ -34,10 +28,7 @@ export default class DiscordOperation {
         });
 
         if (!user.length)
-            return this._createUser(
-                entitySerialized.userSerialized,
-                entitySerialized.userDetailsSerialized
-            );
+            return this._createUser(entitySerialized.userSerialized, entitySerialized.userDetailsSerialized);
 
         return this._oAuthService.login(user[0], entitySerialized.userSerialized);
     }
@@ -61,10 +52,7 @@ export default class DiscordOperation {
             userDetails: entityEnriched.userDetailsEnriched,
         });
 
-        const { token } = this._oAuthService.login(
-            userSaved.userSaved,
-            userSaved.userSaved
-        );
+        const { token } = this._oAuthService.login(userSaved.userSaved, userSaved.userSaved);
 
         return {
             ...userSaved.userSaved,

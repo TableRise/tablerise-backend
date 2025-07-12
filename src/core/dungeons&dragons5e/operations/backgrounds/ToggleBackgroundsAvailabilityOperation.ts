@@ -7,20 +7,14 @@ export default class ToggleBackgroundsAvailabilityOperation {
     private readonly _toggleBackgroundsAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleBackgroundsAvailabilityService,
-        logger,
-    }: ToggleBackgroundsAvailabilityOperationContract) {
+    constructor({ toggleBackgroundsAvailabilityService, logger }: ToggleBackgroundsAvailabilityOperationContract) {
         this._toggleBackgroundsAvailabilityService = toggleBackgroundsAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Background>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
         this._logger('info', 'Execute - GetBackgroundOperation');
         const backgrounds = await this._toggleBackgroundsAvailabilityService.toggle({
             id,

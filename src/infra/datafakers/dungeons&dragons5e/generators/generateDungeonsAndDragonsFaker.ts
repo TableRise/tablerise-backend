@@ -17,11 +17,7 @@ import {
 } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
-function createArmorsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Armor> & { armorId: string } {
+function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Armor> & { armorId: string } {
     return {
         armorId: entityId || newUUID(),
         active: true,
@@ -54,19 +50,14 @@ function createArmorsFaker({
     };
 }
 
-function createFeatsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Feat> & { featId: string } {
+function createFeatsFaker({ entityId }: { entityId: string }): Internacional<Feat> & { featId: string } {
     return {
         featId: entityId || newUUID(),
         active: true,
         en: {
             name: 'Grappler',
             prerequisite: 'Strength 13 or higher',
-            description:
-                "You've developed the skills necessary to hold your own in close-quarters grappling.",
+            description: "You've developed the skills necessary to hold your own in close-quarters grappling.",
             benefits: [
                 'You have advantage on attack rolls against a creature you are grappling.',
                 'You can use your action to try to pin a creature grappled by you. To do so, make another grapple check. If you succeed, you and the creature are both restrained until the grapple ends.',
@@ -208,11 +199,7 @@ function createBackgroundsFaker({
     };
 }
 
-function createClassesFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Class> & { classId: string } {
+function createClassesFaker({ entityId }: { entityId: string }): Internacional<Class> & { classId: string } {
     return {
         classId: entityId || newUUID(),
         active: true,
@@ -223,22 +210,14 @@ function createClassesFaker({
             hitPoints: {
                 hitDice: '1d12 per barbarian level',
                 hitPointsAtFirstLevel: '12 + Constitution modifier',
-                hitPointsAtHigherLevels:
-                    '1d12 (or 7) + Constitution modifier per barbarian level after first level',
+                hitPointsAtHigherLevels: '1d12 (or 7) + Constitution modifier per barbarian level after first level',
             },
             proficiencies: {
                 armor: ['light armor', 'medium armor', 'shields'],
                 weapons: ['simple weapons', 'martial weapons'],
                 tools: [],
                 savingThrows: ['strength', 'constitution'],
-                skills: [
-                    'animal handling',
-                    'athletics',
-                    'intimidation',
-                    'nature',
-                    'perception',
-                    'survival',
-                ],
+                skills: ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival'],
             },
             equipment: [
                 {
@@ -255,12 +234,8 @@ function createClassesFaker({
                 },
             ],
             levelingSpecs: {
-                level: [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                ],
-                proficiencyBonus: [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6,
-                ],
+                level: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                proficiencyBonus: [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 features: [
                     'Range, Unarmored Defense',
                     'Reckless Attack, Danger Sense',
@@ -323,9 +298,7 @@ function createClassesFaker({
                 },
                 rages: {
                     isValidToThisClass: true,
-                    amount: [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999,
-                    ],
+                    amount: [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999],
                 },
                 rageDamage: {
                     isValidToThisClass: true,
@@ -458,14 +431,7 @@ function createClassesFaker({
                 weapons: ['armas simples', 'armas marciais'],
                 tools: [],
                 savingThrows: ['força', 'constituição'],
-                skills: [
-                    'adestrar animais',
-                    'atletismo',
-                    'intimidação',
-                    'natureza',
-                    'percepção',
-                    'sobrevivência',
-                ],
+                skills: ['adestrar animais', 'atletismo', 'intimidação', 'natureza', 'percepção', 'sobrevivência'],
             },
             equipment: [
                 {
@@ -482,12 +448,8 @@ function createClassesFaker({
                 },
             ],
             levelingSpecs: {
-                level: [
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                ],
-                proficiencyBonus: [
-                    2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6,
-                ],
+                level: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                proficiencyBonus: [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
                 features: [
                     'Raiva, Defesa Inarmada',
                     'Ataque Despreocupado, Sentido de Perigo',
@@ -550,9 +512,7 @@ function createClassesFaker({
                 },
                 rages: {
                     isValidToThisClass: true,
-                    amount: [
-                        2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999,
-                    ],
+                    amount: [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 999],
                 },
                 rageDamage: {
                     isValidToThisClass: true,
@@ -659,8 +619,7 @@ function createClassesFaker({
             subClass: [
                 {
                     title: 'Trilha da Besta',
-                    description:
-                        'Transforme-se em uma besta com ataques desarmados mortais.',
+                    description: 'Transforme-se em uma besta com ataques desarmados mortais.',
                     characteristics: [
                         {
                             title: 'Forma da Fera',
@@ -674,11 +633,7 @@ function createClassesFaker({
     };
 }
 
-function createGodsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<God> & { godId: string } {
+function createGodsFaker({ entityId }: { entityId: string }): Internacional<God> & { godId: string } {
     return {
         godId: entityId || newUUID(),
         active: true,
@@ -699,11 +654,7 @@ function createGodsFaker({
     };
 }
 
-function createMagicItemsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<MagicItem> & { magicItemId: string } {
+function createMagicItemsFaker({ entityId }: { entityId: string }): Internacional<MagicItem> & { magicItemId: string } {
     return {
         magicItemId: entityId || newUUID(),
         active: true,
@@ -722,11 +673,7 @@ function createMagicItemsFaker({
     };
 }
 
-function createMonstersFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Monster> & { monsterId: string } {
+function createMonstersFaker({ entityId }: { entityId: string }): Internacional<Monster> & { monsterId: string } {
     return {
         monsterId: entityId || newUUID(),
         active: true,
@@ -989,11 +936,7 @@ function createMonstersFaker({
     };
 }
 
-function createItemsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Item> & { itemId: string } {
+function createItemsFaker({ entityId }: { entityId: string }): Internacional<Item> & { itemId: string } {
     return {
         itemId: entityId || newUUID(),
         active: true,
@@ -1038,11 +981,7 @@ function createItemsFaker({
     };
 }
 
-function createRacesFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Race> & { raceId: string } {
+function createRacesFaker({ entityId }: { entityId: string }): Internacional<Race> & { raceId: string } {
     return {
         raceId: entityId || newUUID(),
         active: true,
@@ -1133,8 +1072,7 @@ function createRacesFaker({
                 },
                 {
                     name: 'Dwarven Combat Training',
-                    description:
-                        'You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.',
+                    description: 'You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.',
                     suggested: {
                         personalityTrait: ['personality'],
                         ideal: ['ideal'],
@@ -1289,11 +1227,7 @@ function createRacesFaker({
     };
 }
 
-function createRealmsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Realm> & { realmId: string } {
+function createRealmsFaker({ entityId }: { entityId: string }): Internacional<Realm> & { realmId: string } {
     return {
         realmId: entityId || newUUID(),
         active: true,
@@ -1312,11 +1246,7 @@ function createRealmsFaker({
     };
 }
 
-function createWikisFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Wiki> & { wikiId: string } {
+function createWikisFaker({ entityId }: { entityId: string }): Internacional<Wiki> & { wikiId: string } {
     return {
         wikiId: entityId || newUUID(),
         active: true,
@@ -1331,8 +1261,7 @@ function createWikisFaker({
                 },
                 {
                     subTitle: 'Ability Score Increase',
-                    description:
-                        "Every race increases one or more of a character's ability scores.",
+                    description: "Every race increases one or more of a character's ability scores.",
                 },
                 {
                     subTitle: 'Age',
@@ -1356,8 +1285,7 @@ function createWikisFaker({
                 },
                 {
                     subTitle: 'Languages',
-                    description:
-                        'By virtue of your race, your character can speak, read, and write certain languages.',
+                    description: 'By virtue of your race, your character can speak, read, and write certain languages.',
                 },
                 {
                     subTitle: 'Subraces',
@@ -1404,8 +1332,7 @@ function createWikisFaker({
 
                 {
                     subTitle: 'Idiomas',
-                    description:
-                        'Por causa de sua raça, seu personagem pode falar, ler e escrever certos idiomas.',
+                    description: 'Por causa de sua raça, seu personagem pode falar, ler e escrever certos idiomas.',
                 },
 
                 {
@@ -1420,11 +1347,7 @@ function createWikisFaker({
     };
 }
 
-function createWeaponsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Weapon> & { weaponId: string } {
+function createWeaponsFaker({ entityId }: { entityId: string }): Internacional<Weapon> & { weaponId: string } {
     return {
         weaponId: entityId || newUUID(),
         active: true,
@@ -1455,11 +1378,7 @@ function createWeaponsFaker({
     };
 }
 
-function createSpellsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Spell> & { spellId: string } {
+function createSpellsFaker({ entityId }: { entityId: string }): Internacional<Spell> & { spellId: string } {
     return {
         spellId: entityId || newUUID(),
         active: true,
@@ -1523,27 +1442,13 @@ export default function generateDungeonsAndDragonsFaker({
 }): any[] {
     const entityArray: Array<
         Internacional<
-            | Armor
-            | Background
-            | Class
-            | Feat
-            | God
-            | MagicItem
-            | Monster
-            | Item
-            | Race
-            | Realm
-            | Wiki
-            | Weapon
-            | Spell
+            Armor | Background | Class | Feat | God | MagicItem | Monster | Item | Race | Realm | Wiki | Weapon | Spell
         >
     > = [];
 
     for (let index = 0; index <= count; index += 1) {
         entityArray.push(
-            dungeonsAndDragonsFunctions[
-                entity as keyof typeof dungeonsAndDragonsFunctions
-            ]({
+            dungeonsAndDragonsFunctions[entity as keyof typeof dungeonsAndDragonsFunctions]({
                 entityId,
             } as { entityId: string })
         );

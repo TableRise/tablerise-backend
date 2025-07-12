@@ -3,9 +3,7 @@ import ToggleGodsAvailabilityOperation from 'src/core/dungeons&dragons5e/operati
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleGodsAvailabilityOperation', () => {
-    let toggleGodsAvailabilityOperation: ToggleGodsAvailabilityOperation,
-        toggleGodsAvailabilityService: any,
-        feat: any;
+    let toggleGodsAvailabilityOperation: ToggleGodsAvailabilityOperation, toggleGodsAvailabilityService: any, feat: any;
 
     const logger = (): void => {};
 

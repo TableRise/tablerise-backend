@@ -30,9 +30,7 @@ describe('When a music is added or removed from a match', () => {
 
     it('should sucessfully remove a music from a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${campaign.campaignId}/update/match/map-images?operation=remove`
-            )
+            .patch(`/campaigns/${campaign.campaignId}/update/match/map-images?operation=remove`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 
