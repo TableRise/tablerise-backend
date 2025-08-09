@@ -1,9 +1,15 @@
 import DatabaseManagement from '@tablerise/database-management';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+
+export async function InjectNewDungeonsAndDragonsRulesRaces(rules: Race): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Races');
+    await model.create(rules);
+}
 
 export async function InjectNewUser(user: UserInstance): Promise<void> {
     user.password = user.password !== 'oauth' ? await SecurePasswordHandler.hashPassword(user.password) : user.password;

@@ -3,11 +3,14 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
-import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
+import { InjectNewDungeonsAndDragonsRulesRaces, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import RacesDnd from 'src/infra/data/dungeons&dragons5e/racesSeeder.json';
+import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When some character is created', () => {
     let user: UserInstance, userDetails: UserDetailInstance;
@@ -29,6 +32,7 @@ describe('When some character is created', () => {
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
+            await InjectNewDungeonsAndDragonsRulesRaces(RacesDnd as unknown as Race)
         });
 
         after(() => {
@@ -41,7 +45,7 @@ describe('When some character is created', () => {
             const { body } = await requester()
                 .post('/characters/create')
                 .send(characterPayload)
-                .expect(HttpStatusCode.CREATED);
+                .expect(HttpStatusCode.CREATED) as { body: CharacterInstance };
 
             expect(body).to.have.property('data');
             expect(body).to.have.property('npc');
@@ -54,6 +58,14 @@ describe('When some character is created', () => {
             expect(body.data.profile).to.have.property('xp');
             expect(body.data.profile.level).to.be.equal(0);
             expect(body.data.profile.xp).to.be.equal(0);
+
+            if (body.data.stats.abilityScores) {
+                expect(body.data.stats.abilityScores[0].value).to.be.equal(1);
+                expect(body.data.stats.abilityScores[1].value).to.be.equal(1);
+                expect(body.data.stats.abilityScores[2].value).to.be.equal(1);
+                expect(body.data.stats.abilityScores[3].value).to.be.equal(1);
+                expect(body.data.stats.abilityScores[4].value).to.be.equal(1);
+            }
         });
     });
 });
