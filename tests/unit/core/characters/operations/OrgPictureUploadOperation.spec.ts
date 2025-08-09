@@ -3,9 +3,7 @@ import Sinon from 'sinon';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Characters :: Operations :: OrgPictureUploadOperation', () => {
-    let orgPictureUploadOperation: OrgPictureUploadOperation,
-        orgPictureUploadService: any,
-        payload: any;
+    let orgPictureUploadOperation: OrgPictureUploadOperation, orgPictureUploadService: any, payload: any;
 
     const logger = (): void => {};
 
@@ -28,9 +26,7 @@ describe('Core :: Characters :: Operations :: OrgPictureUploadOperation', () => 
         it('should update the organization picture', async () => {
             await orgPictureUploadOperation.execute(payload);
 
-            expect(orgPictureUploadService.uploadPicture).to.have.been.calledWith(
-                payload
-            );
+            expect(orgPictureUploadService.uploadPicture).to.have.been.calledWith(payload);
         });
     });
 });

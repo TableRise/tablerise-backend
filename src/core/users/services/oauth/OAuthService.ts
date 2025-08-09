@@ -5,13 +5,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
-import {
-    __FullUser,
-    __TokenObject,
-    __UserEnriched,
-    __UserSaved,
-    __UserSerialized,
-} from 'src/types/api/users/methods';
+import { __FullUser, __TokenObject, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
@@ -42,15 +36,12 @@ export default class OAuthService {
         this._logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
-        if (!isProviderIdValid)
-            HttpRequestErrors.throwError('email-already-exist', '/register');
+        if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist', '/register');
 
         return { token: JWTGenerator.generate(userInDb) };
     }
 
-    public async serialize(
-        payload: Google.Profile | Discord.Profile
-    ): Promise<__UserSerialized> {
+    public async serialize(payload: Google.Profile | Discord.Profile): Promise<__UserSerialized> {
         this._logger('info', 'Serialize - OAuthService');
         const userExternalSerialized = this._serializer.externalUser(payload);
 
@@ -60,10 +51,7 @@ export default class OAuthService {
         return { userSerialized, userDetailsSerialized };
     }
 
-    public async enrichment(
-        { user, userDetails }: __FullUser,
-        provider: string
-    ): Promise<__UserEnriched> {
+    public async enrichment({ user, userDetails }: __FullUser, provider: string): Promise<__UserEnriched> {
         this._logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
 

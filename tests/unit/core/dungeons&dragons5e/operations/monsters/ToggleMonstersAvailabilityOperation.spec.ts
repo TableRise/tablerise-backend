@@ -3,9 +3,7 @@ import ToggleMonsterOperation from 'src/core/dungeons&dragons5e/operations/monst
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleMonsterOperation', () => {
-    let toggleMonsterOperation: ToggleMonsterOperation,
-        toggleMonstersAvailabilityService: any,
-        monster: any;
+    let toggleMonsterOperation: ToggleMonsterOperation, toggleMonstersAvailabilityService: any, monster: any;
 
     const logger = (): void => {};
 

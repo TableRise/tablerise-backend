@@ -5,10 +5,7 @@ export default class ActivateTwoFactorOperation {
     private readonly _activateTwoFactorService;
     private readonly _logger;
 
-    constructor({
-        activateTwoFactorService,
-        logger,
-    }: UserCoreDependencies['activateTwoFactorOperationContract']) {
+    constructor({ activateTwoFactorService, logger }: UserCoreDependencies['activateTwoFactorOperationContract']) {
         this._activateTwoFactorService = activateTwoFactorService;
         this._logger = logger;
 
@@ -18,9 +15,7 @@ export default class ActivateTwoFactorOperation {
     public async execute(userId: string): Promise<TwoFactorResponse> {
         this._logger('info', 'Execute - ActivateTwoFactorOperation');
 
-        const { user, userDetails } = await this._activateTwoFactorService.activate(
-            userId
-        );
+        const { user, userDetails } = await this._activateTwoFactorService.activate(userId);
 
         return this._activateTwoFactorService.save({
             user,

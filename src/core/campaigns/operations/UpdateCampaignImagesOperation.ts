@@ -19,11 +19,8 @@ export default class UpdateCampaignImagesOperation {
     async execute(payload: UpdateCampaignImagesPayload): Promise<ImageCampaign> {
         this._logger('info', 'Execute - UpdateCampaignImagesOperation');
 
-        const campaignWithOperationDone =
-            await this._updateCampaignImagesService.updateCampaignImage(payload);
-        const savedCampaign = await this._updateCampaignImagesService.save(
-            campaignWithOperationDone
-        );
+        const campaignWithOperationDone = await this._updateCampaignImagesService.updateCampaignImage(payload);
+        const savedCampaign = await this._updateCampaignImagesService.save(campaignWithOperationDone);
 
         return savedCampaign.images;
     }

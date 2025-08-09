@@ -6,10 +6,7 @@ export default class OrgPictureUploadOperation {
     private readonly _orgPictureUploadService;
     private readonly _logger;
 
-    constructor({
-        logger,
-        orgPictureUploadService,
-    }: CharacterCoreDependencies['orgPictureUploadOperationContract']) {
+    constructor({ logger, orgPictureUploadService }: CharacterCoreDependencies['orgPictureUploadOperationContract']) {
         this._orgPictureUploadService = orgPictureUploadService;
         this._logger = logger;
 

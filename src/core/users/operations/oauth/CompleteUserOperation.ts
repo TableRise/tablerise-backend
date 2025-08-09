@@ -23,10 +23,7 @@ export default class CompleteUserOperation {
         this._logger = logger;
     }
 
-    public async execute({
-        userId,
-        payload,
-    }: CompleteOAuth): Promise<RegisterUserResponse> {
+    public async execute({ userId, payload }: CompleteOAuth): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - CompleteUserOperation');
         this._schemaValidator.entry(this._usersSchema.oAuthComplete, payload);
 

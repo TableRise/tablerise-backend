@@ -2,9 +2,7 @@ import { CharacterInstance } from 'src/domains/characters/schemas/characterPostV
 import { CharacterJSONPayload } from 'src/types/modules/infra/datafakers/characters/DomainDataFaker';
 import generateCharactersFaker from './generators/generateCharactersFaker';
 
-function generateCharactersJSON(
-    { count, characterId }: CharacterJSONPayload = { count: 1 }
-): CharacterInstance[] {
+function generateCharactersJSON({ count, characterId }: CharacterJSONPayload = { count: 1 }): CharacterInstance[] {
     return generateCharactersFaker({ count, characterId });
 }
 

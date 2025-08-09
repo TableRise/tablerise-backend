@@ -54,18 +54,12 @@ describe('When the user has secret question activated', () => {
             expect(userWithNewQuestion.twoFactorSecret).to.be.deep.equal({
                 active: false,
             });
-            expect(userWithNewQuestion.details.secretQuestion.answer).to.be.equal(
-                newSecretQuestion.answer
-            );
+            expect(userWithNewQuestion.details.secretQuestion.answer).to.be.equal(newSecretQuestion.answer);
             expect(userWithNewQuestion.details.secretQuestion.answer).to.be.not.equal(
                 userDetails.secretQuestion?.answer
             );
-            expect(userWithNewQuestion.details.secretQuestion.question).to.be.equal(
-                newSecretQuestion.question
-            );
-            expect(userWithNewQuestion.updatedAt).to.be.not.equal(
-                userWithOldSecretQuestion.updatedAt
-            );
+            expect(userWithNewQuestion.details.secretQuestion.question).to.be.equal(newSecretQuestion.question);
+            expect(userWithNewQuestion.updatedAt).to.be.not.equal(userWithOldSecretQuestion.updatedAt);
         });
     });
 });

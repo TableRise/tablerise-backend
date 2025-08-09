@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { GodsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/gods/GodsRoutes';
 
 const BASE_PATH = '/system/dnd5e/gods';
@@ -43,10 +41,7 @@ export default class GodsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._godsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
                 },
             },
@@ -59,10 +54,7 @@ export default class GodsRoutes {
                 ],
                 controller: this._godsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
                 },
             },

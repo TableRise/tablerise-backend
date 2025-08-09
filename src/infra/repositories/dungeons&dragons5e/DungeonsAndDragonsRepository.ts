@@ -13,7 +13,7 @@ export default class DungeonsAndDragonsRepository {
         this._logger = logger;
     }
 
-    public setEntity(entity: string): void {
+    public setEntity(entity: DnDEntities): void {
         this._entity = entity;
     }
 

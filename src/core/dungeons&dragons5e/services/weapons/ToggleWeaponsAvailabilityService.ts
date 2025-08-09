@@ -7,20 +7,14 @@ export default class ToggleWeaponsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: ToggleWeaponsAvailabilityServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: ToggleWeaponsAvailabilityServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Weapon>> {
+    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Weapon>> {
         this._logger('info', 'Toggle - ToggleWeaponsAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('Weapons');
 

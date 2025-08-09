@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { WikisRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/wikis/WikisRoutes';
 
 const BASE_PATH = '/system/dnd5e/wikis';
@@ -43,10 +41,7 @@ export default class WikisRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._wikisController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'wikis',
                 },
             },
@@ -59,10 +54,7 @@ export default class WikisRoutes {
                 ],
                 controller: this._wikisController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'wikis',
                 },
             },

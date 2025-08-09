@@ -51,9 +51,7 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
             });
 
             it('should call correct methods', async () => {
-                const googleProfileCompleted = await googleOperation.execute(
-                    googleProfile
-                );
+                const googleProfileCompleted = await googleOperation.execute(googleProfile);
 
                 expect(oAuthService.serialize).to.have.been.calledWith(googleProfile);
                 expect(oAuthService.enrichment).to.have.been.called();
@@ -97,9 +95,7 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
             });
 
             it('should call correct methods', async () => {
-                const googleProfileCompleted = await googleOperation.execute(
-                    googleProfile
-                );
+                const googleProfileCompleted = await googleOperation.execute(googleProfile);
 
                 expect(oAuthService.serialize).to.have.been.called();
                 expect(oAuthService.enrichment).to.not.have.been.called();

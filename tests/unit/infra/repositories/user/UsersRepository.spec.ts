@@ -6,10 +6,7 @@ import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
 
 describe('Infra :: Repositories :: User :: UsersRepository', () => {
-    let usersRepository: UsersRepository,
-        updateTimestampRepository: any,
-        database: any,
-        serializer: any;
+    let usersRepository: UsersRepository, updateTimestampRepository: any, database: any, serializer: any;
 
     const logger: Logger = () => {};
 

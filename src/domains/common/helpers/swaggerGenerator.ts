@@ -19,14 +19,10 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
             const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
 
-            router.use(
-                '/api-docs/system/dnd5e',
-                swaggerUI.serve,
-                (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
-                    res.send(html);
-                }
-            );
+            router.use('/api-docs/system/dnd5e', swaggerUI.serve, (req: Request, res: Response) => {
+                const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
+                res.send(html);
+            });
         })
         .catch((error: any) => {
             console.log(error);
@@ -41,14 +37,10 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
             const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
 
-            router.use(
-                '/api-docs/users',
-                swaggerUI.serve,
-                (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentUser);
-                    res.send(html);
-                }
-            );
+            router.use('/api-docs/users', swaggerUI.serve, (req: Request, res: Response) => {
+                const html = swaggerUI.generateHTML(SwaggerDocumentUser);
+                res.send(html);
+            });
         })
         .catch((error: any) => {
             console.log(error);
@@ -63,14 +55,10 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
             const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
 
-            router.use(
-                '/api-docs/campaigns',
-                swaggerUI.serve,
-                (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
-                    res.send(html);
-                }
-            );
+            router.use('/api-docs/campaigns', swaggerUI.serve, (req: Request, res: Response) => {
+                const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
+                res.send(html);
+            });
         })
         .catch((error: any) => {
             console.log(error);
@@ -85,14 +73,10 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
 
             const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
 
-            router.use(
-                '/api-docs/characters',
-                swaggerUI.serve,
-                (req: Request, res: Response) => {
-                    const html = swaggerUI.generateHTML(SwaggerDocumentCharacters);
-                    res.send(html);
-                }
-            );
+            router.use('/api-docs/characters', swaggerUI.serve, (req: Request, res: Response) => {
+                const html = swaggerUI.generateHTML(SwaggerDocumentCharacters);
+                res.send(html);
+            });
         })
         .catch((error: any) => {
             console.log(error);

@@ -2,12 +2,7 @@ import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
-import {
-    InjectNewCampaign,
-    InjectNewCharacter,
-    InjectNewUser,
-    InjectNewUserDetails,
-} from 'tests/support/dataInjector';
+import { InjectNewCampaign, InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
@@ -31,9 +26,7 @@ describe('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [
-                character[0].characterId as string,
-            ];
+            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
             campaign.campaignPlayers[0].role = 'dungeon_master';
 
             campaign.campaignPlayers[1] = {
@@ -108,9 +101,7 @@ describe('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [
-                character[0].characterId as string,
-            ];
+            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
             campaign.campaignPlayers[0].role = 'player';
 
             campaign.campaignPlayers[1] = {

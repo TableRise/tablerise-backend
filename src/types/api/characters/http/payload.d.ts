@@ -1,7 +1,4 @@
-import {
-    CharacterInstance,
-    CharacterPayload,
-} from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharacterInstance, CharacterPayload } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 
 export interface CreateCharacterPayload {

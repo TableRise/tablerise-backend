@@ -3,9 +3,7 @@ import GetAllGodsService from 'src/core/dungeons&dragons5e/services/gods/GetAllG
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetAllGodsService', () => {
-    let getAllGodsService: GetAllGodsService,
-        dungeonsAndDragonsRepository: any,
-        gods: any;
+    let getAllGodsService: GetAllGodsService, dungeonsAndDragonsRepository: any, gods: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllGodsService', () => {
         it('should return the correct data and call correct methods', async () => {
             const godsTest = await getAllGodsService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Gods'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Gods');
             expect(godsTest).to.be.deep.equal(gods);
         });
     });

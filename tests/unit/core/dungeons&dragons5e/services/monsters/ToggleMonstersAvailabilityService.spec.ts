@@ -34,9 +34,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleMonstersAvailabilitySer
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Monsters'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Monsters');
             expect(monstersTest).to.be.deep.equal({ ...monster[0], active: false });
         });
     });

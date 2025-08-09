@@ -3,9 +3,7 @@ import ToggleRacesAvailabilityService from 'src/core/dungeons&dragons5e/services
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleRacesAvailabilityService', () => {
-    let toggleRacesAvailabilityService: ToggleRacesAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        race: any;
+    let toggleRacesAvailabilityService: ToggleRacesAvailabilityService, dungeonsAndDragonsRepository: any, race: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleRacesAvailabilityServic
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Races'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
             expect(racesTest).to.be.deep.equal({ ...race[0], active: false });
         });
     });

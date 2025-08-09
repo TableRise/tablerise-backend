@@ -81,12 +81,8 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Some problem ocurred in email sending'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.EXTERNAL_ERROR)
-                    );
+                    expect(err.message).to.be.equal('Some problem ocurred in email sending');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.EXTERNAL_ERROR));
                     expect(err.code).to.be.equal(HttpStatusCode.EXTERNAL_ERROR);
                 }
             });

@@ -33,13 +33,9 @@ describe('When an user is deleted', () => {
         });
 
         it('should delete user with success', async () => {
-            await requester()
-                .delete(`/users/${user.userId}/delete`)
-                .expect(HttpStatusCode.NO_CONTENT);
+            await requester().delete(`/users/${user.userId}/delete`).expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+            await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.NOT_FOUND);
         });
     });
 
@@ -71,9 +67,7 @@ describe('When an user is deleted', () => {
                 })
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.NOT_FOUND);
+            await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.NOT_FOUND);
         });
     });
 });

@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { ArmorsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/armors/ArmorsRoutes';
 
 const BASE_PATH = '/system/dnd5e/armors';
@@ -43,10 +41,7 @@ export default class ArmorsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._armorsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
                 },
             },
@@ -59,10 +54,7 @@ export default class ArmorsRoutes {
                 ],
                 controller: this._armorsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
                 },
             },

@@ -3,9 +3,7 @@ import GetBackgroundOperation from 'src/core/dungeons&dragons5e/operations/backg
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetBackgroundOperation', () => {
-    let getBackgroundOperation: GetBackgroundOperation,
-        getBackgroundService: any,
-        background: any;
+    let getBackgroundOperation: GetBackgroundOperation, getBackgroundService: any, background: any;
 
     const logger = (): void => {};
 

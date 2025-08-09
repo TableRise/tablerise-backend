@@ -24,15 +24,11 @@ export default class UpdateSecretQuestionService {
         this.save = this.save.bind(this);
     }
 
-    public async update({
-        userId,
-        payload,
-    }: UpdateSecretQuestionPayload): Promise<__FullUser> {
+    public async update({ userId, payload }: UpdateSecretQuestionPayload): Promise<__FullUser> {
         this._logger('info', 'Update - UpdateSecretQuestionService');
         const { flows } = this._stateMachine.props;
 
-        if (!payload.answer || !payload.question)
-            HttpRequestErrors.throwError('new-structure-secret-question-missing');
+        if (!payload.answer || !payload.question) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });

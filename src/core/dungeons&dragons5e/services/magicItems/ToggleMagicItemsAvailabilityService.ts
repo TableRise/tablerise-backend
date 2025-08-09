@@ -7,20 +7,14 @@ export default class ToggleMagicItemsAvailabilityService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: ToggleMagicItemsAvailabilityServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: ToggleMagicItemsAvailabilityServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
-    public async toggle({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<MagicItem>> {
+    public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<MagicItem>> {
         this._logger('info', 'Toggle - ToggleMagicItemsAvailabilityService');
         this._dungeonsAndDragonsRepository.setEntity('MagicItems');
 

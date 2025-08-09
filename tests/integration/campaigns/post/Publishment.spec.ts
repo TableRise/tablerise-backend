@@ -4,18 +4,11 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
-import {
-    InjectNewCampaign,
-    InjectNewUser,
-    InjectNewUserDetails,
-} from 'tests/support/dataInjector';
+import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a post is published', () => {
-    let campaign: CampaignInstance,
-        payload: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+    let campaign: CampaignInstance, payload: any, user: UserInstance, userDetails: UserDetailInstance;
 
     context('And data is correct', () => {
         before(async () => {
@@ -37,9 +30,7 @@ describe('When a post is published', () => {
 
         it('should add new post to campaign', async () => {
             const { body } = await requester()
-                .post(
-                    `/campaigns/${campaign.campaignId}/publishment?userId=${user.userId}`
-                )
+                .post(`/campaigns/${campaign.campaignId}/publishment?userId=${user.userId}`)
                 .send(payload)
                 .expect(HttpStatusCode.CREATED);
 

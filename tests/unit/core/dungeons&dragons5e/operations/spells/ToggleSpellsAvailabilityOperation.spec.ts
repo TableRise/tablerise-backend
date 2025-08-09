@@ -3,9 +3,7 @@ import ToggleSpellOperation from 'src/core/dungeons&dragons5e/operations/spells/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleSpellOperation', () => {
-    let toggleSpellOperation: ToggleSpellOperation,
-        toggleSpellsAvailabilityService: any,
-        spell: any;
+    let toggleSpellOperation: ToggleSpellOperation, toggleSpellsAvailabilityService: any, spell: any;
 
     const logger = (): void => {};
 

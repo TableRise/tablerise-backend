@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-    UserDetailInstance,
-    UserSecretQuestion,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetailInstance, UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
@@ -29,21 +26,14 @@ export default class AuthorizationMiddleware {
         this._twoFactorHandler = twoFactorHandler;
         this._logger = logger;
 
-        this._ALLOWED_STATUS = [
-            stateMachine.props.status.DONE,
-            stateMachine.props.status.WAIT_TO_SECOND_AUTH,
-        ];
+        this._ALLOWED_STATUS = [stateMachine.props.status.DONE, stateMachine.props.status.WAIT_TO_SECOND_AUTH];
 
         this.checkAdminRole = this.checkAdminRole.bind(this);
         this.twoFactor = this.twoFactor.bind(this);
         this.secretQuestion = this.secretQuestion.bind(this);
     }
 
-    public async checkAdminRole(
-        req: Request,
-        _res: Response,
-        next: NextFunction
-    ): Promise<void> {
+    public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
 
         const { userId } = req.user as Express.User;
@@ -59,11 +49,7 @@ export default class AuthorizationMiddleware {
         }
     }
 
-    public async twoFactor(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ): Promise<void> {
+    public async twoFactor(req: Request, res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'TwoFactor - AuthorizationMiddleware');
 
         const { id } = req.params;
@@ -72,8 +58,7 @@ export default class AuthorizationMiddleware {
         let userInDb = {} as UserInstance;
 
         if (id && !email) userInDb = await this._usersRepository.findOne({ userId: id });
-        if (email && !userInDb.email)
-            userInDb = await this._usersRepository.findOne({ email });
+        if (email && !userInDb.email) userInDb = await this._usersRepository.findOne({ email });
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
@@ -91,10 +76,7 @@ export default class AuthorizationMiddleware {
 
         if (!validateSecret) HttpRequestErrors.throwError('2fa-incorrect');
 
-        const userAuthorized = await this._stateMachine.machine(
-            flow as stateFlowsKeys,
-            userInDb
-        );
+        const userAuthorized = await this._stateMachine.machine(flow as stateFlowsKeys, userInDb);
 
         res.locals = {
             userId: userAuthorized.userId,
@@ -106,11 +88,7 @@ export default class AuthorizationMiddleware {
         next();
     }
 
-    public async secretQuestion(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ): Promise<void> {
+    public async secretQuestion(req: Request, res: Response, next: NextFunction): Promise<void> {
         this._logger('warn', 'SecretQuestion - AuthorizationMiddleware');
 
         const { id } = req.params;
@@ -147,13 +125,9 @@ export default class AuthorizationMiddleware {
 
         if (question !== userDetailsInDb.secretQuestion.question)
             HttpRequestErrors.throwError('incorrect-secret-question');
-        if (answer !== userDetailsInDb.secretQuestion.answer)
-            HttpRequestErrors.throwError('incorrect-secret-question');
+        if (answer !== userDetailsInDb.secretQuestion.answer) HttpRequestErrors.throwError('incorrect-secret-question');
 
-        const userAuthorized = await this._stateMachine.machine(
-            flow as stateFlowsKeys,
-            userInDb
-        );
+        const userAuthorized = await this._stateMachine.machine(flow as stateFlowsKeys, userInDb);
 
         res.locals = {
             userId: userAuthorized.userId,

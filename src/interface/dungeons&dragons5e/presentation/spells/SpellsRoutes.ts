@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { SpellsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
 
 const BASE_PATH = '/system/dnd5e/spells';
@@ -43,10 +41,7 @@ export default class SpellsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._spellsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },
@@ -59,10 +54,7 @@ export default class SpellsRoutes {
                 ],
                 controller: this._spellsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },

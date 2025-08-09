@@ -84,10 +84,7 @@ export default class CharactersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async recoverCharactersByCampaign(
-        req: Request,
-        res: Response
-    ): Promise<Response> {
+    public async recoverCharactersByCampaign(req: Request, res: Response): Promise<Response> {
         const { id: campaignId } = req.params;
         const { userId } = req.user as Express.User;
 

@@ -25,18 +25,11 @@ export default class AddCampaignPlayersOperation {
     async execute(payload: AddCampaignPlayersPayload): Promise<Player[]> {
         this._logger('info', 'Execute - AddCampaignPlayersOperation');
 
-        this._schemaValidator.entry(
-            this._campaignsSchema.campaignsAddCampaignPlayersZod,
-            payload
-        );
+        this._schemaValidator.entry(this._campaignsSchema.campaignsAddCampaignPlayersZod, payload);
 
-        const { campaign, userDetails } =
-            await this._addCampaignPlayersService.addCampaignPlayers(payload);
+        const { campaign, userDetails } = await this._addCampaignPlayersService.addCampaignPlayers(payload);
 
-        const savedCampaign = await this._addCampaignPlayersService.save(
-            campaign,
-            userDetails
-        );
+        const savedCampaign = await this._addCampaignPlayersService.save(campaign, userDetails);
 
         return savedCampaign.campaignPlayers;
     }

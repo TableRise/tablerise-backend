@@ -22,11 +22,7 @@ export default class PublishmentOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({
-        campaignId,
-        userId,
-        payload,
-    }: publishmentPayload): Promise<CampaignInstance> {
+    async execute({ campaignId, userId, payload }: publishmentPayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - publishmentOperation');
         this._schemaValidator.entry(this._campaignsSchema.campaignPost, payload);
 

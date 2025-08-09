@@ -22,10 +22,7 @@ export default class UpdateCharacterOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({
-        characterId,
-        payload,
-    }: updateCharacterPayload): Promise<CharacterInstance> {
+    async execute({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterOperation - Execute');
         this._schemaValidator.entry(this._charactersSchema.characterPutZod, payload);
 

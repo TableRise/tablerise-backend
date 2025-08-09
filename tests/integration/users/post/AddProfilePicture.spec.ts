@@ -22,10 +22,7 @@ describe('When a profile picture is uploaded', () => {
         };
         user.picture = null;
 
-        filePath = path.resolve(
-            __dirname,
-            '../../../support/assets/test-image-batman.jpeg'
-        );
+        filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
 
         await InjectNewUser(user);
     });

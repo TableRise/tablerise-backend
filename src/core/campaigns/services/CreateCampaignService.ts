@@ -40,11 +40,7 @@ export default class CreateCampaignService {
         return this._serializer.postCampaign(campaign);
     }
 
-    public async enrichment(
-        campaign: __FullCampaign,
-        userId: string,
-        image?: FileObject
-    ): Promise<__CampaignEnriched> {
+    public async enrichment(campaign: __FullCampaign, userId: string, image?: FileObject): Promise<__CampaignEnriched> {
         this._logger('info', 'Enrichment - CreateCampaignService');
 
         campaign.campaignPlayers = [

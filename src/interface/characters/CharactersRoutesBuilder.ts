@@ -9,10 +9,7 @@ export default class CharactersRoutesBuilder {
     private readonly _charactersRoutes;
     private readonly _verifyUserMiddleware;
 
-    constructor({
-        charactersRoutes,
-        verifyUserMiddleware,
-    }: CharactersRoutesBuilderContract) {
+    constructor({ charactersRoutes, verifyUserMiddleware }: CharactersRoutesBuilderContract) {
         this._charactersRoutes = charactersRoutes;
         this._verifyUserMiddleware = verifyUserMiddleware;
     }

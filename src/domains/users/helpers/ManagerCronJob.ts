@@ -6,11 +6,7 @@ export default class ManagerCronJob {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
 
-    constructor({
-        logger,
-        usersRepository,
-        usersDetailsRepository,
-    }: InfraDependencies['managerCronJobContract']) {
+    constructor({ logger, usersRepository, usersDetailsRepository }: InfraDependencies['managerCronJobContract']) {
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
@@ -20,10 +16,7 @@ export default class ManagerCronJob {
     public async run(): Promise<void> {
         this._logger('info', 'CronManager - Starting Jobs', true);
 
-        const deleteUserScheduleTask = await deleteUserCronJob(
-            this._usersRepository,
-            this._usersDetailsRepository
-        );
+        const deleteUserScheduleTask = await deleteUserCronJob(this._usersRepository, this._usersDetailsRepository);
         deleteUserScheduleTask.start();
 
         this._logger('info', 'CronManager - All Jobs Scheduled', true);

@@ -60,13 +60,9 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
             });
 
             it('should call the correct methods', async () => {
-                const addPlayerTest = await addCampaignPlayersOperation.execute(
-                    matchPlayersPayload
-                );
+                const addPlayerTest = await addCampaignPlayersOperation.execute(matchPlayersPayload);
 
-                expect(
-                    addCampaignPlayersService.addCampaignPlayers
-                ).to.have.been.called();
+                expect(addCampaignPlayersService.addCampaignPlayers).to.have.been.called();
                 expect(addCampaignPlayersService.save).to.have.been.called();
                 expect(addPlayerTest[0]).to.have.property('userId');
                 expect(addPlayerTest[0].userId).to.be.equal(matchPlayersPayload.userId);

@@ -3,9 +3,7 @@ import ToggleArmorsAvailabilityService from 'src/core/dungeons&dragons5e/service
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleArmorsAvailabilityService', () => {
-    let toggleArmorsAvailabilityService: ToggleArmorsAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        armor: any;
+    let toggleArmorsAvailabilityService: ToggleArmorsAvailabilityService, dungeonsAndDragonsRepository: any, armor: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleArmorsAvailabilityServi
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Armors'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Armors');
             expect(armorsTest).to.be.deep.equal({ ...armor[0], active: false });
         });
     });

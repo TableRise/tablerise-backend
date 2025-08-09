@@ -5,9 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Users :: Operation :: Users :: PictureProfileOperation', () => {
-    let pictureProfileOperation: PictureProfileOperation,
-        pictureProfileService: any,
-        user: UserInstance;
+    let pictureProfileOperation: PictureProfileOperation, pictureProfileService: any, user: UserInstance;
 
     const logger = (): void => {};
 

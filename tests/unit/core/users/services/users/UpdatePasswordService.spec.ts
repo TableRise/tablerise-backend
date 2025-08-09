@@ -8,10 +8,7 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
-    let updatePasswordService: UpdatePasswordService,
-        usersRepository: any,
-        user: UserInstance,
-        payload: any;
+    let updatePasswordService: UpdatePasswordService, usersRepository: any, user: UserInstance, payload: any;
 
     const logger = (): void => {};
 
@@ -29,8 +26,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
         context('When update an user password with success', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
                 user.inProgress.code = '123456';
 
                 usersRepository = {
@@ -86,9 +82,7 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }

@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { WeaponsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/weapons/WeaponsRoutes';
 
 const BASE_PATH = '/system/dnd5e/weapons';
@@ -43,10 +41,7 @@ export default class WeaponsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._weaponsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'weapons',
                 },
             },
@@ -59,10 +54,7 @@ export default class WeaponsRoutes {
                 ],
                 controller: this._weaponsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'weapons',
                 },
             },

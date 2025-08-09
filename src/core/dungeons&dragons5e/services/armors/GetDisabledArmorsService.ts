@@ -6,10 +6,7 @@ export default class GetDisabledArmorsService {
     private readonly _dungeonsAndDragonsRepository;
     private readonly _logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: GetDisabledArmorsServiceContract) {
+    constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledArmorsServiceContract) {
         this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._logger = logger;
 

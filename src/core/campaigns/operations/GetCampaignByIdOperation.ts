@@ -6,10 +6,7 @@ export default class GetCampaignByIdOperation {
     private readonly _getCampaignByIdService;
     private readonly _logger;
 
-    constructor({
-        getCampaignByIdService,
-        logger,
-    }: CampaignCoreDependencies['getCampaignByIdOperationContract']) {
+    constructor({ getCampaignByIdService, logger }: CampaignCoreDependencies['getCampaignByIdOperationContract']) {
         this._getCampaignByIdService = getCampaignByIdService;
         this._logger = logger;
 

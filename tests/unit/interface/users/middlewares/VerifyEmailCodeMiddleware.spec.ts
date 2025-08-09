@@ -92,69 +92,65 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
             });
         });
 
-        context(
-            'And the parameters are correct but userRepositoryDetails has not been created yet',
-            () => {
-                beforeEach(() => {
-                    user = {
-                        userId: '123',
-                        inProgress: {
-                            status: InProgressStatusEnum.enum
-                                .WAIT_TO_START_PASSWORD_CHANGE,
-                            code: 'KLI44',
-                        },
-                        twoFactorSecret: { active: true },
-                    };
-
-                    usersRepository = {
-                        findOne: () => user,
-                        update: sinon.spy(),
-                    };
-
-                    usersDetailsRepository = {
-                        findOne: () => {
-                            // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                            throw HttpRequestErrors.throwError('user-inexistent');
-                        },
-                    };
-
-                    verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                        usersRepository,
-                        usersDetailsRepository,
-                        stateMachine,
-                        logger,
-                    });
-                });
-
-                it('should call next - when has ID', async () => {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI44', flow: 'update-password' };
-
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                    user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                    expect(stateMachine.machine).to.have.been.called();
-                    expect(next).to.have.been.called();
-                });
-
-                it('should call next - when has email', async () => {
-                    delete request.params.id;
-                    request.query = {
-                        email: 'test@email.com',
+        context('And the parameters are correct but userRepositoryDetails has not been created yet', () => {
+            beforeEach(() => {
+                user = {
+                    userId: '123',
+                    inProgress: {
+                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                         code: 'KLI44',
-                        flow: 'update-password',
-                    };
+                    },
+                    twoFactorSecret: { active: true },
+                };
 
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
+                usersRepository = {
+                    findOne: () => user,
+                    update: sinon.spy(),
+                };
 
-                    user.inProgress.status = InProgressStatusEnum.enum.DONE;
+                usersDetailsRepository = {
+                    findOne: () => {
+                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                        throw HttpRequestErrors.throwError('user-inexistent');
+                    },
+                };
 
-                    expect(stateMachine.machine).to.have.been.called();
-                    expect(next).to.have.been.called();
+                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+                    usersRepository,
+                    usersDetailsRepository,
+                    stateMachine,
+                    logger,
                 });
-            }
-        );
+            });
+
+            it('should call next - when has ID', async () => {
+                request.params = { id: '123' };
+                request.query = { code: 'KLI44', flow: 'update-password' };
+
+                await verifyEmailCodeMiddleware.verify(request, response, next);
+
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+
+                expect(stateMachine.machine).to.have.been.called();
+                expect(next).to.have.been.called();
+            });
+
+            it('should call next - when has email', async () => {
+                delete request.params.id;
+                request.query = {
+                    email: 'test@email.com',
+                    code: 'KLI44',
+                    flow: 'update-password',
+                };
+
+                await verifyEmailCodeMiddleware.verify(request, response, next);
+
+                user.inProgress.status = InProgressStatusEnum.enum.DONE;
+
+                expect(stateMachine.machine).to.have.been.called();
+                expect(next).to.have.been.called();
+            });
+        });
 
         context('And params are correct - user has secret question', () => {
             beforeEach(() => {
@@ -246,9 +242,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Neither id or email was provided to validate the email code'
-                    );
+                    expect(err.message).to.be.equal('Neither id or email was provided to validate the email code');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal('BadRequest');
                 }
@@ -343,9 +337,7 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Invalid email verify code');
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                 }
             });
         });
@@ -384,13 +376,9 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });

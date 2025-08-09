@@ -5,10 +5,7 @@ export default class ResetTwoFactorOperation {
     private readonly _resetTwoFactorService;
     private readonly _logger;
 
-    constructor({
-        resetTwoFactorService,
-        logger,
-    }: UserCoreDependencies['resetTwoFactorOperationContract']) {
+    constructor({ resetTwoFactorService, logger }: UserCoreDependencies['resetTwoFactorOperationContract']) {
         this._resetTwoFactorService = resetTwoFactorService;
         this._logger = logger;
 

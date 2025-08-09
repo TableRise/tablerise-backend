@@ -6,30 +6,22 @@ export default class UpdateCharacterService {
     private readonly _charactersRepository;
     private readonly _logger;
 
-    constructor({
-        charactersRepository,
-        logger,
-    }: CharacterCoreDependencies['updateCharacterServiceContract']) {
+    constructor({ charactersRepository, logger }: CharacterCoreDependencies['updateCharacterServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._logger = logger;
 
         this.update = this.update.bind(this);
     }
 
-    async update({
-        characterId,
-        payload,
-    }: updateCharacterPayload): Promise<CharacterInstance> {
+    async update({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterService - Update');
 
         const characterInDb = await this._charactersRepository.findOne({ characterId });
 
-        if (!payload.data.profile.characteristics)
-            payload.data.profile.characteristics = {} as any;
+        if (!payload.data.profile.characteristics) payload.data.profile.characteristics = {} as any;
         if (!payload.data.profile.characteristics.appearance)
             payload.data.profile.characteristics.appearance = {} as any;
-        if (!payload.data.profile.characteristics.other)
-            payload.data.profile.characteristics.other = {} as any;
+        if (!payload.data.profile.characteristics.other) payload.data.profile.characteristics.other = {} as any;
         if (!payload.data.stats.hitPoints) payload.data.stats.hitPoints = {} as any;
         if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
         if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
@@ -80,10 +72,8 @@ export default class UpdateCharacterService {
 
         characterToUpdate.data.profile.characteristics.alliesAndOrgs =
             characterInDb.data.profile.characteristics.alliesAndOrgs;
-        characterToUpdate.data.profile.characteristics.treasure =
-            characterInDb.data.profile.characteristics.treasure;
-        characterToUpdate.data.stats.abilityScores =
-            characterInDb.data.stats.abilityScores;
+        characterToUpdate.data.profile.characteristics.treasure = characterInDb.data.profile.characteristics.treasure;
+        characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
         characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
 
         return this._charactersRepository.update({

@@ -82,10 +82,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
             });
 
             it('should have correct properties', async () => {
-                const userEnriched = await oAuthService.enrichment(
-                    { user, userDetails },
-                    provider
-                );
+                const userEnriched = await oAuthService.enrichment({ user, userDetails }, provider);
 
                 expect(userEnriched.userEnriched).to.have.property('tag');
                 expect(userEnriched.userEnriched).to.have.property('createdAt');
@@ -93,9 +90,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 expect(userEnriched.userEnriched).to.have.property('password');
                 expect(userEnriched.userEnriched).to.have.property('twoFactorSecret');
                 expect(userEnriched.userEnriched).to.have.property('inProgress');
-                expect(userEnriched.userDetailsEnriched).to.have.property(
-                    'secretQuestion'
-                );
+                expect(userEnriched.userDetailsEnriched).to.have.property('secretQuestion');
             });
         });
     });
@@ -198,9 +193,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Email already exists in database');
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

@@ -4,9 +4,7 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 export default class CampaignsRoutesMiddleware {
     private readonly _routesWrapper;
 
-    constructor({
-        routesWrapper,
-    }: InterfaceDependencies['campaignsRoutesMiddlewareContract']) {
+    constructor({ routesWrapper }: InterfaceDependencies['campaignsRoutesMiddlewareContract']) {
         this._routesWrapper = routesWrapper;
     }
 

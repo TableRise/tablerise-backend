@@ -3,9 +3,7 @@ import GetDisabledItemsService from 'src/core/dungeons&dragons5e/services/items/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledItemsService', () => {
-    let getDisabledItemsService: GetDisabledItemsService,
-        dungeonsAndDragonsRepository: any,
-        items: any;
+    let getDisabledItemsService: GetDisabledItemsService, dungeonsAndDragonsRepository: any, items: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledItemsService', () 
         it('should return the correct data and call correct methods', async () => {
             const itemsTest = await getDisabledItemsService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Items'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Items');
             expect(itemsTest).to.be.deep.equal(items);
         });
     });

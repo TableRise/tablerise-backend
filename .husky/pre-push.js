@@ -6,8 +6,7 @@ const execSilent = (command) => {
     try {
         execSync(command, { stdio: 'ignore' }); // Redireciona stdout e stderr para "nada"
     } catch (error) {
-        if (command === 'npm run prettier' || error.message.includes('github.com'))
-            return;
+        if (command === 'npm run prettier' || error.message.includes('github.com')) return;
         process.exit(1);
     }
 };
@@ -58,9 +57,7 @@ if (!REGEX.test(BRANCH)) {
     console.log('');
     console.log(chalk.blue('💡 Por favor, renomeie sua branch utilizando a sintaxe:'));
     console.log(chalk.green('(feat|bugfix|hotfix)/task-id/branch-objective'));
-    console.log(
-        chalk.red('🚫 Pushes nas branches develop, main ou qa não são permitidos.')
-    );
+    console.log(chalk.red('🚫 Pushes nas branches develop, main ou qa não são permitidos.'));
     console.log('');
     console.log(chalk.red('========================'));
     process.exit(1);

@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { ItemsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/items/ItemsRoutes';
 
 const BASE_PATH = '/system/dnd5e/items';
@@ -43,10 +41,7 @@ export default class ItemsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._itemsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'items',
                 },
             },
@@ -59,10 +54,7 @@ export default class ItemsRoutes {
                 ],
                 controller: this._itemsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'items',
                 },
             },

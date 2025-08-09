@@ -7,27 +7,19 @@ export default class updateMatchDateService {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({
-        campaignsRepository,
-        logger,
-    }: CampaignCoreDependencies['updateMatchDateServiceContract']) {
+    constructor({ campaignsRepository, logger }: CampaignCoreDependencies['updateMatchDateServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
     }
 
-    async updateMatchDate({
-        campaignId,
-        date,
-        operation,
-    }: updateMatchDatePayload): Promise<CampaignInstance> {
+    async updateMatchDate({ campaignId, date, operation }: updateMatchDatePayload): Promise<CampaignInstance> {
         this._logger('info', 'updateMatchDate - updateMatchDateService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
         if (operation === 'add') {
             const dateExist = campaign.infos.nextMatchDate;
 
-            if (dateExist !== 'no-date')
-                HttpRequestErrors.throwError('date-already-added');
+            if (dateExist !== 'no-date') HttpRequestErrors.throwError('date-already-added');
 
             campaign.infos.nextMatchDate = date;
         }

@@ -10,20 +10,13 @@ export default class UpdatePasswordService {
     private readonly _stateMachine;
     private readonly _logger;
 
-    constructor({
-        usersRepository,
-        stateMachine,
-        logger,
-    }: UserCoreDependencies['updatePasswordServiceContract']) {
+    constructor({ usersRepository, stateMachine, logger }: UserCoreDependencies['updatePasswordServiceContract']) {
         this._usersRepository = usersRepository;
         this._stateMachine = stateMachine;
         this._logger = logger;
     }
 
-    private async _changePassword({
-        user,
-        password,
-    }: UserPassword): Promise<UserInstance> {
+    private async _changePassword({ user, password }: UserPassword): Promise<UserInstance> {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
         const { flows } = this._stateMachine.props;
 

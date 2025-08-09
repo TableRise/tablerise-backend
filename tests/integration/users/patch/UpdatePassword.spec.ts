@@ -41,10 +41,7 @@ describe('When an user has the password changed', () => {
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const userInDb = await model.findOne({ email: user.email });
-            const isPasswordValid = await SecurePasswordHandler.comparePassword(
-                'TheWorld@123',
-                userInDb.password
-            );
+            const isPasswordValid = await SecurePasswordHandler.comparePassword('TheWorld@123', userInDb.password);
             expect(isPasswordValid).to.be.true();
         });
     });

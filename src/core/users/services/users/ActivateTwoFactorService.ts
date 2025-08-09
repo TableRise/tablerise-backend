@@ -35,8 +35,7 @@ export default class ActivateTwoFactorService {
 
         if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');
-        if (userInDb.twoFactorSecret.active)
-            HttpRequestErrors.throwError('2fa-already-active');
+        if (userInDb.twoFactorSecret.active) HttpRequestErrors.throwError('2fa-already-active');
 
         userInDb.twoFactorSecret = await this._twoFactorHandler.create(userInDb.email);
 

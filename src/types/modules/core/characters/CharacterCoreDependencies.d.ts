@@ -15,14 +15,8 @@ import {
     UpdateCharacterPictureOperationContract,
     UpdateCharacterPictureOperationService,
 } from './characters/UpdateCharacterPicture';
-import {
-    OrgPictureUploadOperationContract,
-    OrgPictureUploadServiceContract,
-} from './characters/OrganizationPicture';
-import {
-    UpdateCharacterOperationContract,
-    UpdateCharacterServiceContract,
-} from './characters/UpdateCharacter';
+import { OrgPictureUploadOperationContract, OrgPictureUploadServiceContract } from './characters/OrganizationPicture';
+import { UpdateCharacterOperationContract, UpdateCharacterServiceContract } from './characters/UpdateCharacter';
 
 export default interface CharacterCoreDependencies {
     // Operations

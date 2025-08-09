@@ -36,9 +36,7 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
                     },
                 ];
 
-                userDetails.gameInfo.campaigns = [
-                    { campaignId: campaign.campaignId } as GameInfoCampaigns,
-                ];
+                userDetails.gameInfo.campaigns = [{ campaignId: campaign.campaignId } as GameInfoCampaigns];
 
                 userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
                 campaignPlayersLength = campaign.campaignPlayers.length;
@@ -64,94 +62,73 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
             });
 
             it('should remove the user details game info campaigns', async () => {
-                const matchDataRemoved =
-                    await removeCampaignPlayersService.removeCampaignPlayers(
-                        removePlayersPayload
-                    );
+                const matchDataRemoved = await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
 
-                expect(
-                    matchDataRemoved.userDetails.gameInfo.campaigns.length
-                ).to.be.not.equal(userDetailsCampaignsLength);
+                expect(matchDataRemoved.userDetails.gameInfo.campaigns.length).to.be.not.equal(
+                    userDetailsCampaignsLength
+                );
 
-                expect(
-                    matchDataRemoved.userDetails.gameInfo.campaigns.length
-                ).to.be.equal(userDetailsCampaignsLength - 1);
+                expect(matchDataRemoved.userDetails.gameInfo.campaigns.length).to.be.equal(
+                    userDetailsCampaignsLength - 1
+                );
             });
 
             it('should return the removed campaign', async () => {
-                const matchDataRemoved =
-                    await removeCampaignPlayersService.removeCampaignPlayers(
-                        removePlayersPayload
-                    );
-                expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.not.equal(
-                    campaignPlayersLength
-                );
-                expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.equal(
-                    campaignPlayersLength - 1
-                );
+                const matchDataRemoved = await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
+                expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
+                expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength - 1);
             });
         });
 
-        context(
-            'When a player is removed from match but the player is the dungeon_master',
-            () => {
-                before(() => {
-                    campaign = DomainDataFaker.generateCampaignsJSON()[0];
-                    userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+        context('When a player is removed from match but the player is the dungeon_master', () => {
+            before(() => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
 
-                    campaign.campaignPlayers = [
-                        {
-                            userId: userDetails.userId,
-                            characterIds: [],
-                            role: 'dungeon_master',
-                            status: 'active',
-                        },
-                    ];
-
-                    userDetails.gameInfo.campaigns = [
-                        { campaignId: campaign.campaignId } as GameInfoCampaigns,
-                    ];
-
-                    userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
-                    campaignPlayersLength = campaign.campaignPlayers.length;
-
-                    campaignsRepository = {
-                        findOne: () => ({ ...campaign }),
-                    };
-
-                    usersDetailsRepository = {
-                        findOne: () => ({ ...userDetails }),
-                    };
-
-                    removePlayersPayload = {
-                        campaignId: campaign.campaignId,
+                campaign.campaignPlayers = [
+                    {
                         userId: userDetails.userId,
-                    };
-                    removeCampaignPlayersService = new RemoveCampaignPlayersService({
-                        logger,
-                        campaignsRepository,
-                        usersDetailsRepository,
-                    });
-                });
+                        characterIds: [],
+                        role: 'dungeon_master',
+                        status: 'active',
+                    },
+                ];
 
-                it('should throw an error', async () => {
-                    try {
-                        await removeCampaignPlayersService.removeCampaignPlayers(
-                            removePlayersPayload
-                        );
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'The new player can not be also the master'
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                    }
+                userDetails.gameInfo.campaigns = [{ campaignId: campaign.campaignId } as GameInfoCampaigns];
+
+                userDetailsCampaignsLength = userDetails.gameInfo.campaigns.length;
+                campaignPlayersLength = campaign.campaignPlayers.length;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                removePlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: userDetails.userId,
+                };
+                removeCampaignPlayersService = new RemoveCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
                 });
-            }
-        );
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('The new player can not be also the master');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
     });
 
     context('#save', () => {
@@ -185,10 +162,7 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await removeCampaignPlayersService.save(
-                    campaign,
-                    userDetails
-                );
+                const saveCamapaignTest = await removeCampaignPlayersService.save(campaign, userDetails);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(usersDetailsRepository.update).to.have.been.calledWith({

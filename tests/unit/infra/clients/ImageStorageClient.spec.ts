@@ -4,11 +4,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Infra :: Clients :: ImageStorageClient', () => {
-    let imageStorageClient: ImageStorageClient,
-        configs: any,
-        serializer: any,
-        httpRequest: any,
-        imageMock: FileObject;
+    let imageStorageClient: ImageStorageClient, configs: any, serializer: any, httpRequest: any, imageMock: FileObject;
 
     const logger = (): void => {};
 

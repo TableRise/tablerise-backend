@@ -71,9 +71,7 @@ export default function setup(
         usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
         campaignsRoutesBuilder: asClass(CampaignsRoutesBuilder).singleton(),
         charactersRoutesBuilder: asClass(CharactersRoutesBuilder).singleton(),
-        dungeonsAndDragonsRoutesBuilder: asClass(
-            DungeonsAndDragonsRoutesBuilder
-        ).singleton(),
+        dungeonsAndDragonsRoutesBuilder: asClass(DungeonsAndDragonsRoutesBuilder).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),

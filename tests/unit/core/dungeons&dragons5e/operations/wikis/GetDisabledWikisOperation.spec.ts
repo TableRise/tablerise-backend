@@ -3,9 +3,7 @@ import GetDisabledWikisOperation from 'src/core/dungeons&dragons5e/operations/wi
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledWikisOperation', () => {
-    let getDisabledWikisOperation: GetDisabledWikisOperation,
-        getDisabledWikisService: any,
-        wikis: any;
+    let getDisabledWikisOperation: GetDisabledWikisOperation, getDisabledWikisService: any, wikis: any;
 
     const logger = (): void => {};
 

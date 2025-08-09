@@ -16,10 +16,7 @@ export default class ActivateSecretQuestionOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        userId,
-        payload,
-    }: ActivateSecretQuestionPayload): Promise<ActivateSecretQuestionResponse> {
+    public async execute({ userId, payload }: ActivateSecretQuestionPayload): Promise<ActivateSecretQuestionResponse> {
         this._logger('info', 'Execute - ActivateSecretQuestionOperation');
 
         const user = await this._activateSecretQuestionService.activate({

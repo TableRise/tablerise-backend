@@ -606,9 +606,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.activateTwoFactor(request, response);
 
-            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -665,9 +663,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetTwoFactor(request, response);
 
-            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -918,9 +914,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetProfile(request, response);
 
-            expect(resetProfileOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(resetProfileOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -1051,9 +1045,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.delete(request, response);
 
-            expect(deleteUserOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(deleteUserOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();

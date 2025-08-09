@@ -38,13 +38,7 @@ export default class UpdateUserService {
             'inProgress',
             'providerId',
         ];
-        const userDetailsForbiddenFields = [
-            'userId',
-            'userDetailId',
-            'gameInfo',
-            'secretQuestion',
-            'role',
-        ];
+        const userDetailsForbiddenFields = ['userId', 'userDetailId', 'gameInfo', 'secretQuestion', 'role'];
 
         const userKeys = Object.keys(user);
         const userDetailsKeys = Object.keys(userDetails);

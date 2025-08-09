@@ -39,22 +39,14 @@ describe('When game info of an user is reset', () => {
         });
 
         it('should reset user with success', async () => {
-            await requester()
-                .patch(`/users/${user.userId}/reset`)
-                .expect(HttpStatusCode.NO_CONTENT);
+            await requester().patch(`/users/${user.userId}/reset`).expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             expect(body).to.have.property('details');
             expect(body.details.gameInfo.badges).to.be.an('array').that.has.lengthOf(0);
-            expect(body.details.gameInfo.campaigns)
-                .to.be.an('array')
-                .that.has.lengthOf(0);
-            expect(body.details.gameInfo.characters)
-                .to.be.an('array')
-                .that.has.lengthOf(0);
+            expect(body.details.gameInfo.campaigns).to.be.an('array').that.has.lengthOf(0);
+            expect(body.details.gameInfo.characters).to.be.an('array').that.has.lengthOf(0);
         });
     });
 });

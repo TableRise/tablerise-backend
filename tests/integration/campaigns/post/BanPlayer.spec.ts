@@ -4,11 +4,7 @@ import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainCampaignsDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainUserDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import {
-    InjectNewCampaign,
-    InjectNewUser,
-    InjectNewUserDetails,
-} from 'tests/support/dataInjector';
+import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('when the player is banned', () => {

@@ -1,7 +1,4 @@
-import {
-    UserInstance,
-    UserVerifyEmail,
-} from 'src/domains/users/schemas/usersValidationSchema';
+import { UserInstance, UserVerifyEmail } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
@@ -37,10 +34,7 @@ export default class VerifyEmailService {
         );
 
         if (!emailSendResult.success) {
-            this._logger(
-                'error',
-                'Some error ocurred in email sending - VerifyEmailService'
-            );
+            this._logger('error', 'Some error ocurred in email sending - VerifyEmailService');
             HttpRequestErrors.throwError('user-inexistent');
         }
 

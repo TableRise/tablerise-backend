@@ -7,10 +7,7 @@ export default class UpdateMatchMusicsService {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({
-        campaignsRepository,
-        logger,
-    }: CampaignCoreDependencies['updateMatchMusicsServiceContract']) {
+    constructor({ campaignsRepository, logger }: CampaignCoreDependencies['updateMatchMusicsServiceContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
     }
@@ -29,8 +26,7 @@ export default class UpdateMatchMusicsService {
                 (music) => music.youtubeLink === youtubeLink
             );
 
-            if (musicWithSameLinkExists)
-                HttpRequestErrors.throwError('music-link-already-added');
+            if (musicWithSameLinkExists) HttpRequestErrors.throwError('music-link-already-added');
 
             campaign.matchData.musics.push({
                 title,
@@ -39,9 +35,7 @@ export default class UpdateMatchMusicsService {
         }
 
         if (operation === 'remove' && campaign.matchData)
-            campaign.matchData.musics = campaign.matchData.musics.filter(
-                (musics) => musics.title !== title
-            );
+            campaign.matchData.musics = campaign.matchData.musics.filter((musics) => musics.title !== title);
 
         return campaign;
     }

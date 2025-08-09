@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import GetAllCharactersOperation from 'src/core/characters/operations/GetAllCharactersOperation';
 
 describe('Core :: Characters :: Operations :: GetAllCharactersOperation', () => {
-    let getAllCharactersOperation: GetAllCharactersOperation,
-        getAllCharactersService: any;
+    let getAllCharactersOperation: GetAllCharactersOperation, getAllCharactersService: any;
 
     const logger = (): void => {};
 

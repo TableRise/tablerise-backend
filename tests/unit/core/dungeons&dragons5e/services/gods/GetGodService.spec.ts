@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetGodService', () => {
         it('should return the correct data and call correct methods', async () => {
             const godsTest = await getGodService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Gods'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Gods');
             expect(godsTest).to.be.deep.equal(god[0]);
         });
     });

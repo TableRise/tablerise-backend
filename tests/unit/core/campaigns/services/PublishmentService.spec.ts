@@ -54,15 +54,9 @@ describe('Core :: Services :: publishmentService', () => {
             expect(campaignWithPost.infos.announcements[0]).to.have.property('title');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('content');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('author');
-            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(
-                postPayload.payload.title
-            );
-            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(
-                postPayload.payload.content
-            );
-            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(
-                user.nickname
-            );
+            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(postPayload.payload.title);
+            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(postPayload.payload.content);
+            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(user.nickname);
         });
     });
 

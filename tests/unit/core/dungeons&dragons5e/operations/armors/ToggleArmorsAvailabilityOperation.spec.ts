@@ -3,9 +3,7 @@ import ToggleArmorOperation from 'src/core/dungeons&dragons5e/operations/armors/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleArmorOperation', () => {
-    let toggleArmorOperation: ToggleArmorOperation,
-        toggleArmorsAvailabilityService: any,
-        armor: any;
+    let toggleArmorOperation: ToggleArmorOperation, toggleArmorsAvailabilityService: any, armor: any;
 
     const logger = (): void => {};
 

@@ -31,10 +31,7 @@ export default class AddCampaignPlayersService {
         this._logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
-        const isPasswordValid = await SecurePasswordHandler.comparePassword(
-            password,
-            campaign.password
-        );
+        const isPasswordValid = await SecurePasswordHandler.comparePassword(password, campaign.password);
 
         if (!isPasswordValid) HttpRequestErrors.throwError('unauthorized');
 
@@ -43,8 +40,7 @@ export default class AddCampaignPlayersService {
             (player: { role: string }) => player.role === 'dungeon_master'
         );
 
-        if (dungeonMaster?.userId === userId)
-            HttpRequestErrors.throwError('player-master-equal');
+        if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
 
         const playerAlreadyInMatch = campaign.campaignPlayers.find(
             (player: { userId: string }) => player.userId === userId
@@ -78,10 +74,7 @@ export default class AddCampaignPlayersService {
         return { campaign, userDetails };
     }
 
-    async save(
-        campaign: CampaignInstance,
-        userDetails: UserDetailInstance
-    ): Promise<CampaignInstance> {
+    async save(campaign: CampaignInstance, userDetails: UserDetailInstance): Promise<CampaignInstance> {
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,

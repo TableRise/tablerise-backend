@@ -6,6 +6,7 @@ import CreateCharacterService from 'src/core/characters/services/CreateCharacter
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
+import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragons5e/DungeonsAndDragonsRepository';
 
 export interface CreateCharacterOperationContract {
     createCharacterService: CreateCharacterService;
@@ -16,6 +17,7 @@ export interface CreateCharacterOperationContract {
 
 export interface CreateCharacterServiceContract {
     serializer: Serializer;
+    dungeonsAndDragonsRepository: DungeonsAndDragonsRepository;
     charactersRepository: CharactersRepository;
     usersRepository: UsersRepository;
     usersDetailsRepository: UsersDetailsRepository;

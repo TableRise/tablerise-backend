@@ -1,9 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { MonstersRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/monsters/MonstersRoutes';
 
 const BASE_PATH = '/system/dnd5e/monsters';
@@ -43,10 +41,7 @@ export default class MonstersRoutes {
                 parameters: [...generateIDParam()],
                 controller: this._monstersController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'monsters',
                 },
             },
@@ -59,10 +54,7 @@ export default class MonstersRoutes {
                 ],
                 controller: this._monstersController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'monsters',
                 },
             },

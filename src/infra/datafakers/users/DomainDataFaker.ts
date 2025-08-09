@@ -17,33 +17,23 @@ import generateDiscordProfileFaker from './generators/generateDiscordFaker';
 import generateFacebookProfileFaker from './generators/generateFacebookFaker';
 import generateGoogleProfileFaker from './generators/generateGoogleFaker';
 
-function generateUsersJSON(
-    { count, userId }: UserJSONPayload = { count: 1 }
-): UserInstance[] {
+function generateUsersJSON({ count, userId }: UserJSONPayload = { count: 1 }): UserInstance[] {
     return generateUsersFaker({ count, userId });
 }
 
-function generateUserDetailsJSON(
-    { count, userDetailId }: UserDetailJSONPayload = { count: 1 }
-): UserDetailInstance[] {
+function generateUserDetailsJSON({ count, userDetailId }: UserDetailJSONPayload = { count: 1 }): UserDetailInstance[] {
     return generateUserDetailsFaker({ count, userDetailId });
 }
 
-function generateDiscordProfileJSON(
-    { count, username }: DiscordJSONPayload = { count: 1 }
-): Discord.Profile[] {
+function generateDiscordProfileJSON({ count, username }: DiscordJSONPayload = { count: 1 }): Discord.Profile[] {
     return generateDiscordProfileFaker({ count, username });
 }
 
-function generateFacebookProfileJSON(
-    { count, id }: FacebookJSONPayload = { count: 1 }
-): Facebook.Profile[] {
+function generateFacebookProfileJSON({ count, id }: FacebookJSONPayload = { count: 1 }): Facebook.Profile[] {
     return generateFacebookProfileFaker({ count, id });
 }
 
-function generateGoogleProfileJSON(
-    { count, id }: GoogleJSONPayload = { count: 1 }
-): Google.Profile[] {
+function generateGoogleProfileJSON({ count, id }: GoogleJSONPayload = { count: 1 }): Google.Profile[] {
     return generateGoogleProfileFaker({ count, id });
 }
 

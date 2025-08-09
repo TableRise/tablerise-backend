@@ -4,9 +4,7 @@ import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Characters :: Services :: GetAllCharactersService', () => {
-    let getAllCharactersService: GetAllCharactersService,
-        charactersRepository: any,
-        characters: any;
+    let getAllCharactersService: GetAllCharactersService, charactersRepository: any, characters: any;
 
     const logger = (): void => {};
 

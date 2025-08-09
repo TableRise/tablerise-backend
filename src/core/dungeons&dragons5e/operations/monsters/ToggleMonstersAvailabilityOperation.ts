@@ -7,20 +7,14 @@ export default class ToggleMonstersAvailabilityOperation {
     private readonly _toggleMonstersAvailabilityService;
     private readonly _logger;
 
-    constructor({
-        toggleMonstersAvailabilityService,
-        logger,
-    }: ToggleMonstersAvailabilityOperationContract) {
+    constructor({ toggleMonstersAvailabilityService, logger }: ToggleMonstersAvailabilityOperationContract) {
         this._toggleMonstersAvailabilityService = toggleMonstersAvailabilityService;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Monster>> {
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Monster>> {
         this._logger('info', 'Execute - GetMonsterOperation');
         const monsters = await this._toggleMonstersAvailabilityService.toggle({
             id,

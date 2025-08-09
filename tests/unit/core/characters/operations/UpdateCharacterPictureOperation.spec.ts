@@ -27,9 +27,7 @@ describe('Core :: Characters :: Operations :: UpdateCharacterPictureOperation', 
         it('should update the organization picture', async () => {
             await updateCharacterPictureOperation.execute(payload);
 
-            expect(updateCharacterPictureService.uploadPicture).to.have.been.calledWith(
-                payload
-            );
+            expect(updateCharacterPictureService.uploadPicture).to.have.been.calledWith(payload);
         });
     });
 });

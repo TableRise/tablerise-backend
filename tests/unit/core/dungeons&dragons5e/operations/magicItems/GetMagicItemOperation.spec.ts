@@ -3,9 +3,7 @@ import GetMagicItemOperation from 'src/core/dungeons&dragons5e/operations/magicI
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetMagicItemOperation', () => {
-    let getMagicItemOperation: GetMagicItemOperation,
-        getMagicItemService: any,
-        magicItem: any;
+    let getMagicItemOperation: GetMagicItemOperation, getMagicItemService: any, magicItem: any;
 
     const logger = (): void => {};
 

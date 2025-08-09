@@ -8,10 +8,7 @@ export default class UpdateGameInfoOperation {
     private readonly _updateGameInfoService;
     private readonly _logger;
 
-    constructor({
-        updateGameInfoService,
-        logger,
-    }: UserCoreDependencies['updateGameInfoOperationContract']) {
+    constructor({ updateGameInfoService, logger }: UserCoreDependencies['updateGameInfoOperationContract']) {
         this._updateGameInfoService = updateGameInfoService;
         this._logger = logger;
 
@@ -20,8 +17,7 @@ export default class UpdateGameInfoOperation {
 
     public async execute(payload: UpdateGameInfoPayload): Promise<string> {
         this._logger('info', 'Execute - UpdateGameInfoOperation');
-        const isValidUUID =
-            /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+        const isValidUUID = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
         if (!isValidUUID.test(payload.infoId))
             throw new HttpRequestErrors({

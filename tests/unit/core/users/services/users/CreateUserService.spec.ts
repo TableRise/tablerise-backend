@@ -52,13 +52,10 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     details: userDetails,
                 };
 
-                const { userSerialized, userDetailsSerialized } =
-                    await createUserService.serialize(userPayload);
+                const { userSerialized, userDetailsSerialized } = await createUserService.serialize(userPayload);
 
                 expect(userSerialized.userId).to.be.equal(user.userId);
-                expect(userDetailsSerialized.firstName).to.be.equal(
-                    userDetails.firstName
-                );
+                expect(userDetailsSerialized.firstName).to.be.equal(userDetails.firstName);
             });
         });
 
@@ -151,20 +148,17 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
             });
 
             it('should return the correct result', async () => {
-                const { userEnriched, userDetailsEnriched } =
-                    await createUserService.enrichment({
-                        user,
-                        userDetails,
-                    });
+                const { userEnriched, userDetailsEnriched } = await createUserService.enrichment({
+                    user,
+                    userDetails,
+                });
 
                 expect(userEnriched.tag).to.be.not.null();
                 expect(userEnriched.createdAt).to.be.not.null();
                 expect(userEnriched.updatedAt).to.be.not.null();
                 expect(userEnriched.password).to.be.not.equal('testepwd@');
                 expect(userEnriched.twoFactorSecret.active).to.be.equal(false);
-                expect(userDetailsEnriched.secretQuestion).to.be.deep.equal(
-                    userDetails.secretQuestion
-                );
+                expect(userDetailsEnriched.secretQuestion).to.be.deep.equal(userDetails.secretQuestion);
             });
         });
 
@@ -210,9 +204,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User with this tag already exists in database'
-                    );
+                    expect(err.message).to.be.equal('User with this tag already exists in database');
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
@@ -296,12 +288,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Some problem ocurred in email sending'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.EXTERNAL_ERROR)
-                    );
+                    expect(err.message).to.be.equal('Some problem ocurred in email sending');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.EXTERNAL_ERROR));
                     expect(err.code).to.be.equal(HttpStatusCode.EXTERNAL_ERROR);
                 }
             });

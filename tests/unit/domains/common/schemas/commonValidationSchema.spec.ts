@@ -38,9 +38,7 @@ describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {
                 expect(err.name).to.be.equal('UnprocessableEntity');
 
                 expect(err.details).to.have.length(1);
-                expect(err.details[0].reason).to.be.equal(
-                    'String must contain exactly 36 character(s)'
-                );
+                expect(err.details[0].reason).to.be.equal('String must contain exactly 36 character(s)');
             }
         });
     });

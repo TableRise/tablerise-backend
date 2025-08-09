@@ -1,67 +1,37 @@
-import {
-    CreateCampaignOperationContract,
-    CreateCampaignServiceContract,
-} from './campaigns/CreateCampaign';
+import { CreateCampaignOperationContract, CreateCampaignServiceContract } from './campaigns/CreateCampaign';
 
-import {
-    GetCampaignByIdOperationContract,
-    GetCampaignByIdServiceContract,
-} from './campaigns/GetCampaignById';
+import { GetCampaignByIdOperationContract, GetCampaignByIdServiceContract } from './campaigns/GetCampaignById';
 
-import {
-    UpdateCampaignOperationContract,
-    UpdateCampaignServiceContract,
-} from './campaigns/UpdateCampaign';
+import { UpdateCampaignOperationContract, UpdateCampaignServiceContract } from './campaigns/UpdateCampaign';
 
 import {
     UpdateMatchMapImagesOperationContract,
     UpdateMatchMapImagesServiceContract,
 } from './campaigns/UpdateMatchMapImages';
 
-import {
-    UpdateMatchMusicsOperationContract,
-    UpdateMatchMusicsServiceContract,
-} from './campaigns/UpdateMatchMapMusics';
+import { UpdateMatchMusicsOperationContract, UpdateMatchMusicsServiceContract } from './campaigns/UpdateMatchMapMusics';
 
-import {
-    updateMatchDateOperationContract,
-    updateMatchDateServiceContract,
-} from './campaigns/UpdateMatchDate';
+import { updateMatchDateOperationContract, updateMatchDateServiceContract } from './campaigns/UpdateMatchDate';
 
-import {
-    PublishmentOperationContract,
-    PublishmentServiceContract,
-} from './campaigns/publishment';
+import { PublishmentOperationContract, PublishmentServiceContract } from './campaigns/publishment';
 
 import {
     RemoveCampaignPlayersOperationContract,
     RemoveCampaignPlayersServiceContract,
 } from './campaigns/RemoveCampaignPlayers';
 
-import {
-    AddCampaignPlayersOperationContract,
-    AddCampaignPlayersServiceContract,
-} from './campaigns/AddCampaignPlayers';
+import { AddCampaignPlayersOperationContract, AddCampaignPlayersServiceContract } from './campaigns/AddCampaignPlayers';
 
 import {
     UpdateCampaignImagesOperationContract,
     UpdateCampaignImagesServiceContract,
 } from './campaigns/UpdateCampaignImages';
 
-import {
-    PostInvitationEmailOperation,
-    PostInvitationEmailServiceContract,
-} from './campaigns/PostInvitationEmail';
+import { PostInvitationEmailOperation, PostInvitationEmailServiceContract } from './campaigns/PostInvitationEmail';
 
-import {
-    PostBanPlayerOperation,
-    PostBanPlayerServiceContract,
-} from './campaigns/PostBanPlayerOperation';
+import { PostBanPlayerOperation, PostBanPlayerServiceContract } from './campaigns/PostBanPlayerOperation';
 
-import {
-    AddPlayerCharacterOperationContract,
-    AddPlayerCharacterServiceContract,
-} from './campaigns/AddPlayerCharacter';
+import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
 
 import {
     GetCampaignsByUserIdOperationContract,

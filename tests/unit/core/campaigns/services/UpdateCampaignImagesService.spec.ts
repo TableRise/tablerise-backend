@@ -48,16 +48,11 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(
-                    campaignMapImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.maps.length).to.be.equal(
-                    campaignMapImagesLength + 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength + 1);
             });
         });
 
@@ -98,16 +93,11 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(
-                    campaignMapImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.maps.length).to.be.equal(
-                    campaignMapImagesLength - 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength - 1);
             });
         });
 
@@ -145,16 +135,11 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(
-                    campaignCharactersImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.characters.length).to.be.equal(
-                    campaignCharactersImagesLength + 1
-                );
+                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(campaignCharactersImagesLength);
+                expect(campaignDataUpdated.images.characters.length).to.be.equal(campaignCharactersImagesLength + 1);
             });
         });
 
@@ -196,16 +181,11 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(
-                    campaignCharactersImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.characters.length).to.be.equal(
-                    campaignCharactersImagesLength - 1
-                );
+                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(campaignCharactersImagesLength);
+                expect(campaignDataUpdated.images.characters.length).to.be.equal(campaignCharactersImagesLength - 1);
             });
         });
     });
@@ -240,9 +220,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await updateCampaignImagesService.save(
-                    campaign
-                );
+                const saveCamapaignTest = await updateCampaignImagesService.save(campaign);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(campaignsRepository.update).to.have.been.calledWith({

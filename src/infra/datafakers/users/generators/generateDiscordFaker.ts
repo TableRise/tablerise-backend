@@ -2,9 +2,7 @@ import Discord from 'passport-discord';
 import { DiscordJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
 
-function createDiscordProfileFaker({
-    username = dataGenerator.nickname(),
-}: Discord.Profile): Discord.Profile {
+function createDiscordProfileFaker({ username = dataGenerator.nickname() }: Discord.Profile): Discord.Profile {
     return {
         provider: 'discord',
         username,
@@ -20,10 +18,7 @@ function createDiscordProfileFaker({
     } as Discord.Profile;
 }
 
-export default function generateDiscordProfileFaker({
-    count,
-    username,
-}: DiscordJSONPayload): Discord.Profile[] {
+export default function generateDiscordProfileFaker({ count, username }: DiscordJSONPayload): Discord.Profile[] {
     const profiles: Discord.Profile[] = [];
 
     for (let index = 0; index <= count; index += 1) {

@@ -22,10 +22,7 @@ export default class UpdateUserOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        userId,
-        payload,
-    }: UpdateUserPayload): Promise<RegisterUserResponse> {
+    public async execute({ userId, payload }: UpdateUserPayload): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - UpdateUserOperation');
         this._schemaValidator.entry(this._usersSchema.updateUserZod, payload);
 

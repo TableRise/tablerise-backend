@@ -6,10 +6,7 @@ export default class UpdateMatchMusicsOperation {
     private readonly _updateMatchMusicsService;
     private readonly _logger;
 
-    constructor({
-        updateMatchMusicsService,
-        logger,
-    }: CampaignCoreDependencies['updateMatchMusicsOperationContract']) {
+    constructor({ updateMatchMusicsService, logger }: CampaignCoreDependencies['updateMatchMusicsOperationContract']) {
         this._updateMatchMusicsService = updateMatchMusicsService;
         this._logger = logger;
 
@@ -19,11 +16,8 @@ export default class UpdateMatchMusicsOperation {
     async execute(payload: UpdateMatchMusicsPayload): Promise<Music[]> {
         this._logger('info', 'Execute - UpdateMatchMusicsOperation');
 
-        const campaignWithOperationDone =
-            await this._updateMatchMusicsService.updateMatchMusics(payload);
-        const savedCampaign = await this._updateMatchMusicsService.save(
-            campaignWithOperationDone
-        );
+        const campaignWithOperationDone = await this._updateMatchMusicsService.updateMatchMusics(payload);
+        const savedCampaign = await this._updateMatchMusicsService.save(campaignWithOperationDone);
 
         return savedCampaign.matchData.musics;
     }

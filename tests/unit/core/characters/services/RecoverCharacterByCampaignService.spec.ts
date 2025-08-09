@@ -27,9 +27,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers[0].userId = character.author.userId;
                 campaign.campaignPlayers[0].role = 'player';
-                campaign.campaignPlayers[0].characterIds.push(
-                    character.characterId as string
-                );
+                campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
 
                 campaignId = campaign.campaignId;
                 userId = campaign.campaignPlayers[0].userId;
@@ -49,21 +47,18 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                     findOne: () => campaign,
                 };
 
-                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService(
-                    {
-                        charactersRepository,
-                        campaignsRepository,
-                        logger,
-                    }
-                );
+                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService({
+                    charactersRepository,
+                    campaignsRepository,
+                    logger,
+                });
             });
 
             it('should return correct character', async () => {
-                const charactersTest =
-                    await recoverCharacterByCampaignService.recoverByCampaign({
-                        campaignId,
-                        userId,
-                    });
+                const charactersTest = await recoverCharacterByCampaignService.recoverByCampaign({
+                    campaignId,
+                    userId,
+                });
                 expect(charactersTest).to.be.an('array').with.lengthOf(2);
                 expect(charactersTest[0]).to.be.deep.equal(result);
             });
@@ -79,9 +74,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers[0].userId = character.author.userId;
                 campaign.campaignPlayers[0].role = 'dungeon_master';
-                campaign.campaignPlayers[0].characterIds.push(
-                    character.characterId as string
-                );
+                campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
 
                 campaignId = campaign.campaignId;
                 userId = campaign.campaignPlayers[0].userId;
@@ -94,21 +87,18 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                     findOne: () => campaign,
                 };
 
-                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService(
-                    {
-                        charactersRepository,
-                        campaignsRepository,
-                        logger,
-                    }
-                );
+                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService({
+                    charactersRepository,
+                    campaignsRepository,
+                    logger,
+                });
             });
 
             it('should return all characters', async () => {
-                const charactersTest =
-                    await recoverCharacterByCampaignService.recoverByCampaign({
-                        campaignId,
-                        userId,
-                    });
+                const charactersTest = await recoverCharacterByCampaignService.recoverByCampaign({
+                    campaignId,
+                    userId,
+                });
                 expect(charactersTest[0]).to.be.an('object');
                 expect(charactersTest[0]).to.be.deep.equal(character);
             });
@@ -135,13 +125,11 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                     findOne: () => campaign,
                 };
 
-                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService(
-                    {
-                        charactersRepository,
-                        campaignsRepository,
-                        logger,
-                    }
-                );
+                recoverCharacterByCampaignService = new RecoverCharacterByCampaignService({
+                    charactersRepository,
+                    campaignsRepository,
+                    logger,
+                });
             });
 
             it('should throw correct error', async () => {

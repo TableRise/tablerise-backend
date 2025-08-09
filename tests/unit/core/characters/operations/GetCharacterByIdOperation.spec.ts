@@ -3,8 +3,7 @@ import GetCharacterByIdOperation from 'src/core/characters/operations/GetCharact
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Characters :: Operations :: GetCharacterByIdOperation', () => {
-    let getCharacterByIdOperation: GetCharacterByIdOperation,
-        getCharacterByIdService: any;
+    let getCharacterByIdOperation: GetCharacterByIdOperation, getCharacterByIdService: any;
 
     const logger = (): void => {};
 

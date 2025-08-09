@@ -34,8 +34,7 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                     entry: sinon.spy(),
                 };
 
-                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } =
-                    userDetails;
+                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
 
                 payload = { firstName, lastName, pronoun, birthday };
 
@@ -81,10 +80,7 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                     payload,
                 });
 
-                expect(schemaValidator.entry).to.have.been.calledWith(
-                    usersSchema.oAuthComplete,
-                    payload
-                );
+                expect(schemaValidator.entry).to.have.been.calledWith(usersSchema.oAuthComplete, payload);
                 expect(getUserByIdService.get).to.have.been.calledWith({
                     userId: user.userId,
                 });

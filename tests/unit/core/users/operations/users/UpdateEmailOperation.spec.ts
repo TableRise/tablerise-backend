@@ -43,13 +43,8 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
             it('should call the correct methods', async () => {
                 await updateEmailOperation.execute(updateEmailPayload);
-                expect(schemaValidator.entry).to.have.been.calledWith(
-                    {},
-                    { email: updateEmailPayload.email }
-                );
-                expect(updateEmailService.update).to.have.been.calledWith(
-                    updateEmailPayload
-                );
+                expect(schemaValidator.entry).to.have.been.calledWith({}, { email: updateEmailPayload.email });
+                expect(updateEmailService.update).to.have.been.calledWith(updateEmailPayload);
             });
         });
 

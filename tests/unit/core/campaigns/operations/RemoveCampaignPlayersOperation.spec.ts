@@ -59,18 +59,12 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
             });
 
             it('should call the correct methods', async () => {
-                const removePlayerTest = await removeCampaignPlayersOperation.execute(
-                    matchPlayersPayload
-                );
+                const removePlayerTest = await removeCampaignPlayersOperation.execute(matchPlayersPayload);
 
-                expect(
-                    removeCampaignPlayersService.removeCampaignPlayers
-                ).to.have.been.called();
+                expect(removeCampaignPlayersService.removeCampaignPlayers).to.have.been.called();
                 expect(removeCampaignPlayersService.save).to.have.been.called();
                 expect(removePlayerTest[0]).to.have.property('userId');
-                expect(removePlayerTest[0].userId).to.be.equal(
-                    matchPlayersPayload.userId
-                );
+                expect(removePlayerTest[0].userId).to.be.equal(matchPlayersPayload.userId);
                 expect(removePlayerTest[0]).to.have.property('characterIds');
                 expect(removePlayerTest[0].characterIds.length).to.be.equal(0);
                 expect(removePlayerTest[0]).to.have.property('role');

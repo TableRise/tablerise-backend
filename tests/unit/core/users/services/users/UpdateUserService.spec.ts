@@ -42,16 +42,10 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     payload: userToUpdate,
                 };
 
-                const userUpdateResponse = await updateUserService.update(
-                    userUpdatePayload
-                );
+                const userUpdateResponse = await updateUserService.update(userUpdatePayload);
 
-                expect(userUpdateResponse.user.nickname).to.be.equal(
-                    userToUpdate.nickname
-                );
-                expect(userUpdateResponse.userDetails.firstName).to.be.equal(
-                    userToUpdate.details.firstName
-                );
+                expect(userUpdateResponse.user.nickname).to.be.equal(userToUpdate.nickname);
+                expect(userUpdateResponse.userDetails.firstName).to.be.equal(userToUpdate.details.firstName);
             });
         });
 
@@ -89,9 +83,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Update User Info - forbidden field: userId exists in payload'
-                    );
+                    expect(err.message).to.be.equal('Update User Info - forbidden field: userId exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
@@ -131,9 +123,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Update User Info - forbidden field: userId exists in payload'
-                    );
+                    expect(err.message).to.be.equal('Update User Info - forbidden field: userId exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
@@ -171,9 +161,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                 const userSaveResponse = await updateUserService.save(userSavePayload);
 
                 expect(userSaveResponse.nickname).to.be.equal(user.nickname);
-                expect(userSaveResponse.details.firstName).to.be.equal(
-                    userDetails.firstName
-                );
+                expect(userSaveResponse.details.firstName).to.be.equal(userDetails.firstName);
             });
         });
     });

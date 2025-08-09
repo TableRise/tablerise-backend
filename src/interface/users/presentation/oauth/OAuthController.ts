@@ -30,13 +30,9 @@ export default class OAuthController {
     public async google(req: Request, res: Response): Promise<void> {
         const { user } = req;
 
-        const result = await this._googleOperation.execute(
-            user as unknown as Google.Profile
-        );
+        const result = await this._googleOperation.execute(user as unknown as Google.Profile);
 
-        const { cookieOptions } = await this._loginUserOperation.execute(
-            result.token as string
-        );
+        const { cookieOptions } = await this._loginUserOperation.execute(result.token as string);
 
         const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
 
@@ -48,13 +44,9 @@ export default class OAuthController {
 
     public async discord(req: Request, res: Response): Promise<void> {
         const { user } = req;
-        const result = await this._discordOperation.execute(
-            user as unknown as Discord.Profile
-        );
+        const result = await this._discordOperation.execute(user as unknown as Discord.Profile);
 
-        const { cookieOptions } = await this._loginUserOperation.execute(
-            result.token as string
-        );
+        const { cookieOptions } = await this._loginUserOperation.execute(result.token as string);
 
         const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
 

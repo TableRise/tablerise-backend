@@ -17,8 +17,7 @@ export default class MagicItemsController {
         this._getMagicItemOperation = getMagicItemOperation;
         this._getAllMagicItemsOperation = getAllMagicItemsOperation;
         this._getDisabledMagicItemsOperation = getDisabledMagicItemsOperation;
-        this._toggleMagicItemsAvailabilityOperation =
-            toggleMagicItemsAvailabilityOperation;
+        this._toggleMagicItemsAvailabilityOperation = toggleMagicItemsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);

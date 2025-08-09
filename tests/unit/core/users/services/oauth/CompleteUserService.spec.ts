@@ -25,8 +25,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 const { nickname, ...userWithoutNickname } = user;
-                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } =
-                    userDetails;
+                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
 
                 payloadToCompleteUser = {
                     nickname,
@@ -54,87 +53,63 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
             });
 
             it('should have the correct returns', async () => {
-                const userProcessed = await completeUserService.process(
-                    { user, userDetails },
-                    payloadToCompleteUser
-                );
+                const userProcessed = await completeUserService.process({ user, userDetails }, payloadToCompleteUser);
 
                 expect(userProcessed).to.have.property('user');
                 expect(userProcessed).to.have.property('userDetails');
-                expect(userProcessed.user.nickname).to.be.equal(
-                    payloadToCompleteUser.nickname
-                );
-                expect(userProcessed.userDetails.firstName).to.be.equal(
-                    payloadToCompleteUser.firstName
-                );
-                expect(userProcessed.userDetails.lastName).to.be.equal(
-                    payloadToCompleteUser.lastName
-                );
-                expect(userProcessed.userDetails.pronoun).to.be.equal(
-                    payloadToCompleteUser.pronoun
-                );
-                expect(userProcessed.userDetails.birthday).to.be.equal(
-                    payloadToCompleteUser.birthday
-                );
+                expect(userProcessed.user.nickname).to.be.equal(payloadToCompleteUser.nickname);
+                expect(userProcessed.userDetails.firstName).to.be.equal(payloadToCompleteUser.firstName);
+                expect(userProcessed.userDetails.lastName).to.be.equal(payloadToCompleteUser.lastName);
+                expect(userProcessed.userDetails.pronoun).to.be.equal(payloadToCompleteUser.pronoun);
+                expect(userProcessed.userDetails.birthday).to.be.equal(payloadToCompleteUser.birthday);
             });
         });
 
-        context(
-            'When a user is processed to be completed - but nickname tag already exists',
-            () => {
-                before(() => {
-                    user = DomainDataFaker.generateUsersJSON()[0];
-                    userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        context('When a user is processed to be completed - but nickname tag already exists', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                    const { nickname } = user;
-                    const { firstName, lastName, pronoun, birthday, ...detailsEmpty } =
-                        userDetails;
+                const { nickname } = user;
+                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
 
-                    payloadToCompleteUser = {
-                        nickname,
-                        firstName,
-                        lastName,
-                        pronoun,
-                        birthday,
-                    };
+                payloadToCompleteUser = {
+                    nickname,
+                    firstName,
+                    lastName,
+                    pronoun,
+                    birthday,
+                };
 
-                    userDetails = detailsEmpty as UserDetailInstance;
-                    user.tag = '#4511';
-                    user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_COMPLETE;
+                userDetails = detailsEmpty as UserDetailInstance;
+                user.tag = '#4511';
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_COMPLETE;
 
-                    usersRepository = {
-                        find: Sinon.spy(() => [user]),
-                    };
+                usersRepository = {
+                    find: Sinon.spy(() => [user]),
+                };
 
-                    usersDetailsRepository = {};
+                usersDetailsRepository = {};
 
-                    completeUserService = new CompleteUserService({
-                        usersRepository,
-                        usersDetailsRepository,
-                        logger,
-                    });
+                completeUserService = new CompleteUserService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    logger,
                 });
+            });
 
-                it('should throw correct error', async () => {
-                    try {
-                        await completeUserService.process(
-                            { user, userDetails },
-                            payloadToCompleteUser
-                        );
-                        expect('it should not be here').to.be.equal(false);
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'User with this tag already exists in database'
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                    }
-                });
-            }
-        );
+            it('should throw correct error', async () => {
+                try {
+                    await completeUserService.process({ user, userDetails }, payloadToCompleteUser);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User with this tag already exists in database');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
     });
 
     context('#save', () => {

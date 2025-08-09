@@ -3,9 +3,7 @@ import GetAllWeaponsOperation from 'src/core/dungeons&dragons5e/operations/weapo
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllWeaponsOperation', () => {
-    let getAllWeaponsOperation: GetAllWeaponsOperation,
-        getAllWeaponsService: any,
-        weapons: any;
+    let getAllWeaponsOperation: GetAllWeaponsOperation, getAllWeaponsService: any, weapons: any;
 
     const logger = (): void => {};
 

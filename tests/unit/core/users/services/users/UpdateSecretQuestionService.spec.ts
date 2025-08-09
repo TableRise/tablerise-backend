@@ -34,8 +34,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: sinon.spy(() => user),
@@ -75,8 +74,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
                 userDetails.secretQuestion = null;
 
                 usersRepository = {
@@ -112,12 +110,8 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Structure of new for new question and answer is missing'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.message).to.be.equal('Structure of new for new question and answer is missing');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });

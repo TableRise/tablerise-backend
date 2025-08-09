@@ -33,8 +33,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
 
                 usersRepository = {
                     findOne: () => user,
@@ -72,8 +71,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
 
                 usersRepository = {
                     findOne: () => user,
@@ -111,8 +109,7 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE;
 
                 usersRepository = {
                     findOne: () => user,

@@ -5,10 +5,7 @@ export default class GetAllCharactersService {
     private readonly _charactersRepository;
     private readonly _logger;
 
-    constructor({
-        charactersRepository,
-        logger,
-    }: CharacterCoreDependencies['getAllCharactersServiceContract']) {
+    constructor({ charactersRepository, logger }: CharacterCoreDependencies['getAllCharactersServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._logger = logger;
     }

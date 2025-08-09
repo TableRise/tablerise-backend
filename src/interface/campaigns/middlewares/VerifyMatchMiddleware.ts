@@ -6,10 +6,7 @@ export default class VerifyMatchMiddleware {
     private readonly _campaignsRepository;
     private readonly _logger;
 
-    constructor({
-        campaignsRepository,
-        logger,
-    }: InterfaceDependencies['verifyMatchMiddlewareContract']) {
+    constructor({ campaignsRepository, logger }: InterfaceDependencies['verifyMatchMiddlewareContract']) {
         this._campaignsRepository = campaignsRepository;
         this._logger = logger;
         this.exists = this.exists.bind(this);
@@ -21,8 +18,7 @@ export default class VerifyMatchMiddleware {
         const { id } = req.params;
         const campaign = await this._campaignsRepository.findOne({ campaignId: id });
 
-        if (!campaign.matchData)
-            HttpRequestErrors.throwError('campaign-match-inexistent');
+        if (!campaign.matchData) HttpRequestErrors.throwError('campaign-match-inexistent');
 
         this._logger('info', 'Exists - campaign has an active match');
         next();

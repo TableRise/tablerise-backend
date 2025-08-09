@@ -3,9 +3,7 @@ import GetDisabledGodsService from 'src/core/dungeons&dragons5e/services/gods/Ge
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledGodsService', () => {
-    let getDisabledGodsService: GetDisabledGodsService,
-        dungeonsAndDragonsRepository: any,
-        gods: any;
+    let getDisabledGodsService: GetDisabledGodsService, dungeonsAndDragonsRepository: any, gods: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledGodsService', () =
         it('should return the correct data and call correct methods', async () => {
             const godsTest = await getDisabledGodsService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Gods'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Gods');
             expect(godsTest).to.be.deep.equal(gods);
         });
     });

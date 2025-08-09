@@ -28,28 +28,20 @@ export default class RemoveCampaignPlayersService {
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
         const userDetails = await this._usersDetailsRepository.findOne({ userId });
-        const dungeonMaster = campaign.campaignPlayers.find(
-            (player) => player.role === 'dungeon_master'
-        );
+        const dungeonMaster = campaign.campaignPlayers.find((player) => player.role === 'dungeon_master');
 
-        if (dungeonMaster?.userId === userId)
-            HttpRequestErrors.throwError('player-master-equal');
+        if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
             (campaign) => campaign.campaignId !== campaignId
         );
 
-        campaign.campaignPlayers = campaign.campaignPlayers.filter(
-            (player) => player.userId !== userId
-        );
+        campaign.campaignPlayers = campaign.campaignPlayers.filter((player) => player.userId !== userId);
 
         return { campaign, userDetails };
     }
 
-    async save(
-        campaign: CampaignInstance,
-        userDetails: UserDetailInstance
-    ): Promise<CampaignInstance> {
+    async save(campaign: CampaignInstance, userDetails: UserDetailInstance): Promise<CampaignInstance> {
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,

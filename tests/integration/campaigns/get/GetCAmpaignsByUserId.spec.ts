@@ -4,11 +4,7 @@ import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidat
 import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UserDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import {
-    InjectNewCampaign,
-    InjectNewUser,
-    InjectNewUserDetails,
-} from 'tests/support/dataInjector';
+import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
@@ -66,19 +62,11 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester()
-                .get(`/campaigns/user/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/campaigns/user/${user.userId}`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
-            expect(body)
-                .to.have.property('master')
-                .to.be.an('array')
-                .that.has.lengthOf(1);
-            expect(body)
-                .to.have.property('player')
-                .to.be.an('array')
-                .that.has.lengthOf(1);
+            expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);
+            expect(body).to.have.property('player').to.be.an('array').that.has.lengthOf(1);
             expect(body.master[0]).to.have.property('campaignId');
             expect(body.player[0]).to.have.property('campaignId');
             expect(body.master[0].campaignId).to.be.equal(campaignOne.campaignId);

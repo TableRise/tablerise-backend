@@ -3,9 +3,7 @@ import GetAllRacesService from 'src/core/dungeons&dragons5e/services/races/GetAl
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetAllRacesService', () => {
-    let getAllRacesService: GetAllRacesService,
-        dungeonsAndDragonsRepository: any,
-        races: any;
+    let getAllRacesService: GetAllRacesService, dungeonsAndDragonsRepository: any, races: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllRacesService', () => {
         it('should return the correct data and call correct methods', async () => {
             const racesTest = await getAllRacesService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Races'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
             expect(racesTest).to.be.deep.equal(races);
         });
     });

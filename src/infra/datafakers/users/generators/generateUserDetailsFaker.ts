@@ -4,9 +4,7 @@ import { UserDetailJSONPayload } from 'src/types/modules/infra/datafakers/users/
 import dataGenerator from '../dataGenerator';
 import questionEnum from 'src/domains/users/enums/questionEnum';
 
-function createUserDetailFaker({
-    userDetailId = newUUID(),
-}: UserDetailInstance): UserDetailInstance {
+function createUserDetailFaker({ userDetailId = newUUID() }: UserDetailInstance): UserDetailInstance {
     return {
         userDetailId,
         userId: newUUID(),
@@ -24,10 +22,7 @@ function createUserDetailFaker({
     } as UserDetailInstance;
 }
 
-export default function generateUserDetailsFaker({
-    count,
-    userDetailId,
-}: UserDetailJSONPayload): UserDetailInstance[] {
+export default function generateUserDetailsFaker({ count, userDetailId }: UserDetailJSONPayload): UserDetailInstance[] {
     const users: UserDetailInstance[] = [];
 
     for (let index = 0; index <= count; index += 1) {

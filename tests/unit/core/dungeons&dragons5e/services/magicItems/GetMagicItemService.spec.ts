@@ -3,9 +3,7 @@ import GetMagicItemService from 'src/core/dungeons&dragons5e/services/magicItems
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetMagicItemService', () => {
-    let getMagicItemService: GetMagicItemService,
-        dungeonsAndDragonsRepository: any,
-        magicItem: any;
+    let getMagicItemService: GetMagicItemService, dungeonsAndDragonsRepository: any, magicItem: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetMagicItemService', () => {
         it('should return the correct data and call correct methods', async () => {
             const magicItemsTest = await getMagicItemService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'MagicItems'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('MagicItems');
             expect(magicItemsTest).to.be.deep.equal(magicItem[0]);
         });
     });

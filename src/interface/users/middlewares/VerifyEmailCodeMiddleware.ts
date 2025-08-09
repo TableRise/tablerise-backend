@@ -70,13 +70,9 @@ export default class VerifyEmailCodeMiddleware {
         if (!this._ALLOWED_STATUS.includes(userRepository.inProgress.status))
             HttpRequestErrors.throwError('invalid-user-status');
 
-        if (code !== userRepository.inProgress.code)
-            HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (code !== userRepository.inProgress.code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const userVerified = await this._stateMachine.machine(
-            flow as stateFlowsKeys,
-            userRepository
-        );
+        const userVerified = await this._stateMachine.machine(flow as stateFlowsKeys, userRepository);
 
         let userDetails: any;
 
@@ -94,9 +90,7 @@ export default class VerifyEmailCodeMiddleware {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${
-                      (userDetails.secretQuestion as UserSecretQuestion).question
-                  }`
+                ? `secret-question%${(userDetails.secretQuestion as UserSecretQuestion).question}`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
         };

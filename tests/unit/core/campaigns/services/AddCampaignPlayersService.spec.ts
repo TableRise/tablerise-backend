@@ -55,15 +55,9 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
             });
 
             it('should return the add campaign', async () => {
-                const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(
-                    addPlayersPayload
-                );
-                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(
-                    campaignPlayersLength
-                );
-                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(
-                    campaignPlayersLength + 1
-                );
+                const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
             });
         });
 
@@ -111,9 +105,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Player already in match');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -156,9 +148,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Unauthorized');
                     expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNAUTHORIZED)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
                 }
             });
         });
@@ -198,73 +188,62 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                     await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Character not found or not belongs to user'
-                    );
+                    expect(err.message).to.be.equal('Character not found or not belongs to user');
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                 }
             });
         });
 
-        context(
-            'When a player is added to match - player already is dungeon master',
-            () => {
-                before(async () => {
-                    campaign = DomainDataFaker.generateCampaignsJSON()[0];
-                    userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+        context('When a player is added to match - player already is dungeon master', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
 
-                    campaign.campaignPlayers = [
-                        {
-                            userId: userDetails.userId,
-                            characterIds: [],
-                            role: 'dungeon_master',
-                            status: 'active',
-                        },
-                    ];
-                    hashPassword = await SecurePasswordHandler.hashPassword('1234');
-                    campaign.password = hashPassword;
-
-                    campaignsRepository = {
-                        findOne: () => ({ ...campaign }),
-                    };
-
-                    usersDetailsRepository = {
-                        findOne: () => ({ ...userDetails }),
-                    };
-
-                    addPlayersPayload = {
-                        campaignId: campaign.campaignId,
-                        characterId: newUUID(),
+                campaign.campaignPlayers = [
+                    {
                         userId: userDetails.userId,
-                        password: '1234',
-                    };
+                        characterIds: [],
+                        role: 'dungeon_master',
+                        status: 'active',
+                    },
+                ];
+                hashPassword = await SecurePasswordHandler.hashPassword('1234');
+                campaign.password = hashPassword;
 
-                    addCampaignPlayersService = new AddCampaignPlayersService({
-                        logger,
-                        campaignsRepository,
-                        usersDetailsRepository,
-                    });
-                });
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
 
-                it('should throw an error', async () => {
-                    try {
-                        await addCampaignPlayersService.addCampaignPlayers(
-                            addPlayersPayload
-                        );
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'The new player can not be also the master'
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                    }
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    characterId: newUUID(),
+                    userId: userDetails.userId,
+                    password: '1234',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
                 });
-            }
-        );
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('The new player can not be also the master');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
 
         context('When a player is added to match - player banned from match', () => {
             before(async () => {
@@ -349,10 +328,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await addCampaignPlayersService.save(
-                    campaign,
-                    userDetails
-                );
+                const saveCamapaignTest = await addCampaignPlayersService.save(campaign, userDetails);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
