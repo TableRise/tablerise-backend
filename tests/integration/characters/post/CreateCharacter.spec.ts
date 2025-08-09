@@ -32,7 +32,7 @@ describe('When some character is created', () => {
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
-            await InjectNewDungeonsAndDragonsRulesRaces(RacesDnd as unknown as Race)
+            await InjectNewDungeonsAndDragonsRulesRaces(RacesDnd as unknown as Race);
         });
 
         after(() => {
@@ -42,10 +42,10 @@ describe('When some character is created', () => {
         it('should return correct character created', async () => {
             const characterPayload = CharacterDomainDataFaker.mocks.createCharacterMock;
 
-            const { body } = await requester()
+            const { body } = (await requester()
                 .post('/characters/create')
                 .send(characterPayload)
-                .expect(HttpStatusCode.CREATED) as { body: CharacterInstance };
+                .expect(HttpStatusCode.CREATED)) as { body: CharacterInstance };
 
             expect(body).to.have.property('data');
             expect(body).to.have.property('npc');
