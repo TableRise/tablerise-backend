@@ -6,6 +6,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
+import { RPGRulesDatabase } from 'src/types/shared/repository';
 
 export default class CreateCharacterService {
     private readonly _charactersRepository;
@@ -201,9 +202,8 @@ export default class CreateCharacterService {
         const characterRace = character.data.profile.race;
         const dndRulesRaces = (await this._dungeonsAndDragonsRepository.findOne({
             'en.name': characterRace,
-        })) as Race[];
+        })) as RPGRulesDatabase<Race>;
 
-        /* @ts-expect-error language prop exists */
         const characterAbilityScoresAutomated = CharacterAutomationBuilders.automateCharacterAbilityScores(
             character,
             dndRulesRaces.en

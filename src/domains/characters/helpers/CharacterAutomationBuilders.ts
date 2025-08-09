@@ -13,8 +13,7 @@ export default class CharacterAutomationBuilders {
                 (ability) => ability.name.toLowerCase() === abilitykey.toLowerCase()
             );
 
-            if (rulesFieldRacesAbilityScore >= 0)
-                character.data.stats.abilityScores[characterFieldRacesAbilityScore].value +=
+            character.data.stats.abilityScores[characterFieldRacesAbilityScore].value +=
                     dndRulesRaces.abilityScoreIncrease[rulesFieldRacesAbilityScore].value;
         });
 

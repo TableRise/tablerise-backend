@@ -60,6 +60,30 @@ function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): C
                         modifier: 2,
                         proficiency: true,
                     },
+                    {
+                        ability: 'Constitution',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Strength',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Charisma',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Intelligence',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    }
                 ],
                 proficiencyBonus: 2,
                 inspiration: 1,

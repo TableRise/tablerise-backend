@@ -5,6 +5,8 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
+import DomainDataFakerDND from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
+import Sinon from 'sinon';
 
 describe('Core :: Characters :: Services :: CreateCharacterService', () => {
     let createCharacterService: CreateCharacterService,
@@ -14,7 +16,8 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
         usersDetailsRepository: any,
         serializer: any,
         characterPayloadMock: any,
-        characterMock: any;
+        characterMock: any,
+        dndRulesRaceMock: any;
 
     const logger = (): void => {};
 
@@ -162,6 +165,36 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
 
                 characterMock = characterTest;
             });
+        });
+    });
+
+    context('#Automation', () => {
+        before(() => {
+            characterMock = DomainDataFaker.generateCharactersJSON()[0];
+            dndRulesRaceMock = DomainDataFakerDND.generateDungeonsAndDragonsJSON({ count: 1, entity: 'races' })[0];
+
+            characterMock.data.profile.race = 'Dwarf';
+
+            dungeonsAndDragonsRepository = {
+                setEntity: Sinon.spy(),
+                findOne: Sinon.spy(() => dndRulesRaceMock)
+            };
+
+            createCharacterService = new CreateCharacterService({
+                dungeonsAndDragonsRepository,
+                charactersRepository,
+                serializer,
+                usersRepository,
+                usersDetailsRepository,
+                logger
+            });
+        });
+
+        it('should call correct methods and return correct data', async () => {
+            const result = await createCharacterService.automation(characterMock);
+            expect(result.data.stats.abilityScores[1].value).to.be.equal(2);
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
+            expect(dungeonsAndDragonsRepository.findOne).to.have.been.called();
         });
     });
 
