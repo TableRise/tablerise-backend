@@ -10,6 +10,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async () => {
     let addPlayerCharacterService: AddPlayerCharacterService,
         campaignsRepository: any,
+        charactersRepository: any,
         addPlayerCharacterPayload: any,
         campaign: CampaignInstance;
 
@@ -24,6 +25,10 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
+                };
+
+                charactersRepository = {
+                    update: Sinon.spy(),
                 };
 
                 campaign.campaignPlayers[0] = {
@@ -41,6 +46,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
                     logger,
+                    charactersRepository,
                     campaignsRepository,
                 });
             });
@@ -52,6 +58,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
                     characterAdded.campaignPlayers[0].characterIds.length <
                         campaign.campaignPlayers[0].characterIds.length
                 ).to.be.not.equal(true);
+                expect(charactersRepository.update).to.have.been.called();
             });
         });
 
@@ -73,6 +80,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
                     logger,
+                    charactersRepository,
                     campaignsRepository,
                 });
             });
@@ -118,6 +126,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
                 addPlayerCharacterService = new AddPlayerCharacterService({
                     logger,
+                    charactersRepository,
                     campaignsRepository,
                 });
             });

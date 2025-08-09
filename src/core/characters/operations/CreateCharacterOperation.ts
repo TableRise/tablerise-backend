@@ -28,8 +28,8 @@ export default class CreateCharacterOperation {
 
         const characterSerialized = this._createCharacterService.serialize(payload);
         const characterEnriched = await this._createCharacterService.enrichment(characterSerialized, payload.userId);
+        const characterAutomated = await this._createCharacterService.automation(characterEnriched);
 
-        const characterAutomated = this._createCharacterService.automation(characterEnriched);
         return this._createCharacterService.save(characterAutomated);
     }
 }

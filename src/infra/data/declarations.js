@@ -17,4 +17,5 @@ module.exports = {
     ],
     user: ['users', 'userdetails'],
     campaign: ['campaigns'],
+    character: ['characters'],
 };

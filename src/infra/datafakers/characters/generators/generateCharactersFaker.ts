@@ -17,8 +17,8 @@ function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): C
         data: {
             profile: {
                 name: dataGenerator.name.first('male'),
-                class: 'warrior',
-                race: 'human',
+                class: 'Fighter',
+                race: 'Human',
                 level: 0,
                 xp: 0,
                 characteristics: {

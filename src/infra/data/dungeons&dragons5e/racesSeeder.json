@@ -507,10 +507,10 @@
     {
         "active": true,
         "en": {
-            "name": "human",
+            "name": "Human",
             "description": "It's hard to make generalizations about humans, but your human character has these traits.",
             "tale": "Dorn, a traveler well-known among humans, once shared in a tavern a tale of one of his greatest adventures: the quest for the Sacred Sword of Oksha.\n\nIt is said that Oksha was a dwarf king who, many centuries ago, conquered worlds beyond our own.\n\nDuring this adventure, Dorn met beings from all realms: elves, draconians, dwarves, among others.\n\nWhile the full story is too long to detail here, as a human, Dorn gained knowledge and experience from each encounter. His human ability to humbly absorb knowledge and adapt was what made him one of the most renowned travelers in the Kingdom and a hero to many.",
-            "abilityscoreincrease": [
+            "abilityScoreIncrease": [
                 {
                     "name": "strength",
                     "value": 1
@@ -543,15 +543,15 @@
             "speed": [9.1],
             "size": "medium",
             "language": ["common", "one extra of your choice"],
-            "subraces": [],
-            "skillproficiencies": [],
+            "subRaces": [],
+            "skillProficiencies": [],
             "characteristics": []
         },
         "pt": {
-            "name": "humano",
+            "name": "Humano",
             "description": "Dorn, um viajante entre os reinos muito conhecido entre os humanos, certa vez compartilhou em uma taverna um relato de uma das suas maiores aventuras, a busca pela Espada Sagrada de Oksha.\n\nConta-se que Oksha foi um rei anão que a muitos séculos atrás conquistou mundos além do mundo que vivemos.\n\nEnquanto essa aventura se desenrolava, Dorn conheceu seres de todos os reinos, elfos, dracontes, anões, entre outros.\n\nNão convém contar a história em detalhes aqui, mas por ser um humano ele adquiriu conhecimento e experiência com cada um desses que conheceu, a habilidade humana de absorver conhecimento com humildade e se adaptar foi o que levou Dorn a se tornar um dos viajantes mais conhecidos do Reino além de um herói para muitos.",
             "tale": "É difícil fazer generalizações sobre os humanos, mas seu personagem humano possui essas características.",
-            "abilityscoreincrease": [
+            "abilityScoreIncrease": [
                 {
                     "name": "força",
                     "value": 1
@@ -584,18 +584,18 @@
             "speed": [9.1],
             "size": "médio",
             "language": ["comum", "um extra à sua escolha"],
-            "subraces": [],
-            "skillproficiencies": [],
+            "subRaces": [],
+            "skillProficiencies": [],
             "characteristics": []
         }
     },
     {
         "active": true,
         "en": {
-            "name": "dragonborn",
+            "name": "Dragonborn",
             "description": "Your draconic heritage manifests in a variety of traits you share with other dragonborn.",
             "tale": "Dragons, long revered among other races as symbols of power, have often been underestimated. In an era where the great dragons are no longer seen, many have come to believe that they are extinct. However, their descendant race, the Dragonborn, have remained strong, regarded by many as gods. A certain Dragonborn named Balazar once spoke with a Half-Orc. The Half-Orc asked, \"If not human, if not dragon, what are Dragonborn?\" \"We are the best of both worlds,\" said the dragon descendant, proud of his elucidation.",
-            "abilityscoreincrease": [
+            "abilityScoreIncrease": [
                 {
                     "name": "strength",
                     "value": 2
@@ -612,8 +612,8 @@
             "speed": [9.1],
             "size": "medium",
             "language": ["common", "draconic"],
-            "subraces": [],
-            "skillproficiencies": [],
+            "subRaces": [],
+            "skillProficiencies": [],
             "characteristics": [
                 {
                     "name": "draconic ancestry",
@@ -630,10 +630,10 @@
             ]
         },
         "pt": {
-            "name": "draconato",
+            "name": "Draconato",
             "description": "Sua herança dracônica se manifesta em uma variedade de características que você compartilha com outros dragonborn.",
             "tale": "Dragões, há muito venerados entre outras raças como símbolos de poder, muitas vezes foram subestimados. Em uma era onde os grandes dragões não são mais vistos, muitos começaram a acreditar que estão extintos. No entanto, sua raça descendente, os Draconatos, permaneceram fortes, sendo considerados por muitos como deuses. Um certo Draconato chamado Balazar uma vez conversou com um Meio-Orc. O Meio-Orc perguntou: \"Se não humano, se não dragão, o que são Draconatos?\" \"Somos o melhor dos dois mundos\", disse o descendente de dragão, orgulhoso de sua elucidação.",
-            "abilityscoreincrease": [
+            "abilitScoreIncrease": [
                 {
                     "name": "força",
                     "value": 2
@@ -650,8 +650,8 @@
             "speed": [9.1],
             "size": "médio",
             "language": ["comum", "dracônico"],
-            "subraces": [],
-            "skillproficiencies": [],
+            "subRaces": [],
+            "skillProficiencies": [],
             "characteristics": [
                 {
                     "name": "ascendência dracônica",

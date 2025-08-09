@@ -9,6 +9,7 @@ import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
 describe('Core :: Characters :: Services :: CreateCharacterService', () => {
     let createCharacterService: CreateCharacterService,
         charactersRepository: any,
+        dungeonsAndDragonsRepository: any,
         usersRepository: any,
         usersDetailsRepository: any,
         serializer: any,
@@ -52,6 +53,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 createCharacterService = new CreateCharacterService({
                     charactersRepository,
                     usersRepository,
+                    dungeonsAndDragonsRepository,
                     usersDetailsRepository,
                     serializer,
                     logger,
@@ -98,6 +100,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 createCharacterService = new CreateCharacterService({
                     charactersRepository,
                     usersRepository,
+                    dungeonsAndDragonsRepository,
                     usersDetailsRepository,
                     serializer,
                     logger,
@@ -142,6 +145,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 createCharacterService = new CreateCharacterService({
                     charactersRepository,
                     usersRepository,
+                    dungeonsAndDragonsRepository,
                     usersDetailsRepository,
                     serializer,
                     logger,
@@ -182,6 +186,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 createCharacterService = new CreateCharacterService({
                     charactersRepository,
                     usersRepository,
+                    dungeonsAndDragonsRepository,
                     usersDetailsRepository,
                     serializer,
                     logger,

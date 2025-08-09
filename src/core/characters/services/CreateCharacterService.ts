@@ -1,6 +1,9 @@
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
+import CharacterAutomationBuilders from 'src/domains/characters/helpers/CharacterAutomationBuilders';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
+import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
@@ -8,6 +11,7 @@ export default class CreateCharacterService {
     private readonly _charactersRepository;
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
+    private readonly _dungeonsAndDragonsRepository;
     private readonly _serializer;
     private readonly _logger;
 
@@ -15,12 +19,14 @@ export default class CreateCharacterService {
         charactersRepository,
         usersRepository,
         usersDetailsRepository,
+        dungeonsAndDragonsRepository,
         serializer,
         logger,
     }: CharacterCoreDependencies['createCharacterServiceContract']) {
         this._charactersRepository = charactersRepository;
         this._usersRepository = usersRepository;
         this._usersDetailsRepository = usersDetailsRepository;
+        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
         this._serializer = serializer;
         this._logger = logger;
 
@@ -58,7 +64,7 @@ export default class CreateCharacterService {
         return characterSerialized;
     }
 
-    public async enrichment(payload: CharacterInstance, userId: string): Promise<CharacterInstance> {
+    public async enrichment(payload: CharacterInstance, userId: string): Promise<CharactersDnd> {
         this._logger('info', 'Enrichment - CreateCharacterService');
 
         const userInDb = await this._usersRepository.findOne({ userId });
@@ -104,7 +110,7 @@ export default class CreateCharacterService {
                 proficiency: false,
             },
             {
-                ability: 'charism',
+                ability: 'charisma',
                 value: 0,
                 modifier: 0,
                 proficiency: false,
@@ -186,7 +192,24 @@ export default class CreateCharacterService {
             },
         ];
 
-        return payload;
+        return payload as CharactersDnd;
+    }
+
+    public async automation(character: CharactersDnd): Promise<CharactersDnd> {
+        this._dungeonsAndDragonsRepository.setEntity('Races');
+
+        const characterRace = character.data.profile.race;
+        const dndRulesRaces = (await this._dungeonsAndDragonsRepository.findOne({
+            'en.name': characterRace,
+        })) as Race[];
+
+        /* @ts-expect-error language prop exists */
+        const characterAbilityScoresAutomated = CharacterAutomationBuilders.automateCharacterAbilityScores(
+            character,
+            dndRulesRaces.en
+        );
+
+        return characterAbilityScoresAutomated;
     }
 
     public async save(character: CharacterInstance): Promise<CharacterInstance> {

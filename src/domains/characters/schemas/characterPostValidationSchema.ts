@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
 import { Author } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { Logs } from '@tablerise/database-management/dist/src/interfaces/Common';
+import racesEnum from 'src/domains/dungeons&dragons5e/enums/racesEnum';
+import classesEnum from 'src/domains/dungeons&dragons5e/enums/classesEnum';
 
 const alliesAndOrgsCharacterZodSchema = z.object({
     orgName: z.string(),
@@ -40,8 +42,8 @@ const characteristicsCharacterZodSchema = z.object({
 
 const profileCharacterZodSchema = z.object({
     name: z.string(),
-    class: z.string(),
-    race: z.string(),
+    class: z.enum(classesEnum.values),
+    race: z.enum(racesEnum.values),
     level: z.number().default(0).optional(),
     xp: z.number().default(0).optional(),
     characteristics: characteristicsCharacterZodSchema,

@@ -27,6 +27,7 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                     serialize: (obj: any) => obj.payload,
                     enrichment: Sinon.spy((obj) => obj),
                     save: (obj: any) => obj,
+                    automation: (obj: any) => obj,
                 };
 
                 charactersSchema = {
