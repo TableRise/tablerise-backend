@@ -14,7 +14,7 @@ export default class CharacterAutomationBuilders {
             );
 
             character.data.stats.abilityScores[characterFieldRacesAbilityScore].value +=
-                    dndRulesRaces.abilityScoreIncrease[rulesFieldRacesAbilityScore].value;
+                dndRulesRaces.abilityScoreIncrease[rulesFieldRacesAbilityScore].value;
         });
 
         return character;

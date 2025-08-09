@@ -177,7 +177,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
 
             dungeonsAndDragonsRepository = {
                 setEntity: Sinon.spy(),
-                findOne: Sinon.spy(() => dndRulesRaceMock)
+                findOne: Sinon.spy(() => dndRulesRaceMock),
             };
 
             createCharacterService = new CreateCharacterService({
@@ -186,7 +186,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 serializer,
                 usersRepository,
                 usersDetailsRepository,
-                logger
+                logger,
             });
         });
 

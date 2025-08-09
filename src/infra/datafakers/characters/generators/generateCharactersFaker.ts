@@ -83,7 +83,7 @@ function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): C
                         value: 0,
                         modifier: 0,
                         proficiency: false,
-                    }
+                    },
                 ],
                 proficiencyBonus: 2,
                 inspiration: 1,
