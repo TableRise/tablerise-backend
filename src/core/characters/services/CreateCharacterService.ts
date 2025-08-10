@@ -209,6 +209,9 @@ export default class CreateCharacterService {
             dndRulesRaces.en
         );
 
+        character.data.stats.speed = dndRulesRaces.en.speed[0];
+        character.data.profile.characteristics.other.languages.push(...dndRulesRaces.en.language);
+
         return characterAbilityScoresAutomated;
     }
 
