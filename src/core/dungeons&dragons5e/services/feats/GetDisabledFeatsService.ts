@@ -1,4 +1,4 @@
-import { Feat } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Feat } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledFeatsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/feats/GetDisabledFeats';
 

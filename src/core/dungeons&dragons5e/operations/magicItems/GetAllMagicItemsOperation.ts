@@ -1,5 +1,5 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { MagicItem } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { MagicItem } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllMagicItemsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/magicItems/GetAllMagicItems';
 
 export default class GetAllMagicItemsOperation {

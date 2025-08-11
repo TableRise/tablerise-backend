@@ -1,5 +1,5 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Wiki } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllWikisOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetAllWikis';
 
 export default class GetAllWikisOperation {

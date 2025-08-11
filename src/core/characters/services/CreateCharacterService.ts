@@ -3,7 +3,7 @@ import CharacterAutomationBuilders from 'src/domains/characters/helpers/Characte
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { RPGRulesDatabase } from 'src/types/shared/repository';

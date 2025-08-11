@@ -1,5 +1,5 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
-import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 
 export default class CharacterAutomationBuilders {
     static automateCharacterAbilityScores(character: CharactersDnd, dndRulesRaces: Race): CharactersDnd {
