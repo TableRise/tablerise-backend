@@ -1,4 +1,4 @@
-import { Realm } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Realm } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleRealmsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/realms/ToggleRealmsAvailability';
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';

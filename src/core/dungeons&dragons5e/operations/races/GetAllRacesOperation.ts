@@ -1,4 +1,4 @@
-import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetAllRacesOperationContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetAllRaces';
 

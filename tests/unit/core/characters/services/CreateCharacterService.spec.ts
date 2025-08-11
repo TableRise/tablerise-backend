@@ -174,6 +174,8 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             dndRulesRaceMock = DomainDataFakerDND.generateDungeonsAndDragonsJSON({ count: 1, entity: 'races' })[0];
 
             characterMock.data.profile.race = 'Dwarf';
+            characterMock.data.stats.speed = 0;
+            characterMock.data.profile.characteristics.other.languages = [];
 
             dungeonsAndDragonsRepository = {
                 setEntity: Sinon.spy(),
@@ -193,6 +195,8 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
         it('should call correct methods and return correct data', async () => {
             const result = await createCharacterService.automation(characterMock);
             expect(result.data.stats.abilityScores[1].value).to.be.equal(2);
+            expect(result.data.stats.speed).to.be.equal(7.6);
+            expect(result.data.profile.characteristics.other.languages[0]).to.be.equal('Common');
             expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
             expect(dungeonsAndDragonsRepository.findOne).to.have.been.called();
         });

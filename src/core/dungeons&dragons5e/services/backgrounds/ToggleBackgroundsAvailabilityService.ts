@@ -1,4 +1,4 @@
-import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Background } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleBackgroundsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/ToggleBackgroundsAvailability';
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';

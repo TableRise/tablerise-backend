@@ -1,5 +1,5 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Armor } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Armor } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllArmorsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/armors/GetAllArmors';
 
 export default class GetAllArmorsOperation {

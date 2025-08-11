@@ -1,4 +1,4 @@
-import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { God } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleGodsAvailabilityServiceContract } from 'src/types/modules/core/dungeons&dragons5e/gods/ToggleGodsAvailabilityService';
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';

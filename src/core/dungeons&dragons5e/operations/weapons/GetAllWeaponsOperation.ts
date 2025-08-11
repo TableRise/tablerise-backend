@@ -1,5 +1,5 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Weapon } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Weapon } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllWeaponsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetAllWeapons';
 
 export default class GetAllWeaponsOperation {

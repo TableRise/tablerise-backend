@@ -14,7 +14,7 @@ import {
     Spell,
     Weapon,
     Wiki,
-} from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+} from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
 function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Armor> & { armorId: string } {
@@ -30,7 +30,7 @@ function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Ar
                 currency: 'gold',
             },
             weight: 30,
-            armorClass: 18,
+            armorClass: '18',
             requiredStrength: 15,
             stealthPenalty: true,
         },
@@ -43,7 +43,7 @@ function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Ar
                 currency: 'ouro',
             },
             weight: 30,
-            armorClass: 18,
+            armorClass: '18',
             requiredStrength: 15,
             stealthPenalty: true,
         },
@@ -89,7 +89,7 @@ function createBackgroundsFaker({
             description:
                 "You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshippers into the presence of the divine. You are not necessarily a cleric—performing sacred rites is not the same thing as channeling divine power.\nChoose a god, a pantheon of gods, or some other quasi-divine being from among those listed in 'Fantasy-Historical Pantheons' or those specified by your GM, and work with your GM to detail the nature of your religious service. Were you a lesser functionary in a temple, raised from childhood to assist the priests in the sacred rites? Or were you a high priest who suddenly experienced a call to serve your god in a different way? Perhaps you were the leader of a small cult outside of any established temple structure, or even an occult group that served a fiendish master that you now deny.",
             skillProficiencies: ['Insight', 'Religion'],
-            languages: ['common'],
+            languages: 2,
             equipment: [
                 'Holy symbol (a gift to you when you entered the priesthood)',
                 'A prayer book or prayer wheel',
@@ -145,7 +145,7 @@ function createBackgroundsFaker({
             description:
                 "Você passou sua vida no serviço de um templo dedicado a um deus específico ou panteão de deuses. Você age como intermediário entre o reino sagrado e o mundo mortal, realizando rituais sagrados e oferecendo sacrifícios para conduzir adoradores à presença do divino. Você não é necessariamente um clérigo - realizar rituais sagrados não é a mesma coisa que canalizar poder divino.\nEscolha um deus, um panteão de deuses ou algum outro ser quase-divino entre aqueles listados em 'Fantasy-Historical Pantheons' ou especificados pelo seu GM, e trabalhe com seu GM para detalhar a natureza do seu serviço religioso. Você era um funcionário de menor importância em um templo, criado desde a infância para auxiliar os sacerdotes nos rituais sagrados? Ou era um sumo sacerdote que de repente recebeu um chamado para servir seu deus de uma maneira diferente? Talvez você fosse o líder de um pequeno culto fora de qualquer estrutura de templo estabelecida, ou até mesmo um grupo ocultista que servia a um mestre demoníaco que agora você nega.",
             skillProficiencies: ['Percepção', 'Religião'],
-            languages: ['comum'],
+            languages: 2,
             equipment: [
                 'Símbolo sagrado (um presente para você quando ingressou no sacerdócio)',
                 'Um livro de orações ou roda de orações',
@@ -310,96 +310,153 @@ function createClassesFaker({ entityId }: { entityId: string }): Internacional<C
                     title: 'Rage',
                     description:
                         "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action.\n\nWhile raging, you gain the following benefits if you aren't wearing heavy armor:\n\nYou have advantage on Strength checks and Strength saving throws.\n\nWhen you make a melee weapon attack using Strength, you gain a bonus to the damage roll that increases as you gain levels as a barbarian, as shown in the Rage Damage column of the Barbarian table.\n\nYou have resistance to bludgeoning, piercing, and slashing damage.\n\nIf you are able to cast spells, you can't cast them or concentrate on them while raging.\n\nYour rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven't attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.\n\nOnce you have raged the number of times shown for your barbarian level in the Rages column of the Barbarian table, you must finish a long rest before you can rage again.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Unarmored Defense',
                     description:
                         'While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Reckless Attack',
                     description:
                         'Starting at 2nd level, you can throw aside all concern for defense to attack with fierce desperation. When you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on melee weapon attack rolls using Strength during this turn, but attack rolls against you have advantage until your next turn.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Danger Sense',
                     description:
                         "At 2nd level, you gain an uncanny sense of when things nearby aren't as they should be, giving you an edge when you dodge away from danger.\n\nYou have advantage on Dexterity saving throws against effects that you can see, such as traps and spells. To gain this benefit, you can't be blinded, deafened, or incapacitated.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Primal Path',
                     description:
                         'At 3rd level, you choose a path that shapes the nature of your rage. Choose the Path of the Berserker or the Path of the Totem Warrior, both detailed at the end of the class description. Your choice grants you features at 3rd level and again at 6th, 10th, and 14th levels.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Ability Score Improvement',
                     description:
                         "When you reach 4th level, and again at 8th, 12th, 16th and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Extra Attack',
                     description:
                         'Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Fast Movement',
                     description:
                         "Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Feral Instinct',
                     description:
                         "By 7th level, your instincts are so honed that you have advantage on initiative rolls.\n\nAdditionally, if you are surprised at the beginning of combat and aren't incapacitated, you can act normally on your first turn, but only if you enter your rage before doing anything else on that turn.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Brutal Critical',
                     description:
                         'Beginning at 9th level, you can roll one additional weapon damage die when determining the extra damage for a critical hit with a melee attack.\n\nThis increases to two additional dice at 13th level and three additional dice at 17th level.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Relentless Rage',
                     description:
                         "Starting at 11th level, your rage can keep you fighting despite grievous wounds. If you drop to 0 hit points while you're raging and don't die outright, you can make a DC 10 Constitution saving throw. If you succeed, you drop to 1 hit point instead.\n\nEach time you use this feature after the first, the DC increases by 5. When you finish a short or long rest, the DC resets to 10.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Persistent Rage',
                     description:
                         'Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Indomitable Might',
                     description:
                         'Beginning at 18th level, if your total for a Strength check is less than your Strength score, you can use that score in place of the total.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Primal Champion',
                     description:
                         'At 20th level, you embody the power of the wilds. Your Strength and Constitution scores increase by 4. Your maximum for those scores is now 24.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Path of the Berserker',
                     description:
                         "For some barbarians, rage is a means to an end–that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Frenzy',
                     description:
                         "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Mindless Rage',
                     description:
                         "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Intimidating Presence',
                     description:
                         "Beginning at 10th level, you can use your action to frighten someone with your menacing presence. When you do so, choose one creature that you can see within 30 feet of you. If the creature can see or hear you, it must succeed on a Wisdom saving throw (DC equal to 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. On subsequent turns, you can use your action to extend the duration of this effect on the frightened creature until the end of your next turn. This effect ends if the creature ends its turn out of line of sight or more than 60 feet away from you.\n\nIf the creature succeeds on its saving throw, you can't use this feature on that creature again for 24 hours.",
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Retaliation',
                     description:
                         'Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon attack against that creature.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
             ],
             subClass: [
@@ -411,6 +468,9 @@ function createClassesFaker({ entityId }: { entityId: string }): Internacional<C
                             title: 'Shape of the Beast',
                             description:
                                 'You can transform, revealing the bestial power within you. Choose bite, claw or tail as your attack method',
+                            tables: [],
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -524,96 +584,153 @@ function createClassesFaker({ entityId }: { entityId: string }): Internacional<C
                     title: 'Raiva',
                     description:
                         'Na batalha, você luta com ferocidade primal. Em seu turno, você pode entrar em uma raiva como uma ação bônus.\n\nEnquanto está em raiva, você ganha os seguintes benefícios se não estiver usando armadura pesada:\n\nVocê tem vantagem em testes de Força e em testes de resistência de Força.\n\nQuando você faz um ataque com arma corpo a corpo usando Força, você ganha um bônus no dano que aumenta conforme você ganha níveis de bárbaro, como mostrado na coluna Dano da Raiva na tabela do Bárbaro.\n\nVocê tem resistência a dano contundente, perfurante e cortante.\n\nSe você for capaz de conjurar magias, não pode conjurá-las nem concentrar-se nelas enquanto estiver em raiva.\n\nSua raiva dura 1 minuto. Ela termina antecipadamente se você for derrubado inconsciente ou se seu turno terminar e você não tiver atacado uma criatura hostil desde seu último turno ou sofrido dano desde então. Você também pode encerrar sua raiva em seu turno como uma ação bônus.\n\nDepois de ter usado a raiva o número de vezes mostrado para seu nível de bárbaro na coluna Raivas da tabela do Bárbaro, você precisa terminar um descanso longo antes de poder usar a raiva novamente.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Defesa Inarmada',
                     description:
                         'Enquanto você não estiver usando qualquer armadura, sua Classe de Armadura é igual a 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode usar um escudo e ainda obter esse benefício.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Ataque Despreocupado',
                     description:
                         'A partir do 2º nível, você pode deixar de lado toda preocupação com defesa para atacar com uma fúria feroz. Quando você fizer seu primeiro ataque em seu turno, você pode decidir atacar despreocupadamente. Ao fazer isso, você tem vantagem em rolagens de ataque com arma corpo a corpo usando Força durante este turno, mas rolagens de ataque contra você têm vantagem até o seu próximo turno.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Sentido de Perigo',
                     description:
                         'No 2º nível, você desenvolve um sentido inigualável para quando as coisas ao seu redor não estão como deveriam, o que lhe dá uma vantagem ao se esquivar do perigo.\n\nVocê tem vantagem em testes de resistência de Destreza contra efeitos que você pode ver, como armadilhas e magias. Para obter esse benefício, você não pode estar cego, surdo ou incapacitado.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Caminho Primitivo',
                     description:
                         'No 3º nível, você escolhe um caminho que molda a natureza de sua raiva. Escolha o Caminho do Berserker ou o Caminho do Guerreiro Totêmico, ambos detalhados no final da descrição da classe. Sua escolha concede características a você no 3º nível e novamente nos níveis 6, 10 e 14.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Melhoria de Atributo',
                     description:
                         'Quando você atinge o 4º nível e novamente no 8º, 12º, 16º e 19º nível, você pode aumentar um atributo de sua escolha em 2, ou pode aumentar dois atributos de sua escolha em 1. Como de costume, você não pode aumentar um atributo acima de 20 usando esse recurso.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Ataque Extra',
                     description:
                         'A partir do 5º nível, você pode atacar duas vezes, em vez de uma, sempre que executar a ação Atacar em seu turno.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Movimento Rápido',
                     description:
                         'A partir do 5º nível, sua velocidade aumenta em 3 metros enquanto você não estiver usando armadura pesada.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Instinto Selvagem',
                     description:
                         'Aos 7º nível, seus instintos estão tão apurados que você tem vantagem em rolagens de iniciativa.\n\nAlém disso, se você estiver surpreso no início do combate e não estiver incapacitado, você pode agir normalmente em seu primeiro turno, mas somente se você entrar em sua raiva antes de fazer qualquer outra coisa naquele turno.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Crítico Brutal',
                     description:
                         'A partir do 9º nível, você pode rolar um dado de dano adicional ao determinar o dano extra para um acerto crítico com um ataque corpo a corpo.\n\nIsso aumenta para dois dados adicionais no 13º nível e três dados adicionais no 17º nível.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Raiva Implacável',
                     description:
                         'A partir do 11º nível, sua raiva pode mantê-lo lutando mesmo com ferimentos graves. Se você chegar a 0 pontos de vida enquanto estiver em raiva e não morrer imediatamente, poderá fazer um teste de resistência de Constituição CD 10. Se tiver sucesso, em vez disso, você cairá a 1 ponto de vida.\n\nCada vez que você usa essa característica depois da primeira, a CD aumenta em 5. Quando você termina um descanso curto ou longo, a CD é redefinida para 10.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Raiva Persistente',
                     description:
                         'A partir do 15º nível, sua raiva é tão intensa que ela termina antecipadamente apenas se você ficar inconsciente ou se escolher terminá-la.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Força Indomável',
                     description:
                         'A partir do 18º nível, se o total de um teste de Força for inferior ao seu valor de Força, você pode usar esse valor no lugar do total.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Campeão Primitivo',
                     description:
                         'No 20º nível, você personifica o poder das terras selvagens. Seus valores de Força e Constituição aumentam em 4. Seus valores máximos para esses atributos agora são 24.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Caminho do Berserker',
                     description:
                         'Para alguns bárbaros, a raiva é um meio para um fim - esse fim sendo a violência. O Caminho do Berserker é um caminho de fúria indomada, encharcado de sangue. Ao entrar na raiva do berserker, você se delicia no caos da batalha, sem se importar com sua própria saúde ou bem-estar.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Frenesi',
                     description:
                         'A partir do 6º nível, você não pode ser encantado ou amedrontado enquanto estiver em raiva. Se você estiver encantado ou amedrontado quando entrar em sua raiva, o efeito é suspenso durante a duração da raiva.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Fúria Sem Mente',
                     description:
                         'A partir do 6º nível, você não pode ser encantado ou amedrontado enquanto estiver em fúria. Se você estiver encantado ou amedrontado quando entrar em fúria, o efeito é suspenso durante a duração da fúria.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Presença Intimidadora',
                     description:
                         'A partir do 10º nível, você pode usar sua ação para amedrontar alguém com sua presença ameaçadora. Ao fazer isso, escolha uma criatura que você possa ver a até 9.1 metros de você. Se a criatura puder ver ou ouvir você, ela deve ter sucesso em um teste de resistência de Sabedoria (CD igual a 8 + seu bônus de proficiência + seu modificador de Carisma) ou ficar amedrontada por você até o final de seu próximo turno. Em turnos subsequentes, você pode usar sua ação para estender a duração desse efeito na criatura amedrontada até o final de seu próximo turno. Esse efeito termina se a criatura terminar seu turno fora do alcance da sua visão ou a mais de 18.2 metros de você.\n\nSe a criatura tiver sucesso em seu teste de resistência, você não pode usar essa característica novamente nessa criatura durante 24 horas.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     title: 'Retaliação',
                     description:
                         'A partir do 14º nível, quando você sofrer dano de uma criatura que esteja a até 1.5 metros de você, você pode usar sua reação para fazer um ataque corpo a corpo contra essa criatura.',
+                    tables: [],
+                    activationLevel: '',
+                    popUp: false,
                 },
             ],
             subClass: [
@@ -625,6 +742,9 @@ function createClassesFaker({ entityId }: { entityId: string }): Internacional<C
                             title: 'Forma da Fera',
                             description:
                                 'Você pode se transformar, revelando o poder bestial dentro de você. Escolha mordida, garra ou cauda como forma de ataque',
+                            tables: [],
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -1019,6 +1139,8 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                             name: 'Dwarven Toughness',
                             description:
                                 'Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -1037,11 +1159,15 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                             name: 'Lack of Strength',
                             description:
                                 'You have disadvantage on strength checks related to objects, such as pulling, pushing, and carrying.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                         {
                             name: 'Magic Specialist',
                             description:
                                 'When using any magical item, you can roll 1d2 (lucky dice) to determine if that item was made by a dwarf or not. If it was made by a dwarf, your expertise in Dwarf Magic comes into play, you gain advantage on rolls involving that magical item.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -1052,55 +1178,35 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                     name: 'Darkvision',
                     description:
                         'Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.',
-                    suggested: {
-                        personalityTrait: ['personality'],
-                        ideal: ['ideal'],
-                        bond: ['bond'],
-                        flaw: ['flaw'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Dwarven Resilience',
                     description:
                         'You have advantage on saving throws against poison, and you have resistance against poison damage.',
-                    suggested: {
-                        personalityTrait: ['personality'],
-                        ideal: ['ideal'],
-                        bond: ['bond'],
-                        flaw: ['flaw'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Dwarven Combat Training',
                     description: 'You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.',
-                    suggested: {
-                        personalityTrait: ['personality'],
-                        ideal: ['ideal'],
-                        bond: ['bond'],
-                        flaw: ['flaw'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Tool Proficiency',
                     description:
                         'You gain proficiency with the artisan’s tools of your choice: smith’s tools, brewer’s supplies, or mason’s tools.',
-                    suggested: {
-                        personalityTrait: ['personality'],
-                        ideal: ['ideal'],
-                        bond: ['bond'],
-                        flaw: ['flaw'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Stonecunning',
                     description:
                         'Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.',
-                    suggested: {
-                        personalityTrait: ['personality'],
-                        ideal: ['ideal'],
-                        bond: ['bond'],
-                        flaw: ['flaw'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
             ],
         },
@@ -1138,6 +1244,8 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                             name: 'Resistência Anã',
                             description:
                                 'Seu máximo de pontos de vida aumenta em 1, e aumenta em 1 a cada vez que você ganha um nível.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -1156,11 +1264,15 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                             name: 'Falta de Força Anã',
                             description:
                                 'Você tem desvantagem em testes de força relacionados a objetos, como puxar, empurrar e carregar.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                         {
                             name: 'Especialista em Magia',
                             description:
                                 'Ao utilizar qualquer item mágico você pode rolar 1d2 (dado de sorte) para descobrir se aquele item foi feito por um anão ou não. Caso tenha sido feito por um anão, sua expertise em Magia Anã entra em ação e você ganha vantagem em rolagens que envolvam esse item mágico.',
+                            activationLevel: '',
+                            popUp: false,
                         },
                     ],
                 },
@@ -1171,56 +1283,36 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
                     name: 'Visão no Escuro',
                     description:
                         'Acostumado à vida subterrânea, você possui uma visão superior em condições de escuridão e pouca luz. Você pode enxergar em luz fraca em um raio de 18 metros como se fosse luz plena, e em escuridão como se fosse luz fraca. Você não consegue distinguir cores na escuridão, apenas tons de cinza.',
-                    suggested: {
-                        personalityTrait: ['personalidade'],
-                        ideal: ['ideal'],
-                        bond: ['laço'],
-                        flaw: ['desvantagem'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Resistência Anã',
                     description:
                         'Você possui vantagem em testes de resistência contra veneno e possui resistência a danos por veneno.',
-                    suggested: {
-                        personalityTrait: ['personalidade'],
-                        ideal: ['ideal'],
-                        bond: ['laço'],
-                        flaw: ['desvantagem'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Treinamento em Combate Anão',
                     description:
                         'Você possui proficiência com o machado de guerra, machadinho, martelo leve e martelo de guerra.',
-                    suggested: {
-                        personalityTrait: ['personalidade'],
-                        ideal: ['ideal'],
-                        bond: ['laço'],
-                        flaw: ['desvantagem'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Proficiência em Ferramentas',
                     description:
                         'Você ganha proficiência com ferramentas de artesão à sua escolha: ferramentas de ferreiro, suprimentos de cervejeiro ou ferramentas de pedreiro.',
-                    suggested: {
-                        personalityTrait: ['personalidade'],
-                        ideal: ['ideal'],
-                        bond: ['laço'],
-                        flaw: ['desvantagem'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
                 {
                     name: 'Inteligência em Rochas',
                     description:
                         'Sempre que fizer um teste de Inteligência (História) relacionado à origem de estruturas de pedra, você é considerado proficiente na habilidade de História e adiciona o dobro do seu bônus de proficiência ao teste, em vez do seu bônus de proficiência normal.',
-                    suggested: {
-                        personalityTrait: ['personalidade'],
-                        ideal: ['ideal'],
-                        bond: ['laço'],
-                        flaw: ['desvantagem'],
-                    },
+                    activationLevel: '',
+                    popUp: false,
                 },
             ],
         },
