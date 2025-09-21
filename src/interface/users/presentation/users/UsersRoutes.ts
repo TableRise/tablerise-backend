@@ -3,7 +3,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
-import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
@@ -18,6 +17,7 @@ export default class UsersRoutes {
     private readonly _verifyUserMiddleware;
     private readonly _loginPassport;
     private readonly _authenticatePassport;
+    private readonly _usersSchemas;
 
     constructor({
         usersController,
@@ -28,6 +28,7 @@ export default class UsersRoutes {
         verifyUserMiddleware,
         loginPassport,
         authenticatePassport,
+        usersSchemas,
     }: InterfaceDependencies['usersRoutesContract']) {
         this._usersController = usersController;
         this._verifyIdMiddleware = verifyIdMiddleware;
@@ -37,6 +38,7 @@ export default class UsersRoutes {
         this._verifyUserMiddleware = verifyUserMiddleware;
         this._loginPassport = loginPassport;
         this._authenticatePassport = authenticatePassport;
+        this._usersSchemas = usersSchemas;
     }
 
     public routes(): routeInstance[] {
@@ -45,21 +47,6 @@ export default class UsersRoutes {
 
         return [
             // GET
-            {
-                method: 'get',
-                path: `${BASE_PATH}/verify`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'flow', type: 'string' },
-                    ]),
-                ],
-                controller: this._usersController.verifyEmail,
-                options: {
-                    tag: 'authentication',
-                    description: desc.verify,
-                },
-            },
             {
                 method: 'get',
                 path: `${BASE_PATH}/all`,
@@ -99,9 +86,24 @@ export default class UsersRoutes {
             // POST
             {
                 method: 'post',
+                path: `${BASE_PATH}/authenticate/email/send-code`,
+                parameters: [
+                    ...generateQueryParam(2, [
+                        { name: 'email', type: 'string' },
+                        { name: 'flow', type: 'string' },
+                    ]),
+                ],
+                controller: this._usersController.verifyEmail,
+                options: {
+                    tag: 'authentication',
+                    description: desc.verify,
+                },
+            },
+            {
+                method: 'post',
                 path: `${BASE_PATH}/register`,
                 controller: this._usersController.register,
-                schema: DomainDataFaker.mocks.createUserMock,
+                schema: this._usersSchemas.postCreateUser.example,
                 options: {
                     tag: 'register',
                     description: desc.register,
@@ -111,7 +113,7 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
                 controller: this._usersController.login,
-                schema: DomainDataFaker.mocks.loginMock,
+                schema: this._usersSchemas.postLogin.example,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
                     tag: 'authentication',
@@ -123,7 +125,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update/picture`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.profilePicture,
-                schema: DomainDataFaker.mocks.uploadPicture,
+                schema: this._usersSchemas.postUpdateUserProfilePicture.example,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -136,24 +138,8 @@ export default class UsersRoutes {
                     fileUpload: true,
                 },
             },
-
-            // PUT
             {
-                method: 'put',
-                path: `${BASE_PATH}/:id/update`,
-                parameters: [...generateIDParam()],
-                controller: this._usersController.update,
-                schema: DomainDataFaker.mocks.updateUserMock,
-                options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
-                    tag: 'management',
-                    description: desc.update,
-                },
-            },
-
-            // PATCH
-            {
-                method: 'patch',
+                method: 'post',
                 path: `${BASE_PATH}/authenticate/email`,
                 parameters: [
                     ...generateQueryParam(3, [
@@ -170,7 +156,7 @@ export default class UsersRoutes {
                 },
             },
             {
-                method: 'patch',
+                method: 'post',
                 path: `${BASE_PATH}/authenticate/2fa`,
                 parameters: [
                     ...generateQueryParam(3, [
@@ -187,7 +173,7 @@ export default class UsersRoutes {
                 },
             },
             {
-                method: 'patch',
+                method: 'post',
                 path: `${BASE_PATH}/authenticate/secret-question`,
                 parameters: [
                     ...generateQueryParam(2, [
@@ -195,7 +181,7 @@ export default class UsersRoutes {
                         { name: 'flow', type: 'string' },
                     ]),
                 ],
-                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
+                schema: this._usersSchemas.postAuthenticateSecretQuestion.example,
                 controller: this._usersController.internalAuthentication,
                 options: {
                     middlewares: [this._authorizationMiddleware.secretQuestion],
@@ -203,12 +189,28 @@ export default class UsersRoutes {
                     description: desc.secretQuestion,
                 },
             },
+
+            // PUT
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/update`,
+                parameters: [...generateIDParam()],
+                controller: this._usersController.update,
+                schema: this._usersSchemas.putUpdateUser.body,
+                options: {
+                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    tag: 'management',
+                    description: desc.update,
+                },
+            },
+
+            // PATCH
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/question/activate`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.activateSecretQuestion,
-                schema: DomainDataFaker.mocks.activateSecretQuestionMock,
+                schema: this._usersSchemas.patchActivateSecretQuestion.example,
                 options: {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
@@ -220,7 +222,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/update`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.updateSecretQuestion,
-                schema: DomainDataFaker.mocks.updateSecretQuestionMock,
+                schema: this._usersSchemas.patchSecretQuestionUpdate.body,
                 options: {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
@@ -254,7 +256,7 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update/email`,
                 parameters: [...generateIDParam()],
                 controller: this._usersController.updateEmail,
-                schema: DomainDataFaker.mocks.updateEmailMock,
+                schema: this._usersSchemas.patchUpdateEmail.body,
                 options: {
                     middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'management',
@@ -265,7 +267,7 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/update/password`,
                 controller: this._usersController.updatePassword,
-                schema: DomainDataFaker.mocks.updatePasswordMock,
+                schema: this._usersSchemas.patchUpdatePassword.body,
                 parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
                 options: {
                     tag: 'management',
@@ -276,7 +278,7 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/game-info`,
                 controller: this._usersController.updateGameInfo,
-                schema: DomainDataFaker.mocks.updateGameInfo,
+                schema: this._usersSchemas.patchUpdateUserGameInfo.body,
                 parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],

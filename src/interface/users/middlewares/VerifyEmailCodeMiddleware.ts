@@ -10,18 +10,24 @@ export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
     private readonly _usersDetailsRepository;
     private readonly _stateMachine;
+    private readonly _usersSchemas;
+    private readonly _schemaValidator;
     private readonly _logger;
     private readonly _ALLOWED_STATUS;
 
     constructor({
         usersRepository,
+        usersSchemas,
         usersDetailsRepository,
         stateMachine,
+        schemaValidator,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this._usersRepository = usersRepository;
+        this._usersSchemas = usersSchemas;
         this._usersDetailsRepository = usersDetailsRepository;
         this._stateMachine = stateMachine;
+        this._schemaValidator = schemaValidator;
         this._logger = logger;
 
         this._ALLOWED_STATUS = [
@@ -59,6 +65,8 @@ export default class VerifyEmailCodeMiddleware {
 
         const { id } = req.params;
         const { email, code, flow } = req.query;
+
+        this._schemaValidator.entry(this._usersSchemas.postAuthenticateEmail.query, { email, code, flow });
 
         this._logger('info', `Code from Request is = ${code as string}`);
 

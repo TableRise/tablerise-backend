@@ -49,7 +49,7 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
 
                 expect(err.details).to.have.length(1);
                 expect(err.details[0].attribute).to.be.equal('firstName');
-                expect(err.details[0].reason).to.be.equal('Required');
+                expect(err.details[0].reason).to.be.equal('Invalid input: expected string, received undefined');
             }
         });
     });

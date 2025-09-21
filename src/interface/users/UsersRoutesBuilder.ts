@@ -9,7 +9,7 @@ const ROUTES_WITH_NO_VERIFY = [
     '/register',
     '/start-machine-flow',
     '/login',
-    '/verify',
+    '/authenticate/email/send-code',
     '/:id/delete',
     '/authenticate/email',
     '/authenticate/2fa',

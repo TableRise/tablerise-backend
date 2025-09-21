@@ -2,7 +2,9 @@
 import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
+import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
 import { Readable } from 'stream';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
@@ -24,6 +26,18 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         deleteUserOperation: any,
         logoutUserOperation: any,
         loginUserOperation: any;
+
+    const schemaValidator = { entry: () => {} } as unknown as SchemaValidator;
+    const usersSchemas = {
+        postValidateEmailSendCode: { query: {} },
+        postCreateUser: { body: {} },
+        putUpdateUser: { body: {} },
+        patchActivateSecretQuestion: { body: {} },
+        patchSecretQuestionUpdate: { body: {} },
+        patchUpdateEmail: { body: {} },
+        patchUpdatePassword: { body: {} },
+        patchUpdateUserGameInfo: { body: {} },
+    } as unknown as IUsersSchemas;
 
     context('#register', () => {
         const request = {} as Request;
@@ -52,6 +66,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -109,6 +125,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -164,6 +182,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -226,6 +246,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -284,6 +306,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -340,6 +364,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -400,6 +426,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -458,6 +486,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -521,6 +551,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -582,6 +614,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -639,6 +673,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -697,6 +733,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -761,6 +799,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -823,6 +863,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -890,6 +932,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -949,6 +993,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -1021,6 +1067,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -1079,6 +1127,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             logoutUserOperation = { execute: sinon.spy(() => ({})) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,

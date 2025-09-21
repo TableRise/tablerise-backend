@@ -13,6 +13,8 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 
 export default class UsersController {
+    private readonly _usersSchemas;
+    private readonly _schemaValidator;
     private readonly _createUserOperation;
     private readonly _updateUserOperation;
     private readonly _verifyEmailOperation;
@@ -32,6 +34,8 @@ export default class UsersController {
     private readonly _loginUserOperation;
 
     constructor({
+        usersSchemas,
+        schemaValidator,
         createUserOperation,
         updateUserOperation,
         verifyEmailOperation,
@@ -50,6 +54,8 @@ export default class UsersController {
         logoutUserOperation,
         loginUserOperation,
     }: InterfaceDependencies['usersControllerContract']) {
+        this._usersSchemas = usersSchemas;
+        this._schemaValidator = schemaValidator;
         this._createUserOperation = createUserOperation;
         this._updateUserOperation = updateUserOperation;
         this._verifyEmailOperation = verifyEmailOperation;
@@ -90,6 +96,8 @@ export default class UsersController {
     public async register(req: Request, res: Response): Promise<Response> {
         const payload = req.body as UserPayload;
 
+        this._schemaValidator.entry(this._usersSchemas.postCreateUser.body, payload);
+
         const result = await this._createUserOperation.execute(payload);
         delete (result as Partial<RegisterUserResponse>).password;
 
@@ -104,6 +112,8 @@ export default class UsersController {
         const { id } = req.params;
         const payload = req.body as RegisterUserPayload;
 
+        this._schemaValidator.entry(this._usersSchemas.putUpdateUser.body, payload);
+
         const result = await this._updateUserOperation.execute({ userId: id, payload });
         delete (result as Partial<RegisterUserResponse>).password;
 
@@ -111,9 +121,11 @@ export default class UsersController {
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
-        const { email, flow } = req.query as unknown as VerifyEmailPayload;
+        const query = req.query as unknown as VerifyEmailPayload;
 
-        await this._verifyEmailOperation.execute({ email, flow });
+        this._schemaValidator.entry(this._usersSchemas.postValidateEmailSendCode.query, query);
+
+        await this._verifyEmailOperation.execute(query);
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
@@ -144,6 +156,8 @@ export default class UsersController {
         const { id } = req.params;
         const payload = req.body as UserSecretQuestion;
 
+        this._schemaValidator.entry(this._usersSchemas.patchActivateSecretQuestion.body, payload);
+
         await this._activateSecretQuestionOperation.execute({ userId: id, payload });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
@@ -152,6 +166,8 @@ export default class UsersController {
     public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body as UpdateSecretQuestion;
+
+        this._schemaValidator.entry(this._usersSchemas.patchSecretQuestionUpdate.body, payload);
 
         await this._updateSecretQuestionOperation.execute({ userId: id, payload });
 
@@ -176,6 +192,8 @@ export default class UsersController {
         const { id } = req.params;
         const { email } = req.body;
 
+        this._schemaValidator.entry(this._usersSchemas.patchUpdateEmail.body, { email });
+
         await this._updateEmailOperation.execute({ userId: id, email });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -183,6 +201,8 @@ export default class UsersController {
     public async updatePassword(req: Request, res: Response): Promise<Response> {
         const { email } = req.query as { email: string };
         const { password } = req.body;
+
+        this._schemaValidator.entry(this._usersSchemas.patchUpdatePassword.body, { password });
 
         await this._updatePasswordOperation.execute({ email, password });
         return res.status(HttpStatusCode.NO_CONTENT).end();
@@ -202,6 +222,8 @@ export default class UsersController {
     public async updateGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body as Omit<UpdateGameInfoPayload, 'userId'>;
+
+        this._schemaValidator.entry(this._usersSchemas.patchUpdateUserGameInfo.body, payload);
 
         const result = await this._updateGameInfoOperation.execute({
             userId: id,

@@ -41,7 +41,7 @@ describe('Domains :: Characters :: Schemas :: CharactersValidationSchema', () =>
 
                 expect(err.details).to.have.length(1);
                 expect(err.details[0].attribute).to.be.equal('data');
-                expect(err.details[0].reason).to.be.equal('Required');
+                expect(err.details[0].reason).to.be.equal('Invalid input: expected object, received undefined');
             }
         });
     });

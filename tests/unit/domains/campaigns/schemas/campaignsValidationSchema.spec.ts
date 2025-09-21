@@ -53,7 +53,7 @@ describe('Domains :: Campaigns :: Schemas :: CampaignsValidationSchema', () => {
 
                 expect(err.details).to.have.length(2);
                 expect(err.details[0].attribute).to.be.equal('description');
-                expect(err.details[0].reason).to.be.equal('Required');
+                expect(err.details[0].reason).to.be.equal('Invalid input: expected string, received undefined');
             }
         });
     });

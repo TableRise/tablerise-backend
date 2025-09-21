@@ -24,8 +24,6 @@ export default class CreateUserOperation {
 
     public async execute(payload: UserPayload): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - CreateUserOperation');
-        this._schemaValidator.entry(this._usersSchema.userZod, payload);
-
         const entitySerialized = await this._createUserService.serialize(payload);
 
         const entityEnriched = await this._createUserService.enrichment({

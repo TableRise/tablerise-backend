@@ -10,6 +10,8 @@ import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEma
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
     let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
         usersRepository: any,
+        schemaValidator: any,
+        usersSchemas: any,
         usersDetailsRepository: any,
         user: any;
 
@@ -44,6 +46,14 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     twoFactorSecret: { active: true },
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 usersRepository = {
                     findOne: () => user,
                     update: sinon.spy(),
@@ -59,6 +69,8 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     usersRepository,
                     usersDetailsRepository,
                     stateMachine,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -108,6 +120,14 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     update: sinon.spy(),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 usersDetailsRepository = {
                     findOne: () => {
                         // eslint-disable-next-line @typescript-eslint/no-throw-literal
@@ -119,6 +139,8 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     usersRepository,
                     usersDetailsRepository,
                     stateMachine,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -176,6 +198,14 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 usersRepository = {
                     findOne: () => user,
                     update: sinon.spy(),
@@ -185,6 +215,8 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     usersRepository,
                     usersDetailsRepository,
                     stateMachine,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -226,10 +258,20 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
 
                 usersDetailsRepository = { findOne: () => null };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
                     stateMachine,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -265,10 +307,20 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     },
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     usersRepository,
                     usersDetailsRepository,
                     stateMachine,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -318,10 +370,20 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     stateMachine,
                     usersRepository,
                     usersDetailsRepository,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
@@ -359,10 +421,20 @@ describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () =>
                     }),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticateEmail: { query: {} },
+                };
+
                 verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
                     stateMachine,
                     usersRepository,
                     usersDetailsRepository,
+                    schemaValidator,
+                    usersSchemas,
                     logger,
                 });
             });
