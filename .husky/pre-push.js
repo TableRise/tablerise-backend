@@ -29,7 +29,15 @@ console.log(
 );
 
 try {
-    console.log(chalk.magenta('🔍 Executando lint...'));
+    console.log(chalk.magenta('👾 Executando audit...'));
+    execSilent('npm run audit');
+} catch (error) {
+    console.log(chalk.red('❌ Existem bibliotecas vulneráveis'));
+    process.exit(1);
+}
+
+try {
+    console.log(chalk.magenta('🔬 Executando lint...'));
     execSilent('npm run lint');
 } catch (error) {
     console.log(chalk.red('❌ É necessária a correção do linter'));
@@ -37,7 +45,7 @@ try {
 }
 
 try {
-    console.log(chalk.magenta('🔍 Executando prettier...'));
+    console.log(chalk.magenta('👑 Executando prettier...'));
     execSync('npm run prettier --max-warnings=0');
     console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
 } catch (error) {
