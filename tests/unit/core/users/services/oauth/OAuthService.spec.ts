@@ -4,8 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
@@ -13,8 +12,8 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
         payload: any,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         serializer: any;
 
     const logger = (): void => {};
@@ -66,8 +65,8 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
 
         context('When enrich an object', () => {
             before(() => {
-                user = {} as UserInstance;
-                userDetails = {} as UserDetailInstance;
+                user = {} as User;
+                userDetails = {} as UserDetail;
 
                 usersRepository = {};
                 usersDetailsRepository = {};
@@ -129,7 +128,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
 
     context('#login', () => {
         context('When an user is successfully logged in', () => {
-            let userSerialized: UserInstance;
+            let userSerialized: User;
             const sandbox = Sinon.createSandbox();
 
             before(() => {
@@ -165,7 +164,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
         });
 
         context('When login throws error', () => {
-            let userSerialized: UserInstance;
+            let userSerialized: User;
 
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];

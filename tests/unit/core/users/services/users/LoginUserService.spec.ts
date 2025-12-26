@@ -1,14 +1,13 @@
 import LoginUserService from 'src/core/users/services/users/LoginUserService';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: LoginUserService', () => {
     let loginUserService: LoginUserService,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+        user: User,
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 

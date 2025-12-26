@@ -24,9 +24,6 @@ export default class RemoveCampaignPlayersOperation {
 
     async execute(payload: RemoveCampaignPlayersPayload): Promise<Player[]> {
         this._logger('info', 'Execute - RemoveCampaignPlayersOperation');
-
-        this._schemaValidator.entry(this._campaignsSchema.campaignsRemoveCampaignPlayersZod, payload);
-
         const { campaign, userDetails } = await this._removeCampaignPlayersService.removeCampaignPlayers(payload);
 
         const savedCampaign = await this._removeCampaignPlayersService.save(campaign, userDetails);

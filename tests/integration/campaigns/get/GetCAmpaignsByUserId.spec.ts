@@ -1,7 +1,6 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UserDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
@@ -10,8 +9,8 @@ import requester from 'tests/support/requester';
 describe('When recover user by id', () => {
     let campaignOne: CampaignInstance,
         campaignTwo: CampaignInstance,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+        user: User,
+        userDetails: UserDetail;
 
     context('And data is correct', () => {
         before(async () => {
@@ -62,7 +61,7 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester().get(`/campaigns/user/${user.userId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/campaigns/user/${user.userId as string}`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);

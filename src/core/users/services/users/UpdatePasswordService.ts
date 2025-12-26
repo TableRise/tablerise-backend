@@ -1,4 +1,4 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
@@ -16,7 +16,7 @@ export default class UpdatePasswordService {
         this._logger = logger;
     }
 
-    private async _changePassword({ user, password }: UserPassword): Promise<UserInstance> {
+    private async _changePassword({ user, password }: UserPassword): Promise<User> {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
         const { flows } = this._stateMachine.props;
 

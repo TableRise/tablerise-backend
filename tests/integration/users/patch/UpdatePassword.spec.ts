@@ -3,14 +3,13 @@ import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When an user has the password changed', () => {
-    let user: UserInstance, userDetails: UserDetailInstance, model: MongoModel<any>;
+    let user: User, userDetails: UserDetail, model: MongoModel<any>;
 
     context('And all data is correct', () => {
         before(async () => {
@@ -26,14 +25,14 @@ describe('When an user has the password changed', () => {
                 code: 'H45J7F',
             };
 
-            userDetails.secretQuestion = null;
+            userDetails.secretQuestion = {} as UserDetail['secretQuestion'];
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
         });
 
         it('should update password with success', async () => {
-            await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
+            await requester().get(`/users/${user.userId as string}`).expect(HttpStatusCode.OK);
 
             await requester()
                 .patch(`/users/update/password?email=${user.email}`)

@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When the user is updated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance, userToUpdate: any;
+    let user: User, userDetails: UserDetail, userToUpdate: any;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -44,9 +43,9 @@ describe('When the user is updated', () => {
         });
 
         it('should update with success', async () => {
-            const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
+            const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId as string}`).expect(HttpStatusCode.OK);
 
-            const { body: userUpdated } = await requester().put(`/users/${user.userId}/update`).send(userToUpdate);
+            const { body: userUpdated } = await requester().put(`/users/${user.userId as string}/update`).send(userToUpdate);
 
             expect(userUpdated.nickname).to.not.be.equal(userBeforeUpdate.nickname);
             expect(userUpdated.picture).to.not.be.equal(userBeforeUpdate.picture);

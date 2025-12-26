@@ -4,7 +4,7 @@ import AuthorizationMiddleware from 'src/interface/common/middlewares/Authorizat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/users/enums/questionEnum';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import StateMachine from 'src/domains/common/StateMachine';
@@ -394,7 +394,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: stateMachine.props.status.WAIT_TO_SECOND_AUTH,
                         },
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -450,7 +450,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: stateMachine.props.status.WAIT_TO_CONFIRM,
                         },
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -519,7 +519,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         inProgress: { status: 'done' },
                         email: '123@email.com',
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -593,7 +593,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         inProgress: { status: 'done' },
                         email: '123@email.com',
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {

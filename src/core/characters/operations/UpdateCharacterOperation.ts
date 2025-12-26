@@ -24,8 +24,6 @@ export default class UpdateCharacterOperation {
 
     async execute({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
         this._logger('info', 'UpdateCharacterOperation - Execute');
-        this._schemaValidator.entry(this._charactersSchema.characterPutZod, payload);
-
         return this._updateCharacterService.update({ characterId, payload });
     }
 }

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import PublishmentService from 'src/core/campaigns/services/PublishmentService';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
 
@@ -11,7 +11,7 @@ describe('Core :: Services :: publishmentService', () => {
         usersRepository: any,
         postPayload: any,
         campaign: CampaignInstance,
-        user: UserInstance;
+        user: User;
 
     const logger = (): void => {};
 

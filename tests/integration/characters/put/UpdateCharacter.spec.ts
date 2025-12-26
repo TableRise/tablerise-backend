@@ -1,17 +1,17 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import requester from 'tests/support/requester';
 import { InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When some character is updated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance, character: CharacterInstance, characterId: string;
+    let user: User, userDetails: UserDetail, character: CharacterInstance, characterId: string;
 
     context('And all data is correct', () => {
         before(async () => {

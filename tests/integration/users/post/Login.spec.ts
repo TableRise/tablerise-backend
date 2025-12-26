@@ -1,14 +1,14 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import requester from 'tests/support/requester';
 // import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 describe('When the user is logged in', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And the credentials are valid', () => {
         beforeEach(async () => {

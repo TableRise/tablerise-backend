@@ -1,6 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
+import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class CreateUserOperation {
     private readonly _usersSchema;
@@ -22,7 +22,7 @@ export default class CreateUserOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(payload: UserPayload): Promise<RegisterUserResponse> {
+    public async execute(payload: TCreateUserBody): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - CreateUserOperation');
         const entitySerialized = await this._createUserService.serialize(payload);
 

@@ -25,8 +25,6 @@ export default class CompleteUserOperation {
 
     public async execute({ userId, payload }: CompleteOAuth): Promise<RegisterUserResponse> {
         this._logger('info', 'Execute - CompleteUserOperation');
-        this._schemaValidator.entry(this._usersSchema.oAuthComplete, payload);
-
         const { details, ...user } = await this._getUserByIdService.get({ userId });
         const { user: mainUser, userDetails } = await this._completeUserService.process(
             { user, userDetails: details },

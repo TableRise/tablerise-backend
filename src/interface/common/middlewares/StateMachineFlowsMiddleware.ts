@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class StateMachineFlowsMiddleware {
@@ -19,7 +19,7 @@ export default class StateMachineFlowsMiddleware {
         const { id } = req.params;
         const { email, flow } = req.query;
 
-        let userInDb = {} as UserInstance;
+        let userInDb = {} as User;
 
         if (id && !email) userInDb = await this._usersRepository.findOne({ userId: id });
         if (email && !userInDb.email) userInDb = await this._usersRepository.findOne({ email });

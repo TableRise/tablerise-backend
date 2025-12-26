@@ -3,7 +3,7 @@ import HttpRequestErrors from './helpers/HttpRequestErrors';
 import getErrorName from './helpers/getErrorName';
 import { HttpStatusCode } from './helpers/HttpStatusCode';
 import stateFlowsEnum, { stateFlowsKeys } from './enums/stateFlowsEnum';
-import { UserInstance } from '../users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainsDependencies from 'src/types/modules/domains/DomainsDependencies';
 import { StateMachineProps } from 'src/types/modules/domains/StateMachine';
 
@@ -56,11 +56,11 @@ export default class StateMachine {
     }
 
     private _checkPrevStatus(
-        prevStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+        prevStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
         const prevStatusFromActual = flow[stepIndex === 0 ? stepIndex : stepIndex - 1];
 
@@ -79,11 +79,11 @@ export default class StateMachine {
     }
 
     private _checkNextStatus(
-        nextStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+        nextStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
         const nextStatusFromActual = flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
 
@@ -102,11 +102,11 @@ export default class StateMachine {
     }
 
     private _moveStatus(
-        user: UserInstance,
+        user: User,
         stepIndex: number,
         selectFlow: InProgressStatus[],
         flow: stateFlowsKeys
-    ): UserInstance['inProgress'] {
+    ): User['inProgress'] {
         const userActualStatus = selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
 
         let userCurrentFlow =
@@ -130,7 +130,7 @@ export default class StateMachine {
         };
     }
 
-    public async machine(flow: stateFlowsKeys, user: UserInstance): Promise<UserInstance> {
+    public async machine(flow: stateFlowsKeys, user: User): Promise<User> {
         this._logger('warn', 'Machine - StateMachine');
 
         const { status, nextStatusWillBe, prevStatusMustBe } = user.inProgress;

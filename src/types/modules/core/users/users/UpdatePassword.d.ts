@@ -1,6 +1,6 @@
 import UpdatePasswordService from 'src/core/users/services/users/UpdatePasswordService';
 import { SchemasUserType } from 'src/domains/users/schemas';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
@@ -20,6 +20,6 @@ export interface UpdatePasswordServiceContract {
 }
 
 export interface UserPassword {
-    user: UserInstance;
+    user: User;
     password: string;
 }

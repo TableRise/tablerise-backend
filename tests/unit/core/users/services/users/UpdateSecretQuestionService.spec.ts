@@ -1,19 +1,18 @@
 import sinon from 'sinon';
 import UpdateSecretQuestionService from 'src/core/users/services/users/UpdateSecretQuestionService';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
     let updateSecretQuestionService: UpdateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         payload: any;
 
     const logger = (): void => {};
@@ -75,7 +74,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 user.inProgress.status = stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
-                userDetails.secretQuestion = null;
+                userDetails.secretQuestion = {} as UserDetail['secretQuestion'];
 
                 usersRepository = {
                     findOne: () => user,

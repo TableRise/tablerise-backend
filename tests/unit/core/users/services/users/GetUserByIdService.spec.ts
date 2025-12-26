@@ -3,8 +3,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
@@ -12,8 +11,8 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
     let getUserByIdService: GetUserByIdService,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         userReturned: RegisterUserResponse;
 
     const logger = (): void => {};

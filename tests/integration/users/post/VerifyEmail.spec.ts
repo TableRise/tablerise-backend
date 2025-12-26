@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When an email is verified', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {
@@ -38,7 +37,7 @@ describe('When an email is verified', () => {
                 .post(`/users/authenticate/email/send-code?email=test@email.com&flow=update-password`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId as string}`).expect(HttpStatusCode.OK);
 
             expect(body.inProgress.status).to.be.equal(InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE);
         });

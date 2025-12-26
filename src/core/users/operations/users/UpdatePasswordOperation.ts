@@ -23,7 +23,6 @@ export default class UpdatePasswordOperation {
 
     public async execute({ email, password }: UpdatePasswordPayload): Promise<void> {
         this._logger('info', 'Execute - UpdatePasswordOperation');
-        this._schemaValidator.entry(this._usersSchema.passwordUpdateZod, { password });
         await this._updatePasswordService.update({ email, password });
     }
 }

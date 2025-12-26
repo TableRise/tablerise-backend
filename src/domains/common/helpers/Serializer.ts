@@ -1,8 +1,7 @@
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserExternal } from 'src/types/api/users/http/payload';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
@@ -50,7 +49,7 @@ export default class Serializer {
         twoFactorSecret = null,
         createdAt = null,
         updatedAt = null,
-    }: any): UserInstance {
+    }: any): User {
         return {
             userId,
             providerId,
@@ -77,7 +76,7 @@ export default class Serializer {
         gameInfo = { campaigns: [], characters: [], badges: [], bannedCampaigns: [] },
         biography = null,
         role = 'user',
-    }: any): UserDetailInstance {
+    }: any): UserDetail {
         return {
             userDetailId,
             userId,

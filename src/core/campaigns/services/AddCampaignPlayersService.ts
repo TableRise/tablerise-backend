@@ -3,7 +3,7 @@ import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { AddCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
@@ -74,7 +74,7 @@ export default class AddCampaignPlayersService {
         return { campaign, userDetails };
     }
 
-    async save(campaign: CampaignInstance, userDetails: UserDetailInstance): Promise<CampaignInstance> {
+    async save(campaign: CampaignInstance, userDetails: UserDetail): Promise<CampaignInstance> {
         await this._usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,

@@ -1,6 +1,6 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { TwoFactorResponse } from 'src/types/api/users/http/response';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ResetTwoFactorService {
@@ -24,7 +24,7 @@ export default class ResetTwoFactorService {
         this.save = this.save.bind(this);
     }
 
-    public async reset(userId: string): Promise<UserInstance> {
+    public async reset(userId: string): Promise<User> {
         this._logger('info', 'Reset - ResetTwoFactorService');
         const { status, flows } = this._stateMachine.props;
         const userInDb = await this._usersRepository.findOne({ userId });
@@ -39,7 +39,7 @@ export default class ResetTwoFactorService {
         return userInDb;
     }
 
-    public async save(user: UserInstance): Promise<TwoFactorResponse> {
+    public async save(user: User): Promise<TwoFactorResponse> {
         this._logger('info', 'Save - ResetTwoFactorService');
 
         await this._usersRepository.update({

@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When the user has twoFactor activated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -29,7 +28,7 @@ describe('When the user has twoFactor activated', () => {
     context('And all data is correct', () => {
         it('should activate with success', async () => {
             const { body: twoFactorResponse } = await requester()
-                .patch(`/users/${user.userId}/2fa/activate`)
+                .patch(`/users/${user.userId as string}/2fa/activate`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,

@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly _usersRepository;
@@ -41,7 +40,7 @@ export default class VerifyEmailCodeMiddleware {
         this.verify = this.verify.bind(this);
     }
 
-    private async _getUserToValidate(id: string, email: string): Promise<UserInstance> {
+    private async _getUserToValidate(id: string, email: string): Promise<User> {
         if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
@@ -98,7 +97,7 @@ export default class VerifyEmailCodeMiddleware {
             userId: userVerified.userId,
             userStatus: userVerified.inProgress.status,
             accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${(userDetails.secretQuestion as UserSecretQuestion).question}`
+                ? `secret-question%${(userDetails.secretQuestion as UserDetail['secretQuestion']).question}`
                 : 'two-factor',
             lastUpdate: userVerified.updatedAt,
         };

@@ -6,7 +6,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
@@ -17,7 +17,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
         addPlayersPayload: any,
         campaignPlayersLength: number,
         campaign: CampaignInstance,
-        userDetails: UserDetailInstance,
+        userDetails: UserDetail,
         hashPassword: any;
 
     const logger = (): void => {};

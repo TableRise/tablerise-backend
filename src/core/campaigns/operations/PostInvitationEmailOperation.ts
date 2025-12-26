@@ -26,15 +26,7 @@ export default class PostInvitationEmailOperation {
 
     public async execute({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
         this._logger('info', 'Execute - PostInvitationEmailOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignInvitationEmailZod, {
-            targetEmail,
-            campaignId,
-            userId,
-            username,
-        });
-
         await this._getCampaignByIdService.get({ campaignId });
-
         await this._postInvitationEmailService.sendEmail({
             targetEmail,
             campaignId,

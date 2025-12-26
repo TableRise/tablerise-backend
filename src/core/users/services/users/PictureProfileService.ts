@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
 import daysDifference from 'src/domains/common/helpers/daysDifference';
@@ -23,7 +23,7 @@ export default class PictureProfileService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    private _verifyLastUpdate(user: UserInstance): void {
+    private _verifyLastUpdate(user: User): void {
         if (user.picture?.id) {
             const dateFirst = new Date(user.picture.uploadDate).getTime();
 
@@ -36,7 +36,7 @@ export default class PictureProfileService {
         }
     }
 
-    public async uploadPicture({ userId, image }: UserImagePayload): Promise<UserInstance> {
+    public async uploadPicture({ userId, image }: UserImagePayload): Promise<User> {
         this._logger('info', 'UploadPicture - PictureProfileService');
         const userInDb = await this._usersRepository.findOne({ userId });
 

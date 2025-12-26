@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When the user has secret question activated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -38,16 +37,16 @@ describe('When the user has secret question activated', () => {
             };
 
             const { body: userWithOldSecretQuestion } = await requester()
-                .get(`/users/${user.userId}`)
+                .get(`/users/${user.userId as string}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/users/${user.userId}/question/update`)
+                .patch(`/users/${user.userId as string}/question/update`)
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithNewQuestion } = await requester()
-                .get(`/users/${user.userId}`)
+                .get(`/users/${user.userId as string}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithNewQuestion.details.secretQuestion).to.be.not.null();

@@ -2,14 +2,13 @@ import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When user game info are updated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     const userIdFakeOne = newUUID();
     const userIdFakeTwo = newUUID();
@@ -46,12 +45,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeOne} add with success to badges`);
@@ -72,12 +71,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeTwo} add with success to campaigns`);
@@ -93,12 +92,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} add with success to characters`);
@@ -116,12 +115,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeOne} remove with success to badges`);
@@ -142,12 +141,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to campaigns`);
@@ -163,12 +162,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId as string}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId}`)
+                    .get(`/users/${user.userId as string}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to characters`);

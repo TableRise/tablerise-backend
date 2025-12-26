@@ -24,8 +24,6 @@ export default class CreateCharacterOperation {
 
     public async execute(payload: CreateCharacterPayload): Promise<CharacterInstance> {
         this._logger('info', 'Execute - CreateCharacterOperation');
-        this._schemaValidator.entry(this._charactersSchema.characterPostZod, payload.payload);
-
         const characterSerialized = this._createCharacterService.serialize(payload);
         const characterEnriched = await this._createCharacterService.enrichment(characterSerialized, payload.userId);
         const characterAutomated = await this._createCharacterService.automation(characterEnriched);

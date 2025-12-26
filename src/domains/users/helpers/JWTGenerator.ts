@@ -1,8 +1,8 @@
 import JWT from 'jsonwebtoken';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class JWTGenerator {
-    static generate(user: UserInstance): string {
+    static generate(user: User): string {
         const payload = {
             userId: user.userId,
             providerId: user.providerId,

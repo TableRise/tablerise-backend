@@ -1,10 +1,10 @@
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserDetailJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
 import questionEnum from 'src/domains/users/enums/questionEnum';
 
-function createUserDetailFaker({ userDetailId = newUUID() }: UserDetailInstance): UserDetailInstance {
+function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDetail {
     return {
         userDetailId,
         userId: newUUID(),
@@ -19,14 +19,14 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetailInstance)
         gameInfo: { campaigns: [], characters: [], badges: [], bannedFromCampaigns: [] },
         biography: dataGenerator.biography(),
         role: 'admin',
-    } as UserDetailInstance;
+    } as UserDetail;
 }
 
-export default function generateUserDetailsFaker({ count, userDetailId }: UserDetailJSONPayload): UserDetailInstance[] {
-    const users: UserDetailInstance[] = [];
+export default function generateUserDetailsFaker({ count, userDetailId }: UserDetailJSONPayload): UserDetail[] {
+    const users: UserDetail[] = [];
 
     for (let index = 0; index <= count; index += 1) {
-        users.push(createUserDetailFaker({ userDetailId } as UserDetailInstance));
+        users.push(createUserDetailFaker({ userDetailId } as UserDetail));
     }
 
     return users;

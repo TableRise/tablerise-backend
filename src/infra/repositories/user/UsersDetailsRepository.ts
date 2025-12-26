@@ -1,4 +1,4 @@
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
@@ -22,12 +22,12 @@ export default class UsersDetailsRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: UserDetailInstance): UserDetailInstance {
+    private _formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postUserDetails(format);
     }
 
-    public async create(payload: UserDetailInstance): Promise<UserDetailInstance> {
+    public async create(payload: UserDetail): Promise<UserDetail> {
         this._logger('warn', `Create - UsersDetailsRepository`);
 
         payload.userDetailId = newUUID();
@@ -36,14 +36,14 @@ export default class UsersDetailsRepository {
         return this._formatAndSerializeData(request);
     }
 
-    public async find(query: any = {}): Promise<UserDetailInstance[]> {
+    public async find(query: any = {}): Promise<UserDetail[]> {
         this._logger('warn', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: UserDetailInstance) => this._formatAndSerializeData(entity));
+        return request.map((entity: UserDetail) => this._formatAndSerializeData(entity));
     }
 
-    public async findOne(query: any = {}): Promise<UserDetailInstance> {
+    public async findOne(query: any = {}): Promise<UserDetail> {
         this._logger('warn', 'FindOne - UsersDetailsRepository');
         const request = await this._model.findOne(query);
 
@@ -52,7 +52,7 @@ export default class UsersDetailsRepository {
         return this._formatAndSerializeData(request);
     }
 
-    public async update({ query, payload }: UpdateObj): Promise<UserDetailInstance> {
+    public async update({ query, payload }: UpdateObj): Promise<UserDetail> {
         this._logger('warn', 'Update - UsersDetailsRepository');
         const request = await this._model.update(query, payload);
 

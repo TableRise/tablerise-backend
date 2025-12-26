@@ -1,4 +1,4 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
@@ -17,7 +17,7 @@ export default class UpdateEmailService {
         this.update = this.update.bind(this);
     }
 
-    private _changeEmail({ user, email }: UserEmail): UserInstance {
+    private _changeEmail({ user, email }: UserEmail): User {
         this._logger('info', 'ChangeEmail - UpdateEmailService');
         user.email = email;
         return user;

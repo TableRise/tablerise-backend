@@ -24,8 +24,6 @@ export default class UpdateCampaignOperation {
 
     async execute(payload: CampaignUpdatePayload): Promise<CampaignInstance> {
         this._logger('info', 'Execute - UpdateCampaignOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignUpdateZod, payload);
-
         const campaignUpdated = await this._updateCampaignService.update(payload);
         return this._updateCampaignService.save(campaignUpdated);
     }

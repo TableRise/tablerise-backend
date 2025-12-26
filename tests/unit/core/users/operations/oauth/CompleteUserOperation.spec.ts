@@ -2,8 +2,7 @@
 import sinon from 'sinon';
 import CompleteUserOperation from 'src/core/users/operations/oauth/CompleteUserOperation';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth', () => {
@@ -11,9 +10,9 @@ describe('Core :: Users :: Operations :: OAuth', () => {
         schemaValidator: any,
         usersSchema: any,
         completeUserService: any,
-        user: UserInstance,
-        userNotCompleted: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userNotCompleted: User,
+        userDetails: UserDetail,
         userDetailsNotCompleted: any,
         payload: any,
         getUserByIdService: any;

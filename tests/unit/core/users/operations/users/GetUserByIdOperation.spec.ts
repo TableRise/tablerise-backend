@@ -1,13 +1,13 @@
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 describe('Core :: Users :: Operations :: GetUserByIdOperation', () => {
     let getUserByIdOperation: GetUserByIdOperation,
         getUserByIdService: any,
-        user: UserInstance,
+        user: User,
         userReturned: RegisterUserResponse;
 
     const logger = (): void => {};

@@ -2,8 +2,8 @@ import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDepende
 import Google from 'passport-google-oauth20';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { __TokenObject } from 'src/types/api/users/methods';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class GoogleOperation {
     private readonly _oAuthService;
@@ -34,8 +34,8 @@ export default class GoogleOperation {
     }
 
     private async _createUser(
-        userSerialized: UserInstance,
-        userDetailsSerialized: UserDetailInstance
+        userSerialized: User,
+        userDetailsSerialized: UserDetail
     ): Promise<RegisterUserResponse> {
         this._logger('info', 'CreateUser - GoogleOperation');
 

@@ -71,7 +71,7 @@ export default class AuthorizationMiddleware {
         }
 
         const validateSecret = this._twoFactorHandler.validate({
-            secret: userInDb.twoFactorSecret.secret as string,
+            secret: userInDb.twoFactorSecret.secret,
             token: token as string,
         });
 

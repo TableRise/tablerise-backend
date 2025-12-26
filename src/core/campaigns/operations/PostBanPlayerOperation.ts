@@ -23,11 +23,6 @@ export default class PostBanPlayerOperation {
 
     public async execute({ campaignId, playerId }: PostBanPlayerPayload): Promise<void> {
         this._logger('info', 'Execute - PostBanPlayerOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignBanPlayerZod, {
-            campaignId,
-            playerId,
-        });
-
         await this._postBanPlayerService.banPlayer({
             campaignId,
             playerId,

@@ -1,16 +1,15 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover all users', () => {
-    let userOne: UserInstance,
-        userTwo: UserInstance,
-        userDetailsOne: UserDetailInstance,
-        userDetailsTwo: UserDetailInstance;
+    let userOne: User,
+        userTwo: User,
+        userDetailsOne: UserDetail,
+        userDetailsTwo: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {

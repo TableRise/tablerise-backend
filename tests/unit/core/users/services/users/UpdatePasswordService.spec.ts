@@ -1,14 +1,14 @@
 import sinon from 'sinon';
 import UpdatePasswordService from 'src/core/users/services/users/UpdatePasswordService';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdatePasswordService', () => {
-    let updatePasswordService: UpdatePasswordService, usersRepository: any, user: UserInstance, payload: any;
+    let updatePasswordService: UpdatePasswordService, usersRepository: any, user: User, payload: any;
 
     const logger = (): void => {};
 

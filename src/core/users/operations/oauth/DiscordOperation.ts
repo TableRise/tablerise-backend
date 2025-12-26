@@ -1,8 +1,7 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Discord from 'passport-discord';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { __TokenObject } from 'src/types/api/users/methods';
 
 export default class DiscordOperation {
@@ -34,8 +33,8 @@ export default class DiscordOperation {
     }
 
     private async _createUser(
-        userSerialized: UserInstance,
-        userDetailsSerialized: UserDetailInstance
+        userSerialized: User,
+        userDetailsSerialized: UserDetail
     ): Promise<RegisterUserResponse> {
         this._logger('info', 'CreateUser - DiscordOperation');
 

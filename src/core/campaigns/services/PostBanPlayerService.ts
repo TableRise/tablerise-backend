@@ -3,7 +3,7 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 import { PostBanPlayerPayload } from 'src/types/api/campaigns/http/payload';
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class PostBanPlayerService {
@@ -47,7 +47,7 @@ export default class PostBanPlayerService {
         campaign: CampaignInstance,
         playerId: string,
         campaignId: string,
-        userDetailInDb: UserDetailInstance
+        userDetailInDb: UserDetail
     ): void {
         this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
@@ -60,7 +60,7 @@ export default class PostBanPlayerService {
         );
     }
 
-    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetailInstance): Promise<void> {
+    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetail): Promise<void> {
         this._logger('info', 'saveUpdates - PostBanPlayerService');
 
         await this._campaignsRepository.update({

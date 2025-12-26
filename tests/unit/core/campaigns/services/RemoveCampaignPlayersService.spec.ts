@@ -4,7 +4,7 @@ import RemoveCampaignPlayersService from 'src/core/campaigns/services/RemoveCamp
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -17,7 +17,7 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
         campaignPlayersLength: number,
         userDetailsCampaignsLength: number,
         campaign: CampaignInstance,
-        userDetails: UserDetailInstance;
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 

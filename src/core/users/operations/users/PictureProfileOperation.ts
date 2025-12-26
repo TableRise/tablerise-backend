@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
 
 export default class PictureProfileOperation {
@@ -13,7 +13,7 @@ export default class PictureProfileOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, image }: UserImagePayload): Promise<UserInstance> {
+    public async execute({ userId, image }: UserImagePayload): Promise<User> {
         this._logger('info', 'Execute - PictureProfileOperation');
         return this._pictureProfileService.uploadPicture({ userId, image });
     }

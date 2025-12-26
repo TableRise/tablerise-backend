@@ -1,6 +1,6 @@
 import Discord from 'passport-discord';
 import Google from 'passport-google-oauth20';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
@@ -32,7 +32,7 @@ export default class OAuthService {
         this.saveUser = this.saveUser.bind(this);
     }
 
-    public login(userInDb: UserInstance, userSerialized: UserInstance): __TokenObject {
+    public login(userInDb: User, userSerialized: User): __TokenObject {
         this._logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 

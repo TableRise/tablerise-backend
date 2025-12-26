@@ -1,7 +1,8 @@
-import { UserInstance, UserVerifyEmail } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
+import { VerifyEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class VerifyEmailService {
     private readonly _usersRepository;
@@ -21,7 +22,7 @@ export default class VerifyEmailService {
         this._logger = logger;
     }
 
-    private async _send(user: UserInstance, flow: stateFlowsKeys): Promise<UserInstance> {
+    private async _send(user: User, flow: stateFlowsKeys): Promise<User> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
 
@@ -45,7 +46,7 @@ export default class VerifyEmailService {
         return user;
     }
 
-    public async sendEmail({ email, flow }: UserVerifyEmail): Promise<void> {
+    public async sendEmail({ email, flow }: VerifyEmailPayload): Promise<void> {
         this._logger('info', 'SendEmail - VerifyEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
 

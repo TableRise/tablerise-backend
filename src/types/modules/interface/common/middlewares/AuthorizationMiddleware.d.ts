@@ -5,12 +5,12 @@ import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
 import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export interface UserToValidateAuthorizationReturn {
-    user: UserInstance;
-    userDetails: UserDetailInstance;
+    user: User;
+    userDetails: UserDetail;
 }
 
 export interface AuthorizationMiddlewareContract {

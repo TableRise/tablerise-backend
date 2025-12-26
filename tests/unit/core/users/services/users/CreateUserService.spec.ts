@@ -1,8 +1,7 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CreateUserService from 'src/core/users/services/users/CreateUserService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -14,8 +13,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
         usersRepository: any,
         usersDetailsRepository: any,
         emailSender: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+        user: User,
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 
@@ -66,8 +65,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
 
                 const { nickname, ...userWithoutNickname } = user;
                 const { lastName, ...userDetailsWithoutNickname } = userDetails;
-                user = userWithoutNickname as UserInstance;
-                userDetails = userDetailsWithoutNickname as UserDetailInstance;
+                user = userWithoutNickname as User;
+                userDetails = userDetailsWithoutNickname as UserDetail;
 
                 serializer = {
                     postUser: () => user,
@@ -127,7 +126,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     code: '',
                 };
                 userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
-                user.twoFactorSecret = { active: true };
+                user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
 
                 serializer = {};
 

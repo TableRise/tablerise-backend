@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import requester from 'tests/support/requester';
 import { InjectNewCampaign, InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
@@ -11,8 +11,8 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When characters are recovered by campaign', () => {
-    let user: UserInstance[],
-        userDetails: UserDetailInstance[],
+    let user: User[],
+        userDetails: UserDetail[],
         campaign: CampaignInstance,
         character: CharacterInstance[];
 

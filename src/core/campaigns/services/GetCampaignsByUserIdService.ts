@@ -1,6 +1,6 @@
 import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -27,7 +27,7 @@ export default class GetCampaignsByUserIdService {
 
         const userDetailsInDb = (await this._usersDetailsRepository.findOne({
             userId,
-        })) as UserDetailInstance;
+        })) as UserDetail;
         const userCampaignIds = userDetailsInDb.gameInfo.campaigns.map((campaign) => campaign.campaignId);
 
         if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');

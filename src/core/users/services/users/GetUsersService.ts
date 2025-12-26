@@ -1,4 +1,4 @@
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
@@ -27,7 +27,7 @@ export default class GetUsersService {
 
             response.push({
                 ...user,
-                details: details as UserDetailInstance,
+                details: details as UserDetail,
             });
         });
 

@@ -1,15 +1,14 @@
 import Sinon from 'sinon';
 import DiscordOperation from 'src/core/users/operations/oauth/DiscordOperation';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth :: DiscordOperation', () => {
     let discordOperation: DiscordOperation,
         usersRepository: any,
         discordProfile: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         oAuthService: any;
 
     const logger = (): void => {};

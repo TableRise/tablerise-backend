@@ -1,4 +1,4 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
@@ -22,12 +22,12 @@ export default class UsersRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: UserInstance): UserInstance {
+    private _formatAndSerializeData(data: User): User {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postUser(format);
     }
 
-    public async create(payload: UserInstance): Promise<UserInstance> {
+    public async create(payload: User): Promise<User> {
         this._logger('warn', `Create - UsersRepository`);
 
         payload.userId = newUUID();
@@ -36,14 +36,14 @@ export default class UsersRepository {
         return this._formatAndSerializeData(request);
     }
 
-    public async find(query: any = {}): Promise<UserInstance[]> {
+    public async find(query: any = {}): Promise<User[]> {
         this._logger('warn', `Find - UsersRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: UserInstance) => this._formatAndSerializeData(entity));
+        return request.map((entity: User) => this._formatAndSerializeData(entity));
     }
 
-    public async findOne(query: any = {}): Promise<UserInstance> {
+    public async findOne(query: any = {}): Promise<User> {
         this._logger('warn', 'FindOne - UsersRepository');
         const request = await this._model.findOne(query);
 
@@ -52,7 +52,7 @@ export default class UsersRepository {
         return this._formatAndSerializeData(request);
     }
 
-    public async update({ query, payload }: UpdateObj): Promise<UserInstance> {
+    public async update({ query, payload }: UpdateObj): Promise<User> {
         this._logger('warn', 'Update - UsersRepository');
 
         const request = await this._model.update(query, payload);

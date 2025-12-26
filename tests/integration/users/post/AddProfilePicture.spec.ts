@@ -2,13 +2,13 @@ import path from 'path';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a profile picture is uploaded', () => {
-    let user: UserInstance, filePath: any;
+    let user: User, filePath: any;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -20,7 +20,8 @@ describe('When a profile picture is uploaded', () => {
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
-        user.picture = null;
+
+        user.picture = {} as User['picture'];
 
         filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
 
@@ -30,7 +31,7 @@ describe('When a profile picture is uploaded', () => {
     context('And all data is correct', () => {
         it('should return correct user with picture', async () => {
             const { body } = await requester()
-                .post(`/users/${user.userId}/update/picture`)
+                .post(`/users/${user.userId as string}/update/picture`)
                 .set('Content-Type', 'multipart/form-data')
                 .set('connection', 'keep-alive')
                 .attach('picture', filePath)
