@@ -1,7 +1,6 @@
 import ActivateSecretQuestionService from 'src/core/users/services/users/ActivateSecretQuestionService';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
