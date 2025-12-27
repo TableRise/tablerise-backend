@@ -23,7 +23,7 @@ export default class PictureProfileService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    private _verifyLastUpdate(user: User): void {
+    private verifyLastUpdate(user: User): void {
         if (user.picture?.id) {
             const dateFirst = new Date(user.picture.uploadDate).getTime();
 
@@ -40,7 +40,7 @@ export default class PictureProfileService {
         this._logger('info', 'UploadPicture - PictureProfileService');
         const userInDb = await this._usersRepository.findOne({ userId });
 
-        this._verifyLastUpdate(userInDb);
+        this.verifyLastUpdate(userInDb);
 
         userInDb.picture = await this._imageStorageClient.upload(image);
 

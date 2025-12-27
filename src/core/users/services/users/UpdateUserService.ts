@@ -22,10 +22,10 @@ export default class UpdateUserService {
 
         this.update = this.update.bind(this);
         this.save = this.save.bind(this);
-        this._validateUpdateData = this._validateUpdateData.bind(this);
+        this.validateUpdateData = this.validateUpdateData.bind(this);
     }
 
-    private _validateUpdateData({ user, userDetails }: __FullUserPayload): void {
+    private validateUpdateData({ user, userDetails }: __FullUserPayload): void {
         this._logger('info', '_ValidateUpdateData - UpdateUserService');
         const userForbiddenFields = [
             'userId',
@@ -66,7 +66,7 @@ export default class UpdateUserService {
         this._logger('info', 'Update - UpdateUserService');
         const { details, ...user } = payload;
 
-        this._validateUpdateData({ user, userDetails: details });
+        this.validateUpdateData({ user, userDetails: details });
 
         const userInDb = await this._usersRepository.findOne({ userId });
         const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });

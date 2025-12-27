@@ -22,7 +22,7 @@ export default class UsersDetailsRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: UserDetail): UserDetail {
+    private formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postUserDetails(format);
     }
@@ -33,14 +33,14 @@ export default class UsersDetailsRepository {
         payload.userDetailId = newUUID();
 
         const request = await this._model.create(payload);
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async find(query: any = {}): Promise<UserDetail[]> {
         this._logger('warn', `Find - UsersDetailsRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: UserDetail) => this._formatAndSerializeData(entity));
+        return request.map((entity: UserDetail) => this.formatAndSerializeData(entity));
     }
 
     public async findOne(query: any = {}): Promise<UserDetail> {
@@ -49,7 +49,7 @@ export default class UsersDetailsRepository {
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async update({ query, payload }: UpdateObj): Promise<UserDetail> {
@@ -60,7 +60,7 @@ export default class UsersDetailsRepository {
 
         await this._updateTimestampRepository.updateTimestamp(query);
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async delete(query: any): Promise<void> {

@@ -55,7 +55,7 @@ export default class StateMachine {
         };
     }
 
-    private _checkPrevStatus(
+    private checkPrevStatus(
         prevStatusMustBe: User['inProgress']['status'],
         flow: Array<User['inProgress']['status']>,
         status: User['inProgress']['status'],
@@ -78,7 +78,7 @@ export default class StateMachine {
         }
     }
 
-    private _checkNextStatus(
+    private checkNextStatus(
         nextStatusMustBe: User['inProgress']['status'],
         flow: Array<User['inProgress']['status']>,
         status: User['inProgress']['status'],
@@ -101,7 +101,7 @@ export default class StateMachine {
         }
     }
 
-    private _moveStatus(
+    private moveStatus(
         user: User,
         stepIndex: number,
         selectFlow: InProgressStatus[],
@@ -140,10 +140,10 @@ export default class StateMachine {
         const selectFlow = StateMachineFlow[flow as keyof typeof StateMachineFlow];
         const stepIndex = selectFlow.findIndex((flowState) => flowState === status);
 
-        this._checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
-        this._checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
+        this.checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
+        this.checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
 
-        user.inProgress = this._moveStatus(user, stepIndex, selectFlow, flow);
+        user.inProgress = this.moveStatus(user, stepIndex, selectFlow, flow);
 
         const userWithStatesUpdated = await this._usersRepository.update({
             query: { userId: user.userId },

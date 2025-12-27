@@ -21,7 +21,7 @@ export default class PostBanPlayerService {
         this._logger = logger;
     }
 
-    private _validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
+    private validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
         this._logger('info', 'validateBanPlayer - PostBanPlayerService');
 
         const playerInCampaign = campaign.campaignPlayers.find(
@@ -43,7 +43,7 @@ export default class PostBanPlayerService {
         }
     }
 
-    private _updateInformation(
+    private updateInformation(
         campaign: CampaignInstance,
         playerId: string,
         campaignId: string,
@@ -60,7 +60,7 @@ export default class PostBanPlayerService {
         );
     }
 
-    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetail): Promise<void> {
+    private async saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetail): Promise<void> {
         this._logger('info', 'saveUpdates - PostBanPlayerService');
 
         await this._campaignsRepository.update({
@@ -79,14 +79,14 @@ export default class PostBanPlayerService {
 
         const campaign = await this._campaignsRepository.findOne({ campaignId });
 
-        this._validateBanPlayer(campaign, playerId);
+        this.validateBanPlayer(campaign, playerId);
 
         const userDetailInDb = await this._usersDetailsRepository.findOne({
             userId: playerId,
         });
 
-        this._updateInformation(campaign, playerId, campaignId, userDetailInDb);
+        this.updateInformation(campaign, playerId, campaignId, userDetailInDb);
 
-        await this._saveUpdates(campaign, userDetailInDb);
+        await this.saveUpdates(campaign, userDetailInDb);
     }
 }

@@ -16,7 +16,7 @@ export default class UpdatePasswordService {
         this._logger = logger;
     }
 
-    private async _changePassword({ user, password }: UserPassword): Promise<User> {
+    private async changePassword({ user, password }: UserPassword): Promise<User> {
         this._logger('info', 'ChangePassword - UpdatePasswordService');
         const { flows } = this._stateMachine.props;
 
@@ -36,7 +36,7 @@ export default class UpdatePasswordService {
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_PASSWORD_CHANGE)
             HttpRequestErrors.throwError('invalid-user-status');
 
-        const passwordChanged = await this._changePassword({ user: userInDb, password });
+        const passwordChanged = await this.changePassword({ user: userInDb, password });
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },

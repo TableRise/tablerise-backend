@@ -17,7 +17,7 @@ export default class UpdateEmailService {
         this.update = this.update.bind(this);
     }
 
-    private _changeEmail({ user, email }: UserEmail): User {
+    private changeEmail({ user, email }: UserEmail): User {
         this._logger('info', 'ChangeEmail - UpdateEmailService');
         user.email = email;
         return user;
@@ -35,7 +35,7 @@ export default class UpdateEmailService {
             HttpRequestErrors.throwError('invalid-user-status');
         if (emailAlreadyExist.length) HttpRequestErrors.throwError('email-already-exist');
 
-        const userWithEmailChanged = this._changeEmail({ user: userInDb, email });
+        const userWithEmailChanged = this.changeEmail({ user: userInDb, email });
 
         await this._stateMachine.machine(flows.UPDATE_EMAIL, userWithEmailChanged);
 

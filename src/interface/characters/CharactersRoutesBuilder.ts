@@ -14,7 +14,7 @@ export default class CharactersRoutesBuilder {
         this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
-    private _character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
+    private character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
         const characterRoutesToBuild = bindMiddleware(
             this._verifyUserMiddleware.userStatus,
             this._charactersRoutes.routes(),
@@ -31,9 +31,9 @@ export default class CharactersRoutesBuilder {
         charactersSwagger: routeInstance[];
         charactersRoutes: { character: Router };
     } {
-        const charactersSwagger = [...this._character().characterSwagger];
+        const charactersSwagger = [...this.character().characterSwagger];
         const charactersRoutes = {
-            character: this._character().characterRoutes,
+            character: this.character().characterRoutes,
         };
 
         return { charactersSwagger, charactersRoutes };

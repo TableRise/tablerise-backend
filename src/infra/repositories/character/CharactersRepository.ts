@@ -21,7 +21,7 @@ export default class CharactersRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: CharacterInstance): CharacterInstance {
+    private formatAndSerializeData(data: CharacterInstance): CharacterInstance {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postCharacter(format);
     }
@@ -29,7 +29,7 @@ export default class CharactersRepository {
     public async create(payload: CharacterInstance): Promise<CharacterInstance> {
         this._logger('warn', `Create - CharactersRepository`);
         const request = await this._model.create(payload);
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async findOne(query: any = {}): Promise<CharacterInstance> {
@@ -38,14 +38,14 @@ export default class CharactersRepository {
 
         if (!request) HttpRequestErrors.throwError('character-does-not-exist');
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async find(query: any = {}): Promise<CharacterInstance[]> {
         this._logger('warn', `Find - CharactersRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((data: CharacterInstance) => this._formatAndSerializeData(data));
+        return request.map((data: CharacterInstance) => this.formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CharacterInstance> {
@@ -57,6 +57,6 @@ export default class CharactersRepository {
 
         await this._updateTimestampRepository.updateTimestamp(query);
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 }

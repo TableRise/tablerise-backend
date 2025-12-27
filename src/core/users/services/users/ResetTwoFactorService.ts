@@ -47,7 +47,9 @@ export default class ResetTwoFactorService {
             payload: user,
         });
 
-        delete user.twoFactorSecret.secret;
-        return user.twoFactorSecret as TwoFactorResponse;
+        return {
+            qrcode: user.twoFactorSecret.qrcode,
+            active: user.twoFactorSecret.active,
+        };
     }
 }

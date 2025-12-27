@@ -5,10 +5,7 @@ import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector'
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let userOne: User,
-        userTwo: User,
-        userDetailsOne: UserDetail,
-        userDetailsTwo: UserDetail;
+    let userOne: User, userTwo: User, userDetailsOne: UserDetail, userDetailsTwo: UserDetail;
 
     context('And data is correct', () => {
         before(async () => {

@@ -59,7 +59,7 @@ export default class OAuthService {
         user.createdAt = new Date().toISOString();
         user.updatedAt = new Date().toISOString();
         user.password = 'oauth';
-        user.twoFactorSecret = { active: false };
+        user.twoFactorSecret = { active: false, qrcode: '', secret: '' };
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,

@@ -4,19 +4,13 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class AddCampaignPlayersOperation {
     private readonly _addCampaignPlayersService;
-    private readonly _schemaValidator;
-    private readonly _campaignsSchema;
     private readonly _logger;
 
     constructor({
         addCampaignPlayersService,
-        schemaValidator,
-        campaignsSchema,
         logger,
     }: CampaignCoreDependencies['addCampaignPlayersOperationContract']) {
         this._addCampaignPlayersService = addCampaignPlayersService;
-        this._schemaValidator = schemaValidator;
-        this._campaignsSchema = campaignsSchema;
         this._logger = logger;
 
         this.execute = this.execute.bind(this);

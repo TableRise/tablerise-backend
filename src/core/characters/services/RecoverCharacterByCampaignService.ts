@@ -24,7 +24,7 @@ export default class RecoverCharacterByCampaignService {
         this.recoverByCampaign = this.recoverByCampaign.bind(this);
     }
 
-    private _mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
+    private mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
                 characterId: char.characterId as string,
@@ -35,7 +35,7 @@ export default class RecoverCharacterByCampaignService {
         });
     }
 
-    private async _getCharacters(campaign: CampaignInstance): Promise<CharacterInstance[]> {
+    private async getCharacters(campaign: CampaignInstance): Promise<CharacterInstance[]> {
         const charactersArrays = campaign.campaignPlayers.map((camPlayer) => camPlayer.characterIds);
         const charactersIds = [] as string[];
         const characters = [] as Array<Promise<CharacterInstance>>;
@@ -63,13 +63,13 @@ export default class RecoverCharacterByCampaignService {
         const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
         const playerInCampaign = campaignInDb.campaignPlayers.find((player) => player.userId === userId);
 
-        const getCharacters = await this._getCharacters(campaignInDb);
+        const getCharacters = await this.getCharacters(campaignInDb);
 
         const getCharactersResolved = await Promise.all(getCharacters);
 
         if (!playerInCampaign) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        if (playerInCampaign.role === 'player') return this._mapCharactersForPlayer(getCharactersResolved);
+        if (playerInCampaign.role === 'player') return this.mapCharactersForPlayer(getCharactersResolved);
 
         return getCharactersResolved;
     }

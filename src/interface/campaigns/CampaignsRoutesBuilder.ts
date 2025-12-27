@@ -14,7 +14,7 @@ export default class CampaignsRoutesBuilder {
         this._verifyUserMiddleware = verifyUserMiddleware;
     }
 
-    private _campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
+    private campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
         const campaignRoutesToBuild = bindMiddleware(
             this._verifyUserMiddleware.userStatus,
             this._campaignsRoutes.routes(),
@@ -31,9 +31,9 @@ export default class CampaignsRoutesBuilder {
         campaignsSwagger: routeInstance[];
         campaignsRoutes: { campaign: Router };
     } {
-        const campaignsSwagger = [...this._campaign().campaignSwagger];
+        const campaignsSwagger = [...this.campaign().campaignSwagger];
         const campaignsRoutes = {
-            campaign: this._campaign().campaignRoutes,
+            campaign: this.campaign().campaignRoutes,
         };
 
         return { campaignsSwagger, campaignsRoutes };

@@ -1,8 +1,8 @@
 import speakeasy, { Encoding } from 'speakeasy';
 import qrcode from 'qrcode';
-import { UserTwoFactor } from 'src/domains/users/schemas/usersValidationSchema';
 import {
     TwoFactorHandlerContract,
+    TwoFactorProps,
     TwoFactorValidatePayload,
 } from 'src/types/modules/domains/common/helpers/TwoFactorHandler';
 
@@ -17,7 +17,7 @@ export default class TwoFactorHandler {
         this.create = this.create.bind(this);
     }
 
-    public async create(labelAttach: string): Promise<UserTwoFactor> {
+    public async create(labelAttach: string): Promise<TwoFactorProps> {
         this._logger('info', 'Create - TwoFactorHandler');
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({

@@ -1,9 +1,8 @@
 import path from 'path';
 import ActivateTwoFactorService from 'src/core/users/services/users/ActivateTwoFactorService';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -161,7 +160,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
 
             it('should throw an error', async () => {
                 try {
-                    await activateTwoFactorService.activate('userId', false);
+                    await activateTwoFactorService.activate('userId');
 
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {

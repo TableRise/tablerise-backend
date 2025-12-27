@@ -11,10 +11,7 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When characters are recovered by campaign', () => {
-    let user: User[],
-        userDetails: UserDetail[],
-        campaign: CampaignInstance,
-        character: CharacterInstance[];
+    let user: User[], userDetails: UserDetail[], campaign: CampaignInstance, character: CharacterInstance[];
 
     context('And player is dungeons_master', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';

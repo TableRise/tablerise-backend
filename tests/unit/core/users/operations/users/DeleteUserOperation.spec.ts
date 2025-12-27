@@ -5,10 +5,7 @@ import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 describe('Core :: Users :: Operations :: DeleteUserOperation', () => {
-    let deleteUserOperation: DeleteUserOperation,
-        deleteUserService: any,
-        user: User,
-        userDetails: UserDetail;
+    let deleteUserOperation: DeleteUserOperation, deleteUserService: any, user: User, userDetails: UserDetail;
 
     const logger = (): void => {};
 

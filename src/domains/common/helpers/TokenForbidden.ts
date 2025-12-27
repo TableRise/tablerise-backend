@@ -11,7 +11,7 @@ export default class TokenForbidden {
         this._redisClient = redisClient;
     }
 
-    private _generateTokenHash(token: string): string {
+    private generateTokenHash(token: string): string {
         return crypto.createHash('sha256').update(token).digest('hex');
     }
 
@@ -20,7 +20,7 @@ export default class TokenForbidden {
         const tokenInfo = JWT.decode(token) as JWT.JwtPayload;
         const tokenExpirationDate = tokenInfo.exp;
 
-        const tokenHash = this._generateTokenHash(token);
+        const tokenHash = this.generateTokenHash(token);
 
         await this._redisClient.set(tokenHash, '');
         await this._redisClient.expireAt(tokenHash, tokenExpirationDate);
@@ -28,7 +28,7 @@ export default class TokenForbidden {
 
     async verifyForbiddenToken(token: string): Promise<boolean> {
         this._logger('info', 'VerifyForbiddenToken - TokenFobidden');
-        const tokenHash = this._generateTokenHash(token);
+        const tokenHash = this.generateTokenHash(token);
 
         const tokenExists = process.env.TEST_TYPE !== 'integration' ? await this._redisClient.exists(tokenHash) : 0;
 

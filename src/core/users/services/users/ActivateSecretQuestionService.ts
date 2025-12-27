@@ -36,7 +36,7 @@ export default class ActivateSecretQuestionService {
             HttpRequestErrors.throwError('invalid-user-status');
         if (!payload) HttpRequestErrors.throwError('new-structure-secret-question-missing');
 
-        userInDb.twoFactorSecret = { active: false };
+        userInDb.twoFactorSecret = { active: false, qrcode: '', secret: '' };
         userDetailsInDb.secretQuestion = payload;
 
         await this._stateMachine.machine(flows.ACTIVATE_SECRET_QUESTION, userInDb);

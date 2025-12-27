@@ -27,15 +27,12 @@ export default class DiscordOperation {
         });
 
         if (!user.length)
-            return this._createUser(entitySerialized.userSerialized, entitySerialized.userDetailsSerialized);
+            return this.createUser(entitySerialized.userSerialized, entitySerialized.userDetailsSerialized);
 
         return this._oAuthService.login(user[0], entitySerialized.userSerialized);
     }
 
-    private async _createUser(
-        userSerialized: User,
-        userDetailsSerialized: UserDetail
-    ): Promise<RegisterUserResponse> {
+    private async createUser(userSerialized: User, userDetailsSerialized: UserDetail): Promise<RegisterUserResponse> {
         this._logger('info', 'CreateUser - DiscordOperation');
 
         const entityEnriched = await this._oAuthService.enrichment(

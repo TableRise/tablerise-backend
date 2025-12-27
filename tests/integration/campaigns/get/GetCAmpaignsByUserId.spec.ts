@@ -7,10 +7,7 @@ import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/su
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let campaignOne: CampaignInstance,
-        campaignTwo: CampaignInstance,
-        user: User,
-        userDetails: UserDetail;
+    let campaignOne: CampaignInstance, campaignTwo: CampaignInstance, user: User, userDetails: UserDetail;
 
     context('And data is correct', () => {
         before(async () => {
@@ -61,7 +58,9 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester().get(`/campaigns/user/${user.userId as string}`).expect(HttpStatusCode.OK);
+            const { body } = await requester()
+                .get(`/campaigns/user/${user.userId as string}`)
+                .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);

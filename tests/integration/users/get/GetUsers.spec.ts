@@ -6,10 +6,7 @@ import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector'
 import requester from 'tests/support/requester';
 
 describe('When recover all users', () => {
-    let userOne: User,
-        userTwo: User,
-        userDetailsOne: UserDetail,
-        userDetailsTwo: UserDetail;
+    let userOne: User, userTwo: User, userDetailsOne: UserDetail, userDetailsTwo: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {

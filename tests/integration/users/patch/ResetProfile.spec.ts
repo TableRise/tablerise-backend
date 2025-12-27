@@ -38,9 +38,13 @@ describe('When game info of an user is reset', () => {
         });
 
         it('should reset user with success', async () => {
-            await requester().patch(`/users/${user.userId as string}/reset`).expect(HttpStatusCode.NO_CONTENT);
+            await requester()
+                .patch(`/users/${user.userId as string}/reset`)
+                .expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester().get(`/users/${user.userId as string}`).expect(HttpStatusCode.OK);
+            const { body } = await requester()
+                .get(`/users/${user.userId as string}`)
+                .expect(HttpStatusCode.OK);
 
             expect(body).to.have.property('details');
             expect(body.details.gameInfo.badges).to.be.an('array').that.has.lengthOf(0);

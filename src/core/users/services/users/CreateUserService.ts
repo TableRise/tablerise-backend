@@ -2,9 +2,9 @@ import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/t
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class CreateUserService {
     private readonly _usersRepository;
@@ -31,7 +31,7 @@ export default class CreateUserService {
         this.serialize = this.serialize.bind(this);
     }
 
-    public async serialize(user: UserPayload): Promise<__UserSerialized> {
+    public async serialize(user: TCreateUserBody): Promise<__UserSerialized> {
         this._logger('info', 'Serialize - CreateUserService');
         const userSerialized = this._serializer.postUser(user);
         const userDetailsSerialized = this._serializer.postUserDetails({});
@@ -66,7 +66,7 @@ export default class CreateUserService {
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
-        user.twoFactorSecret = { active: false };
+        user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
         user.picture = {
             link: 'https://i.imgur.com/WxNkK7J.png',
             title: '',

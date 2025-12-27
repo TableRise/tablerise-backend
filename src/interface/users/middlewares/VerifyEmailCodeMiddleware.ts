@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
@@ -40,7 +40,7 @@ export default class VerifyEmailCodeMiddleware {
         this.verify = this.verify.bind(this);
     }
 
-    private async _getUserToValidate(id: string, email: string): Promise<User> {
+    private async getUserToValidate(id: string, email: string): Promise<User> {
         if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
@@ -48,19 +48,19 @@ export default class VerifyEmailCodeMiddleware {
                 name: 'BadRequest',
             });
 
-        if (id) {
-            const userInDb = await this._usersRepository.findOne({ userId: id });
+        let user = {} as User;
 
-            return userInDb;
-        }
+        if (id) user = await this._usersRepository.findOne({ userId: id });
+        if (email) user = await this._usersRepository.findOne({ email });
 
-        const userInDb = await this._usersRepository.findOne({ email });
+        if (!this._ALLOWED_STATUS.includes(user.inProgress.status)) HttpRequestErrors.throwError('invalid-user-status');
 
-        return userInDb;
+        return user;
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
-        this._logger('warn', 'Verify - VerifyEmailCodeMiddleware');
+        const callName = `[${this.constructor.name} - ${this.verify.name}]`;
+        this._logger('warn', callName);
 
         const { id } = req.params;
         const { email, code, flow } = req.query;
@@ -69,37 +69,26 @@ export default class VerifyEmailCodeMiddleware {
 
         this._logger('info', `Code from Request is = ${code as string}`);
 
-        const userRepository = await this._getUserToValidate(id, email as string);
+        const userValidated = await this.getUserToValidate(id, email as string);
 
-        this._logger('info', `Code in Database is = ${userRepository.inProgress.code}`);
-        this._logger('info', `User status = ${userRepository.inProgress.status}`);
+        this._logger('info', `${callName} -> Code in Database is = ${userValidated.inProgress.code}`);
+        this._logger('info', `${callName} -> User status = ${userValidated.inProgress.status}`);
 
-        if (!this._ALLOWED_STATUS.includes(userRepository.inProgress.status))
-            HttpRequestErrors.throwError('invalid-user-status');
+        if (userValidated.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        if (code !== userRepository.inProgress.code) HttpRequestErrors.throwError('invalid-email-verify-code');
+        const userWithValidState = await this._stateMachine.machine(flow as stateFlowsKeys, userValidated);
 
-        const userVerified = await this._stateMachine.machine(flow as stateFlowsKeys, userRepository);
-
-        let userDetails: any;
-
-        try {
-            const result = await this._usersDetailsRepository.findOne({
-                userId: userRepository.userId,
-            });
-
-            userDetails = result;
-        } catch (error) {
-            userDetails = { secretQuestion: '' };
-        }
+        const userDetails = await this._usersDetailsRepository.findOne({
+            userId: userWithValidState.userId,
+        });
 
         res.locals = {
-            userId: userVerified.userId,
-            userStatus: userVerified.inProgress.status,
-            accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${(userDetails.secretQuestion as UserDetail['secretQuestion']).question}`
+            userId: userWithValidState.userId,
+            userStatus: userWithValidState.inProgress.status,
+            accountSecurityMethod: !userWithValidState.twoFactorSecret.active
+                ? `secret-question%${userDetails.secretQuestion.question}`
                 : 'two-factor',
-            lastUpdate: userVerified.updatedAt,
+            lastUpdate: userWithValidState.updatedAt,
         };
 
         next();

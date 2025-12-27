@@ -27,7 +27,7 @@ export default class ActivateTwoFactorService {
         this.save = this.save.bind(this);
     }
 
-    public async activate(userId: string, isReset: boolean = false): Promise<__FullUser> {
+    public async activate(userId: string): Promise<__FullUser> {
         this._logger('info', 'Activate - ActivateTwoFactorService');
         const { status, flows } = this._stateMachine.props;
 
@@ -43,7 +43,7 @@ export default class ActivateTwoFactorService {
             userId: userInDb.userId,
         });
 
-        userDetailInDb.secretQuestion = null;
+        userDetailInDb.secretQuestion = { question: '', answer: '' };
 
         await this._stateMachine.machine(flows.ACTIVATE_TWO_FACTOR, userInDb);
 
@@ -63,7 +63,9 @@ export default class ActivateTwoFactorService {
             payload: userDetails,
         });
 
-        delete user.twoFactorSecret.secret;
-        return user.twoFactorSecret as TwoFactorResponse;
+        return {
+            qrcode: user.twoFactorSecret.qrcode,
+            active: user.twoFactorSecret.active,
+        };
     }
 }

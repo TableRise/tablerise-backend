@@ -11,12 +11,10 @@ export default class UpdateGameInfoService {
         this._usersDetailsRepository = usersDetailsRepository;
         this._logger = logger;
 
-        this._addId = this._addId.bind(this);
-        this._removeId = this._removeId.bind(this);
         this.update = this.update.bind(this);
     }
 
-    private _addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
+    private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this._logger('info', 'AddId - UpdateGameInfoService');
 
         const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
@@ -31,7 +29,7 @@ export default class UpdateGameInfoService {
         return gameInfo;
     }
 
-    private _removeId({
+    private removeId({
         infoId,
         targetInfo,
         data: dataToRemove,
@@ -62,8 +60,8 @@ export default class UpdateGameInfoService {
 
         let gameInfo = userDetailInDb.gameInfo;
 
-        if (operation === 'add') gameInfo = this._addId({ infoId, targetInfo, gameInfo, data });
-        if (operation === 'remove') gameInfo = this._removeId({ infoId, targetInfo, gameInfo, data });
+        if (operation === 'add') gameInfo = this.addId({ infoId, targetInfo, gameInfo, data });
+        if (operation === 'remove') gameInfo = this.removeId({ infoId, targetInfo, gameInfo, data });
 
         userDetailInDb.gameInfo = gameInfo;
 

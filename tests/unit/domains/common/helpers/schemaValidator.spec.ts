@@ -16,7 +16,7 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
             user = DomainDataFaker.generateUsersJSON().map((user) => ({
                 email: user.email,
                 password: user.password,
-                nickname: user.nickname
+                nickname: user.nickname,
             })) as User[];
         });
 

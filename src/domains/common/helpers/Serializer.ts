@@ -9,11 +9,11 @@ import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 export default class Serializer {
-    private _isDiscordProfile(obj: any): obj is Discord.Profile {
+    private isDiscordProfile(obj: any): obj is Discord.Profile {
         return 'provider' in obj && obj.provider === 'discord';
     }
 
-    private _isGoogleProfile(obj: any): obj is Google.Profile {
+    private isGoogleProfile(obj: any): obj is Google.Profile {
         return 'provider' in obj && obj.provider === 'google';
     }
 
@@ -24,12 +24,12 @@ export default class Serializer {
             name: '',
         };
 
-        if (this._isDiscordProfile(userProfile)) {
+        if (this.isDiscordProfile(userProfile)) {
             user.name = userProfile.username;
             user.email = userProfile.email as string;
         }
 
-        if (this._isGoogleProfile(userProfile)) {
+        if (this.isGoogleProfile(userProfile)) {
             user.name = userProfile.displayName;
             user.email = userProfile._json.email as string;
         }

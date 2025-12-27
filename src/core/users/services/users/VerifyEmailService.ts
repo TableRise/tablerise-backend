@@ -22,7 +22,7 @@ export default class VerifyEmailService {
         this._logger = logger;
     }
 
-    private async _send(user: User, flow: stateFlowsKeys): Promise<User> {
+    private async send(user: User, flow: stateFlowsKeys): Promise<User> {
         this._logger('info', 'Send - SendEmail - VerifyEmailService');
         this._emailSender.type = 'verification';
 
@@ -50,7 +50,7 @@ export default class VerifyEmailService {
         this._logger('info', 'SendEmail - VerifyEmailService');
         const userInDb = await this._usersRepository.findOne({ email });
 
-        const userToUpdate = await this._send(userInDb, flow as stateFlowsKeys);
+        const userToUpdate = await this.send(userInDb, flow as stateFlowsKeys);
 
         await this._usersRepository.update({
             query: { userId: userInDb.userId },

@@ -1,5 +1,4 @@
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
-import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export interface UpdateTimestampPayload {
     userId?: string;

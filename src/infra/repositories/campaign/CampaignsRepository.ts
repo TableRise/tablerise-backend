@@ -22,7 +22,7 @@ export default class CampaignsRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: CampaignInstance): CampaignInstance {
+    private formatAndSerializeData(data: CampaignInstance): CampaignInstance {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postCampaign(format);
     }
@@ -33,7 +33,7 @@ export default class CampaignsRepository {
         payload.campaignId = newUUID();
 
         const request = await this._model.create(payload);
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async findOne(query: any = {}): Promise<CampaignInstance> {
@@ -42,14 +42,14 @@ export default class CampaignsRepository {
 
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async find(query: any = {}): Promise<CampaignInstance[]> {
         this._logger('warn', `Find - CampaignsRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((data) => this._formatAndSerializeData(data));
+        return request.map((data) => this.formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
@@ -61,6 +61,6 @@ export default class CampaignsRepository {
 
         await this._updateTimestampRepository.updateTimestamp(query);
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 }

@@ -4,10 +4,7 @@ import User, { UserDetail } from '@tablerise/database-management/dist/src/interf
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: LoginUserService', () => {
-    let loginUserService: LoginUserService,
-        usersDetailsRepository: any,
-        user: User,
-        userDetails: UserDetail;
+    let loginUserService: LoginUserService, usersDetailsRepository: any, user: User, userDetails: UserDetail;
 
     const logger = (): void => {};
 

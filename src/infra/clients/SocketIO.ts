@@ -18,7 +18,7 @@ import { Avatar } from '@tablerise/database-management/dist/src/interfaces/Campa
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class SocketIO {
-    private _io = {} as socket.Server;
+    private io = {} as socket.Server;
     private readonly _matches: SocketMatches = {};
     private readonly _campaignsRepository;
     private readonly _logger;
@@ -28,43 +28,43 @@ export default class SocketIO {
         this._logger = logger;
 
         this.connect = this.connect.bind(this);
-        this._joinMatchSocketEvent = this._joinMatchSocketEvent.bind(this);
-        this._addAvatar = this._addAvatar.bind(this);
-        this._createAvatar = this._createAvatar.bind(this);
-        this._changeMapImageSocketEvent = this._changeMapImageSocketEvent.bind(this);
-        this._addAvatarPictureSocketEvent = this._addAvatarPictureSocketEvent.bind(this);
-        this._disconnectSocketEvent = this._disconnectSocketEvent.bind(this);
-        this._deleteAvatarSocketEvent = this._deleteAvatarSocketEvent.bind(this);
-        this._moveAvatarSocketEvent = this._moveAvatarSocketEvent.bind(this);
-        this._resizeAvatarSocketEvent = this._resizeAvatarSocketEvent.bind(this);
-        this._addOrCreateAvatarSocketEvent = this._addOrCreateAvatarSocketEvent.bind(this);
+        this.joinMatchSocketEvent = this.joinMatchSocketEvent.bind(this);
+        this.addAvatar = this.addAvatar.bind(this);
+        this.createAvatar = this.createAvatar.bind(this);
+        this.changeMapImageSocketEvent = this.changeMapImageSocketEvent.bind(this);
+        this.addAvatarPictureSocketEvent = this.addAvatarPictureSocketEvent.bind(this);
+        this.disconnectSocketEvent = this.disconnectSocketEvent.bind(this);
+        this.deleteAvatarSocketEvent = this.deleteAvatarSocketEvent.bind(this);
+        this.moveAvatarSocketEvent = this.moveAvatarSocketEvent.bind(this);
+        this.resizeAvatarSocketEvent = this.resizeAvatarSocketEvent.bind(this);
+        this.addOrCreateAvatarSocketEvent = this.addOrCreateAvatarSocketEvent.bind(this);
     }
 
     public async connect(httpServer: Server): Promise<void> {
         this._logger('info', 'Connect - SocketIO', true);
 
-        this._io = new socket.Server(httpServer, {
+        this.io = new socket.Server(httpServer, {
             cors: {
                 origin: '*',
                 allowedHeaders: ['access_key'],
             },
         });
 
-        this._io.on('connection', (socket) => {
+        this.io.on('connection', (socket) => {
             socket.on('join', async (campaignId) => {
-                await this._joinMatchSocketEvent({ campaignId, socket });
+                await this.joinMatchSocketEvent({ campaignId, socket });
             });
-            socket.on('create-avatar', this._addOrCreateAvatarSocketEvent);
-            socket.on('change-map-image', this._changeMapImageSocketEvent);
-            socket.on('move-avatar', this._moveAvatarSocketEvent);
-            socket.on('delete-avatar', this._deleteAvatarSocketEvent);
-            socket.on('set-picture', this._addAvatarPictureSocketEvent);
-            socket.on('resize-avatar', this._resizeAvatarSocketEvent);
-            socket.on('disconnect-socket', this._disconnectSocketEvent);
+            socket.on('create-avatar', this.addOrCreateAvatarSocketEvent);
+            socket.on('change-map-image', this.changeMapImageSocketEvent);
+            socket.on('move-avatar', this.moveAvatarSocketEvent);
+            socket.on('delete-avatar', this.deleteAvatarSocketEvent);
+            socket.on('set-picture', this.addAvatarPictureSocketEvent);
+            socket.on('resize-avatar', this.resizeAvatarSocketEvent);
+            socket.on('disconnect-socket', this.disconnectSocketEvent);
         });
     }
 
-    private async _joinMatchSocketEvent({ campaignId, socket }: joinMatchSocketEventPayload): Promise<void> {
+    private async joinMatchSocketEvent({ campaignId, socket }: joinMatchSocketEventPayload): Promise<void> {
         const { matchData } = await this._campaignsRepository.findOne({
             campaignId,
         });
@@ -76,15 +76,15 @@ export default class SocketIO {
         socket.emit('joined-in-match', this._matches[matchData.matchId]);
     }
 
-    private _changeMapImageSocketEvent({ matchId, mapId }: changeMapImageSocketEventPayload): void {
+    private changeMapImageSocketEvent({ matchId, mapId }: changeMapImageSocketEventPayload): void {
         const mapToActual = this._matches[matchId].mapImages.find((map) => map.id === mapId);
 
         this._matches[matchId].actualMapImage = mapToActual ?? this._matches[matchId].actualMapImage;
 
-        this._io.to(matchId).emit('match-background-changed', mapToActual);
+        this.io.to(matchId).emit('match-background-changed', mapToActual);
     }
 
-    private async _addAvatar({ avatarId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar | undefined> {
+    private async addAvatar({ avatarId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar | undefined> {
         const campaign = await this._campaignsRepository.findOne({
             campaign_id: campaignId,
         });
@@ -94,7 +94,7 @@ export default class SocketIO {
         return campaign.matchData.avatars.find((avatar: Avatar) => avatar.avatarId === avatarId);
     }
 
-    private async _createAvatar({ userId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar> {
+    private async createAvatar({ userId, campaignId }: addAvatarSocketEventPayload): Promise<Avatar> {
         const avatarData: Avatar = {
             avatarId: newUUID(),
             userId,
@@ -120,40 +120,40 @@ export default class SocketIO {
         return avatarData;
     }
 
-    private async _addOrCreateAvatarSocketEvent({
+    private async addOrCreateAvatarSocketEvent({
         matchId,
         userId,
         campaignId,
         avatarId = null,
     }: addAvatarSocketEventPayload): Promise<void> {
         const avatarData = avatarId
-            ? await this._addAvatar({ matchId, userId, campaignId, avatarId })
-            : await this._createAvatar({ matchId, userId, campaignId, avatarId });
+            ? await this.addAvatar({ matchId, userId, campaignId, avatarId })
+            : await this.createAvatar({ matchId, userId, campaignId, avatarId });
 
         this._matches[matchId].avatarsInGame = this._matches[matchId].avatarsInGame.length
             ? this._matches[matchId].avatarsInGame
             : [];
 
         this._matches[matchId].avatarsInGame.push(avatarData as Avatar);
-        this._io.to(matchId).emit('avatar-added-to-the-match', avatarData);
+        this.io.to(matchId).emit('avatar-added-to-the-match', avatarData);
     }
 
-    private _moveAvatarSocketEvent({ matchId, avatarId, coordinates, socketId }: moveAvatarSocketEventPayload): void {
+    private moveAvatarSocketEvent({ matchId, avatarId, coordinates, socketId }: moveAvatarSocketEventPayload): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].position.x = coordinates.x;
         this._matches[matchId].avatarsInGame[avatarIndex].position.y = coordinates.y;
 
-        this._io.to(matchId).except(socketId).emit('Avatar Moved', coordinates.x, coordinates.y, avatarId);
+        this.io.to(matchId).except(socketId).emit('Avatar Moved', coordinates.x, coordinates.y, avatarId);
     }
 
-    private _deleteAvatarSocketEvent({ matchId, avatarId }: deleteAvatarSocketEventPayload): void {
+    private deleteAvatarSocketEvent({ matchId, avatarId }: deleteAvatarSocketEventPayload): void {
         const avatars = this._matches[matchId].avatarsInGame.filter((avatar) => avatar.avatarId !== avatarId);
         this._matches[matchId].avatarsInGame = avatars;
-        this._io.to(matchId).emit('box-deleted', avatarId);
+        this.io.to(matchId).emit('box-deleted', avatarId);
     }
 
-    private _addAvatarPictureSocketEvent(matchId: string, avatarId: string, imageLink: string): void {
+    private addAvatarPictureSocketEvent(matchId: string, avatarId: string, imageLink: string): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].picture = {
@@ -165,19 +165,19 @@ export default class SocketIO {
             request: { success: true, status: 200 },
         };
 
-        this._io.to(matchId).emit('avatar-picture-uploaded', avatarId, imageLink);
+        this.io.to(matchId).emit('avatar-picture-uploaded', avatarId, imageLink);
     }
 
-    private _resizeAvatarSocketEvent(matchId: string, avatarId: string, size: SquareSize, socketId: string): void {
+    private resizeAvatarSocketEvent(matchId: string, avatarId: string, size: SquareSize, socketId: string): void {
         const avatarIndex = this._matches[matchId].avatarsInGame.findIndex((avatar) => avatar.avatarId === avatarId);
 
         this._matches[matchId].avatarsInGame[avatarIndex].size.width = size.width;
         this._matches[matchId].avatarsInGame[avatarIndex].size.height = size.height;
 
-        this._io.to(matchId).except(socketId).emit('Box Resized', size, avatarId);
+        this.io.to(matchId).except(socketId).emit('Box Resized', size, avatarId);
     }
 
-    private async _disconnectSocketEvent({ matchId, campaignId, userId }: disconnectAvatarSocketEvent): Promise<void> {
+    private async disconnectSocketEvent({ matchId, campaignId, userId }: disconnectAvatarSocketEvent): Promise<void> {
         const actualMatch = this._matches[matchId];
         actualMatch.avatars = actualMatch.avatarsInGame;
 
@@ -188,6 +188,6 @@ export default class SocketIO {
             payload: matchToSave,
         });
 
-        this._io.to(matchId).emit('player-disconnected', userId);
+        this.io.to(matchId).emit('player-disconnected', userId);
     }
 }

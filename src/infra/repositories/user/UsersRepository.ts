@@ -22,7 +22,7 @@ export default class UsersRepository {
         this._logger = logger;
     }
 
-    private _formatAndSerializeData(data: User): User {
+    private formatAndSerializeData(data: User): User {
         const format = JSON.parse(JSON.stringify(data));
         return this._serializer.postUser(format);
     }
@@ -33,14 +33,14 @@ export default class UsersRepository {
         payload.userId = newUUID();
 
         const request = await this._model.create(payload);
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async find(query: any = {}): Promise<User[]> {
         this._logger('warn', `Find - UsersRepository`);
         const request = await this._model.findAll(query);
 
-        return request.map((entity: User) => this._formatAndSerializeData(entity));
+        return request.map((entity: User) => this.formatAndSerializeData(entity));
     }
 
     public async findOne(query: any = {}): Promise<User> {
@@ -49,7 +49,7 @@ export default class UsersRepository {
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async update({ query, payload }: UpdateObj): Promise<User> {
@@ -61,7 +61,7 @@ export default class UsersRepository {
 
         await this._updateTimestampRepository.updateTimestamp(query);
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async delete(query: any): Promise<void> {
