@@ -7,12 +7,12 @@ import { SpellsRoutesContract } from 'src/types/modules/interface/dungeons&drago
 const BASE_PATH = '/system/dnd5e/spells';
 
 export default class SpellsRoutes {
-    private readonly _spellsController;
-    private readonly _verifyIdMiddleware;
+    private readonly spellsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ spellsController, verifyIdMiddleware }: SpellsRoutesContract) {
-        this._spellsController = spellsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.spellsController = spellsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class SpellsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._spellsController.getAll,
+                controller: this.spellsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
@@ -29,7 +29,7 @@ export default class SpellsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._spellsController.getDisabled,
+                controller: this.spellsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
@@ -39,9 +39,9 @@ export default class SpellsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._spellsController.get,
+                controller: this.spellsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },
@@ -52,9 +52,9 @@ export default class SpellsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._spellsController.toggleAvailability,
+                controller: this.spellsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'spells',
                 },
             },

@@ -3,19 +3,19 @@ import { God } from '@tablerise/database-management/dist/src/interfaces/Dungeons
 import { GetAllGodsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/gods/GetAllGodsOperation';
 
 export default class GetAllGodsOperation {
-    private readonly _getAllGodsService;
-    private readonly _logger;
+    private readonly getAllGodsService;
+    private readonly logger;
 
     constructor({ getAllGodsService, logger }: GetAllGodsOperationContract) {
-        this._getAllGodsService = getAllGodsService;
-        this._logger = logger;
+        this.getAllGodsService = getAllGodsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<God>>> {
-        this._logger('info', 'Execute - GetAllGodsOperation');
-        const gods = await this._getAllGodsService.getAll();
+        this.logger('info', 'Execute - GetAllGodsOperation');
+        const gods = await this.getAllGodsService.getAll();
         return gods;
     }
 }

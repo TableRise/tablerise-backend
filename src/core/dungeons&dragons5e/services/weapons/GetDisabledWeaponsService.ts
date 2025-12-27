@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledWeaponsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetDisabledWeapons';
 
 export default class GetDisabledWeaponsService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledWeaponsServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.getAllDisabled = this.getAllDisabled.bind(this);
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Weapon>>> {
-        this._logger('info', 'getAllDisabled - GetDisabledWeaponsService');
-        this._dungeonsAndDragonsRepository.setEntity('Weapons');
+        this.logger('info', 'getAllDisabled - GetDisabledWeaponsService');
+        this.dungeonsAndDragonsRepository.setEntity('Weapons');
 
-        const weaponsInDb = (await this._dungeonsAndDragonsRepository.find({
+        const weaponsInDb = (await this.dungeonsAndDragonsRepository.find({
             active: false,
         })) as Array<Internacional<Weapon>>;
 

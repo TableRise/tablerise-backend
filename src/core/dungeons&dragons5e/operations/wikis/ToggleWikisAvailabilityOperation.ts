@@ -4,19 +4,19 @@ import { ToggleWikisAvailabilityOperationContract } from 'src/types/modules/core
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleWikisAvailabilityOperation {
-    private readonly _toggleWikisAvailabilityService;
-    private readonly _logger;
+    private readonly toggleWikisAvailabilityService;
+    private readonly logger;
 
     constructor({ toggleWikisAvailabilityService, logger }: ToggleWikisAvailabilityOperationContract) {
-        this._toggleWikisAvailabilityService = toggleWikisAvailabilityService;
-        this._logger = logger;
+        this.toggleWikisAvailabilityService = toggleWikisAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Wiki>> {
-        this._logger('info', 'Execute - ToggleWikisAvailabilityOperation');
-        const wikis = await this._toggleWikisAvailabilityService.toggle({
+        this.logger('info', 'Execute - ToggleWikisAvailabilityOperation');
+        const wikis = await this.toggleWikisAvailabilityService.toggle({
             id,
             availability,
         });

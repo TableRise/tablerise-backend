@@ -3,25 +3,25 @@ import { orgPicturePayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class OrgPictureUploadService {
-    private readonly _logger;
-    private readonly _characterRepository;
-    private readonly _imageStorageClient;
+    private readonly logger;
+    private readonly characterRepository;
+    private readonly imageStorageClient;
 
     constructor({
         logger,
         charactersRepository,
         imageStorageClient,
     }: CharacterCoreDependencies['orgPictureUploadServiceContract']) {
-        this._characterRepository = charactersRepository;
-        this._imageStorageClient = imageStorageClient;
-        this._logger = logger;
+        this.characterRepository = charactersRepository;
+        this.imageStorageClient = imageStorageClient;
+        this.logger = logger;
 
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
     public async uploadPicture({ characterId, image, orgName }: orgPicturePayload): Promise<CharacterInstance> {
-        this._logger('info', 'UploadPicture - OrgPictureUploadService');
-        const characterInDb = await this._characterRepository.findOne({ characterId });
+        this.logger('info', 'UploadPicture - OrgPictureUploadService');
+        const characterInDb = await this.characterRepository.findOne({ characterId });
         const allyOrOrgIndex = characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
             (ally) => ally.orgName === orgName
         );
@@ -31,9 +31,9 @@ export default class OrgPictureUploadService {
         }
 
         characterInDb.data.profile.characteristics.alliesAndOrgs[allyOrOrgIndex].symbol =
-            await this._imageStorageClient.upload(image);
+            await this.imageStorageClient.upload(image);
 
-        return this._characterRepository.update({
+        return this.characterRepository.update({
             query: { characterId: characterInDb.characterId },
             payload: characterInDb,
         });

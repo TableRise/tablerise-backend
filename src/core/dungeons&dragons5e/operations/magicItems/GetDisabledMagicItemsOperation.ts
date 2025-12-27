@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledMagicItemsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/magicItems/GetDisabledMagicItems';
 
 export default class GetDisabledMagicItemsOperation {
-    private readonly _getDisabledMagicItemsService;
-    private readonly _logger;
+    private readonly getDisabledMagicItemsService;
+    private readonly logger;
 
     constructor({ getDisabledMagicItemsService, logger }: GetDisabledMagicItemsOperationContract) {
-        this._getDisabledMagicItemsService = getDisabledMagicItemsService;
-        this._logger = logger;
+        this.getDisabledMagicItemsService = getDisabledMagicItemsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<MagicItem>>> {
-        this._logger('info', 'Execute - GetMagicItemOperation');
-        const magicItems = await this._getDisabledMagicItemsService.getAllDisabled();
+        this.logger('info', 'Execute - GetMagicItemOperation');
+        const magicItems = await this.getDisabledMagicItemsService.getAllDisabled();
         return magicItems;
     }
 }

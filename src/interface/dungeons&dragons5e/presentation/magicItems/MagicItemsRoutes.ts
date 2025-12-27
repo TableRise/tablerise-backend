@@ -7,12 +7,12 @@ import { MagicItemsRoutesContract } from 'src/types/modules/interface/dungeons&d
 const BASE_PATH = '/system/dnd5e/magicItems';
 
 export default class MagicItemsRoutes {
-    private readonly _magicItemsController;
-    private readonly _verifyIdMiddleware;
+    private readonly magicItemsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ magicItemsController, verifyIdMiddleware }: MagicItemsRoutesContract) {
-        this._magicItemsController = magicItemsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.magicItemsController = magicItemsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class MagicItemsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._magicItemsController.getAll,
+                controller: this.magicItemsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
@@ -29,7 +29,7 @@ export default class MagicItemsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._magicItemsController.getDisabled,
+                controller: this.magicItemsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
@@ -39,9 +39,9 @@ export default class MagicItemsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._magicItemsController.get,
+                controller: this.magicItemsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
                 },
             },
@@ -52,9 +52,9 @@ export default class MagicItemsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._magicItemsController.toggleAvailability,
+                controller: this.magicItemsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'magicItems',
                 },
             },

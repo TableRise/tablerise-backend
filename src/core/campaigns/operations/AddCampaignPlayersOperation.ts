@@ -3,24 +3,24 @@ import { AddCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload'
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class AddCampaignPlayersOperation {
-    private readonly _addCampaignPlayersService;
-    private readonly _logger;
+    private readonly addCampaignPlayersService;
+    private readonly logger;
 
     constructor({
         addCampaignPlayersService,
         logger,
     }: CampaignCoreDependencies['addCampaignPlayersOperationContract']) {
-        this._addCampaignPlayersService = addCampaignPlayersService;
-        this._logger = logger;
+        this.addCampaignPlayersService = addCampaignPlayersService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     async execute(payload: AddCampaignPlayersPayload): Promise<Player[]> {
-        this._logger('info', 'Execute - AddCampaignPlayersOperation');
-        const { campaign, userDetails } = await this._addCampaignPlayersService.addCampaignPlayers(payload);
+        this.logger('info', 'Execute - AddCampaignPlayersOperation');
+        const { campaign, userDetails } = await this.addCampaignPlayersService.addCampaignPlayers(payload);
 
-        const savedCampaign = await this._addCampaignPlayersService.save(campaign, userDetails);
+        const savedCampaign = await this.addCampaignPlayersService.save(campaign, userDetails);
 
         return savedCampaign.campaignPlayers;
     }

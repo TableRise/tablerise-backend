@@ -10,19 +10,19 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { request } from 'express';
 
 export default class AuthenticatePassport {
-    private readonly _logger;
-    private readonly _tokenForbidden;
+    private readonly logger;
+    private readonly tokenForbidden;
 
     constructor({ logger, tokenForbidden }: any) {
-        this._tokenForbidden = tokenForbidden;
-        this._logger = logger;
+        this.tokenForbidden = tokenForbidden;
+        this.logger = logger;
     }
 
     cookieStrategy(): void {
         passport.use(
             new CookieStrategy(async (token: string, done: DoneCallback) => {
                 logger('warn', 'Request made to authorize operation in server');
-                const isTokenLoggedOut = await this._tokenForbidden.verifyForbiddenToken(token);
+                const isTokenLoggedOut = await this.tokenForbidden.verifyForbiddenToken(token);
 
                 if (isTokenLoggedOut)
                     return done(
@@ -44,7 +44,7 @@ export default class AuthenticatePassport {
                         })
                     );
 
-                this._logger('warn', 'Operation authorized');
+                this.logger('warn', 'Operation authorized');
 
                 request.token = token;
                 done(null, payload as Express.User);

@@ -7,18 +7,18 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { __FullUserPayload, __FullUser } from 'src/types/api/users/methods';
 
 export default class UpdateUserService {
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
         logger,
     }: UserCoreDependencies['updateUserServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
 
         this.update = this.update.bind(this);
         this.save = this.save.bind(this);
@@ -26,7 +26,7 @@ export default class UpdateUserService {
     }
 
     private validateUpdateData({ user, userDetails }: __FullUserPayload): void {
-        this._logger('info', '_ValidateUpdateData - UpdateUserService');
+        this.logger('info', '_ValidateUpdateData - UpdateUserService');
         const userForbiddenFields = [
             'userId',
             'email',
@@ -63,13 +63,13 @@ export default class UpdateUserService {
     }
 
     public async update({ userId, payload }: UpdateUserPayload): Promise<__FullUser> {
-        this._logger('info', 'Update - UpdateUserService');
+        this.logger('info', 'Update - UpdateUserService');
         const { details, ...user } = payload;
 
         this.validateUpdateData({ user, userDetails: details });
 
-        const userInDb = await this._usersRepository.findOne({ userId });
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
+        const userInDb = await this.usersRepository.findOne({ userId });
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
 
         const newUserToSave = {
             ...userInDb,
@@ -88,18 +88,18 @@ export default class UpdateUserService {
     }
 
     public async save({ user, userDetails }: __FullUser): Promise<RegisterUserResponse> {
-        const newUser = await this._usersRepository.update({
+        const newUser = await this.usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
 
-        const newUserDetails = await this._usersDetailsRepository.update({
+        const newUserDetails = await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
 
-        this._logger('info', 'User saved on database');
-        this._logger('info', 'User details saved on database');
+        this.logger('info', 'User saved on database');
+        this.logger('info', 'User details saved on database');
 
         return {
             ...newUser,

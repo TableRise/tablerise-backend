@@ -4,22 +4,22 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class GetUsersService {
-    private readonly _logger;
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
+    private readonly logger;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
 
     constructor({ usersRepository, usersDetailsRepository, logger }: UserCoreDependencies['getUsersServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(): Promise<RegisterUserResponse[]> {
-        this._logger('info', 'Get - GetUsersService');
-        const userInDb = await this._usersRepository.find({});
-        const userDetailInDb = await this._usersDetailsRepository.find({});
+        this.logger('info', 'Get - GetUsersService');
+        const userInDb = await this.usersRepository.find({});
+        const userDetailInDb = await this.usersDetailsRepository.find({});
         const response: RegisterUserResponse[] = [];
 
         userInDb.forEach((user) => {

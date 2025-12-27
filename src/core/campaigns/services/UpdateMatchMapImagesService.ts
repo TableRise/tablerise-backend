@@ -3,18 +3,18 @@ import { UpdateMatchMapImagesPayload } from 'src/types/api/campaigns/http/payloa
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateMatchMapImagesService {
-    private readonly _campaignsRepository;
-    private readonly _imageStorageClient;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly imageStorageClient;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         imageStorageClient,
         logger,
     }: CampaignCoreDependencies['updateMatchMapImagesServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._imageStorageClient = imageStorageClient;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.imageStorageClient = imageStorageClient;
+        this.logger = logger;
     }
 
     async updateMatchMapImage({
@@ -23,9 +23,9 @@ export default class UpdateMatchMapImagesService {
         operation,
         imageId,
     }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
-        this._logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse = mapImage && (await this._imageStorageClient.upload(mapImage));
+        this.logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
+        const imageUploadResponse = mapImage && (await this.imageStorageClient.upload(mapImage));
 
         if (operation === 'add' && imageUploadResponse && campaign.matchData)
             campaign.matchData.mapImages.push(imageUploadResponse);
@@ -37,7 +37,7 @@ export default class UpdateMatchMapImagesService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
-        return this._campaignsRepository.update({
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

@@ -40,12 +40,12 @@ export const StateMachineFlow = {
 };
 
 export default class StateMachine {
-    private readonly _usersRepository;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly logger;
 
     constructor({ usersRepository, logger }: DomainsDependencies['stateMachineContract']) {
-        this._usersRepository = usersRepository;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.logger = logger;
     }
 
     public get props(): StateMachineProps {
@@ -131,11 +131,11 @@ export default class StateMachine {
     }
 
     public async machine(flow: stateFlowsKeys, user: User): Promise<User> {
-        this._logger('warn', 'Machine - StateMachine');
+        this.logger('warn', 'Machine - StateMachine');
 
         const { status, nextStatusWillBe, prevStatusMustBe } = user.inProgress;
 
-        this._logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
+        this.logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
 
         const selectFlow = StateMachineFlow[flow as keyof typeof StateMachineFlow];
         const stepIndex = selectFlow.findIndex((flowState) => flowState === status);
@@ -145,12 +145,12 @@ export default class StateMachine {
 
         user.inProgress = this.moveStatus(user, stepIndex, selectFlow, flow);
 
-        const userWithStatesUpdated = await this._usersRepository.update({
+        const userWithStatesUpdated = await this.usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
 
-        this._logger('info', 'Status update successfully completed');
+        this.logger('info', 'Status update successfully completed');
 
         return userWithStatesUpdated;
     }

@@ -3,10 +3,10 @@ import { updateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterOperation {
-    private readonly _schemaValidator;
-    private readonly _charactersSchema;
-    private readonly _updateCharacterService;
-    private readonly _logger;
+    private readonly schemaValidator;
+    private readonly charactersSchema;
+    private readonly updateCharacterService;
+    private readonly logger;
 
     constructor({
         schemaValidator,
@@ -14,16 +14,16 @@ export default class UpdateCharacterOperation {
         charactersSchema,
         logger,
     }: CharacterCoreDependencies['updateCharacterOperationContract']) {
-        this._updateCharacterService = updateCharacterService;
-        this._schemaValidator = schemaValidator;
-        this._charactersSchema = charactersSchema;
-        this._logger = logger;
+        this.updateCharacterService = updateCharacterService;
+        this.schemaValidator = schemaValidator;
+        this.charactersSchema = charactersSchema;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     async execute({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
-        this._logger('info', 'UpdateCharacterOperation - Execute');
-        return this._updateCharacterService.update({ characterId, payload });
+        this.logger('info', 'UpdateCharacterOperation - Execute');
+        return this.updateCharacterService.update({ characterId, payload });
     }
 }

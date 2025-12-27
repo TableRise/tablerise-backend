@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { MonstersControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/monsters/MonstersController';
 
 export default class MonstersController {
-    private readonly _getMonsterOperation;
-    private readonly _getAllMonstersOperation;
-    private readonly _getDisabledMonstersOperation;
-    private readonly _toggleMonstersAvailabilityOperation;
+    private readonly getMonsterOperation;
+    private readonly getAllMonstersOperation;
+    private readonly getDisabledMonstersOperation;
+    private readonly toggleMonstersAvailabilityOperation;
 
     constructor({
         getMonsterOperation,
@@ -14,10 +14,10 @@ export default class MonstersController {
         getDisabledMonstersOperation,
         toggleMonstersAvailabilityOperation,
     }: MonstersControllerContract) {
-        this._getMonsterOperation = getMonsterOperation;
-        this._getAllMonstersOperation = getAllMonstersOperation;
-        this._getDisabledMonstersOperation = getDisabledMonstersOperation;
-        this._toggleMonstersAvailabilityOperation = toggleMonstersAvailabilityOperation;
+        this.getMonsterOperation = getMonsterOperation;
+        this.getAllMonstersOperation = getAllMonstersOperation;
+        this.getDisabledMonstersOperation = getDisabledMonstersOperation;
+        this.toggleMonstersAvailabilityOperation = toggleMonstersAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class MonstersController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getMonsterOperation.execute(id);
+        const result = await this.getMonsterOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllMonstersOperation.execute();
+        const result = await this.getAllMonstersOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledMonstersOperation.execute();
+        const result = await this.getDisabledMonstersOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class MonstersController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleMonstersAvailabilityOperation.execute({
+        const result = await this.toggleMonstersAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

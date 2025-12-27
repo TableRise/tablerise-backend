@@ -3,12 +3,12 @@ import crypto from 'crypto';
 import { TokenForbiddenContract } from 'src/types/modules/domains/common/helpers/TokenForbidden';
 
 export default class TokenForbidden {
-    private readonly _redisClient;
-    private readonly _logger;
+    private readonly redisClient;
+    private readonly logger;
 
     constructor({ redisClient, logger }: TokenForbiddenContract) {
-        this._logger = logger;
-        this._redisClient = redisClient;
+        this.logger = logger;
+        this.redisClient = redisClient;
     }
 
     private generateTokenHash(token: string): string {
@@ -16,21 +16,21 @@ export default class TokenForbidden {
     }
 
     async addToken(token: string): Promise<void> {
-        this._logger('info', 'AddToken - TokenFobidden');
+        this.logger('info', 'AddToken - TokenFobidden');
         const tokenInfo = JWT.decode(token) as JWT.JwtPayload;
         const tokenExpirationDate = tokenInfo.exp;
 
         const tokenHash = this.generateTokenHash(token);
 
-        await this._redisClient.set(tokenHash, '');
-        await this._redisClient.expireAt(tokenHash, tokenExpirationDate);
+        await this.redisClient.set(tokenHash, '');
+        await this.redisClient.expireAt(tokenHash, tokenExpirationDate);
     }
 
     async verifyForbiddenToken(token: string): Promise<boolean> {
-        this._logger('info', 'VerifyForbiddenToken - TokenFobidden');
+        this.logger('info', 'VerifyForbiddenToken - TokenFobidden');
         const tokenHash = this.generateTokenHash(token);
 
-        const tokenExists = process.env.TEST_TYPE !== 'integration' ? await this._redisClient.exists(tokenHash) : 0;
+        const tokenExists = process.env.TEST_TYPE !== 'integration' ? await this.redisClient.exists(tokenHash) : 0;
 
         return tokenExists > 0;
     }

@@ -7,24 +7,24 @@ import {
 } from 'src/types/modules/domains/common/helpers/TwoFactorHandler';
 
 export default class TwoFactorHandler {
-    private readonly _configs;
-    private readonly _logger;
+    private readonly configs;
+    private readonly logger;
 
     constructor({ configs, logger }: TwoFactorHandlerContract) {
-        this._configs = configs;
-        this._logger = logger;
+        this.configs = configs;
+        this.logger = logger;
 
         this.create = this.create.bind(this);
     }
 
     public async create(labelAttach: string): Promise<TwoFactorProps> {
-        this._logger('info', 'Create - TwoFactorHandler');
+        this.logger('info', 'Create - TwoFactorHandler');
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
             secret: secret.base32,
-            label: `${this._configs.twoFactorGen.params.label} (${labelAttach})`,
-            issuer: this._configs.twoFactorGen.params.issuer,
-            encoding: this._configs.twoFactorGen.params.encoding as Encoding,
+            label: `${this.configs.twoFactorGen.params.label} (${labelAttach})`,
+            issuer: this.configs.twoFactorGen.params.issuer,
+            encoding: this.configs.twoFactorGen.params.encoding as Encoding,
         });
 
         const QRCode = await qrcode.toDataURL(url);
@@ -39,7 +39,7 @@ export default class TwoFactorHandler {
     public validate({ secret, token }: TwoFactorValidatePayload): boolean {
         const valid = speakeasy.totp.verify({
             secret,
-            encoding: this._configs.twoFactorGen.params.encoding as Encoding,
+            encoding: this.configs.twoFactorGen.params.encoding as Encoding,
             token,
         });
 

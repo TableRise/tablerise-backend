@@ -3,16 +3,16 @@ import { GetCampaignByIdPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class GetCampaignByIdService {
-    private readonly _campaignsRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly logger;
 
     constructor({ campaignsRepository, logger }: CampaignCoreDependencies['getCampaignByIdServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
     }
 
     async get({ campaignId }: GetCampaignByIdPayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - GetCampaignByIdService');
-        return this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'Execute - GetCampaignByIdService');
+        return this.campaignsRepository.findOne({ campaignId });
     }
 }

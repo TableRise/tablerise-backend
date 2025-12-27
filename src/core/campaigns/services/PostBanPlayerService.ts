@@ -7,22 +7,22 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class PostBanPlayerService {
-    private readonly _logger;
-    private readonly _usersDetailsRepository;
-    private readonly _campaignsRepository;
+    private readonly logger;
+    private readonly usersDetailsRepository;
+    private readonly campaignsRepository;
 
     constructor({
         usersDetailsRepository,
         campaignsRepository,
         logger,
     }: CampaignCoreDependencies['postBanPlayerServiceContract']) {
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
     }
 
     private validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
-        this._logger('info', 'validateBanPlayer - PostBanPlayerService');
+        this.logger('info', 'validateBanPlayer - PostBanPlayerService');
 
         const playerInCampaign = campaign.campaignPlayers.find(
             (player: { userId: string }) => player.userId === playerId
@@ -49,7 +49,7 @@ export default class PostBanPlayerService {
         campaignId: string,
         userDetailInDb: UserDetail
     ): void {
-        this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
+        this.logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
         const playerIndex = campaign.campaignPlayers.findIndex((data: Player) => data.userId === playerId);
 
@@ -61,27 +61,27 @@ export default class PostBanPlayerService {
     }
 
     private async saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetail): Promise<void> {
-        this._logger('info', 'saveUpdates - PostBanPlayerService');
+        this.logger('info', 'saveUpdates - PostBanPlayerService');
 
-        await this._campaignsRepository.update({
+        await this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
     }
 
     public async banPlayer({ campaignId, playerId }: PostBanPlayerPayload): Promise<void> {
-        this._logger('info', 'banPlayer - PostBanPlayerService');
+        this.logger('info', 'banPlayer - PostBanPlayerService');
 
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         this.validateBanPlayer(campaign, playerId);
 
-        const userDetailInDb = await this._usersDetailsRepository.findOne({
+        const userDetailInDb = await this.usersDetailsRepository.findOne({
             userId: playerId,
         });
 

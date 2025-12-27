@@ -5,19 +5,19 @@ import { DungeonsAndDragonsRoutesBuilderContract } from 'src/types/modules/inter
 const router = Router();
 
 export default class DungeonsAndDragonsRoutesBuilder {
-    private readonly _armorsRoutes;
-    private readonly _backgroundsRoutes;
-    private readonly _classesRoutes;
-    private readonly _featsRoutes;
-    private readonly _godsRoutes;
-    private readonly _itemsRoutes;
-    private readonly _racesRoutes;
-    private readonly _realmsRoutes;
-    private readonly _magicItemsRoutes;
-    private readonly _monstersRoutes;
-    private readonly _spellsRoutes;
-    private readonly _weaponsRoutes;
-    private readonly _wikisRoutes;
+    private readonly armorsRoutes;
+    private readonly backgroundsRoutes;
+    private readonly classesRoutes;
+    private readonly featsRoutes;
+    private readonly godsRoutes;
+    private readonly itemsRoutes;
+    private readonly racesRoutes;
+    private readonly realmsRoutes;
+    private readonly magicItemsRoutes;
+    private readonly monstersRoutes;
+    private readonly spellsRoutes;
+    private readonly weaponsRoutes;
+    private readonly wikisRoutes;
 
     constructor({
         armorsRoutes,
@@ -34,24 +34,24 @@ export default class DungeonsAndDragonsRoutesBuilder {
         weaponsRoutes,
         wikisRoutes,
     }: DungeonsAndDragonsRoutesBuilderContract) {
-        this._armorsRoutes = armorsRoutes;
-        this._backgroundsRoutes = backgroundsRoutes;
-        this._classesRoutes = classesRoutes;
-        this._featsRoutes = featsRoutes;
-        this._godsRoutes = godsRoutes;
-        this._itemsRoutes = itemsRoutes;
-        this._racesRoutes = racesRoutes;
-        this._realmsRoutes = realmsRoutes;
-        this._magicItemsRoutes = magicItemsRoutes;
-        this._monstersRoutes = monstersRoutes;
-        this._spellsRoutes = spellsRoutes;
-        this._weaponsRoutes = weaponsRoutes;
-        this._wikisRoutes = wikisRoutes;
+        this.armorsRoutes = armorsRoutes;
+        this.backgroundsRoutes = backgroundsRoutes;
+        this.classesRoutes = classesRoutes;
+        this.featsRoutes = featsRoutes;
+        this.godsRoutes = godsRoutes;
+        this.itemsRoutes = itemsRoutes;
+        this.racesRoutes = racesRoutes;
+        this.realmsRoutes = realmsRoutes;
+        this.magicItemsRoutes = magicItemsRoutes;
+        this.monstersRoutes = monstersRoutes;
+        this.spellsRoutes = spellsRoutes;
+        this.weaponsRoutes = weaponsRoutes;
+        this.wikisRoutes = wikisRoutes;
     }
 
     private armors(): { armorsRoutes: Router; armorsSwagger: routeInstance[] } {
-        const armorsRoutes = buildRouter(this._armorsRoutes.routes(), router);
-        const armorsSwagger = this._armorsRoutes.routes();
+        const armorsRoutes = buildRouter(this.armorsRoutes.routes(), router);
+        const armorsSwagger = this.armorsRoutes.routes();
 
         return { armorsRoutes, armorsSwagger };
     }
@@ -60,50 +60,50 @@ export default class DungeonsAndDragonsRoutesBuilder {
         backgroundsRoutes: Router;
         backgroundsSwagger: routeInstance[];
     } {
-        const backgroundsRoutes = buildRouter(this._backgroundsRoutes.routes(), router);
-        const backgroundsSwagger = this._backgroundsRoutes.routes();
+        const backgroundsRoutes = buildRouter(this.backgroundsRoutes.routes(), router);
+        const backgroundsSwagger = this.backgroundsRoutes.routes();
 
         return { backgroundsRoutes, backgroundsSwagger };
     }
 
     private classes(): { classesRoutes: Router; classesSwagger: routeInstance[] } {
-        const classesRoutes = buildRouter(this._classesRoutes.routes(), router);
-        const classesSwagger = this._classesRoutes.routes();
+        const classesRoutes = buildRouter(this.classesRoutes.routes(), router);
+        const classesSwagger = this.classesRoutes.routes();
 
         return { classesRoutes, classesSwagger };
     }
 
     private feats(): { featsRoutes: Router; featsSwagger: routeInstance[] } {
-        const featsRoutes = buildRouter(this._featsRoutes.routes(), router);
-        const featsSwagger = this._featsRoutes.routes();
+        const featsRoutes = buildRouter(this.featsRoutes.routes(), router);
+        const featsSwagger = this.featsRoutes.routes();
 
         return { featsRoutes, featsSwagger };
     }
 
     private gods(): { godsRoutes: Router; godsSwagger: routeInstance[] } {
-        const godsRoutes = buildRouter(this._godsRoutes.routes(), router);
-        const godsSwagger = this._godsRoutes.routes();
+        const godsRoutes = buildRouter(this.godsRoutes.routes(), router);
+        const godsSwagger = this.godsRoutes.routes();
 
         return { godsRoutes, godsSwagger };
     }
 
     private items(): { itemsRoutes: Router; itemsSwagger: routeInstance[] } {
-        const itemsRoutes = buildRouter(this._itemsRoutes.routes(), router);
-        const itemsSwagger = this._itemsRoutes.routes();
+        const itemsRoutes = buildRouter(this.itemsRoutes.routes(), router);
+        const itemsSwagger = this.itemsRoutes.routes();
 
         return { itemsRoutes, itemsSwagger };
     }
 
     private races(): { racesRoutes: Router; racesSwagger: routeInstance[] } {
-        const racesRoutes = buildRouter(this._racesRoutes.routes(), router);
-        const racesSwagger = this._racesRoutes.routes();
+        const racesRoutes = buildRouter(this.racesRoutes.routes(), router);
+        const racesSwagger = this.racesRoutes.routes();
 
         return { racesRoutes, racesSwagger };
     }
 
     private realms(): { realmsRoutes: Router; realmsSwagger: routeInstance[] } {
-        const realmsRoutes = buildRouter(this._realmsRoutes.routes(), router);
-        const realmsSwagger = this._realmsRoutes.routes();
+        const realmsRoutes = buildRouter(this.realmsRoutes.routes(), router);
+        const realmsSwagger = this.realmsRoutes.routes();
 
         return { realmsRoutes, realmsSwagger };
     }
@@ -112,36 +112,36 @@ export default class DungeonsAndDragonsRoutesBuilder {
         magicItemsRoutes: Router;
         magicItemsSwagger: routeInstance[];
     } {
-        const magicItemsRoutes = buildRouter(this._magicItemsRoutes.routes(), router);
-        const magicItemsSwagger = this._magicItemsRoutes.routes();
+        const magicItemsRoutes = buildRouter(this.magicItemsRoutes.routes(), router);
+        const magicItemsSwagger = this.magicItemsRoutes.routes();
 
         return { magicItemsRoutes, magicItemsSwagger };
     }
 
     private monsters(): { monstersRoutes: Router; monstersSwagger: routeInstance[] } {
-        const monstersRoutes = buildRouter(this._monstersRoutes.routes(), router);
-        const monstersSwagger = this._monstersRoutes.routes();
+        const monstersRoutes = buildRouter(this.monstersRoutes.routes(), router);
+        const monstersSwagger = this.monstersRoutes.routes();
 
         return { monstersRoutes, monstersSwagger };
     }
 
     private spells(): { spellsRoutes: Router; spellsSwagger: routeInstance[] } {
-        const spellsRoutes = buildRouter(this._spellsRoutes.routes(), router);
-        const spellsSwagger = this._spellsRoutes.routes();
+        const spellsRoutes = buildRouter(this.spellsRoutes.routes(), router);
+        const spellsSwagger = this.spellsRoutes.routes();
 
         return { spellsRoutes, spellsSwagger };
     }
 
     private weapons(): { weaponsRoutes: Router; weaponsSwagger: routeInstance[] } {
-        const weaponsRoutes = buildRouter(this._weaponsRoutes.routes(), router);
-        const weaponsSwagger = this._weaponsRoutes.routes();
+        const weaponsRoutes = buildRouter(this.weaponsRoutes.routes(), router);
+        const weaponsSwagger = this.weaponsRoutes.routes();
 
         return { weaponsRoutes, weaponsSwagger };
     }
 
     private wikis(): { wikisRoutes: Router; wikisSwagger: routeInstance[] } {
-        const wikisRoutes = buildRouter(this._wikisRoutes.routes(), router);
-        const wikisSwagger = this._wikisRoutes.routes();
+        const wikisRoutes = buildRouter(this.wikisRoutes.routes(), router);
+        const wikisSwagger = this.wikisRoutes.routes();
 
         return { wikisRoutes, wikisSwagger };
     }

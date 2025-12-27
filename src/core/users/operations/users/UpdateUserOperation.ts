@@ -3,10 +3,10 @@ import { UpdateUserPayload } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UpdateUserOperation {
-    private readonly _usersSchema;
-    private readonly _schemaValidator;
-    private readonly _updateUserService;
-    private readonly _logger;
+    private readonly usersSchema;
+    private readonly schemaValidator;
+    private readonly updateUserService;
+    private readonly logger;
 
     constructor({
         usersSchema,
@@ -14,21 +14,21 @@ export default class UpdateUserOperation {
         schemaValidator,
         logger,
     }: UserCoreDependencies['updateUserOperationContract']) {
-        this._usersSchema = usersSchema;
-        this._schemaValidator = schemaValidator;
-        this._updateUserService = updateUserService;
-        this._logger = logger;
+        this.usersSchema = usersSchema;
+        this.schemaValidator = schemaValidator;
+        this.updateUserService = updateUserService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ userId, payload }: UpdateUserPayload): Promise<RegisterUserResponse> {
-        this._logger('info', 'Execute - UpdateUserOperation');
-        const { user, userDetails } = await this._updateUserService.update({
+        this.logger('info', 'Execute - UpdateUserOperation');
+        const { user, userDetails } = await this.updateUserService.update({
             userId,
             payload,
         });
 
-        return this._updateUserService.save({ user, userDetails });
+        return this.updateUserService.save({ user, userDetails });
     }
 }

@@ -2,24 +2,24 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { UpdateSecretQuestionPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateSecretQuestionOperation {
-    private readonly _updateSecretQuestionService;
-    private readonly _logger;
+    private readonly updateSecretQuestionService;
+    private readonly logger;
 
     constructor({
         updateSecretQuestionService,
         logger,
     }: UserCoreDependencies['updateSecretQuestionOperationContract']) {
-        this._updateSecretQuestionService = updateSecretQuestionService;
-        this._logger = logger;
+        this.updateSecretQuestionService = updateSecretQuestionService;
+        this.logger = logger;
     }
 
     public async execute({ userId, payload }: UpdateSecretQuestionPayload): Promise<void> {
-        this._logger('info', 'Execute - UpdateSecretQuestionOperation');
-        const userDetailsInDb = await this._updateSecretQuestionService.update({
+        this.logger('info', 'Execute - UpdateSecretQuestionOperation');
+        const userDetailsInDb = await this.updateSecretQuestionService.update({
             userId,
             payload,
         });
 
-        await this._updateSecretQuestionService.save(userDetailsInDb);
+        await this.updateSecretQuestionService.save(userDetailsInDb);
     }
 }

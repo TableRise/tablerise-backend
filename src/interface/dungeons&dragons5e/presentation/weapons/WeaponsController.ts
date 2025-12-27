@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { WeaponsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/weapons/WeaponsController';
 
 export default class WeaponsController {
-    private readonly _getWeaponOperation;
-    private readonly _getAllWeaponsOperation;
-    private readonly _getDisabledWeaponsOperation;
-    private readonly _toggleWeaponsAvailabilityOperation;
+    private readonly getWeaponOperation;
+    private readonly getAllWeaponsOperation;
+    private readonly getDisabledWeaponsOperation;
+    private readonly toggleWeaponsAvailabilityOperation;
 
     constructor({
         getWeaponOperation,
@@ -14,10 +14,10 @@ export default class WeaponsController {
         getDisabledWeaponsOperation,
         toggleWeaponsAvailabilityOperation,
     }: WeaponsControllerContract) {
-        this._getWeaponOperation = getWeaponOperation;
-        this._getAllWeaponsOperation = getAllWeaponsOperation;
-        this._getDisabledWeaponsOperation = getDisabledWeaponsOperation;
-        this._toggleWeaponsAvailabilityOperation = toggleWeaponsAvailabilityOperation;
+        this.getWeaponOperation = getWeaponOperation;
+        this.getAllWeaponsOperation = getAllWeaponsOperation;
+        this.getDisabledWeaponsOperation = getDisabledWeaponsOperation;
+        this.toggleWeaponsAvailabilityOperation = toggleWeaponsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class WeaponsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getWeaponOperation.execute(id);
+        const result = await this.getWeaponOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllWeaponsOperation.execute();
+        const result = await this.getAllWeaponsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledWeaponsOperation.execute();
+        const result = await this.getDisabledWeaponsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class WeaponsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleWeaponsAvailabilityOperation.execute({
+        const result = await this.toggleWeaponsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

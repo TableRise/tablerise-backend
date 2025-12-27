@@ -4,18 +4,18 @@ import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
 
 export default class UpdateGameInfoService {
-    private readonly _logger;
-    private readonly _usersDetailsRepository;
+    private readonly logger;
+    private readonly usersDetailsRepository;
 
     constructor({ usersDetailsRepository, logger }: UserCoreDependencies['updateGameInfoServiceContract']) {
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
 
         this.update = this.update.bind(this);
     }
 
     private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
-        this._logger('info', 'AddId - UpdateGameInfoService');
+        this.logger('info', 'AddId - UpdateGameInfoService');
 
         const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
         const dataLength = Object.keys(data).length;
@@ -35,7 +35,7 @@ export default class UpdateGameInfoService {
         data: dataToRemove,
         gameInfo,
     }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
-        this._logger('info', 'RemoveId - UpdateGameInfoService');
+        this.logger('info', 'RemoveId - UpdateGameInfoService');
         let hasInfo;
         const dataLength = Object.keys(dataToRemove).length;
 
@@ -55,8 +55,8 @@ export default class UpdateGameInfoService {
     }
 
     public async update({ userId, infoId, data, targetInfo, operation }: UpdateGameInfoPayload): Promise<string> {
-        this._logger('info', 'Update - UpdateGameInfoService');
-        const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
+        this.logger('info', 'Update - UpdateGameInfoService');
+        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 
         let gameInfo = userDetailInDb.gameInfo;
 
@@ -65,7 +65,7 @@ export default class UpdateGameInfoService {
 
         userDetailInDb.gameInfo = gameInfo;
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });

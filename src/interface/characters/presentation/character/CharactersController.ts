@@ -5,13 +5,13 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 import { FileObject } from 'src/types/shared/file';
 
 export default class CharactersController {
-    private readonly _createCharacterOperation;
-    private readonly _getAllCharactersOperation;
-    private readonly _getCharacterByIdOperation;
-    private readonly _updateCharacterOperation;
-    private readonly _recoverCharacterByCampaignOperation;
-    private readonly _updateCharacterPictureOperation;
-    private readonly _orgPictureUploadOperation;
+    private readonly createCharacterOperation;
+    private readonly getAllCharactersOperation;
+    private readonly getCharacterByIdOperation;
+    private readonly updateCharacterOperation;
+    private readonly recoverCharacterByCampaignOperation;
+    private readonly updateCharacterPictureOperation;
+    private readonly orgPictureUploadOperation;
 
     constructor({
         createCharacterOperation,
@@ -22,13 +22,13 @@ export default class CharactersController {
         updateCharacterOperation,
         updateCharacterPictureOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
-        this._createCharacterOperation = createCharacterOperation;
-        this._recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
-        this._getAllCharactersOperation = getAllCharactersOperation;
-        this._getCharacterByIdOperation = getCharacterByIdOperation;
-        this._orgPictureUploadOperation = orgPictureUploadOperation;
-        this._updateCharacterPictureOperation = updateCharacterPictureOperation;
-        this._updateCharacterOperation = updateCharacterOperation;
+        this.createCharacterOperation = createCharacterOperation;
+        this.recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
+        this.getAllCharactersOperation = getAllCharactersOperation;
+        this.getCharacterByIdOperation = getCharacterByIdOperation;
+        this.orgPictureUploadOperation = orgPictureUploadOperation;
+        this.updateCharacterPictureOperation = updateCharacterPictureOperation;
+        this.updateCharacterOperation = updateCharacterOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
@@ -43,14 +43,14 @@ export default class CharactersController {
         const payload = req.body as CharacterPayload;
         const { userId } = req.user as Express.User;
 
-        const result = await this._createCharacterOperation.execute({ payload, userId });
+        const result = await this.createCharacterOperation.execute({ payload, userId });
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async getById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getCharacterByIdOperation.execute(id);
+        const result = await this.getCharacterByIdOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -58,7 +58,7 @@ export default class CharactersController {
         const { id } = req.params;
         const { orgName } = req.query as { orgName: string };
 
-        const result = await this._orgPictureUploadOperation.execute({
+        const result = await this.orgPictureUploadOperation.execute({
             orgName,
             characterId: id,
             image: req.file as FileObject,
@@ -71,7 +71,7 @@ export default class CharactersController {
         const { id } = req.params;
         const payload = req.body;
 
-        const result = await this._updateCharacterOperation.execute({
+        const result = await this.updateCharacterOperation.execute({
             characterId: id,
             payload,
         });
@@ -80,7 +80,7 @@ export default class CharactersController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllCharactersOperation.execute();
+        const result = await this.getAllCharactersOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -88,7 +88,7 @@ export default class CharactersController {
         const { id: campaignId } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this._recoverCharacterByCampaignOperation.execute({
+        const result = await this.recoverCharacterByCampaignOperation.execute({
             userId,
             campaignId,
         });
@@ -97,7 +97,7 @@ export default class CharactersController {
 
     public async updateCharacterPicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const result = await this._updateCharacterPictureOperation.execute({
+        const result = await this.updateCharacterPictureOperation.execute({
             characterId: id,
             image: req.file as FileObject,
         });

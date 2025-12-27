@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetWeaponServiceContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetWeapon';
 
 export default class GetWeaponService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetWeaponServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(id: string): Promise<Internacional<Weapon>> {
-        this._logger('info', 'Get - GetWeaponService');
-        this._dungeonsAndDragonsRepository.setEntity('Weapons');
+        this.logger('info', 'Get - GetWeaponService');
+        this.dungeonsAndDragonsRepository.setEntity('Weapons');
 
-        const weaponInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const weaponInDb = (await this.dungeonsAndDragonsRepository.findOne({
             WeaponId: id,
         })) as Internacional<Weapon>;
 

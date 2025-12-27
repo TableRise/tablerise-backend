@@ -4,18 +4,18 @@ import { UpdateCampaignImagesPayload } from 'src/types/api/campaigns/http/payloa
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateCampaignImagesService {
-    private readonly _campaignsRepository;
-    private readonly _imageStorageClient;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly imageStorageClient;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         imageStorageClient,
         logger,
     }: CampaignCoreDependencies['updateCampaignImagesServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._imageStorageClient = imageStorageClient;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.imageStorageClient = imageStorageClient;
+        this.logger = logger;
     }
 
     addCampaignImage(
@@ -23,7 +23,7 @@ export default class UpdateCampaignImagesService {
         imageUploadResponse: ImageObject,
         name: string | undefined
     ): CampaignInstance {
-        this._logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
+        this.logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters.push(imageUploadResponse);
         } else {
@@ -37,7 +37,7 @@ export default class UpdateCampaignImagesService {
         name: string | undefined,
         imageId: string | undefined
     ): CampaignInstance {
-        this._logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
+        this.logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters = campaign.images.characters.filter(
                 (characterImage: ImageObject) => characterImage.id !== imageId
@@ -55,9 +55,9 @@ export default class UpdateCampaignImagesService {
         operation,
         imageId,
     }: UpdateCampaignImagesPayload): Promise<CampaignInstance> {
-        this._logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse = image && (await this._imageStorageClient.upload(image, name));
+        this.logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
+        const imageUploadResponse = image && (await this.imageStorageClient.upload(image, name));
 
         if (operation === 'add' && imageUploadResponse) {
             this.addCampaignImage(campaign, imageUploadResponse, name);
@@ -71,8 +71,8 @@ export default class UpdateCampaignImagesService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
-        this._logger('info', 'Save - UpdateCampaignImagesService');
-        return this._campaignsRepository.update({
+        this.logger('info', 'Save - UpdateCampaignImagesService');
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

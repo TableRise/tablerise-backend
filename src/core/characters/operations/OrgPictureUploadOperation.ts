@@ -3,18 +3,18 @@ import { orgPicturePayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class OrgPictureUploadOperation {
-    private readonly _orgPictureUploadService;
-    private readonly _logger;
+    private readonly orgPictureUploadService;
+    private readonly logger;
 
     constructor({ logger, orgPictureUploadService }: CharacterCoreDependencies['orgPictureUploadOperationContract']) {
-        this._orgPictureUploadService = orgPictureUploadService;
-        this._logger = logger;
+        this.orgPictureUploadService = orgPictureUploadService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(payload: orgPicturePayload): Promise<CharacterInstance> {
-        this._logger('info', 'Execute - OrgPictureUploadOperation');
-        return this._orgPictureUploadService.uploadPicture(payload);
+        this.logger('info', 'Execute - OrgPictureUploadOperation');
+        return this.orgPictureUploadService.uploadPicture(payload);
     }
 }

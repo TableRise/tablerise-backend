@@ -9,21 +9,21 @@ import { CampaignsControllerContract } from 'src/types/modules/interface/campaig
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
-    private readonly _getCampaignsByUserIdOperation;
-    private readonly _createCampaignOperation;
-    private readonly _updateCampaignOperation;
-    private readonly _getCampaignByIdOperation;
-    private readonly _publishmentOperation;
-    private readonly _getAllCampaignsOperation;
-    private readonly _updateMatchMusicsOperation;
-    private readonly _updateMatchMapImagesOperation;
-    private readonly _updateMatchDateOperation;
-    private readonly _addCampaignPlayersOperation;
-    private readonly _removeCampaignPlayersOperation;
-    private readonly _addPlayerCharacterOperation;
-    private readonly _postInvitationEmailOperation;
-    private readonly _postBanPlayerOperation;
-    private readonly _updateCampaignImagesOperation;
+    private readonly getCampaignsByUserIdOperation;
+    private readonly createCampaignOperation;
+    private readonly updateCampaignOperation;
+    private readonly getCampaignByIdOperation;
+    private readonly publishmentOperation;
+    private readonly getAllCampaignsOperation;
+    private readonly updateMatchMusicsOperation;
+    private readonly updateMatchMapImagesOperation;
+    private readonly updateMatchDateOperation;
+    private readonly addCampaignPlayersOperation;
+    private readonly removeCampaignPlayersOperation;
+    private readonly addPlayerCharacterOperation;
+    private readonly postInvitationEmailOperation;
+    private readonly postBanPlayerOperation;
+    private readonly updateCampaignImagesOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -42,21 +42,21 @@ export default class CampaignsController {
         postBanPlayerOperation,
         updateCampaignImagesOperation,
     }: CampaignsControllerContract) {
-        this._getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
-        this._createCampaignOperation = createCampaignOperation;
-        this._updateCampaignOperation = updateCampaignOperation;
-        this._getCampaignByIdOperation = getCampaignByIdOperation;
-        this._publishmentOperation = publishmentOperation;
-        this._getAllCampaignsOperation = getAllCampaignsOperation;
-        this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
-        this._updateMatchMusicsOperation = updateMatchMusicsOperation;
-        this._updateMatchDateOperation = updateMatchDateOperation;
-        this._addCampaignPlayersOperation = addCampaignPlayersOperation;
-        this._addPlayerCharacterOperation = addPlayerCharacterOperation;
-        this._removeCampaignPlayersOperation = removeCampaignPlayersOperation;
-        this._postInvitationEmailOperation = postInvitationEmailOperation;
-        this._postBanPlayerOperation = postBanPlayerOperation;
-        this._updateCampaignImagesOperation = updateCampaignImagesOperation;
+        this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
+        this.createCampaignOperation = createCampaignOperation;
+        this.updateCampaignOperation = updateCampaignOperation;
+        this.getCampaignByIdOperation = getCampaignByIdOperation;
+        this.publishmentOperation = publishmentOperation;
+        this.getAllCampaignsOperation = getAllCampaignsOperation;
+        this.updateMatchMapImagesOperation = updateMatchMapImagesOperation;
+        this.updateMatchMusicsOperation = updateMatchMusicsOperation;
+        this.updateMatchDateOperation = updateMatchDateOperation;
+        this.addCampaignPlayersOperation = addCampaignPlayersOperation;
+        this.addPlayerCharacterOperation = addPlayerCharacterOperation;
+        this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
+        this.postInvitationEmailOperation = postInvitationEmailOperation;
+        this.postBanPlayerOperation = postBanPlayerOperation;
+        this.updateCampaignImagesOperation = updateCampaignImagesOperation;
 
         this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
@@ -79,7 +79,7 @@ export default class CampaignsController {
         const campaign = req.body as CampaignPayload;
         const { userId } = req.user as Express.User;
         const image = req.file as FileObject;
-        const result = await this._createCampaignOperation.execute({
+        const result = await this.createCampaignOperation.execute({
             campaign,
             userId,
             image,
@@ -91,21 +91,21 @@ export default class CampaignsController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllCampaignsOperation.execute();
+        const result = await this.getAllCampaignsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getCampaignByIdOperation.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getByUserId(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getCampaignsByUserIdOperation.execute(id);
+        const result = await this.getCampaignsByUserIdOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -114,7 +114,7 @@ export default class CampaignsController {
         const { userId } = req.query as { userId: string };
         const payload = req.body;
 
-        const result = await this._publishmentOperation.execute({
+        const result = await this.publishmentOperation.execute({
             campaignId: id,
             userId,
             payload,
@@ -127,7 +127,7 @@ export default class CampaignsController {
         const { userId, username } = req.user as Express.User;
         const { targetEmail } = req.query as { targetEmail: string };
 
-        await this._postInvitationEmailOperation.execute({
+        await this.postInvitationEmailOperation.execute({
             campaignId: id,
             targetEmail,
             userId,
@@ -141,7 +141,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { playerId } = req.query as { playerId: string };
 
-        await this._postBanPlayerOperation.execute({
+        await this.postBanPlayerOperation.execute({
             campaignId: id,
             playerId,
         });
@@ -158,7 +158,7 @@ export default class CampaignsController {
 
         const mapImage = req.file as FileObject;
 
-        const result = await this._updateMatchMapImagesOperation.execute({
+        const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
             imageId,
             operation,
@@ -173,7 +173,7 @@ export default class CampaignsController {
         const { operation } = req.query as { operation: 'add' | 'remove' };
         const { title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
 
-        const result = await this._updateMatchMusicsOperation.execute({
+        const result = await this.updateMatchMusicsOperation.execute({
             campaignId: id,
             title,
             operation,
@@ -190,7 +190,7 @@ export default class CampaignsController {
             date: string;
         };
 
-        const result = await this._updateMatchDateOperation.execute({
+        const result = await this.updateMatchDateOperation.execute({
             campaignId: id,
             date,
             operation,
@@ -206,7 +206,7 @@ export default class CampaignsController {
         };
         const { userId } = req.user as Express.User;
 
-        const result = await this._addCampaignPlayersOperation.execute({
+        const result = await this.addCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
             password,
@@ -219,7 +219,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this._removeCampaignPlayersOperation.execute({
+        const result = await this.removeCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
         });
@@ -234,7 +234,7 @@ export default class CampaignsController {
             characterId: string;
         };
 
-        const result = await this._addPlayerCharacterOperation.execute({
+        const result = await this.addPlayerCharacterOperation.execute({
             campaignId: id,
             userId,
             characterId,
@@ -248,7 +248,7 @@ export default class CampaignsController {
         const payload = req.body;
         const cover = req.file;
 
-        const result = await this._updateCampaignOperation.execute({
+        const result = await this.updateCampaignOperation.execute({
             ...payload,
             cover,
             campaignId: id,
@@ -267,7 +267,7 @@ export default class CampaignsController {
 
         const image = req.file as FileObject;
 
-        const result = await this._updateCampaignImagesOperation.execute({
+        const result = await this.updateCampaignImagesOperation.execute({
             campaignId: id,
             imageId,
             image,

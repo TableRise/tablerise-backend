@@ -3,18 +3,18 @@ import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
 
 export default class PictureProfileOperation {
-    private readonly _pictureProfileService;
-    private readonly _logger;
+    private readonly pictureProfileService;
+    private readonly logger;
 
     constructor({ logger, pictureProfileService }: UserCoreDependencies['pictureProfileOperationContract']) {
-        this._pictureProfileService = pictureProfileService;
-        this._logger = logger;
+        this.pictureProfileService = pictureProfileService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ userId, image }: UserImagePayload): Promise<User> {
-        this._logger('info', 'Execute - PictureProfileOperation');
-        return this._pictureProfileService.uploadPicture({ userId, image });
+        this.logger('info', 'Execute - PictureProfileOperation');
+        return this.pictureProfileService.uploadPicture({ userId, image });
     }
 }

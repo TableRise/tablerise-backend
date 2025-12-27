@@ -4,27 +4,27 @@ import { ToggleWeaponsAvailabilityServiceContract } from 'src/types/modules/core
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleWeaponsAvailabilityService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: ToggleWeaponsAvailabilityServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Weapon>> {
-        this._logger('info', 'Toggle - ToggleWeaponsAvailabilityService');
-        this._dungeonsAndDragonsRepository.setEntity('Weapons');
+        this.logger('info', 'Toggle - ToggleWeaponsAvailabilityService');
+        this.dungeonsAndDragonsRepository.setEntity('Weapons');
 
-        const weaponInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const weaponInDb = (await this.dungeonsAndDragonsRepository.findOne({
             weaponId: id,
         })) as Internacional<Weapon>;
 
         weaponInDb.active = availability;
 
-        await this._dungeonsAndDragonsRepository.update({
+        await this.dungeonsAndDragonsRepository.update({
             query: { weaponId: id },
             payload: weaponInDb,
         });

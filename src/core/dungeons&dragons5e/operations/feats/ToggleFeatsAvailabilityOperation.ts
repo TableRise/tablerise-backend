@@ -4,19 +4,19 @@ import { ToggleFeatsAvailabilityOperationContract } from 'src/types/modules/core
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleFeatsAvailabilityOperation {
-    private readonly _toggleFeatsAvailabilityService;
-    private readonly _logger;
+    private readonly toggleFeatsAvailabilityService;
+    private readonly logger;
 
     constructor({ toggleFeatsAvailabilityService, logger }: ToggleFeatsAvailabilityOperationContract) {
-        this._toggleFeatsAvailabilityService = toggleFeatsAvailabilityService;
-        this._logger = logger;
+        this.toggleFeatsAvailabilityService = toggleFeatsAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Feat>> {
-        this._logger('info', 'Execute - GetFeatOperation');
-        const feats = await this._toggleFeatsAvailabilityService.toggle({
+        this.logger('info', 'Execute - GetFeatOperation');
+        const feats = await this.toggleFeatsAvailabilityService.toggle({
             id,
             availability,
         });

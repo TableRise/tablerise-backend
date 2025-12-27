@@ -4,12 +4,12 @@ import { UpdateMatchMusicsPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateMatchMusicsService {
-    private readonly _campaignsRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly logger;
 
     constructor({ campaignsRepository, logger }: CampaignCoreDependencies['updateMatchMusicsServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
     }
 
     async updateMatchMusics({
@@ -18,8 +18,8 @@ export default class UpdateMatchMusicsService {
         title,
         operation,
     }: UpdateMatchMusicsPayload): Promise<CampaignInstance> {
-        this._logger('info', 'UpdateMatchMusics - UpdateMatchMusicsService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'UpdateMatchMusics - UpdateMatchMusicsService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         if (operation === 'add' && campaign.matchData) {
             const musicWithSameLinkExists = campaign.matchData.musics.find(
@@ -41,7 +41,7 @@ export default class UpdateMatchMusicsService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
-        return this._campaignsRepository.update({
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

@@ -3,10 +3,10 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateCampaignOperation {
-    private readonly _campaignsSchema;
-    private readonly _schemaValidator;
-    private readonly _updateCampaignService;
-    private readonly _logger;
+    private readonly campaignsSchema;
+    private readonly schemaValidator;
+    private readonly updateCampaignService;
+    private readonly logger;
 
     constructor({
         campaignsSchema,
@@ -14,17 +14,17 @@ export default class UpdateCampaignOperation {
         updateCampaignService,
         logger,
     }: CampaignCoreDependencies['updateCampaignOperationContract']) {
-        this._campaignsSchema = campaignsSchema;
-        this._schemaValidator = schemaValidator;
-        this._updateCampaignService = updateCampaignService;
-        this._logger = logger;
+        this.campaignsSchema = campaignsSchema;
+        this.schemaValidator = schemaValidator;
+        this.updateCampaignService = updateCampaignService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     async execute(payload: CampaignUpdatePayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - UpdateCampaignOperation');
-        const campaignUpdated = await this._updateCampaignService.update(payload);
-        return this._updateCampaignService.save(campaignUpdated);
+        this.logger('info', 'Execute - UpdateCampaignOperation');
+        const campaignUpdated = await this.updateCampaignService.update(payload);
+        return this.updateCampaignService.save(campaignUpdated);
     }
 }

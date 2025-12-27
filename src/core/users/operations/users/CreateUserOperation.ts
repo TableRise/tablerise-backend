@@ -3,10 +3,10 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class CreateUserOperation {
-    private readonly _usersSchema;
-    private readonly _schemaValidator;
-    private readonly _createUserService;
-    private readonly _logger;
+    private readonly usersSchema;
+    private readonly schemaValidator;
+    private readonly createUserService;
+    private readonly logger;
 
     constructor({
         usersSchema,
@@ -14,24 +14,24 @@ export default class CreateUserOperation {
         createUserService,
         logger,
     }: UserCoreDependencies['createUserOperationContract']) {
-        this._usersSchema = usersSchema;
-        this._schemaValidator = schemaValidator;
-        this._createUserService = createUserService;
-        this._logger = logger;
+        this.usersSchema = usersSchema;
+        this.schemaValidator = schemaValidator;
+        this.createUserService = createUserService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(payload: TCreateUserBody): Promise<RegisterUserResponse> {
-        this._logger('info', 'Execute - CreateUserOperation');
-        const entitySerialized = await this._createUserService.serialize(payload);
+        this.logger('info', 'Execute - CreateUserOperation');
+        const entitySerialized = await this.createUserService.serialize(payload);
 
-        const entityEnriched = await this._createUserService.enrichment({
+        const entityEnriched = await this.createUserService.enrichment({
             user: entitySerialized.userSerialized,
             userDetails: entitySerialized.userDetailsSerialized,
         });
 
-        const entitySaved = await this._createUserService.save({
+        const entitySaved = await this.createUserService.save({
             user: entityEnriched.userEnriched,
             userDetails: entityEnriched.userDetailsEnriched,
         });

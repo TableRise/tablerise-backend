@@ -8,18 +8,18 @@ import { CharacterToPlayerRecover } from 'src/types/api/characters/http/response
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class RecoverCharacterByCampaignService {
-    private readonly _charactersRepository;
-    private readonly _campaignsRepository;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly campaignsRepository;
+    private readonly logger;
 
     constructor({
         charactersRepository,
         campaignsRepository,
         logger,
     }: CharacterCoreDependencies['recoverCharacterByCampaignServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
 
         this.recoverByCampaign = this.recoverByCampaign.bind(this);
     }
@@ -47,7 +47,7 @@ export default class RecoverCharacterByCampaignService {
         });
 
         charactersIds.forEach((charId) => {
-            const character = this._charactersRepository.findOne({ characterId: charId });
+            const character = this.charactersRepository.findOne({ characterId: charId });
             characters.push(character);
         });
 
@@ -58,9 +58,9 @@ export default class RecoverCharacterByCampaignService {
         userId,
         campaignId,
     }: GetCharacterByCampaignPayload): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
-        this._logger('info', 'RecoverCharacterByCampaignService - Execute');
+        this.logger('info', 'RecoverCharacterByCampaignService - Execute');
 
-        const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
+        const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const playerInCampaign = campaignInDb.campaignPlayers.find((player) => player.userId === userId);
 
         const getCharacters = await this.getCharacters(campaignInDb);

@@ -3,19 +3,19 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 import { PostInvitationEmailPayload } from 'src/types/api/campaigns/http/payload';
 
 export default class PostInvitationEmailService {
-    private readonly _emailSender;
-    private readonly _logger;
+    private readonly emailSender;
+    private readonly logger;
 
     constructor({ emailSender, logger }: CampaignCoreDependencies['postInvitationEmailServiceContract']) {
-        this._emailSender = emailSender;
-        this._logger = logger;
+        this.emailSender = emailSender;
+        this.logger = logger;
     }
 
     private async send(campaignId: string, userId: string, username: string, emailSended: string): Promise<void> {
-        this._logger('info', 'Send - SendEmail - PostInvitationEmailService');
-        this._emailSender.type = 'invitation';
+        this.logger('info', 'Send - SendEmail - PostInvitationEmailService');
+        this.emailSender.type = 'invitation';
 
-        const emailSendResult = await this._emailSender.send(
+        const emailSendResult = await this.emailSender.send(
             {
                 campaignId,
                 userId,
@@ -26,13 +26,13 @@ export default class PostInvitationEmailService {
         );
 
         if (!emailSendResult.success) {
-            this._logger('error', 'Some error ocurred in email sending - PostInvitationEmailService');
+            this.logger('error', 'Some error ocurred in email sending - PostInvitationEmailService');
             HttpRequestErrors.throwError('verification-email-send-fail');
         }
     }
 
     public async sendEmail({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
-        this._logger('info', 'SendEmail - PostInvitationEmailService');
+        this.logger('info', 'SendEmail - PostInvitationEmailService');
         await this.send(campaignId, userId, username, targetEmail);
     }
 }

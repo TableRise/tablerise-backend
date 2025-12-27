@@ -9,18 +9,18 @@ import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class AddCampaignPlayersService {
-    private readonly _campaignsRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         usersDetailsRepository,
         logger,
     }: CampaignCoreDependencies['addCampaignPlayersServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
     }
 
     public async addCampaignPlayers({
@@ -28,14 +28,14 @@ export default class AddCampaignPlayersService {
         userId,
         password,
     }: AddCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
-        this._logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         const isPasswordValid = await SecurePasswordHandler.comparePassword(password, campaign.password);
 
         if (!isPasswordValid) HttpRequestErrors.throwError('unauthorized');
 
-        const userDetails = await this._usersDetailsRepository.findOne({ userId });
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
         const dungeonMaster = campaign.campaignPlayers.find(
             (player: { role: string }) => player.role === 'dungeon_master'
         );
@@ -75,12 +75,12 @@ export default class AddCampaignPlayersService {
     }
 
     async save(campaign: CampaignInstance, userDetails: UserDetail): Promise<CampaignInstance> {
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
 
-        return this._campaignsRepository.update({
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

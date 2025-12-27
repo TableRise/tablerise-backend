@@ -9,12 +9,12 @@ import CharacterCoreDependencies from 'src/types/modules/core/characters/Charact
 import { RPGRulesDatabase } from 'src/types/shared/repository';
 
 export default class CreateCharacterService {
-    private readonly _charactersRepository;
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _serializer;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly serializer;
+    private readonly logger;
 
     constructor({
         charactersRepository,
@@ -24,12 +24,12 @@ export default class CreateCharacterService {
         serializer,
         logger,
     }: CharacterCoreDependencies['createCharacterServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._serializer = serializer;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.serializer = serializer;
+        this.logger = logger;
 
         this.serialize = this.serialize.bind(this);
     }
@@ -57,8 +57,8 @@ export default class CreateCharacterService {
     }
 
     public serialize(payload: CreateCharacterPayload): CharacterInstance {
-        this._logger('info', 'Serialize - CreateCharacterService');
-        const characterSerialized = this._serializer.postCharacter(payload.payload);
+        this.logger('info', 'Serialize - CreateCharacterService');
+        const characterSerialized = this.serializer.postCharacter(payload.payload);
 
         this.validateForbiddenKeys(characterSerialized);
 
@@ -66,10 +66,10 @@ export default class CreateCharacterService {
     }
 
     public async enrichment(payload: CharacterInstance, userId: string): Promise<CharactersDnd> {
-        this._logger('info', 'Enrichment - CreateCharacterService');
+        this.logger('info', 'Enrichment - CreateCharacterService');
 
-        const userInDb = await this._usersRepository.findOne({ userId });
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
+        const userInDb = await this.usersRepository.findOne({ userId });
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
 
         payload.author = {
             userId,
@@ -197,10 +197,10 @@ export default class CreateCharacterService {
     }
 
     public async automation(character: CharactersDnd): Promise<CharactersDnd> {
-        this._dungeonsAndDragonsRepository.setEntity('Races');
+        this.dungeonsAndDragonsRepository.setEntity('Races');
 
         const characterRace = character.data.profile.race;
-        const dndRulesRaces = (await this._dungeonsAndDragonsRepository.findOne({
+        const dndRulesRaces = (await this.dungeonsAndDragonsRepository.findOne({
             'en.name': characterRace,
         })) as RPGRulesDatabase<Race>;
 
@@ -216,21 +216,21 @@ export default class CreateCharacterService {
     }
 
     public async save(character: CharacterInstance): Promise<CharacterInstance> {
-        this._logger('info', 'Save - CreateCharacterService');
+        this.logger('info', 'Save - CreateCharacterService');
         const characterId = newUUID();
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: character.author.userId,
         });
 
         userDetailsInDb.gameInfo.characters.push(characterId);
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userId: character.author.userId },
             payload: userDetailsInDb,
         });
 
         character.characterId = characterId;
 
-        return this._charactersRepository.create(character);
+        return this.charactersRepository.create(character);
     }
 }

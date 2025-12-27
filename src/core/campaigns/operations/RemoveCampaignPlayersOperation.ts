@@ -3,10 +3,10 @@ import { RemoveCampaignPlayersPayload } from 'src/types/api/campaigns/http/paylo
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class RemoveCampaignPlayersOperation {
-    private readonly _removeCampaignPlayersService;
-    private readonly _schemaValidator;
-    private readonly _campaignsSchema;
-    private readonly _logger;
+    private readonly removeCampaignPlayersService;
+    private readonly schemaValidator;
+    private readonly campaignsSchema;
+    private readonly logger;
 
     constructor({
         removeCampaignPlayersService,
@@ -14,19 +14,19 @@ export default class RemoveCampaignPlayersOperation {
         campaignsSchema,
         logger,
     }: CampaignCoreDependencies['removeCampaignPlayersOperationContract']) {
-        this._removeCampaignPlayersService = removeCampaignPlayersService;
-        this._schemaValidator = schemaValidator;
-        this._campaignsSchema = campaignsSchema;
-        this._logger = logger;
+        this.removeCampaignPlayersService = removeCampaignPlayersService;
+        this.schemaValidator = schemaValidator;
+        this.campaignsSchema = campaignsSchema;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     async execute(payload: RemoveCampaignPlayersPayload): Promise<Player[]> {
-        this._logger('info', 'Execute - RemoveCampaignPlayersOperation');
-        const { campaign, userDetails } = await this._removeCampaignPlayersService.removeCampaignPlayers(payload);
+        this.logger('info', 'Execute - RemoveCampaignPlayersOperation');
+        const { campaign, userDetails } = await this.removeCampaignPlayersService.removeCampaignPlayers(payload);
 
-        const savedCampaign = await this._removeCampaignPlayersService.save(campaign, userDetails);
+        const savedCampaign = await this.removeCampaignPlayersService.save(campaign, userDetails);
 
         return savedCampaign.campaignPlayers;
     }

@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { SpellsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/spells/SpellsController';
 
 export default class SpellsController {
-    private readonly _getSpellOperation;
-    private readonly _getAllSpellsOperation;
-    private readonly _getDisabledSpellsOperation;
-    private readonly _toggleSpellsAvailabilityOperation;
+    private readonly getSpellOperation;
+    private readonly getAllSpellsOperation;
+    private readonly getDisabledSpellsOperation;
+    private readonly toggleSpellsAvailabilityOperation;
 
     constructor({
         getSpellOperation,
@@ -14,10 +14,10 @@ export default class SpellsController {
         getDisabledSpellsOperation,
         toggleSpellsAvailabilityOperation,
     }: SpellsControllerContract) {
-        this._getSpellOperation = getSpellOperation;
-        this._getAllSpellsOperation = getAllSpellsOperation;
-        this._getDisabledSpellsOperation = getDisabledSpellsOperation;
-        this._toggleSpellsAvailabilityOperation = toggleSpellsAvailabilityOperation;
+        this.getSpellOperation = getSpellOperation;
+        this.getAllSpellsOperation = getAllSpellsOperation;
+        this.getDisabledSpellsOperation = getDisabledSpellsOperation;
+        this.toggleSpellsAvailabilityOperation = toggleSpellsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class SpellsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getSpellOperation.execute(id);
+        const result = await this.getSpellOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllSpellsOperation.execute();
+        const result = await this.getAllSpellsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledSpellsOperation.execute();
+        const result = await this.getDisabledSpellsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class SpellsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleSpellsAvailabilityOperation.execute({
+        const result = await this.toggleSpellsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledBackgroundsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/GetDisabledBackgrounds';
 
 export default class GetDisabledBackgroundsService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledBackgroundsServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.getAllDisabled = this.getAllDisabled.bind(this);
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Background>>> {
-        this._logger('info', 'GetAll - GetDisabledBackgroundsService');
-        this._dungeonsAndDragonsRepository.setEntity('Backgrounds');
+        this.logger('info', 'GetAll - GetDisabledBackgroundsService');
+        this.dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
-        const backgroundInDb = (await this._dungeonsAndDragonsRepository.find({
+        const backgroundInDb = (await this.dungeonsAndDragonsRepository.find({
             active: false,
         })) as Array<Internacional<Background>>;
         return backgroundInDb;

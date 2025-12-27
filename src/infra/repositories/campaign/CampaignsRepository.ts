@@ -5,10 +5,10 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 
 export default class CampaignsRepository {
-    private readonly _model;
-    private readonly _serializer;
-    private readonly _updateTimestampRepository;
-    private readonly _logger;
+    private readonly model;
+    private readonly serializer;
+    private readonly updateTimestampRepository;
+    private readonly logger;
 
     constructor({
         updateTimestampRepository,
@@ -16,29 +16,29 @@ export default class CampaignsRepository {
         serializer,
         logger,
     }: InfraDependencies['campaignsRepositoryContract']) {
-        this._model = database.modelInstance('campaign', 'Campaigns');
-        this._updateTimestampRepository = updateTimestampRepository;
-        this._serializer = serializer;
-        this._logger = logger;
+        this.model = database.modelInstance('campaign', 'Campaigns');
+        this.updateTimestampRepository = updateTimestampRepository;
+        this.serializer = serializer;
+        this.logger = logger;
     }
 
     private formatAndSerializeData(data: CampaignInstance): CampaignInstance {
         const format = JSON.parse(JSON.stringify(data));
-        return this._serializer.postCampaign(format);
+        return this.serializer.postCampaign(format);
     }
 
     public async create(payload: CampaignInstance): Promise<CampaignInstance> {
-        this._logger('warn', `Create - CampaignsRepository`);
+        this.logger('warn', `Create - CampaignsRepository`);
 
         payload.campaignId = newUUID();
 
-        const request = await this._model.create(payload);
+        const request = await this.model.create(payload);
         return this.formatAndSerializeData(request);
     }
 
     public async findOne(query: any = {}): Promise<CampaignInstance> {
-        this._logger('warn', 'FindOne - CampaignsRepository');
-        const request = await this._model.findOne(query);
+        this.logger('warn', 'FindOne - CampaignsRepository');
+        const request = await this.model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
@@ -46,20 +46,20 @@ export default class CampaignsRepository {
     }
 
     public async find(query: any = {}): Promise<CampaignInstance[]> {
-        this._logger('warn', `Find - CampaignsRepository`);
-        const request = await this._model.findAll(query);
+        this.logger('warn', `Find - CampaignsRepository`);
+        const request = await this.model.findAll(query);
 
         return request.map((data) => this.formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
-        this._logger('warn', 'Update - CampaignsRepository');
+        this.logger('warn', 'Update - CampaignsRepository');
 
-        const request = await this._model.update(query, payload);
+        const request = await this.model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
-        await this._updateTimestampRepository.updateTimestamp(query);
+        await this.updateTimestampRepository.updateTimestamp(query);
 
         return this.formatAndSerializeData(request);
     }

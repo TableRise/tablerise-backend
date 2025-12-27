@@ -2,18 +2,18 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class GetUsersOperation {
-    private readonly _getUsersService;
-    private readonly _logger;
+    private readonly getUsersService;
+    private readonly logger;
 
     constructor({ getUsersService, logger }: UserCoreDependencies['getUsersOperationContract']) {
-        this._getUsersService = getUsersService;
-        this._logger = logger;
+        this.getUsersService = getUsersService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<RegisterUserResponse[]> {
-        this._logger('info', 'Execute - GetUsersOperation');
-        return this._getUsersService.get();
+        this.logger('info', 'Execute - GetUsersOperation');
+        return this.getUsersService.get();
     }
 }

@@ -5,26 +5,26 @@ import { addCharacterPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class AddPlayerCharacterService {
-    private readonly _campaignsRepository;
-    private readonly _charactersRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly charactersRepository;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         charactersRepository,
         logger,
     }: CampaignCoreDependencies['addPlayerCharacterServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._charactersRepository = charactersRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.charactersRepository = charactersRepository;
+        this.logger = logger;
 
         this.addCharacter = this.addCharacter.bind(this);
         this.save = this.save.bind(this);
     }
 
     public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<CampaignInstance> {
-        this._logger('info', 'AddCharacter - AddPlayerCharacterService');
-        const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'AddCharacter - AddPlayerCharacterService');
+        const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex(
             (player: Player) => player.userId === userId
         );
@@ -33,7 +33,7 @@ export default class AddPlayerCharacterService {
 
         campaignInDb.campaignPlayers[playerIncampaignIndex].characterIds.push(characterId);
 
-        await this._charactersRepository.update({
+        await this.charactersRepository.update({
             query: { characterId },
             payload: { campaignId: campaignInDb.campaignId },
         });
@@ -42,8 +42,8 @@ export default class AddPlayerCharacterService {
     }
 
     public async save(payload: CampaignInstance): Promise<CampaignInstance> {
-        this._logger('info', 'Save - AddPlayerCharacterService');
-        return this._campaignsRepository.update({
+        this.logger('info', 'Save - AddPlayerCharacterService');
+        return this.campaignsRepository.update({
             query: { campaignId: payload.campaignId },
             payload,
         });

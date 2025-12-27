@@ -10,10 +10,10 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 const BASE_PATH = '/characters';
 
 export default class CharactersRoutes {
-    private readonly _charactersController;
-    private readonly _verifyIdMiddleware;
-    private readonly _imageMiddleware;
-    private readonly _authorizationMiddleware;
+    private readonly charactersController;
+    private readonly verifyIdMiddleware;
+    private readonly imageMiddleware;
+    private readonly authorizationMiddleware;
 
     constructor({
         charactersController,
@@ -21,10 +21,10 @@ export default class CharactersRoutes {
         imageMiddleware,
         authorizationMiddleware,
     }: InterfaceDependencies['charactersRoutesContract']) {
-        this._charactersController = charactersController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
-        this._imageMiddleware = imageMiddleware;
-        this._authorizationMiddleware = authorizationMiddleware;
+        this.charactersController = charactersController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
+        this.imageMiddleware = imageMiddleware;
+        this.authorizationMiddleware = authorizationMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -33,11 +33,11 @@ export default class CharactersRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._charactersController.getAll,
+                controller: this.charactersController.getAll,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._authorizationMiddleware.checkAdminRole,
+                        this.authorizationMiddleware.checkAdminRole,
                     ],
                     tag: 'recover',
                     description: desc.getAll,
@@ -47,9 +47,9 @@ export default class CharactersRoutes {
                 method: 'get',
                 parameters: [...generateIDParam()],
                 path: `${BASE_PATH}/:id`,
-                controller: this._charactersController.getById,
+                controller: this.charactersController.getById,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'recover',
                     description: desc.getById,
                 },
@@ -57,10 +57,10 @@ export default class CharactersRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/by-campaign/:id`,
-                controller: this._charactersController.recoverCharactersByCampaign,
+                controller: this.charactersController.recoverCharactersByCampaign,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.getByCampaign,
                     tag: 'recover',
                 },
@@ -71,7 +71,7 @@ export default class CharactersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
                 schema: DomainDataFaker.mocks.createCharacterMock,
-                controller: this._charactersController.createCharacter,
+                controller: this.charactersController.createCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     description: desc.create,
@@ -82,14 +82,14 @@ export default class CharactersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/picture`,
                 schema: DomainDataFaker.mocks.uploadCharacterPictureMock,
-                controller: this._charactersController.updateCharacterPicture,
+                controller: this.charactersController.updateCharacterPicture,
                 parameters: [...generateIDParam()],
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._verifyIdMiddleware,
-                        this._imageMiddleware.multer().single('picture'),
-                        this._imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
                     ],
                     description: desc.updatePicture,
                     tag: 'management',
@@ -101,13 +101,13 @@ export default class CharactersRoutes {
                 path: `${BASE_PATH}/:id/symbol`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }])],
                 schema: DomainDataFaker.mocks.orgPictureUpload,
-                controller: this._charactersController.createCharacter,
+                controller: this.charactersController.createCharacter,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('picture'),
-                        this._imageMiddleware.fileType,
-                        this._verifyIdMiddleware,
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
                     ],
                     tag: 'management',
                     description: desc.orgSymbol,
@@ -120,9 +120,9 @@ export default class CharactersRoutes {
                 method: 'put',
                 path: `${BASE_PATH}/:id`,
                 schema: DomainDataFaker.mocks.updateCharacterMock,
-                controller: this._charactersController.updateCharacter,
+                controller: this.charactersController.updateCharacter,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.update,
                     tag: 'management',
                 },

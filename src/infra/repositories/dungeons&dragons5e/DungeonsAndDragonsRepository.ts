@@ -4,13 +4,13 @@ import { UpdateObj } from 'src/types/shared/repository';
 import { DungeonsAndDragonsRepositoryContract } from 'src/types/modules/infra/repositories/dungeons&dragons5e/dungeonsAndDragonsRepository';
 
 export default class DungeonsAndDragonsRepository {
-    private readonly _model;
-    private readonly _logger;
+    private readonly model;
+    private readonly logger;
     private entity = 'none';
 
     constructor({ database, logger }: DungeonsAndDragonsRepositoryContract) {
-        this._model = database.modelInstance;
-        this._logger = logger;
+        this.model = database.modelInstance;
+        this.logger = logger;
     }
 
     public setEntity(entity: DnDEntities): void {
@@ -24,16 +24,16 @@ export default class DungeonsAndDragonsRepository {
     }
 
     public async find(query: any = {}): Promise<unknown[]> {
-        this._logger('warn', `Find - DungeonsAndDragonsRepository`);
-        const model = this._model('dungeons&dragons5e', this.entity as DnDEntities);
+        this.logger('warn', `Find - DungeonsAndDragonsRepository`);
+        const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.findAll(query);
 
         return request.map((entity: unknown) => this.formatAndSerializeData(entity));
     }
 
     public async findOne(query: any = {}): Promise<unknown> {
-        this._logger('warn', 'FindOne - DungeonsAndDragonsRepository');
-        const model = this._model('dungeons&dragons5e', this.entity as DnDEntities);
+        this.logger('warn', 'FindOne - DungeonsAndDragonsRepository');
+        const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('content-inexistent');
@@ -42,8 +42,8 @@ export default class DungeonsAndDragonsRepository {
     }
 
     public async update({ query, payload }: UpdateObj): Promise<unknown> {
-        this._logger('warn', 'Update - DungeonsAndDragonsRepository');
-        const model = this._model('dungeons&dragons5e', this.entity as DnDEntities);
+        this.logger('warn', 'Update - DungeonsAndDragonsRepository');
+        const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('content-inexistent');

@@ -2,22 +2,22 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { TwoFactorResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateTwoFactorOperation {
-    private readonly _activateTwoFactorService;
-    private readonly _logger;
+    private readonly activateTwoFactorService;
+    private readonly logger;
 
     constructor({ activateTwoFactorService, logger }: UserCoreDependencies['activateTwoFactorOperationContract']) {
-        this._activateTwoFactorService = activateTwoFactorService;
-        this._logger = logger;
+        this.activateTwoFactorService = activateTwoFactorService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(userId: string): Promise<TwoFactorResponse> {
-        this._logger('info', 'Execute - ActivateTwoFactorOperation');
+        this.logger('info', 'Execute - ActivateTwoFactorOperation');
 
-        const { user, userDetails } = await this._activateTwoFactorService.activate(userId);
+        const { user, userDetails } = await this.activateTwoFactorService.activate(userId);
 
-        return this._activateTwoFactorService.save({
+        return this.activateTwoFactorService.save({
             user,
             userDetails,
         });

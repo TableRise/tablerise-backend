@@ -3,20 +3,20 @@ import { updateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterService {
-    private readonly _charactersRepository;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly logger;
 
     constructor({ charactersRepository, logger }: CharacterCoreDependencies['updateCharacterServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.logger = logger;
 
         this.update = this.update.bind(this);
     }
 
     async update({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
-        this._logger('info', 'UpdateCharacterService - Update');
+        this.logger('info', 'UpdateCharacterService - Update');
 
-        const characterInDb = await this._charactersRepository.findOne({ characterId });
+        const characterInDb = await this.charactersRepository.findOne({ characterId });
 
         if (!payload.data.profile.characteristics) payload.data.profile.characteristics = {} as any;
         if (!payload.data.profile.characteristics.appearance)
@@ -76,7 +76,7 @@ export default class UpdateCharacterService {
         characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
         characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
 
-        return this._charactersRepository.update({
+        return this.charactersRepository.update({
             query: { characterId },
             payload: characterToUpdate,
         });

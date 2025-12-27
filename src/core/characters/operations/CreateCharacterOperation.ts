@@ -3,10 +3,10 @@ import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class CreateCharacterOperation {
-    private readonly _schemaValidator;
-    private readonly _createCharacterService;
-    private readonly _charactersSchema;
-    private readonly _logger;
+    private readonly schemaValidator;
+    private readonly createCharacterService;
+    private readonly charactersSchema;
+    private readonly logger;
 
     constructor({
         schemaValidator,
@@ -14,20 +14,20 @@ export default class CreateCharacterOperation {
         charactersSchema,
         logger,
     }: CharacterCoreDependencies['createCharacterOperationContract']) {
-        this._schemaValidator = schemaValidator;
-        this._createCharacterService = createCharacterService;
-        this._charactersSchema = charactersSchema;
-        this._logger = logger;
+        this.schemaValidator = schemaValidator;
+        this.createCharacterService = createCharacterService;
+        this.charactersSchema = charactersSchema;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(payload: CreateCharacterPayload): Promise<CharacterInstance> {
-        this._logger('info', 'Execute - CreateCharacterOperation');
-        const characterSerialized = this._createCharacterService.serialize(payload);
-        const characterEnriched = await this._createCharacterService.enrichment(characterSerialized, payload.userId);
-        const characterAutomated = await this._createCharacterService.automation(characterEnriched);
+        this.logger('info', 'Execute - CreateCharacterOperation');
+        const characterSerialized = this.createCharacterService.serialize(payload);
+        const characterEnriched = await this.createCharacterService.enrichment(characterSerialized, payload.userId);
+        const characterAutomated = await this.createCharacterService.automation(characterEnriched);
 
-        return this._createCharacterService.save(characterAutomated);
+        return this.createCharacterService.save(characterAutomated);
     }
 }

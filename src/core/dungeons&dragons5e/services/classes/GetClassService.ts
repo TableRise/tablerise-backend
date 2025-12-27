@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetClassServiceContract } from 'src/types/modules/core/dungeons&dragons5e/classes/GetClass';
 
 export default class GetClassService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetClassServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(id: string): Promise<Internacional<Class>> {
-        this._logger('info', 'GetAll - GetClassService');
-        this._dungeonsAndDragonsRepository.setEntity('Classes');
+        this.logger('info', 'GetAll - GetClassService');
+        this.dungeonsAndDragonsRepository.setEntity('Classes');
 
-        const classInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const classInDb = (await this.dungeonsAndDragonsRepository.findOne({
             classId: id,
         })) as Internacional<Class>;
         return classInDb;

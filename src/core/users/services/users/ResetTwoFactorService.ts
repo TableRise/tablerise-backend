@@ -4,10 +4,10 @@ import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ResetTwoFactorService {
-    private readonly _usersRepository;
-    private readonly _twoFactorHandler;
-    private readonly _stateMachine;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly twoFactorHandler;
+    private readonly stateMachine;
+    private readonly logger;
 
     constructor({
         usersRepository,
@@ -15,34 +15,34 @@ export default class ResetTwoFactorService {
         stateMachine,
         logger,
     }: UserCoreDependencies['resetTwoFactorServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._twoFactorHandler = twoFactorHandler;
-        this._stateMachine = stateMachine;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.twoFactorHandler = twoFactorHandler;
+        this.stateMachine = stateMachine;
+        this.logger = logger;
 
         this.reset = this.reset.bind(this);
         this.save = this.save.bind(this);
     }
 
     public async reset(userId: string): Promise<User> {
-        this._logger('info', 'Reset - ResetTwoFactorService');
-        const { status, flows } = this._stateMachine.props;
-        const userInDb = await this._usersRepository.findOne({ userId });
+        this.logger('info', 'Reset - ResetTwoFactorService');
+        const { status, flows } = this.stateMachine.props;
+        const userInDb = await this.usersRepository.findOne({ userId });
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_RESET_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');
 
-        userInDb.twoFactorSecret = await this._twoFactorHandler.create(userInDb.email);
+        userInDb.twoFactorSecret = await this.twoFactorHandler.create(userInDb.email);
 
-        await this._stateMachine.machine(flows.RESET_TWO_FACTOR, userInDb);
+        await this.stateMachine.machine(flows.RESET_TWO_FACTOR, userInDb);
 
         return userInDb;
     }
 
     public async save(user: User): Promise<TwoFactorResponse> {
-        this._logger('info', 'Save - ResetTwoFactorService');
+        this.logger('info', 'Save - ResetTwoFactorService');
 
-        await this._usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });

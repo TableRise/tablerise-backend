@@ -6,13 +6,13 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailCodeMiddleware {
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _stateMachine;
-    private readonly _usersSchemas;
-    private readonly _schemaValidator;
-    private readonly _logger;
-    private readonly _ALLOWED_STATUS;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly stateMachine;
+    private readonly usersSchemas;
+    private readonly schemaValidator;
+    private readonly logger;
+    private readonly ALLOWED_STATUS;
 
     constructor({
         usersRepository,
@@ -22,14 +22,14 @@ export default class VerifyEmailCodeMiddleware {
         schemaValidator,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
-        this._usersRepository = usersRepository;
-        this._usersSchemas = usersSchemas;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachine = stateMachine;
-        this._schemaValidator = schemaValidator;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersSchemas = usersSchemas;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.stateMachine = stateMachine;
+        this.schemaValidator = schemaValidator;
+        this.logger = logger;
 
-        this._ALLOWED_STATUS = [
+        this.ALLOWED_STATUS = [
             stateMachine.props.status.DONE,
             stateMachine.props.status.WAIT_TO_CONFIRM,
             stateMachine.props.status.WAIT_TO_START_EMAIL_CHANGE,
@@ -50,35 +50,35 @@ export default class VerifyEmailCodeMiddleware {
 
         let user = {} as User;
 
-        if (id) user = await this._usersRepository.findOne({ userId: id });
-        if (email) user = await this._usersRepository.findOne({ email });
+        if (id) user = await this.usersRepository.findOne({ userId: id });
+        if (email) user = await this.usersRepository.findOne({ email });
 
-        if (!this._ALLOWED_STATUS.includes(user.inProgress.status)) HttpRequestErrors.throwError('invalid-user-status');
+        if (!this.ALLOWED_STATUS.includes(user.inProgress.status)) HttpRequestErrors.throwError('invalid-user-status');
 
         return user;
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
         const callName = `[${this.constructor.name} - ${this.verify.name}]`;
-        this._logger('warn', callName);
+        this.logger('warn', callName);
 
         const { id } = req.params;
         const { email, code, flow } = req.query;
 
-        this._schemaValidator.entry(this._usersSchemas.postAuthenticateEmail.query, { email, code, flow });
+        this.schemaValidator.entry(this.usersSchemas.postAuthenticateEmail.query, { email, code, flow });
 
-        this._logger('info', `Code from Request is = ${code as string}`);
+        this.logger('info', `Code from Request is = ${code as string}`);
 
         const userValidated = await this.getUserToValidate(id, email as string);
 
-        this._logger('info', `${callName} -> Code in Database is = ${userValidated.inProgress.code}`);
-        this._logger('info', `${callName} -> User status = ${userValidated.inProgress.status}`);
+        this.logger('info', `${callName} -> Code in Database is = ${userValidated.inProgress.code}`);
+        this.logger('info', `${callName} -> User status = ${userValidated.inProgress.status}`);
 
         if (userValidated.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const userWithValidState = await this._stateMachine.machine(flow as stateFlowsKeys, userValidated);
+        const userWithValidState = await this.stateMachine.machine(flow as stateFlowsKeys, userValidated);
 
-        const userDetails = await this._usersDetailsRepository.findOne({
+        const userDetails = await this.usersDetailsRepository.findOne({
             userId: userWithValidState.userId,
         });
 

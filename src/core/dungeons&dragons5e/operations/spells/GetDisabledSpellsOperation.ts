@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledSpellsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/spells/GetDisabledSpells';
 
 export default class GetDisabledSpellsOperation {
-    private readonly _getDisabledSpellsService;
-    private readonly _logger;
+    private readonly getDisabledSpellsService;
+    private readonly logger;
 
     constructor({ getDisabledSpellsService, logger }: GetDisabledSpellsOperationContract) {
-        this._getDisabledSpellsService = getDisabledSpellsService;
-        this._logger = logger;
+        this.getDisabledSpellsService = getDisabledSpellsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Spell>>> {
-        this._logger('info', 'Execute - GetDisabledSpellsOperation');
-        const spells = await this._getDisabledSpellsService.getAllDisabled();
+        this.logger('info', 'Execute - GetDisabledSpellsOperation');
+        const spells = await this.getDisabledSpellsService.getAllDisabled();
 
         return spells;
     }

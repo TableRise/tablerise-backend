@@ -4,27 +4,27 @@ import { ToggleMonstersAvailabilityServiceContract } from 'src/types/modules/cor
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleMonstersAvailabilityService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: ToggleMonstersAvailabilityServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Monster>> {
-        this._logger('info', 'Toggle - ToggleMonstersAvailabilityService');
-        this._dungeonsAndDragonsRepository.setEntity('Monsters');
+        this.logger('info', 'Toggle - ToggleMonstersAvailabilityService');
+        this.dungeonsAndDragonsRepository.setEntity('Monsters');
 
-        const monsterInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const monsterInDb = (await this.dungeonsAndDragonsRepository.findOne({
             monsterId: id,
         })) as Internacional<Monster>;
 
         monsterInDb.active = availability;
 
-        await this._dungeonsAndDragonsRepository.update({
+        await this.dungeonsAndDragonsRepository.update({
             query: { monsterId: id },
             payload: monsterInDb,
         });

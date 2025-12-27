@@ -18,36 +18,36 @@ const ROUTES_WITH_NO_VERIFY = [
 ];
 
 export default class UsersRoutesBuilder {
-    private readonly _usersRoutes;
-    private readonly _oAuthRoutes;
-    private readonly _verifyUserMiddleware;
+    private readonly usersRoutes;
+    private readonly oAuthRoutes;
+    private readonly verifyUserMiddleware;
 
     constructor({
         usersRoutes,
         oAuthRoutes,
         verifyUserMiddleware,
     }: InterfaceDependencies['usersRoutesBuilderContract']) {
-        this._usersRoutes = usersRoutes;
-        this._oAuthRoutes = oAuthRoutes;
-        this._verifyUserMiddleware = verifyUserMiddleware;
+        this.usersRoutes = usersRoutes;
+        this.oAuthRoutes = oAuthRoutes;
+        this.verifyUserMiddleware = verifyUserMiddleware;
     }
 
     private users(): { usersRoutes: Router; usersSwagger: routeInstance[] } {
-        const usersRoutesToBuild = bindMiddleware(this._verifyUserMiddleware.userStatus, this._usersRoutes.routes(), {
+        const usersRoutesToBuild = bindMiddleware(this.verifyUserMiddleware.userStatus, this.usersRoutes.routes(), {
             substringLoc: 6,
             addMethod: 'push',
             pathsToIgnore: ROUTES_WITH_NO_VERIFY,
         });
 
         const usersRoutes = buildRouter(usersRoutesToBuild, router);
-        const usersSwagger = this._usersRoutes.routes();
+        const usersSwagger = this.usersRoutes.routes();
 
         return { usersRoutes, usersSwagger };
     }
 
     private oAuth(): { oAuthRoutes: Router; oAuthSwagger: routeInstance[] } {
-        const oAuthRoutes = buildRouter(this._oAuthRoutes.routes(), router);
-        const oAuthSwagger = this._oAuthRoutes.routes();
+        const oAuthRoutes = buildRouter(this.oAuthRoutes.routes(), router);
+        const oAuthSwagger = this.oAuthRoutes.routes();
 
         return { oAuthRoutes, oAuthSwagger };
     }

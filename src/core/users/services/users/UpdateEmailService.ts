@@ -5,31 +5,31 @@ import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 import { UserEmail } from 'src/types/modules/core/users/users/UpdateEmail';
 
 export default class UpdateEmailService {
-    private readonly _usersRepository;
-    private readonly _stateMachine;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly stateMachine;
+    private readonly logger;
 
     constructor({ usersRepository, stateMachine, logger }: UserCoreDependencies['updateEmailServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._stateMachine = stateMachine;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.stateMachine = stateMachine;
+        this.logger = logger;
 
         this.update = this.update.bind(this);
     }
 
     private changeEmail({ user, email }: UserEmail): User {
-        this._logger('info', 'ChangeEmail - UpdateEmailService');
+        this.logger('info', 'ChangeEmail - UpdateEmailService');
         user.email = email;
         return user;
     }
 
     public async update({ userId, email }: UpdateEmailPayload): Promise<void> {
-        this._logger('info', 'Update - UpdateEmailService');
-        const { status, flows } = this._stateMachine.props;
+        this.logger('info', 'Update - UpdateEmailService');
+        const { status, flows } = this.stateMachine.props;
 
-        const userInDb = await this._usersRepository.findOne({ userId });
+        const userInDb = await this.usersRepository.findOne({ userId });
 
-        const emailAlreadyExist = await this._usersRepository.find({ email });
+        const emailAlreadyExist = await this.usersRepository.find({ email });
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_EMAIL_CHANGE)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -37,9 +37,9 @@ export default class UpdateEmailService {
 
         const userWithEmailChanged = this.changeEmail({ user: userInDb, email });
 
-        await this._stateMachine.machine(flows.UPDATE_EMAIL, userWithEmailChanged);
+        await this.stateMachine.machine(flows.UPDATE_EMAIL, userWithEmailChanged);
 
-        await this._usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: userInDb.userId },
             payload: userWithEmailChanged,
         });

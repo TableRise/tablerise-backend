@@ -6,39 +6,39 @@ import { UserPassword } from 'src/types/modules/core/users/users/UpdatePassword'
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class UpdatePasswordService {
-    private readonly _usersRepository;
-    private readonly _stateMachine;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly stateMachine;
+    private readonly logger;
 
     constructor({ usersRepository, stateMachine, logger }: UserCoreDependencies['updatePasswordServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._stateMachine = stateMachine;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.stateMachine = stateMachine;
+        this.logger = logger;
     }
 
     private async changePassword({ user, password }: UserPassword): Promise<User> {
-        this._logger('info', 'ChangePassword - UpdatePasswordService');
-        const { flows } = this._stateMachine.props;
+        this.logger('info', 'ChangePassword - UpdatePasswordService');
+        const { flows } = this.stateMachine.props;
 
         user.password = await SecurePasswordHandler.hashPassword(password);
 
-        await this._stateMachine.machine(flows.UPDATE_PASSWORD, user);
+        await this.stateMachine.machine(flows.UPDATE_PASSWORD, user);
 
         return user;
     }
 
     public async update({ email, password }: UpdatePasswordPayload): Promise<void> {
-        this._logger('info', 'Update - UpdatePasswordService');
-        const { status } = this._stateMachine.props;
+        this.logger('info', 'Update - UpdatePasswordService');
+        const { status } = this.stateMachine.props;
 
-        const userInDb = await this._usersRepository.findOne({ email });
+        const userInDb = await this.usersRepository.findOne({ email });
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_PASSWORD_CHANGE)
             HttpRequestErrors.throwError('invalid-user-status');
 
         const passwordChanged = await this.changePassword({ user: userInDb, password });
 
-        await this._usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: userInDb.userId },
             payload: passwordChanged,
         });

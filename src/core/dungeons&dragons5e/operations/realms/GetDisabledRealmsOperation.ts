@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledRealmsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/realms/GetDisabledRealms';
 
 export default class GetDisabledRealmsOperation {
-    private readonly _getDisabledRealmsService;
-    private readonly _logger;
+    private readonly getDisabledRealmsService;
+    private readonly logger;
 
     constructor({ getDisabledRealmsService, logger }: GetDisabledRealmsOperationContract) {
-        this._getDisabledRealmsService = getDisabledRealmsService;
-        this._logger = logger;
+        this.getDisabledRealmsService = getDisabledRealmsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Realm>>> {
-        this._logger('info', 'Execute - GetDisabledRealmsOperation');
-        const realms = await this._getDisabledRealmsService.getAllDisabled();
+        this.logger('info', 'Execute - GetDisabledRealmsOperation');
+        const realms = await this.getDisabledRealmsService.getAllDisabled();
 
         return realms;
     }

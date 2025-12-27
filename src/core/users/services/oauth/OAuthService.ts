@@ -10,10 +10,10 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class OAuthService {
-    private readonly _usersRepository;
-    private readonly _userDetailsRepository;
-    private readonly _serializer;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly userDetailsRepository;
+    private readonly serializer;
+    private readonly logger;
 
     constructor({
         usersRepository,
@@ -21,10 +21,10 @@ export default class OAuthService {
         serializer,
         logger,
     }: OAuthCoreDependencies['oAuthServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._userDetailsRepository = usersDetailsRepository;
-        this._serializer = serializer;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.userDetailsRepository = usersDetailsRepository;
+        this.serializer = serializer;
+        this.logger = logger;
 
         this.login = this.login.bind(this);
         this.serialize = this.serialize.bind(this);
@@ -33,7 +33,7 @@ export default class OAuthService {
     }
 
     public login(userInDb: User, userSerialized: User): __TokenObject {
-        this._logger('info', 'Login - OAuthService');
+        this.logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
         if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist', '/register');
@@ -42,17 +42,17 @@ export default class OAuthService {
     }
 
     public async serialize(payload: Google.Profile | Discord.Profile): Promise<__UserSerialized> {
-        this._logger('info', 'Serialize - OAuthService');
-        const userExternalSerialized = this._serializer.externalUser(payload);
+        this.logger('info', 'Serialize - OAuthService');
+        const userExternalSerialized = this.serializer.externalUser(payload);
 
-        const userSerialized = this._serializer.postUser(userExternalSerialized);
-        const userDetailsSerialized = this._serializer.postUserDetails({});
+        const userSerialized = this.serializer.postUser(userExternalSerialized);
+        const userDetailsSerialized = this.serializer.postUserDetails({});
 
         return { userSerialized, userDetailsSerialized };
     }
 
     public async enrichment({ user, userDetails }: __FullUser, provider: string): Promise<__UserEnriched> {
-        this._logger('info', 'Enrichment - CreateUserService');
+        this.logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
 
         user.tag = tag;
@@ -77,20 +77,20 @@ export default class OAuthService {
     }
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this._logger('info', 'SaveUser - CreateUserService');
-        const userSaved = await this._usersRepository.create({
+        this.logger('info', 'SaveUser - CreateUserService');
+        const userSaved = await this.usersRepository.create({
             ...user,
             userId: newUUID(),
         });
 
-        const userDetailsSaved = await this._userDetailsRepository.create({
+        const userDetailsSaved = await this.userDetailsRepository.create({
             ...userDetails,
             userId: userSaved.userId,
             userDetailId: newUUID(),
         });
 
-        this._logger('info', 'User saved on database');
-        this._logger('info', 'User details saved on database');
+        this.logger('info', 'User saved on database');
+        this.logger('info', 'User details saved on database');
 
         return { userSaved, userDetailsSaved };
     }

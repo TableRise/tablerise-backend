@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetItemOperationContract } from 'src/types/modules/core/dungeons&dragons5e/items/GetItemOperation';
 
 export default class GetItemOperation {
-    private readonly _getItemService;
-    private readonly _logger;
+    private readonly getItemService;
+    private readonly logger;
 
     constructor({ getItemService, logger }: GetItemOperationContract) {
-        this._getItemService = getItemService;
-        this._logger = logger;
+        this.getItemService = getItemService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(id: string): Promise<Internacional<Item>> {
-        this._logger('info', 'Execute - GetItemOperation');
-        const item = await this._getItemService.get(id);
+        this.logger('info', 'Execute - GetItemOperation');
+        const item = await this.getItemService.get(id);
         return item;
     }
 }

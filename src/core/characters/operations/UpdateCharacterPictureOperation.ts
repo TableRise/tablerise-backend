@@ -3,19 +3,19 @@ import { UpdateCharacterPicturePayload } from 'src/types/api/characters/http/pay
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterPictureOperation {
-    private readonly _updateCharacterPictureService;
-    private readonly _logger;
+    private readonly updateCharacterPictureService;
+    private readonly logger;
 
     constructor({
         updateCharacterPictureService,
         logger,
     }: CharacterCoreDependencies['updateCharacterPictureOperationContract']) {
-        this._updateCharacterPictureService = updateCharacterPictureService;
-        this._logger = logger;
+        this.updateCharacterPictureService = updateCharacterPictureService;
+        this.logger = logger;
     }
 
     public async execute(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
-        this._logger('info', 'Execute - UpdateCharacterPictureOperation');
-        return this._updateCharacterPictureService.uploadPicture(payload);
+        this.logger('info', 'Execute - UpdateCharacterPictureOperation');
+        return this.updateCharacterPictureService.uploadPicture(payload);
     }
 }

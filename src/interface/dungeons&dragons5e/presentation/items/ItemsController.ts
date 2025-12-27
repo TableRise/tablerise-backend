@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { ItemsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/items/ItemsController';
 
 export default class ItemsController {
-    private readonly _getItemOperation;
-    private readonly _getAllItemsOperation;
-    private readonly _getDisabledItemsOperation;
-    private readonly _toggleItemsAvailabilityOperation;
+    private readonly getItemOperation;
+    private readonly getAllItemsOperation;
+    private readonly getDisabledItemsOperation;
+    private readonly toggleItemsAvailabilityOperation;
 
     constructor({
         getItemOperation,
@@ -14,10 +14,10 @@ export default class ItemsController {
         getDisabledItemsOperation,
         toggleItemsAvailabilityOperation,
     }: ItemsControllerContract) {
-        this._getItemOperation = getItemOperation;
-        this._getAllItemsOperation = getAllItemsOperation;
-        this._getDisabledItemsOperation = getDisabledItemsOperation;
-        this._toggleItemsAvailabilityOperation = toggleItemsAvailabilityOperation;
+        this.getItemOperation = getItemOperation;
+        this.getAllItemsOperation = getAllItemsOperation;
+        this.getDisabledItemsOperation = getDisabledItemsOperation;
+        this.toggleItemsAvailabilityOperation = toggleItemsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class ItemsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getItemOperation.execute(id);
+        const result = await this.getItemOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllItemsOperation.execute();
+        const result = await this.getAllItemsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledItemsOperation.execute();
+        const result = await this.getDisabledItemsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class ItemsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleItemsAvailabilityOperation.execute({
+        const result = await this.toggleItemsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

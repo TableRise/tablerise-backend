@@ -6,28 +6,28 @@ import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class RemoveCampaignPlayersService {
-    private readonly _campaignsRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         usersDetailsRepository,
         logger,
     }: CampaignCoreDependencies['removeCampaignPlayersServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
     }
 
     async removeCampaignPlayers({
         campaignId,
         userId,
     }: RemoveCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
-        this._logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        const userDetails = await this._usersDetailsRepository.findOne({ userId });
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
         const dungeonMaster = campaign.campaignPlayers.find((player) => player.role === 'dungeon_master');
 
         if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
@@ -42,12 +42,12 @@ export default class RemoveCampaignPlayersService {
     }
 
     async save(campaign: CampaignInstance, userDetails: UserDetail): Promise<CampaignInstance> {
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
 
-        return this._campaignsRepository.update({
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

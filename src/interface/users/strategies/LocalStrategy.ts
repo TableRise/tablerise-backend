@@ -14,14 +14,14 @@ const NOT_ALLOWED_STATUS_TO_LOGIN = ['wait-to-delete-user'];
 const LocalStrategy = Local.Strategy;
 
 export default class LoginPassport {
-    private readonly _schemaValidator;
-    private readonly _usersRepository;
-    private readonly _usersSchemas;
+    private readonly schemaValidator;
+    private readonly usersRepository;
+    private readonly usersSchemas;
 
     constructor({ schemaValidator, usersRepository, usersSchemas }: InterfaceDependencies['localStrategy']) {
-        this._schemaValidator = schemaValidator;
-        this._usersRepository = usersRepository;
-        this._usersSchemas = usersSchemas;
+        this.schemaValidator = schemaValidator;
+        this.usersRepository = usersRepository;
+        this.usersSchemas = usersSchemas;
     }
 
     localStrategy(): void {
@@ -34,7 +34,7 @@ export default class LoginPassport {
                 async (email, password, done) => {
                     logger('warn', 'LocalStrategy used to login the user');
 
-                    const isDataInvalid = this._schemaValidator.entryReturn(this._usersSchemas.postLogin.body, {
+                    const isDataInvalid = this.schemaValidator.entryReturn(this.usersSchemas.postLogin.body, {
                         email,
                         password,
                     }) as ZodError;
@@ -55,7 +55,7 @@ export default class LoginPassport {
                         );
 
                     try {
-                        const user = await this._usersRepository.findOne({ email });
+                        const user = await this.usersRepository.findOne({ email });
 
                         if (!user)
                             return done(

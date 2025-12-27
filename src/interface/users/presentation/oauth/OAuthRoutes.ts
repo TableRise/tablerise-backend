@@ -12,18 +12,18 @@ import desc from 'src/interface/users/presentation/oauth/RoutesDescription';
 const BASE_PATH = '/oauth';
 
 export default class OAuthRoutes {
-    private readonly _oAuthController;
-    private readonly _authErrorMiddleware;
-    private readonly _verifyIdMiddleware;
+    private readonly oAuthController;
+    private readonly authErrorMiddleware;
+    private readonly verifyIdMiddleware;
 
     constructor({
         oAuthController,
         verifyIdMiddleware,
         authErrorMiddleware,
     }: InterfaceDependencies['oAuthRoutesContract']) {
-        this._authErrorMiddleware = authErrorMiddleware;
-        this._verifyIdMiddleware = verifyIdMiddleware;
-        this._oAuthController = oAuthController;
+        this.authErrorMiddleware = authErrorMiddleware;
+        this.verifyIdMiddleware = verifyIdMiddleware;
+        this.oAuthController = oAuthController;
     }
 
     public routes(): routeInstance[] {
@@ -54,7 +54,7 @@ export default class OAuthRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/google/register`,
-                controller: this._oAuthController.google,
+                controller: this.oAuthController.google,
                 options: {
                     tag: 'external',
                 },
@@ -89,7 +89,7 @@ export default class OAuthRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/discord/register`,
-                controller: this._oAuthController.discord,
+                controller: this.oAuthController.discord,
                 options: {
                     tag: 'external',
                 },
@@ -99,7 +99,7 @@ export default class OAuthRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/error`,
                 options: {
-                    middlewares: [this._authErrorMiddleware],
+                    middlewares: [this.authErrorMiddleware],
                     tag: 'external',
                 },
                 hide: true,
@@ -109,10 +109,10 @@ export default class OAuthRoutes {
                 method: 'put',
                 path: `${BASE_PATH}/:id/complete`,
                 parameters: [...generateIDParam()],
-                controller: this._oAuthController.complete,
+                controller: this.oAuthController.complete,
                 schema: DomainDataFaker.mocks.completeUserMock,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'register',
                     description: desc.confirmExternal,
                 },

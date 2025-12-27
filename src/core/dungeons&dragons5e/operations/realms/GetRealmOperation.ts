@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetRealmOperationContract } from 'src/types/modules/core/dungeons&dragons5e/realms/GetRealm';
 
 export default class GetRealmOperation {
-    private readonly _getRealmService;
-    private readonly _logger;
+    private readonly getRealmService;
+    private readonly logger;
 
     constructor({ getRealmService, logger }: GetRealmOperationContract) {
-        this._getRealmService = getRealmService;
-        this._logger = logger;
+        this.getRealmService = getRealmService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(id: string): Promise<Internacional<Realm>> {
-        this._logger('info', 'Execute - GetRealmOperation');
-        const realm = await this._getRealmService.get(id);
+        this.logger('info', 'Execute - GetRealmOperation');
+        const realm = await this.getRealmService.get(id);
 
         return realm;
     }

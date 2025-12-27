@@ -3,24 +3,24 @@ import { publishmentPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class PublishmentService {
-    private readonly _campaignsRepository;
-    private readonly _usersRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly usersRepository;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         usersRepository,
         logger,
     }: CampaignCoreDependencies['publishmentServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._usersRepository = usersRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.usersRepository = usersRepository;
+        this.logger = logger;
     }
 
     async addPost({ campaignId, userId, payload }: publishmentPayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - publishmentService');
-        const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
-        const userInDb = await this._usersRepository.findOne({ userId });
+        this.logger('info', 'Execute - publishmentService');
+        const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
+        const userInDb = await this.usersRepository.findOne({ userId });
 
         campaignInDb.infos.announcements.push({
             title: payload.title,
@@ -32,8 +32,8 @@ export default class PublishmentService {
     }
 
     async save(campaign: CampaignInstance): Promise<CampaignInstance> {
-        this._logger('info', 'Save - publishmentService');
-        return this._campaignsRepository.update({
+        this.logger('info', 'Save - publishmentService');
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
