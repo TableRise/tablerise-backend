@@ -11,14 +11,13 @@ const postValidateEmailSendCodeQuerySchema = z.object({
 });
 
 const postCreateUserBodySchema = z.object({
-    email: z.email().default(''),
+    email: z.email(),
     password: z
         .string()
         .regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
             message: 'Invalid password',
-        })
-        .default(''),
-    nickname: z.string().max(32).default(''),
+        }),
+    nickname: z.string().max(32),
 });
 
 const postLoginBodySchema = z.object({
@@ -32,7 +31,7 @@ const postLoginBodySchema = z.object({
 });
 
 const postUpdateUserProfilePictureBodySchema = z.object({
-    picture: z.instanceof(File),
+    picture: z.file(),
 });
 
 const putUpdateUserBodySchema = z.object({
@@ -73,6 +72,7 @@ const patchUpdateEmailBodySchema = z.object({
 });
 
 const patchUpdatePasswordBodySchema = z.object({
+    email: z.email(),
     password: z
         .string()
         .regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
@@ -106,55 +106,42 @@ export type TUpdateUserGameInfoBody = z.infer<typeof patchUpdateUserGameInfoBody
 export default (): IUsersSchemas => ({
     postValidateEmailSendCode: {
         query: postValidateEmailSendCodeQuerySchema,
-        example: z.toJSONSchema(postValidateEmailSendCodeQuerySchema).properties,
     },
     postCreateUser: {
         body: postCreateUserBodySchema,
-        example: z.toJSONSchema(postCreateUserBodySchema).properties,
     },
     postLogin: {
         body: postLoginBodySchema,
-        example: z.toJSONSchema(postLoginBodySchema).properties,
     },
     postUpdateUserProfilePicture: {
         body: postUpdateUserProfilePictureBodySchema,
-        example: { picture: { isBinary: true } },
     },
     putUpdateUser: {
         body: putUpdateUserBodySchema,
-        example: z.toJSONSchema(putUpdateUserBodySchema).properties,
     },
     postAuthenticateEmail: {
         query: postAuthenticateEmailQuerySchema,
-        example: z.toJSONSchema(postAuthenticateEmailQuerySchema).properties,
     },
     postAuthenticate2FA: {
         query: postAuthenticate2FAQuerySchema,
-        example: z.toJSONSchema(postAuthenticate2FAQuerySchema).properties,
     },
     postAuthenticateSecretQuestion: {
         query: postAuthenticateSecretQuestionQuerySchema,
         body: postAuthenticateSecretQuestionBodySchema,
-        example: z.toJSONSchema(postAuthenticateSecretQuestionBodySchema).properties,
     },
     patchActivateSecretQuestion: {
         body: postAuthenticateSecretQuestionBodySchema,
-        example: z.toJSONSchema(postAuthenticateSecretQuestionBodySchema).properties,
     },
     patchSecretQuestionUpdate: {
         body: postAuthenticateSecretQuestionBodySchema,
-        example: z.toJSONSchema(postAuthenticateSecretQuestionBodySchema).properties,
     },
     patchUpdateEmail: {
         body: patchUpdateEmailBodySchema,
-        example: z.toJSONSchema(patchUpdateEmailBodySchema).properties,
     },
     patchUpdatePassword: {
         body: patchUpdatePasswordBodySchema,
-        example: z.toJSONSchema(patchUpdatePasswordBodySchema).properties,
     },
     patchUpdateUserGameInfo: {
         body: patchUpdateUserGameInfoBodySchema,
-        example: z.toJSONSchema(patchUpdateUserGameInfoBodySchema).properties,
     },
 });

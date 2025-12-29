@@ -95,6 +95,7 @@ export default class UsersRoutes {
                 ],
                 controller: this.usersController.verifyEmail,
                 options: {
+                    schemas: [{ query: this.usersSchemas.postValidateEmailSendCode.query }],
                     tag: 'authentication',
                     description: desc.verify,
                 },
@@ -103,8 +104,8 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/register`,
                 controller: this.usersController.register,
-                schema: this.usersSchemas.postCreateUser.example,
                 options: {
+                    schemas: [{ body: this.usersSchemas.postCreateUser.body }],
                     tag: 'register',
                     description: desc.register,
                 },
@@ -113,9 +114,9 @@ export default class UsersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/login`,
                 controller: this.usersController.login,
-                schema: this.usersSchemas.postLogin.example,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
+                    schemas: [{ body: this.usersSchemas.postLogin.body }],
                     tag: 'authentication',
                     description: desc.login,
                 },
@@ -125,7 +126,6 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update/picture`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.profilePicture,
-                schema: this.usersSchemas.postUpdateUserProfilePicture.example,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -133,6 +133,7 @@ export default class UsersRoutes {
                         this.imageMiddleware.fileType,
                         this.verifyIdMiddleware,
                     ],
+                    schemas: [{ body: this.usersSchemas.postUpdateUserProfilePicture.body }],
                     tag: 'management',
                     description: desc.profilePicture,
                     fileUpload: true,
@@ -151,6 +152,7 @@ export default class UsersRoutes {
                 controller: this.usersController.internalAuthentication,
                 options: {
                     middlewares: [this.verifyEmailCodeMiddleware.verify],
+                    schemas: [{ query: this.usersSchemas.postAuthenticateEmail.query }],
                     tag: 'authentication',
                     description: desc.emailCode,
                 },
@@ -168,6 +170,7 @@ export default class UsersRoutes {
                 controller: this.usersController.internalAuthentication,
                 options: {
                     middlewares: [this.authorizationMiddleware.twoFactor],
+                    schemas: [{ query: this.usersSchemas.postAuthenticate2FA.query }],
                     tag: 'authentication',
                     description: desc.token2FA,
                 },
@@ -181,10 +184,13 @@ export default class UsersRoutes {
                         { name: 'flow', type: 'string' },
                     ]),
                 ],
-                schema: this.usersSchemas.postAuthenticateSecretQuestion.example,
                 controller: this.usersController.internalAuthentication,
                 options: {
                     middlewares: [this.authorizationMiddleware.secretQuestion],
+                    schemas: [
+                        { query: this.usersSchemas.postAuthenticateSecretQuestion.query },
+                        { body: this.usersSchemas.postAuthenticateSecretQuestion.body }
+                    ],
                     tag: 'authentication',
                     description: desc.secretQuestion,
                 },
@@ -196,9 +202,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.update,
-                schema: this.usersSchemas.putUpdateUser.body,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.usersSchemas.putUpdateUser.body }],
                     tag: 'management',
                     description: desc.update,
                 },
@@ -210,9 +216,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/activate`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.activateSecretQuestion,
-                schema: this.usersSchemas.patchActivateSecretQuestion.example,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.usersSchemas.patchActivateSecretQuestion.body }],
                     tag: 'management',
                     description: desc.activateQuestion,
                 },
@@ -222,9 +228,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/question/update`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.updateSecretQuestion,
-                schema: this.usersSchemas.patchSecretQuestionUpdate.body,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.usersSchemas.patchSecretQuestionUpdate.body }],
                     tag: 'management',
                     description: desc.updateSecretQuestion,
                 },
@@ -256,9 +262,9 @@ export default class UsersRoutes {
                 path: `${BASE_PATH}/:id/update/email`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.updateEmail,
-                schema: this.usersSchemas.patchUpdateEmail.body,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.usersSchemas.patchUpdateEmail.body }],
                     tag: 'management',
                     description: desc.updateEmail,
                 },
@@ -267,9 +273,9 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/update/password`,
                 controller: this.usersController.updatePassword,
-                schema: this.usersSchemas.patchUpdatePassword.body,
                 parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
                 options: {
+                    schemas: [{ body: this.usersSchemas.patchUpdatePassword.body }],
                     tag: 'management',
                     description: desc.updatePassword,
                 },
@@ -278,10 +284,10 @@ export default class UsersRoutes {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/game-info`,
                 controller: this.usersController.updateGameInfo,
-                schema: this.usersSchemas.patchUpdateUserGameInfo.body,
                 parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.patchUpdateUserGameInfo.body }],
                     tag: 'management',
                     description: desc.updateGameInfo,
                 },
@@ -310,6 +316,6 @@ export default class UsersRoutes {
                     description: desc.deleteProfile,
                 },
             },
-        ] as unknown as routeInstance[];
+        ] as routeInstance[];
     }
 }

@@ -229,7 +229,6 @@ export default class CampaignsRoutes {
                     ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
                 ],
                 controller: this.campaignsController.updateCampaignImages,
-                schema: DomainDataFaker.mocks.uploadCampaignImages,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),

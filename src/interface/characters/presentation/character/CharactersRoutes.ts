@@ -81,7 +81,6 @@ export default class CharactersRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/picture`,
-                schema: DomainDataFaker.mocks.uploadCharacterPictureMock,
                 controller: this.charactersController.updateCharacterPicture,
                 parameters: [...generateIDParam()],
                 options: {
@@ -119,7 +118,6 @@ export default class CharactersRoutes {
             {
                 method: 'put',
                 path: `${BASE_PATH}/:id`,
-                schema: DomainDataFaker.mocks.updateCharacterMock,
                 controller: this.charactersController.updateCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],

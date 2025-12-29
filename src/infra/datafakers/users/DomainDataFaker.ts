@@ -1,7 +1,6 @@
 import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import {
     DiscordJSONPayload,
     FacebookJSONPayload,
@@ -9,7 +8,7 @@ import {
     UserDetailJSONPayload,
     UserJSONPayload,
 } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
 import questionEnum from 'src/domains/users/enums/questionEnum';

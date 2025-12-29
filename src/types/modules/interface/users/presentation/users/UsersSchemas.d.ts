@@ -2,7 +2,6 @@ interface ISchemaReturns {
     body?: any;
     params?: any;
     query?: any;
-    example: any;
 }
 
 export interface IUsersSchemas {
