@@ -124,14 +124,11 @@ export default class CampaignsController {
 
     public async inviteEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId, username } = req.user as Express.User;
         const { targetEmail } = req.query as { targetEmail: string };
 
         await this.postInvitationEmailOperation.execute({
             campaignId: id,
-            targetEmail,
-            userId,
-            username,
+            targetEmail
         });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
@@ -151,7 +148,7 @@ export default class CampaignsController {
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, operation } = req.query as {
+        const { imageId, operation } = req.body as {
             imageId?: string;
             operation: 'add' | 'remove';
         };
@@ -170,8 +167,7 @@ export default class CampaignsController {
 
     public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { operation } = req.query as { operation: 'add' | 'remove' };
-        const { title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
+        const { operation, title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
 
         const result = await this.updateMatchMusicsOperation.execute({
             campaignId: id,
@@ -259,7 +255,7 @@ export default class CampaignsController {
 
     public async updateCampaignImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, name, operation } = req.query as {
+        const { imageId, name, operation } = req.body as {
             imageId?: string;
             name?: string;
             operation: 'add' | 'remove';

@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { PostInvitationEmailPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignPlayerInvitationEmailSend } from 'src/types/modules/core/campaigns/campaigns/PostInvitationEmail';
 
 export default class PostInvitationEmailService {
     private readonly emailSender;
@@ -11,18 +11,18 @@ export default class PostInvitationEmailService {
         this.logger = logger;
     }
 
-    private async send(campaignId: string, userId: string, username: string, emailSended: string): Promise<void> {
+    private async send(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
         this.logger('info', 'Send - SendEmail - PostInvitationEmailService');
         this.emailSender.type = 'invitation';
 
         const emailSendResult = await this.emailSender.send(
             {
-                campaignId,
-                userId,
-                username,
+                campaignId: payload.campaignId,
+                userId: payload.userId,
+                username: payload.username,
                 subject: 'Email de Convite para Campanha - TableRise',
             },
-            emailSended
+            payload.targetEmail
         );
 
         if (!emailSendResult.success) {
@@ -31,8 +31,8 @@ export default class PostInvitationEmailService {
         }
     }
 
-    public async sendEmail({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
+    public async sendEmail(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
         this.logger('info', 'SendEmail - PostInvitationEmailService');
-        await this.send(campaignId, userId, username, targetEmail);
+        await this.send(payload);
     }
 }

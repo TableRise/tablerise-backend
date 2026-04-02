@@ -30,3 +30,9 @@ export default interface Configs {
         };
     };
 }
+
+export interface ISchemaProps {
+    body?: any;
+    params?: any;
+    query?: any;
+}

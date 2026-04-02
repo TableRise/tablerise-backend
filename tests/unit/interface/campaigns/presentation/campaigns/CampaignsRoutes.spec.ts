@@ -6,7 +6,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
         verifyIdMiddleware: any,
         authorizationMiddleware: any,
         imageMiddleware: any,
-        verifyMatchMiddleware: any;
+        verifyMatchMiddleware: any,
+        campaignsSchemas: any;
 
     context('When all the routes are correctly implemented', () => {
         campaignsController = {};
@@ -19,6 +20,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             campaignsController,
             verifyIdMiddleware,
             imageMiddleware,
+            campaignsSchemas,
             authorizationMiddleware,
             verifyMatchMiddleware,
         });

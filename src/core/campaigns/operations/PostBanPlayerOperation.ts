@@ -12,7 +12,7 @@ export default class PostBanPlayerOperation {
         schemaValidator,
         postBanPlayerService,
         logger,
-    }: CampaignCoreDependencies['postBanPlayerOperation']) {
+    }: CampaignCoreDependencies['postBanPlayerOperationContract']) {
         this.campaignsSchema = campaignsSchema;
         this.schemaValidator = schemaValidator;
         this.postBanPlayerService = postBanPlayerService;

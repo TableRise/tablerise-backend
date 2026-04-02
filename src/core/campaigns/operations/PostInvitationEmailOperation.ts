@@ -1,37 +1,32 @@
-import { PostInvitationEmailPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { CampaignPlayerInvitationPayload } from 'src/types/modules/core/campaigns/campaigns/PostInvitationEmail';
 
 export default class PostInvitationEmailOperation {
-    private readonly campaignsSchema;
-    private readonly schemaValidator;
+    private readonly usersRepository;
     private readonly postInvitationEmailService;
-    private readonly getCampaignByIdService;
     private readonly logger;
 
     constructor({
-        campaignsSchema,
-        schemaValidator,
+        usersRepository,
         postInvitationEmailService,
-        getCampaignByIdService,
         logger,
-    }: CampaignCoreDependencies['postInvitationEmailOperation']) {
-        this.campaignsSchema = campaignsSchema;
-        this.schemaValidator = schemaValidator;
+    }: CampaignCoreDependencies['postInvitationEmailOperationContract']) {
+        this.usersRepository = usersRepository;
         this.postInvitationEmailService = postInvitationEmailService;
-        this.getCampaignByIdService = getCampaignByIdService;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
+    public async execute({ targetEmail, campaignId }: CampaignPlayerInvitationPayload): Promise<void> {
         this.logger('info', 'Execute - PostInvitationEmailOperation');
-        await this.getCampaignByIdService.get({ campaignId });
+        const user = await this.usersRepository.findOne({ email: targetEmail });
+
         await this.postInvitationEmailService.sendEmail({
+            userId: user.userId,
+            username: user.nickname,
             targetEmail,
             campaignId,
-            userId,
-            username,
         });
     }
 }

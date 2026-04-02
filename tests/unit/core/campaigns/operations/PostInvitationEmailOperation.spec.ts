@@ -8,9 +8,8 @@ describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () =
     let postInvitationEmailOperation: PostInvitationEmailOperation,
         postInvitationEmailService: any,
         getCampaignByIdService: any,
-        schemaValidator: any,
+        usersRepository: any,
         campaign: CampaignInstance,
-        campaignsSchema: any,
         payload: any;
 
     const logger = (): void => {};
@@ -34,19 +33,14 @@ describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () =
                 username: 'joaquim',
             };
 
-            campaignsSchema = {
-                campaignInvitationEmail: {},
-            };
-
-            schemaValidator = {
-                entry: sinon.spy(() => {}),
+            usersRepository = {
+                findOne: sinon.spy(() => ({ userId: '123', nickname: 'user' })),
             };
 
             postInvitationEmailOperation = new PostInvitationEmailOperation({
                 postInvitationEmailService,
                 getCampaignByIdService,
-                schemaValidator,
-                campaignsSchema,
+                usersRepository,
                 logger,
             });
         });

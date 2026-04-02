@@ -84,7 +84,7 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
-        "@tablerise/auto-swagger": "4.3.8",
+        "@tablerise/auto-swagger": "4.6.2",
         "@tablerise/database-management": "5.5.3",
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",
