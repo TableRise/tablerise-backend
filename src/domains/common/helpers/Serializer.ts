@@ -3,7 +3,7 @@ import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserExternal } from 'src/types/api/users/http/payload';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
@@ -112,7 +112,7 @@ export default class Serializer {
         images = null,
         createdAt = null,
         updatedAt = null,
-    }: any): CampaignInstance {
+    }: any): Campaign {
         return {
             campaignId,
             title,

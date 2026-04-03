@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { GetCampaignByIdPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
@@ -13,7 +13,7 @@ export default class GetCampaignByIdOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({ campaignId }: GetCampaignByIdPayload): Promise<CampaignInstance> {
+    async execute({ campaignId }: GetCampaignByIdPayload): Promise<Campaign> {
         this.logger('info', 'Execute - GetCampaignByIdOperation');
         return this.getCampaignByIdService.get({ campaignId });
     }

@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -7,7 +7,7 @@ import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/su
 import requester from 'tests/support/requester';
 
 describe('When a post is published', () => {
-    let campaign: CampaignInstance, payload: any, user: User, userDetails: UserDetail;
+    let campaign: Campaign, payload: any, user: User, userDetails: UserDetail;
 
     context('And data is correct', () => {
         before(async () => {

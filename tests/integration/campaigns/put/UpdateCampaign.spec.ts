@@ -1,11 +1,11 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a campaign is updated', () => {
-    let campaign: CampaignInstance, newCampaignPayload: any;
+    let campaign: Campaign, newCampaignPayload: any;
 
     before(async () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];

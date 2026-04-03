@@ -1,5 +1,5 @@
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { UpdateCampaignImagesPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
@@ -19,10 +19,10 @@ export default class UpdateCampaignImagesService {
     }
 
     addCampaignImage(
-        campaign: CampaignInstance,
+        campaign: Campaign,
         imageUploadResponse: ImageObject,
         name: string | undefined
-    ): CampaignInstance {
+    ): Campaign {
         this.logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters.push(imageUploadResponse);
@@ -33,10 +33,10 @@ export default class UpdateCampaignImagesService {
     }
 
     removeCampaignImage(
-        campaign: CampaignInstance,
+        campaign: Campaign,
         name: string | undefined,
         imageId: string | undefined
-    ): CampaignInstance {
+    ): Campaign {
         this.logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters = campaign.images.characters.filter(
@@ -54,7 +54,7 @@ export default class UpdateCampaignImagesService {
         name,
         operation,
         imageId,
-    }: UpdateCampaignImagesPayload): Promise<CampaignInstance> {
+    }: UpdateCampaignImagesPayload): Promise<Campaign> {
         this.logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const imageUploadResponse = image && (await this.imageStorageClient.upload(image, name));
@@ -70,7 +70,7 @@ export default class UpdateCampaignImagesService {
         return campaign;
     }
 
-    async save(campaign: CampaignInstance): Promise<CampaignInstance> {
+    async save(campaign: Campaign): Promise<Campaign> {
         this.logger('info', 'Save - UpdateCampaignImagesService');
         return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },

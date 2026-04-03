@@ -1,6 +1,6 @@
 import { Profile } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
@@ -35,7 +35,7 @@ export default class RecoverCharacterByCampaignService {
         });
     }
 
-    private async getCharacters(campaign: CampaignInstance): Promise<CharacterInstance[]> {
+    private async getCharacters(campaign: Campaign): Promise<CharacterInstance[]> {
         const charactersArrays = campaign.campaignPlayers.map((camPlayer) => camPlayer.characterIds);
         const charactersIds = [] as string[];
         const characters = [] as Array<Promise<CharacterInstance>>;

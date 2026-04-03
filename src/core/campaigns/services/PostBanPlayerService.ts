@@ -1,7 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { PostBanPlayerPayload } from 'src/types/api/campaigns/http/payload';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
@@ -21,7 +21,7 @@ export default class PostBanPlayerService {
         this.logger = logger;
     }
 
-    private validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
+    private validateBanPlayer(campaign: Campaign, playerId: string): void {
         this.logger('info', 'validateBanPlayer - PostBanPlayerService');
 
         const playerInCampaign = campaign.campaignPlayers.find(
@@ -44,7 +44,7 @@ export default class PostBanPlayerService {
     }
 
     private updateInformation(
-        campaign: CampaignInstance,
+        campaign: Campaign,
         playerId: string,
         campaignId: string,
         userDetailInDb: UserDetail
@@ -60,7 +60,7 @@ export default class PostBanPlayerService {
         );
     }
 
-    private async saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetail): Promise<void> {
+    private async saveUpdates(campaign: Campaign, userDetailInDb: UserDetail): Promise<void> {
         this.logger('info', 'saveUpdates - PostBanPlayerService');
 
         await this.campaignsRepository.update({

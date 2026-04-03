@@ -2,14 +2,14 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import PostInvitationEmailService from 'src/core/campaigns/services/PostInvitationEmailService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
     let postInvitationEmailService: PostInvitationEmailService,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         emailSender: any,
         payload: any,
         httpRequestErrors: HttpRequestErrors;

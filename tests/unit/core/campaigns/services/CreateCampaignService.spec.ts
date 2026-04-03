@@ -1,5 +1,5 @@
 import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
@@ -12,7 +12,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         campaignsRepository: any,
         usersDetailsRepository: any,
         userDetails: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         image: FileObject,
         userId: any;
 

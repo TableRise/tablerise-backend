@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import AddPlayerCharacterOperation from 'src/core/campaigns/operations/AddPlayerCharacterOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
@@ -8,7 +8,7 @@ describe('Core :: Campaigns :: Operations :: AddPlayerCharacterOperation', () =>
     let addPlayerCharacterOperation: AddPlayerCharacterOperation,
         addPlayerCharacterService: any,
         playerCharacterPayload: any,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 

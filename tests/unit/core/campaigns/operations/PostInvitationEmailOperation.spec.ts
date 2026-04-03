@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () => {
@@ -9,7 +9,7 @@ describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () =
         postInvitationEmailService: any,
         getCampaignByIdService: any,
         usersRepository: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         payload: any;
 
     const logger = (): void => {};

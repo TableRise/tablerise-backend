@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
@@ -8,7 +8,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
 describe('When a player is added to a match', () => {
-    let campaign: CampaignInstance;
+    let campaign: Campaign;
 
     before(async () => {
         campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];

@@ -4,11 +4,11 @@ import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainData
 import requester from 'tests/support/requester';
 import { InjectNewCampaign, InjectNewCharacter } from 'tests/support/dataInjector';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When a character is added to campaign', () => {
-    let campaign: CampaignInstance, character: CharacterInstance;
+    let campaign: Campaign, character: CharacterInstance;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';

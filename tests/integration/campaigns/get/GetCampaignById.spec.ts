@@ -1,11 +1,11 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let campaignOne: CampaignInstance, campaignTwo: CampaignInstance;
+    let campaignOne: Campaign, campaignTwo: Campaign;
 
     context('And data is correct', () => {
         before(async () => {

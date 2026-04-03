@@ -1,5 +1,5 @@
 import RecoverCharacterByCampaignService from 'src/core/characters/services/RecoverCharacterByCampaignService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -11,7 +11,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
         charactersRepository: any,
         campaignsRepository: any,
         result: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         character: CharacterInstance;
 
     const logger = (): void => {};

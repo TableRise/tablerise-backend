@@ -1,5 +1,5 @@
 import DatabaseManagement from '@tablerise/database-management';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
@@ -27,7 +27,7 @@ export async function InjectNewUserDetails(userDetails: UserDetail, userId: stri
     await modelUserDetails.create(userDetails);
 }
 
-export async function InjectNewCampaign(campaign: CampaignInstance): Promise<void> {
+export async function InjectNewCampaign(campaign: Campaign): Promise<void> {
     campaign.createdAt = new Date().toISOString();
     campaign.updatedAt = new Date().toISOString();
 

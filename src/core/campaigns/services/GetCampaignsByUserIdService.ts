@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
@@ -32,7 +32,7 @@ export default class GetCampaignsByUserIdService {
 
         if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        const userCampaignsPromises = [] as Array<Promise<CampaignInstance>>;
+        const userCampaignsPromises = [] as Array<Promise<Campaign>>;
 
         userCampaignIds.forEach((campaignId: string) => {
             userCampaignsPromises.push(this.campaignsRepository.findOne({ campaignId }));
@@ -40,22 +40,22 @@ export default class GetCampaignsByUserIdService {
 
         const userCampaigns = await Promise.all(userCampaignsPromises);
 
-        const master = [] as CampaignInstance[];
-        const player = [] as CampaignInstance[];
+        const master = [] as Campaign[];
+        const player = [] as Campaign[];
 
         userDetailsInDb.gameInfo.campaigns.forEach((campaign: GameInfoCampaigns) => {
             if (campaign.role === 'dungeon_master') {
                 const campaignComplete = userCampaigns.find(
                     (userCampaign) => userCampaign.campaignId === campaign.campaignId
                 );
-                master.push(campaignComplete as CampaignInstance);
+                master.push(campaignComplete as Campaign);
             }
 
             if (campaign.role === 'player' || campaign.role === 'player_admin') {
                 const campaignComplete = userCampaigns.find(
                     (userCampaign) => userCampaign.campaignId === campaign.campaignId
                 );
-                player.push(campaignComplete as CampaignInstance);
+                player.push(campaignComplete as Campaign);
             }
         });
 

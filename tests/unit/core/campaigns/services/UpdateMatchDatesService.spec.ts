@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import UpdateMatchDateService from 'src/core/campaigns/services/UpdateMatchDateService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -11,7 +11,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
         campaignsRepository: any,
         updateDatesPayload: any,
         campaignDatesLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 

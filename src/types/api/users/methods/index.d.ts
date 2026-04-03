@@ -78,6 +78,6 @@ export interface __UserSaved {
 }
 
 export interface UpdateMatchPlayersResponse {
-    campaign: CampaignInstance;
+    campaign: Campaign;
     userDetails: UserDetail;
 }

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import UpdateCampaignImagesService from 'src/core/campaigns/services/UpdateCampaignImagesService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => {
@@ -10,7 +10,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
         imageStorageClient: any,
         campaignMapImagesLength: number,
         campaignCharactersImagesLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 

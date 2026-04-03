@@ -7,11 +7,11 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 
 describe('When characters are recovered by campaign', () => {
-    let user: User[], userDetails: UserDetail[], campaign: CampaignInstance, character: CharacterInstance[];
+    let user: User[], userDetails: UserDetail[], campaign: Campaign, character: CharacterInstance[];
 
     context('And player is dungeons_master', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';

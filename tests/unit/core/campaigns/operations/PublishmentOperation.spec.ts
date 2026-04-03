@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import PublishmentOperation from 'src/core/campaigns/operations/PublishmentOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
@@ -8,7 +8,7 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
     let publishmentOperation: PublishmentOperation,
         publishmentService: any,
         schemaValidator: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         postPayload: any,
         campaignsSchema: any;
 

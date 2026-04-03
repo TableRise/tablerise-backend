@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import AddCampaignPlayersService from 'src/core/campaigns/services/AddCampaignPlayersService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -16,7 +16,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
         usersDetailsRepository: any,
         addPlayersPayload: any,
         campaignPlayersLength: number,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         userDetails: UserDetail,
         hashPassword: any;
 

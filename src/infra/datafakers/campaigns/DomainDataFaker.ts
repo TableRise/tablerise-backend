@@ -1,10 +1,10 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CampaignJSONPayload, ImageJSONPayload } from 'src/types/modules/infra/datafakers/campaigns/DomainDataFaker';
 import generateCampaignsFaker from './generators/generateCampaignsFaker';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import generateImagesFaker from './generators/generateImagesFaker';
 
-function generateCampaignsJSON({ count, campaignId }: CampaignJSONPayload = { count: 1 }): CampaignInstance[] {
+function generateCampaignsJSON({ count, campaignId }: CampaignJSONPayload = { count: 1 }): Campaign[] {
     return generateCampaignsFaker({ count, campaignId });
 }
 

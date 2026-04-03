@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { UpdateMatchMapImagesPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
@@ -22,7 +22,7 @@ export default class UpdateMatchMapImagesService {
         mapImage,
         operation,
         imageId,
-    }: UpdateMatchMapImagesPayload): Promise<CampaignInstance> {
+    }: UpdateMatchMapImagesPayload): Promise<Campaign> {
         this.logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const imageUploadResponse = mapImage && (await this.imageStorageClient.upload(mapImage));
@@ -36,7 +36,7 @@ export default class UpdateMatchMapImagesService {
         return campaign;
     }
 
-    async save(campaign: CampaignInstance): Promise<CampaignInstance> {
+    async save(campaign: Campaign): Promise<Campaign> {
         return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,

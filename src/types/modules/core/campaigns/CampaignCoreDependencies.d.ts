@@ -29,7 +29,7 @@ import {
 
 import { PostInvitationEmailOperationContract, PostInvitationEmailServiceContract } from './campaigns/PostInvitationEmail';
 
-import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './campaigns/PostBanPlayerOperation';
+import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './campaigns/PostBanPlayer';
 
 import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
 

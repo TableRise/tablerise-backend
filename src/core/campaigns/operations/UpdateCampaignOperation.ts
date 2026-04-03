@@ -1,6 +1,6 @@
-import { CampaignUpdatePayload } from 'src/domains/campaigns/schemas/campaignsUpdateValidationSchema';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { TUpdateCampaignBody } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 
 export default class UpdateCampaignOperation {
     private readonly updateCampaignService;
@@ -16,7 +16,7 @@ export default class UpdateCampaignOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(payload: CampaignUpdatePayload): Promise<CampaignInstance> {
+    async execute(payload: TUpdateCampaignBody): Promise<Campaign> {
         this.logger('info', 'Execute - UpdateCampaignOperation');
         const campaignUpdated = await this.updateCampaignService.update(payload);
         return this.updateCampaignService.save(campaignUpdated);

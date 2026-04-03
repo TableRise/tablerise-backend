@@ -1,5 +1,5 @@
 import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { addCharacterPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
@@ -22,7 +22,7 @@ export default class AddPlayerCharacterService {
         this.save = this.save.bind(this);
     }
 
-    public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<CampaignInstance> {
+    public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<Campaign> {
         this.logger('info', 'AddCharacter - AddPlayerCharacterService');
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex(
@@ -41,7 +41,7 @@ export default class AddPlayerCharacterService {
         return campaignInDb;
     }
 
-    public async save(payload: CampaignInstance): Promise<CampaignInstance> {
+    public async save(payload: Campaign): Promise<Campaign> {
         this.logger('info', 'Save - AddPlayerCharacterService');
         return this.campaignsRepository.update({
             query: { campaignId: payload.campaignId },

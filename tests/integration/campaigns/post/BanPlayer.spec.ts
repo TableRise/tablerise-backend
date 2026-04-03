@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainCampaignsDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -7,7 +7,7 @@ import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/su
 import requester from 'tests/support/requester';
 
 describe('when the player is banned', () => {
-    let campaign: CampaignInstance, user: User, userDetails: UserDetail;
+    let campaign: Campaign, user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {

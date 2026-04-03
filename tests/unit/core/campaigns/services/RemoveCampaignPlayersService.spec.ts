@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import RemoveCampaignPlayersService from 'src/core/campaigns/services/RemoveCampaignPlayersService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
@@ -16,7 +16,7 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
         removePlayersPayload: any,
         campaignPlayersLength: number,
         userDetailsCampaignsLength: number,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         userDetails: UserDetail;
 
     const logger = (): void => {};

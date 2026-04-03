@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 
@@ -22,12 +22,12 @@ export default class CampaignsRepository {
         this.logger = logger;
     }
 
-    private formatAndSerializeData(data: CampaignInstance): CampaignInstance {
+    private formatAndSerializeData(data: Campaign): Campaign {
         const format = JSON.parse(JSON.stringify(data));
         return this.serializer.postCampaign(format);
     }
 
-    public async create(payload: CampaignInstance): Promise<CampaignInstance> {
+    public async create(payload: Campaign): Promise<Campaign> {
         this.logger('warn', `Create - CampaignsRepository`);
 
         payload.campaignId = newUUID();
@@ -36,7 +36,7 @@ export default class CampaignsRepository {
         return this.formatAndSerializeData(request);
     }
 
-    public async findOne(query: any = {}): Promise<CampaignInstance> {
+    public async findOne(query: any = {}): Promise<Campaign> {
         this.logger('warn', 'FindOne - CampaignsRepository');
         const request = await this.model.findOne(query);
 
@@ -45,14 +45,14 @@ export default class CampaignsRepository {
         return this.formatAndSerializeData(request);
     }
 
-    public async find(query: any = {}): Promise<CampaignInstance[]> {
+    public async find(query: any = {}): Promise<Campaign[]> {
         this.logger('warn', `Find - CampaignsRepository`);
         const request = await this.model.findAll(query);
 
         return request.map((data) => this.formatAndSerializeData(data));
     }
 
-    public async update({ query, payload }: UpdateObj): Promise<CampaignInstance> {
+    public async update({ query, payload }: UpdateObj): Promise<Campaign> {
         this.logger('warn', 'Update - CampaignsRepository');
 
         const request = await this.model.update(query, payload);

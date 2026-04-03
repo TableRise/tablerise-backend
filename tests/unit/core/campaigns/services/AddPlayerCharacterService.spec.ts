@@ -1,6 +1,6 @@
 import Sinon from 'sinon';
 import AddPlayerCharacterService from 'src/core/campaigns/services/AddPlayerCharacterService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -12,7 +12,7 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
         campaignsRepository: any,
         charactersRepository: any,
         addPlayerCharacterPayload: any,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 

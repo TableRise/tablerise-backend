@@ -1,4 +1,4 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
 
 export default class GetAllCampaignsOperation {
@@ -12,7 +12,7 @@ export default class GetAllCampaignsOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(): Promise<CampaignInstance[]> {
+    async execute(): Promise<Campaign[]> {
         this.logger('info', 'Execute - GetAllCampaignsOperation');
         return this.getAllCampaignsService.getAll();
     }
