@@ -66,7 +66,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
 
                 completeUserOperation = new CompleteUserOperation({
                     schemaValidator,
-                    usersSchema,
                     completeUserService,
                     getUserByIdService,
                     logger,

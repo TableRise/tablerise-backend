@@ -1,11 +1,11 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import { InjectNewCharacter } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover character by id', () => {
-    let characterOne: CharacterInstance;
+    let characterOne: CharactersDnd;
 
     context('And data is correct', () => {
         before(async () => {

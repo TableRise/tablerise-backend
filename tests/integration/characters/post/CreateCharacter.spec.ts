@@ -10,7 +10,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import RacesDnd from 'src/infra/data/dungeons&dragons5e/racesSeeder.json';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When some character is created', () => {
     let user: User, userDetails: UserDetail;
@@ -45,7 +45,7 @@ describe('When some character is created', () => {
             const { body } = (await requester()
                 .post('/characters/create')
                 .send(characterPayload)
-                .expect(HttpStatusCode.CREATED)) as { body: CharacterInstance };
+                .expect(HttpStatusCode.CREATED)) as { body: CharactersDnd };
 
             expect(body).to.have.property('data');
             expect(body).to.have.property('npc');

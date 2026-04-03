@@ -1,12 +1,12 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterAutomationBuilders from 'src/domains/characters/helpers/CharacterAutomationBuilders';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { RPGRulesDatabase } from 'src/types/shared/repository';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class CreateCharacterService {
     private readonly charactersRepository;
@@ -34,38 +34,40 @@ export default class CreateCharacterService {
         this.serialize = this.serialize.bind(this);
     }
 
-    private validateForbiddenKeys(payload: CharacterInstance): void {
-        const isLevelPresent = payload.data.profile.level;
-        const isXpPresent = payload.data.profile.xp;
-        const isAbilityScoresPresent = payload.data.stats.abilityScores;
-        const isDeathSavesPresent = payload.data.stats.deathSaves;
-        const isMoneyPresent = payload.data.money;
-        const isSpellsPresent = payload.data.spells;
-
-        const forbiddenKeys = [
-            isLevelPresent,
-            isXpPresent,
-            isAbilityScoresPresent,
-            isDeathSavesPresent,
-            isMoneyPresent,
-            isSpellsPresent,
-        ];
-
-        const someExists = forbiddenKeys.some((forbidKeys) => forbidKeys !== undefined);
-
-        if (someExists) HttpRequestErrors.throwError('save-forbidden-content');
+    private validateForbiddenKeys(payload: Partial<CharactersDnd>): void {
+        if (payload.data) {
+            const isLevelPresent = payload.data.profile.level;
+            const isXpPresent = payload.data.profile.xp;
+            const isAbilityScoresPresent = payload.data.stats.abilityScores;
+            const isDeathSavesPresent = payload.data.stats.deathSaves;
+            const isMoneyPresent = payload.data.money;
+            const isSpellsPresent = payload.data.spells;
+    
+            const forbiddenKeys = [
+                isLevelPresent,
+                isXpPresent,
+                isAbilityScoresPresent,
+                isDeathSavesPresent,
+                isMoneyPresent,
+                isSpellsPresent,
+            ];
+    
+            const someExists = forbiddenKeys.some((forbidKeys) => forbidKeys !== undefined);
+    
+            if (someExists) HttpRequestErrors.throwError('save-forbidden-content');
+        }
     }
 
-    public serialize(payload: CreateCharacterPayload): CharacterInstance {
+    public serialize(payload: CreateCharacterPayload): CharactersDnd {
         this.logger('info', 'Serialize - CreateCharacterService');
         const characterSerialized = this.serializer.postCharacter(payload.payload);
 
         this.validateForbiddenKeys(characterSerialized);
 
-        return characterSerialized;
+        return characterSerialized as CharactersDnd;
     }
 
-    public async enrichment(payload: CharacterInstance, userId: string): Promise<CharactersDnd> {
+    public async enrichment(payload: CharactersDnd, userId: string): Promise<CharactersDnd> {
         this.logger('info', 'Enrichment - CreateCharacterService');
 
         const userInDb = await this.usersRepository.findOne({ userId });
@@ -178,9 +180,9 @@ export default class CreateCharacterService {
         };
 
         payload.data.stats.skills = {};
-        payload.picture = null;
-        payload.data.profile.characteristics.appearance.picture = null;
-        payload.data.profile.characteristics.alliesAndOrgs[0].symbol = null;
+        payload.picture = null as unknown as ImageObject;
+        payload.data.profile.characteristics.appearance.picture = null as unknown as ImageObject;
+        payload.data.profile.characteristics.alliesAndOrgs[0].symbol = null as unknown as ImageObject;
         payload.data.createdAt = new Date().toISOString();
         payload.data.updatedAt = new Date().toISOString();
         payload.createdAt = new Date().toISOString();
@@ -193,7 +195,7 @@ export default class CreateCharacterService {
             },
         ];
 
-        return payload as CharactersDnd;
+        return payload;
     }
 
     public async automation(character: CharactersDnd): Promise<CharactersDnd> {
@@ -215,7 +217,7 @@ export default class CreateCharacterService {
         return characterAbilityScoresAutomated;
     }
 
-    public async save(character: CharacterInstance): Promise<CharacterInstance> {
+    public async save(character: CharactersDnd): Promise<CharactersDnd> {
         this.logger('info', 'Save - CreateCharacterService');
         const characterId = newUUID();
         const userDetailsInDb = await this.usersDetailsRepository.findOne({

@@ -1,5 +1,4 @@
-import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { addCharacterPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';

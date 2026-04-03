@@ -4,14 +4,14 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
     let charactersRepository: CharactersRepository,
         updateTimestampRepository: any,
         database: any,
         serializer: any,
-        character: CharacterInstance,
+        character: CharactersDnd,
         query: any,
         createdCharacter: any,
         characterToCreate: any,
@@ -63,7 +63,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
             before(() => {
                 character = {
                     characterId,
-                } as CharacterInstance;
+                } as CharactersDnd;
 
                 database = {
                     modelInstance: () => ({ findOne: () => character }),
@@ -99,7 +99,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
             before(() => {
                 character = {
                     characterId,
-                } as CharacterInstance;
+                } as CharactersDnd;
 
                 database = {
                     modelInstance: () => ({ findOne: () => null }),
@@ -168,7 +168,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
             before(() => {
                 character = {
                     characterId,
-                } as CharacterInstance;
+                } as CharactersDnd;
 
                 characterToUpdate = { ...character, npc: true };
 
@@ -216,7 +216,7 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
             before(() => {
                 character = {
                     characterId,
-                } as CharacterInstance;
+                } as CharactersDnd;
 
                 database = {
                     modelInstance: () => ({ update: () => null }),

@@ -1,4 +1,4 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { UpdateCharacterPicturePayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
@@ -19,7 +19,7 @@ export default class UpdateCharacterPictureService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
+    public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharactersDnd> {
         this.logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
         const { characterId, image } = payload;
         const characterInDb = await this.charactersRepository.findOne({ characterId });

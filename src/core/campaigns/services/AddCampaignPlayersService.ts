@@ -1,6 +1,4 @@
-import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
@@ -62,11 +60,11 @@ export default class AddCampaignPlayersService {
         };
 
         userDetails.gameInfo.campaigns.push({
-            campaignId: campaign.campaignId,
+            campaignId: campaign.campaignId as string,
             role: player.role,
             title: campaign.title,
             description: campaign.description,
-            cover: campaign.cover as ImageObject,
+            cover: campaign.cover,
         });
 
         campaign.campaignPlayers.push(player);

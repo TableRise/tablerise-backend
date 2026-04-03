@@ -52,8 +52,6 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
 
                 removeCampaignPlayersOperation = new RemoveCampaignPlayersOperation({
                     removeCampaignPlayersService,
-                    schemaValidator,
-                    campaignsSchema,
                     logger,
                 });
             });

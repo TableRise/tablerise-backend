@@ -3,20 +3,17 @@ import { CompleteOAuth } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class CompleteUserOperation {
-    private readonly usersSchema;
     private readonly schemaValidator;
     private readonly completeUserService;
     private readonly getUserByIdService;
     private readonly logger;
 
     constructor({
-        usersSchema,
         completeUserService,
         getUserByIdService,
         schemaValidator,
         logger,
     }: OAuthCoreDependencies['completeUserOperationContract']) {
-        this.usersSchema = usersSchema;
         this.schemaValidator = schemaValidator;
         this.completeUserService = completeUserService;
         this.getUserByIdService = getUserByIdService;

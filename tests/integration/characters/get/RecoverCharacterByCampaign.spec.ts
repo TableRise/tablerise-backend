@@ -8,10 +8,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When characters are recovered by campaign', () => {
-    let user: User[], userDetails: UserDetail[], campaign: Campaign, character: CharacterInstance[];
+    let user: User[], userDetails: UserDetail[], campaign: Campaign, character: CharactersDnd[];
 
     context('And player is dungeons_master', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
@@ -78,7 +78,7 @@ describe('When characters are recovered by campaign', () => {
 
             expect(body).to.be.an('array').with.lengthOf(3);
 
-            body.forEach((result: CharacterInstance) => {
+            body.forEach((result: CharactersDnd) => {
                 expect(result).to.have.property('characterId');
                 expect(result).to.have.property('data');
                 expect(result).to.have.property('author');
@@ -153,7 +153,7 @@ describe('When characters are recovered by campaign', () => {
 
             expect(body).to.be.an('array').with.lengthOf(3);
 
-            body.forEach((result: CharacterInstance) => {
+            body.forEach((result: CharactersDnd) => {
                 expect(result).to.have.property('characterId');
                 expect(result).to.not.have.property('data');
                 expect(result).to.have.property('author');

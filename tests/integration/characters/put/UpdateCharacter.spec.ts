@@ -8,10 +8,10 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When some character is updated', () => {
-    let user: User, userDetails: UserDetail, character: CharacterInstance, characterId: string;
+    let user: User, userDetails: UserDetail, character: CharactersDnd, characterId: string;
 
     context('And all data is correct', () => {
         before(async () => {

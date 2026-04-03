@@ -5,19 +5,25 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
         charactersController: any,
         verifyIdMiddleware: any,
         authorizationMiddleware: any,
-        imageMiddleware: any;
+        imageMiddleware: any,
+        charactersSchemas: any;
 
     context('When all the routes are correctly implemented', () => {
         charactersController = {};
         verifyIdMiddleware = () => ({});
         imageMiddleware = { multer: () => ({ single: () => {} }) };
         authorizationMiddleware = { checkAdminRole: () => {} };
+        charactersSchemas = {
+            postCreateCharacter: { body: {} },
+            putUpdateCharacter: { body: {} },
+        };
 
         charactersRoutes = new CharactersRoutes({
             charactersController,
             verifyIdMiddleware,
             imageMiddleware,
             authorizationMiddleware,
+            charactersSchemas,
         });
 
         it('Should return the correct number of routes', () => {

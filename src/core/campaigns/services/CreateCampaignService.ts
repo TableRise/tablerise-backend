@@ -8,7 +8,6 @@ import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { FileObject } from 'src/types/shared/file';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class CreateCampaignService {
     private readonly campaignsRepository;
@@ -70,7 +69,7 @@ export default class CreateCampaignService {
         return campaign;
     }
 
-    public async save(campaign: __FullCampaign): Promise<__CampaignSaved> {
+    public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {
         this.logger('info', 'Save - CreateCampaignService');
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: campaign.campaignPlayers[0].userId,
@@ -81,11 +80,11 @@ export default class CreateCampaignService {
         });
 
         userDetailsInDb.gameInfo.campaigns.push({
-            campaignId: campaignCreated.campaignId,
+            campaignId: campaignCreated.campaignId as string,
             role: campaignCreated.campaignPlayers[0].role,
             title: campaignCreated.title,
             description: campaignCreated.description,
-            cover: campaignCreated.cover as ImageObject,
+            cover: campaignCreated.cover,
         });
 
         await this.usersDetailsRepository.update({

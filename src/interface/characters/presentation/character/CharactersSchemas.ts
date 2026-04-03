@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { ICharactersSchemas } from 'src/types/modules/interface/characters/presentation/characters/CharactersSchemas';
 import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
-import { Author } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
-import { Logs } from '@tablerise/database-management/dist/src/interfaces/Common';
 import racesEnum from 'src/domains/dungeons&dragons5e/enums/racesEnum';
 import classesEnum from 'src/domains/dungeons&dragons5e/enums/classesEnum';
+
+// ─── POST (create) ────────────────────────────────────────────────────────────
 
 const alliesAndOrgsCharacterZodSchema = z.object({
     orgName: z.string(),
@@ -146,14 +147,118 @@ const characterPostZodSchema = z.object({
     picture: imageObjectZodSchema.optional().nullable(),
 });
 
-export type CharacterInstance = z.infer<typeof characterPostZodSchema> & {
-    characterId?: string;
-    campaignId?: string;
-    matchId?: string;
-    author: Author;
-    logs: Logs[];
-    createdAt?: string;
-    updatedAt?: string;
-};
+// ─── PUT (update) ─────────────────────────────────────────────────────────────
 
-export default characterPostZodSchema;
+const appearanceUpdateZodSchema = z.object({
+    eyes: z.string().optional(),
+    age: z.string().optional(),
+    weight: z.string().optional(),
+    height: z.string().optional(),
+    skin: z.string().optional(),
+    hair: z.string().optional(),
+});
+
+const otherUpdateZodSchema = z.object({
+    languages: z.array(z.string()).optional(),
+    proficiencies: z.string().optional(),
+    extraCharacteristics: z.string().optional(),
+});
+
+const characteristicsUpdateZodSchema = z.object({
+    alignment: z.string().optional(),
+    backstory: z.string().optional(),
+    personalityTraits: z.string().optional(),
+    ideals: z.string().optional(),
+    bonds: z.string().optional(),
+    flaws: z.string().optional(),
+    appearance: appearanceUpdateZodSchema,
+    other: otherUpdateZodSchema,
+});
+
+const profileUpdateZodSchema = z.object({
+    name: z.string().optional(),
+    class: z.string().optional(),
+    race: z.string().optional(),
+    level: z.number().default(0).optional(),
+    xp: z.number().default(0).optional(),
+    characteristics: characteristicsUpdateZodSchema.optional(),
+});
+
+const hitPointsUpdateZodSchema = z.object({
+    points: z.number().optional(),
+    currentPoints: z.number().optional(),
+    tempPoints: z.number().optional(),
+    dicePoints: z.string().optional(),
+});
+
+const deathSavesUpdateZodSchema = z.object({
+    success: z.number().optional(),
+    failures: z.number().optional(),
+});
+
+const spellCastingUpdateZodSchema = z.object({
+    class: z.string().optional(),
+    ability: z.string().optional(),
+    saveDc: z.number().optional(),
+    attackBonus: z.number().optional(),
+});
+
+const statsUpdateZodSchema = z.object({
+    proficiencyBonus: z.number().optional(),
+    inspiration: z.number().optional(),
+    passiveWisdom: z.number().optional(),
+    speed: z.number().optional(),
+    initiative: z.number().optional(),
+    armorClass: z.number().optional(),
+    hitPoints: hitPointsUpdateZodSchema,
+    deathSaves: deathSavesUpdateZodSchema,
+    spellCasting: spellCastingUpdateZodSchema,
+});
+
+const moneyUpdateZodSchema = z.object({
+    cp: z.number().optional(),
+    sp: z.number().optional(),
+    ep: z.number().optional(),
+    gp: z.number().optional(),
+    pp: z.number().optional(),
+});
+
+const dataUpdateZodSchema = z.object({
+    profile: profileUpdateZodSchema.optional(),
+    stats: statsUpdateZodSchema.optional(),
+    money: moneyUpdateZodSchema.optional(),
+});
+
+const updateCharacterZodSchema = z.object({
+    data: dataUpdateZodSchema,
+});
+
+const insertOrganizationPictureZodSchema = z.object({
+    orgName: z.string()
+});
+
+const insertCharacterPictureZodSchema = z.object({
+    picture: z.file()
+});
+
+// ─── Exports ──────────────────────────────────────────────────────────────────
+
+export type TCreateCharacterBody = z.infer<typeof characterPostZodSchema>;
+export type TUpdateCharacterBody = z.infer<typeof updateCharacterZodSchema>;
+export type TInsertOrgPictureQuery = z.infer<typeof insertOrganizationPictureZodSchema>;
+export type TInsertCharacterPictureBody = z.infer<typeof insertCharacterPictureZodSchema>;
+
+export default (): ICharactersSchemas => ({
+    postCreateCharacter: {
+        body: characterPostZodSchema,
+    },
+    putUpdateCharacter: {
+        body: updateCharacterZodSchema,
+    },
+    postOrganizationPicture: {
+        query: insertOrganizationPictureZodSchema
+    },
+    postCharacterPicture: {
+        body: insertCharacterPictureZodSchema
+    },
+});

@@ -47,8 +47,6 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
 
             publishmentOperation = new PublishmentOperation({
                 publishmentService,
-                schemaValidator,
-                campaignsSchema,
                 logger,
             });
         });

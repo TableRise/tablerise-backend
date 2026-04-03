@@ -1,7 +1,6 @@
-import { Profile } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
+import { CharactersDnd, Profile } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
 import { CharacterToPlayerRecover } from 'src/types/api/characters/http/response';
@@ -24,7 +23,7 @@ export default class RecoverCharacterByCampaignService {
         this.recoverByCampaign = this.recoverByCampaign.bind(this);
     }
 
-    private mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
+    private mapCharactersForPlayer(characters: CharactersDnd[]): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
                 characterId: char.characterId as string,
@@ -35,10 +34,10 @@ export default class RecoverCharacterByCampaignService {
         });
     }
 
-    private async getCharacters(campaign: Campaign): Promise<CharacterInstance[]> {
+    private async getCharacters(campaign: Campaign): Promise<CharactersDnd[]> {
         const charactersArrays = campaign.campaignPlayers.map((camPlayer) => camPlayer.characterIds);
         const charactersIds = [] as string[];
-        const characters = [] as Array<Promise<CharacterInstance>>;
+        const characters = [] as Array<Promise<CharactersDnd>>;
 
         charactersArrays.forEach((charIds) => {
             charIds.forEach((charUniqIds) => {
@@ -57,7 +56,7 @@ export default class RecoverCharacterByCampaignService {
     public async recoverByCampaign({
         userId,
         campaignId,
-    }: GetCharacterByCampaignPayload): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
+    }: GetCharacterByCampaignPayload): Promise<CharactersDnd[] | CharacterToPlayerRecover[]> {
         this.logger('info', 'RecoverCharacterByCampaignService - Execute');
 
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });

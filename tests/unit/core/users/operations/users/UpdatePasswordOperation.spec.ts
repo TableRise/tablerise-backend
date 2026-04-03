@@ -31,7 +31,6 @@ describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
             updatePasswordOperation = new UpdatePasswordOperation({
                 updatePasswordService,
                 schemaValidator,
-                usersSchema,
                 logger,
             });
         });

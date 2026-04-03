@@ -19,13 +19,13 @@ describe('When recover user by id', () => {
 
             userDetails.gameInfo.campaigns = [
                 {
-                    campaignId: campaignOne.campaignId,
+                    campaignId: campaignOne.campaignId as string,
                     title: campaignOne.title,
                     description: campaignOne.description,
                     role: 'dungeon_master',
                 },
                 {
-                    campaignId: campaignTwo.campaignId,
+                    campaignId: campaignTwo.campaignId as string,
                     title: campaignTwo.title,
                     description: campaignTwo.description,
                     role: 'player',

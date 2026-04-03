@@ -16,7 +16,6 @@ const [
     {
         campaignId,
         title,
-        visibility,
         description,
         system,
         ageRestriction,
@@ -47,11 +46,11 @@ const mocks = {
     },
     createCampaignMock: {
         title,
-        visibility,
         description,
         system,
         ageRestriction,
         password,
+        visibility: infos.visibility,
         cover: { isBinary: true },
     },
     uploadMatchMapImage: { mapImage: { isBinary: true } },
@@ -61,7 +60,6 @@ const mocks = {
     },
     updateCampaign: {
         title,
-        visibility,
         description,
         cover: { isBinary: true },
     },

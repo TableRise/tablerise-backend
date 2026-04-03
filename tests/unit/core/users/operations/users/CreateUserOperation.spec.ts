@@ -43,7 +43,6 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
             };
 
             createUserOperation = new CreateUserOperation({
-                usersSchema,
                 schemaValidator,
                 createUserService,
                 logger,

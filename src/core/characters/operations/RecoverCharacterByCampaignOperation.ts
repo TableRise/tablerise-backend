@@ -1,4 +1,4 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
 import { CharacterToPlayerRecover } from 'src/types/api/characters/http/response';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
@@ -19,7 +19,7 @@ export default class RecoverCharacterByCampaignOperation {
 
     public async execute(
         payload: GetCharacterByCampaignPayload
-    ): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
+    ): Promise<CharactersDnd[] | CharacterToPlayerRecover[]> {
         this.logger('info', 'RecoverCharacterByCampaignOperation - Execute');
         return this.recoverCharacterByCampaignService.recoverByCampaign(payload);
     }

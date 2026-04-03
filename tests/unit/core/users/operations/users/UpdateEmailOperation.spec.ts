@@ -35,7 +35,6 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
                 updateEmailOperation = new UpdateEmailOperation({
                     updateEmailService,
-                    usersSchema,
                     schemaValidator,
                     logger,
                 });
@@ -74,7 +73,6 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
                 updateEmailOperation = new UpdateEmailOperation({
                     updateEmailService,
-                    usersSchema,
                     schemaValidator,
                     logger,
                 });

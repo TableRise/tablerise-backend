@@ -37,7 +37,6 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                 createCharacterOperation = new CreateCharacterOperation({
                     schemaValidator,
                     createCharacterService,
-                    charactersSchema,
                     logger,
                 });
             });
@@ -73,7 +72,6 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                 createCharacterOperation = new CreateCharacterOperation({
                     schemaValidator,
                     createCharacterService,
-                    charactersSchema,
                     logger,
                 });
             });

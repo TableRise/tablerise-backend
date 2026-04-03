@@ -6,7 +6,7 @@ import { UserExternal } from 'src/types/api/users/http/payload';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 export default class Serializer {
     private isDiscordProfile(obj: any): obj is Discord.Profile {
@@ -140,7 +140,7 @@ export default class Serializer {
         npc = null,
         picture = null,
         logs = null,
-    }: any): CharacterInstance {
+    }: any): Partial<CharactersDnd> {
         return {
             characterId,
             campaignId,
@@ -149,7 +149,7 @@ export default class Serializer {
             data,
             npc,
             picture,
-            logs,
+            logs
         };
     }
 

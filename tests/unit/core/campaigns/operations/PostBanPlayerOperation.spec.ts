@@ -32,8 +32,6 @@ describe('Core :: Campaigns :: Operations :: PostBanPlayerOperation', () => {
 
             postBanPlayerOperation = new PostBanPlayerOperation({
                 postBanPlayerService,
-                schemaValidator,
-                campaignsSchema,
                 logger,
             });
         });

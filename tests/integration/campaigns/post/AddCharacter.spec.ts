@@ -5,10 +5,10 @@ import requester from 'tests/support/requester';
 import { InjectNewCampaign, InjectNewCharacter } from 'tests/support/dataInjector';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When a character is added to campaign', () => {
-    let campaign: Campaign, character: CharacterInstance;
+    let campaign: Campaign, character: CharactersDnd;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';

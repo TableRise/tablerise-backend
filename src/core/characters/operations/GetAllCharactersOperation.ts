@@ -1,4 +1,4 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class GetAllCharactersOperation {
@@ -12,7 +12,7 @@ export default class GetAllCharactersOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(): Promise<CharacterInstance[]> {
+    async execute(): Promise<CharactersDnd[]> {
         this.logger('info', 'Execute - GetAllCharactersOperation');
         return this.getAllCharactersService.getAll();
     }

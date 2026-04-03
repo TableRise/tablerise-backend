@@ -6,6 +6,4 @@ const schemas = {
     characterPutZod,
 };
 
-export type SchemasCharacterType = typeof schemas;
-
 export default schemas;

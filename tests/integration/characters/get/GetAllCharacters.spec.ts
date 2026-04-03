@@ -1,13 +1,13 @@
 import sinon from 'sinon';
 import requester from 'tests/support/requester';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { InjectNewCharacter } from 'tests/support/dataInjector';
 import DatabaseManagement from '@tablerise/database-management';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 
 describe('When recover all characters', () => {
-    let characters: CharacterInstance[], modelCharacter: any;
+    let characters: CharactersDnd[], modelCharacter: any;
 
     context('And is succesfull', () => {
         before(async () => {
@@ -27,7 +27,7 @@ describe('When recover all characters', () => {
             const { body } = await requester().get('/characters').expect(HttpStatusCode.OK);
             expect(body).to.be.an('array');
             expect(body.length).to.be.equal(characters.length);
-            body.forEach((char: CharacterInstance) => {
+            body.forEach((char: CharactersDnd) => {
                 expect(char).to.be.not.null();
             });
         });

@@ -8,8 +8,6 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
     let addCampaignPlayersOperation: AddCampaignPlayersOperation,
         addCampaignPlayersService: any,
         matchPlayersPayload: any,
-        schemaValidator: any,
-        campaignsSchema: any,
         campaign: Campaign;
 
     const logger = (): void => {};
@@ -43,18 +41,8 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
                     save: sinon.spy(() => campaign),
                 };
 
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                campaignsSchema = {
-                    campaignsAddCampaignPlayersZod: {},
-                };
-
                 addCampaignPlayersOperation = new AddCampaignPlayersOperation({
                     addCampaignPlayersService,
-                    schemaValidator,
-                    campaignsSchema,
                     logger,
                 });
             });

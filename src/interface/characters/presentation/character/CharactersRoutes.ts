@@ -2,7 +2,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
 import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
@@ -14,17 +13,20 @@ export default class CharactersRoutes {
     private readonly verifyIdMiddleware;
     private readonly imageMiddleware;
     private readonly authorizationMiddleware;
+    private readonly charactersSchemas;
 
     constructor({
         charactersController,
         verifyIdMiddleware,
         imageMiddleware,
         authorizationMiddleware,
+        charactersSchemas,
     }: InterfaceDependencies['charactersRoutesContract']) {
         this.charactersController = charactersController;
         this.verifyIdMiddleware = verifyIdMiddleware;
         this.imageMiddleware = imageMiddleware;
         this.authorizationMiddleware = authorizationMiddleware;
+        this.charactersSchemas = charactersSchemas;
     }
 
     public routes(): routeInstance[] {
@@ -70,10 +72,10 @@ export default class CharactersRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
-                schema: DomainDataFaker.mocks.createCharacterMock,
                 controller: this.charactersController.createCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.charactersSchemas.postCreateCharacter.body }],
                     description: desc.create,
                     tag: 'create',
                 },
@@ -91,6 +93,7 @@ export default class CharactersRoutes {
                         this.imageMiddleware.fileType,
                     ],
                     description: desc.updatePicture,
+                    schemas: [{ body: this.charactersSchemas.postCharacterPicture.body }],
                     tag: 'management',
                     fileUpload: true,
                 },
@@ -99,8 +102,7 @@ export default class CharactersRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/symbol`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }])],
-                schema: DomainDataFaker.mocks.orgPictureUpload,
-                controller: this.charactersController.createCharacter,
+                controller: this.charactersController.organizationPicture,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -109,6 +111,10 @@ export default class CharactersRoutes {
                         this.verifyIdMiddleware,
                     ],
                     tag: 'management',
+                    schemas: [{
+                        query: this.charactersSchemas.postOrganizationPicture.query,
+                        body: this.charactersSchemas.postCharacterPicture.body
+                    }],
                     description: desc.orgSymbol,
                     fileUpload: true,
                 },
@@ -121,8 +127,9 @@ export default class CharactersRoutes {
                 controller: this.charactersController.updateCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.charactersSchemas.putUpdateCharacter.body }],
                     description: desc.update,
-                    tag: 'management',
+                    tag: 'management'
                 },
             },
             // PATCH

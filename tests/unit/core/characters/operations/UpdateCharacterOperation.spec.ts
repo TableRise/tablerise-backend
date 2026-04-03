@@ -28,7 +28,6 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
 
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,
-                    charactersSchema,
                     schemaValidator,
                     logger,
                 });

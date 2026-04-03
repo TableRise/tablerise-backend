@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { CharacterPayload } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { FileObject } from 'src/types/shared/file';
+import { TCreateCharacterBody } from './CharactersSchemas';
 
 export default class CharactersController {
     private readonly createCharacterOperation;
@@ -40,7 +40,7 @@ export default class CharactersController {
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
-        const payload = req.body as CharacterPayload;
+        const payload = req.body as TCreateCharacterBody;
         const { userId } = req.user as Express.User;
 
         const result = await this.createCharacterOperation.execute({ payload, userId });

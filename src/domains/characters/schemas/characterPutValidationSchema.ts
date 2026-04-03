@@ -85,4 +85,3 @@ const updateCharacterZodSchema = z.object({
 });
 
 export default updateCharacterZodSchema;
-export type UpdateCharacter = z.infer<typeof updateCharacterZodSchema>;

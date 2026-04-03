@@ -1,4 +1,4 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { orgPicturePayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
@@ -19,7 +19,7 @@ export default class OrgPictureUploadService {
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async uploadPicture({ characterId, image, orgName }: orgPicturePayload): Promise<CharacterInstance> {
+    public async uploadPicture({ characterId, image, orgName }: orgPicturePayload): Promise<CharactersDnd> {
         this.logger('info', 'UploadPicture - OrgPictureUploadService');
         const characterInDb = await this.characterRepository.findOne({ characterId });
         const allyOrOrgIndex = characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(

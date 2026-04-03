@@ -89,7 +89,6 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 expect(campaignUpdateTest.infos.visibility).to.be.equal(campaignUpdatePayload.visibility);
 
                 if (typeof campaignUpdatePayload.cover !== 'string') {
-                    // @ts-expect-error Will exist
                     expect(campaignUpdateTest.cover?.id).to.be.equal('123');
                     expect(campaignUpdateTest.cover?.link).to.be.equal('https://youtube.com/');
                     expect(campaignUpdateTest.cover).to.have.property('uploadDate');

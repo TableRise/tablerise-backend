@@ -1,6 +1,6 @@
 import RecoverCharacterByCampaignService from 'src/core/characters/services/RecoverCharacterByCampaignService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -12,7 +12,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
         campaignsRepository: any,
         result: any,
         campaign: Campaign,
-        character: CharacterInstance;
+        character: CharactersDnd;
 
     const logger = (): void => {};
 
@@ -29,7 +29,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                 campaign.campaignPlayers[0].role = 'player';
                 campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
 
-                campaignId = campaign.campaignId;
+                campaignId = campaign.campaignId!;
                 userId = campaign.campaignPlayers[0].userId;
 
                 charactersRepository = {
@@ -76,7 +76,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
                 campaign.campaignPlayers[0].role = 'dungeon_master';
                 campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
 
-                campaignId = campaign.campaignId;
+                campaignId = campaign.campaignId!;
                 userId = campaign.campaignPlayers[0].userId;
 
                 charactersRepository = {
@@ -114,7 +114,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers = [];
 
-                campaignId = campaign.campaignId;
+                campaignId = campaign.campaignId!;
                 userId = '123';
 
                 charactersRepository = {
