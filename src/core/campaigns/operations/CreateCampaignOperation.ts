@@ -3,19 +3,13 @@ import { CreateCampaignResponse } from 'src/types/api/campaigns/http/response';
 import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
 
 export default class CreateCampaignOperation {
-    private readonly campaignsSchema;
-    private readonly schemaValidator;
     private readonly createCampaignService;
     private readonly logger;
 
     constructor({
-        campaignsSchema,
-        schemaValidator,
         createCampaignService,
         logger,
     }: CampaignCoreDependencies['createCampaignOperationContract']) {
-        this.campaignsSchema = campaignsSchema;
-        this.schemaValidator = schemaValidator;
         this.createCampaignService = createCampaignService;
         this.logger = logger;
 

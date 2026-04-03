@@ -3,19 +3,13 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class updateMatchDateOperation {
     private readonly updateMatchDateService;
-    private readonly campaignsSchema;
-    private readonly schemaValidator;
     private readonly logger;
 
     constructor({
         updateMatchDateService,
-        campaignsSchema,
-        schemaValidator,
         logger,
     }: CampaignCoreDependencies['updateMatchDateOperationContract']) {
         this.updateMatchDateService = updateMatchDateService;
-        this.schemaValidator = schemaValidator;
-        this.campaignsSchema = campaignsSchema;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);

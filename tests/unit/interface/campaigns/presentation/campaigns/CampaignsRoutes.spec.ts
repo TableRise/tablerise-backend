@@ -14,7 +14,20 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
         verifyIdMiddleware = () => ({});
         imageMiddleware = { multer: () => ({ single: () => {} }) };
         authorizationMiddleware = {};
-        verifyMatchMiddleware = () => ({});
+        verifyMatchMiddleware = { exists: () => {} };
+        campaignsSchemas = {
+            postCreateCampaign: { body: {} },
+            postCreateCampaignPublishment: { body: {} },
+            postInvitePlayerByEmail: { query: {} },
+            postBanCampaignPlayer: { query: {} },
+            postAddCampaignPlayers: { query: {} },
+            putUpdateCampaign: { body: {} },
+            patchUpdateCampaignMatchMapImages: { body: {} },
+            patchUpdateCampaignMatchMusics: { body: {} },
+            patchUpdateCampaignMatchDate: { query: {} },
+            patchUpdateCampaignPlayerCharacter: { query: {} },
+            patchUpdateCampaignImages: { body: {} },
+        };
 
         campaignsRoutes = new CampaignsRoutes({
             campaignsController,

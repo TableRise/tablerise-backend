@@ -3,19 +3,13 @@ import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidat
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateCampaignOperation {
-    private readonly campaignsSchema;
-    private readonly schemaValidator;
     private readonly updateCampaignService;
     private readonly logger;
 
     constructor({
-        campaignsSchema,
-        schemaValidator,
         updateCampaignService,
         logger,
     }: CampaignCoreDependencies['updateCampaignOperationContract']) {
-        this.campaignsSchema = campaignsSchema;
-        this.schemaValidator = schemaValidator;
         this.updateCampaignService = updateCampaignService;
         this.logger = logger;
 
