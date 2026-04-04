@@ -3,16 +3,13 @@ import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateEmailOperation {
     private readonly updateEmailService;
-    private readonly schemaValidator;
     private readonly logger;
 
     constructor({
         updateEmailService,
-        schemaValidator,
         logger,
     }: UserCoreDependencies['updateEmailOperationContract']) {
         this.updateEmailService = updateEmailService;
-        this.schemaValidator = schemaValidator;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);

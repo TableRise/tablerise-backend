@@ -4,7 +4,6 @@ import UpdateCharacterOperation from 'src/core/characters/operations/UpdateChara
 describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
     let updateCharacterOperation: UpdateCharacterOperation,
         charactersSchema: any,
-        schemaValidator: any,
         payloadToUpdate: any,
         updateCharacterService: any;
 
@@ -24,11 +23,8 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
 
                 charactersSchema = {};
 
-                schemaValidator = { entry: Sinon.spy() };
-
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,
-                    schemaValidator,
                     logger,
                 });
             });

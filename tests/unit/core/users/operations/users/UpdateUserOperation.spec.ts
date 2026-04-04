@@ -1,9 +1,6 @@
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
     let updateUserOperation: UpdateUserOperation,
@@ -17,13 +14,6 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
 
     context('When a new user is updated with success', () => {
         before(() => {
-            usersSchema = {
-                userZod: {},
-                userDetailZod: {},
-            };
-
-            schemaValidator = { entry: sinon.spy(() => {}) };
-
             userWithouDetails = DomainDataFaker.generateUsersJSON()[0];
 
             userUpdated = {
@@ -54,7 +44,6 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
                 payload: userUpdated,
             });
 
-            expect(schemaValidator.entry).to.have.been.called(2);
             expect(updateUserService.save).to.have.been.called();
             expect(updateUserService.update).to.have.been.calledWith({
                 userId: '123',
@@ -70,28 +59,6 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
 
     context('When a new user update fails', () => {
         before(() => {
-            usersSchema = {
-                userZod: {},
-                userDetailZod: {},
-            };
-
-            schemaValidator = { entry: sinon.stub() };
-
-            schemaValidator.entry.onCall(0).callsFake(() => {
-                throw new HttpRequestErrors({
-                    message: 'Schema error',
-                    name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
-                    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
-                    details: [
-                        {
-                            attribute: 'nickname',
-                            path: 'payload',
-                            reason: 'Required',
-                        },
-                    ],
-                });
-            });
-
             userWithouDetails = DomainDataFaker.generateUsersJSON()[0];
 
             userUpdated = {
@@ -100,17 +67,12 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
             };
 
             updateUserService = {
-                update: sinon.spy(() => ({
-                    user: {},
-                    userDetails: {},
-                })),
+                update: sinon.spy(() => { throw new Error('error throw') }),
                 save: sinon.spy(() => userUpdated),
                 _validateUpdateData: sinon.spy(() => {}),
             };
 
             updateUserOperation = new UpdateUserOperation({
-                usersSchema,
-                schemaValidator,
                 updateUserService,
                 logger,
             });
@@ -123,13 +85,8 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
                     payload: userUpdated,
                 });
                 expect('it should not be here').to.be.equal(false);
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal('Schema error');
-                expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                expect(err.name).to.be.equal('UnprocessableEntity');
-                expect(err.details[0].attribute).to.be.equal('nickname');
-                expect(err.details[0].reason).to.be.equal('Required');
+            } catch (error: any) {
+                expect(error.message).to.be.equal('error throw');
             }
         });
     });

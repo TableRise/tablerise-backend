@@ -6,7 +6,6 @@ import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepo
 
 export interface GetAllCharactersOperationContract {
     getAllCharacterService: GetAllCharactersService;
-    schemaValidator: SchemaValidator;
     logger: Logger;
 }
 

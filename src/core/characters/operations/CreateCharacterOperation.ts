@@ -3,16 +3,13 @@ import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class CreateCharacterOperation {
-    private readonly schemaValidator;
     private readonly createCharacterService;
     private readonly logger;
 
     constructor({
-        schemaValidator,
         createCharacterService,
         logger,
     }: CharacterCoreDependencies['createCharacterOperationContract']) {
-        this.schemaValidator = schemaValidator;
         this.createCharacterService = createCharacterService;
         this.logger = logger;
 

@@ -5,8 +5,6 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
     let updateEmailOperation: UpdateEmailOperation,
         updateEmailService: any,
-        usersSchema: any,
-        schemaValidator: any,
         updateEmailPayload: any;
 
     const logger = (): void => {};
@@ -25,24 +23,14 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
                     email: 'newemail@email.com',
                 };
 
-                usersSchema = {
-                    emailUpdateZod: {},
-                };
-
-                schemaValidator = {
-                    entry: sinon.spy(),
-                };
-
                 updateEmailOperation = new UpdateEmailOperation({
                     updateEmailService,
-                    schemaValidator,
                     logger,
                 });
             });
 
             it('should call the correct methods', async () => {
                 await updateEmailOperation.execute(updateEmailPayload);
-                expect(schemaValidator.entry).to.have.been.calledWith({}, { email: updateEmailPayload.email });
                 expect(updateEmailService.update).to.have.been.calledWith(updateEmailPayload);
             });
         });
@@ -52,7 +40,7 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
             before(() => {
                 updateEmailService = {
-                    update: sinon.spy(),
+                    update: sinon.spy(() => { throw new Error('error throw') }),
                 };
 
                 updateEmailPayload = {
@@ -61,19 +49,8 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
                     email: 'newemail@email.com',
                 };
 
-                usersSchema = {
-                    emailUpdateZod: {},
-                };
-
-                schemaValidator = {
-                    entry: () => {
-                        throw new Error('Schema error');
-                    },
-                };
-
                 updateEmailOperation = new UpdateEmailOperation({
                     updateEmailService,
-                    schemaValidator,
                     logger,
                 });
             });
@@ -82,9 +59,8 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
                 try {
                     await updateEmailOperation.execute(updateEmailPayload);
                     expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as Error;
-                    expect(err.message).to.be.equal('Schema error');
+                } catch (error: any) {
+                    expect(error.message).to.be.equal('error throw');
                 }
             });
         });

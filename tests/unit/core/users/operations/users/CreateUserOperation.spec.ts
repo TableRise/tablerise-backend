@@ -5,7 +5,6 @@ import CreateUserOperation from 'src/core/users/operations/users/CreateUserOpera
 describe('Core :: Users :: Operations :: CreateUserOperation', () => {
     let createUserOperation: CreateUserOperation,
         usersSchema: any,
-        schemaValidator: any,
         createUserService: any,
         userToCreate: any,
         userCreated: any;
@@ -18,8 +17,6 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
                 userZod: {},
                 userDetailZod: {},
             };
-
-            schemaValidator = { entry: sinon.spy(() => {}) };
 
             userToCreate = DomainDataFaker.generateUsersJSON()[0];
             userCreated = {
@@ -43,7 +40,6 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
             };
 
             createUserOperation = new CreateUserOperation({
-                schemaValidator,
                 createUserService,
                 logger,
             });

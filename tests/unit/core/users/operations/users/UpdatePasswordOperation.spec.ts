@@ -5,7 +5,6 @@ describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
     let updatePasswordOperation: UpdatePasswordOperation,
         updatePasswordService: any,
         usersSchema: any,
-        schemaValidator: any,
         payload: any;
 
     const logger = (): void => {};
@@ -15,8 +14,6 @@ describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
             usersSchema = {
                 passwordUpdateZod: {},
             };
-
-            schemaValidator = { entry: sinon.spy(() => {}) };
 
             updatePasswordService = {
                 update: sinon.spy(() => ({})),
@@ -30,7 +27,6 @@ describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
 
             updatePasswordOperation = new UpdatePasswordOperation({
                 updatePasswordService,
-                schemaValidator,
                 logger,
             });
         });
@@ -38,7 +34,6 @@ describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
         it('should return the correct data and call correct methods', async () => {
             await updatePasswordOperation.execute(payload);
 
-            expect(schemaValidator.entry).to.have.been.called();
             expect(updatePasswordService.update).to.have.been.called();
         });
     });

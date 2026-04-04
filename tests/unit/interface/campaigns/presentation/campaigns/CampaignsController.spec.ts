@@ -352,8 +352,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
     context('#inviteEmail', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const username = 'joaquim';
-        const userId = newUUID();
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
@@ -395,15 +393,12 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { targetEmail: 'test20@email.com' };
-            request.user = { userId, username } as Express.User;
+            request.query = { campaignId: '123', targetEmail: 'test20@email.com' };
 
             await campaignsController.inviteEmail(request, response);
 
             expect(postInvitationEmailOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
-                userId,
-                username,
                 targetEmail: request.query.targetEmail,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
@@ -457,7 +452,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { operation: 'add' };
+            request.body = { operation: 'add' };
             request.file = {} as Express.Multer.File;
 
             await campaignsController.updateMatchMapImages(request, response);
@@ -517,8 +512,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { operation: 'add' };
-            request.body = { title: 'Main Theme', youtubeLink: 'https://youtu.be/123' };
+            request.body = { title: 'Main Theme', operation: 'add', youtubeLink: 'https://youtu.be/123' };
 
             await campaignsController.updateMatchMusics(request, response);
 
@@ -868,7 +862,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { operation: 'add' };
+            request.body = { operation: 'add' };
             request.file = {} as Express.Multer.File;
 
             await campaignsController.updateCampaignImages(request, response);

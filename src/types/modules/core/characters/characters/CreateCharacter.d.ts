@@ -1,4 +1,3 @@
-import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import { Logger } from 'src/types/shared/logger';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import CreateCharacterService from 'src/core/characters/services/CreateCharacterService';
@@ -9,7 +8,6 @@ import DungeonsAndDragonsRepository from 'src/infra/repositories/dungeons&dragon
 
 export interface CreateCharacterOperationContract {
     createCharacterService: CreateCharacterService;
-    schemaValidator: SchemaValidator;
     logger: Logger;
 }
 

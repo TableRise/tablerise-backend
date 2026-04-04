@@ -3,16 +3,13 @@ import { UpdateUserPayload } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UpdateUserOperation {
-    private readonly schemaValidator;
     private readonly updateUserService;
     private readonly logger;
 
     constructor({
         updateUserService,
-        schemaValidator,
         logger,
     }: UserCoreDependencies['updateUserOperationContract']) {
-        this.schemaValidator = schemaValidator;
         this.updateUserService = updateUserService;
         this.logger = logger;
 

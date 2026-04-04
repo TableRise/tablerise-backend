@@ -3,16 +3,13 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class CreateUserOperation {
-    private readonly schemaValidator;
     private readonly createUserService;
     private readonly logger;
 
     constructor({
-        schemaValidator,
         createUserService,
         logger,
     }: UserCoreDependencies['createUserOperationContract']) {
-        this.schemaValidator = schemaValidator;
         this.createUserService = createUserService;
         this.logger = logger;
 

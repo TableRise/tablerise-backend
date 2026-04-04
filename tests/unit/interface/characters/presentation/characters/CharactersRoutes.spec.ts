@@ -16,6 +16,8 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
         charactersSchemas = {
             postCreateCharacter: { body: {} },
             putUpdateCharacter: { body: {} },
+            postCharacterPicture: { body: {} },
+            postOrganizationPicture: { query: {} },
         };
 
         charactersRoutes = new CharactersRoutes({

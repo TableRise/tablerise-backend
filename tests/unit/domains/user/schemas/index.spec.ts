@@ -4,11 +4,6 @@ describe('Domains :: User :: Schemas :: Index', () => {
     context('When schemas index', () => {
         it('should have correct keys', () => {
             const keys = [
-                'userZod',
-                'userDetailZod',
-                'emailUpdateZod',
-                'passwordUpdateZod',
-                'updateUserZod',
                 'oAuthComplete',
             ];
             const indexKeys = Object.keys(index);

@@ -3,16 +3,13 @@ import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdatePasswordOperation {
     private readonly updatePasswordService;
-    private readonly schemaValidator;
     private readonly logger;
 
     constructor({
         updatePasswordService,
-        schemaValidator,
         logger,
     }: UserCoreDependencies['updatePasswordOperationContract']) {
         this.updatePasswordService = updatePasswordService;
-        this.schemaValidator = schemaValidator;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);

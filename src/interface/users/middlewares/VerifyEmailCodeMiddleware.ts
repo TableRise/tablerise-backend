@@ -78,15 +78,20 @@ export default class VerifyEmailCodeMiddleware {
 
         const userWithValidState = await this.stateMachine.machine(flow as stateFlowsKeys, userValidated);
 
-        const userDetails = await this.usersDetailsRepository.findOne({
-            userId: userWithValidState.userId,
-        });
+        let userDetails = null;
+        try {
+            userDetails = await this.usersDetailsRepository.findOne({
+                userId: userWithValidState.userId,
+            });
+        } catch (error: any) {
+            if (error.code !== HttpStatusCode.NOT_FOUND) throw error;
+        }
 
         res.locals = {
             userId: userWithValidState.userId,
             userStatus: userWithValidState.inProgress.status,
             accountSecurityMethod: !userWithValidState.twoFactorSecret.active
-                ? `secret-question%${userDetails.secretQuestion.question}`
+                ? `secret-question%${userDetails?.secretQuestion?.question as string}`
                 : 'two-factor',
             lastUpdate: userWithValidState.updatedAt,
         };

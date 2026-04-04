@@ -822,12 +822,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { email: 'test@email.com', code: '123' };
-            request.body = { password: '321' };
+            request.body = { email: 'test@email.com', password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                email: request.query.email,
+                email: request.body.email,
                 password: request.body.password,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);

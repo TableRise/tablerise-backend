@@ -7,7 +7,6 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth', () => {
     let completeUserOperation: CompleteUserOperation,
-        schemaValidator: any,
         usersSchema: any,
         completeUserService: any,
         user: User,
@@ -27,10 +26,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
 
                 usersSchema = {
                     oAuthComplete: {},
-                };
-
-                schemaValidator = {
-                    entry: sinon.spy(),
                 };
 
                 const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
@@ -65,7 +60,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                 };
 
                 completeUserOperation = new CompleteUserOperation({
-                    schemaValidator,
                     completeUserService,
                     getUserByIdService,
                     logger,
@@ -78,7 +72,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                     payload,
                 });
 
-                expect(schemaValidator.entry).to.have.been.calledWith(usersSchema.oAuthComplete, payload);
                 expect(getUserByIdService.get).to.have.been.calledWith({
                     userId: user.userId,
                 });

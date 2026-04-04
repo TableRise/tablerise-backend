@@ -5,8 +5,6 @@ import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
     let createCharacterOperation: CreateCharacterOperation,
         createCharacterService: any,
-        schemaValidator: any,
-        charactersSchema: any,
         characterPayloadMock: any;
 
     const logger = (): any => {};
@@ -19,10 +17,6 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                     userId: '123',
                 };
 
-                schemaValidator = {
-                    entry: () => {},
-                };
-
                 createCharacterService = {
                     serialize: (obj: any) => obj.payload,
                     enrichment: Sinon.spy((obj) => obj),
@@ -30,12 +24,7 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                     automation: (obj: any) => obj,
                 };
 
-                charactersSchema = {
-                    characterPostZod: {},
-                };
-
                 createCharacterOperation = new CreateCharacterOperation({
-                    schemaValidator,
                     createCharacterService,
                     logger,
                 });
@@ -47,42 +36,6 @@ describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
                     characterPayloadMock.payload,
                     characterPayloadMock.userId
                 );
-            });
-        });
-
-        context('And schema has errors', async () => {
-            before(() => {
-                characterPayloadMock = {
-                    payload: DomainDataFaker.mocks.createCharacterMock,
-                    userId: '123',
-                };
-
-                schemaValidator = {
-                    entry: () => {
-                        throw new Error('Some error');
-                    },
-                };
-
-                createCharacterService = {};
-
-                charactersSchema = {
-                    characterPostZod: {},
-                };
-
-                createCharacterOperation = new CreateCharacterOperation({
-                    schemaValidator,
-                    createCharacterService,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    await createCharacterOperation.execute(characterPayloadMock);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    expect(error).not.to.be.undefined();
-                }
             });
         });
     });
