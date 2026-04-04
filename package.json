@@ -7,11 +7,11 @@
         "start": "node ./build/src/server.js",
         "build": "tsc",
         "audit": "npm audit --registry=https://registry.npmjs.org",
-        "local": "npm run build && npx nodemon ./src/server.ts",
+        "local": "npx nodemon",
         "test": "npm run test:unit && npm run test:integration",
-        "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
-        "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration --timeout 10000 tests/integration/**/*.spec.ts --exit",
-        "test:coverage": "cross-env NODE_ENV=test TEST_TYPE=coverage nyc ts-mocha --paths -r tests/support/setup tests/unit/**/*.spec.ts --exit",
+        "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup.ts tests/unit/**/*.spec.ts --exit",
+        "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration.ts --timeout 10000 tests/integration/**/*.spec.ts --exit",
+        "test:coverage": "cross-env NODE_ENV=test TEST_TYPE=coverage nyc ts-mocha --paths -r tests/support/setup.ts tests/unit/**/*.spec.ts --exit",
         "lint": "npx eslint . --ext .ts --max-warnings=20",
         "prettier": "npx prettier --check .",
         "prettier:fix": "npx prettier . --write",
@@ -31,6 +31,7 @@
     "devDependencies": {
         "@faker-js/faker": "8.1.0",
         "@istanbuljs/nyc-config-typescript": "1.0.2",
+        "@swc/core": "1.15.24",
         "@types/bcrypt": "5.0.0",
         "@types/chai": "4.3.9",
         "@types/cookie-parser": "1.4.6",
@@ -82,6 +83,7 @@
         "ts-mocha": "10.0.0",
         "ts-node": "10.9.1",
         "tsconfig-paths": "4.2.0",
+        "tsx": "4.21.0",
         "typescript": "5.0.4"
     },
     "dependencies": {

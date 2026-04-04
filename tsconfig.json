@@ -16,5 +16,8 @@
             "test/*": ["test/*"]
         }
     },
+    "ts-node": {
+        "swc": true
+    },
     "exclude": ["node_modules", "coverage"]
 }
