@@ -150,6 +150,55 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             });
         });
 
+        context('When update picture with success - picture is undefined', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                user.picture = undefined as unknown as User['picture'];
+                userWithPicture = {
+                    ...user,
+                    picture: {
+                        id: '123',
+                        link: 'https://123.com',
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                };
+
+                usersRepository = {
+                    findOne: () => user,
+                    update: sinon.spy(() => userWithPicture),
+                };
+
+                imageStorageClient = {
+                    upload: () => ({
+                        data: {
+                            id: '123',
+                            link: 'https://123.com',
+                        },
+                    }),
+                };
+
+                pictureProfileService = new PictureProfileService({
+                    imageStorageClient,
+                    usersRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods and return correct data', async () => {
+                const payload = {
+                    userId: user.userId,
+                    image: '' as unknown as FileObject,
+                };
+
+                const userUpdated = await pictureProfileService.uploadPicture(payload);
+                expect(usersRepository.update).to.have.been.calledWith();
+                expect(userUpdated).to.have.property('picture');
+            });
+        });
+
         context('When update picture with success - no picture property', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];

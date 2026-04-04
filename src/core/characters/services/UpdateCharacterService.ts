@@ -19,20 +19,13 @@ export default class UpdateCharacterService {
         const characterInDb = await this.charactersRepository.findOne({ characterId });
         let characterToUpdate = {} as CharactersDnd;
 
-        if (payload.data.profile?.characteristics) {
-            let { characteristics } = payload.data.profile;
-            if (!characteristics) characteristics = {} as any;
+        if (payload.data.profile?.characteristics && payload.data.stats?.hitPoints) {
+            const { characteristics } = payload.data.profile;
             if (!characteristics.appearance) characteristics.appearance = {} as any;
             if (!characteristics.other) characteristics.other = {} as any;
-        }
-
-        if (payload.data.stats?.hitPoints) {
-            if (!payload.data.stats.hitPoints) payload.data.stats.hitPoints = {} as any;
             if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
             if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
-        }
 
-        if (payload.data.profile?.characteristics && payload.data.stats?.hitPoints) {
             characterToUpdate = {
                 ...characterInDb,
                 data: {

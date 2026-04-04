@@ -110,5 +110,142 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                 expect(charactersTest.data.profile.name).to.be.deep.equal('some name');
             });
         });
+
+        context('When payload has no profile or stats (only money)', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+
+                payload = {
+                    data: {
+                        money: { cp: 0, sp: 0, ep: 0, gp: 100, pp: 0 },
+                    },
+                } as any;
+
+                result = { ...character };
+
+                charactersRepository = {
+                    update: sinon.spy(() => result),
+                    findOne: sinon.spy(() => character),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should call the correct methods without deep merge', async () => {
+                await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+                expect(charactersRepository.findOne).to.have.been.called();
+                expect(charactersRepository.update).to.have.been.called();
+            });
+        });
+
+        context('When payload has characteristics and hitPoints with missing sub-properties', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+
+                payload = {
+                    data: {
+                        profile: {
+                            characteristics: {
+                                alignment: 'neutral',
+                                backstory: 'A hero',
+                                personalityTraits: 'Brave',
+                                ideals: 'Justice',
+                                bonds: 'None',
+                                flaws: 'Stubborn',
+                                alliesAndOrgs: [],
+                                treasure: [],
+                                // intentionally omitting appearance and other to cover inner TRUE branches
+                            },
+                        },
+                        stats: {
+                            proficiencyBonus: 2,
+                            inspiration: 1,
+                            passiveWisdom: 2,
+                            speed: 7.2,
+                            initiative: 1,
+                            armorClass: 15,
+                            hitPoints: {
+                                points: 50,
+                                currentPoints: 23,
+                                tempPoints: 5,
+                                dicePoints: '2d10',
+                            },
+                            // intentionally omitting deathSaves and spellCasting to cover inner TRUE branches
+                        },
+                    },
+                } as any;
+
+                result = { ...character };
+
+                charactersRepository = {
+                    update: sinon.spy(() => result),
+                    findOne: sinon.spy(() => character),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should call the correct methods with deep merge', async () => {
+                await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+                expect(charactersRepository.findOne).to.have.been.called();
+                expect(charactersRepository.update).to.have.been.called();
+            });
+        });
+
+        context('When payload has characteristics but no hitPoints', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+
+                payload = {
+                    data: {
+                        profile: {
+                            characteristics: {
+                                alignment: 'neutral',
+                                backstory: 'A hero',
+                                personalityTraits: 'Brave',
+                                ideals: 'Justice',
+                                bonds: 'None',
+                                flaws: 'Stubborn',
+                                alliesAndOrgs: [],
+                                treasure: [],
+                            },
+                        },
+                    },
+                } as any;
+
+                result = { ...character };
+
+                charactersRepository = {
+                    update: sinon.spy(() => result),
+                    findOne: sinon.spy(() => character),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should skip deep merge and call repository update', async () => {
+                await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+                expect(charactersRepository.findOne).to.have.been.called();
+                expect(charactersRepository.update).to.have.been.called();
+            });
+        });
     });
 });
