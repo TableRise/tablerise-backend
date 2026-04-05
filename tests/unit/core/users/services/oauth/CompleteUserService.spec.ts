@@ -1,7 +1,6 @@
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import CompleteUserService from 'src/core/users/services/oauth/CompleteUserService';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import Sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';

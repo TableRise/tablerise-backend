@@ -33,11 +33,11 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/users/${user.userId as string}/delete`)
+                .delete(`/users/${user.userId}/delete`)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             await requester()
-                .get(`/users/${user.userId as string}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.NOT_FOUND);
         });
     });
@@ -63,7 +63,7 @@ describe('When an user is deleted', () => {
 
         it('should delete user with success', async () => {
             await requester()
-                .delete(`/users/${user.userId as string}/delete`)
+                .delete(`/users/${user.userId}/delete`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,
@@ -71,7 +71,7 @@ describe('When an user is deleted', () => {
                 .expect(HttpStatusCode.NO_CONTENT);
 
             await requester()
-                .get(`/users/${user.userId as string}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.NOT_FOUND);
         });
     });

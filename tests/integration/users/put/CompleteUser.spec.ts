@@ -47,7 +47,7 @@ describe('When an user has the account completed', () => {
             };
 
             const { body } = await requester()
-                .put(`/oauth/${user.userId as string}/complete`)
+                .put(`/oauth/${user.userId}/complete`)
                 .send(payloadToComplete)
                 .expect(HttpStatusCode.OK);
 

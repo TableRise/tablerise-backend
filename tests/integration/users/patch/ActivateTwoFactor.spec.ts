@@ -28,7 +28,7 @@ describe('When the user has twoFactor activated', () => {
     context('And all data is correct', () => {
         it('should activate with success', async () => {
             const { body: twoFactorResponse } = await requester()
-                .patch(`/users/${user.userId as string}/2fa/activate`)
+                .patch(`/users/${user.userId}/2fa/activate`)
                 .send({
                     question: userDetails.secretQuestion?.question,
                     answer: userDetails.secretQuestion?.answer,

@@ -1,10 +1,8 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { PostBanPlayerPayload } from 'src/types/api/campaigns/http/payload';
-import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class PostBanPlayerService {
     private readonly logger;

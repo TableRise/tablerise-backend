@@ -4,7 +4,6 @@ import CreateUserOperation from 'src/core/users/operations/users/CreateUserOpera
 
 describe('Core :: Users :: Operations :: CreateUserOperation', () => {
     let createUserOperation: CreateUserOperation,
-        usersSchema: any,
         createUserService: any,
         userToCreate: any,
         userCreated: any;
@@ -13,11 +12,6 @@ describe('Core :: Users :: Operations :: CreateUserOperation', () => {
 
     context('When a new user is created with success', () => {
         before(() => {
-            usersSchema = {
-                userZod: {},
-                userDetailZod: {},
-            };
-
             userToCreate = DomainDataFaker.generateUsersJSON()[0];
             userCreated = {
                 ...userToCreate,

@@ -1,9 +1,8 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import requester from 'tests/support/requester';
 import { InjectNewCampaign, InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
@@ -23,19 +22,19 @@ describe('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
+            campaign.campaignPlayers[0].characterIds = [character[0].characterId];
             campaign.campaignPlayers[0].role = 'dungeon_master';
 
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
-                characterIds: [character[0].characterId as string],
+                characterIds: [character[0].characterId],
                 role: 'player',
                 status: 'active',
             };
 
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
-                characterIds: [character[1].characterId as string],
+                characterIds: [character[1].characterId],
                 role: 'player',
                 status: 'active',
             };
@@ -73,7 +72,7 @@ describe('When characters are recovered by campaign', () => {
 
         it('should recover all characters', async () => {
             const { body } = await requester()
-                .get(`/characters/by-campaign/${campaign.campaignId}`)
+                .get(`/characters/by-campaign/${campaign.campaignId as string}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('array').with.lengthOf(3);
@@ -98,19 +97,19 @@ describe('When characters are recovered by campaign', () => {
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
 
             campaign.campaignPlayers[0].userId = userLoggedId;
-            campaign.campaignPlayers[0].characterIds = [character[0].characterId as string];
+            campaign.campaignPlayers[0].characterIds = [character[0].characterId];
             campaign.campaignPlayers[0].role = 'player';
 
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
-                characterIds: [character[0].characterId as string],
+                characterIds: [character[0].characterId],
                 role: 'player',
                 status: 'active',
             };
 
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
-                characterIds: [character[1].characterId as string],
+                characterIds: [character[1].characterId],
                 role: 'player',
                 status: 'active',
             };
@@ -148,7 +147,7 @@ describe('When characters are recovered by campaign', () => {
 
         it('should recover all characters', async () => {
             const { body } = await requester()
-                .get(`/characters/by-campaign/${campaign.campaignId}`)
+                .get(`/characters/by-campaign/${campaign.campaignId as string}`)
                 .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('array').with.lengthOf(3);

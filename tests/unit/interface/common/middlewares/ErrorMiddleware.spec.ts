@@ -87,7 +87,7 @@ describe('Interface :: Common :: Middlewares :: ErrorMiddleware', () => {
 
             expect(response.redirect).to.have.been.calledWith(
                 'http://localhost:3000/error-page?error=Redirecting due to error'
-            ); // Verificando redirecionamento padrão
+            );
         });
     });
 });

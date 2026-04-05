@@ -28,7 +28,7 @@ describe('When the user has twoFactor reset', () => {
     context('And all data is correct', () => {
         it('should reset with success', async () => {
             const { body: twoFactorResponse } = await requester()
-                .patch(`/users/${user.userId as string}/2fa/reset`)
+                .patch(`/users/${user.userId}/2fa/reset`)
                 .expect(HttpStatusCode.OK);
 
             expect(twoFactorResponse).to.have.property('qrcode');

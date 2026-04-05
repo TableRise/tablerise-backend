@@ -1,7 +1,6 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 

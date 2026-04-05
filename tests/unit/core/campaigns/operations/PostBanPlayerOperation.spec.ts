@@ -5,8 +5,6 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 describe('Core :: Campaigns :: Operations :: PostBanPlayerOperation', () => {
     let postBanPlayerOperation: PostBanPlayerOperation,
         postBanPlayerService: any,
-        schemaValidator: any,
-        campaignsSchema: any,
         payload: any;
 
     const logger = (): void => {};
@@ -20,14 +18,6 @@ describe('Core :: Campaigns :: Operations :: PostBanPlayerOperation', () => {
             payload = {
                 campaignId: newUUID(),
                 playerId: newUUID(),
-            };
-
-            campaignsSchema = {
-                campaignBanPlayer: {},
-            };
-
-            schemaValidator = {
-                entry: sinon.spy(() => {}),
             };
 
             postBanPlayerOperation = new PostBanPlayerOperation({

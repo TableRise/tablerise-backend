@@ -1,10 +1,9 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import requester from 'tests/support/requester';
 import { InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
@@ -19,7 +18,7 @@ describe('When some character is updated', () => {
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
             character = CharacterDomainDataFaker.generateCharactersJSON()[0];
 
-            characterId = character.characterId as string;
+            characterId = character.characterId;
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,

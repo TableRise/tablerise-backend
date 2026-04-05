@@ -7,10 +7,8 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
     let publishmentOperation: PublishmentOperation,
         publishmentService: any,
-        schemaValidator: any,
         campaign: Campaign,
-        postPayload: any,
-        campaignsSchema: any;
+        postPayload: any;
 
     const logger = (): void => {};
 
@@ -29,14 +27,6 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
             publishmentService = {
                 addPost: sinon.spy(() => campaign),
                 save: sinon.spy(() => campaign),
-            };
-
-            schemaValidator = {
-                entry: sinon.spy(() => {}),
-            };
-
-            campaignsSchema = {
-                campaignPost: {},
             };
 
             postPayload = {

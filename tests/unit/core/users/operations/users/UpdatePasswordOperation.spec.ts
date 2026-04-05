@@ -4,17 +4,12 @@ import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePassw
 describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
     let updatePasswordOperation: UpdatePasswordOperation,
         updatePasswordService: any,
-        usersSchema: any,
         payload: any;
 
     const logger = (): void => {};
 
     context('When get users with success', () => {
         before(() => {
-            usersSchema = {
-                passwordUpdateZod: {},
-            };
-
             updatePasswordService = {
                 update: sinon.spy(() => ({})),
             };

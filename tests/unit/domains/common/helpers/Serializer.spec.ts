@@ -115,7 +115,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
 
             // @ts-expect-error createdAt/updatedAt are required in CharactersDnd
             delete characterDefault.createdAt;
-            // @ts-expect-error
+            // @ts-expect-error createdAt/updatedAt are required in CharactersDnd
             delete characterDefault.updatedAt;
 
             const characterDefaultKeys = Object.keys(characterDefault);

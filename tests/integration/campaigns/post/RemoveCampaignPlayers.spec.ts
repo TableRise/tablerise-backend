@@ -19,7 +19,7 @@ describe('When a player is removed from a match', () => {
 
     it('should sucessfully remove a player from a campaign', async () => {
         const { body } = await requester()
-            .post(`/campaigns/${campaign.campaignId}/update/player/remove`)
+            .post(`/campaigns/${campaign.campaignId as string}/update/player/remove`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(1);

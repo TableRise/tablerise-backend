@@ -1,10 +1,9 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import requester from 'tests/support/requester';
 import { InjectNewDungeonsAndDragonsRulesRaces, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';

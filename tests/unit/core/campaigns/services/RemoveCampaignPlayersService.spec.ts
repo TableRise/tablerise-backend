@@ -1,10 +1,9 @@
 import sinon from 'sinon';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import RemoveCampaignPlayersService from 'src/core/campaigns/services/RemoveCampaignPlayersService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UsersDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';

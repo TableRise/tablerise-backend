@@ -1,5 +1,4 @@
-import { CharactersDnd, Profile } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
@@ -26,10 +25,10 @@ export default class RecoverCharacterByCampaignService {
     private mapCharactersForPlayer(characters: CharactersDnd[]): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
-                characterId: char.characterId as string,
+                characterId: char.characterId,
                 author: char.author,
-                picture: char.picture as ImageObject,
-                profile: char.data.profile as Profile,
+                picture: char.picture,
+                profile: char.data.profile,
             };
         });
     }

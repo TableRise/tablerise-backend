@@ -39,8 +39,8 @@ describe('When a character is added to campaign', () => {
         it('should return correct campaign character added', async () => {
             const { body } = await requester()
                 .patch(
-                    `/campaigns/${campaign.campaignId}/update/player/character?characterId=${
-                        character.characterId as string
+                    `/campaigns/${campaign.campaignId as string}/update/player/character?characterId=${
+                        character.characterId
                     }`
                 )
                 .expect(HttpStatusCode.CREATED);

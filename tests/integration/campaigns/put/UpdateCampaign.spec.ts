@@ -20,7 +20,7 @@ describe('When a campaign is updated', () => {
 
     it('should sucessfully update a campaign', async () => {
         const { body } = await requester()
-            .put(`/campaigns/${campaign.campaignId}/update`)
+            .put(`/campaigns/${campaign.campaignId as string}/update`)
             .send(newCampaignPayload)
             .expect(HttpStatusCode.OK);
 

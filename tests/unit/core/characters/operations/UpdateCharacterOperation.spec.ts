@@ -3,7 +3,6 @@ import UpdateCharacterOperation from 'src/core/characters/operations/UpdateChara
 
 describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
     let updateCharacterOperation: UpdateCharacterOperation,
-        charactersSchema: any,
         payloadToUpdate: any,
         updateCharacterService: any;
 
@@ -20,8 +19,6 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                     characterId: '123',
                     payload: {},
                 };
-
-                charactersSchema = {};
 
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,

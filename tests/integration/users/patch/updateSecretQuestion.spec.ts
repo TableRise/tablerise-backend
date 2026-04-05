@@ -37,16 +37,16 @@ describe('When the user has secret question activated', () => {
             };
 
             const { body: userWithOldSecretQuestion } = await requester()
-                .get(`/users/${user.userId as string}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/users/${user.userId as string}/question/update`)
+                .patch(`/users/${user.userId}/question/update`)
                 .send(newSecretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithNewQuestion } = await requester()
-                .get(`/users/${user.userId as string}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithNewQuestion.details.secretQuestion).to.be.not.null();

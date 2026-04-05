@@ -33,12 +33,12 @@ describe('When the user has secret question activated', () => {
     context('And all data is correct', () => {
         it('should activate with success', async () => {
             await requester()
-                .patch(`/users/${user.userId as string}/question/activate`)
+                .patch(`/users/${user.userId}/question/activate`)
                 .send(secretQuestion)
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const { body: userWithSecretQuestion } = await requester()
-                .get(`/users/${user.userId as string}`)
+                .get(`/users/${user.userId}`)
                 .expect(HttpStatusCode.OK);
 
             expect(userWithSecretQuestion.details.secretQuestion).to.be.not.null();

@@ -16,7 +16,7 @@ describe('when the email invitation is sent', () => {
 
         it('must send email successfully', async () => {
             await requester()
-                .post(`/campaigns/${campaign.campaignId}/invite?targetEmail=test@email.com`)
+                .post(`/campaigns/${campaign.campaignId as string}/invite?targetEmail=test@email.com`)
                 .expect(HttpStatusCode.NO_CONTENT);
         });
     });

@@ -45,12 +45,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeOne} add with success to badges`);
@@ -71,12 +71,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeTwo} add with success to campaigns`);
@@ -92,12 +92,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} add with success to characters`);
@@ -115,12 +115,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeOne} remove with success to badges`);
@@ -141,12 +141,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to campaigns`);
@@ -162,12 +162,12 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId as string}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
                 const { body: userWithGameInfoUpdated } = await requester()
-                    .get(`/users/${user.userId as string}`)
+                    .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to characters`);

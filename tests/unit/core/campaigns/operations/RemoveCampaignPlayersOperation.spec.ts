@@ -8,8 +8,6 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
     let removeCampaignPlayersOperation: RemoveCampaignPlayersOperation,
         removeCampaignPlayersService: any,
         matchPlayersPayload: any,
-        schemaValidator: any,
-        campaignsSchema: any,
         campaign: Campaign;
 
     const logger = (): void => {};
@@ -40,14 +38,6 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
                         userDetails: {},
                     })),
                     save: sinon.spy(() => campaign),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                campaignsSchema = {
-                    campaignsRemoveCampaignPlayersZod: {},
                 };
 
                 removeCampaignPlayersOperation = new RemoveCampaignPlayersOperation({

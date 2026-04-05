@@ -16,7 +16,7 @@ describe('When a date is added or removed from a match', () => {
 
     it('should sucessfully add a date to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId}/update/infos/match-dates?operation=add&date=${date}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates?operation=add&date=${date}`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('string');
@@ -25,7 +25,7 @@ describe('When a date is added or removed from a match', () => {
 
     it('should sucessfully remove a date from a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId}/update/infos/match-dates?operation=remove&date=${date}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates?operation=remove&date=${date}`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('string');

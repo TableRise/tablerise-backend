@@ -27,9 +27,9 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers[0].userId = character.author.userId;
                 campaign.campaignPlayers[0].role = 'player';
-                campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
+                campaign.campaignPlayers[0].characterIds.push(character.characterId);
 
-                campaignId = campaign.campaignId!;
+                campaignId = campaign.campaignId as string;
                 userId = campaign.campaignPlayers[0].userId;
 
                 charactersRepository = {
@@ -74,9 +74,9 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers[0].userId = character.author.userId;
                 campaign.campaignPlayers[0].role = 'dungeon_master';
-                campaign.campaignPlayers[0].characterIds.push(character.characterId as string);
+                campaign.campaignPlayers[0].characterIds.push(character.characterId);
 
-                campaignId = campaign.campaignId!;
+                campaignId = campaign.campaignId as string;
                 userId = campaign.campaignPlayers[0].userId;
 
                 charactersRepository = {
@@ -114,7 +114,7 @@ describe('Core :: Characters :: Services :: RecoverCharacterByCampaignService', 
 
                 campaign.campaignPlayers = [];
 
-                campaignId = campaign.campaignId!;
+                campaignId = campaign.campaignId as string;
                 userId = '123';
 
                 charactersRepository = {

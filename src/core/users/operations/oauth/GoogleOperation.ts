@@ -2,8 +2,7 @@ import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDepende
 import Google from 'passport-google-oauth20';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { __TokenObject } from 'src/types/api/users/methods';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class GoogleOperation {
     private readonly oAuthService;
