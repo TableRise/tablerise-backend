@@ -1,29 +1,1271 @@
 [
-    {
-        "active": true,
-        "en": {
-            "name": "Club",
-            "description": "",
-            "cost": {
-                "currency": "sp",
-                "value": 1
-            },
-            "type": "simple melee weapon",
-            "weight": 0.9,
-            "damage": "1d4 bludgeoning",
-            "properties": ["light"]
-        },
-        "pt": {
-            "name": "Clava",
-            "description": "",
-            "cost": {
-                "currency": "po",
-                "value": 1
-            },
-            "type": "arma branca simples",
-            "weight": 0.9,
-            "damage": "1d4 de concussão",
-            "properties": ["leve"]
-        }
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Club",
+      "description": "",
+      "cost": {
+        "currency": "sp",
+        "value": 1
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d4 bludgeoning",
+      "properties": [
+        "light"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Clava",
+      "description": "",
+      "cost": {
+        "currency": "pp",
+        "value": 1
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d4 de concussão",
+      "properties": [
+        "leve"
+      ]
     }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Dagger",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 2
+      },
+      "type": "simple melee weapon",
+      "weight": 0.45,
+      "damage": "1d4 piercing",
+      "properties": [
+        "finesse",
+        "light",
+        "thrown (range 20/60)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Adaga",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 2
+      },
+      "type": "arma branca simples",
+      "weight": 0.45,
+      "damage": "1d4 perfurante",
+      "properties": [
+        "acuidade",
+        "leve",
+        "arremesso (alcance 20/60)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Greatclub",
+      "description": "",
+      "cost": {
+        "currency": "sp",
+        "value": 2
+      },
+      "type": "simple melee weapon",
+      "weight": 4.5,
+      "damage": "1d8 bludgeoning",
+      "properties": [
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Bordão",
+      "description": "",
+      "cost": {
+        "currency": "pp",
+        "value": 2
+      },
+      "type": "arma branca simples",
+      "weight": 4.5,
+      "damage": "1d8 de concussão",
+      "properties": [
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Handaxe",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 5
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d6 slashing",
+      "properties": [
+        "light",
+        "thrown (range 20/60)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Machadinha",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 5
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d6 cortante",
+      "properties": [
+        "leve",
+        "arremesso (alcance 20/60)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Javelin",
+      "description": "",
+      "cost": {
+        "currency": "sp",
+        "value": 5
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d6 piercing",
+      "properties": [
+        "thrown (range 30/120)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Azagaia",
+      "description": "",
+      "cost": {
+        "currency": "pp",
+        "value": 5
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "arremesso (alcance 30/120)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Light Hammer",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 2
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d4 bludgeoning",
+      "properties": [
+        "light",
+        "thrown (range 20/60)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Martelo Leve",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 2
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d4 de concussão",
+      "properties": [
+        "leve",
+        "arremesso (alcance 20/60)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Mace",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 5
+      },
+      "type": "simple melee weapon",
+      "weight": 1.8,
+      "damage": "1d6 bludgeoning",
+      "properties": []
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Maça",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 5
+      },
+      "type": "arma branca simples",
+      "weight": 1.8,
+      "damage": "1d6 de concussão",
+      "properties": []
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Quarterstaff",
+      "description": "",
+      "cost": {
+        "currency": "sp",
+        "value": 2
+      },
+      "type": "simple melee weapon",
+      "weight": 1.8,
+      "damage": "1d6 bludgeoning",
+      "properties": [
+        "versatile (1d8)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Bastão",
+      "description": "",
+      "cost": {
+        "currency": "pp",
+        "value": 2
+      },
+      "type": "arma branca simples",
+      "weight": 1.8,
+      "damage": "1d6 de concussão",
+      "properties": [
+        "versátil (1d8)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Sickle",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 1
+      },
+      "type": "simple melee weapon",
+      "weight": 0.9,
+      "damage": "1d4 slashing",
+      "properties": [
+        "light"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Foice",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 1
+      },
+      "type": "arma branca simples",
+      "weight": 0.9,
+      "damage": "1d4 cortante",
+      "properties": [
+        "leve"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Spear",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 1
+      },
+      "type": "simple melee weapon",
+      "weight": 1.35,
+      "damage": "1d6 piercing",
+      "properties": [
+        "thrown (range 20/60)",
+        "versatile (1d8)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Lança",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 1
+      },
+      "type": "arma branca simples",
+      "weight": 1.35,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "arremesso (alcance 20/60)",
+        "versátil (1d8)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Light Crossbow",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 25
+      },
+      "type": "simple ranged weapon",
+      "weight": 2.25,
+      "damage": "1d8 piercing",
+      "properties": [
+        "ammunition (range 80/320)",
+        "loading",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Besta Leve",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 25
+      },
+      "type": "arma à distância simples",
+      "weight": 2.25,
+      "damage": "1d8 perfurante",
+      "properties": [
+        "munição (alcance 80/320)",
+        "recarga",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Dart",
+      "description": "",
+      "cost": {
+        "currency": "cp",
+        "value": 5
+      },
+      "type": "simple ranged weapon",
+      "weight": 0.1125,
+      "damage": "1d4 piercing",
+      "properties": [
+        "finesse",
+        "thrown (range 20/60)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Dardo",
+      "description": "",
+      "cost": {
+        "currency": "pc",
+        "value": 5
+      },
+      "type": "arma à distância simples",
+      "weight": 0.1125,
+      "damage": "1d4 perfurante",
+      "properties": [
+        "acuidade",
+        "arremesso (alcance 20/60)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Shortbow",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 25
+      },
+      "type": "simple ranged weapon",
+      "weight": 0.9,
+      "damage": "1d6 piercing",
+      "properties": [
+        "ammunition (range 80/320)",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Arco Curto",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 25
+      },
+      "type": "arma à distância simples",
+      "weight": 0.9,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "munição (alcance 80/320)",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Sling",
+      "description": "",
+      "cost": {
+        "currency": "sp",
+        "value": 1
+      },
+      "type": "simple ranged weapon",
+      "weight": 0,
+      "damage": "1d4 bludgeoning",
+      "properties": [
+        "ammunition (range 30/120)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Funda",
+      "description": "",
+      "cost": {
+        "currency": "pp",
+        "value": 1
+      },
+      "type": "arma à distância simples",
+      "weight": 0,
+      "damage": "1d4 de concussão",
+      "properties": [
+        "munição (alcance 30/120)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Battleaxe",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial melee weapon",
+      "weight": 1.8,
+      "damage": "1d8 slashing",
+      "properties": [
+        "versatile (1d10)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Machado de Batalha",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma branca marcial",
+      "weight": 1.8,
+      "damage": "1d8 cortante",
+      "properties": [
+        "versátil (1d10)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Flail",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial melee weapon",
+      "weight": 0.9,
+      "damage": "1d8 bludgeoning",
+      "properties": []
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Mangual",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma branca marcial",
+      "weight": 0.9,
+      "damage": "1d8 de concussão",
+      "properties": []
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Glaive",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 20
+      },
+      "type": "martial melee weapon",
+      "weight": 2.7,
+      "damage": "1d10 slashing",
+      "properties": [
+        "heavy",
+        "reach",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Glaive",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 20
+      },
+      "type": "arma branca marcial",
+      "weight": 2.7,
+      "damage": "1d10 cortante",
+      "properties": [
+        "pesada",
+        "alcance",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Greataxe",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 30
+      },
+      "type": "martial melee weapon",
+      "weight": 3.15,
+      "damage": "1d12 slashing",
+      "properties": [
+        "heavy",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Machado Grande",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 30
+      },
+      "type": "arma branca marcial",
+      "weight": 3.15,
+      "damage": "1d12 cortante",
+      "properties": [
+        "pesada",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Greatsword",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 50
+      },
+      "type": "martial melee weapon",
+      "weight": 2.7,
+      "damage": "2d6 slashing",
+      "properties": [
+        "heavy",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Espada Grande",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 50
+      },
+      "type": "arma branca marcial",
+      "weight": 2.7,
+      "damage": "2d6 cortante",
+      "properties": [
+        "pesada",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Halberd",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 20
+      },
+      "type": "martial melee weapon",
+      "weight": 2.7,
+      "damage": "1d10 slashing",
+      "properties": [
+        "heavy",
+        "reach",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Alabarda",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 20
+      },
+      "type": "arma branca marcial",
+      "weight": 2.7,
+      "damage": "1d10 cortante",
+      "properties": [
+        "pesada",
+        "alcance",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Lance",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial melee weapon",
+      "weight": 2.7,
+      "damage": "1d12 piercing",
+      "properties": [
+        "reach",
+        "special"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Lança de Montaria",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma branca marcial",
+      "weight": 2.7,
+      "damage": "1d12 perfurante",
+      "properties": [
+        "alcance",
+        "especial"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Longsword",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 15
+      },
+      "type": "martial melee weapon",
+      "weight": 1.35,
+      "damage": "1d8 slashing",
+      "properties": [
+        "versatile (1d10)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Espada Longa",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 15
+      },
+      "type": "arma branca marcial",
+      "weight": 1.35,
+      "damage": "1d8 cortante",
+      "properties": [
+        "versátil (1d10)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Maul",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial melee weapon",
+      "weight": 4.5,
+      "damage": "2d6 bludgeoning",
+      "properties": [
+        "heavy",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Malho",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma branca marcial",
+      "weight": 4.5,
+      "damage": "2d6 de concussão",
+      "properties": [
+        "pesada",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Morningstar",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 15
+      },
+      "type": "martial melee weapon",
+      "weight": 1.8,
+      "damage": "1d8 piercing",
+      "properties": []
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Estrela da Manhã",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 15
+      },
+      "type": "arma branca marcial",
+      "weight": 1.8,
+      "damage": "1d8 perfurante",
+      "properties": []
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Pike",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 5
+      },
+      "type": "martial melee weapon",
+      "weight": 8.1,
+      "damage": "1d10 piercing",
+      "properties": [
+        "heavy",
+        "reach",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Pique",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 5
+      },
+      "type": "arma branca marcial",
+      "weight": 8.1,
+      "damage": "1d10 perfurante",
+      "properties": [
+        "pesada",
+        "alcance",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Rapier",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 25
+      },
+      "type": "martial melee weapon",
+      "weight": 0.9,
+      "damage": "1d8 piercing",
+      "properties": [
+        "finesse"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Rapieira",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 25
+      },
+      "type": "arma branca marcial",
+      "weight": 0.9,
+      "damage": "1d8 perfurante",
+      "properties": [
+        "acuidade"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Scimitar",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 25
+      },
+      "type": "martial melee weapon",
+      "weight": 1.35,
+      "damage": "1d6 slashing",
+      "properties": [
+        "finesse",
+        "light"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Cimitarra",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 25
+      },
+      "type": "arma branca marcial",
+      "weight": 1.35,
+      "damage": "1d6 cortante",
+      "properties": [
+        "acuidade",
+        "leve"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Shortsword",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial melee weapon",
+      "weight": 0.9,
+      "damage": "1d6 piercing",
+      "properties": [
+        "finesse",
+        "light"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Espada Curta",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma branca marcial",
+      "weight": 0.9,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "acuidade",
+        "leve"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Trident",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 5
+      },
+      "type": "martial melee weapon",
+      "weight": 1.8,
+      "damage": "1d6 piercing",
+      "properties": [
+        "thrown (range 20/60)",
+        "versatile (1d8)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Tridente",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 5
+      },
+      "type": "arma branca marcial",
+      "weight": 1.8,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "arremesso (alcance 20/60)",
+        "versátil (1d8)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "War Pick",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 5
+      },
+      "type": "martial melee weapon",
+      "weight": 0.9,
+      "damage": "1d8 piercing",
+      "properties": []
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Picareta de Guerra",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 5
+      },
+      "type": "arma branca marcial",
+      "weight": 0.9,
+      "damage": "1d8 perfurante",
+      "properties": []
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Warhammer",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 15
+      },
+      "type": "martial melee weapon",
+      "weight": 0.9,
+      "damage": "1d8 bludgeoning",
+      "properties": [
+        "versatile (1d10)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Martelo de Guerra",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 15
+      },
+      "type": "arma branca marcial",
+      "weight": 0.9,
+      "damage": "1d8 de concussão",
+      "properties": [
+        "versátil (1d10)"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Whip",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 2
+      },
+      "type": "martial melee weapon",
+      "weight": 1.35,
+      "damage": "1d4 slashing",
+      "properties": [
+        "finesse",
+        "reach"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Chicote",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 2
+      },
+      "type": "arma branca marcial",
+      "weight": 1.35,
+      "damage": "1d4 cortante",
+      "properties": [
+        "acuidade",
+        "alcance"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Blowgun",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 10
+      },
+      "type": "martial ranged weapon",
+      "weight": 0.45,
+      "damage": "1 piercing",
+      "properties": [
+        "ammunition (range 25/100)",
+        "loading"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Zarabatana",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 10
+      },
+      "type": "arma à distância marcial",
+      "weight": 0.45,
+      "damage": "1 perfurante",
+      "properties": [
+        "munição (alcance 25/100)",
+        "recarga"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Hand Crossbow",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 75
+      },
+      "type": "martial ranged weapon",
+      "weight": 1.35,
+      "damage": "1d6 piercing",
+      "properties": [
+        "ammunition (range 30/120)",
+        "light",
+        "loading"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Besta de Mão",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 75
+      },
+      "type": "arma à distância marcial",
+      "weight": 1.35,
+      "damage": "1d6 perfurante",
+      "properties": [
+        "munição (alcance 30/120)",
+        "leve",
+        "recarga"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Heavy Crossbow",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 50
+      },
+      "type": "martial ranged weapon",
+      "weight": 8.1,
+      "damage": "1d10 piercing",
+      "properties": [
+        "ammunition (range 100/400)",
+        "heavy",
+        "loading",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Besta Pesada",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 50
+      },
+      "type": "arma à distância marcial",
+      "weight": 8.1,
+      "damage": "1d10 perfurante",
+      "properties": [
+        "munição (alcance 100/400)",
+        "pesada",
+        "recarga",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Longbow",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 50
+      },
+      "type": "martial ranged weapon",
+      "weight": 0.9,
+      "damage": "1d8 piercing",
+      "properties": [
+        "ammunition (range 150/600)",
+        "heavy",
+        "two-handed"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Arco Longo",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 50
+      },
+      "type": "arma à distância marcial",
+      "weight": 0.9,
+      "damage": "1d8 perfurante",
+      "properties": [
+        "munição (alcance 150/600)",
+        "pesada",
+        "duas mãos"
+      ]
+    }
+  },
+  {
+    "active": true,
+    "en": {
+      "homebrew": false,
+      "name": "Net",
+      "description": "",
+      "cost": {
+        "currency": "gp",
+        "value": 1
+      },
+      "type": "martial ranged weapon",
+      "weight": 1.35,
+      "damage": "—",
+      "properties": [
+        "special",
+        "thrown (range 5/15)"
+      ]
+    },
+    "pt": {
+      "homebrew": false,
+      "name": "Rede",
+      "description": "",
+      "cost": {
+        "currency": "po",
+        "value": 1
+      },
+      "type": "arma à distância marcial",
+      "weight": 1.35,
+      "damage": "—",
+      "properties": [
+        "especial",
+        "arremesso (alcance 5/15)"
+      ]
+    }
+  }
 ]
