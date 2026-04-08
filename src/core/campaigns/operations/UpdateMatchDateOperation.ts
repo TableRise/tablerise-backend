@@ -5,10 +5,7 @@ export default class updateMatchDateOperation {
     private readonly updateMatchDateService;
     private readonly logger;
 
-    constructor({
-        updateMatchDateService,
-        logger,
-    }: CampaignCoreDependencies['updateMatchDateOperationContract']) {
+    constructor({ updateMatchDateService, logger }: CampaignCoreDependencies['updateMatchDateOperationContract']) {
         this.updateMatchDateService = updateMatchDateService;
         this.logger = logger;
 

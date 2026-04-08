@@ -149,7 +149,7 @@ export default class Serializer {
             data,
             npc,
             picture,
-            logs
+            logs,
         };
     }
 

@@ -54,7 +54,9 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchDateOperation', () => {
             };
 
             updateMatchDateService = {
-                updateMatchDate: sinon.spy(() => { throw new Error('error throw') }),
+                updateMatchDate: sinon.spy(() => {
+                    throw new Error('error throw');
+                }),
                 save: sinon.spy(() => campaign),
             };
 

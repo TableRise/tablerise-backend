@@ -33,7 +33,7 @@ const postAddCampaignPlayersQuerySchema = z.object({
 });
 
 const postBanCampaignPlayerQuerySchema = z.object({
-    playerId: z.uuid()
+    playerId: z.uuid(),
 });
 
 const postInvitePlayerByEmailQuerySchema = z.object({
@@ -53,24 +53,24 @@ const patchUpdateCampaignMatchDateQuerySchema = z.object({
 const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
     operation: z.enum(['add', 'remove']),
     imageId: z.string(),
-    mapImage: z.file()
+    mapImage: z.file(),
 });
 
 const patchUpdateCampaignMatchMusicsBodySchema = z.object({
     operation: z.enum(['add', 'remove']),
     title: z.string(),
-    youtubeLink: z.string()
+    youtubeLink: z.string(),
 });
 
 const patchUpdateCampaignPlayerCharacterQuerySchema = z.object({
-    characterId: z.uuid()
+    characterId: z.uuid(),
 });
 
 const patchUpdateCampaignImagesBodySchema = z.object({
     imageId: z.string(),
     name: z.string(),
-    operation: z.enum(['add', 'remove'])
-})
+    operation: z.enum(['add', 'remove']),
+});
 
 export type TCreateCampaignBody = z.infer<typeof postCreateCampaignBodySchema>;
 export type TUpdateCampaignBody = z.infer<typeof putUpdateCampaignBodySchema>;
@@ -86,36 +86,36 @@ export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaign
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
-        body: postCreateCampaignBodySchema
+        body: postCreateCampaignBodySchema,
     },
     putUpdateCampaign: {
-        body: putUpdateCampaignBodySchema
+        body: putUpdateCampaignBodySchema,
     },
     postAddCampaignPlayers: {
-        query: postAddCampaignPlayersQuerySchema
+        query: postAddCampaignPlayersQuerySchema,
     },
     postBanCampaignPlayer: {
-        query: postBanCampaignPlayerQuerySchema
+        query: postBanCampaignPlayerQuerySchema,
     },
     postInvitePlayerByEmail: {
-        query: postInvitePlayerByEmailQuerySchema
+        query: postInvitePlayerByEmailQuerySchema,
     },
     postCreateCampaignPublishment: {
-        body: postCreateCampaignPublishmentBodySchema
+        body: postCreateCampaignPublishmentBodySchema,
     },
     patchUpdateCampaignMatchDate: {
-        query: patchUpdateCampaignMatchDateQuerySchema
+        query: patchUpdateCampaignMatchDateQuerySchema,
     },
     patchUpdateCampaignMatchMapImages: {
-        body: patchUpdateCampaignMatchMapImagesBodySchema
+        body: patchUpdateCampaignMatchMapImagesBodySchema,
     },
     patchUpdateCampaignMatchMusics: {
-        body: patchUpdateCampaignMatchMusicsBodySchema
+        body: patchUpdateCampaignMatchMusicsBodySchema,
     },
     patchUpdateCampaignPlayerCharacter: {
-        body: patchUpdateCampaignMatchMusicsBodySchema
+        body: patchUpdateCampaignMatchMusicsBodySchema,
     },
     patchUpdateCampaignImages: {
-        body: patchUpdateCampaignImagesBodySchema
-    }
+        body: patchUpdateCampaignImagesBodySchema,
+    },
 });

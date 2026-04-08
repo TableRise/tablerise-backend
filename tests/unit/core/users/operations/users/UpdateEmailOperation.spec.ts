@@ -3,9 +3,7 @@ import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOpe
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
-    let updateEmailOperation: UpdateEmailOperation,
-        updateEmailService: any,
-        updateEmailPayload: any;
+    let updateEmailOperation: UpdateEmailOperation, updateEmailService: any, updateEmailPayload: any;
 
     const logger = (): void => {};
 
@@ -40,7 +38,9 @@ describe('Core :: Users :: Operations :: Users :: UpdateEmailOperation', () => {
 
             before(() => {
                 updateEmailService = {
-                    update: sinon.spy(() => { throw new Error('error throw') }),
+                    update: sinon.spy(() => {
+                        throw new Error('error throw');
+                    }),
                 };
 
                 updateEmailPayload = {

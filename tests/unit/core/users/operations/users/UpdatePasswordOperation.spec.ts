@@ -2,9 +2,7 @@ import sinon from 'sinon';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
 
 describe('Core :: Users :: Operations :: UpdatePasswordOperation', () => {
-    let updatePasswordOperation: UpdatePasswordOperation,
-        updatePasswordService: any,
-        payload: any;
+    let updatePasswordOperation: UpdatePasswordOperation, updatePasswordService: any, payload: any;
 
     const logger = (): void => {};
 

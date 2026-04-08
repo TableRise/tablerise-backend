@@ -32,9 +32,7 @@ describe('When an user has the email changed', () => {
                 .send({ email: 'test155@email.com' })
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             expect(body.email).to.be.not.equal(user.email);
             expect(body.email).to.be.equal('test155@email.com');

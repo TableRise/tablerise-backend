@@ -5,10 +5,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
-    let publishmentOperation: PublishmentOperation,
-        publishmentService: any,
-        campaign: Campaign,
-        postPayload: any;
+    let publishmentOperation: PublishmentOperation, publishmentService: any, campaign: Campaign, postPayload: any;
 
     const logger = (): void => {};
 

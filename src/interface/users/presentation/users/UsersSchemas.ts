@@ -12,11 +12,9 @@ const postValidateEmailSendCodeQuerySchema = z.object({
 
 const postCreateUserBodySchema = z.object({
     email: z.email(),
-    password: z
-        .string()
-        .regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
-            message: 'Invalid password',
-        }),
+    password: z.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d).{8,32}$/, {
+        message: 'Invalid password',
+    }),
     nickname: z.string().max(32),
 });
 

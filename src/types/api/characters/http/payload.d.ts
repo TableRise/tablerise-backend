@@ -1,4 +1,7 @@
-import { TCreateCharacterBody, TUpdateCharacterBody } from 'src/interface/characters/presentation/character/CharactersSchemas';
+import {
+    TCreateCharacterBody,
+    TUpdateCharacterBody,
+} from 'src/interface/characters/presentation/character/CharactersSchemas';
 import { FileObject } from 'src/types/shared/file';
 
 export interface CreateCharacterPayload {

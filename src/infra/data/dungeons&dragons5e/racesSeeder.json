@@ -12,21 +12,12 @@
                 }
             ],
             "ageMax": 350,
-            "alignment": [
-                "lawful",
-                "good"
-            ],
+            "alignment": ["lawful", "good"],
             "heightMax": 1.2,
             "weightMax": 68,
             "size": "medium",
-            "speed": [
-                7.6,
-                "speed not reduced by wearing heavy armor"
-            ],
-            "language": [
-                "Common",
-                "Dwarvish"
-            ],
+            "speed": [7.6, "speed not reduced by wearing heavy armor"],
+            "language": ["Common", "Dwarvish"],
             "skillProficiencies": [],
             "characteristics": [
                 {
@@ -112,21 +103,12 @@
                 "value": 2
             },
             "ageMax": 350,
-            "alignment": [
-                "leal",
-                "bom"
-            ],
+            "alignment": ["leal", "bom"],
             "heightMax": 1.2,
             "weightMax": 68,
             "size": "médio",
-            "speed": [
-                7.6,
-                "velocidade não reduzida ao usar armadura pesada"
-            ],
-            "language": [
-                "Comum",
-                "Anão"
-            ],
+            "speed": [7.6, "velocidade não reduzida ao usar armadura pesada"],
+            "language": ["Comum", "Anão"],
             "skillProficiencies": [],
             "characteristics": [
                 {
@@ -215,21 +197,13 @@
                 "value": 2
             },
             "ageMax": 750,
-            "alignment": [
-                "chaotic",
-                "good"
-            ],
+            "alignment": ["chaotic", "good"],
             "heightMax": 1.8,
             "weightMax": 0,
             "size": "medium",
             "speed": 9.1,
-            "language": [
-                "Common",
-                "Elvish"
-            ],
-            "skillProficiencies": [
-                "Perception"
-            ],
+            "language": ["Common", "Elvish"],
+            "skillProficiencies": ["Perception"],
             "characteristics": [
                 {
                     "name": "Darkvision",
@@ -345,21 +319,13 @@
                 }
             ],
             "ageMax": 750,
-            "alignment": [
-                "caótico",
-                "bom"
-            ],
+            "alignment": ["caótico", "bom"],
             "heightMax": 1.8,
             "weightMax": 0,
             "size": "médio",
             "speed": 9.1,
-            "language": [
-                "Comum",
-                "Élfico"
-            ],
-            "skillProficiencies": [
-                "Percepção"
-            ],
+            "language": ["Comum", "Élfico"],
+            "skillProficiencies": ["Percepção"],
             "characteristics": [
                 {
                     "name": "Visão no Escuro",
@@ -476,20 +442,12 @@
                 "value": 2
             },
             "ageMax": 180,
-            "alignment": [
-                "lawful",
-                "good"
-            ],
+            "alignment": ["lawful", "good"],
             "heightMax": 0.9,
             "weightMax": 18,
             "size": "small",
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Common",
-                "Halfling"
-            ],
+            "speed": [7.6],
+            "language": ["Common", "Halfling"],
             "subRaces": [
                 {
                     "name": "Lightfoot",
@@ -537,20 +495,12 @@
                 "value": 2
             },
             "ageMax": 180,
-            "alignment": [
-                "leal",
-                "bom"
-            ],
+            "alignment": ["leal", "bom"],
             "heightMax": 0.9,
             "weightMax": 18,
             "size": "pequeno",
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Comum",
-                "Halfling"
-            ],
+            "speed": [7.6],
+            "language": ["Comum", "Halfling"],
             "subRaces": [
                 {
                     "name": "Pés Leves",
@@ -628,14 +578,9 @@
             "alignment": [],
             "heightMax": 0,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
+            "speed": [9.1],
             "size": "medium",
-            "language": [
-                "common",
-                "one extra of your choice"
-            ],
+            "language": ["common", "one extra of your choice"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [],
@@ -675,14 +620,9 @@
             "alignment": [],
             "heightMax": 0,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
+            "speed": [9.1],
             "size": "médio",
-            "language": [
-                "comum",
-                "um extra à sua escolha"
-            ],
+            "language": ["comum", "um extra à sua escolha"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [],
@@ -706,20 +646,12 @@
                 }
             ],
             "ageMax": 80,
-            "alignment": [
-                "good",
-                "evil"
-            ],
+            "alignment": ["good", "evil"],
             "heightMax": 1.8,
             "weightMax": 113,
-            "speed": [
-                9.1
-            ],
+            "speed": [9.1],
             "size": "medium",
-            "language": [
-                "common",
-                "draconic"
-            ],
+            "language": ["common", "draconic"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [
@@ -756,20 +688,12 @@
                 }
             ],
             "ageMax": 80,
-            "alignment": [
-                "bom",
-                "maligno"
-            ],
+            "alignment": ["bom", "maligno"],
             "heightMax": 1.8,
             "weightMax": 113,
-            "speed": [
-                9.1
-            ],
+            "speed": [9.1],
             "size": "médio",
-            "language": [
-                "comum",
-                "dracônico"
-            ],
+            "language": ["comum", "dracônico"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [
@@ -805,19 +729,12 @@
                 }
             ],
             "ageMax": 500,
-            "alignment": [
-                "good"
-            ],
+            "alignment": ["good"],
             "size": "small",
             "heightMax": 1.22,
             "weightMax": 18.14,
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Common",
-                "Gnomish"
-            ],
+            "speed": [7.6],
+            "language": ["Common", "Gnomish"],
             "subRaces": [
                 {
                     "name": "Rock Gnome",
@@ -892,19 +809,12 @@
                 }
             ],
             "ageMax": 500,
-            "alignment": [
-                "bom"
-            ],
+            "alignment": ["bom"],
             "size": "pequeno",
             "heightMax": 1.22,
             "weightMax": 18.14,
-            "speed": [
-                7.6
-            ],
-            "language": [
-                "Comum",
-                "Gnômico"
-            ],
+            "speed": [7.6],
+            "language": ["Comum", "Gnômico"],
             "subRaces": [
                 {
                     "name": "Gnomo das Rochas",
@@ -982,24 +892,14 @@
                 }
             ],
             "ageMax": 180,
-            "alignment": [
-                "chaotic"
-            ],
+            "alignment": ["chaotic"],
             "size": "medium",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Common",
-                "Elvish",
-                "One extra language of your choice"
-            ],
+            "speed": [9.1],
+            "language": ["Common", "Elvish", "One extra language of your choice"],
             "subRaces": [],
-            "skillProficiencies": [
-                "Two skills of your choice"
-            ],
+            "skillProficiencies": ["Two skills of your choice"],
             "characteristics": [
                 {
                     "name": "Darkvision",
@@ -1030,24 +930,14 @@
                 }
             ],
             "ageMax": 180,
-            "alignment": [
-                "caótico"
-            ],
+            "alignment": ["caótico"],
             "size": "médio",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Comum",
-                "Élfico",
-                "Um idioma extra à sua escolha"
-            ],
+            "speed": [9.1],
+            "language": ["Comum", "Élfico", "Um idioma extra à sua escolha"],
             "subRaces": [],
-            "skillProficiencies": [
-                "Duas habilidades à sua escolha"
-            ],
+            "skillProficiencies": ["Duas habilidades à sua escolha"],
             "characteristics": [
                 {
                     "name": "Visão no Escuro",
@@ -1081,23 +971,14 @@
                 }
             ],
             "ageMax": 75,
-            "alignment": [
-                "chaotic"
-            ],
+            "alignment": ["chaotic"],
             "size": "medium",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Common",
-                "Orc"
-            ],
+            "speed": [9.1],
+            "language": ["Common", "Orc"],
             "subRaces": [],
-            "skillProficiencies": [
-                "Intimidation"
-            ],
+            "skillProficiencies": ["Intimidation"],
             "characteristics": [
                 {
                     "name": "Darkvision",
@@ -1133,23 +1014,14 @@
                 }
             ],
             "ageMax": 75,
-            "alignment": [
-                "caótico"
-            ],
+            "alignment": ["caótico"],
             "size": "médio",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Comum",
-                "Orc"
-            ],
+            "speed": [9.1],
+            "language": ["Comum", "Orc"],
             "subRaces": [],
-            "skillProficiencies": [
-                "Intimidação"
-            ],
+            "skillProficiencies": ["Intimidação"],
             "characteristics": [
                 {
                     "name": "Visão no Escuro",
@@ -1188,19 +1060,12 @@
                 }
             ],
             "ageMax": 0,
-            "alignment": [
-                "chaotic"
-            ],
+            "alignment": ["chaotic"],
             "size": "medium",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Common",
-                "Infernal"
-            ],
+            "speed": [9.1],
+            "language": ["Common", "Infernal"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [
@@ -1233,19 +1098,12 @@
                 }
             ],
             "ageMax": 0,
-            "alignment": [
-                "caótico"
-            ],
+            "alignment": ["caótico"],
             "size": "médio",
             "heightMax": 1.82,
             "weightMax": 0,
-            "speed": [
-                9.1
-            ],
-            "language": [
-                "Comum",
-                "Infernal"
-            ],
+            "speed": [9.1],
+            "language": ["Comum", "Infernal"],
             "subRaces": [],
             "skillProficiencies": [],
             "characteristics": [

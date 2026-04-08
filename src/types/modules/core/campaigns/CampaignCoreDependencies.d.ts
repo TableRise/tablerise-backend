@@ -27,7 +27,10 @@ import {
     UpdateCampaignImagesServiceContract,
 } from './campaigns/UpdateCampaignImages';
 
-import { PostInvitationEmailOperationContract, PostInvitationEmailServiceContract } from './campaigns/PostInvitationEmail';
+import {
+    PostInvitationEmailOperationContract,
+    PostInvitationEmailServiceContract,
+} from './campaigns/PostInvitationEmail';
 
 import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './campaigns/PostBanPlayer';
 

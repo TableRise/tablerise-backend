@@ -6,10 +6,7 @@ export default class CreateUserOperation {
     private readonly createUserService;
     private readonly logger;
 
-    constructor({
-        createUserService,
-        logger,
-    }: UserCoreDependencies['createUserOperationContract']) {
+    constructor({ createUserService, logger }: UserCoreDependencies['createUserOperationContract']) {
         this.createUserService = createUserService;
         this.logger = logger;
 

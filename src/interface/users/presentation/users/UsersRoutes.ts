@@ -189,7 +189,7 @@ export default class UsersRoutes {
                     middlewares: [this.authorizationMiddleware.secretQuestion],
                     schemas: [
                         { query: this.usersSchemas.postAuthenticateSecretQuestion.query },
-                        { body: this.usersSchemas.postAuthenticateSecretQuestion.body }
+                        { body: this.usersSchemas.postAuthenticateSecretQuestion.body },
                     ],
                     tag: 'authentication',
                     description: desc.secretQuestion,

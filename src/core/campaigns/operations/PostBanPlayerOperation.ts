@@ -5,10 +5,7 @@ export default class PostBanPlayerOperation {
     private readonly postBanPlayerService;
     private readonly logger;
 
-    constructor({
-        postBanPlayerService,
-        logger,
-    }: CampaignCoreDependencies['postBanPlayerOperationContract']) {
+    constructor({ postBanPlayerService, logger }: CampaignCoreDependencies['postBanPlayerOperationContract']) {
         this.postBanPlayerService = postBanPlayerService;
         this.logger = logger;
 

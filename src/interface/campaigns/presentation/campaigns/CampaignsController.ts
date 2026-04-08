@@ -128,7 +128,7 @@ export default class CampaignsController {
 
         await this.postInvitationEmailOperation.execute({
             campaignId: id,
-            targetEmail
+            targetEmail,
         });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();

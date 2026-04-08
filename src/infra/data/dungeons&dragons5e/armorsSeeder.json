@@ -1,303 +1,302 @@
 [
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Padded",
-      "description": "Padded armor consists of quilted layers of cloth and batting.",
-      "cost": { "currency": "gp", "value": 5 },
-      "type": "light armor",
-      "weight": 4,
-      "armorClass": "11 + Dex modifier",
-      "requiredStrength": 0,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Padded",
+            "description": "Padded armor consists of quilted layers of cloth and batting.",
+            "cost": { "currency": "gp", "value": 5 },
+            "type": "light armor",
+            "weight": 4,
+            "armorClass": "11 + Dex modifier",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Armadura Acolchoada",
+            "description": "Consiste em camadas acolchoadas de tecido.",
+            "cost": { "currency": "po", "value": 5 },
+            "type": "armadura leve",
+            "weight": 4,
+            "armorClass": "11 + Modificador Des",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Armadura Acolchoada",
-      "description": "Consiste em camadas acolchoadas de tecido.",
-      "cost": { "currency": "po", "value": 5 },
-      "type": "armadura leve",
-      "weight": 4,
-      "armorClass": "11 + Modificador Des",
-      "requiredStrength": 0,
-      "stealthPenalty": true
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Leather",
-      "description": "Leather armor is made of stiffened leather.",
-      "cost": { "currency": "gp", "value": 10 },
-      "type": "light armor",
-      "weight": 4.5,
-      "armorClass": "11 + Dex modifier",
-      "requiredStrength": 0,
-      "stealthPenalty": false
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Leather",
+            "description": "Leather armor is made of stiffened leather.",
+            "cost": { "currency": "gp", "value": 10 },
+            "type": "light armor",
+            "weight": 4.5,
+            "armorClass": "11 + Dex modifier",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Couro",
+            "description": "Armadura feita de couro endurecido.",
+            "cost": { "currency": "po", "value": 10 },
+            "type": "armadura leve",
+            "weight": 4.5,
+            "armorClass": "11 + Modificador Des",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Couro",
-      "description": "Armadura feita de couro endurecido.",
-      "cost": { "currency": "po", "value": 10 },
-      "type": "armadura leve",
-      "weight": 4.5,
-      "armorClass": "11 + Modificador Des",
-      "requiredStrength": 0,
-      "stealthPenalty": false
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Studded Leather",
-      "description": "Leather reinforced with rivets or spikes.",
-      "cost": { "currency": "gp", "value": 45 },
-      "type": "light armor",
-      "weight": 6.5,
-      "armorClass": "12 + Dex modifier",
-      "requiredStrength": 0,
-      "stealthPenalty": false
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Studded Leather",
+            "description": "Leather reinforced with rivets or spikes.",
+            "cost": { "currency": "gp", "value": 45 },
+            "type": "light armor",
+            "weight": 6.5,
+            "armorClass": "12 + Dex modifier",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Couro Batido",
+            "description": "Couro reforçado com rebites ou espinhos.",
+            "cost": { "currency": "po", "value": 45 },
+            "type": "armadura leve",
+            "weight": 6.5,
+            "armorClass": "12 + Modificador Des",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Couro Batido",
-      "description": "Couro reforçado com rebites ou espinhos.",
-      "cost": { "currency": "po", "value": 45 },
-      "type": "armadura leve",
-      "weight": 6.5,
-      "armorClass": "12 + Modificador Des",
-      "requiredStrength": 0,
-      "stealthPenalty": false
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hide",
-      "description": "Thick furs and pelts.",
-      "cost": { "currency": "gp", "value": 10 },
-      "type": "medium armor",
-      "weight": 6,
-      "armorClass": "12 + Dex modifier (max 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hide",
+            "description": "Thick furs and pelts.",
+            "cost": { "currency": "gp", "value": 10 },
+            "type": "medium armor",
+            "weight": 6,
+            "armorClass": "12 + Dex modifier (max 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Pele",
+            "description": "Feita de peles e couros grossos.",
+            "cost": { "currency": "po", "value": 10 },
+            "type": "armadura média",
+            "weight": 6,
+            "armorClass": "12 + Modificador Des (máx 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Pele",
-      "description": "Feita de peles e couros grossos.",
-      "cost": { "currency": "po", "value": 10 },
-      "type": "armadura média",
-      "weight": 6,
-      "armorClass": "12 + Modificador Des (máx 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Chain Shirt",
-      "description": "Chain links worn between layers.",
-      "cost": { "currency": "gp", "value": 50 },
-      "type": "medium armor",
-      "weight": 10,
-      "armorClass": "13 + Dex modifier (max 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Chain Shirt",
+            "description": "Chain links worn between layers.",
+            "cost": { "currency": "gp", "value": 50 },
+            "type": "medium armor",
+            "weight": 10,
+            "armorClass": "13 + Dex modifier (max 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Cota de Malha",
+            "description": "Malha metálica entre camadas.",
+            "cost": { "currency": "po", "value": 50 },
+            "type": "armadura média",
+            "weight": 10,
+            "armorClass": "13 + Modificador Des (máx 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Cota de Malha",
-      "description": "Malha metálica entre camadas.",
-      "cost": { "currency": "po", "value": 50 },
-      "type": "armadura média",
-      "weight": 10,
-      "armorClass": "13 + Modificador Des (máx 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Scale Mail",
-      "description": "Armor of overlapping metal plates.",
-      "cost": { "currency": "gp", "value": 50 },
-      "type": "medium armor",
-      "weight": 22.5,
-      "armorClass": "14 + Dex modifier (max 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Scale Mail",
+            "description": "Armor of overlapping metal plates.",
+            "cost": { "currency": "gp", "value": 50 },
+            "type": "medium armor",
+            "weight": 22.5,
+            "armorClass": "14 + Dex modifier (max 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Escamas",
+            "description": "Placas metálicas sobrepostas.",
+            "cost": { "currency": "po", "value": 50 },
+            "type": "armadura média",
+            "weight": 22.5,
+            "armorClass": "14 + Modificador Des (máx 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Escamas",
-      "description": "Placas metálicas sobrepostas.",
-      "cost": { "currency": "po", "value": 50 },
-      "type": "armadura média",
-      "weight": 22.5,
-      "armorClass": "14 + Modificador Des (máx 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": true
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Breastplate",
-      "description": "A fitted metal chest piece.",
-      "cost": { "currency": "gp", "value": 400 },
-      "type": "medium armor",
-      "weight": 10,
-      "armorClass": "14 + Dex modifier (max 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Breastplate",
+            "description": "A fitted metal chest piece.",
+            "cost": { "currency": "gp", "value": 400 },
+            "type": "medium armor",
+            "weight": 10,
+            "armorClass": "14 + Dex modifier (max 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Peitoral",
+            "description": "Peça metálica ajustada ao torso.",
+            "cost": { "currency": "po", "value": 400 },
+            "type": "armadura média",
+            "weight": 10,
+            "armorClass": "14 + Modificador Des (máx 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": false
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Peitoral",
-      "description": "Peça metálica ajustada ao torso.",
-      "cost": { "currency": "po", "value": 400 },
-      "type": "armadura média",
-      "weight": 10,
-      "armorClass": "14 + Modificador Des (máx 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": false
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Half Plate",
-      "description": "Partial plate armor.",
-      "cost": { "currency": "gp", "value": 750 },
-      "type": "medium armor",
-      "weight": 20,
-      "armorClass": "15 + Dex modifier (max 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Half Plate",
+            "description": "Partial plate armor.",
+            "cost": { "currency": "gp", "value": 750 },
+            "type": "medium armor",
+            "weight": 20,
+            "armorClass": "15 + Dex modifier (max 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Meia Armadura",
+            "description": "Armadura parcial de placas.",
+            "cost": { "currency": "po", "value": 750 },
+            "type": "armadura média",
+            "weight": 20,
+            "armorClass": "15 + Modificador Des (máx 2)",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Meia Armadura",
-      "description": "Armadura parcial de placas.",
-      "cost": { "currency": "po", "value": 750 },
-      "type": "armadura média",
-      "weight": 20,
-      "armorClass": "15 + Modificador Des (máx 2)",
-      "requiredStrength": 0,
-      "stealthPenalty": true
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Ring Mail",
-      "description": "Leather armor with metal rings.",
-      "cost": { "currency": "gp", "value": 30 },
-      "type": "heavy armor",
-      "weight": 20,
-      "armorClass": "14",
-      "requiredStrength": 0,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Ring Mail",
+            "description": "Leather armor with metal rings.",
+            "cost": { "currency": "gp", "value": 30 },
+            "type": "heavy armor",
+            "weight": 20,
+            "armorClass": "14",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Cota de Anéis",
+            "description": "Couro com anéis metálicos.",
+            "cost": { "currency": "po", "value": 30 },
+            "type": "armadura pesada",
+            "weight": 20,
+            "armorClass": "14",
+            "requiredStrength": 0,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Cota de Anéis",
-      "description": "Couro com anéis metálicos.",
-      "cost": { "currency": "po", "value": 30 },
-      "type": "armadura pesada",
-      "weight": 20,
-      "armorClass": "14",
-      "requiredStrength": 0,
-      "stealthPenalty": true
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Chain Mail",
-      "description": "Interlocking metal rings.",
-      "cost": { "currency": "gp", "value": 75 },
-      "type": "heavy armor",
-      "weight": 27.5,
-      "armorClass": "16",
-      "requiredStrength": 13,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Chain Mail",
+            "description": "Interlocking metal rings.",
+            "cost": { "currency": "gp", "value": 75 },
+            "type": "heavy armor",
+            "weight": 27.5,
+            "armorClass": "16",
+            "requiredStrength": 13,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Cota de Malha Pesada",
+            "description": "Anéis metálicos entrelaçados.",
+            "cost": { "currency": "po", "value": 75 },
+            "type": "armadura pesada",
+            "weight": 27.5,
+            "armorClass": "16",
+            "requiredStrength": 13,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Cota de Malha Pesada",
-      "description": "Anéis metálicos entrelaçados.",
-      "cost": { "currency": "po", "value": 75 },
-      "type": "armadura pesada",
-      "weight": 27.5,
-      "armorClass": "16",
-      "requiredStrength": 13,
-      "stealthPenalty": true
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Splint",
-      "description": "Metal strips over backing.",
-      "cost": { "currency": "gp", "value": 200 },
-      "type": "heavy armor",
-      "weight": 30,
-      "armorClass": "17",
-      "requiredStrength": 15,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Splint",
+            "description": "Metal strips over backing.",
+            "cost": { "currency": "gp", "value": 200 },
+            "type": "heavy armor",
+            "weight": 30,
+            "armorClass": "17",
+            "requiredStrength": 15,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Talas",
+            "description": "Tiras metálicas sobre suporte.",
+            "cost": { "currency": "po", "value": 200 },
+            "type": "armadura pesada",
+            "weight": 30,
+            "armorClass": "17",
+            "requiredStrength": 15,
+            "stealthPenalty": true
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Talas",
-      "description": "Tiras metálicas sobre suporte.",
-      "cost": { "currency": "po", "value": 200 },
-      "type": "armadura pesada",
-      "weight": 30,
-      "armorClass": "17",
-      "requiredStrength": 15,
-      "stealthPenalty": true
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Plate",
+            "description": "Full plate armor.",
+            "cost": { "currency": "gp", "value": 1500 },
+            "type": "heavy armor",
+            "weight": 32.5,
+            "armorClass": "18",
+            "requiredStrength": 15,
+            "stealthPenalty": true
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Armadura de Placas",
+            "description": "Armadura completa de placas.",
+            "cost": { "currency": "po", "value": 1500 },
+            "type": "armadura pesada",
+            "weight": 32.5,
+            "armorClass": "18",
+            "requiredStrength": 15,
+            "stealthPenalty": true
+        }
     }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Plate",
-      "description": "Full plate armor.",
-      "cost": { "currency": "gp", "value": 1500 },
-      "type": "heavy armor",
-      "weight": 32.5,
-      "armorClass": "18",
-      "requiredStrength": 15,
-      "stealthPenalty": true
-    },
-    "pt": {
-      "homebrew": false,
-      "name": "Armadura de Placas",
-      "description": "Armadura completa de placas.",
-      "cost": { "currency": "po", "value": 1500 },
-      "type": "armadura pesada",
-      "weight": 32.5,
-      "armorClass": "18",
-      "requiredStrength": 15,
-      "stealthPenalty": true
-    }
-  }
-
 ]

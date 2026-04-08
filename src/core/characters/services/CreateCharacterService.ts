@@ -42,7 +42,7 @@ export default class CreateCharacterService {
             const isDeathSavesPresent = payload.data.stats.deathSaves;
             const isMoneyPresent = payload.data.money;
             const isSpellsPresent = payload.data.spells;
-    
+
             const forbiddenKeys = [
                 isLevelPresent,
                 isXpPresent,
@@ -51,9 +51,9 @@ export default class CreateCharacterService {
                 isMoneyPresent,
                 isSpellsPresent,
             ];
-    
+
             const someExists = forbiddenKeys.some((forbidKeys) => forbidKeys !== undefined);
-    
+
             if (someExists) HttpRequestErrors.throwError('save-forbidden-content');
         }
     }

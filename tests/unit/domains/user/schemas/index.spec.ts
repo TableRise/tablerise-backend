@@ -3,9 +3,7 @@ import index from 'src/domains/users/schemas';
 describe('Domains :: User :: Schemas :: Index', () => {
     context('When schemas index', () => {
         it('should have correct keys', () => {
-            const keys = [
-                'oAuthComplete',
-            ];
+            const keys = ['oAuthComplete'];
             const indexKeys = Object.keys(index);
 
             keys.forEach((key: string, index: number) => {

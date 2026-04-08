@@ -6,10 +6,7 @@ export default class UpdateCampaignOperation {
     private readonly updateCampaignService;
     private readonly logger;
 
-    constructor({
-        updateCampaignService,
-        logger,
-    }: CampaignCoreDependencies['updateCampaignOperationContract']) {
+    constructor({ updateCampaignService, logger }: CampaignCoreDependencies['updateCampaignOperationContract']) {
         this.updateCampaignService = updateCampaignService;
         this.logger = logger;
 

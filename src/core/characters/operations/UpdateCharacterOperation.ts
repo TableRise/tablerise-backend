@@ -6,10 +6,7 @@ export default class UpdateCharacterOperation {
     private readonly updateCharacterService;
     private readonly logger;
 
-    constructor({
-        updateCharacterService,
-        logger,
-    }: CharacterCoreDependencies['updateCharacterOperationContract']) {
+    constructor({ updateCharacterService, logger }: CharacterCoreDependencies['updateCharacterOperationContract']) {
         this.updateCharacterService = updateCharacterService;
         this.logger = logger;
 

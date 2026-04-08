@@ -6,25 +6,25 @@ REST API + WebSocket server for the **TableRise** application — a platform for
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Environment Variables](#environment-variables)
-- [Running Locally](#running-locally)
-- [Running with Docker](#running-with-docker)
-- [Scripts](#scripts)
-- [Testing](#testing)
-- [API Reference](#api-reference)
-  - [Users](#users)
-  - [OAuth](#oauth)
-  - [Campaigns](#campaigns)
-  - [Characters](#characters)
-  - [D&D 5e System](#dd-5e-system)
-- [WebSocket Events](#websocket-events)
-- [Authentication](#authentication)
-- [Image Storage](#image-storage)
+-   [Overview](#overview)
+-   [Tech Stack](#tech-stack)
+-   [Architecture](#architecture)
+-   [Project Structure](#project-structure)
+-   [Prerequisites](#prerequisites)
+-   [Environment Variables](#environment-variables)
+-   [Running Locally](#running-locally)
+-   [Running with Docker](#running-with-docker)
+-   [Scripts](#scripts)
+-   [Testing](#testing)
+-   [API Reference](#api-reference)
+    -   [Users](#users)
+    -   [OAuth](#oauth)
+    -   [Campaigns](#campaigns)
+    -   [Characters](#characters)
+    -   [D&D 5e System](#dd-5e-system)
+-   [WebSocket Events](#websocket-events)
+-   [Authentication](#authentication)
+-   [Image Storage](#image-storage)
 
 ---
 
@@ -32,37 +32,37 @@ REST API + WebSocket server for the **TableRise** application — a platform for
 
 Tablerise Backend provides the full server-side logic for the TableRise platform. It covers:
 
-- User registration, authentication (local + OAuth via Google and Discord), and account management
-- Campaign creation and lifecycle management, including match sessions with real-time map and avatar control via WebSockets
-- Character sheet creation with automatic D&D 5e rule enrichment
-- Read-only access to the D&D 5e system catalogue (armors, weapons, spells, monsters, etc.)
-- Two-factor authentication (TOTP + QR code) and secret question security
-- Email verification flows with a finite-state machine
-- Scheduled jobs (e.g., automatic deletion of pending-delete user accounts)
-- Auto-generated Swagger documentation
+-   User registration, authentication (local + OAuth via Google and Discord), and account management
+-   Campaign creation and lifecycle management, including match sessions with real-time map and avatar control via WebSockets
+-   Character sheet creation with automatic D&D 5e rule enrichment
+-   Read-only access to the D&D 5e system catalogue (armors, weapons, spells, monsters, etc.)
+-   Two-factor authentication (TOTP + QR code) and secret question security
+-   Email verification flows with a finite-state machine
+-   Scheduled jobs (e.g., automatic deletion of pending-delete user accounts)
+-   Auto-generated Swagger documentation
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Runtime | Node.js 20 |
-| Language | TypeScript 5 |
-| Framework | Express 4 |
-| Database | MongoDB 5 (via `@tablerise/database-management`) |
-| Cache / Sessions | Redis 7 |
-| DI Container | Awilix 9 |
-| Authentication | Passport.js (local, cookie, Google OAuth2, Discord OAuth2) |
-| Real-time | Socket.IO 4 |
-| Validation | Zod 4 |
-| Email | Nodemailer |
-| Image storage | ImgBB API |
-| 2FA | Speakeasy + QRCode |
-| Job scheduling | node-cron |
-| API docs | `@tablerise/auto-swagger` + Swagger UI |
-| Testing | Mocha + Chai + Sinon + Supertest |
-| Linting | ESLint + Prettier |
+| Layer            | Technology                                                 |
+| ---------------- | ---------------------------------------------------------- |
+| Runtime          | Node.js 20                                                 |
+| Language         | TypeScript 5                                               |
+| Framework        | Express 4                                                  |
+| Database         | MongoDB 5 (via `@tablerise/database-management`)           |
+| Cache / Sessions | Redis 7                                                    |
+| DI Container     | Awilix 9                                                   |
+| Authentication   | Passport.js (local, cookie, Google OAuth2, Discord OAuth2) |
+| Real-time        | Socket.IO 4                                                |
+| Validation       | Zod 4                                                      |
+| Email            | Nodemailer                                                 |
+| Image storage    | ImgBB API                                                  |
+| 2FA              | Speakeasy + QRCode                                         |
+| Job scheduling   | node-cron                                                  |
+| API docs         | `@tablerise/auto-swagger` + Swagger UI                     |
+| Testing          | Mocha + Chai + Sinon + Supertest                           |
+| Linting          | ESLint + Prettier                                          |
 
 ---
 
@@ -135,10 +135,10 @@ tests/
 
 ## Prerequisites
 
-- **Node.js** >= 20
-- **npm** >= 9
-- **MongoDB** 5 (or Docker)
-- **Redis** 7 (or Docker)
+-   **Node.js** >= 20
+-   **npm** >= 9
+-   **MongoDB** 5 (or Docker)
+-   **Redis** 7 (or Docker)
 
 ---
 
@@ -227,22 +227,22 @@ docker run --env-file .env -p 8080:8080 tablerise-backend
 
 ## Scripts
 
-| Script | Description |
-|---|---|
-| `npm start` | Run the compiled build |
-| `npm run build` | Compile TypeScript to `build/` |
-| `npm run local` | Build + start with nodemon (development) |
-| `npm test` | Run unit + integration tests |
-| `npm run test:unit` | Unit tests only |
-| `npm run test:integration` | Integration tests only |
-| `npm run test:coverage` | Unit tests with nyc coverage report |
-| `npm run lint` | ESLint check |
-| `npm run prettier` | Prettier check |
-| `npm run prettier:fix` | Auto-fix formatting |
-| `npm run populate` | Seed the database with D&D 5e data |
-| `npm run circular` | Detect circular dependencies |
-| `npm run check-lib` | Check for unauthorized characters in dependencies |
-| `npm run check-cov` | Assert minimum coverage thresholds |
+| Script                     | Description                                       |
+| -------------------------- | ------------------------------------------------- |
+| `npm start`                | Run the compiled build                            |
+| `npm run build`            | Compile TypeScript to `build/`                    |
+| `npm run local`            | Build + start with nodemon (development)          |
+| `npm test`                 | Run unit + integration tests                      |
+| `npm run test:unit`        | Unit tests only                                   |
+| `npm run test:integration` | Integration tests only                            |
+| `npm run test:coverage`    | Unit tests with nyc coverage report               |
+| `npm run lint`             | ESLint check                                      |
+| `npm run prettier`         | Prettier check                                    |
+| `npm run prettier:fix`     | Auto-fix formatting                               |
+| `npm run populate`         | Seed the database with D&D 5e data                |
+| `npm run circular`         | Detect circular dependencies                      |
+| `npm run check-lib`        | Check for unauthorized characters in dependencies |
+| `npm run check-cov`        | Assert minimum coverage thresholds                |
 
 ---
 
@@ -269,87 +269,87 @@ All endpoints except registration, login, and email verification require a valid
 
 ### Users
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/users/all` | Get all users (admin only) |
-| `GET` | `/users/:id` | Get user by ID |
-| `GET` | `/users/logout` | Logout current user |
-| `POST` | `/users/register` | Register a new user |
-| `POST` | `/users/login` | Login with email and password |
-| `POST` | `/users/:id/update/picture` | Upload profile picture |
-| `POST` | `/users/authenticate/email/send-code` | Send email verification code |
-| `POST` | `/users/authenticate/email` | Verify email code (initiates internal auth flow) |
-| `POST` | `/users/authenticate/2fa` | Verify TOTP 2FA token |
-| `POST` | `/users/authenticate/secret-question` | Verify secret question answer |
-| `PUT` | `/users/:id/update` | Update user profile |
-| `PATCH` | `/users/:id/question/activate` | Activate secret question security |
-| `PATCH` | `/users/:id/question/update` | Update secret question |
-| `PATCH` | `/users/:id/2fa/activate` | Activate TOTP 2FA (returns QR code) |
-| `PATCH` | `/users/:id/2fa/reset` | Reset TOTP 2FA |
-| `PATCH` | `/users/:id/update/email` | Update email address |
-| `PATCH` | `/users/update/password` | Update password |
-| `PATCH` | `/users/:id/update/game-info` | Update game badges/campaigns/characters info |
-| `PATCH` | `/users/:id/reset` | Reset profile to initial state |
-| `DELETE` | `/users/:id/delete` | Delete user account |
+| Method   | Path                                  | Description                                      |
+| -------- | ------------------------------------- | ------------------------------------------------ |
+| `GET`    | `/users/all`                          | Get all users (admin only)                       |
+| `GET`    | `/users/:id`                          | Get user by ID                                   |
+| `GET`    | `/users/logout`                       | Logout current user                              |
+| `POST`   | `/users/register`                     | Register a new user                              |
+| `POST`   | `/users/login`                        | Login with email and password                    |
+| `POST`   | `/users/:id/update/picture`           | Upload profile picture                           |
+| `POST`   | `/users/authenticate/email/send-code` | Send email verification code                     |
+| `POST`   | `/users/authenticate/email`           | Verify email code (initiates internal auth flow) |
+| `POST`   | `/users/authenticate/2fa`             | Verify TOTP 2FA token                            |
+| `POST`   | `/users/authenticate/secret-question` | Verify secret question answer                    |
+| `PUT`    | `/users/:id/update`                   | Update user profile                              |
+| `PATCH`  | `/users/:id/question/activate`        | Activate secret question security                |
+| `PATCH`  | `/users/:id/question/update`          | Update secret question                           |
+| `PATCH`  | `/users/:id/2fa/activate`             | Activate TOTP 2FA (returns QR code)              |
+| `PATCH`  | `/users/:id/2fa/reset`                | Reset TOTP 2FA                                   |
+| `PATCH`  | `/users/:id/update/email`             | Update email address                             |
+| `PATCH`  | `/users/update/password`              | Update password                                  |
+| `PATCH`  | `/users/:id/update/game-info`         | Update game badges/campaigns/characters info     |
+| `PATCH`  | `/users/:id/reset`                    | Reset profile to initial state                   |
+| `DELETE` | `/users/:id/delete`                   | Delete user account                              |
 
 ### OAuth
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/oauth/google` | Initiate Google OAuth2 flow |
-| `GET` | `/oauth/discord` | Initiate Discord OAuth2 flow |
-| `PUT` | `/oauth/:id/complete` | Complete OAuth registration (fill in missing profile data) |
+| Method | Path                  | Description                                                |
+| ------ | --------------------- | ---------------------------------------------------------- |
+| `GET`  | `/oauth/google`       | Initiate Google OAuth2 flow                                |
+| `GET`  | `/oauth/discord`      | Initiate Discord OAuth2 flow                               |
+| `PUT`  | `/oauth/:id/complete` | Complete OAuth registration (fill in missing profile data) |
 
 ### Campaigns
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/campaigns` | Get all campaigns |
-| `GET` | `/campaigns/:id` | Get campaign by ID |
-| `GET` | `/campaigns/user/:id` | Get campaigns by user ID |
-| `POST` | `/campaigns/create` | Create a new campaign (with cover image) |
-| `POST` | `/campaigns/:id/publishment` | Publish a campaign match session |
-| `POST` | `/campaigns/:id/invite` | Invite a player by email |
-| `POST` | `/campaigns/:id/ban` | Ban a player from the campaign |
-| `POST` | `/campaigns/:id/update/player/add` | Add a player to the campaign |
-| `POST` | `/campaigns/:id/update/player/remove` | Remove a player from the campaign |
-| `PUT` | `/campaigns/:id/update` | Update campaign details (with cover image) |
-| `PATCH` | `/campaigns/:id/update/match/map-images` | Upload a map image for the active match |
-| `PATCH` | `/campaigns/:id/update/match/musics` | Update background music links for the active match |
-| `PATCH` | `/campaigns/:id/update/images` | Update campaign gallery images |
-| `DELETE` | `/campaigns/:id/delete` | Delete a campaign |
+| Method   | Path                                     | Description                                        |
+| -------- | ---------------------------------------- | -------------------------------------------------- |
+| `GET`    | `/campaigns`                             | Get all campaigns                                  |
+| `GET`    | `/campaigns/:id`                         | Get campaign by ID                                 |
+| `GET`    | `/campaigns/user/:id`                    | Get campaigns by user ID                           |
+| `POST`   | `/campaigns/create`                      | Create a new campaign (with cover image)           |
+| `POST`   | `/campaigns/:id/publishment`             | Publish a campaign match session                   |
+| `POST`   | `/campaigns/:id/invite`                  | Invite a player by email                           |
+| `POST`   | `/campaigns/:id/ban`                     | Ban a player from the campaign                     |
+| `POST`   | `/campaigns/:id/update/player/add`       | Add a player to the campaign                       |
+| `POST`   | `/campaigns/:id/update/player/remove`    | Remove a player from the campaign                  |
+| `PUT`    | `/campaigns/:id/update`                  | Update campaign details (with cover image)         |
+| `PATCH`  | `/campaigns/:id/update/match/map-images` | Upload a map image for the active match            |
+| `PATCH`  | `/campaigns/:id/update/match/musics`     | Update background music links for the active match |
+| `PATCH`  | `/campaigns/:id/update/images`           | Update campaign gallery images                     |
+| `DELETE` | `/campaigns/:id/delete`                  | Delete a campaign                                  |
 
 ### Characters
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/characters` | Get all characters (admin only) |
-| `GET` | `/characters/:id` | Get character by ID |
-| `GET` | `/characters/by-campaign/:id` | Get characters linked to a campaign |
-| `POST` | `/characters/create` | Create a new character (auto-enriched with D&D 5e rules) |
-| `POST` | `/characters/:id/picture` | Upload character portrait |
-| `POST` | `/characters/:id/symbol` | Upload organization symbol image |
-| `PUT` | `/characters/:id` | Update character sheet |
+| Method | Path                          | Description                                              |
+| ------ | ----------------------------- | -------------------------------------------------------- |
+| `GET`  | `/characters`                 | Get all characters (admin only)                          |
+| `GET`  | `/characters/:id`             | Get character by ID                                      |
+| `GET`  | `/characters/by-campaign/:id` | Get characters linked to a campaign                      |
+| `POST` | `/characters/create`          | Create a new character (auto-enriched with D&D 5e rules) |
+| `POST` | `/characters/:id/picture`     | Upload character portrait                                |
+| `POST` | `/characters/:id/symbol`      | Upload organization symbol image                         |
+| `PUT`  | `/characters/:id`             | Update character sheet                                   |
 
 ### D&D 5e System
 
 All D&D 5e endpoints follow the pattern `GET /system/dnd5e/{resource}` and support toggling availability via `PATCH /system/dnd5e/{resource}/:id?availability=true|false` (authenticated, admin-level).
 
-| Resource path | Content |
-|---|---|
-| `/system/dnd5e/armors` | Armor catalogue |
-| `/system/dnd5e/weapons` | Weapon catalogue |
-| `/system/dnd5e/spells` | Spell catalogue |
-| `/system/dnd5e/classes` | Character classes |
-| `/system/dnd5e/races` | Playable races |
-| `/system/dnd5e/backgrounds` | Character backgrounds |
-| `/system/dnd5e/items` | General items |
-| `/system/dnd5e/magic-items` | Magic items |
-| `/system/dnd5e/feats` | Feats |
-| `/system/dnd5e/gods` | Pantheon / gods |
-| `/system/dnd5e/monsters` | Monster catalogue |
-| `/system/dnd5e/realms` | Realm / setting catalogue |
-| `/system/dnd5e/wikis` | Wiki entries |
+| Resource path               | Content                   |
+| --------------------------- | ------------------------- |
+| `/system/dnd5e/armors`      | Armor catalogue           |
+| `/system/dnd5e/weapons`     | Weapon catalogue          |
+| `/system/dnd5e/spells`      | Spell catalogue           |
+| `/system/dnd5e/classes`     | Character classes         |
+| `/system/dnd5e/races`       | Playable races            |
+| `/system/dnd5e/backgrounds` | Character backgrounds     |
+| `/system/dnd5e/items`       | General items             |
+| `/system/dnd5e/magic-items` | Magic items               |
+| `/system/dnd5e/feats`       | Feats                     |
+| `/system/dnd5e/gods`        | Pantheon / gods           |
+| `/system/dnd5e/monsters`    | Monster catalogue         |
+| `/system/dnd5e/realms`      | Realm / setting catalogue |
+| `/system/dnd5e/wikis`       | Wiki entries              |
 
 ---
 
@@ -357,16 +357,16 @@ All D&D 5e endpoints follow the pattern `GET /system/dnd5e/{resource}` and suppo
 
 The server uses **Socket.IO** for real-time campaign match sessions. Connect to the WebSocket server at the same host/port as the REST API.
 
-| Event | Direction | Description |
-|---|---|---|
-| `join-match` | Client → Server | Join a campaign match room |
-| `add-avatar` | Client → Server | Add or create a player avatar on the map |
-| `move-avatar` | Client → Server | Move an avatar to new coordinates |
-| `resize-avatar` | Client → Server | Resize an avatar on the map |
-| `delete-avatar` | Client → Server | Remove an avatar from the match |
-| `change-map-image` | Client → Server | Change the active map background image |
-| `add-avatar-picture` | Client → Server | Attach a picture to an existing avatar |
-| `disconnect` | Server → Clients | Broadcast avatar removal on client disconnect |
+| Event                | Direction        | Description                                   |
+| -------------------- | ---------------- | --------------------------------------------- |
+| `join-match`         | Client → Server  | Join a campaign match room                    |
+| `add-avatar`         | Client → Server  | Add or create a player avatar on the map      |
+| `move-avatar`        | Client → Server  | Move an avatar to new coordinates             |
+| `resize-avatar`      | Client → Server  | Resize an avatar on the map                   |
+| `delete-avatar`      | Client → Server  | Remove an avatar from the match               |
+| `change-map-image`   | Client → Server  | Change the active map background image        |
+| `add-avatar-picture` | Client → Server  | Attach a picture to an existing avatar        |
+| `disconnect`         | Server → Clients | Broadcast avatar removal on client disconnect |
 
 ---
 
@@ -376,9 +376,9 @@ The API uses **cookie-based sessions** via `passport-cookie`. After a successful
 
 **Flows supported:**
 
-- **Local** — email + password via `POST /users/login`
-- **Google OAuth2** — via `GET /oauth/google`
-- **Discord OAuth2** — via `GET /oauth/discord`
+-   **Local** — email + password via `POST /users/login`
+-   **Google OAuth2** — via `GET /oauth/google`
+-   **Discord OAuth2** — via `GET /oauth/discord`
 
 **Second-factor flows** (governed by a finite state machine):
 
@@ -391,4 +391,3 @@ The API uses **cookie-based sessions** via `passport-cookie`. After a successful
 ## Image Storage
 
 Images (profile pictures, character portraits, campaign covers, map images) are uploaded via **multipart/form-data** and stored externally using the **ImgBB API**. The `IMGBB_CLIENT_SECRET` environment variable must be set for image uploads to work.
-

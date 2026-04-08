@@ -234,11 +234,11 @@ const updateCharacterZodSchema = z.object({
 });
 
 const insertOrganizationPictureZodSchema = z.object({
-    orgName: z.string()
+    orgName: z.string(),
 });
 
 const insertCharacterPictureZodSchema = z.object({
-    picture: z.file()
+    picture: z.file(),
 });
 
 // ─── Exports ──────────────────────────────────────────────────────────────────
@@ -256,9 +256,9 @@ export default (): ICharactersSchemas => ({
         body: updateCharacterZodSchema,
     },
     postOrganizationPicture: {
-        query: insertOrganizationPictureZodSchema
+        query: insertOrganizationPictureZodSchema,
     },
     postCharacterPicture: {
-        body: insertCharacterPictureZodSchema
+        body: insertCharacterPictureZodSchema,
     },
 });

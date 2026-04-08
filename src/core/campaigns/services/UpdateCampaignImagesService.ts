@@ -18,11 +18,7 @@ export default class UpdateCampaignImagesService {
         this.logger = logger;
     }
 
-    addCampaignImage(
-        campaign: Campaign,
-        imageUploadResponse: ImageObject,
-        name: string | undefined
-    ): Campaign {
+    addCampaignImage(campaign: Campaign, imageUploadResponse: ImageObject, name: string | undefined): Campaign {
         this.logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters.push(imageUploadResponse);
@@ -32,11 +28,7 @@ export default class UpdateCampaignImagesService {
         return campaign;
     }
 
-    removeCampaignImage(
-        campaign: Campaign,
-        name: string | undefined,
-        imageId: string | undefined
-    ): Campaign {
+    removeCampaignImage(campaign: Campaign, name: string | undefined, imageId: string | undefined): Campaign {
         this.logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
         if (name) {
             campaign.images.characters = campaign.images.characters.filter(

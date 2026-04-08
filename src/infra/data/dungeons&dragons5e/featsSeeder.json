@@ -16,10 +16,7 @@
             "name": "Agarrador",
             "prerequisite": "Força 13 ou maior",
             "description": "Você se destaca em controlar inimigos em combate corpo a corpo.",
-            "benefits": [
-                "Vantagem contra criaturas agarradas.",
-                "Pode imobilizar uma criatura agarrada."
-            ]
+            "benefits": ["Vantagem contra criaturas agarradas.", "Pode imobilizar uma criatura agarrada."]
         }
     },
     {
@@ -29,22 +26,14 @@
             "name": "Alert",
             "prerequisite": null,
             "description": "Highly aware of danger.",
-            "benefits": [
-                "+5 initiative",
-                "No surprise",
-                "No advantage from unseen attackers"
-            ]
+            "benefits": ["+5 initiative", "No surprise", "No advantage from unseen attackers"]
         },
         "pt": {
             "homebrew": true,
             "name": "Alerta",
             "prerequisite": null,
             "description": "Alta percepção de perigo.",
-            "benefits": [
-                "+5 iniciativa",
-                "Sem surpresa",
-                "Sem vantagem de invisíveis"
-            ]
+            "benefits": ["+5 iniciativa", "Sem surpresa", "Sem vantagem de invisíveis"]
         }
     },
     {
@@ -54,24 +43,14 @@
             "name": "Athlete",
             "prerequisite": null,
             "description": "Enhanced mobility.",
-            "benefits": [
-                "+1 STR or DEX",
-                "Climb faster",
-                "Stand quickly",
-                "Better jumps"
-            ]
+            "benefits": ["+1 STR or DEX", "Climb faster", "Stand quickly", "Better jumps"]
         },
         "pt": {
             "homebrew": true,
             "name": "Atleta",
             "prerequisite": null,
             "description": "Mobilidade aprimorada.",
-            "benefits": [
-                "+1 Força ou Destreza",
-                "Escalada rápida",
-                "Levantar rápido",
-                "Melhor salto"
-            ]
+            "benefits": ["+1 Força ou Destreza", "Escalada rápida", "Levantar rápido", "Melhor salto"]
         }
     },
     {
@@ -81,22 +60,14 @@
             "name": "Actor",
             "prerequisite": null,
             "description": "Master of disguise.",
-            "benefits": [
-                "+1 CHA",
-                "Advantage on impersonation",
-                "Voice mimicry"
-            ]
+            "benefits": ["+1 CHA", "Advantage on impersonation", "Voice mimicry"]
         },
         "pt": {
             "homebrew": true,
             "name": "Ator",
             "prerequisite": null,
             "description": "Mestre da imitação.",
-            "benefits": [
-                "+1 Carisma",
-                "Vantagem em imitação",
-                "Mimetismo vocal"
-            ]
+            "benefits": ["+1 Carisma", "Vantagem em imitação", "Mimetismo vocal"]
         }
     },
     {
@@ -106,22 +77,14 @@
             "name": "Charger",
             "prerequisite": null,
             "description": "Powerful rush attacks.",
-            "benefits": [
-                "Dash + attack",
-                "Bonus damage",
-                "Push enemies"
-            ]
+            "benefits": ["Dash + attack", "Bonus damage", "Push enemies"]
         },
         "pt": {
             "homebrew": true,
             "name": "Investida",
             "prerequisite": null,
             "description": "Ataques em corrida.",
-            "benefits": [
-                "Correr + ataque",
-                "Dano bônus",
-                "Empurrar inimigos"
-            ]
+            "benefits": ["Correr + ataque", "Dano bônus", "Empurrar inimigos"]
         }
     },
     {
@@ -131,22 +94,14 @@
             "name": "Crossbow Expert",
             "prerequisite": null,
             "description": "Crossbow mastery.",
-            "benefits": [
-                "Ignore loading",
-                "No melee penalty",
-                "Bonus attack"
-            ]
+            "benefits": ["Ignore loading", "No melee penalty", "Bonus attack"]
         },
         "pt": {
             "homebrew": true,
             "name": "Especialista em Besta",
             "prerequisite": null,
             "description": "Especialista em bestas.",
-            "benefits": [
-                "Ignora recarga",
-                "Sem penalidade corpo a corpo",
-                "Ataque bônus"
-            ]
+            "benefits": ["Ignora recarga", "Sem penalidade corpo a corpo", "Ataque bônus"]
         }
     },
     {
@@ -156,18 +111,14 @@
             "name": "Defensive Duelist",
             "prerequisite": "Dexterity 13",
             "description": "Precision defense.",
-            "benefits": [
-                "Reaction adds AC"
-            ]
+            "benefits": ["Reaction adds AC"]
         },
         "pt": {
             "homebrew": true,
             "name": "Duelista Defensivo",
             "prerequisite": "Destreza 13",
             "description": "Defesa precisa.",
-            "benefits": [
-                "Reação aumenta CA"
-            ]
+            "benefits": ["Reação aumenta CA"]
         }
     },
     {
@@ -177,22 +128,14 @@
             "name": "Dual Wielder",
             "prerequisite": null,
             "description": "Two-weapon mastery.",
-            "benefits": [
-                "+1 AC",
-                "Use non-light weapons",
-                "Draw two weapons"
-            ]
+            "benefits": ["+1 AC", "Use non-light weapons", "Draw two weapons"]
         },
         "pt": {
             "homebrew": true,
             "name": "Ambidestro",
             "prerequisite": null,
             "description": "Domínio de duas armas.",
-            "benefits": [
-                "+1 CA",
-                "Armas não leves",
-                "Sacar duas armas"
-            ]
+            "benefits": ["+1 CA", "Armas não leves", "Sacar duas armas"]
         }
     },
     {
@@ -202,22 +145,14 @@
             "name": "Dungeon Delver",
             "prerequisite": null,
             "description": "Trap survival.",
-            "benefits": [
-                "Advantage vs traps",
-                "Damage resistance",
-                "Detect secrets"
-            ]
+            "benefits": ["Advantage vs traps", "Damage resistance", "Detect secrets"]
         },
         "pt": {
             "homebrew": true,
             "name": "Explorador de Masmorras",
             "prerequisite": null,
             "description": "Sobrevivência em armadilhas.",
-            "benefits": [
-                "Vantagem contra armadilhas",
-                "Resistência a dano",
-                "Detectar segredos"
-            ]
+            "benefits": ["Vantagem contra armadilhas", "Resistência a dano", "Detectar segredos"]
         }
     },
     {
@@ -227,20 +162,14 @@
             "name": "Durable",
             "prerequisite": null,
             "description": "Improved resilience.",
-            "benefits": [
-                "+1 CON",
-                "Better healing dice"
-            ]
+            "benefits": ["+1 CON", "Better healing dice"]
         },
         "pt": {
             "homebrew": true,
             "name": "Durável",
             "prerequisite": null,
             "description": "Maior resistência.",
-            "benefits": [
-                "+1 Constituição",
-                "Cura melhor"
-            ]
+            "benefits": ["+1 Constituição", "Cura melhor"]
         }
     },
     {
@@ -250,20 +179,14 @@
             "name": "Elemental Adept",
             "prerequisite": null,
             "description": "Elemental specialization.",
-            "benefits": [
-                "Ignore resistance",
-                "Better damage rolls"
-            ]
+            "benefits": ["Ignore resistance", "Better damage rolls"]
         },
         "pt": {
             "homebrew": true,
             "name": "Adepto Elemental",
             "prerequisite": null,
             "description": "Especialista elemental.",
-            "benefits": [
-                "Ignora resistência",
-                "Melhor dano"
-            ]
+            "benefits": ["Ignora resistência", "Melhor dano"]
         }
     },
     {
@@ -273,20 +196,14 @@
             "name": "Great Weapon Master",
             "prerequisite": null,
             "description": "Heavy weapon mastery.",
-            "benefits": [
-                "Extra attack on crit",
-                "High damage option"
-            ]
+            "benefits": ["Extra attack on crit", "High damage option"]
         },
         "pt": {
             "homebrew": true,
             "name": "Mestre de Armas Pesadas",
             "prerequisite": null,
             "description": "Domínio de armas pesadas.",
-            "benefits": [
-                "Ataque extra",
-                "Dano elevado"
-            ]
+            "benefits": ["Ataque extra", "Dano elevado"]
         }
     },
     {
@@ -296,20 +213,14 @@
             "name": "Healer",
             "prerequisite": null,
             "description": "Medical expertise.",
-            "benefits": [
-                "Heal allies",
-                "Stabilize faster"
-            ]
+            "benefits": ["Heal allies", "Stabilize faster"]
         },
         "pt": {
             "homebrew": true,
             "name": "Curandeiro",
             "prerequisite": null,
             "description": "Especialista em cura.",
-            "benefits": [
-                "Curar aliados",
-                "Estabilizar rápido"
-            ]
+            "benefits": ["Curar aliados", "Estabilizar rápido"]
         }
     },
     {
@@ -319,20 +230,14 @@
             "name": "Heavy Armor Master",
             "prerequisite": null,
             "description": "Heavy armor resilience.",
-            "benefits": [
-                "+1 STR",
-                "Reduce damage"
-            ]
+            "benefits": ["+1 STR", "Reduce damage"]
         },
         "pt": {
             "homebrew": true,
             "name": "Mestre de Armadura Pesada",
             "prerequisite": null,
             "description": "Resistência em armadura pesada.",
-            "benefits": [
-                "+1 Força",
-                "Reduz dano"
-            ]
+            "benefits": ["+1 Força", "Reduz dano"]
         }
     },
     {
@@ -342,18 +247,14 @@
             "name": "Inspiring Leader",
             "prerequisite": null,
             "description": "Boost allies morale.",
-            "benefits": [
-                "Temporary HP to allies"
-            ]
+            "benefits": ["Temporary HP to allies"]
         },
         "pt": {
             "homebrew": true,
             "name": "Líder Inspirador",
             "prerequisite": null,
             "description": "Aumenta moral dos aliados.",
-            "benefits": [
-                "HP temporário"
-            ]
+            "benefits": ["HP temporário"]
         }
     },
     {
@@ -363,18 +264,14 @@
             "name": "Lucky",
             "prerequisite": null,
             "description": "Fortune favors you.",
-            "benefits": [
-                "Reroll dice"
-            ]
+            "benefits": ["Reroll dice"]
         },
         "pt": {
             "homebrew": true,
             "name": "Sortudo",
             "prerequisite": null,
             "description": "A sorte está ao seu lado.",
-            "benefits": [
-                "Rolar novamente"
-            ]
+            "benefits": ["Rolar novamente"]
         }
     },
     {
@@ -384,20 +281,14 @@
             "name": "Mage Slayer",
             "prerequisite": null,
             "description": "Anti-magic combat.",
-            "benefits": [
-                "Attack casters",
-                "Disrupt spells"
-            ]
+            "benefits": ["Attack casters", "Disrupt spells"]
         },
         "pt": {
             "homebrew": true,
             "name": "Assassino de Magos",
             "prerequisite": null,
             "description": "Combate contra magia.",
-            "benefits": [
-                "Atacar conjuradores",
-                "Interromper magia"
-            ]
+            "benefits": ["Atacar conjuradores", "Interromper magia"]
         }
     },
     {
@@ -407,18 +298,14 @@
             "name": "Magic Initiate",
             "prerequisite": null,
             "description": "Learn basic spells.",
-            "benefits": [
-                "Gain spells"
-            ]
+            "benefits": ["Gain spells"]
         },
         "pt": {
             "homebrew": true,
             "name": "Iniciado em Magia",
             "prerequisite": null,
             "description": "Aprende magias básicas.",
-            "benefits": [
-                "Ganha magias"
-            ]
+            "benefits": ["Ganha magias"]
         }
     },
     {
@@ -428,18 +315,14 @@
             "name": "Martial Adept",
             "prerequisite": null,
             "description": "Combat techniques.",
-            "benefits": [
-                "Gain maneuvers"
-            ]
+            "benefits": ["Gain maneuvers"]
         },
         "pt": {
             "homebrew": true,
             "name": "Adepto Marcial",
             "prerequisite": null,
             "description": "Técnicas de combate.",
-            "benefits": [
-                "Ganha manobras"
-            ]
+            "benefits": ["Ganha manobras"]
         }
     },
     {
@@ -449,20 +332,14 @@
             "name": "Mobile",
             "prerequisite": null,
             "description": "Fast movement.",
-            "benefits": [
-                "+10 speed",
-                "Avoid opportunity attacks"
-            ]
+            "benefits": ["+10 speed", "Avoid opportunity attacks"]
         },
         "pt": {
             "homebrew": true,
             "name": "Móvel",
             "prerequisite": null,
             "description": "Movimento rápido.",
-            "benefits": [
-                "+3m movimento",
-                "Evita ataques de oportunidade"
-            ]
+            "benefits": ["+3m movimento", "Evita ataques de oportunidade"]
         }
     },
     {
@@ -472,20 +349,14 @@
             "name": "Observant",
             "prerequisite": null,
             "description": "Keen senses.",
-            "benefits": [
-                "+1 INT/WIS",
-                "Better perception"
-            ]
+            "benefits": ["+1 INT/WIS", "Better perception"]
         },
         "pt": {
             "homebrew": true,
             "name": "Observador",
             "prerequisite": null,
             "description": "Sentidos aguçados.",
-            "benefits": [
-                "+1 INT/SAB",
-                "Melhor percepção"
-            ]
+            "benefits": ["+1 INT/SAB", "Melhor percepção"]
         }
     },
     {
@@ -495,20 +366,14 @@
             "name": "Polearm Master",
             "prerequisite": null,
             "description": "Polearm combat mastery.",
-            "benefits": [
-                "Bonus attacks",
-                "Opportunity control"
-            ]
+            "benefits": ["Bonus attacks", "Opportunity control"]
         },
         "pt": {
             "homebrew": true,
             "name": "Mestre de Armas de Haste",
             "prerequisite": null,
             "description": "Domínio de armas de haste.",
-            "benefits": [
-                "Ataques bônus",
-                "Controle de alcance"
-            ]
+            "benefits": ["Ataques bônus", "Controle de alcance"]
         }
     },
     {
@@ -518,20 +383,14 @@
             "name": "Resilient",
             "prerequisite": null,
             "description": "Improved saving throws.",
-            "benefits": [
-                "+1 stat",
-                "Proficiency in saves"
-            ]
+            "benefits": ["+1 stat", "Proficiency in saves"]
         },
         "pt": {
             "homebrew": true,
             "name": "Resiliente",
             "prerequisite": null,
             "description": "Melhor resistência.",
-            "benefits": [
-                "+1 atributo",
-                "Proficiência em testes"
-            ]
+            "benefits": ["+1 atributo", "Proficiência em testes"]
         }
     },
     {
@@ -541,18 +400,14 @@
             "name": "Ritual Caster",
             "prerequisite": null,
             "description": "Cast rituals.",
-            "benefits": [
-                "Learn ritual spells"
-            ]
+            "benefits": ["Learn ritual spells"]
         },
         "pt": {
             "homebrew": true,
             "name": "Conjurador Ritual",
             "prerequisite": null,
             "description": "Conjura rituais.",
-            "benefits": [
-                "Aprende rituais"
-            ]
+            "benefits": ["Aprende rituais"]
         }
     },
     {
@@ -562,18 +417,14 @@
             "name": "Savage Attacker",
             "prerequisite": null,
             "description": "Powerful strikes.",
-            "benefits": [
-                "Reroll damage"
-            ]
+            "benefits": ["Reroll damage"]
         },
         "pt": {
             "homebrew": true,
             "name": "Atacante Selvagem",
             "prerequisite": null,
             "description": "Golpes poderosos.",
-            "benefits": [
-                "Rerola dano"
-            ]
+            "benefits": ["Rerola dano"]
         }
     },
     {
@@ -583,20 +434,14 @@
             "name": "Sentinel",
             "prerequisite": null,
             "description": "Battlefield control.",
-            "benefits": [
-                "Stop movement",
-                "Counter attacks"
-            ]
+            "benefits": ["Stop movement", "Counter attacks"]
         },
         "pt": {
             "homebrew": true,
             "name": "Sentinela",
             "prerequisite": null,
             "description": "Controle de combate.",
-            "benefits": [
-                "Para movimento",
-                "Contra-ataques"
-            ]
+            "benefits": ["Para movimento", "Contra-ataques"]
         }
     },
     {
@@ -606,22 +451,14 @@
             "name": "Sharpshooter",
             "prerequisite": null,
             "description": "Ranged mastery.",
-            "benefits": [
-                "Ignore cover",
-                "Long range",
-                "Extra damage"
-            ]
+            "benefits": ["Ignore cover", "Long range", "Extra damage"]
         },
         "pt": {
             "homebrew": true,
             "name": "Atirador de Elite",
             "prerequisite": null,
             "description": "Especialista à distância.",
-            "benefits": [
-                "Ignora cobertura",
-                "Longo alcance",
-                "Dano extra"
-            ]
+            "benefits": ["Ignora cobertura", "Longo alcance", "Dano extra"]
         }
     },
     {
@@ -631,20 +468,14 @@
             "name": "Shield Master",
             "prerequisite": null,
             "description": "Shield combat mastery.",
-            "benefits": [
-                "Shield shove",
-                "Defense bonuses"
-            ]
+            "benefits": ["Shield shove", "Defense bonuses"]
         },
         "pt": {
             "homebrew": true,
             "name": "Mestre de Escudo",
             "prerequisite": null,
             "description": "Domínio de escudos.",
-            "benefits": [
-                "Empurrão com escudo",
-                "Defesa melhor"
-            ]
+            "benefits": ["Empurrão com escudo", "Defesa melhor"]
         }
     },
     {
@@ -654,18 +485,14 @@
             "name": "Skilled",
             "prerequisite": null,
             "description": "Extra proficiencies.",
-            "benefits": [
-                "Gain proficiencies"
-            ]
+            "benefits": ["Gain proficiencies"]
         },
         "pt": {
             "homebrew": true,
             "name": "Habilidoso",
             "prerequisite": null,
             "description": "Mais proficiências.",
-            "benefits": [
-                "Ganha proficiências"
-            ]
+            "benefits": ["Ganha proficiências"]
         }
     },
     {
@@ -675,20 +502,14 @@
             "name": "Skulker",
             "prerequisite": null,
             "description": "Stealth specialist.",
-            "benefits": [
-                "Better hiding",
-                "No reveal on miss"
-            ]
+            "benefits": ["Better hiding", "No reveal on miss"]
         },
         "pt": {
             "homebrew": true,
             "name": "Furtivo",
             "prerequisite": null,
             "description": "Especialista em furtividade.",
-            "benefits": [
-                "Melhor esconder",
-                "Não revela posição"
-            ]
+            "benefits": ["Melhor esconder", "Não revela posição"]
         }
     },
     {
@@ -698,20 +519,14 @@
             "name": "Spell Sniper",
             "prerequisite": null,
             "description": "Long-range spellcasting.",
-            "benefits": [
-                "Double range",
-                "Ignore cover"
-            ]
+            "benefits": ["Double range", "Ignore cover"]
         },
         "pt": {
             "homebrew": true,
             "name": "Atirador Arcano",
             "prerequisite": null,
             "description": "Magia de longo alcance.",
-            "benefits": [
-                "Dobro alcance",
-                "Ignora cobertura"
-            ]
+            "benefits": ["Dobro alcance", "Ignora cobertura"]
         }
     },
     {
@@ -721,20 +536,14 @@
             "name": "Tavern Brawler",
             "prerequisite": null,
             "description": "Improvised combat.",
-            "benefits": [
-                "Better unarmed attacks",
-                "Bonus grapple"
-            ]
+            "benefits": ["Better unarmed attacks", "Bonus grapple"]
         },
         "pt": {
             "homebrew": true,
             "name": "Brigão de Taverna",
             "prerequisite": null,
             "description": "Combate improvisado.",
-            "benefits": [
-                "Melhor ataque desarmado",
-                "Agarrão bônus"
-            ]
+            "benefits": ["Melhor ataque desarmado", "Agarrão bônus"]
         }
     },
     {
@@ -744,18 +553,14 @@
             "name": "Tough",
             "prerequisite": null,
             "description": "Exceptional endurance.",
-            "benefits": [
-                "+2 HP per level"
-            ]
+            "benefits": ["+2 HP per level"]
         },
         "pt": {
             "homebrew": true,
             "name": "Robusto",
             "prerequisite": null,
             "description": "Resistência excepcional.",
-            "benefits": [
-                "+2 HP por nível"
-            ]
+            "benefits": ["+2 HP por nível"]
         }
     },
     {
@@ -765,20 +570,14 @@
             "name": "War Caster",
             "prerequisite": null,
             "description": "Combat spellcasting.",
-            "benefits": [
-                "Cast while armed",
-                "Advantage on concentration"
-            ]
+            "benefits": ["Cast while armed", "Advantage on concentration"]
         },
         "pt": {
             "homebrew": true,
             "name": "Conjurador de Guerra",
             "prerequisite": null,
             "description": "Magia em combate.",
-            "benefits": [
-                "Conjura armado",
-                "Vantagem em concentração"
-            ]
+            "benefits": ["Conjura armado", "Vantagem em concentração"]
         }
     }
 ]

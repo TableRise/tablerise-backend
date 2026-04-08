@@ -2,9 +2,7 @@ import Sinon from 'sinon';
 import UpdateCharacterOperation from 'src/core/characters/operations/UpdateCharacterOperation';
 
 describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
-    let updateCharacterOperation: UpdateCharacterOperation,
-        payloadToUpdate: any,
-        updateCharacterService: any;
+    let updateCharacterOperation: UpdateCharacterOperation, payloadToUpdate: any, updateCharacterService: any;
 
     const logger = (): void => {};
 

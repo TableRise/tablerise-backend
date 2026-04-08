@@ -67,7 +67,9 @@ describe('Core :: Users :: Operations :: UpdateUserOperation', () => {
             };
 
             updateUserService = {
-                update: sinon.spy(() => { throw new Error('error throw') }),
+                update: sinon.spy(() => {
+                    throw new Error('error throw');
+                }),
                 save: sinon.spy(() => userUpdated),
                 _validateUpdateData: sinon.spy(() => {}),
             };

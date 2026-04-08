@@ -3,10 +3,7 @@ import sinon from 'sinon';
 import CreateUserOperation from 'src/core/users/operations/users/CreateUserOperation';
 
 describe('Core :: Users :: Operations :: CreateUserOperation', () => {
-    let createUserOperation: CreateUserOperation,
-        createUserService: any,
-        userToCreate: any,
-        userCreated: any;
+    let createUserOperation: CreateUserOperation, createUserService: any, userToCreate: any, userCreated: any;
 
     const logger = (): void => {};
 

@@ -43,13 +43,9 @@ describe('When the user is updated', () => {
         });
 
         it('should update with success', async () => {
-            const { body: userBeforeUpdate } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
-            const { body: userUpdated } = await requester()
-                .put(`/users/${user.userId}/update`)
-                .send(userToUpdate);
+            const { body: userUpdated } = await requester().put(`/users/${user.userId}/update`).send(userToUpdate);
 
             expect(userUpdated.nickname).to.not.be.equal(userBeforeUpdate.nickname);
             expect(userUpdated.picture).to.not.be.equal(userBeforeUpdate.picture);

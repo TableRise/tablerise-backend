@@ -32,9 +32,7 @@ describe('When an user has the password changed', () => {
         });
 
         it('should update password with success', async () => {
-            await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             await requester()
                 .patch(`/users/update/password?email=${user.email}`)

@@ -71,8 +71,9 @@ export default class UpdateCharacterService {
             };
 
             characterToUpdate.data.profile.characteristics.alliesAndOrgs =
-            characterInDb.data.profile.characteristics.alliesAndOrgs;
-            characterToUpdate.data.profile.characteristics.treasure = characterInDb.data.profile.characteristics.treasure;
+                characterInDb.data.profile.characteristics.alliesAndOrgs;
+            characterToUpdate.data.profile.characteristics.treasure =
+                characterInDb.data.profile.characteristics.treasure;
             characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
             characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
         }

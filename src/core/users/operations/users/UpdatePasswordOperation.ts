@@ -5,10 +5,7 @@ export default class UpdatePasswordOperation {
     private readonly updatePasswordService;
     private readonly logger;
 
-    constructor({
-        updatePasswordService,
-        logger,
-    }: UserCoreDependencies['updatePasswordOperationContract']) {
+    constructor({ updatePasswordService, logger }: UserCoreDependencies['updatePasswordOperationContract']) {
         this.updatePasswordService = updatePasswordService;
         this.logger = logger;
 

@@ -20,7 +20,7 @@ export default class CampaignsRoutes {
         verifyIdMiddleware,
         imageMiddleware,
         verifyMatchMiddleware,
-        campaignsSchemas
+        campaignsSchemas,
     }: InterfaceDependencies['campaignsRoutesContract']) {
         this.campaignsController = campaignsController;
         this.verifyIdMiddleware = verifyIdMiddleware;
@@ -153,7 +153,7 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this.imageMiddleware.multer().single('cover'),
                         this.imageMiddleware.fileType,
-                        this.verifyIdMiddleware
+                        this.verifyIdMiddleware,
                     ],
                     schemas: [{ body: this.campaignsSchemas.putUpdateCampaign.body }],
                     description: desc.update,
@@ -246,7 +246,7 @@ export default class CampaignsRoutes {
                     tag: 'update',
                     fileUpload: true,
                 },
-            }
+            },
         ] as routeInstance[];
     }
 }

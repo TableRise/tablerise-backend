@@ -17,7 +17,9 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester().get(`/campaigns/${campaignOne.campaignId as string}`).expect(HttpStatusCode.OK);
+            const { body } = await requester()
+                .get(`/campaigns/${campaignOne.campaignId as string}`)
+                .expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body.campaignId).to.be.not.equal(campaignTwo.campaignId);

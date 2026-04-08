@@ -58,9 +58,7 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester()
-                .get(`/campaigns/user/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/campaigns/user/${user.userId}`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);

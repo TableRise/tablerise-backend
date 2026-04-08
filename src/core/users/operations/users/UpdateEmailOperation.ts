@@ -5,10 +5,7 @@ export default class UpdateEmailOperation {
     private readonly updateEmailService;
     private readonly logger;
 
-    constructor({
-        updateEmailService,
-        logger,
-    }: UserCoreDependencies['updateEmailOperationContract']) {
+    constructor({ updateEmailService, logger }: UserCoreDependencies['updateEmailOperationContract']) {
         this.updateEmailService = updateEmailService;
         this.logger = logger;
 

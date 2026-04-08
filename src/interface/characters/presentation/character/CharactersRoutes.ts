@@ -111,10 +111,12 @@ export default class CharactersRoutes {
                         this.verifyIdMiddleware,
                     ],
                     tag: 'management',
-                    schemas: [{
-                        query: this.charactersSchemas.postOrganizationPicture.query,
-                        body: this.charactersSchemas.postCharacterPicture.body
-                    }],
+                    schemas: [
+                        {
+                            query: this.charactersSchemas.postOrganizationPicture.query,
+                            body: this.charactersSchemas.postCharacterPicture.body,
+                        },
+                    ],
                     description: desc.orgSymbol,
                     fileUpload: true,
                 },
@@ -129,7 +131,7 @@ export default class CharactersRoutes {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [{ body: this.charactersSchemas.putUpdateCharacter.body }],
                     description: desc.update,
-                    tag: 'management'
+                    tag: 'management',
                 },
             },
             // PATCH

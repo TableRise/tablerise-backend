@@ -1,764 +1,764 @@
 [
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "The Daghdha, god of weather and crops",
-      "alignment": "CG",
-      "suggestedDomains": "Nature, Trickery",
-      "symbol": "Bubbling cauldron or shield",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "The Daghdha, god of weather and crops",
+            "alignment": "CG",
+            "suggestedDomains": "Nature, Trickery",
+            "symbol": "Bubbling cauldron or shield",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "O Daghdha, deus do clima e das colheitas",
+            "alignment": "CG",
+            "suggestedDomains": "Natureza, Trapaça",
+            "symbol": "Caldeirão borbulhante ou escudo",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "O Daghdha, deus do clima e das colheitas",
-      "alignment": "CG",
-      "suggestedDomains": "Natureza, Trapaça",
-      "symbol": "Caldeirão borbulhante ou escudo",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Arawn, god of life and death",
-      "alignment": "NE",
-      "suggestedDomains": "Life, Death",
-      "symbol": "Black star on gray background",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Arawn, god of life and death",
+            "alignment": "NE",
+            "suggestedDomains": "Life, Death",
+            "symbol": "Black star on gray background",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Arawn, deus da vida e da morte",
+            "alignment": "NE",
+            "suggestedDomains": "Vida, Morte",
+            "symbol": "Estrela negra sobre fundo cinza",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Arawn, deus da vida e da morte",
-      "alignment": "NE",
-      "suggestedDomains": "Vida, Morte",
-      "symbol": "Estrela negra sobre fundo cinza",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Belenus, god of sun, light, and warmth",
-      "alignment": "NG",
-      "suggestedDomains": "Light",
-      "symbol": "Solar disk and standing stones",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Belenus, god of sun, light, and warmth",
+            "alignment": "NG",
+            "suggestedDomains": "Light",
+            "symbol": "Solar disk and standing stones",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Belenus, deus do sol, da luz e do calor",
+            "alignment": "NG",
+            "suggestedDomains": "Luz",
+            "symbol": "Disco solar e pedras erguidas",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Belenus, deus do sol, da luz e do calor",
-      "alignment": "NG",
-      "suggestedDomains": "Luz",
-      "symbol": "Disco solar e pedras erguidas",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Brigantia, goddess of rivers and livestock",
-      "alignment": "NG",
-      "suggestedDomains": "Life",
-      "symbol": "Footbridge",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Brigantia, goddess of rivers and livestock",
+            "alignment": "NG",
+            "suggestedDomains": "Life",
+            "symbol": "Footbridge",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Brigantia, deusa dos rios e do gado",
+            "alignment": "NG",
+            "suggestedDomains": "Vida",
+            "symbol": "Ponte de madeira",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Brigantia, deusa dos rios e do gado",
-      "alignment": "NG",
-      "suggestedDomains": "Vida",
-      "symbol": "Ponte de madeira",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Diancecht, god of medicine and healing",
-      "alignment": "LG",
-      "suggestedDomains": "Life",
-      "symbol": "Crossed oak and mistletoe branches",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Diancecht, god of medicine and healing",
+            "alignment": "LG",
+            "suggestedDomains": "Life",
+            "symbol": "Crossed oak and mistletoe branches",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Diancecht, deus da medicina e da cura",
+            "alignment": "LG",
+            "suggestedDomains": "Vida",
+            "symbol": "Galhos cruzados de carvalho e visco",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Diancecht, deus da medicina e da cura",
-      "alignment": "LG",
-      "suggestedDomains": "Vida",
-      "symbol": "Galhos cruzados de carvalho e visco",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Dunatis, god of mountains and peaks",
-      "alignment": "N",
-      "suggestedDomains": "Nature",
-      "symbol": "Red sun-capped mountain peak",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Dunatis, god of mountains and peaks",
+            "alignment": "N",
+            "suggestedDomains": "Nature",
+            "symbol": "Red sun-capped mountain peak",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Dunatis, deus das montanhas e dos picos",
+            "alignment": "N",
+            "suggestedDomains": "Natureza",
+            "symbol": "Pico montanhoso com topo vermelho como o sol",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Dunatis, deus das montanhas e dos picos",
-      "alignment": "N",
-      "suggestedDomains": "Natureza",
-      "symbol": "Pico montanhoso com topo vermelho como o sol",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Goibhniu, god of smiths and healing",
-      "alignment": "NG",
-      "suggestedDomains": "Knowledge, Life",
-      "symbol": "Giant mallet over sword",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Goibhniu, god of smiths and healing",
+            "alignment": "NG",
+            "suggestedDomains": "Knowledge, Life",
+            "symbol": "Giant mallet over sword",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Goibhniu, deus dos ferreiros e da cura",
+            "alignment": "NG",
+            "suggestedDomains": "Conhecimento, Vida",
+            "symbol": "Grande malho sobre uma espada",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Goibhniu, deus dos ferreiros e da cura",
-      "alignment": "NG",
-      "suggestedDomains": "Conhecimento, Vida",
-      "symbol": "Grande malho sobre uma espada",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Lugh, god of arts, travel, and commerce",
-      "alignment": "CN",
-      "suggestedDomains": "Knowledge, Life",
-      "symbol": "Pair of long hands",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Lugh, god of arts, travel, and commerce",
+            "alignment": "CN",
+            "suggestedDomains": "Knowledge, Life",
+            "symbol": "Pair of long hands",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Lugh, deus das artes, das viagens e do comércio",
+            "alignment": "CN",
+            "suggestedDomains": "Conhecimento, Vida",
+            "symbol": "Par de mãos longas",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Lugh, deus das artes, das viagens e do comércio",
-      "alignment": "CN",
-      "suggestedDomains": "Conhecimento, Vida",
-      "symbol": "Par de mãos longas",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Manannan mac Lir, god of oceans and sea creatures",
-      "alignment": "LN",
-      "suggestedDomains": "Nature, Tempest",
-      "symbol": "Wave of white water on green",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Manannan mac Lir, god of oceans and sea creatures",
+            "alignment": "LN",
+            "suggestedDomains": "Nature, Tempest",
+            "symbol": "Wave of white water on green",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Manannan mac Lir, deus dos oceanos e das criaturas marinhas",
+            "alignment": "LN",
+            "suggestedDomains": "Natureza, Tempestade",
+            "symbol": "Onda de espuma branca sobre fundo verde",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Manannan mac Lir, deus dos oceanos e das criaturas marinhas",
-      "alignment": "LN",
-      "suggestedDomains": "Natureza, Tempestade",
-      "symbol": "Onda de espuma branca sobre fundo verde",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Math Mathonwy, god of magic",
-      "alignment": "NE",
-      "suggestedDomains": "Knowledge",
-      "symbol": "Staff",
-      "pantheon": "Celtic"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Math Mathonwy, god of magic",
+            "alignment": "NE",
+            "suggestedDomains": "Knowledge",
+            "symbol": "Staff",
+            "pantheon": "Celtic"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Math Mathonwy, deus da magia",
+            "alignment": "NE",
+            "suggestedDomains": "Conhecimento",
+            "symbol": "Cajado",
+            "pantheon": "Céltico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Math Mathonwy, deus da magia",
-      "alignment": "NE",
-      "suggestedDomains": "Conhecimento",
-      "symbol": "Cajado",
-      "pantheon": "Céltico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Zeus, god of the sky and thunder",
-      "alignment": "N",
-      "suggestedDomains": "Tempest",
-      "symbol": "Fist holding lightning bolts",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Zeus, god of the sky and thunder",
+            "alignment": "N",
+            "suggestedDomains": "Tempest",
+            "symbol": "Fist holding lightning bolts",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Zeus, deus do céu e do trovão",
+            "alignment": "N",
+            "suggestedDomains": "Tempestade",
+            "symbol": "Punho segurando relâmpagos",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Zeus, deus do céu e do trovão",
-      "alignment": "N",
-      "suggestedDomains": "Tempestade",
-      "symbol": "Punho segurando relâmpagos",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Poseidon, god of the sea",
-      "alignment": "CN",
-      "suggestedDomains": "Tempest",
-      "symbol": "Trident",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Poseidon, god of the sea",
+            "alignment": "CN",
+            "suggestedDomains": "Tempest",
+            "symbol": "Trident",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Poseidon, deus do mar",
+            "alignment": "CN",
+            "suggestedDomains": "Tempestade",
+            "symbol": "Tridente",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Poseidon, deus do mar",
-      "alignment": "CN",
-      "suggestedDomains": "Tempestade",
-      "symbol": "Tridente",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hades, god of the underworld",
-      "alignment": "LE",
-      "suggestedDomains": "Death",
-      "symbol": "Black ram",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hades, god of the underworld",
+            "alignment": "LE",
+            "suggestedDomains": "Death",
+            "symbol": "Black ram",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hades, deus do submundo",
+            "alignment": "LE",
+            "suggestedDomains": "Morte",
+            "symbol": "Carneiro negro",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hades, deus do submundo",
-      "alignment": "LE",
-      "suggestedDomains": "Morte",
-      "symbol": "Carneiro negro",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Athena, goddess of wisdom and war",
-      "alignment": "LG",
-      "suggestedDomains": "Knowledge, War",
-      "symbol": "Owl",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Athena, goddess of wisdom and war",
+            "alignment": "LG",
+            "suggestedDomains": "Knowledge, War",
+            "symbol": "Owl",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Atena, deusa da sabedoria e da guerra",
+            "alignment": "LG",
+            "suggestedDomains": "Conhecimento, Guerra",
+            "symbol": "Coruja",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Atena, deusa da sabedoria e da guerra",
-      "alignment": "LG",
-      "suggestedDomains": "Conhecimento, Guerra",
-      "symbol": "Coruja",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Apollo, god of light and knowledge",
-      "alignment": "CG",
-      "suggestedDomains": "Light, Knowledge",
-      "symbol": "Lyre",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Apollo, god of light and knowledge",
+            "alignment": "CG",
+            "suggestedDomains": "Light, Knowledge",
+            "symbol": "Lyre",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Apolo, deus da luz e do conhecimento",
+            "alignment": "CG",
+            "suggestedDomains": "Luz, Conhecimento",
+            "symbol": "Lira",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Apolo, deus da luz e do conhecimento",
-      "alignment": "CG",
-      "suggestedDomains": "Luz, Conhecimento",
-      "symbol": "Lira",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Artemis, goddess of the hunt",
-      "alignment": "NG",
-      "suggestedDomains": "Nature, Life",
-      "symbol": "Bow and arrow on moon",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Artemis, goddess of the hunt",
+            "alignment": "NG",
+            "suggestedDomains": "Nature, Life",
+            "symbol": "Bow and arrow on moon",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Ártemis, deusa da caça",
+            "alignment": "NG",
+            "suggestedDomains": "Natureza, Vida",
+            "symbol": "Arco e flecha sobre a lua",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Ártemis, deusa da caça",
-      "alignment": "NG",
-      "suggestedDomains": "Natureza, Vida",
-      "symbol": "Arco e flecha sobre a lua",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Ares, god of war",
-      "alignment": "CE",
-      "suggestedDomains": "War",
-      "symbol": "Spear",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Ares, god of war",
+            "alignment": "CE",
+            "suggestedDomains": "War",
+            "symbol": "Spear",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Ares, deus da guerra",
+            "alignment": "CE",
+            "suggestedDomains": "Guerra",
+            "symbol": "Lança",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Ares, deus da guerra",
-      "alignment": "CE",
-      "suggestedDomains": "Guerra",
-      "symbol": "Lança",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Aphrodite, goddess of love and beauty",
-      "alignment": "CG",
-      "suggestedDomains": "Light, Trickery",
-      "symbol": "Sea shell",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Aphrodite, goddess of love and beauty",
+            "alignment": "CG",
+            "suggestedDomains": "Light, Trickery",
+            "symbol": "Sea shell",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Afrodite, deusa do amor e da beleza",
+            "alignment": "CG",
+            "suggestedDomains": "Luz, Trapaça",
+            "symbol": "Concha do mar",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Afrodite, deusa do amor e da beleza",
-      "alignment": "CG",
-      "suggestedDomains": "Luz, Trapaça",
-      "symbol": "Concha do mar",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hermes, god of travel and commerce",
-      "alignment": "CG",
-      "suggestedDomains": "Trickery",
-      "symbol": "Winged sandals",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hermes, god of travel and commerce",
+            "alignment": "CG",
+            "suggestedDomains": "Trickery",
+            "symbol": "Winged sandals",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hermes, deus das viagens e do comércio",
+            "alignment": "CG",
+            "suggestedDomains": "Trapaça",
+            "symbol": "Sandálias aladas",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hermes, deus das viagens e do comércio",
-      "alignment": "CG",
-      "suggestedDomains": "Trapaça",
-      "symbol": "Sandálias aladas",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hephaestus, god of fire and forging",
-      "alignment": "NG",
-      "suggestedDomains": "Knowledge, Light",
-      "symbol": "Hammer and anvil",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hephaestus, god of fire and forging",
+            "alignment": "NG",
+            "suggestedDomains": "Knowledge, Light",
+            "symbol": "Hammer and anvil",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hefesto, deus do fogo e da forja",
+            "alignment": "NG",
+            "suggestedDomains": "Conhecimento, Luz",
+            "symbol": "Martelo e bigorna",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hefesto, deus do fogo e da forja",
-      "alignment": "NG",
-      "suggestedDomains": "Conhecimento, Luz",
-      "symbol": "Martelo e bigorna",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Dionysus, god of wine and celebration",
-      "alignment": "CN",
-      "suggestedDomains": "Life, Trickery",
-      "symbol": "Thyrsus (staff tipped with pine cone)",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Dionysus, god of wine and celebration",
+            "alignment": "CN",
+            "suggestedDomains": "Life, Trickery",
+            "symbol": "Thyrsus (staff tipped with pine cone)",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Dionísio, deus do vinho e da celebração",
+            "alignment": "CN",
+            "suggestedDomains": "Vida, Trapaça",
+            "symbol": "Tirso (cajado com pinha)",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Dionísio, deus do vinho e da celebração",
-      "alignment": "CN",
-      "suggestedDomains": "Vida, Trapaça",
-      "symbol": "Tirso (cajado com pinha)",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Demeter, goddess of agriculture",
-      "alignment": "NG",
-      "suggestedDomains": "Life, Nature",
-      "symbol": "Bundle of grain",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Demeter, goddess of agriculture",
+            "alignment": "NG",
+            "suggestedDomains": "Life, Nature",
+            "symbol": "Bundle of grain",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Deméter, deusa da agricultura",
+            "alignment": "NG",
+            "suggestedDomains": "Vida, Natureza",
+            "symbol": "Feixe de trigo",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Deméter, deusa da agricultura",
-      "alignment": "NG",
-      "suggestedDomains": "Vida, Natureza",
-      "symbol": "Feixe de trigo",
-      "pantheon": "Grego"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hera, goddess of marriage",
-      "alignment": "LG",
-      "suggestedDomains": "Life",
-      "symbol": "Royal crown",
-      "pantheon": "Greek"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hera, goddess of marriage",
+            "alignment": "LG",
+            "suggestedDomains": "Life",
+            "symbol": "Royal crown",
+            "pantheon": "Greek"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hera, deusa do casamento",
+            "alignment": "LG",
+            "suggestedDomains": "Vida",
+            "symbol": "Coroa real",
+            "pantheon": "Grego"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hera, deusa do casamento",
-      "alignment": "LG",
-      "suggestedDomains": "Vida",
-      "symbol": "Coroa real",
-      "pantheon": "Grego"
-    }
-  },
 
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Ra, god of the sun",
-      "alignment": "LG",
-      "suggestedDomains": "Light",
-      "symbol": "Sun disk",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Ra, god of the sun",
+            "alignment": "LG",
+            "suggestedDomains": "Light",
+            "symbol": "Sun disk",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Rá, deus do sol",
+            "alignment": "LG",
+            "suggestedDomains": "Luz",
+            "symbol": "Disco solar",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Rá, deus do sol",
-      "alignment": "LG",
-      "suggestedDomains": "Luz",
-      "symbol": "Disco solar",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Osiris, god of the afterlife",
-      "alignment": "LG",
-      "suggestedDomains": "Life, Death",
-      "symbol": "Crook and flail",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Osiris, god of the afterlife",
+            "alignment": "LG",
+            "suggestedDomains": "Life, Death",
+            "symbol": "Crook and flail",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Osíris, deus da vida após a morte",
+            "alignment": "LG",
+            "suggestedDomains": "Vida, Morte",
+            "symbol": "Cetro e mangual",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Osíris, deus da vida após a morte",
-      "alignment": "LG",
-      "suggestedDomains": "Vida, Morte",
-      "symbol": "Cetro e mangual",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Isis, goddess of fertility and magic",
-      "alignment": "NG",
-      "suggestedDomains": "Life, Knowledge",
-      "symbol": "Throne",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Isis, goddess of fertility and magic",
+            "alignment": "NG",
+            "suggestedDomains": "Life, Knowledge",
+            "symbol": "Throne",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Ísis, deusa da fertilidade e da magia",
+            "alignment": "NG",
+            "suggestedDomains": "Vida, Conhecimento",
+            "symbol": "Trono",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Ísis, deusa da fertilidade e da magia",
-      "alignment": "NG",
-      "suggestedDomains": "Vida, Conhecimento",
-      "symbol": "Trono",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Set, god of chaos and desert storms",
-      "alignment": "CE",
-      "suggestedDomains": "Tempest, Trickery",
-      "symbol": "Twisted animal head",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Set, god of chaos and desert storms",
+            "alignment": "CE",
+            "suggestedDomains": "Tempest, Trickery",
+            "symbol": "Twisted animal head",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Set, deus do caos e das tempestades do deserto",
+            "alignment": "CE",
+            "suggestedDomains": "Tempestade, Trapaça",
+            "symbol": "Cabeça de animal distorcida",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Set, deus do caos e das tempestades do deserto",
-      "alignment": "CE",
-      "suggestedDomains": "Tempestade, Trapaça",
-      "symbol": "Cabeça de animal distorcida",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Thoth, god of knowledge and writing",
-      "alignment": "N",
-      "suggestedDomains": "Knowledge",
-      "symbol": "Ibis-headed figure",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Thoth, god of knowledge and writing",
+            "alignment": "N",
+            "suggestedDomains": "Knowledge",
+            "symbol": "Ibis-headed figure",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Thoth, deus do conhecimento e da escrita",
+            "alignment": "N",
+            "suggestedDomains": "Conhecimento",
+            "symbol": "Figura com cabeça de íbis",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Thoth, deus do conhecimento e da escrita",
-      "alignment": "N",
-      "suggestedDomains": "Conhecimento",
-      "symbol": "Figura com cabeça de íbis",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Anubis, god of death and embalming",
-      "alignment": "LN",
-      "suggestedDomains": "Death",
-      "symbol": "Black jackal",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Anubis, god of death and embalming",
+            "alignment": "LN",
+            "suggestedDomains": "Death",
+            "symbol": "Black jackal",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Anúbis, deus da morte e do embalsamamento",
+            "alignment": "LN",
+            "suggestedDomains": "Morte",
+            "symbol": "Chacal negro",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Anúbis, deus da morte e do embalsamamento",
-      "alignment": "LN",
-      "suggestedDomains": "Morte",
-      "symbol": "Chacal negro",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Horus, god of the sky and kingship",
-      "alignment": "LG",
-      "suggestedDomains": "War",
-      "symbol": "Hawk",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Horus, god of the sky and kingship",
+            "alignment": "LG",
+            "suggestedDomains": "War",
+            "symbol": "Hawk",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hórus, deus do céu e da realeza",
+            "alignment": "LG",
+            "suggestedDomains": "Guerra",
+            "symbol": "Falcão",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hórus, deus do céu e da realeza",
-      "alignment": "LG",
-      "suggestedDomains": "Guerra",
-      "symbol": "Falcão",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Bast, goddess of cats and vengeance",
-      "alignment": "CG",
-      "suggestedDomains": "War, Trickery",
-      "symbol": "Cat",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Bast, goddess of cats and vengeance",
+            "alignment": "CG",
+            "suggestedDomains": "War, Trickery",
+            "symbol": "Cat",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Bast, deusa dos gatos e da vingança",
+            "alignment": "CG",
+            "suggestedDomains": "Guerra, Trapaça",
+            "symbol": "Gato",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Bast, deusa dos gatos e da vingança",
-      "alignment": "CG",
-      "suggestedDomains": "Guerra, Trapaça",
-      "symbol": "Gato",
-      "pantheon": "Egípcio"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Ptah, god of crafts and creation",
-      "alignment": "LN",
-      "suggestedDomains": "Knowledge",
-      "symbol": "Hammer",
-      "pantheon": "Egyptian"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Ptah, god of crafts and creation",
+            "alignment": "LN",
+            "suggestedDomains": "Knowledge",
+            "symbol": "Hammer",
+            "pantheon": "Egyptian"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Ptah, deus da criação e dos ofícios",
+            "alignment": "LN",
+            "suggestedDomains": "Conhecimento",
+            "symbol": "Martelo",
+            "pantheon": "Egípcio"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Ptah, deus da criação e dos ofícios",
-      "alignment": "LN",
-      "suggestedDomains": "Conhecimento",
-      "symbol": "Martelo",
-      "pantheon": "Egípcio"
-    }
-  },
 
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Odin, god of knowledge and war",
-      "alignment": "NG",
-      "suggestedDomains": "Knowledge, War",
-      "symbol": "Watching blue eye",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Odin, god of knowledge and war",
+            "alignment": "NG",
+            "suggestedDomains": "Knowledge, War",
+            "symbol": "Watching blue eye",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Odin, deus do conhecimento e da guerra",
+            "alignment": "NG",
+            "suggestedDomains": "Conhecimento, Guerra",
+            "symbol": "Olho azul vigilante",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Odin, deus do conhecimento e da guerra",
-      "alignment": "NG",
-      "suggestedDomains": "Conhecimento, Guerra",
-      "symbol": "Olho azul vigilante",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Thor, god of thunder",
-      "alignment": "CG",
-      "suggestedDomains": "Tempest, War",
-      "symbol": "Hammer",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Thor, god of thunder",
+            "alignment": "CG",
+            "suggestedDomains": "Tempest, War",
+            "symbol": "Hammer",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Thor, deus do trovão",
+            "alignment": "CG",
+            "suggestedDomains": "Tempestade, Guerra",
+            "symbol": "Martelo",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Thor, deus do trovão",
-      "alignment": "CG",
-      "suggestedDomains": "Tempestade, Guerra",
-      "symbol": "Martelo",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Tyr, god of courage and justice",
-      "alignment": "LG",
-      "suggestedDomains": "War",
-      "symbol": "Sword",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Tyr, god of courage and justice",
+            "alignment": "LG",
+            "suggestedDomains": "War",
+            "symbol": "Sword",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Tyr, deus da coragem e da justiça",
+            "alignment": "LG",
+            "suggestedDomains": "Guerra",
+            "symbol": "Espada",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Tyr, deus da coragem e da justiça",
-      "alignment": "LG",
-      "suggestedDomains": "Guerra",
-      "symbol": "Espada",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Hel, goddess of the underworld",
-      "alignment": "NE",
-      "suggestedDomains": "Death",
-      "symbol": "Half-black, half-white face",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Hel, goddess of the underworld",
+            "alignment": "NE",
+            "suggestedDomains": "Death",
+            "symbol": "Half-black, half-white face",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Hel, deusa do submundo",
+            "alignment": "NE",
+            "suggestedDomains": "Morte",
+            "symbol": "Rosto metade preto, metade branco",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Hel, deusa do submundo",
-      "alignment": "NE",
-      "suggestedDomains": "Morte",
-      "symbol": "Rosto metade preto, metade branco",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Baldur, god of beauty and light",
-      "alignment": "NG",
-      "suggestedDomains": "Life, Light",
-      "symbol": "Radiant sun disk",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Baldur, god of beauty and light",
+            "alignment": "NG",
+            "suggestedDomains": "Life, Light",
+            "symbol": "Radiant sun disk",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Baldur, deus da beleza e da luz",
+            "alignment": "NG",
+            "suggestedDomains": "Vida, Luz",
+            "symbol": "Disco solar radiante",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Baldur, deus da beleza e da luz",
-      "alignment": "NG",
-      "suggestedDomains": "Vida, Luz",
-      "symbol": "Disco solar radiante",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Frey, god of fertility and sunlight",
-      "alignment": "NG",
-      "suggestedDomains": "Life, Light",
-      "symbol": "Sun disk",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Frey, god of fertility and sunlight",
+            "alignment": "NG",
+            "suggestedDomains": "Life, Light",
+            "symbol": "Sun disk",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Frey, deus da fertilidade e da luz solar",
+            "alignment": "NG",
+            "suggestedDomains": "Vida, Luz",
+            "symbol": "Disco solar",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Frey, deus da fertilidade e da luz solar",
-      "alignment": "NG",
-      "suggestedDomains": "Vida, Luz",
-      "symbol": "Disco solar",
-      "pantheon": "Nórdico"
-    }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Freyja, goddess of love and beauty",
-      "alignment": "NG",
-      "suggestedDomains": "Life, Trickery",
-      "symbol": "Falcon",
-      "pantheon": "Norse"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Freyja, goddess of love and beauty",
+            "alignment": "NG",
+            "suggestedDomains": "Life, Trickery",
+            "symbol": "Falcon",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Freyja, deusa do amor e da beleza",
+            "alignment": "NG",
+            "suggestedDomains": "Vida, Trapaça",
+            "symbol": "Falcão",
+            "pantheon": "Nórdico"
+        }
     },
-    "pt": {
-      "homebrew": false,
-      "name": "Freyja, deusa do amor e da beleza",
-      "alignment": "NG",
-      "suggestedDomains": "Vida, Trapaça",
-      "symbol": "Falcão",
-      "pantheon": "Nórdico"
+    {
+        "active": true,
+        "en": {
+            "homebrew": false,
+            "name": "Loki, god of trickery and chaos",
+            "alignment": "CE",
+            "suggestedDomains": "Trickery",
+            "symbol": "Flame",
+            "pantheon": "Norse"
+        },
+        "pt": {
+            "homebrew": false,
+            "name": "Loki, deus da trapaça e do caos",
+            "alignment": "CE",
+            "suggestedDomains": "Trapaça",
+            "symbol": "Chama",
+            "pantheon": "Nórdico"
+        }
     }
-  },
-  {
-    "active": true,
-    "en": {
-      "homebrew": false,
-      "name": "Loki, god of trickery and chaos",
-      "alignment": "CE",
-      "suggestedDomains": "Trickery",
-      "symbol": "Flame",
-      "pantheon": "Norse"
-    },
-    "pt": {
-      "homebrew": false,
-      "name": "Loki, deus da trapaça e do caos",
-      "alignment": "CE",
-      "suggestedDomains": "Trapaça",
-      "symbol": "Chama",
-      "pantheon": "Nórdico"
-    }
-  }
 ]

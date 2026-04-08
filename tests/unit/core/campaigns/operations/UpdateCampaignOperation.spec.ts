@@ -60,7 +60,9 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 };
 
                 updateCampaignService = {
-                    update: sinon.spy(() => { throw new Error('error throw') }),
+                    update: sinon.spy(() => {
+                        throw new Error('error throw');
+                    }),
                     save: sinon.spy(() => campaignUpdated),
                 };
 

@@ -3,9 +3,7 @@ import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerO
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Core :: Campaigns :: Operations :: PostBanPlayerOperation', () => {
-    let postBanPlayerOperation: PostBanPlayerOperation,
-        postBanPlayerService: any,
-        payload: any;
+    let postBanPlayerOperation: PostBanPlayerOperation, postBanPlayerService: any, payload: any;
 
     const logger = (): void => {};
 

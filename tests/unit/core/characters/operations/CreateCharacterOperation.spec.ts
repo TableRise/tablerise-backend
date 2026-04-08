@@ -3,9 +3,7 @@ import CreateCharacterOperation from 'src/core/characters/operations/CreateChara
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 
 describe('Core :: Characters :: Operations :: CreateCharacterOperation', () => {
-    let createCharacterOperation: CreateCharacterOperation,
-        createCharacterService: any,
-        characterPayloadMock: any;
+    let createCharacterOperation: CreateCharacterOperation, createCharacterService: any, characterPayloadMock: any;
 
     const logger = (): any => {};
 

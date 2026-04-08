@@ -14,9 +14,7 @@ describe('When recover character by id', () => {
         });
 
         it('should retrieve character created', async () => {
-            const { body } = await requester()
-                .get(`/characters/${characterOne.characterId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/characters/${characterOne.characterId}`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body.characterId).to.be.equal(characterOne.characterId);

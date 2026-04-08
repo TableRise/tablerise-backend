@@ -6,10 +6,7 @@ export default class PublishmentOperation {
     private readonly publishmentService;
     private readonly logger;
 
-    constructor({
-        publishmentService,
-        logger,
-    }: CampaignCoreDependencies['publishmentOperationContract']) {
+    constructor({ publishmentService, logger }: CampaignCoreDependencies['publishmentOperationContract']) {
         this.publishmentService = publishmentService;
         this.logger = logger;
 
