@@ -125,7 +125,7 @@ export default class CharactersRoutes {
             // PUT
             {
                 method: 'put',
-                path: `${BASE_PATH}/:id`,
+                path: `${BASE_PATH}/:id/update`,
                 controller: this.charactersController.updateCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],

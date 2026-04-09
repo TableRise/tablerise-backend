@@ -12,6 +12,7 @@ describe('When a music is added or removed from a match', () => {
         await InjectNewCampaign(campaign);
 
         musicPayload = {
+            operation: 'add',
             title: 'Main Theme',
             youtubeLink: 'https://youtu.be/123',
         };
@@ -19,7 +20,7 @@ describe('When a music is added or removed from a match', () => {
 
     it('should sucessfully add a music to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics?operation=add`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 
@@ -29,8 +30,10 @@ describe('When a music is added or removed from a match', () => {
     });
 
     it('should sucessfully remove a music from a campaign', async () => {
+        musicPayload.operation = 'remove';
+
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/match/map-images?operation=remove`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 

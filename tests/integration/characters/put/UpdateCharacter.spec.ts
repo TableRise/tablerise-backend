@@ -48,7 +48,7 @@ describe('When some character is updated', () => {
             };
 
             const { body } = await requester()
-                .put(`/characters/${characterId}`)
+                .put(`/characters/${characterId}/update`)
                 .send(characterUpdatePayload)
                 .expect(HttpStatusCode.OK);
 

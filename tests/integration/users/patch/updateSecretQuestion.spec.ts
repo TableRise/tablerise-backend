@@ -24,6 +24,7 @@ describe('When the user has secret question activated', () => {
             question: 'to-be-updated-question',
             answer: 'to-be-updated-answer',
         };
+        user.twoFactorSecret = { active: false, qrcode: '', secret: '' };
 
         await InjectNewUser(user);
         await InjectNewUserDetails(userDetails, user.userId);
@@ -51,7 +52,7 @@ describe('When the user has secret question activated', () => {
 
             expect(userWithNewQuestion.details.secretQuestion).to.be.not.null();
             expect(userWithNewQuestion.twoFactorSecret).to.be.deep.equal({
-                active: false,
+                active: false, qrcode: '', secret: ''
             });
             expect(userWithNewQuestion.details.secretQuestion.answer).to.be.equal(newSecretQuestion.answer);
             expect(userWithNewQuestion.details.secretQuestion.answer).to.be.not.equal(

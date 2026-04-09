@@ -25,7 +25,11 @@ describe('When an user has the password changed', () => {
                 code: 'H45J7F',
             };
 
-            userDetails.secretQuestion = {} as UserDetail['secretQuestion'];
+            userDetails.secretQuestion = {
+                question: '123',
+                answer: '123'
+            } as UserDetail['secretQuestion'];
+            user.twoFactorSecret = { active: true, qrcode: '', secret: '' };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
@@ -35,8 +39,8 @@ describe('When an user has the password changed', () => {
             await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/users/update/password?email=${user.email}`)
-                .send({ password: 'TheWorld@123' })
+                .patch('/users/update/password')
+                .send({ password: 'TheWorld@123', email: user.email })
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const userInDb = await model.findOne({ email: user.email });

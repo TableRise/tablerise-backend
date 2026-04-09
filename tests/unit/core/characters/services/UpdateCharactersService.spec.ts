@@ -204,7 +204,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
             });
         });
 
-        context('When payload has characteristics but no hitPoints', () => {
+        context('When payload has only profile characteristics (no stats)', () => {
             before(() => {
                 [character] = DomainDataFaker.generateCharactersJSON();
 
@@ -238,7 +238,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                 });
             });
 
-            it('should skip deep merge and call repository update', async () => {
+            it('should deep merge profile characteristics while preserving stats from db', async () => {
                 await updateCharacterService.update({
                     characterId: '112',
                     payload,

@@ -17,66 +17,59 @@ export default class UpdateCharacterService {
         this.logger('info', 'UpdateCharacterService - Update');
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
-        let characterToUpdate = {} as CharactersDnd;
+        const { profile: profilePayload, stats: statsPayload, money: moneyPayload } = payload.data;
 
-        if (payload.data.profile?.characteristics && payload.data.stats?.hitPoints) {
-            const { characteristics } = payload.data.profile;
-            if (!characteristics.appearance) characteristics.appearance = {} as any;
-            if (!characteristics.other) characteristics.other = {} as any;
-            if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
-            if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
+        const dbProfile = characterInDb.data.profile;
+        const dbStats = characterInDb.data.stats;
+        const dbCharacteristics = dbProfile?.characteristics ?? ({} as any);
+        const characteristicsPayload = profilePayload?.characteristics;
 
-            characterToUpdate = {
-                ...characterInDb,
-                data: {
-                    ...characterInDb.data,
-                    ...payload.data,
-                    profile: {
-                        ...characterInDb.data.profile,
-                        ...payload.data.profile,
-                        characteristics: {
-                            ...characterInDb.data.profile.characteristics,
-                            ...payload.data.profile.characteristics,
-                            appearance: {
-                                ...characterInDb.data.profile.characteristics.appearance,
-                                ...payload.data.profile.characteristics.appearance,
-                            },
-                            other: {
-                                ...characterInDb.data.profile.characteristics.other,
-                                ...payload.data.profile.characteristics.other,
-                            },
+        const characterToUpdate: CharactersDnd = {
+            ...characterInDb,
+            data: {
+                ...characterInDb.data,
+                profile: {
+                    ...dbProfile,
+                    ...(profilePayload ?? {}),
+                    characteristics: {
+                        ...dbCharacteristics,
+                        ...(characteristicsPayload ?? {}),
+                        appearance: {
+                            ...(dbCharacteristics.appearance ?? {}),
+                            ...(characteristicsPayload?.appearance ?? {}),
                         },
-                    },
-                    stats: {
-                        ...characterInDb.data.stats,
-                        ...payload.data.stats,
-                        hitPoints: {
-                            ...characterInDb.data.stats.hitPoints,
-                            ...payload.data.stats.hitPoints,
+                        other: {
+                            ...(dbCharacteristics.other ?? {}),
+                            ...(characteristicsPayload?.other ?? {}),
                         },
-                        deathSaves: {
-                            ...characterInDb.data.stats.deathSaves,
-                            ...payload.data.stats.deathSaves,
-                        },
-                        spellCasting: {
-                            ...characterInDb.data.stats.spellCasting,
-                            ...payload.data.stats.spellCasting,
-                        },
-                    },
-                    money: {
-                        ...characterInDb.data.money,
-                        ...payload.data.money,
+                        alliesAndOrgs: dbCharacteristics.alliesAndOrgs,
+                        treasure: dbCharacteristics.treasure,
                     },
                 },
-            };
-
-            characterToUpdate.data.profile.characteristics.alliesAndOrgs =
-                characterInDb.data.profile.characteristics.alliesAndOrgs;
-            characterToUpdate.data.profile.characteristics.treasure =
-                characterInDb.data.profile.characteristics.treasure;
-            characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
-            characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
-        }
+                stats: {
+                    ...dbStats,
+                    ...(statsPayload ?? {}),
+                    hitPoints: {
+                        ...(dbStats?.hitPoints ?? {}),
+                        ...(statsPayload?.hitPoints ?? {}),
+                    },
+                    deathSaves: {
+                        ...(dbStats?.deathSaves ?? {}),
+                        ...(statsPayload?.deathSaves ?? {}),
+                    },
+                    spellCasting: {
+                        ...(dbStats?.spellCasting ?? {}),
+                        ...(statsPayload?.spellCasting ?? {}),
+                    },
+                    abilityScores: dbStats?.abilityScores,
+                    skills: dbStats?.skills,
+                },
+                money: {
+                    ...(characterInDb.data.money ?? {}),
+                    ...(moneyPayload ?? {}),
+                },
+            },
+        };
 
         return this.charactersRepository.update({
             query: { characterId },

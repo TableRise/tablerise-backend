@@ -42,12 +42,12 @@ describe('When a campaign is created', () => {
 
             const { body } = await requester()
                 .post('/campaigns/create')
-                .field('ageRestriction', campaignPayload.ageRestriction)
-                .field('description', campaignPayload.description)
-                .field('system', campaignPayload.system)
                 .field('title', campaignPayload.title)
-                .field('password', campaignPayload.password)
+                .field('description', campaignPayload.description)
                 .field('visibility', campaignPayload.visibility as string)
+                .field('system', campaignPayload.system)
+                .field('ageRestriction', campaignPayload.ageRestriction)
+                .field('password', campaignPayload.password)
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');

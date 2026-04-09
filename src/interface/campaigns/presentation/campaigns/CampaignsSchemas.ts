@@ -10,14 +10,13 @@ const postCreateCampaignBodySchema = z.object({
     description: z.string().max(255),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
-    ageRestriction: z.number(),
+    ageRestriction: z.string(),
     password: z.string().regex(/^\d{4}$/, {
         message: 'Invalid password',
     }),
 });
 
 const putUpdateCampaignBodySchema = z.object({
-    campaignId: z.string(),
     title: z.string().optional(),
     description: z.string().max(255).optional(),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
@@ -25,8 +24,6 @@ const putUpdateCampaignBodySchema = z.object({
 });
 
 const postAddCampaignPlayersQuerySchema = z.object({
-    campaignId: z.string(),
-    userId: z.string(),
     password: z.string().regex(/^\d{4}$/, {
         message: 'Invalid password',
     }),
@@ -113,7 +110,7 @@ export default (): ICampaignsSchemas => ({
         body: patchUpdateCampaignMatchMusicsBodySchema,
     },
     patchUpdateCampaignPlayerCharacter: {
-        body: patchUpdateCampaignMatchMusicsBodySchema,
+        query: patchUpdateCampaignPlayerCharacterQuerySchema,
     },
     patchUpdateCampaignImages: {
         body: patchUpdateCampaignImagesBodySchema,
