@@ -43,7 +43,9 @@ describe('When the user has secret question activated', () => {
 
             expect(userWithSecretQuestion.details.secretQuestion).to.be.not.null();
             expect(userWithSecretQuestion.twoFactorSecret).to.be.deep.equal({
-                active: false, qrcode: '', secret: ''
+                active: false,
+                qrcode: '',
+                secret: '',
             });
         });
     });

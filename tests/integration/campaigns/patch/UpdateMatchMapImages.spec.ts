@@ -30,11 +30,7 @@ describe('When a map image is added or removed from a match', () => {
 
     it('should sucessfully remove a map image from a campaign', async () => {
         const { body } = await requester()
-            .patch(
-                `/campaigns/${
-                    campaign.campaignId as string
-                }/update/match/map-images`
-            )
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/map-images`)
             .field('operation', 'remove')
             .field('imageId', '')
             .expect(HttpStatusCode.OK);

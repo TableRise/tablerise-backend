@@ -266,7 +266,7 @@ export default class CampaignsController {
             campaignId: id,
             imageId,
             picture: picture as unknown as File,
-            operation
+            operation,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

@@ -27,7 +27,7 @@ describe('When an user has the password changed', () => {
 
             userDetails.secretQuestion = {
                 question: '123',
-                answer: '123'
+                answer: '123',
             } as UserDetail['secretQuestion'];
             user.twoFactorSecret = { active: true, qrcode: '', secret: '' };
 

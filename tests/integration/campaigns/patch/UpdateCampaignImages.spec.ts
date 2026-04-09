@@ -32,7 +32,7 @@ describe('When a map or character image is added or removed from a campaign', ()
         const { body } = await requester()
             .patch(`/campaigns/${campaign.campaignId as string}/update/images`)
             .field('operation', 'remove')
-            .field('imageId', '')
+            .field('imageId', '');
 
         expect(body.maps).to.be.an('array').with.lengthOf(0);
     });
