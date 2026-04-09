@@ -87,7 +87,6 @@ export interface PostBanPlayerPayload {
 export interface UpdateCampaignImagesPayload {
     campaignId: string;
     image?: FileObject;
-    name?: string;
     imageId?: string;
     operation: 'add' | 'remove';
 }

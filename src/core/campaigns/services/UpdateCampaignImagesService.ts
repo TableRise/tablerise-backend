@@ -1,7 +1,8 @@
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { UpdateCampaignImagesPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { TUpdateCampaignImagesBodySchema } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
+import { FileObject } from 'src/types/shared/file';
 
 export default class UpdateCampaignImagesService {
     private readonly campaignsRepository;
@@ -18,45 +19,34 @@ export default class UpdateCampaignImagesService {
         this.logger = logger;
     }
 
-    addCampaignImage(campaign: Campaign, imageUploadResponse: ImageObject, name: string | undefined): Campaign {
+    addCampaignImage(campaign: Campaign, imageUploadResponse: ImageObject): Campaign {
         this.logger('info', 'AddCampaignImage - UpdateCampaignImagesService');
-        if (name) {
-            campaign.images.characters.push(imageUploadResponse);
-        } else {
-            campaign.images.maps.push(imageUploadResponse);
-        }
+        campaign.images.maps.push(imageUploadResponse);
         return campaign;
     }
 
-    removeCampaignImage(campaign: Campaign, name: string | undefined, imageId: string | undefined): Campaign {
+    removeCampaignImage(campaign: Campaign, imageId: string | undefined): Campaign {
         this.logger('info', 'RemoveCampaignImage - UpdateCampaignImagesService');
-        if (name) {
-            campaign.images.characters = campaign.images.characters.filter(
-                (characterImage: ImageObject) => characterImage.id !== imageId
-            );
-        } else {
-            campaign.images.maps = campaign.images.maps.filter((mapImage: ImageObject) => mapImage.id !== imageId);
-        }
+        campaign.images.maps = campaign.images.maps.filter((mapImage: ImageObject) => mapImage.id !== imageId);
         return campaign;
     }
 
     async updateCampaignImage({
         campaignId,
-        image,
-        name,
         operation,
+        picture,
         imageId,
-    }: UpdateCampaignImagesPayload): Promise<Campaign> {
+    }: TUpdateCampaignImagesBodySchema & { campaignId: string }): Promise<Campaign> {
         this.logger('info', 'UpdateCampaignImage - UpdateCampaignImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse = image && (await this.imageStorageClient.upload(image, name));
+        const imageUploadResponse = picture && (await this.imageStorageClient.upload(picture as unknown as FileObject));
 
         if (operation === 'add' && imageUploadResponse) {
-            this.addCampaignImage(campaign, imageUploadResponse, name);
+            this.addCampaignImage(campaign, imageUploadResponse);
         }
 
         if (operation === 'remove' && campaign.images) {
-            this.removeCampaignImage(campaign, name, imageId);
+            this.removeCampaignImage(campaign, imageId);
         }
 
         return campaign;

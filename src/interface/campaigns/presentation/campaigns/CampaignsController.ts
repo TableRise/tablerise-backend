@@ -255,20 +255,18 @@ export default class CampaignsController {
 
     public async updateCampaignImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, name, operation } = req.body as {
+        const { imageId, operation } = req.body as {
             imageId?: string;
-            name?: string;
             operation: 'add' | 'remove';
         };
 
-        const image = req.file as FileObject;
+        const picture = req.file as FileObject;
 
         const result = await this.updateCampaignImagesOperation.execute({
             campaignId: id,
             imageId,
-            image,
-            name,
-            operation,
+            picture: picture as unknown as File,
+            operation
         });
 
         return res.status(HttpStatusCode.OK).json(result);

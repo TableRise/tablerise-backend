@@ -67,8 +67,8 @@ const patchUpdateCampaignPlayerCharacterQuerySchema = z.object({
 });
 
 const patchUpdateCampaignImagesBodySchema = z.object({
-    imageId: z.string(),
-    name: z.string(),
+    imageId: z.string().optional(),
+    picture: z.file().optional(),
     operation: z.enum(['add', 'remove']),
 });
 
