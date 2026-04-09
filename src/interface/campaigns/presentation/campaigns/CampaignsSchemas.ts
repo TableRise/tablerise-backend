@@ -52,8 +52,8 @@ const patchUpdateCampaignMatchDateQuerySchema = z.object({
 
 const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
     operation: z.enum(['add', 'remove']),
-    imageId: z.string(),
-    mapImage: z.file(),
+    imageId: z.string().optional(),
+    picture: z.file().optional(),
 });
 
 const patchUpdateCampaignMatchMusicsBodySchema = z.object({

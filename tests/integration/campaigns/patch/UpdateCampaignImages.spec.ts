@@ -5,7 +5,7 @@ import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe.only('When a map or character image is added or removed from a campaign', () => {
+describe('When a map or character image is added or removed from a campaign', () => {
     let campaign: Campaign, filePath: any;
 
     before(async () => {

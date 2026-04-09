@@ -171,7 +171,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('mapImage'),
+                        this.imageMiddleware.multer().single('picture'),
                         this.imageMiddleware.fileType,
                         this.verifyIdMiddleware,
                         this.verifyMatchMiddleware.exists,

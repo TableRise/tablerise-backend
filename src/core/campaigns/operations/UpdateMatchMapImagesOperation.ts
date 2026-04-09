@@ -1,5 +1,5 @@
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { UpdateMatchMapImagesPayload } from 'src/types/api/campaigns/http/payload';
+import { TUpdateCampaignMatchMapImagesBody } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateMatchMapImagesOperation {
@@ -16,7 +16,7 @@ export default class UpdateMatchMapImagesOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(payload: UpdateMatchMapImagesPayload): Promise<ImageObject[]> {
+    async execute(payload: TUpdateCampaignMatchMapImagesBody & { campaignId: string }): Promise<ImageObject[]> {
         this.logger('info', 'Execute - UpdateMatchMapImagesOperation');
 
         const campaignWithOperationDone = await this.updateMatchMapImagesService.updateMatchMapImage(payload);

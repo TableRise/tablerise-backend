@@ -153,13 +153,13 @@ export default class CampaignsController {
             operation: 'add' | 'remove';
         };
 
-        const mapImage = req.file as FileObject;
+        const picture = req.file as FileObject;
 
         const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
             imageId,
             operation,
-            mapImage,
+            picture,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
