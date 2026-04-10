@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetRaceServiceContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetRace';
 
 export default class GetRaceService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetRaceServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(id: string): Promise<Internacional<Race>> {
-        this._logger('info', 'Get - GetRaceService');
-        this._dungeonsAndDragonsRepository.setEntity('Races');
+        this.logger('info', 'Get - GetRaceService');
+        this.dungeonsAndDragonsRepository.setEntity('Races');
 
-        const raceInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const raceInDb = (await this.dungeonsAndDragonsRepository.findOne({
             raceId: id,
         })) as Internacional<Race>;
 

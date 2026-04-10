@@ -1,15 +1,14 @@
 import GetUsersService from 'src/core/users/services/users/GetUsersService';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: GetUsersService', () => {
     let getUsersService: GetUsersService,
         usersRepository: any,
         usersDetailsRepository: any,
-        users: UserInstance[],
-        usersDetails: UserDetailInstance[],
+        users: User[],
+        usersDetails: UserDetail[],
         allUsersWithDetails: any;
 
     const logger = (): void => {};

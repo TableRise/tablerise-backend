@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetBackgroundOperationContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/GetBackground';
 
 export default class GetBackgroundOperation {
-    private readonly _getBackgroundService;
-    private readonly _logger;
+    private readonly getBackgroundService;
+    private readonly logger;
 
     constructor({ getBackgroundService, logger }: GetBackgroundOperationContract) {
-        this._getBackgroundService = getBackgroundService;
-        this._logger = logger;
+        this.getBackgroundService = getBackgroundService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(id: string): Promise<Internacional<Background>> {
-        this._logger('info', 'Execute - GetBackgroundOperation');
-        const background = await this._getBackgroundService.get(id);
+        this.logger('info', 'Execute - GetBackgroundOperation');
+        const background = await this.getBackgroundService.get(id);
         return background;
     }
 }

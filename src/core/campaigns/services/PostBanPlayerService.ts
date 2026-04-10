@@ -1,28 +1,26 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { PostBanPlayerPayload } from 'src/types/api/campaigns/http/payload';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class PostBanPlayerService {
-    private readonly _logger;
-    private readonly _usersDetailsRepository;
-    private readonly _campaignsRepository;
+    private readonly logger;
+    private readonly usersDetailsRepository;
+    private readonly campaignsRepository;
 
     constructor({
         usersDetailsRepository,
         campaignsRepository,
         logger,
     }: CampaignCoreDependencies['postBanPlayerServiceContract']) {
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
     }
 
-    private _validateBanPlayer(campaign: CampaignInstance, playerId: string): void {
-        this._logger('info', 'validateBanPlayer - PostBanPlayerService');
+    private validateBanPlayer(campaign: Campaign, playerId: string): void {
+        this.logger('info', 'validateBanPlayer - PostBanPlayerService');
 
         const playerInCampaign = campaign.campaignPlayers.find(
             (player: { userId: string }) => player.userId === playerId
@@ -43,13 +41,13 @@ export default class PostBanPlayerService {
         }
     }
 
-    private _updateInformation(
-        campaign: CampaignInstance,
+    private updateInformation(
+        campaign: Campaign,
         playerId: string,
         campaignId: string,
-        userDetailInDb: UserDetailInstance
+        userDetailInDb: UserDetail
     ): void {
-        this._logger('info', 'updateCampaignAndUser - PostBanPlayerService');
+        this.logger('info', 'updateCampaignAndUser - PostBanPlayerService');
 
         const playerIndex = campaign.campaignPlayers.findIndex((data: Player) => data.userId === playerId);
 
@@ -60,33 +58,33 @@ export default class PostBanPlayerService {
         );
     }
 
-    private async _saveUpdates(campaign: CampaignInstance, userDetailInDb: UserDetailInstance): Promise<void> {
-        this._logger('info', 'saveUpdates - PostBanPlayerService');
+    private async saveUpdates(campaign: Campaign, userDetailInDb: UserDetail): Promise<void> {
+        this.logger('info', 'saveUpdates - PostBanPlayerService');
 
-        await this._campaignsRepository.update({
+        await this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
     }
 
     public async banPlayer({ campaignId, playerId }: PostBanPlayerPayload): Promise<void> {
-        this._logger('info', 'banPlayer - PostBanPlayerService');
+        this.logger('info', 'banPlayer - PostBanPlayerService');
 
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        this._validateBanPlayer(campaign, playerId);
+        this.validateBanPlayer(campaign, playerId);
 
-        const userDetailInDb = await this._usersDetailsRepository.findOne({
+        const userDetailInDb = await this.usersDetailsRepository.findOne({
             userId: playerId,
         });
 
-        this._updateInformation(campaign, playerId, campaignId, userDetailInDb);
+        this.updateInformation(campaign, playerId, campaignId, userDetailInDb);
 
-        await this._saveUpdates(campaign, userDetailInDb);
+        await this.saveUpdates(campaign, userDetailInDb);
     }
 }

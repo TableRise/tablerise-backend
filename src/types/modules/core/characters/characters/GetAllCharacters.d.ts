@@ -1,4 +1,3 @@
-import schemas from 'src/domains/characters/schemas';
 import { Logger } from 'src/types/shared/logger';
 import GetAllCharactersService from 'src/core/characters/services/CreateCharacterService';
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
@@ -7,8 +6,6 @@ import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepo
 
 export interface GetAllCharactersOperationContract {
     getAllCharacterService: GetAllCharactersService;
-    schemaValidator: SchemaValidator;
-    charactersSchema: typeof schemas;
     logger: Logger;
 }
 

@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FeatsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/feats/FeatsController';
 
 export default class FeatsController {
-    private readonly _getFeatOperation;
-    private readonly _getAllFeatsOperation;
-    private readonly _getDisabledFeatsOperation;
-    private readonly _toggleFeatsAvailabilityOperation;
+    private readonly getFeatOperation;
+    private readonly getAllFeatsOperation;
+    private readonly getDisabledFeatsOperation;
+    private readonly toggleFeatsAvailabilityOperation;
 
     constructor({
         getFeatOperation,
@@ -14,10 +14,10 @@ export default class FeatsController {
         getDisabledFeatsOperation,
         toggleFeatsAvailabilityOperation,
     }: FeatsControllerContract) {
-        this._getFeatOperation = getFeatOperation;
-        this._getAllFeatsOperation = getAllFeatsOperation;
-        this._getDisabledFeatsOperation = getDisabledFeatsOperation;
-        this._toggleFeatsAvailabilityOperation = toggleFeatsAvailabilityOperation;
+        this.getFeatOperation = getFeatOperation;
+        this.getAllFeatsOperation = getAllFeatsOperation;
+        this.getDisabledFeatsOperation = getDisabledFeatsOperation;
+        this.toggleFeatsAvailabilityOperation = toggleFeatsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class FeatsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getFeatOperation.execute(id);
+        const result = await this.getFeatOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllFeatsOperation.execute();
+        const result = await this.getAllFeatsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledFeatsOperation.execute();
+        const result = await this.getDisabledFeatsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class FeatsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleFeatsAvailabilityOperation.execute({
+        const result = await this.toggleFeatsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

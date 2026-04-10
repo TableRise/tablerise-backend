@@ -2,18 +2,16 @@
 import sinon from 'sinon';
 import CompleteUserOperation from 'src/core/users/operations/oauth/CompleteUserOperation';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth', () => {
     let completeUserOperation: CompleteUserOperation,
-        schemaValidator: any,
         usersSchema: any,
         completeUserService: any,
-        user: UserInstance,
-        userNotCompleted: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userNotCompleted: User,
+        userDetails: UserDetail,
         userDetailsNotCompleted: any,
         payload: any,
         getUserByIdService: any;
@@ -28,10 +26,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
 
                 usersSchema = {
                     oAuthComplete: {},
-                };
-
-                schemaValidator = {
-                    entry: sinon.spy(),
                 };
 
                 const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
@@ -66,8 +60,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                 };
 
                 completeUserOperation = new CompleteUserOperation({
-                    schemaValidator,
-                    usersSchema,
                     completeUserService,
                     getUserByIdService,
                     logger,
@@ -80,7 +72,6 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                     payload,
                 });
 
-                expect(schemaValidator.entry).to.have.been.calledWith(usersSchema.oAuthComplete, payload);
                 expect(getUserByIdService.get).to.have.been.calledWith({
                     userId: user.userId,
                 });

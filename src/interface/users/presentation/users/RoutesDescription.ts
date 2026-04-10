@@ -31,7 +31,7 @@ const updateGameInfo = `Route to update user game info.\n
 ------------------------
 Params:
 - userId: expects an user id.\n
-Query:
+Body:
 - id: content id to add or remove
 - info: "badges" | "campaigns" | "characters"
 - operation: "add" | "remove"`;

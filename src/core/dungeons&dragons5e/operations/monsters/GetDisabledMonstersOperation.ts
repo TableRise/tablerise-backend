@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledMonstersOperationContract } from 'src/types/modules/core/dungeons&dragons5e/monsters/GetDisabledMonsters';
 
 export default class GetDisabledMonstersOperation {
-    private readonly _getDisabledMonstersService;
-    private readonly _logger;
+    private readonly getDisabledMonstersService;
+    private readonly logger;
 
     constructor({ getDisabledMonstersService, logger }: GetDisabledMonstersOperationContract) {
-        this._getDisabledMonstersService = getDisabledMonstersService;
-        this._logger = logger;
+        this.getDisabledMonstersService = getDisabledMonstersService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Monster>>> {
-        this._logger('info', 'Execute - GetMonsterOperation');
-        const monsters = await this._getDisabledMonstersService.getAllDisabled();
+        this.logger('info', 'Execute - GetMonsterOperation');
+        const monsters = await this.getDisabledMonstersService.getAllDisabled();
         return monsters;
     }
 }

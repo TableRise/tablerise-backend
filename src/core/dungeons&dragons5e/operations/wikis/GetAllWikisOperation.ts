@@ -3,19 +3,19 @@ import { Wiki } from '@tablerise/database-management/dist/src/interfaces/Dungeon
 import { GetAllWikisOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetAllWikis';
 
 export default class GetAllWikisOperation {
-    private readonly _getAllWikisService;
-    private readonly _logger;
+    private readonly getAllWikisService;
+    private readonly logger;
 
     constructor({ getAllWikisService, logger }: GetAllWikisOperationContract) {
-        this._getAllWikisService = getAllWikisService;
-        this._logger = logger;
+        this.getAllWikisService = getAllWikisService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Wiki>>> {
-        this._logger('info', 'Execute - GetAllWikisOperation');
-        const wikis = await this._getAllWikisService.getAll();
+        this.logger('info', 'Execute - GetAllWikisOperation');
+        const wikis = await this.getAllWikisService.getAll();
         return wikis;
     }
 }

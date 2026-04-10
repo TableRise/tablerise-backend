@@ -3,19 +3,19 @@ import { Weapon } from '@tablerise/database-management/dist/src/interfaces/Dunge
 import { GetAllWeaponsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/weapons/GetAllWeapons';
 
 export default class GetAllWeaponsOperation {
-    private readonly _getAllWeaponsService;
-    private readonly _logger;
+    private readonly getAllWeaponsService;
+    private readonly logger;
 
     constructor({ getAllWeaponsService, logger }: GetAllWeaponsOperationContract) {
-        this._getAllWeaponsService = getAllWeaponsService;
-        this._logger = logger;
+        this.getAllWeaponsService = getAllWeaponsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Weapon>>> {
-        this._logger('info', 'Execute - GetAllWeaponsOperation');
-        const weapons = await this._getAllWeaponsService.getAll();
+        this.logger('info', 'Execute - GetAllWeaponsOperation');
+        const weapons = await this.getAllWeaponsService.getAll();
         return weapons;
     }
 }

@@ -107,7 +107,7 @@ export default (campaignId: string, userId: string, username: string): string =>
                     </div>
                     <p>Utilize o link abaixo para entrar na campanha</p>
                     <p>Usuário: ${username}</p>
-                    <span class="verify-code">https://tablerise.com/campaigns/${campaignId}?player=${userId}</span>
+                    <span class="verify-code">https://tablerise.com/campaigns/${campaignId}/add?player=${userId}</span>
                     <br />
                     <br />
                 </div>

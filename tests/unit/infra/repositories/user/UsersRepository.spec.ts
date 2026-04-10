@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
@@ -37,7 +37,7 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
         it('should create an user and return serialized', async () => {
             const result = await usersRepository.create({
                 email: 'test@email.com',
-            } as UserInstance);
+            } as User);
 
             expect(create).to.have.been.called();
             expect(result).to.have.property('email');

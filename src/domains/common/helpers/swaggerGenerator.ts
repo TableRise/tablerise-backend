@@ -33,7 +33,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
         url: urls,
     })
         .then((_result: any) => {
-            logger('info', 'SwaggerGenerator - user - document generated');
+            logger('info', 'SwaggerGenerator - users - document generated');
 
             const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
 
@@ -51,7 +51,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
         url: urls,
     })
         .then((_result: any) => {
-            logger('info', 'SwaggerGenerator - campaign - document generated');
+            logger('info', 'SwaggerGenerator - campaigns - document generated');
 
             const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
 
@@ -69,7 +69,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
         url: urls,
     })
         .then((_result: any) => {
-            logger('info', 'SwaggerGenerator - character - document generated');
+            logger('info', 'SwaggerGenerator - characters - document generated');
 
             const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
 

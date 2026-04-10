@@ -1,17 +1,13 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import UserDomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewCampaign, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover user by id', () => {
-    let campaignOne: CampaignInstance,
-        campaignTwo: CampaignInstance,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+    let campaignOne: Campaign, campaignTwo: Campaign, user: User, userDetails: UserDetail;
 
     context('And data is correct', () => {
         before(async () => {
@@ -23,13 +19,13 @@ describe('When recover user by id', () => {
 
             userDetails.gameInfo.campaigns = [
                 {
-                    campaignId: campaignOne.campaignId,
+                    campaignId: campaignOne.campaignId as string,
                     title: campaignOne.title,
                     description: campaignOne.description,
                     role: 'dungeon_master',
                 },
                 {
-                    campaignId: campaignTwo.campaignId,
+                    campaignId: campaignTwo.campaignId as string,
                     title: campaignTwo.title,
                     description: campaignTwo.description,
                     role: 'player',

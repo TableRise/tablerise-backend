@@ -1,32 +1,32 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { UpdateCharacterPicturePayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterPictureService {
-    private readonly _charactersRepository;
-    private readonly _imageStorageClient;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly imageStorageClient;
+    private readonly logger;
 
     constructor({
         charactersRepository,
         imageStorageClient,
         logger,
     }: CharacterCoreDependencies['updateCharacterPictureOperationService']) {
-        this._charactersRepository = charactersRepository;
-        this._imageStorageClient = imageStorageClient;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.imageStorageClient = imageStorageClient;
+        this.logger = logger;
 
         this.uploadPicture = this.uploadPicture.bind(this);
     }
 
-    public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharacterInstance> {
-        this._logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
+    public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharactersDnd> {
+        this.logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
         const { characterId, image } = payload;
-        const characterInDb = await this._charactersRepository.findOne({ characterId });
+        const characterInDb = await this.charactersRepository.findOne({ characterId });
 
-        characterInDb.picture = await this._imageStorageClient.upload(image);
+        characterInDb.picture = await this.imageStorageClient.upload(image);
 
-        return this._charactersRepository.update({
+        return this.charactersRepository.update({
             query: { characterId: characterInDb.characterId },
             payload: characterInDb,
         });

@@ -6,6 +6,7 @@ import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import LoginPassport from 'src/interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from 'src/interface/common/strategies/CookieStrategy';
+import { IUsersSchemas } from './UsersSchemas';
 
 export interface UsersRoutesContract {
     usersController: UsersController;
@@ -16,4 +17,5 @@ export interface UsersRoutesContract {
     verifyUserMiddleware: VerifyUserMiddleware;
     loginPassport: LoginPassport;
     authenticatePassport: AuthenticatePassport;
+    usersSchemas: IUsersSchemas;
 }

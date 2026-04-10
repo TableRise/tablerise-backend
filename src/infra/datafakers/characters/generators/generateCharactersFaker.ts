@@ -1,10 +1,10 @@
 import newUUID from 'src/domains/common/helpers/newUUID';
 import dataGenerator from '../dataGenerator';
 import { CharacterJSONPayload } from 'src/types/modules/infra/datafakers/characters/DomainDataFaker';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import DomainDataFaker from '../../campaigns/DomainDataFaker';
 
-function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): CharacterInstance {
+function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): CharactersDnd {
     return {
         characterId,
         campaignId: newUUID(),
@@ -192,11 +192,11 @@ function createCharacterFaker({ characterId = newUUID() }: CharacterInstance): C
     };
 }
 
-export default function generateCharactersFaker({ count, characterId }: CharacterJSONPayload): CharacterInstance[] {
-    const characters: CharacterInstance[] = [];
+export default function generateCharactersFaker({ count, characterId }: CharacterJSONPayload): CharactersDnd[] {
+    const characters: CharactersDnd[] = [];
 
     for (let index = 0; index <= count; index += 1) {
-        characters.push(createCharacterFaker({ characterId } as CharacterInstance));
+        characters.push(createCharacterFaker({ characterId } as CharactersDnd));
     }
 
     return characters;

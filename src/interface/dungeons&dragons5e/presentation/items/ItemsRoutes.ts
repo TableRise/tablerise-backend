@@ -7,12 +7,12 @@ import { ItemsRoutesContract } from 'src/types/modules/interface/dungeons&dragon
 const BASE_PATH = '/system/dnd5e/items';
 
 export default class ItemsRoutes {
-    private readonly _itemsController;
-    private readonly _verifyIdMiddleware;
+    private readonly itemsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ itemsController, verifyIdMiddleware }: ItemsRoutesContract) {
-        this._itemsController = itemsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.itemsController = itemsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class ItemsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._itemsController.getAll,
+                controller: this.itemsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'items',
@@ -29,7 +29,7 @@ export default class ItemsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._itemsController.getDisabled,
+                controller: this.itemsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'items',
@@ -39,9 +39,9 @@ export default class ItemsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._itemsController.get,
+                controller: this.itemsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'items',
                 },
             },
@@ -52,9 +52,9 @@ export default class ItemsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._itemsController.toggleAvailability,
+                controller: this.itemsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'items',
                 },
             },

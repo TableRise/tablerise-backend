@@ -1,6 +1,4 @@
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export interface UpdateTimestampPayload {
     userId?: string;
@@ -11,8 +9,8 @@ export interface UpdateTimestampPayload {
 
 export interface __UserWithID {
     userId: string;
-    user: UserInstance;
-    userDetails: UserDetailInstance;
+    user: User;
+    userDetails: UserDetail;
 }
 
 export interface UserGameInfoDoneResponse {
@@ -37,8 +35,8 @@ export interface UpdateGameInfoProcessPayload {
     };
 }
 
-export interface RegisterUserResponsePromise extends UserInstance {
-    details: Promise<UserDetailInstance>;
+export interface RegisterUserResponsePromise extends User {
+    details: Promise<UserDetail>;
 }
 
 export interface JWTResponse {
@@ -56,18 +54,18 @@ export interface JWTResponse {
 }
 
 export interface __FullUser {
-    user: UserInstance;
-    userDetails: UserDetailInstance;
+    user: User;
+    userDetails: UserDetail;
 }
 
 export interface __UserEnriched {
-    userEnriched: UserInstance;
-    userDetailsEnriched: UserDetailInstance;
+    userEnriched: User;
+    userDetailsEnriched: UserDetail;
 }
 
 export interface __UserSerialized {
-    userSerialized: UserInstance;
-    userDetailsSerialized: UserDetailInstance;
+    userSerialized: User;
+    userDetailsSerialized: UserDetail;
 }
 
 export interface __TokenObject {
@@ -75,11 +73,11 @@ export interface __TokenObject {
 }
 
 export interface __UserSaved {
-    userSaved: UserInstance;
-    userDetailsSaved: UserDetailInstance;
+    userSaved: User;
+    userDetailsSaved: UserDetail;
 }
 
 export interface UpdateMatchPlayersResponse {
-    campaign: CampaignInstance;
-    userDetails: UserDetailInstance;
+    campaign: Campaign;
+    userDetails: UserDetail;
 }

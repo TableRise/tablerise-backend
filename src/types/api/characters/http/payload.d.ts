@@ -1,8 +1,11 @@
-import { CharacterInstance, CharacterPayload } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import {
+    TCreateCharacterBody,
+    TUpdateCharacterBody,
+} from 'src/interface/characters/presentation/character/CharactersSchemas';
 import { FileObject } from 'src/types/shared/file';
 
 export interface CreateCharacterPayload {
-    payload: CharacterPayload;
+    payload: TCreateCharacterBody;
     userId: string;
 }
 
@@ -23,5 +26,5 @@ export interface orgPicturePayload {
 
 export interface updateCharacterPayload {
     characterId: string;
-    payload: CharacterInstance;
+    payload: TUpdateCharacterBody;
 }

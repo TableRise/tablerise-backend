@@ -4,26 +4,26 @@ import { JWTResponse } from 'src/types/api/users/methods';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class LoginUserService {
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({ usersDetailsRepository, logger }: UserCoreDependencies['loginUserServiceContract']) {
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
 
         this.enrichToken = this.enrichToken.bind(this);
         this.setCookieOptions = this.setCookieOptions.bind(this);
     }
 
     async enrichToken(token: string): Promise<JWTResponse> {
-        this._logger('info', 'EnrichToken - LoginUserService');
+        this.logger('info', 'EnrichToken - LoginUserService');
 
         const tokenData = JWTGenerator.verify(token) as JWTResponse;
 
         delete tokenData.iat;
         delete tokenData.exp;
 
-        const userDetails = await this._usersDetailsRepository.findOne({
+        const userDetails = await this.usersDetailsRepository.findOne({
             userId: tokenData.userId,
         });
 
@@ -33,7 +33,7 @@ export default class LoginUserService {
     }
 
     setCookieOptions(): CookieOptions {
-        this._logger('info', 'SetCookieOptions - LoginUserService');
+        this.logger('info', 'SetCookieOptions - LoginUserService');
 
         return {
             maxAge: 3600000,

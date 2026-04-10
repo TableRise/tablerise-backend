@@ -1,7 +1,6 @@
 import Discord from 'passport-discord';
 import Facebook from 'passport-facebook';
 import Google from 'passport-google-oauth20';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import {
     DiscordJSONPayload,
     FacebookJSONPayload,
@@ -9,7 +8,7 @@ import {
     UserDetailJSONPayload,
     UserJSONPayload,
 } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
 import questionEnum from 'src/domains/users/enums/questionEnum';
@@ -17,11 +16,11 @@ import generateDiscordProfileFaker from './generators/generateDiscordFaker';
 import generateFacebookProfileFaker from './generators/generateFacebookFaker';
 import generateGoogleProfileFaker from './generators/generateGoogleFaker';
 
-function generateUsersJSON({ count, userId }: UserJSONPayload = { count: 1 }): UserInstance[] {
+function generateUsersJSON({ count, userId }: UserJSONPayload = { count: 1 }): User[] {
     return generateUsersFaker({ count, userId });
 }
 
-function generateUserDetailsJSON({ count, userDetailId }: UserDetailJSONPayload = { count: 1 }): UserDetailInstance[] {
+function generateUserDetailsJSON({ count, userDetailId }: UserDetailJSONPayload = { count: 1 }): UserDetail[] {
     return generateUserDetailsFaker({ count, userDetailId });
 }
 

@@ -3,7 +3,7 @@ import HttpRequestErrors from './helpers/HttpRequestErrors';
 import getErrorName from './helpers/getErrorName';
 import { HttpStatusCode } from './helpers/HttpStatusCode';
 import stateFlowsEnum, { stateFlowsKeys } from './enums/stateFlowsEnum';
-import { UserInstance } from '../users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainsDependencies from 'src/types/modules/domains/DomainsDependencies';
 import { StateMachineProps } from 'src/types/modules/domains/StateMachine';
 
@@ -40,12 +40,12 @@ export const StateMachineFlow = {
 };
 
 export default class StateMachine {
-    private readonly _usersRepository;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly logger;
 
     constructor({ usersRepository, logger }: DomainsDependencies['stateMachineContract']) {
-        this._usersRepository = usersRepository;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.logger = logger;
     }
 
     public get props(): StateMachineProps {
@@ -55,12 +55,12 @@ export default class StateMachine {
         };
     }
 
-    private _checkPrevStatus(
-        prevStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+    private checkPrevStatus(
+        prevStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
         const prevStatusFromActual = flow[stepIndex === 0 ? stepIndex : stepIndex - 1];
 
@@ -78,12 +78,12 @@ export default class StateMachine {
         }
     }
 
-    private _checkNextStatus(
-        nextStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+    private checkNextStatus(
+        nextStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
         const nextStatusFromActual = flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
 
@@ -101,12 +101,12 @@ export default class StateMachine {
         }
     }
 
-    private _moveStatus(
-        user: UserInstance,
+    private moveStatus(
+        user: User,
         stepIndex: number,
         selectFlow: InProgressStatus[],
         flow: stateFlowsKeys
-    ): UserInstance['inProgress'] {
+    ): User['inProgress'] {
         const userActualStatus = selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
 
         let userCurrentFlow =
@@ -130,27 +130,27 @@ export default class StateMachine {
         };
     }
 
-    public async machine(flow: stateFlowsKeys, user: UserInstance): Promise<UserInstance> {
-        this._logger('warn', 'Machine - StateMachine');
+    public async machine(flow: stateFlowsKeys, user: User): Promise<User> {
+        this.logger('warn', 'Machine - StateMachine');
 
         const { status, nextStatusWillBe, prevStatusMustBe } = user.inProgress;
 
-        this._logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
+        this.logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
 
         const selectFlow = StateMachineFlow[flow as keyof typeof StateMachineFlow];
         const stepIndex = selectFlow.findIndex((flowState) => flowState === status);
 
-        this._checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
-        this._checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
+        this.checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
+        this.checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
 
-        user.inProgress = this._moveStatus(user, stepIndex, selectFlow, flow);
+        user.inProgress = this.moveStatus(user, stepIndex, selectFlow, flow);
 
-        const userWithStatesUpdated = await this._usersRepository.update({
+        const userWithStatesUpdated = await this.usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
 
-        this._logger('info', 'Status update successfully completed');
+        this.logger('info', 'Status update successfully completed');
 
         return userWithStatesUpdated;
     }

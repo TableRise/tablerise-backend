@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import AddCampaignPlayersOperation from 'src/core/campaigns/operations/AddCampaignPlayersOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
@@ -8,9 +8,7 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
     let addCampaignPlayersOperation: AddCampaignPlayersOperation,
         addCampaignPlayersService: any,
         matchPlayersPayload: any,
-        schemaValidator: any,
-        campaignsSchema: any,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
@@ -43,18 +41,8 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
                     save: sinon.spy(() => campaign),
                 };
 
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                campaignsSchema = {
-                    campaignsAddCampaignPlayersZod: {},
-                };
-
                 addCampaignPlayersOperation = new AddCampaignPlayersOperation({
                     addCampaignPlayersService,
-                    schemaValidator,
-                    campaignsSchema,
                     logger,
                 });
             });

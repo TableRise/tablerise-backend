@@ -1,38 +1,38 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { PostInvitationEmailPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignPlayerInvitationEmailSend } from 'src/types/modules/core/campaigns/campaigns/PostInvitationEmail';
 
 export default class PostInvitationEmailService {
-    private readonly _emailSender;
-    private readonly _logger;
+    private readonly emailSender;
+    private readonly logger;
 
     constructor({ emailSender, logger }: CampaignCoreDependencies['postInvitationEmailServiceContract']) {
-        this._emailSender = emailSender;
-        this._logger = logger;
+        this.emailSender = emailSender;
+        this.logger = logger;
     }
 
-    private async _send(campaignId: string, userId: string, username: string, emailSended: string): Promise<void> {
-        this._logger('info', 'Send - SendEmail - PostInvitationEmailService');
-        this._emailSender.type = 'invitation';
+    private async send(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
+        this.logger('info', 'Send - SendEmail - PostInvitationEmailService');
+        this.emailSender.type = 'invitation';
 
-        const emailSendResult = await this._emailSender.send(
+        const emailSendResult = await this.emailSender.send(
             {
-                campaignId,
-                userId,
-                username,
+                campaignId: payload.campaignId,
+                userId: payload.userId,
+                username: payload.username,
                 subject: 'Email de Convite para Campanha - TableRise',
             },
-            emailSended
+            payload.targetEmail
         );
 
         if (!emailSendResult.success) {
-            this._logger('error', 'Some error ocurred in email sending - PostInvitationEmailService');
+            this.logger('error', 'Some error ocurred in email sending - PostInvitationEmailService');
             HttpRequestErrors.throwError('verification-email-send-fail');
         }
     }
 
-    public async sendEmail({ targetEmail, campaignId, userId, username }: PostInvitationEmailPayload): Promise<void> {
-        this._logger('info', 'SendEmail - PostInvitationEmailService');
-        await this._send(campaignId, userId, username, targetEmail);
+    public async sendEmail(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
+        this.logger('info', 'SendEmail - PostInvitationEmailService');
+        await this.send(payload);
     }
 }

@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledFeatsServiceContract } from 'src/types/modules/core/dungeons&dragons5e/feats/GetDisabledFeats';
 
 export default class GetDisabledFeatsService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledFeatsServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.getAllDisabled = this.getAllDisabled.bind(this);
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Feat>>> {
-        this._logger('info', 'GetAll - GetDisabledFeatsService');
-        this._dungeonsAndDragonsRepository.setEntity('Feats');
+        this.logger('info', 'GetAll - GetDisabledFeatsService');
+        this.dungeonsAndDragonsRepository.setEntity('Feats');
 
-        const featInDb = (await this._dungeonsAndDragonsRepository.find({
+        const featInDb = (await this.dungeonsAndDragonsRepository.find({
             active: false,
         })) as Array<Internacional<Feat>>;
         return featInDb;

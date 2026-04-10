@@ -7,12 +7,12 @@ import { BackgroundsRoutesContract } from 'src/types/modules/interface/dungeons&
 const BASE_PATH = '/system/dnd5e/backgrounds';
 
 export default class BackgroundsRoutes {
-    private readonly _backgroundsController;
-    private readonly _verifyIdMiddleware;
+    private readonly backgroundsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ backgroundsController, verifyIdMiddleware }: BackgroundsRoutesContract) {
-        this._backgroundsController = backgroundsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.backgroundsController = backgroundsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class BackgroundsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._backgroundsController.getAll,
+                controller: this.backgroundsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
@@ -29,7 +29,7 @@ export default class BackgroundsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._backgroundsController.getDisabled,
+                controller: this.backgroundsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
@@ -39,9 +39,9 @@ export default class BackgroundsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._backgroundsController.get,
+                controller: this.backgroundsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
                 },
             },
@@ -52,9 +52,9 @@ export default class BackgroundsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._backgroundsController.toggleAvailability,
+                controller: this.backgroundsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
                 },
             },

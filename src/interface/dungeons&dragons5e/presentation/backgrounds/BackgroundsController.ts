@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { BackgroundsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsController';
 
 export default class BackgroundsController {
-    private readonly _getBackgroundOperation;
-    private readonly _getAllBackgroundsOperation;
-    private readonly _getDisabledBackgroundsOperation;
-    private readonly _toggleBackgroundsAvailabilityOperation;
+    private readonly getBackgroundOperation;
+    private readonly getAllBackgroundsOperation;
+    private readonly getDisabledBackgroundsOperation;
+    private readonly toggleBackgroundsAvailabilityOperation;
 
     constructor({
         getBackgroundOperation,
@@ -14,10 +14,10 @@ export default class BackgroundsController {
         getDisabledBackgroundsOperation,
         toggleBackgroundsAvailabilityOperation,
     }: BackgroundsControllerContract) {
-        this._getBackgroundOperation = getBackgroundOperation;
-        this._getAllBackgroundsOperation = getAllBackgroundsOperation;
-        this._getDisabledBackgroundsOperation = getDisabledBackgroundsOperation;
-        this._toggleBackgroundsAvailabilityOperation = toggleBackgroundsAvailabilityOperation;
+        this.getBackgroundOperation = getBackgroundOperation;
+        this.getAllBackgroundsOperation = getAllBackgroundsOperation;
+        this.getDisabledBackgroundsOperation = getDisabledBackgroundsOperation;
+        this.toggleBackgroundsAvailabilityOperation = toggleBackgroundsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -28,17 +28,17 @@ export default class BackgroundsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getBackgroundOperation.execute(id);
+        const result = await this.getBackgroundOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllBackgroundsOperation.execute();
+        const result = await this.getAllBackgroundsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledBackgroundsOperation.execute();
+        const result = await this.getDisabledBackgroundsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -46,7 +46,7 @@ export default class BackgroundsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleBackgroundsAvailabilityOperation.execute({
+        const result = await this.toggleBackgroundsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

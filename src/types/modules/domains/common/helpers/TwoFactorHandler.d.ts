@@ -10,3 +10,9 @@ export interface TwoFactorValidatePayload {
     secret: string;
     token: string;
 }
+
+export interface TwoFactorProps {
+    active: boolean;
+    qrcode: string;
+    secret: string;
+}

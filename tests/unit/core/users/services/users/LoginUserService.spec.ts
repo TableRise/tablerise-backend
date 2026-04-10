@@ -1,20 +1,18 @@
 import LoginUserService from 'src/core/users/services/users/LoginUserService';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: LoginUserService', () => {
-    let loginUserService: LoginUserService,
-        usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+    let loginUserService: LoginUserService, usersDetailsRepository: any, user: User, userDetails: UserDetail;
 
     const logger = (): void => {};
 
     context('#EnrichToken', () => {
         context('When a user is logging in', () => {
             before(() => {
+                process.env.JWT_SECRET = 'test-secret-key-for-unit-tests';
+
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 user = DomainDataFaker.generateUsersJSON()[0];
 
@@ -61,6 +59,29 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(cookieOptions).to.have.property('httpOnly');
                 expect(cookieOptions).to.have.property('secure');
                 expect(cookieOptions).to.have.property('sameSite');
+            });
+        });
+
+        context('When COOKIE_SECURE is set to yes', () => {
+            before(() => {
+                process.env.COOKIE_SECURE = 'yes';
+
+                usersDetailsRepository = {};
+
+                loginUserService = new LoginUserService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            after(() => {
+                delete process.env.COOKIE_SECURE;
+            });
+
+            it('should set secure to true', () => {
+                const cookieOptions = loginUserService.setCookieOptions();
+
+                expect(cookieOptions.secure).to.be.equal(true);
             });
         });
     });

@@ -11,11 +11,11 @@ import sendCampaignInviteEmailTemplate from 'src/infra/templates/sendCampaignInv
 
 export default class EmailSender {
     public type;
-    private readonly _nodemailer;
+    private readonly nodemailer;
 
     constructor({ emailType, nodemailer }: EmailSenderContract) {
         this.type = emailType;
-        this._nodemailer = nodemailer;
+        this.nodemailer = nodemailer;
 
         this.handleEmail = this.handleEmail.bind(this);
         this.sendCommon = this.sendCommon.bind(this);
@@ -47,7 +47,7 @@ export default class EmailSender {
         if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
 
-        const transporter = this._nodemailer.createTransport(config);
+        const transporter = this.nodemailer.createTransport(config);
         if (EMAIL_SENDING === 'on') await transporter.sendMail(message);
 
         return true;

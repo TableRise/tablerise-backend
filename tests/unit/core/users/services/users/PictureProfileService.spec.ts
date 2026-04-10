@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import PictureProfileService from 'src/core/users/services/users/PictureProfileService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
@@ -10,8 +10,8 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
     let pictureProfileService: PictureProfileService,
         imageStorageClient: any,
         usersRepository: any,
-        user: UserInstance,
-        userWithPicture: UserInstance;
+        user: User,
+        userWithPicture: User;
 
     const logger = (): void => {};
 
@@ -150,10 +150,59 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
             });
         });
 
+        context('When update picture with success - picture is undefined', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                user.picture = undefined as unknown as User['picture'];
+                userWithPicture = {
+                    ...user,
+                    picture: {
+                        id: '123',
+                        link: 'https://123.com',
+                        uploadDate: new Date().toISOString(),
+                        title: '',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                };
+
+                usersRepository = {
+                    findOne: () => user,
+                    update: sinon.spy(() => userWithPicture),
+                };
+
+                imageStorageClient = {
+                    upload: () => ({
+                        data: {
+                            id: '123',
+                            link: 'https://123.com',
+                        },
+                    }),
+                };
+
+                pictureProfileService = new PictureProfileService({
+                    imageStorageClient,
+                    usersRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods and return correct data', async () => {
+                const payload = {
+                    userId: user.userId,
+                    image: '' as unknown as FileObject,
+                };
+
+                const userUpdated = await pictureProfileService.uploadPicture(payload);
+                expect(usersRepository.update).to.have.been.calledWith();
+                expect(userUpdated).to.have.property('picture');
+            });
+        });
+
         context('When update picture with success - no picture property', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.picture = null;
+                user.picture = {} as User['picture'];
                 userWithPicture = {
                     ...user,
                     picture: {

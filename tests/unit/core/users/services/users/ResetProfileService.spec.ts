@@ -5,16 +5,15 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import StateMachine from 'src/domains/common/StateMachine';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: ResetProfileService', () => {
     let resetProfileService: ResetProfileService,
         usersDetailsRepository: any,
         usersRepository: any,
-        user: UserInstance,
-        currentUserDetails: UserDetailInstance;
+        user: User,
+        currentUserDetails: UserDetail;
 
     const logger = (): void => {};
 

@@ -1,19 +1,19 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class GetAllCharactersOperation {
-    private readonly _getAllCharactersService;
-    private readonly _logger;
+    private readonly getAllCharactersService;
+    private readonly logger;
 
     constructor({ getAllCharactersService, logger }: CharacterCoreDependencies['getAllCharactersOperationContract']) {
-        this._getAllCharactersService = getAllCharactersService;
-        this._logger = logger;
+        this.getAllCharactersService = getAllCharactersService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    async execute(): Promise<CharacterInstance[]> {
-        this._logger('info', 'Execute - GetAllCharactersOperation');
-        return this._getAllCharactersService.getAll();
+    async execute(): Promise<CharactersDnd[]> {
+        this.logger('info', 'Execute - GetAllCharactersOperation');
+        return this.getAllCharactersService.getAll();
     }
 }

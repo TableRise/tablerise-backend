@@ -1,17 +1,17 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class GetCharacterByIdService {
-    private readonly _charactersRepository;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly logger;
 
     constructor({ charactersRepository, logger }: CharacterCoreDependencies['getCharacterByIdServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.logger = logger;
     }
 
-    async get(characterId: string): Promise<CharacterInstance> {
-        this._logger('info', 'Execute - GetCharacterByIdService');
-        return this._charactersRepository.findOne({ characterId });
+    async get(characterId: string): Promise<CharactersDnd> {
+        this.logger('info', 'Execute - GetCharacterByIdService');
+        return this.charactersRepository.findOne({ characterId });
     }
 }

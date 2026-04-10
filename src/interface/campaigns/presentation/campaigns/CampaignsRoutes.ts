@@ -2,7 +2,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
@@ -10,21 +9,24 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 const BASE_PATH = '/campaigns';
 
 export default class CampaignsRoutes {
-    private readonly _campaignsController;
-    private readonly _verifyIdMiddleware;
-    private readonly _imageMiddleware;
-    private readonly _verifyMatchMiddleware;
+    private readonly campaignsController;
+    private readonly verifyIdMiddleware;
+    private readonly imageMiddleware;
+    private readonly verifyMatchMiddleware;
+    private readonly campaignsSchemas;
 
     constructor({
         campaignsController,
         verifyIdMiddleware,
         imageMiddleware,
         verifyMatchMiddleware,
+        campaignsSchemas,
     }: InterfaceDependencies['campaignsRoutesContract']) {
-        this._campaignsController = campaignsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
-        this._imageMiddleware = imageMiddleware;
-        this._verifyMatchMiddleware = verifyMatchMiddleware;
+        this.campaignsController = campaignsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
+        this.imageMiddleware = imageMiddleware;
+        this.verifyMatchMiddleware = verifyMatchMiddleware;
+        this.campaignsSchemas = campaignsSchemas;
     }
 
     public routes(): routeInstance[] {
@@ -34,9 +36,9 @@ export default class CampaignsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._campaignsController.getById,
+                controller: this.campaignsController.getById,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.getById,
                     tag: 'recover',
                 },
@@ -44,7 +46,7 @@ export default class CampaignsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._campaignsController.getAll,
+                controller: this.campaignsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'recover',
@@ -54,10 +56,10 @@ export default class CampaignsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/user/:id`,
-                controller: this._campaignsController.getByUserId,
+                controller: this.campaignsController.getByUserId,
                 parameters: [...generateIDParam()],
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'recover',
                     description: desc.getAll,
                 },
@@ -67,14 +69,14 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/create`,
-                schema: DomainDataFaker.mocks.createCampaignMock,
-                controller: this._campaignsController.create,
+                controller: this.campaignsController.create,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('cover'),
-                        this._imageMiddleware.fileType,
+                        this.imageMiddleware.multer().single('cover'),
+                        this.imageMiddleware.fileType,
                     ],
+                    schemas: [{ body: this.campaignsSchemas.postCreateCampaign.body }],
                     description: desc.create,
                     tag: 'create',
                     fileUpload: true,
@@ -83,11 +85,11 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/publishment`,
-                schema: DomainDataFaker.mocks.publishment,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
-                controller: this._campaignsController.publishment,
+                controller: this.campaignsController.publishment,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.campaignsSchemas.postCreateCampaignPublishment.body }],
                     description: desc.publishment,
                     tag: 'create',
                 },
@@ -95,10 +97,11 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/invite`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'targetEmail', type: 'string' }])],
-                controller: this._campaignsController.inviteEmail,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.inviteEmail,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.postInvitePlayerByEmail.query }],
                     tag: 'management',
                     description: desc.inviteEmail,
                 },
@@ -107,9 +110,10 @@ export default class CampaignsRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/ban`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }])],
-                controller: this._campaignsController.banPlayer,
+                controller: this.campaignsController.banPlayer,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this._verifyIdMiddleware],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.postBanCampaignPlayer.query }],
                     tag: 'ban',
                     description: desc.banPlayer,
                 },
@@ -118,9 +122,10 @@ export default class CampaignsRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/add`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'password', type: 'string' }])],
-                controller: this._campaignsController.addCampaignPlayers,
+                controller: this.campaignsController.addCampaignPlayers,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.postAddCampaignPlayers.query }],
                     description: desc.addCampaignPlayers,
                     tag: 'management',
                 },
@@ -129,9 +134,9 @@ export default class CampaignsRoutes {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/remove`,
                 parameters: [...generateIDParam()],
-                controller: this._campaignsController.removeCampaignPlayers,
+                controller: this.campaignsController.removeCampaignPlayers,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.removeCampaignPlayers,
                     tag: 'management',
                 },
@@ -142,14 +147,15 @@ export default class CampaignsRoutes {
                 method: 'put',
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
-                schema: DomainDataFaker.mocks.updateCampaign,
-                controller: this._campaignsController.update,
+                controller: this.campaignsController.update,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('cover'),
-                        this._imageMiddleware.fileType,
+                        this.imageMiddleware.multer().single('cover'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
                     ],
+                    schemas: [{ body: this.campaignsSchemas.putUpdateCampaign.body }],
                     description: desc.update,
                     tag: 'update',
                     fileUpload: true,
@@ -160,16 +166,17 @@ export default class CampaignsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/match/map-images`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])],
-                controller: this._campaignsController.updateMatchMapImages,
-                schema: DomainDataFaker.mocks.uploadMatchMapImage,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.updateMatchMapImages,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('mapImage'),
-                        this._imageMiddleware.fileType,
-                        this._verifyMatchMiddleware.exists,
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
                     ],
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignMatchMapImages.body }],
                     description: desc.updateMatchImages,
                     tag: 'update',
                     fileUpload: true,
@@ -178,15 +185,16 @@ export default class CampaignsRoutes {
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/match/musics`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'operation', type: 'string' }])],
-                controller: this._campaignsController.updateMatchMusics,
-                schema: DomainDataFaker.mocks.uploadMatchMusics,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.updateMatchMusics,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._verifyMatchMiddleware.exists,
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
                     ],
                     description: desc.updateMatchMusics,
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignMatchMusics.body }],
                     tag: 'update',
                 },
             },
@@ -200,44 +208,41 @@ export default class CampaignsRoutes {
                         { name: 'operation', type: 'string' },
                     ]),
                 ],
-                controller: this._campaignsController.updateMatchDate,
+                controller: this.campaignsController.updateMatchDate,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignMatchDate.query }],
                     description: desc.updateMatchDate,
                     tag: 'update',
                 },
             },
-
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/player/character`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }])],
-                controller: this._campaignsController.addPlayerCharacter,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.addPlayerCharacter,
                 options: {
-                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.addPlayerCharacter,
+                    schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignPlayerCharacter.query }],
                     tag: 'management',
                 },
             },
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/images`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'imageId', type: 'string' }]),
-                    ...generateQueryParam(1, [{ name: 'name', type: 'string' }]),
-                    ...generateQueryParam(1, [{ name: 'operation', type: 'string' }]),
-                ],
-                controller: this._campaignsController.updateCampaignImages,
-                schema: DomainDataFaker.mocks.uploadCampaignImages,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.updateCampaignImages,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this._imageMiddleware.multer().single('image'),
-                        this._imageMiddleware.fileType,
-                        this._verifyMatchMiddleware.exists,
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
                     ],
                     description: desc.updateCampaignImages,
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignImages.body }],
                     tag: 'update',
                     fileUpload: true,
                 },

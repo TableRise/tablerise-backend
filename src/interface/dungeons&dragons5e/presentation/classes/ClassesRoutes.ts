@@ -7,12 +7,12 @@ import { ClassesRoutesContract } from 'src/types/modules/interface/dungeons&drag
 const BASE_PATH = '/system/dnd5e/classes';
 
 export default class ClassesRoutes {
-    private readonly _classesController;
-    private readonly _verifyIdMiddleware;
+    private readonly classesController;
+    private readonly verifyIdMiddleware;
 
     constructor({ classesController, verifyIdMiddleware }: ClassesRoutesContract) {
-        this._classesController = classesController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.classesController = classesController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class ClassesRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._classesController.getAll,
+                controller: this.classesController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
@@ -29,7 +29,7 @@ export default class ClassesRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._classesController.getDisabled,
+                controller: this.classesController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
@@ -39,9 +39,9 @@ export default class ClassesRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._classesController.get,
+                controller: this.classesController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
                 },
             },
@@ -52,9 +52,9 @@ export default class ClassesRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._classesController.toggleAvailability,
+                controller: this.classesController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
                 },
             },

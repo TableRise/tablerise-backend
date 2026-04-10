@@ -1,14 +1,13 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 import sinon from 'sinon';
-import newUUID from 'src/domains/common/helpers/newUUID';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 
 describe('When a player is added to a match', () => {
-    let campaign: CampaignInstance;
+    let campaign: Campaign;
 
     before(async () => {
         campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
@@ -23,7 +22,7 @@ describe('When a player is added to a match', () => {
 
     it('should sucessfully add a player to a campaign', async () => {
         const { body } = await requester()
-            .post(`/campaigns/${campaign.campaignId}/update/player/add?password=1234&characterId=${newUUID()}`)
+            .post(`/campaigns/${campaign.campaignId as string}/update/player/add?password=1234`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(2);

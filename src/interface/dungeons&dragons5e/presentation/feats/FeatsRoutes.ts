@@ -7,12 +7,12 @@ import { FeatsRoutesContract } from 'src/types/modules/interface/dungeons&dragon
 const BASE_PATH = '/system/dnd5e/feats';
 
 export default class FeatsRoutes {
-    private readonly _featsController;
-    private readonly _verifyIdMiddleware;
+    private readonly featsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ featsController, verifyIdMiddleware }: FeatsRoutesContract) {
-        this._featsController = featsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.featsController = featsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class FeatsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._featsController.getAll,
+                controller: this.featsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
@@ -29,7 +29,7 @@ export default class FeatsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._featsController.getDisabled,
+                controller: this.featsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
@@ -39,9 +39,9 @@ export default class FeatsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._featsController.get,
+                controller: this.featsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
                 },
             },
@@ -52,9 +52,9 @@ export default class FeatsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._featsController.toggleAvailability,
+                controller: this.featsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
                 },
             },

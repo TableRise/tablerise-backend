@@ -1,44 +1,42 @@
-import { Profile } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
 import { CharacterToPlayerRecover } from 'src/types/api/characters/http/response';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class RecoverCharacterByCampaignService {
-    private readonly _charactersRepository;
-    private readonly _campaignsRepository;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly campaignsRepository;
+    private readonly logger;
 
     constructor({
         charactersRepository,
         campaignsRepository,
         logger,
     }: CharacterCoreDependencies['recoverCharacterByCampaignServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._campaignsRepository = campaignsRepository;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.campaignsRepository = campaignsRepository;
+        this.logger = logger;
 
         this.recoverByCampaign = this.recoverByCampaign.bind(this);
     }
 
-    private _mapCharactersForPlayer(characters: CharacterInstance[]): CharacterToPlayerRecover[] {
+    private mapCharactersForPlayer(characters: CharactersDnd[]): CharacterToPlayerRecover[] {
         return characters.map((char) => {
             return {
-                characterId: char.characterId as string,
+                characterId: char.characterId,
                 author: char.author,
-                picture: char.picture as ImageObject,
-                profile: char.data.profile as Profile,
+                picture: char.picture,
+                profile: char.data.profile,
             };
         });
     }
 
-    private async _getCharacters(campaign: CampaignInstance): Promise<CharacterInstance[]> {
+    private async getCharacters(campaign: Campaign): Promise<CharactersDnd[]> {
         const charactersArrays = campaign.campaignPlayers.map((camPlayer) => camPlayer.characterIds);
         const charactersIds = [] as string[];
-        const characters = [] as Array<Promise<CharacterInstance>>;
+        const characters = [] as Array<Promise<CharactersDnd>>;
 
         charactersArrays.forEach((charIds) => {
             charIds.forEach((charUniqIds) => {
@@ -47,7 +45,7 @@ export default class RecoverCharacterByCampaignService {
         });
 
         charactersIds.forEach((charId) => {
-            const character = this._charactersRepository.findOne({ characterId: charId });
+            const character = this.charactersRepository.findOne({ characterId: charId });
             characters.push(character);
         });
 
@@ -57,19 +55,19 @@ export default class RecoverCharacterByCampaignService {
     public async recoverByCampaign({
         userId,
         campaignId,
-    }: GetCharacterByCampaignPayload): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
-        this._logger('info', 'RecoverCharacterByCampaignService - Execute');
+    }: GetCharacterByCampaignPayload): Promise<CharactersDnd[] | CharacterToPlayerRecover[]> {
+        this.logger('info', 'RecoverCharacterByCampaignService - Execute');
 
-        const campaignInDb = await this._campaignsRepository.findOne({ campaignId });
+        const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const playerInCampaign = campaignInDb.campaignPlayers.find((player) => player.userId === userId);
 
-        const getCharacters = await this._getCharacters(campaignInDb);
+        const getCharacters = await this.getCharacters(campaignInDb);
 
         const getCharactersResolved = await Promise.all(getCharacters);
 
         if (!playerInCampaign) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        if (playerInCampaign.role === 'player') return this._mapCharactersForPlayer(getCharactersResolved);
+        if (playerInCampaign.role === 'player') return this.mapCharactersForPlayer(getCharactersResolved);
 
         return getCharactersResolved;
     }

@@ -1,30 +1,35 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 
 export default class VerifyEmailCodeMiddleware {
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _stateMachine;
-    private readonly _logger;
-    private readonly _ALLOWED_STATUS;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly stateMachine;
+    private readonly usersSchemas;
+    private readonly schemaValidator;
+    private readonly logger;
+    private readonly ALLOWED_STATUS;
 
     constructor({
         usersRepository,
+        usersSchemas,
         usersDetailsRepository,
         stateMachine,
+        schemaValidator,
         logger,
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachine = stateMachine;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersSchemas = usersSchemas;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.stateMachine = stateMachine;
+        this.schemaValidator = schemaValidator;
+        this.logger = logger;
 
-        this._ALLOWED_STATUS = [
+        this.ALLOWED_STATUS = [
             stateMachine.props.status.DONE,
             stateMachine.props.status.WAIT_TO_CONFIRM,
             stateMachine.props.status.WAIT_TO_START_EMAIL_CHANGE,
@@ -35,7 +40,7 @@ export default class VerifyEmailCodeMiddleware {
         this.verify = this.verify.bind(this);
     }
 
-    private async _getUserToValidate(id: string, email: string): Promise<UserInstance> {
+    private async getUserToValidate(id: string, email: string): Promise<User> {
         if (!id && !email)
             throw new HttpRequestErrors({
                 message: 'Neither id or email was provided to validate the email code',
@@ -43,56 +48,52 @@ export default class VerifyEmailCodeMiddleware {
                 name: 'BadRequest',
             });
 
-        if (id) {
-            const userInDb = await this._usersRepository.findOne({ userId: id });
+        let user = {} as User;
 
-            return userInDb;
-        }
+        if (id) user = await this.usersRepository.findOne({ userId: id });
+        if (email) user = await this.usersRepository.findOne({ email });
 
-        const userInDb = await this._usersRepository.findOne({ email });
+        if (!this.ALLOWED_STATUS.includes(user.inProgress.status)) HttpRequestErrors.throwError('invalid-user-status');
 
-        return userInDb;
+        return user;
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
-        this._logger('warn', 'Verify - VerifyEmailCodeMiddleware');
+        const callName = `[${this.constructor.name} - ${this.verify.name}]`;
+        this.logger('warn', callName);
 
         const { id } = req.params;
         const { email, code, flow } = req.query;
 
-        this._logger('info', `Code from Request is = ${code as string}`);
+        this.schemaValidator.entry(this.usersSchemas.postAuthenticateEmail.query, { email, code, flow });
 
-        const userRepository = await this._getUserToValidate(id, email as string);
+        this.logger('info', `Code from Request is = ${code as string}`);
 
-        this._logger('info', `Code in Database is = ${userRepository.inProgress.code}`);
-        this._logger('info', `User status = ${userRepository.inProgress.status}`);
+        const userValidated = await this.getUserToValidate(id, email as string);
 
-        if (!this._ALLOWED_STATUS.includes(userRepository.inProgress.status))
-            HttpRequestErrors.throwError('invalid-user-status');
+        this.logger('info', `${callName} -> Code in Database is = ${userValidated.inProgress.code}`);
+        this.logger('info', `${callName} -> User status = ${userValidated.inProgress.status}`);
 
-        if (code !== userRepository.inProgress.code) HttpRequestErrors.throwError('invalid-email-verify-code');
+        if (userValidated.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
-        const userVerified = await this._stateMachine.machine(flow as stateFlowsKeys, userRepository);
+        const userWithValidState = await this.stateMachine.machine(flow as stateFlowsKeys, userValidated);
 
-        let userDetails: any;
-
+        let userDetails = null;
         try {
-            const result = await this._usersDetailsRepository.findOne({
-                userId: userRepository.userId,
+            userDetails = await this.usersDetailsRepository.findOne({
+                userId: userWithValidState.userId,
             });
-
-            userDetails = result;
-        } catch (error) {
-            userDetails = { secretQuestion: '' };
+        } catch (error: any) {
+            if (error.code !== HttpStatusCode.NOT_FOUND) throw error;
         }
 
         res.locals = {
-            userId: userVerified.userId,
-            userStatus: userVerified.inProgress.status,
-            accountSecurityMethod: !userVerified.twoFactorSecret.active
-                ? `secret-question%${(userDetails.secretQuestion as UserSecretQuestion).question}`
+            userId: userWithValidState.userId,
+            userStatus: userWithValidState.inProgress.status,
+            accountSecurityMethod: !userWithValidState.twoFactorSecret.active
+                ? `secret-question%${userDetails?.secretQuestion?.question as string}`
                 : 'two-factor',
-            lastUpdate: userVerified.updatedAt,
+            lastUpdate: userWithValidState.updatedAt,
         };
 
         next();

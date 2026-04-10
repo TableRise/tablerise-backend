@@ -1,33 +1,33 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { RemoveCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class RemoveCampaignPlayersService {
-    private readonly _campaignsRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
         usersDetailsRepository,
         logger,
     }: CampaignCoreDependencies['removeCampaignPlayersServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
     }
 
     async removeCampaignPlayers({
         campaignId,
         userId,
     }: RemoveCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
-        this._logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
-        const campaign = await this._campaignsRepository.findOne({ campaignId });
+        this.logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        const userDetails = await this._usersDetailsRepository.findOne({ userId });
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
         const dungeonMaster = campaign.campaignPlayers.find((player) => player.role === 'dungeon_master');
 
         if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
@@ -41,13 +41,13 @@ export default class RemoveCampaignPlayersService {
         return { campaign, userDetails };
     }
 
-    async save(campaign: CampaignInstance, userDetails: UserDetailInstance): Promise<CampaignInstance> {
-        await this._usersDetailsRepository.update({
+    async save(campaign: Campaign, userDetails: UserDetail): Promise<Campaign> {
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,
         });
 
-        return this._campaignsRepository.update({
+        return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,
         });

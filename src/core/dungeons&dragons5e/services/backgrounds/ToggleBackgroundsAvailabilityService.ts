@@ -4,27 +4,27 @@ import { ToggleBackgroundsAvailabilityServiceContract } from 'src/types/modules/
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleBackgroundsAvailabilityService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: ToggleBackgroundsAvailabilityServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
-        this._logger('info', 'Toggle - ToggleBackgroundsAvailabilityService');
-        this._dungeonsAndDragonsRepository.setEntity('Backgrounds');
+        this.logger('info', 'Toggle - ToggleBackgroundsAvailabilityService');
+        this.dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
-        const backgroundInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const backgroundInDb = (await this.dungeonsAndDragonsRepository.findOne({
             backgroundId: id,
         })) as Internacional<Background>;
 
         backgroundInDb.active = availability;
 
-        await this._dungeonsAndDragonsRepository.update({
+        await this.dungeonsAndDragonsRepository.update({
             query: { backgroundId: id },
             payload: backgroundInDb,
         });

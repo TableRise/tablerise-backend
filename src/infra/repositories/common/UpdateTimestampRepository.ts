@@ -4,23 +4,23 @@ import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { UpdateTimestampPayload } from 'src/types/api/users/methods';
 
 export default class UpdateTimestampRepository {
-    private readonly _usersModel;
-    private readonly _usersDetailsModel;
-    private readonly _campaignsModel;
-    private readonly _charactersModel;
-    private readonly _logger;
+    private readonly usersModel;
+    private readonly usersDetailsModel;
+    private readonly campaignsModel;
+    private readonly charactersModel;
+    private readonly logger;
 
     constructor({ database, logger }: InfraDependencies['updateTimestampRepositoryContract']) {
-        this._usersModel = database.modelInstance('user', 'Users');
-        this._usersDetailsModel = database.modelInstance('user', 'UserDetails');
-        this._campaignsModel = database.modelInstance('campaign', 'Campaigns');
-        this._charactersModel = database.modelInstance('characterDnd', 'CharactersDnd');
+        this.usersModel = database.modelInstance('user', 'Users');
+        this.usersDetailsModel = database.modelInstance('user', 'UserDetails');
+        this.campaignsModel = database.modelInstance('campaign', 'Campaigns');
+        this.charactersModel = database.modelInstance('characterDnd', 'CharactersDnd');
 
-        this._logger = logger;
+        this.logger = logger;
     }
 
     public async updateTimestamp(query: UpdateTimestampPayload): Promise<void> {
-        this._logger('info', 'UpdateTimestamp - UpdateTimestampRepository');
+        this.logger('info', 'UpdateTimestamp - UpdateTimestampRepository');
 
         const updateMethods = {
             userId: this.updateToUserId,
@@ -40,37 +40,37 @@ export default class UpdateTimestampRepository {
     }
 
     public async updateToUserId(query: UpdateTimestampPayload): Promise<void> {
-        const userInDb = await this._usersModel.findOne(query);
+        const userInDb = await this.usersModel.findOne(query);
 
         userInDb.updatedAt = new Date().toISOString();
 
-        await this._usersModel.update({ userId: userInDb.userId }, userInDb);
+        await this.usersModel.update({ userId: userInDb.userId }, userInDb);
     }
 
     public async updateToUserDetail(query: UpdateTimestampPayload): Promise<void> {
-        const userDetailInDb = await this._usersDetailsModel.findOne(query);
-        const userInDb = await this._usersModel.findOne({
+        const userDetailInDb = await this.usersDetailsModel.findOne(query);
+        const userInDb = await this.usersModel.findOne({
             userId: userDetailInDb.userId,
         });
 
         userInDb.updatedAt = new Date().toISOString();
 
-        await this._usersModel.update({ userId: userInDb.userId }, userInDb);
+        await this.usersModel.update({ userId: userInDb.userId }, userInDb);
     }
 
     public async updateToCampaignId(query: UpdateTimestampPayload): Promise<void> {
-        const campaignInDb = await this._campaignsModel.findOne(query);
+        const campaignInDb = await this.campaignsModel.findOne(query);
 
         campaignInDb.updatedAt = new Date().toISOString();
 
-        await this._campaignsModel.update({ campaignId: campaignInDb.campaignId }, campaignInDb);
+        await this.campaignsModel.update({ campaignId: campaignInDb.campaignId }, campaignInDb);
     }
 
     public async updateToCharacterId(query: UpdateTimestampPayload): Promise<void> {
-        const characterInDb = await this._charactersModel.findOne(query);
+        const characterInDb = await this.charactersModel.findOne(query);
 
         characterInDb.updatedAt = new Date().toISOString();
 
-        await this._charactersModel.update({ characterId: characterInDb.characterId }, characterInDb);
+        await this.charactersModel.update({ characterId: characterInDb.characterId }, characterInDb);
     }
 }

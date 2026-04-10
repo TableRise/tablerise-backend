@@ -3,21 +3,21 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetAllRacesServiceContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetAllRaces';
 
 export default class GetAllRacesService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetAllRacesServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.getAll = this.getAll.bind(this);
     }
 
     public async getAll(): Promise<Array<Internacional<Race>>> {
-        this._logger('info', 'GetAll - GetAllRacesService');
-        this._dungeonsAndDragonsRepository.setEntity('Races');
+        this.logger('info', 'GetAll - GetAllRacesService');
+        this.dungeonsAndDragonsRepository.setEntity('Races');
 
-        const racesInDb = (await this._dungeonsAndDragonsRepository.find({
+        const racesInDb = (await this.dungeonsAndDragonsRepository.find({
             active: true,
         })) as Array<Internacional<Race>>;
 

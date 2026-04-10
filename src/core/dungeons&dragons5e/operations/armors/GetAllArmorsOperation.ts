@@ -3,18 +3,18 @@ import { Armor } from '@tablerise/database-management/dist/src/interfaces/Dungeo
 import { GetAllArmorsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/armors/GetAllArmors';
 
 export default class GetAllArmorsOperation {
-    private readonly _getAllArmorsService;
-    private readonly _logger;
+    private readonly getAllArmorsService;
+    private readonly logger;
 
     constructor({ getAllArmorsService, logger }: GetAllArmorsOperationContract) {
-        this._getAllArmorsService = getAllArmorsService;
-        this._logger = logger;
+        this.getAllArmorsService = getAllArmorsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Armor>>> {
-        this._logger('info', 'Execute - GetAllArmorsOperation');
-        return this._getAllArmorsService.getAll();
+        this.logger('info', 'Execute - GetAllArmorsOperation');
+        return this.getAllArmorsService.getAll();
     }
 }

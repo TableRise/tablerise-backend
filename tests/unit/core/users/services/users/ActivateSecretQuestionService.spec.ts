@@ -1,7 +1,6 @@
 import ActivateSecretQuestionService from 'src/core/users/services/users/ActivateSecretQuestionService';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -12,11 +11,11 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
     let activateSecretQuestionService: ActivateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        details: UserDetailInstance,
+        user: User,
+        details: UserDetail,
         payload: any,
         stateMachine: any,
-        userDetails: UserDetailInstance;
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 

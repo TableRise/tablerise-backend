@@ -1,13 +1,13 @@
 import sinon from 'sinon';
 import UpdateMatchMapImagesOperation from 'src/core/campaigns/operations/UpdateMatchMapImagesOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () => {
     let updateMatchMapImagesOperation: UpdateMatchMapImagesOperation,
         updateMatchMapImagesService: any,
         matchMapImagesPayload: any,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 

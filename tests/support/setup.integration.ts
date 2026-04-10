@@ -1,4 +1,5 @@
 import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import setup from 'src/container';
 import logger from '@tablerise/dynamic-logger';
@@ -12,7 +13,7 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 setup({ loadExt: 'ts' });
-chai.use(require('dirty-chai'));
+chai.use(dirtyChai);
 // @ts-expect-error Will create a new global property
 global.expect = chai.expect;
 

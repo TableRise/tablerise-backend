@@ -3,6 +3,7 @@ import CampaignsController from 'src/interface/campaigns/presentation/campaigns/
 import AuthorizationMiddleware from 'src/interface/users/middlewares/AuthorizationMiddleware';
 import ImageMiddleware from 'src/interface/common/middlewares/ImageMiddleware';
 import VerifyMatchMiddleware from 'src/interface/campaigns/middlewares/VerifyMatchMiddleware';
+import { ICampaignsSchemas } from './CampaignsSchemas';
 
 export interface CampaignsRoutesContract {
     campaignsController: CampaignsController;
@@ -10,4 +11,5 @@ export interface CampaignsRoutesContract {
     authorizationMiddleware: AuthorizationMiddleware;
     imageMiddleware: ImageMiddleware;
     verifyMatchMiddleware: VerifyMatchMiddleware;
+    campaignsSchemas: ICampaignsSchemas;
 }

@@ -2,28 +2,18 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { UpdateEmailPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateEmailOperation {
-    private readonly _updateEmailService;
-    private readonly _schemaValidator;
-    private readonly _usersSchema;
-    private readonly _logger;
+    private readonly updateEmailService;
+    private readonly logger;
 
-    constructor({
-        usersSchema,
-        updateEmailService,
-        schemaValidator,
-        logger,
-    }: UserCoreDependencies['updateEmailOperationContract']) {
-        this._updateEmailService = updateEmailService;
-        this._schemaValidator = schemaValidator;
-        this._usersSchema = usersSchema;
-        this._logger = logger;
+    constructor({ updateEmailService, logger }: UserCoreDependencies['updateEmailOperationContract']) {
+        this.updateEmailService = updateEmailService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ userId, email }: UpdateEmailPayload): Promise<void> {
-        this._logger('info', 'Execute - UpdateEmailOperation');
-        this._schemaValidator.entry(this._usersSchema.emailUpdateZod, { email });
-        await this._updateEmailService.update({ userId, email });
+        this.logger('info', 'Execute - UpdateEmailOperation');
+        await this.updateEmailService.update({ userId, email });
     }
 }

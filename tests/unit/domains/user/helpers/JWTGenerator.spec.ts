@@ -7,6 +7,10 @@ describe('Domains :: User :: Helpers :: JWTGenerator', () => {
     const [user] = DomainDataFaker.generateUsersJSON();
     user.userId = newUUID();
 
+    before(() => {
+        process.env.JWT_SECRET = 'test-secret-key-for-unit-tests';
+    });
+
     context('When a payload is provided to method', () => {
         it('should return a token', () => {
             token = JWTGenerator.generate(user);
@@ -15,8 +19,8 @@ describe('Domains :: User :: Helpers :: JWTGenerator', () => {
 
         it('should return a token - env undefined', () => {
             process.env.JWT_SECRET = '';
-            token = JWTGenerator.generate(user);
-            expect(typeof token).to.be.equal('string');
+            expect(() => JWTGenerator.generate(user)).to.throw('JWT_SECRET environment variable is required');
+            process.env.JWT_SECRET = 'test-secret-key-for-unit-tests';
         });
     });
 
@@ -30,10 +34,8 @@ describe('Domains :: User :: Helpers :: JWTGenerator', () => {
 
         it('should not throw any error and return the payload - env undefined', () => {
             process.env.JWT_SECRET = '';
-            const payload = JWTGenerator.verify(token);
-            expect(payload).to.have.property('userId');
-            expect(payload).to.have.property('providerId');
-            expect(payload).to.have.property('username');
+            expect(() => JWTGenerator.verify(token)).to.throw('JWT_SECRET environment variable is required');
+            process.env.JWT_SECRET = 'test-secret-key-for-unit-tests';
         });
     });
 

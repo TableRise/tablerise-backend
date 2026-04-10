@@ -4,27 +4,27 @@ import { ToggleClassesAvailabilityServiceContract } from 'src/types/modules/core
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleClassesAvailabilityService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: ToggleClassesAvailabilityServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.toggle = this.toggle.bind(this);
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Class>> {
-        this._logger('info', 'Toggle - ToggleClassesAvailabilityService');
-        this._dungeonsAndDragonsRepository.setEntity('Classes');
+        this.logger('info', 'Toggle - ToggleClassesAvailabilityService');
+        this.dungeonsAndDragonsRepository.setEntity('Classes');
 
-        const classInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const classInDb = (await this.dungeonsAndDragonsRepository.findOne({
             classId: id,
         })) as Internacional<Class>;
 
         classInDb.active = availability;
 
-        await this._dungeonsAndDragonsRepository.update({
+        await this.dungeonsAndDragonsRepository.update({
             query: { classId: id },
             payload: classInDb,
         });

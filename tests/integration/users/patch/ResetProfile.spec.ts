@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When game info of an user is reset', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {

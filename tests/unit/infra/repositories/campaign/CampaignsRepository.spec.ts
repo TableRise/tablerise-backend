@@ -4,14 +4,14 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
     let campaignsRepository: CampaignsRepository,
         updateTimestampRepository: any,
         database: any,
         serializer: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         query: any,
         createdCampaign: any,
         campaignToCreate: any,
@@ -63,7 +63,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                } as CampaignInstance;
+                } as Campaign;
 
                 database = {
                     modelInstance: () => ({ findOne: () => campaign }),
@@ -99,7 +99,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                } as CampaignInstance;
+                } as Campaign;
 
                 database = {
                     modelInstance: () => ({ findOne: () => null }),
@@ -168,7 +168,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                } as CampaignInstance;
+                } as Campaign;
 
                 database = {
                     modelInstance: () => ({ update: () => campaign }),
@@ -215,7 +215,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             before(() => {
                 campaign = {
                     campaignId,
-                } as CampaignInstance;
+                } as Campaign;
 
                 database = {
                     modelInstance: () => ({ update: () => null }),

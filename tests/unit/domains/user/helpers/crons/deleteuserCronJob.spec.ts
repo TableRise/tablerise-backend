@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 import deleteUserCronJob from 'src/domains/users/helpers/crons/deleteUserCronJob';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import * as daysDifference from 'src/domains/common/helpers/daysDifference';
 import cron from 'node-cron';
@@ -16,13 +15,13 @@ describe('Domains :: Users :: Helpers :: Crons :: DeleteuserConJob', () => {
             cronScheduleSpy: any,
             daysDifferenceSpy: any,
             scheduleTime: string,
-            user: UserInstance,
-            userDetails: UserDetailInstance,
-            userDetailsToExclude: UserDetailInstance,
-            users: UserInstance[],
+            user: User,
+            userDetails: UserDetail,
+            userDetailsToExclude: UserDetail,
+            users: User[],
             usersDetailsRepository: any,
             usersRepository: any,
-            userToExclude: UserInstance;
+            userToExclude: User;
 
         context('should delete users with more than 15 days with status wait_to_delete', () => {
             before(() => {

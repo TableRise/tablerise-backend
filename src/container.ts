@@ -5,9 +5,6 @@ import path from 'path';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
-import schemas from './domains/users/schemas';
-import campaignsSchemas from './domains/campaigns/schemas';
-import charactersSchemas from './domains/characters/schemas';
 import EmailSender from './domains/users/helpers/EmailSender';
 import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import Serializer from './domains/common/helpers/Serializer';
@@ -89,11 +86,6 @@ export default function setup(
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),
         managerCronJob: asClass(ManagerCronJob).singleton(),
-
-        // #Schemas
-        usersSchema: asValue(schemas),
-        campaignsSchema: asValue(campaignsSchemas),
-        charactersSchema: asValue(charactersSchemas),
 
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),

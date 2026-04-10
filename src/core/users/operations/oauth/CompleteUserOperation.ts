@@ -3,37 +3,29 @@ import { CompleteOAuth } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class CompleteUserOperation {
-    private readonly _usersSchema;
-    private readonly _schemaValidator;
-    private readonly _completeUserService;
-    private readonly _getUserByIdService;
-    private readonly _logger;
+    private readonly completeUserService;
+    private readonly getUserByIdService;
+    private readonly logger;
 
     constructor({
-        usersSchema,
         completeUserService,
         getUserByIdService,
-        schemaValidator,
         logger,
     }: OAuthCoreDependencies['completeUserOperationContract']) {
-        this._usersSchema = usersSchema;
-        this._schemaValidator = schemaValidator;
-        this._completeUserService = completeUserService;
-        this._getUserByIdService = getUserByIdService;
-        this._logger = logger;
+        this.completeUserService = completeUserService;
+        this.getUserByIdService = getUserByIdService;
+        this.logger = logger;
     }
 
     public async execute({ userId, payload }: CompleteOAuth): Promise<RegisterUserResponse> {
-        this._logger('info', 'Execute - CompleteUserOperation');
-        this._schemaValidator.entry(this._usersSchema.oAuthComplete, payload);
-
-        const { details, ...user } = await this._getUserByIdService.get({ userId });
-        const { user: mainUser, userDetails } = await this._completeUserService.process(
+        this.logger('info', 'Execute - CompleteUserOperation');
+        const { details, ...user } = await this.getUserByIdService.get({ userId });
+        const { user: mainUser, userDetails } = await this.completeUserService.process(
             { user, userDetails: details },
             payload
         );
 
-        return this._completeUserService.save({
+        return this.completeUserService.save({
             userId,
             user: mainUser,
             userDetails,

@@ -1,17 +1,16 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
 import { InjectNewCharacter, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When some character is updated', () => {
-    let user: UserInstance, userDetails: UserDetailInstance, character: CharacterInstance, characterId: string;
+    let user: User, userDetails: UserDetail, character: CharactersDnd, characterId: string;
 
     context('And all data is correct', () => {
         before(async () => {
@@ -19,7 +18,7 @@ describe('When some character is updated', () => {
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
             character = CharacterDomainDataFaker.generateCharactersJSON()[0];
 
-            characterId = character.characterId as string;
+            characterId = character.characterId;
 
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
@@ -49,7 +48,7 @@ describe('When some character is updated', () => {
             };
 
             const { body } = await requester()
-                .put(`/characters/${characterId}`)
+                .put(`/characters/${characterId}/update`)
                 .send(characterUpdatePayload)
                 .expect(HttpStatusCode.OK);
 

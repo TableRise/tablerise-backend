@@ -16,6 +16,7 @@ import { StateMachineFlowsMiddlewareContract } from './common/middlewares/StateM
 import { CharactersRoutesContract } from './characters/presentation/characters/CharactersRoutes';
 import { CharactersControllerContract } from './characters/presentation/characters/CharactersController';
 import { CharactersRoutesMiddlewareContract } from './characters/middlewares/CharactersRoutesMiddleware';
+import { LoginPassportContract } from './users/strategies/LocalStrategy';
 
 export default interface InterfaceDependencies {
     // <--------- USERS DOMAIN --------->
@@ -30,6 +31,7 @@ export default interface InterfaceDependencies {
     verifyEmailCodeMiddlewareContract: VerifyEmailCodeMiddlewareContract;
     campaignsRoutesMiddlewareContract: CampaignsRoutesMiddlewareContract;
     verifyUserMiddlewareContract: VerifyUserMiddlewareContract;
+    localStrategy: LoginPassportContract;
 
     // Routes and Controllers
     campaignsRoutesContract: CampaignsRoutesContract;

@@ -6,13 +6,13 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateEmailService', () => {
     let updateEmailService: UpdateEmailService,
-        user: UserInstance,
-        newUser: UserInstance,
+        user: User,
+        newUser: User,
         usersRepository: any,
         updateEmailPayload: any;
 

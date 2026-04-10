@@ -2,7 +2,7 @@ import path from 'path';
 import ResetTwoFactorService from 'src/core/users/services/users/ResetTwoFactorService';
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import StateMachine from 'src/domains/common/StateMachine';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
@@ -14,7 +14,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
     let resetTwoFactorService: ResetTwoFactorService,
         usersRepository: any,
         twoFactorHandler: TwoFactorHandler,
-        user: UserInstance;
+        user: User;
 
     const logger = (): void => {};
 

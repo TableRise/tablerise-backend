@@ -4,14 +4,14 @@ import UpdateGameInfoService from 'src/core/users/services/users/UpdateGameInfoS
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
     let updateGameInfoService: UpdateGameInfoService,
         usersDetailsRepository: any,
-        userDetails: UserDetailInstance,
-        newUserDetails: UserDetailInstance,
+        userDetails: UserDetail,
+        newUserDetails: UserDetail,
         updateGameInfoPayload: any;
 
     const logger = (): void => {};

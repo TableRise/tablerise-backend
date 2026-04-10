@@ -30,6 +30,14 @@ describe('Domains :: Common :: Helpers :: TokenForbidden', () => {
             expect(spyFuncOne).to.have.been.called();
             expect(spyFuncTwo).to.have.been.called();
         });
+
+        it('Should return early when TEST_TYPE is integration', async () => {
+            const prevTestType = process.env.TEST_TYPE;
+            process.env.TEST_TYPE = 'integration';
+            await tokenForbidden.addToken(token);
+            expect(spyFuncOne.callCount).to.be.equal(1);
+            process.env.TEST_TYPE = prevTestType;
+        });
     });
 
     context('#verifyForbiddenToken - no forbidden', () => {

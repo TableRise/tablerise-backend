@@ -1,82 +1,77 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { updateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class UpdateCharacterService {
-    private readonly _charactersRepository;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly logger;
 
     constructor({ charactersRepository, logger }: CharacterCoreDependencies['updateCharacterServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.logger = logger;
 
         this.update = this.update.bind(this);
     }
 
-    async update({ characterId, payload }: updateCharacterPayload): Promise<CharacterInstance> {
-        this._logger('info', 'UpdateCharacterService - Update');
+    async update({ characterId, payload }: updateCharacterPayload): Promise<CharactersDnd> {
+        this.logger('info', 'UpdateCharacterService - Update');
 
-        const characterInDb = await this._charactersRepository.findOne({ characterId });
+        const characterInDb = await this.charactersRepository.findOne({ characterId });
+        const { profile: profilePayload, stats: statsPayload, money: moneyPayload } = payload.data;
 
-        if (!payload.data.profile.characteristics) payload.data.profile.characteristics = {} as any;
-        if (!payload.data.profile.characteristics.appearance)
-            payload.data.profile.characteristics.appearance = {} as any;
-        if (!payload.data.profile.characteristics.other) payload.data.profile.characteristics.other = {} as any;
-        if (!payload.data.stats.hitPoints) payload.data.stats.hitPoints = {} as any;
-        if (!payload.data.stats.deathSaves) payload.data.stats.deathSaves = {} as any;
-        if (!payload.data.stats.spellCasting) payload.data.stats.spellCasting = {} as any;
+        const dbProfile = characterInDb.data.profile;
+        const dbStats = characterInDb.data.stats;
+        const dbCharacteristics = dbProfile?.characteristics ?? ({} as any);
+        const characteristicsPayload = profilePayload?.characteristics;
 
-        const characterToUpdate = {
+        const characterToUpdate: CharactersDnd = {
             ...characterInDb,
             data: {
                 ...characterInDb.data,
-                ...payload.data,
                 profile: {
-                    ...characterInDb.data.profile,
-                    ...payload.data.profile,
+                    ...dbProfile,
+                    ...(profilePayload ?? {}),
                     characteristics: {
-                        ...characterInDb.data.profile.characteristics,
-                        ...payload.data.profile.characteristics,
+                        ...dbCharacteristics,
+                        ...(characteristicsPayload ?? {}),
                         appearance: {
-                            ...characterInDb.data.profile.characteristics.appearance,
-                            ...payload.data.profile.characteristics.appearance,
+                            ...(dbCharacteristics.appearance ?? {}),
+                            ...(characteristicsPayload?.appearance ?? {}),
                         },
                         other: {
-                            ...characterInDb.data.profile.characteristics.other,
-                            ...payload.data.profile.characteristics.other,
+                            ...(dbCharacteristics.other ?? {}),
+                            ...(characteristicsPayload?.other ?? {}),
                         },
+                        alliesAndOrgs: dbCharacteristics.alliesAndOrgs,
+                        treasure: dbCharacteristics.treasure,
                     },
                 },
                 stats: {
-                    ...characterInDb.data.stats,
-                    ...payload.data.stats,
+                    ...dbStats,
+                    ...(statsPayload ?? {}),
                     hitPoints: {
-                        ...characterInDb.data.stats.hitPoints,
-                        ...payload.data.stats.hitPoints,
+                        ...(dbStats?.hitPoints ?? {}),
+                        ...(statsPayload?.hitPoints ?? {}),
                     },
                     deathSaves: {
-                        ...characterInDb.data.stats.deathSaves,
-                        ...payload.data.stats.deathSaves,
+                        ...(dbStats?.deathSaves ?? {}),
+                        ...(statsPayload?.deathSaves ?? {}),
                     },
                     spellCasting: {
-                        ...characterInDb.data.stats.spellCasting,
-                        ...payload.data.stats.spellCasting,
+                        ...(dbStats?.spellCasting ?? {}),
+                        ...(statsPayload?.spellCasting ?? {}),
                     },
+                    abilityScores: dbStats?.abilityScores,
+                    skills: dbStats?.skills,
                 },
                 money: {
-                    ...characterInDb.data.money,
-                    ...payload.data.money,
+                    ...(characterInDb.data.money ?? {}),
+                    ...(moneyPayload ?? {}),
                 },
             },
         };
 
-        characterToUpdate.data.profile.characteristics.alliesAndOrgs =
-            characterInDb.data.profile.characteristics.alliesAndOrgs;
-        characterToUpdate.data.profile.characteristics.treasure = characterInDb.data.profile.characteristics.treasure;
-        characterToUpdate.data.stats.abilityScores = characterInDb.data.stats.abilityScores;
-        characterToUpdate.data.stats.skills = characterInDb.data.stats.skills;
-
-        return this._charactersRepository.update({
+        return this.charactersRepository.update({
             query: { characterId },
             payload: characterToUpdate,
         });

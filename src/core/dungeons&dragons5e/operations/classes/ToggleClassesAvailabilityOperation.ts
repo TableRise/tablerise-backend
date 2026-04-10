@@ -4,19 +4,19 @@ import { ToggleClassesAvailabilityOperationContract } from 'src/types/modules/co
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleClassesAvailabilityOperation {
-    private readonly _toggleClassesAvailabilityService;
-    private readonly _logger;
+    private readonly toggleClassesAvailabilityService;
+    private readonly logger;
 
     constructor({ toggleClassesAvailabilityService, logger }: ToggleClassesAvailabilityOperationContract) {
-        this._toggleClassesAvailabilityService = toggleClassesAvailabilityService;
-        this._logger = logger;
+        this.toggleClassesAvailabilityService = toggleClassesAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Class>> {
-        this._logger('info', 'Execute - GetClassOperation');
-        const classes = await this._toggleClassesAvailabilityService.toggle({
+        this.logger('info', 'Execute - GetClassOperation');
+        const classes = await this.toggleClassesAvailabilityService.toggle({
             id,
             availability,
         });

@@ -6,28 +6,28 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class CompleteUserService {
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly logger;
 
     constructor({
         usersRepository,
         usersDetailsRepository,
         logger,
     }: OAuthCoreDependencies['completeUserServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.logger = logger;
 
         this.process = this.process.bind(this);
         this.save = this.save.bind(this);
     }
 
     public async process({ user, userDetails }: __FullUser, payload: CompleteOAuthPayload): Promise<__FullUser> {
-        this._logger('info', 'Process - CompleteUserService');
+        this.logger('info', 'Process - CompleteUserService');
         user.nickname = payload.nickname;
 
-        const nicknameExists = await this._usersRepository.find({
+        const nicknameExists = await this.usersRepository.find({
             nickname: user.nickname,
             tag: user.tag,
         });
@@ -44,13 +44,13 @@ export default class CompleteUserService {
     }
 
     public async save({ userId, user, userDetails }: __UserWithID): Promise<RegisterUserResponse> {
-        this._logger('info', 'Save - CompleteUserService');
-        const userUpdated = await this._usersRepository.update({
+        this.logger('info', 'Save - CompleteUserService');
+        const userUpdated = await this.usersRepository.update({
             query: { userId },
             payload: user,
         });
 
-        const userDetailsUpdated = await this._usersDetailsRepository.update({
+        const userDetailsUpdated = await this.usersDetailsRepository.update({
             query: { userId },
             payload: userDetails,
         });

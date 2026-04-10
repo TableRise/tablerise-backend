@@ -2,25 +2,26 @@
 import passport from 'passport';
 import Local from 'passport-local';
 import { ZodError, ZodIssue } from 'zod';
-
-import { userLoginZodSchema } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 const NOT_ALLOWED_STATUS_TO_LOGIN = ['wait-to-delete-user'];
 const LocalStrategy = Local.Strategy;
 
 export default class LoginPassport {
-    private readonly _schemaValidator;
-    private readonly _usersRepository;
+    private readonly schemaValidator;
+    private readonly usersRepository;
+    private readonly usersSchemas;
 
-    constructor({ schemaValidator, usersRepository }: any) {
-        this._schemaValidator = schemaValidator;
-        this._usersRepository = usersRepository;
+    constructor({ schemaValidator, usersRepository, usersSchemas }: InterfaceDependencies['localStrategy']) {
+        this.schemaValidator = schemaValidator;
+        this.usersRepository = usersRepository;
+        this.usersSchemas = usersSchemas;
     }
 
     localStrategy(): void {
@@ -33,7 +34,7 @@ export default class LoginPassport {
                 async (email, password, done) => {
                     logger('warn', 'LocalStrategy used to login the user');
 
-                    const isDataInvalid = this._schemaValidator.entryReturn(userLoginZodSchema, {
+                    const isDataInvalid = this.schemaValidator.entryReturn(this.usersSchemas.postLogin.body, {
                         email,
                         password,
                     }) as ZodError;
@@ -54,7 +55,7 @@ export default class LoginPassport {
                         );
 
                     try {
-                        const user = await this._usersRepository.findOne({ email });
+                        const user = await this.usersRepository.findOne({ email });
 
                         if (!user)
                             return done(

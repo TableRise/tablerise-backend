@@ -7,12 +7,12 @@ import { GodsRoutesContract } from 'src/types/modules/interface/dungeons&dragons
 const BASE_PATH = '/system/dnd5e/gods';
 
 export default class GodsRoutes {
-    private readonly _godsController;
-    private readonly _verifyIdMiddleware;
+    private readonly godsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ godsController, verifyIdMiddleware }: GodsRoutesContract) {
-        this._godsController = godsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.godsController = godsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class GodsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._godsController.getAll,
+                controller: this.godsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
@@ -29,7 +29,7 @@ export default class GodsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._godsController.getDisabled,
+                controller: this.godsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
@@ -39,9 +39,9 @@ export default class GodsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._godsController.get,
+                controller: this.godsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
                 },
             },
@@ -52,9 +52,9 @@ export default class GodsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._godsController.toggleAvailability,
+                controller: this.godsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'gods',
                 },
             },

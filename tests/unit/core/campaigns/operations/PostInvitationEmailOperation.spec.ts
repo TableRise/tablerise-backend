@@ -1,16 +1,15 @@
 import sinon from 'sinon';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () => {
     let postInvitationEmailOperation: PostInvitationEmailOperation,
         postInvitationEmailService: any,
         getCampaignByIdService: any,
-        schemaValidator: any,
-        campaign: CampaignInstance,
-        campaignsSchema: any,
+        usersRepository: any,
+        campaign: Campaign,
         payload: any;
 
     const logger = (): void => {};
@@ -34,19 +33,14 @@ describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () =
                 username: 'joaquim',
             };
 
-            campaignsSchema = {
-                campaignInvitationEmail: {},
-            };
-
-            schemaValidator = {
-                entry: sinon.spy(() => {}),
+            usersRepository = {
+                findOne: sinon.spy(() => ({ userId: '123', nickname: 'user' })),
             };
 
             postInvitationEmailOperation = new PostInvitationEmailOperation({
                 postInvitationEmailService,
                 getCampaignByIdService,
-                schemaValidator,
-                campaignsSchema,
+                usersRepository,
                 logger,
             });
         });

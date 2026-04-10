@@ -1,20 +1,20 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterAutomationBuilders from 'src/domains/characters/helpers/CharacterAutomationBuilders';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { RPGRulesDatabase } from 'src/types/shared/repository';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class CreateCharacterService {
-    private readonly _charactersRepository;
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _serializer;
-    private readonly _logger;
+    private readonly charactersRepository;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly serializer;
+    private readonly logger;
 
     constructor({
         charactersRepository,
@@ -24,52 +24,54 @@ export default class CreateCharacterService {
         serializer,
         logger,
     }: CharacterCoreDependencies['createCharacterServiceContract']) {
-        this._charactersRepository = charactersRepository;
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._serializer = serializer;
-        this._logger = logger;
+        this.charactersRepository = charactersRepository;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.serializer = serializer;
+        this.logger = logger;
 
         this.serialize = this.serialize.bind(this);
     }
 
-    private validateForbiddenKeys(payload: CharacterInstance): void {
-        const isLevelPresent = payload.data.profile.level;
-        const isXpPresent = payload.data.profile.xp;
-        const isAbilityScoresPresent = payload.data.stats.abilityScores;
-        const isDeathSavesPresent = payload.data.stats.deathSaves;
-        const isMoneyPresent = payload.data.money;
-        const isSpellsPresent = payload.data.spells;
+    private validateForbiddenKeys(payload: Partial<CharactersDnd>): void {
+        if (payload.data) {
+            const isLevelPresent = payload.data.profile.level;
+            const isXpPresent = payload.data.profile.xp;
+            const isAbilityScoresPresent = payload.data.stats.abilityScores;
+            const isDeathSavesPresent = payload.data.stats.deathSaves;
+            const isMoneyPresent = payload.data.money;
+            const isSpellsPresent = payload.data.spells;
 
-        const forbiddenKeys = [
-            isLevelPresent,
-            isXpPresent,
-            isAbilityScoresPresent,
-            isDeathSavesPresent,
-            isMoneyPresent,
-            isSpellsPresent,
-        ];
+            const forbiddenKeys = [
+                isLevelPresent,
+                isXpPresent,
+                isAbilityScoresPresent,
+                isDeathSavesPresent,
+                isMoneyPresent,
+                isSpellsPresent,
+            ];
 
-        const someExists = forbiddenKeys.some((forbidKeys) => forbidKeys !== undefined);
+            const someExists = forbiddenKeys.some((forbidKeys) => forbidKeys !== undefined);
 
-        if (someExists) HttpRequestErrors.throwError('save-forbidden-content');
+            if (someExists) HttpRequestErrors.throwError('save-forbidden-content');
+        }
     }
 
-    public serialize(payload: CreateCharacterPayload): CharacterInstance {
-        this._logger('info', 'Serialize - CreateCharacterService');
-        const characterSerialized = this._serializer.postCharacter(payload.payload);
+    public serialize(payload: CreateCharacterPayload): CharactersDnd {
+        this.logger('info', 'Serialize - CreateCharacterService');
+        const characterSerialized = this.serializer.postCharacter(payload.payload);
 
         this.validateForbiddenKeys(characterSerialized);
 
-        return characterSerialized;
+        return characterSerialized as CharactersDnd;
     }
 
-    public async enrichment(payload: CharacterInstance, userId: string): Promise<CharactersDnd> {
-        this._logger('info', 'Enrichment - CreateCharacterService');
+    public async enrichment(payload: CharactersDnd, userId: string): Promise<CharactersDnd> {
+        this.logger('info', 'Enrichment - CreateCharacterService');
 
-        const userInDb = await this._usersRepository.findOne({ userId });
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({ userId });
+        const userInDb = await this.usersRepository.findOne({ userId });
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
 
         payload.author = {
             userId,
@@ -178,9 +180,9 @@ export default class CreateCharacterService {
         };
 
         payload.data.stats.skills = {};
-        payload.picture = null;
-        payload.data.profile.characteristics.appearance.picture = null;
-        payload.data.profile.characteristics.alliesAndOrgs[0].symbol = null;
+        payload.picture = null as unknown as ImageObject;
+        payload.data.profile.characteristics.appearance.picture = null as unknown as ImageObject;
+        payload.data.profile.characteristics.alliesAndOrgs[0].symbol = null as unknown as ImageObject;
         payload.data.createdAt = new Date().toISOString();
         payload.data.updatedAt = new Date().toISOString();
         payload.createdAt = new Date().toISOString();
@@ -193,14 +195,14 @@ export default class CreateCharacterService {
             },
         ];
 
-        return payload as CharactersDnd;
+        return payload;
     }
 
     public async automation(character: CharactersDnd): Promise<CharactersDnd> {
-        this._dungeonsAndDragonsRepository.setEntity('Races');
+        this.dungeonsAndDragonsRepository.setEntity('Races');
 
         const characterRace = character.data.profile.race;
-        const dndRulesRaces = (await this._dungeonsAndDragonsRepository.findOne({
+        const dndRulesRaces = (await this.dungeonsAndDragonsRepository.findOne({
             'en.name': characterRace,
         })) as RPGRulesDatabase<Race>;
 
@@ -215,22 +217,22 @@ export default class CreateCharacterService {
         return characterAbilityScoresAutomated;
     }
 
-    public async save(character: CharacterInstance): Promise<CharacterInstance> {
-        this._logger('info', 'Save - CreateCharacterService');
+    public async save(character: CharactersDnd): Promise<CharactersDnd> {
+        this.logger('info', 'Save - CreateCharacterService');
         const characterId = newUUID();
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: character.author.userId,
         });
 
         userDetailsInDb.gameInfo.characters.push(characterId);
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userId: character.author.userId },
             payload: userDetailsInDb,
         });
 
         character.characterId = characterId;
 
-        return this._charactersRepository.create(character);
+        return this.charactersRepository.create(character);
     }
 }

@@ -1,37 +1,26 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { publishmentPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class PublishmentOperation {
-    private readonly _publishmentService;
-    private readonly _schemaValidator;
-    private readonly _campaignsSchema;
-    private readonly _logger;
+    private readonly publishmentService;
+    private readonly logger;
 
-    constructor({
-        publishmentService,
-        schemaValidator,
-        campaignsSchema,
-        logger,
-    }: CampaignCoreDependencies['publishmentOperationContract']) {
-        this._publishmentService = publishmentService;
-        this._schemaValidator = schemaValidator;
-        this._campaignsSchema = campaignsSchema;
-        this._logger = logger;
+    constructor({ publishmentService, logger }: CampaignCoreDependencies['publishmentOperationContract']) {
+        this.publishmentService = publishmentService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    async execute({ campaignId, userId, payload }: publishmentPayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - publishmentOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignPost, payload);
-
-        const campaignWithPost = await this._publishmentService.addPost({
+    async execute({ campaignId, userId, payload }: publishmentPayload): Promise<Campaign> {
+        this.logger('info', 'Execute - publishmentOperation');
+        const campaignWithPost = await this.publishmentService.addPost({
             campaignId,
             userId,
             payload,
         });
 
-        return this._publishmentService.save(campaignWithPost);
+        return this.publishmentService.save(campaignWithPost);
     }
 }

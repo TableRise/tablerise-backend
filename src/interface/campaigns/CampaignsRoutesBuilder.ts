@@ -6,23 +6,23 @@ import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
 const router = Router();
 
 export default class CampaignsRoutesBuilder {
-    private readonly _campaignsRoutes;
-    private readonly _verifyUserMiddleware;
+    private readonly campaignsRoutes;
+    private readonly verifyUserMiddleware;
 
     constructor({ campaignsRoutes, verifyUserMiddleware }: CampaignsRoutesBuilderContract) {
-        this._campaignsRoutes = campaignsRoutes;
-        this._verifyUserMiddleware = verifyUserMiddleware;
+        this.campaignsRoutes = campaignsRoutes;
+        this.verifyUserMiddleware = verifyUserMiddleware;
     }
 
-    private _campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
+    private campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
         const campaignRoutesToBuild = bindMiddleware(
-            this._verifyUserMiddleware.userStatus,
-            this._campaignsRoutes.routes(),
+            this.verifyUserMiddleware.userStatus,
+            this.campaignsRoutes.routes(),
             { addMethod: 'push' }
         );
 
         const campaignRoutes = buildRouter(campaignRoutesToBuild, router);
-        const campaignSwagger = this._campaignsRoutes.routes();
+        const campaignSwagger = this.campaignsRoutes.routes();
 
         return { campaignRoutes, campaignSwagger };
     }
@@ -31,9 +31,9 @@ export default class CampaignsRoutesBuilder {
         campaignsSwagger: routeInstance[];
         campaignsRoutes: { campaign: Router };
     } {
-        const campaignsSwagger = [...this._campaign().campaignSwagger];
+        const campaignsSwagger = [...this.campaign().campaignSwagger];
         const campaignsRoutes = {
-            campaign: this._campaign().campaignRoutes,
+            campaign: this.campaign().campaignRoutes,
         };
 
         return { campaignsSwagger, campaignsRoutes };

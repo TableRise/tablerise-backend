@@ -2,21 +2,21 @@ import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/respon
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class GetCampaignsByUserIdOperation {
-    private readonly _getCampaignsByUserIdService: any;
-    private readonly _logger: any;
+    private readonly getCampaignsByUserIdService: any;
+    private readonly logger: any;
 
     constructor({
         getCampaignsByUserIdService,
         logger,
     }: CampaignCoreDependencies['getCampaignsByUserIdOperationContract']) {
-        this._getCampaignsByUserIdService = getCampaignsByUserIdService;
-        this._logger = logger;
+        this.getCampaignsByUserIdService = getCampaignsByUserIdService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(userId: string): Promise<GetCampaignByUserIdResponse> {
-        this._logger('info', 'Execute - GetCampaignsByUserIdOperation');
-        return this._getCampaignsByUserIdService.getByUserId(userId);
+        this.logger('info', 'Execute - GetCampaignsByUserIdOperation');
+        return this.getCampaignsByUserIdService.getByUserId(userId);
     }
 }

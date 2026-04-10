@@ -7,12 +7,12 @@ import { RealmsRoutesContract } from 'src/types/modules/interface/dungeons&drago
 const BASE_PATH = '/system/dnd5e/realms';
 
 export default class RealmsRoutes {
-    private readonly _RealmsController;
-    private readonly _verifyIdMiddleware;
+    private readonly RealmsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ realmsController, verifyIdMiddleware }: RealmsRoutesContract) {
-        this._RealmsController = realmsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.RealmsController = realmsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -20,7 +20,7 @@ export default class RealmsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._RealmsController.getAll,
+                controller: this.RealmsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
@@ -29,7 +29,7 @@ export default class RealmsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._RealmsController.getDisabled,
+                controller: this.RealmsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
@@ -39,9 +39,9 @@ export default class RealmsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._RealmsController.get,
+                controller: this.RealmsController.get,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
                 },
             },
@@ -52,9 +52,9 @@ export default class RealmsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._RealmsController.toggleAvailability,
+                controller: this.RealmsController.toggleAvailability,
                 options: {
-                    middlewares: [this._verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'realms',
                 },
             },

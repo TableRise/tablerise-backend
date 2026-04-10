@@ -1,7 +1,6 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DeleteUserService from 'src/core/users/services/users/DeleteUserService';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { throwErrorAssert } from 'tests/support/throwErrorAssertion';
@@ -15,11 +14,11 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
         usersRepository: any,
         stateMachine: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userUpdated: UserInstance,
+        user: User,
+        userUpdated: User,
         message: string,
         code: number,
-        userDetails: UserDetailInstance;
+        userDetails: UserDetail;
 
     const logger = sinon.spy((): void => {});
 

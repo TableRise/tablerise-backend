@@ -3,10 +3,10 @@ import Route, { RouteDeclarations } from 'src/types/modules/interface/common/Rou
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
 export default class RoutesWrapper {
-    private readonly _dungeonsAndDragonsRoutesBuilder;
-    private readonly _usersRoutesBuilder;
-    private readonly _campaignsRoutesBuilder;
-    private readonly _charactersRoutesBuilder;
+    private readonly dungeonsAndDragonsRoutesBuilder;
+    private readonly usersRoutesBuilder;
+    private readonly campaignsRoutesBuilder;
+    private readonly charactersRoutesBuilder;
 
     constructor({
         dungeonsAndDragonsRoutesBuilder,
@@ -14,28 +14,28 @@ export default class RoutesWrapper {
         campaignsRoutesBuilder,
         charactersRoutesBuilder,
     }: InterfaceDependencies['routesWrapperContract']) {
-        this._dungeonsAndDragonsRoutesBuilder = dungeonsAndDragonsRoutesBuilder;
-        this._usersRoutesBuilder = usersRoutesBuilder;
-        this._campaignsRoutesBuilder = campaignsRoutesBuilder;
-        this._charactersRoutesBuilder = charactersRoutesBuilder;
+        this.dungeonsAndDragonsRoutesBuilder = dungeonsAndDragonsRoutesBuilder;
+        this.usersRoutesBuilder = usersRoutesBuilder;
+        this.campaignsRoutesBuilder = campaignsRoutesBuilder;
+        this.charactersRoutesBuilder = charactersRoutesBuilder;
     }
 
     public routes(): Route {
         return {
-            'dungeons&dragons5e': this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
-            user: this._usersRoutesBuilder.get().usersRoutes,
-            campaign: this._campaignsRoutesBuilder.get().campaignsRoutes,
-            character: this._charactersRoutesBuilder.get().charactersRoutes,
+            'dungeons&dragons5e': this.dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsRoutes,
+            user: this.usersRoutesBuilder.get().usersRoutes,
+            campaign: this.campaignsRoutesBuilder.get().campaignsRoutes,
+            character: this.charactersRoutesBuilder.get().charactersRoutes,
         };
     }
 
     // prettier-ignore
     public declareRoutes(): RouteDeclarations {
     return {
-            'dungeons&dragons5e': [...this._dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsSwagger ],
-            user: [ ...this._usersRoutesBuilder.get().usersSwagger ],
-            campaign: [ ...this._campaignsRoutesBuilder.get().campaignsSwagger ],
-            character: [ ...this._charactersRoutesBuilder.get().charactersSwagger ]
+            'dungeons&dragons5e': [...this.dungeonsAndDragonsRoutesBuilder.get().dungeonsAndDragonsSwagger ],
+            user: [ ...this.usersRoutesBuilder.get().usersSwagger ],
+            campaign: [ ...this.campaignsRoutesBuilder.get().campaignsSwagger ],
+            character: [ ...this.charactersRoutesBuilder.get().charactersSwagger ]
         };
     }
 }

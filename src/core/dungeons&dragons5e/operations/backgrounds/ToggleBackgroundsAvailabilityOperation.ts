@@ -4,19 +4,19 @@ import { ToggleBackgroundsAvailabilityOperationContract } from 'src/types/module
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleBackgroundsAvailabilityOperation {
-    private readonly _toggleBackgroundsAvailabilityService;
-    private readonly _logger;
+    private readonly toggleBackgroundsAvailabilityService;
+    private readonly logger;
 
     constructor({ toggleBackgroundsAvailabilityService, logger }: ToggleBackgroundsAvailabilityOperationContract) {
-        this._toggleBackgroundsAvailabilityService = toggleBackgroundsAvailabilityService;
-        this._logger = logger;
+        this.toggleBackgroundsAvailabilityService = toggleBackgroundsAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
-        this._logger('info', 'Execute - GetBackgroundOperation');
-        const backgrounds = await this._toggleBackgroundsAvailabilityService.toggle({
+        this.logger('info', 'Execute - GetBackgroundOperation');
+        const backgrounds = await this.toggleBackgroundsAvailabilityService.toggle({
             id,
             availability,
         });

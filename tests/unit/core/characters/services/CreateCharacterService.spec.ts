@@ -70,6 +70,30 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             });
         });
 
+        context('When a character payload has no data property', () => {
+            before(() => {
+                characterPayloadMock = DomainDataFaker.mocks.createCharacterMock;
+
+                serializer = {
+                    postCharacter: () => ({}),
+                };
+
+                createCharacterService = new CreateCharacterService({
+                    charactersRepository,
+                    usersRepository,
+                    dungeonsAndDragonsRepository,
+                    usersDetailsRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should serialize without error when data is absent', () => {
+                const characterTest = createCharacterService.serialize(characterPayloadMock);
+                expect(characterTest).to.deep.equal({});
+            });
+        });
+
         context('When a character is not successfully serialized - forbidden keys', () => {
             before(() => {
                 characterMock = DomainDataFaker.generateCharactersJSON()[0];

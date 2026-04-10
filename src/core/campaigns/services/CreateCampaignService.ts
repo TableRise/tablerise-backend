@@ -8,14 +8,13 @@ import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { FileObject } from 'src/types/shared/file';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export default class CreateCampaignService {
-    private readonly _campaignsRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _serializer;
-    private readonly _imageStorageClient;
-    private readonly _logger;
+    private readonly campaignsRepository;
+    private readonly usersDetailsRepository;
+    private readonly serializer;
+    private readonly imageStorageClient;
+    private readonly logger;
 
     constructor({
         campaignsRepository,
@@ -24,11 +23,11 @@ export default class CreateCampaignService {
         serializer,
         imageStorageClient,
     }: CampaignCoreDependencies['createCampaignServiceContract']) {
-        this._campaignsRepository = campaignsRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._serializer = serializer;
-        this._imageStorageClient = imageStorageClient;
-        this._logger = logger;
+        this.campaignsRepository = campaignsRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.serializer = serializer;
+        this.imageStorageClient = imageStorageClient;
+        this.logger = logger;
 
         this.enrichment = this.enrichment.bind(this);
         this.save = this.save.bind(this);
@@ -36,12 +35,12 @@ export default class CreateCampaignService {
     }
 
     public async serialize(campaign: CampaignPayload): Promise<__CampaignSerialized> {
-        this._logger('info', 'Serialize - CreateCampaignService');
-        return this._serializer.postCampaign(campaign);
+        this.logger('info', 'Serialize - CreateCampaignService');
+        return this.serializer.postCampaign(campaign);
     }
 
     public async enrichment(campaign: __FullCampaign, userId: string, image?: FileObject): Promise<__CampaignEnriched> {
-        this._logger('info', 'Enrichment - CreateCampaignService');
+        this.logger('info', 'Enrichment - CreateCampaignService');
 
         campaign.campaignPlayers = [
             {
@@ -55,7 +54,7 @@ export default class CreateCampaignService {
         delete campaign.visibility;
 
         if (image) {
-            campaign.cover = await this._imageStorageClient.upload(image);
+            campaign.cover = await this.imageStorageClient.upload(image);
         } else {
             delete campaign.cover;
         }
@@ -70,25 +69,25 @@ export default class CreateCampaignService {
         return campaign;
     }
 
-    public async save(campaign: __FullCampaign): Promise<__CampaignSaved> {
-        this._logger('info', 'Save - CreateCampaignService');
-        const userDetailsInDb = await this._usersDetailsRepository.findOne({
+    public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {
+        this.logger('info', 'Save - CreateCampaignService');
+        const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: campaign.campaignPlayers[0].userId,
         });
 
-        const campaignCreated = await this._campaignsRepository.create({
+        const campaignCreated = await this.campaignsRepository.create({
             ...campaign,
         });
 
         userDetailsInDb.gameInfo.campaigns.push({
-            campaignId: campaignCreated.campaignId,
+            campaignId: campaignCreated.campaignId as string,
             role: campaignCreated.campaignPlayers[0].role,
             title: campaignCreated.title,
             description: campaignCreated.description,
-            cover: campaignCreated.cover as ImageObject,
+            cover: campaignCreated.cover,
         });
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userId: campaign.campaignPlayers[0].userId },
             payload: userDetailsInDb,
         });

@@ -79,13 +79,6 @@ export interface CheckCharactersPayload {
     characterId: string;
 }
 
-export interface PostInvitationEmailPayload {
-    campaignId: string;
-    userId: string;
-    targetEmail: string;
-    username: string;
-}
-
 export interface PostBanPlayerPayload {
     campaignId: string;
     playerId: string;
@@ -94,7 +87,6 @@ export interface PostBanPlayerPayload {
 export interface UpdateCampaignImagesPayload {
     campaignId: string;
     image?: FileObject;
-    name?: string;
     imageId?: string;
     operation: 'add' | 'remove';
 }

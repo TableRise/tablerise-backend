@@ -1,19 +1,18 @@
 import sinon from 'sinon';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
 import { InjectNewDungeonsAndDragonsRulesRaces, InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import RacesDnd from 'src/infra/data/dungeons&dragons5e/racesSeeder.json';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 describe('When some character is created', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
@@ -45,7 +44,7 @@ describe('When some character is created', () => {
             const { body } = (await requester()
                 .post('/characters/create')
                 .send(characterPayload)
-                .expect(HttpStatusCode.CREATED)) as { body: CharacterInstance };
+                .expect(HttpStatusCode.CREATED)) as { body: CharactersDnd };
 
             expect(body).to.have.property('data');
             expect(body).to.have.property('npc');

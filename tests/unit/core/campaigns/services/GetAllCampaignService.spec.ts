@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import GetAllCampaignsService from 'src/core/campaigns/services/GetAllCampaignsService';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
     let getAllCampaignsService: GetAllCampaignsService, campaignsRepository: any, campaigns: any;
@@ -19,7 +19,7 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                     count: 3,
                     campaignId: id,
                 });
-                campaigns = campaigns.map((campaign: CampaignInstance, index: number) => {
+                campaigns = campaigns.map((campaign: Campaign, index: number) => {
                     if (HIDDEN !== index) {
                         campaign.infos.visibility = 'visible';
                     } else {

@@ -2,16 +2,16 @@ import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/t
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class CreateUserService {
-    private readonly _usersRepository;
-    private readonly _usersDetailsRepository;
-    private readonly _emailSender;
-    private readonly _serializer;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly usersDetailsRepository;
+    private readonly emailSender;
+    private readonly serializer;
+    private readonly logger;
 
     constructor({
         usersDetailsRepository,
@@ -20,23 +20,23 @@ export default class CreateUserService {
         emailSender,
         serializer,
     }: UserCoreDependencies['createUserServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._emailSender = emailSender;
-        this._serializer = serializer;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.emailSender = emailSender;
+        this.serializer = serializer;
+        this.logger = logger;
 
         this.enrichment = this.enrichment.bind(this);
         this.save = this.save.bind(this);
         this.serialize = this.serialize.bind(this);
     }
 
-    public async serialize(user: UserPayload): Promise<__UserSerialized> {
-        this._logger('info', 'Serialize - CreateUserService');
-        const userSerialized = this._serializer.postUser(user);
-        const userDetailsSerialized = this._serializer.postUserDetails({});
+    public async serialize(user: TCreateUserBody): Promise<__UserSerialized> {
+        this.logger('info', 'Serialize - CreateUserService');
+        const userSerialized = this.serializer.postUser(user);
+        const userDetailsSerialized = this.serializer.postUserDetails({});
 
-        const userInDb = await this._usersRepository.find({
+        const userInDb = await this.usersRepository.find({
             email: userSerialized.email,
         });
 
@@ -46,9 +46,9 @@ export default class CreateUserService {
     }
 
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
-        this._logger('info', 'Enrichment - CreateUserService');
+        this.logger('info', 'Enrichment - CreateUserService');
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
-        const tagInDb = await this._usersRepository.find({
+        const tagInDb = await this.usersRepository.find({
             tag,
             nickname: user.nickname,
         });
@@ -66,7 +66,7 @@ export default class CreateUserService {
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
-        user.twoFactorSecret = { active: false };
+        user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
         user.picture = {
             link: 'https://i.imgur.com/WxNkK7J.png',
             title: '',
@@ -96,19 +96,19 @@ export default class CreateUserService {
     }
 
     public async save({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this._logger('info', 'Save - CreateUserService');
+        this.logger('info', 'Save - CreateUserService');
 
-        const userSaved = await this._usersRepository.create({
+        const userSaved = await this.usersRepository.create({
             ...user,
         });
 
-        const userDetailsSaved = await this._usersDetailsRepository.create({
+        const userDetailsSaved = await this.usersDetailsRepository.create({
             ...userDetails,
             userId: userSaved.userId,
         });
 
-        this._emailSender.type = 'confirmation';
-        const emailSended = await this._emailSender.send(
+        this.emailSender.type = 'confirmation';
+        const emailSended = await this.emailSender.send(
             {
                 username: userSaved.nickname,
                 subject: 'Email de confirmação - TableRise',
@@ -120,7 +120,7 @@ export default class CreateUserService {
 
         userSaved.inProgress.code = emailSended.verificationCode as string;
 
-        await this._usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: userSaved.userId },
             payload: userSaved,
         });

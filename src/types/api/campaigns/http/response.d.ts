@@ -1,6 +1,6 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
-export interface CreateCampaignResponse extends CampaignInstance {}
+export interface CreateCampaignResponse extends Campaign {}
 
 export interface GetAllCampaignsResponse {
     title;
@@ -12,6 +12,6 @@ export interface GetAllCampaignsResponse {
 }
 
 export interface GetCampaignByUserIdResponse {
-    master: CampaignInstance[];
-    player: CampaignInstance[];
+    master: Campaign[];
+    player: Campaign[];
 }

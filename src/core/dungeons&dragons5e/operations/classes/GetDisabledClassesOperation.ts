@@ -3,19 +3,19 @@ import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesW
 import { GetDisabledClassesOperationContract } from 'src/types/modules/core/dungeons&dragons5e/classes/GetDisabledClasses';
 
 export default class GetDisabledClassesOperation {
-    private readonly _getDisabledClassesService;
-    private readonly _logger;
+    private readonly getDisabledClassesService;
+    private readonly logger;
 
     constructor({ getDisabledClassesService, logger }: GetDisabledClassesOperationContract) {
-        this._getDisabledClassesService = getDisabledClassesService;
-        this._logger = logger;
+        this.getDisabledClassesService = getDisabledClassesService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Class>>> {
-        this._logger('info', 'Execute - GetClassOperation');
-        const classes = await this._getDisabledClassesService.getAllDisabled();
+        this.logger('info', 'Execute - GetClassOperation');
+        const classes = await this.getDisabledClassesService.getAllDisabled();
         return classes;
     }
 }

@@ -1,17 +1,18 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When a music is added or removed from a match', () => {
-    let campaign: CampaignInstance, musicPayload: any;
+    let campaign: Campaign, musicPayload: any;
 
     before(async () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
         await InjectNewCampaign(campaign);
 
         musicPayload = {
+            operation: 'add',
             title: 'Main Theme',
             youtubeLink: 'https://youtu.be/123',
         };
@@ -19,7 +20,7 @@ describe('When a music is added or removed from a match', () => {
 
     it('should sucessfully add a music to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId}/update/match/musics?operation=add`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 
@@ -29,8 +30,10 @@ describe('When a music is added or removed from a match', () => {
     });
 
     it('should sucessfully remove a music from a campaign', async () => {
+        musicPayload.operation = 'remove';
+
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId}/update/match/map-images?operation=remove`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 

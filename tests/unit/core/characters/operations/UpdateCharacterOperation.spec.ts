@@ -2,11 +2,7 @@ import Sinon from 'sinon';
 import UpdateCharacterOperation from 'src/core/characters/operations/UpdateCharacterOperation';
 
 describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
-    let updateCharacterOperation: UpdateCharacterOperation,
-        charactersSchema: any,
-        schemaValidator: any,
-        payloadToUpdate: any,
-        updateCharacterService: any;
+    let updateCharacterOperation: UpdateCharacterOperation, payloadToUpdate: any, updateCharacterService: any;
 
     const logger = (): void => {};
 
@@ -22,14 +18,8 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                     payload: {},
                 };
 
-                charactersSchema = {};
-
-                schemaValidator = { entry: Sinon.spy() };
-
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,
-                    charactersSchema,
-                    schemaValidator,
                     logger,
                 });
             });
