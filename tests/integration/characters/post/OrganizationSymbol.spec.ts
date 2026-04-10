@@ -9,7 +9,7 @@ describe('When an organization symbol is uploaded', () => {
     let character: CharactersDnd, filePath: string;
 
     before(async () => {
-        const [generated] = CharacterDomainDataFaker.generateCharactersJSON() as CharactersDnd[];
+        const [generated] = CharacterDomainDataFaker.generateCharactersJSON();
         character = generated;
 
         character.author = {

@@ -1,7 +1,5 @@
 import path from 'path';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import { InjectNewCharacter } from 'tests/support/dataInjector';
@@ -11,7 +9,7 @@ describe('When a character picture is uploaded', () => {
     let character: CharactersDnd, filePath: string;
 
     before(async () => {
-        const [generated] = CharacterDomainDataFaker.generateCharactersJSON() as CharactersDnd[];
+        const [generated] = CharacterDomainDataFaker.generateCharactersJSON();
         character = generated;
 
         character.author = {
