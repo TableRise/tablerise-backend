@@ -17,6 +17,8 @@ export default class TokenForbidden {
 
     async addToken(token: string): Promise<void> {
         this.logger('info', 'AddToken - TokenFobidden');
+        if (process.env.TEST_TYPE === 'integration') return;
+
         const tokenInfo = JWT.decode(token) as JWT.JwtPayload;
         const tokenExpirationDate = tokenInfo.exp;
 

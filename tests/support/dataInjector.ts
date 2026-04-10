@@ -10,6 +10,66 @@ export async function InjectNewDungeonsAndDragonsRulesRaces(rules: Race): Promis
     await model.create(rules);
 }
 
+export async function InjectNewDungeonsAndDragonsArmors(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Armors');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsBackgrounds(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Backgrounds');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsClasses(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Classes');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsFeats(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Feats');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsGods(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Gods');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsItems(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Items');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsMagicItems(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'MagicItems');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsMonsters(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Monsters');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsRealms(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Realms');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsSpells(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Spells');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsWeapons(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Weapons');
+    await model.create(data);
+}
+
+export async function InjectNewDungeonsAndDragonsWikis(data: any): Promise<void> {
+    const model = new DatabaseManagement().modelInstance('dungeons&dragons5e', 'Wikis');
+    await model.create(data);
+}
+
 export async function InjectNewUser(user: User): Promise<void> {
     user.password = user.password !== 'oauth' ? await SecurePasswordHandler.hashPassword(user.password) : user.password;
 

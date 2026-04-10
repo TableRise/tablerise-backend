@@ -18,7 +18,7 @@ export default class GetWeaponService {
         this.dungeonsAndDragonsRepository.setEntity('Weapons');
 
         const weaponInDb = (await this.dungeonsAndDragonsRepository.findOne({
-            WeaponId: id,
+            weaponId: id,
         })) as Internacional<Weapon>;
 
         return weaponInDb;
