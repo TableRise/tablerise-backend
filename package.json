@@ -93,7 +93,7 @@
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",
         "awilix": "9.0.0",
-        "axios": "1.14.0",
+        "axios": "1.15.0",
         "bcrypt": "6.0.0",
         "cookie-parser": "1.4.7",
         "cookie-session": "2.1.1",
