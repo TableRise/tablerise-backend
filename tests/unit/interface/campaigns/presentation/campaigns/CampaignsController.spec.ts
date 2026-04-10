@@ -461,7 +461,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 campaignId: request.params.id,
                 imageId: undefined,
                 operation: 'add',
-                mapImage: {},
+                picture: {},
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
@@ -870,9 +870,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             expect(updateCampaignImagesOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
                 imageId: undefined,
-                name: undefined,
                 operation: 'add',
-                image: {},
+                picture: {},
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();

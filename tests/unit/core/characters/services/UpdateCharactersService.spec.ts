@@ -247,5 +247,50 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                 expect(charactersRepository.update).to.have.been.called();
             });
         });
+
+        context('When character data has no profile and no stats in the database', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+
+                character.data.profile = undefined as any;
+                character.data.stats = undefined as any;
+                character.data.money = undefined as any;
+
+                payload = {
+                    data: {
+                        profile: {
+                            characteristics: {
+                                alignment: 'neutral',
+                            },
+                        },
+                        stats: {
+                            proficiencyBonus: 2,
+                        },
+                        money: { cp: 0, sp: 0, ep: 0, gp: 10, pp: 0 },
+                    },
+                } as any;
+
+                result = { ...character };
+
+                charactersRepository = {
+                    update: sinon.spy(() => result),
+                    findOne: sinon.spy(() => character),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should handle undefined profile and stats gracefully', async () => {
+                await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+                expect(charactersRepository.findOne).to.have.been.called();
+                expect(charactersRepository.update).to.have.been.called();
+            });
+        });
     });
 });

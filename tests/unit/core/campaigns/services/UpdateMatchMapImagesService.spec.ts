@@ -35,7 +35,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
                 updateMatchMapPayload = {
                     campaignId: campaign.campaignId,
-                    mapImage: {},
+                    picture: {},
                     operation: 'add',
                 };
 

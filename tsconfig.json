@@ -11,10 +11,12 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
+        "baseUrl": "./",
         "paths": {
-            "src/*": ["./src/*"],
-            "tests/*": ["./tests/*"]
-        }
+            "src/*": ["src/*"],
+            "tests/*": ["tests/*"]
+        },
+        "ignoreDeprecations": "6.0"
     },
     "ts-node": {
         "swc": true
