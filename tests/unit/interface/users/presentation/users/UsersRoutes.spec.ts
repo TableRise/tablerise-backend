@@ -3,6 +3,7 @@ import UsersRoutes from 'src/interface/users/presentation/users/UsersRoutes';
 describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
     let usersRoutes: UsersRoutes,
         usersController: any,
+        usersSchemas: any,
         verifyIdMiddleware: any,
         authorizationMiddleware: any,
         verifyEmailCodeMiddleware: any,
@@ -13,6 +14,21 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
     context('When all the routes are correctly implemented', () => {
         usersController = {};
+        usersSchemas = {
+            postCreateUser: { example: {} },
+            postLogin: { example: {} },
+            postUpdateUserProfilePicture: { example: {} },
+            postAuthenticateSecretQuestion: { example: {} },
+            postValidateEmailSendCode: { query: {} },
+            postAuthenticateEmail: { query: {} },
+            postAuthenticate2FA: { query: {} },
+            putUpdateUser: { example: {} },
+            patchActivateSecretQuestion: { example: {} },
+            patchSecretQuestionUpdate: { example: {} },
+            patchUpdateEmail: { example: {} },
+            patchUpdatePassword: { example: {} },
+            patchUpdateUserGameInfo: { example: {} },
+        };
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
         verifyEmailCodeMiddleware = {};
@@ -30,6 +46,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             imageMiddleware,
             loginPassport,
             authenticatePassport,
+            usersSchemas,
         });
 
         it('Should return the correct number of routes', () => {

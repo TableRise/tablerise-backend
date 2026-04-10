@@ -34,9 +34,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleWeaponsAvailabilityServ
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Weapons'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Weapons');
             expect(weaponsTest).to.be.deep.equal({ ...weapon[0], active: false });
         });
     });

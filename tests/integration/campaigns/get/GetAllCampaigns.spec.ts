@@ -1,11 +1,11 @@
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover all campaigns', () => {
-    let campaigns: CampaignInstance[];
+    let campaigns: Campaign[];
     context('And is succesfull', () => {
         before(async () => {
             campaigns = [];
@@ -17,9 +17,7 @@ describe('When recover all campaigns', () => {
         });
 
         it('should return correct data', async () => {
-            const { body } = await requester()
-                .get(`/campaigns`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/campaigns`).expect(HttpStatusCode.OK);
 
             const campaign = body[1];
             expect(body).to.be.an('array');
@@ -35,9 +33,7 @@ describe('When recover all campaigns', () => {
             expect(campaign).not.to.have.property('system');
             expect(campaign).not.to.have.property('campaignPlayers');
             expect(campaign).to.have.property('playersAmount');
-            expect(campaign.playersAmount).to.be.equal(
-                campaigns[0].campaignPlayers.length
-            );
+            expect(campaign.playersAmount).to.be.equal(campaigns[0].campaignPlayers.length);
             expect(campaign).not.to.have.property('matchData');
             expect(campaign).not.to.have.property('infos');
             expect(campaign).not.to.have.property('lores');

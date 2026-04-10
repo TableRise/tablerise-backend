@@ -1,8 +1,7 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UpdateUserService from 'src/core/users/services/users/UpdateUserService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateUserService', () => {
@@ -10,8 +9,8 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
         usersRepository: any,
         usersDetailsRepository: any,
         userToUpdate: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+        user: User,
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 
@@ -42,16 +41,10 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     payload: userToUpdate,
                 };
 
-                const userUpdateResponse = await updateUserService.update(
-                    userUpdatePayload
-                );
+                const userUpdateResponse = await updateUserService.update(userUpdatePayload);
 
-                expect(userUpdateResponse.user.nickname).to.be.equal(
-                    userToUpdate.nickname
-                );
-                expect(userUpdateResponse.userDetails.firstName).to.be.equal(
-                    userToUpdate.details.firstName
-                );
+                expect(userUpdateResponse.user.nickname).to.be.equal(userToUpdate.nickname);
+                expect(userUpdateResponse.userDetails.firstName).to.be.equal(userToUpdate.details.firstName);
             });
         });
 
@@ -89,9 +82,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Update User Info - forbidden field: userId exists in payload'
-                    );
+                    expect(err.message).to.be.equal('Update User Info - forbidden field: userId exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
@@ -131,9 +122,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Update User Info - forbidden field: userId exists in payload'
-                    );
+                    expect(err.message).to.be.equal('Update User Info - forbidden field: userId exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
@@ -171,9 +160,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                 const userSaveResponse = await updateUserService.save(userSavePayload);
 
                 expect(userSaveResponse.nickname).to.be.equal(user.nickname);
-                expect(userSaveResponse.details.firstName).to.be.equal(
-                    userDetails.firstName
-                );
+                expect(userSaveResponse.details.firstName).to.be.equal(userDetails.firstName);
             });
         });
     });

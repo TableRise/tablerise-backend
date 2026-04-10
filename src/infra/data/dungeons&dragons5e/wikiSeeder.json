@@ -3,85 +3,718 @@
         "active": true,
         "en": {
             "title": "Races",
-            "description": "",
+            "description": "Overview of playable ancestries and the common traits used to define them in SRD 5.1.",
             "subTopics": [
                 {
                     "subTitle": "Racial Traits",
-                    "description": "The description of each race includes racial traits that are common to members of that race. The following entries appear among the traits of most races."
+                    "description": "Each race includes a standard set of traits such as ability score increases, age, alignment, size, speed, languages, and sometimes subraces."
                 },
                 {
                     "subTitle": "Ability Score Increase",
-                    "description": "Every race increases one or more of a character's ability scores."
+                    "description": "A race can increase one or more ability scores."
                 },
                 {
                     "subTitle": "Age",
-                    "description": "The age entry notes the age when a member of the race is considered an adult, as well as the race's expected lifespan. This information can help you decide how old your character is at the start of the game. You can choose any age for your character, which could provide an explanation for some of your ability scores. For example, if you play a young or very old character, your age could explain a particularly low Strength or Constitution score, while advanced age could account for a high Intelligence or Wisdom."
+                    "description": "This entry indicates adulthood and typical lifespan."
                 },
                 {
                     "subTitle": "Alignment",
-                    "description": "Most races have tendencies toward certain alignments, described in this entry. These are not binding for player characters, but considering why your dwarf is chaotic, for example, in defiance of lawful dwarf society can help you better define your character."
+                    "description": "Races may have cultural tendencies, but they do not restrict player choice."
                 },
                 {
                     "subTitle": "Size",
-                    "description": "Characters of most races are Medium, a size category including creatures that are roughly 4 to 8 feet tall. Members of a few races are Small (between 2 and 4 feet tall), which means that certain rules of the game affect them differently. The most important of these rules is that Small characters have trouble wielding heavy weapons, as explained in “Equipment.”"
+                    "description": "Most races are Medium, while some are Small and interact differently with certain rules."
                 },
                 {
                     "subTitle": "Speed",
-                    "description": "Your speed determines how far you can move when traveling ('Adventuring') and fighting ('Combat')."
+                    "description": "Speed determines movement during travel and combat."
                 },
                 {
                     "subTitle": "Languages",
-                    "description": "By virtue of your race, your character can speak, read, and write certain languages."
+                    "description": "Races grant known spoken and written languages."
                 },
                 {
                     "subTitle": "Subraces",
-                    "description": "Some races have subraces. Members of a subrace have the traits of the parent race in addition to the traits specified for their subrace. Relationships among subraces vary significantly from race to race and world to world."
+                    "description": "Some races have subraces that add extra traits to the parent race."
                 }
             ],
-            "reference": "SRD D&D 5e - pg. 3",
-            "image": "https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg"
+            "reference": "SRD 5.1 - Races",
+            "image": "",
+            "homebrew": false
         },
-        "pt-br": {
+        "pt": {
             "title": "Raças",
-            "description": "",
+            "description": "Visão geral das ancestrais jogáveis e dos traços comuns usados para defini-las no SRD 5.1.",
             "subTopics": [
                 {
                     "subTitle": "Traços Raciais",
-                    "description": "A descrição de cada raça inclui traços raciais que são comuns aos membros dessa raça. As seguintes entradas aparecem entre os traços da maioria das raças."
+                    "description": "Cada raça inclui um conjunto padrão de traços como aumento de atributos, idade, alinhamento, tamanho, deslocamento, idiomas e, às vezes, sub-raças."
                 },
                 {
                     "subTitle": "Aumento de Atributos",
-                    "description": "Cada raça aumenta um ou mais atributos do personagem."
+                    "description": "Uma raça pode aumentar um ou mais atributos."
                 },
                 {
                     "subTitle": "Idade",
-                    "description": "A entrada de idade indica a idade em que um membro da raça é considerado adulto, bem como a expectativa de vida da raça. Essas informações podem ajudar a decidir a idade do seu personagem no início do jogo. Você pode escolher qualquer idade para o seu personagem, o que pode explicar alguns dos seus atributos. Por exemplo, se você interpretar um personagem jovem ou muito idoso, a idade pode explicar um atributo de Força ou Constituição particularmente baixo, enquanto uma idade avançada pode justificar um alto atributo de Inteligência ou Sabedoria."
+                    "description": "Esta entrada indica maioridade e expectativa de vida típica."
                 },
                 {
                     "subTitle": "Alinhamento",
-                    "description": "A maioria das raças tem tendências para certos alinhamentos. Essas tendências não são obrigatórias para personagens jogadores, mas considerar por que seu anão é caótico, por exemplo, em desafio à sociedade anã ordeira, pode ajudá-lo a definir melhor o seu personagem."
+                    "description": "Raças podem ter tendências culturais, mas isso não restringe a escolha do jogador."
                 },
                 {
                     "subTitle": "Tamanho",
-                    "description": "Personagens da maioria das raças são de tamanho Médio, uma categoria de tamanho que inclui criaturas com aproximadamente 1,2 a 2,4 metros de altura. Membros de algumas raças são de tamanho Pequeno (entre 0,6 a 1,2 metros de altura), o que significa que certas regras do jogo os afetam de forma diferente. A regra mais importante é que personagens Pequenos têm dificuldade em empunhar armas pesadas, como explicado em 'Equipamento'."
+                    "description": "A maioria das raças é Média, enquanto algumas são Pequenas e interagem de forma diferente com certas regras."
                 },
                 {
                     "subTitle": "Velocidade",
-                    "description": "Sua velocidade determina o quão longe você pode se mover ao viajar ('Aventurar-se') e ao lutar ('Combate')."
+                    "description": "A velocidade determina o movimento durante viagem e combate."
                 },
-
                 {
                     "subTitle": "Idiomas",
-                    "description": "Por causa de sua raça, seu personagem pode falar, ler e escrever certos idiomas."
+                    "description": "Raças concedem idiomas conhecidos, falados e escritos."
                 },
-
                 {
                     "subTitle": "Sub-raças",
-                    "description": "Algumas raças possuem sub-raças. Membros de uma sub-raça possuem os traços da raça principal, além dos traços especificados para sua sub-raça. As relações entre as sub-raças variam significativamente de raça para raça e de mundo para mundo."
+                    "description": "Algumas raças possuem sub-raças que adicionam traços extras à raça principal."
                 }
             ],
-            "reference": "SRD D&D 5e - pg. 3",
-            "image": "https://i.ibb.co/r3ZB3vR/wp2770237-dd-wallpaper.jpg"
-        }
+            "reference": "SRD 5.1 - Races",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Classes",
+            "description": "Character classes define core role, progression, hit dice, proficiencies, and special features.",
+            "subTopics": [
+                {
+                    "subTitle": "Class Features",
+                    "description": "Each class grants features by level that shape playstyle and role."
+                },
+                {
+                    "subTitle": "Hit Dice",
+                    "description": "A class determines hit dice size, affecting hit points and short rest healing."
+                },
+                {
+                    "subTitle": "Proficiencies",
+                    "description": "Classes grant armor, weapon, tool, and saving throw proficiencies."
+                },
+                {
+                    "subTitle": "Equipment",
+                    "description": "Each class provides starting equipment options."
+                },
+                {
+                    "subTitle": "Spellcasting",
+                    "description": "Some classes gain spellcasting or other magical features."
+                },
+                {
+                    "subTitle": "Subclass Options",
+                    "description": "Many classes include a specialization choice that adds features at later levels."
+                }
+            ],
+            "reference": "SRD 5.1 - Classes",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Classes",
+            "description": "As classes definem o papel principal, progressão, dado de vida, proficiências e características especiais do personagem.",
+            "subTopics": [
+                {
+                    "subTitle": "Características de Classe",
+                    "description": "Cada classe concede características por nível que moldam estilo de jogo e função."
+                },
+                {
+                    "subTitle": "Dados de Vida",
+                    "description": "A classe determina o tamanho do dado de vida, afetando pontos de vida e cura em descanso curto."
+                },
+                {
+                    "subTitle": "Proficiências",
+                    "description": "Classes concedem proficiências em armaduras, armas, ferramentas e testes de resistência."
+                },
+                {
+                    "subTitle": "Equipamento",
+                    "description": "Cada classe fornece opções de equipamento inicial."
+                },
+                {
+                    "subTitle": "Conjuração",
+                    "description": "Algumas classes ganham conjuração ou outras características mágicas."
+                },
+                {
+                    "subTitle": "Opções de Subclasse",
+                    "description": "Muitas classes incluem uma especialização que adiciona recursos em níveis posteriores."
+                }
+            ],
+            "reference": "SRD 5.1 - Classes",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Ability Scores",
+            "description": "The six ability scores measure a character’s natural aptitude and support checks, saves, and attacks.",
+            "subTopics": [
+                {
+                    "subTitle": "Strength",
+                    "description": "Measures physical power."
+                },
+                {
+                    "subTitle": "Dexterity",
+                    "description": "Measures agility, reflexes, and balance."
+                },
+                {
+                    "subTitle": "Constitution",
+                    "description": "Measures endurance and vitality."
+                },
+                {
+                    "subTitle": "Intelligence",
+                    "description": "Measures reasoning and memory."
+                },
+                {
+                    "subTitle": "Wisdom",
+                    "description": "Measures perception and insight."
+                },
+                {
+                    "subTitle": "Charisma",
+                    "description": "Measures force of personality."
+                },
+                {
+                    "subTitle": "Modifiers",
+                    "description": "Each score has a modifier used by most rolls."
+                },
+                {
+                    "subTitle": "Saving Throws",
+                    "description": "Saving throws represent resistance against harmful effects."
+                }
+            ],
+            "reference": "SRD 5.1 - Using Ability Scores",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Atributos",
+            "description": "Os seis atributos medem as aptidões naturais do personagem e dão suporte a testes, resistências e ataques.",
+            "subTopics": [
+                {
+                    "subTitle": "Força",
+                    "description": "Mede poder físico."
+                },
+                {
+                    "subTitle": "Destreza",
+                    "description": "Mede agilidade, reflexos e equilíbrio."
+                },
+                {
+                    "subTitle": "Constituição",
+                    "description": "Mede resistência e vitalidade."
+                },
+                {
+                    "subTitle": "Inteligência",
+                    "description": "Mede raciocínio e memória."
+                },
+                {
+                    "subTitle": "Sabedoria",
+                    "description": "Mede percepção e intuição."
+                },
+                {
+                    "subTitle": "Carisma",
+                    "description": "Mede força de personalidade."
+                },
+                {
+                    "subTitle": "Modificadores",
+                    "description": "Cada atributo possui um modificador usado na maioria das rolagens."
+                },
+                {
+                    "subTitle": "Testes de Resistência",
+                    "description": "Testes de resistência representam defesa contra efeitos nocivos."
+                }
+            ],
+            "reference": "SRD 5.1 - Using Ability Scores",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Backgrounds",
+            "description": "Backgrounds add roleplay identity, skill proficiencies, languages or tools, equipment, and a feature.",
+            "subTopics": [
+                {
+                    "subTitle": "Skill Proficiencies",
+                    "description": "A background grants specific skill proficiencies."
+                },
+                {
+                    "subTitle": "Languages and Tools",
+                    "description": "Some backgrounds add languages, tools, or both."
+                },
+                {
+                    "subTitle": "Equipment",
+                    "description": "Each background includes a themed starting package."
+                },
+                {
+                    "subTitle": "Feature",
+                    "description": "A background feature supports social or narrative utility."
+                },
+                {
+                    "subTitle": "Personality Traits",
+                    "description": "Traits help define behavior and style."
+                },
+                {
+                    "subTitle": "Ideals, Bonds, and Flaws",
+                    "description": "These help shape motivation and roleplay hooks."
+                }
+            ],
+            "reference": "SRD 5.1 - Backgrounds",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Antecedentes",
+            "description": "Antecedentes adicionam identidade de interpretação, proficiências, idiomas ou ferramentas, equipamento e uma característica.",
+            "subTopics": [
+                {
+                    "subTitle": "Proficiências em Perícias",
+                    "description": "Um antecedente concede proficiências específicas em perícias."
+                },
+                {
+                    "subTitle": "Idiomas e Ferramentas",
+                    "description": "Alguns antecedentes adicionam idiomas, ferramentas ou ambos."
+                },
+                {
+                    "subTitle": "Equipamento",
+                    "description": "Cada antecedente inclui um pacote inicial temático."
+                },
+                {
+                    "subTitle": "Característica",
+                    "description": "A característica do antecedente oferece utilidade social ou narrativa."
+                },
+                {
+                    "subTitle": "Traços de Personalidade",
+                    "description": "Traços ajudam a definir comportamento e estilo."
+                },
+                {
+                    "subTitle": "Ideais, Vínculos e Defeitos",
+                    "description": "Esses elementos ajudam a moldar motivação e ganchos de interpretação."
+                }
+            ],
+            "reference": "SRD 5.1 - Backgrounds",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Equipment",
+            "description": "Equipment covers armor, weapons, adventuring gear, tools, mounts, and trade goods.",
+            "subTopics": [
+                {
+                    "subTitle": "Armor",
+                    "description": "Armor provides AC and may impose strength or stealth limits."
+                },
+                {
+                    "subTitle": "Weapons",
+                    "description": "Weapons are defined by damage, type, and properties."
+                },
+                {
+                    "subTitle": "Weapon Properties",
+                    "description": "Properties such as finesse, heavy, light, loading, reach, thrown, two-handed, and versatile affect use."
+                },
+                {
+                    "subTitle": "Adventuring Gear",
+                    "description": "General gear supports travel, exploration, and survival."
+                },
+                {
+                    "subTitle": "Tools",
+                    "description": "Tools support crafting, performance, travel, and utility tasks."
+                },
+                {
+                    "subTitle": "Mounts and Vehicles",
+                    "description": "Travel options include common mounts and transport vehicles."
+                }
+            ],
+            "reference": "SRD 5.1 - Equipment",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Equipamentos",
+            "description": "Equipamentos cobrem armaduras, armas, itens de aventura, ferramentas, montarias e bens comerciais.",
+            "subTopics": [
+                {
+                    "subTitle": "Armaduras",
+                    "description": "Armaduras fornecem CA e podem impor limites de força ou furtividade."
+                },
+                {
+                    "subTitle": "Armas",
+                    "description": "Armas são definidas por dano, tipo e propriedades."
+                },
+                {
+                    "subTitle": "Propriedades de Armas",
+                    "description": "Propriedades como acuidade, pesada, leve, recarga, alcance, arremesso, duas mãos e versátil afetam o uso."
+                },
+                {
+                    "subTitle": "Equipamento de Aventura",
+                    "description": "Itens gerais ajudam em viagem, exploração e sobrevivência."
+                },
+                {
+                    "subTitle": "Ferramentas",
+                    "description": "Ferramentas auxiliam em criação, performance, viagem e tarefas utilitárias."
+                },
+                {
+                    "subTitle": "Montarias e Veículos",
+                    "description": "Opções de deslocamento incluem montarias comuns e veículos de transporte."
+                }
+            ],
+            "reference": "SRD 5.1 - Equipment",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Combat",
+            "description": "Combat rules define initiative, turn structure, actions, movement, attacks, damage, and recovery.",
+            "subTopics": [
+                {
+                    "subTitle": "Initiative",
+                    "description": "Initiative sets turn order at the start of combat."
+                },
+                {
+                    "subTitle": "Turns",
+                    "description": "A turn can include movement, one action, one possible bonus action, and one possible reaction."
+                },
+                {
+                    "subTitle": "Actions",
+                    "description": "Common actions include Attack, Cast a Spell, Dash, Disengage, Dodge, Help, Hide, Ready, Search, and Use an Object."
+                },
+                {
+                    "subTitle": "Attack Rolls",
+                    "description": "Attack rolls compare an attack result to Armor Class."
+                },
+                {
+                    "subTitle": "Damage and Healing",
+                    "description": "Damage reduces hit points, while healing restores them up to the maximum."
+                },
+                {
+                    "subTitle": "Cover",
+                    "description": "Cover can grant bonuses to AC and Dexterity saving throws."
+                },
+                {
+                    "subTitle": "Death Saving Throws",
+                    "description": "A creature at 0 hit points may need death saving throws if not stable."
+                }
+            ],
+            "reference": "SRD 5.1 - Combat",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Combate",
+            "description": "As regras de combate definem iniciativa, estrutura de turno, ações, movimento, ataques, dano e recuperação.",
+            "subTopics": [
+                {
+                    "subTitle": "Iniciativa",
+                    "description": "A iniciativa define a ordem dos turnos no início do combate."
+                },
+                {
+                    "subTitle": "Turnos",
+                    "description": "Um turno pode incluir movimento, uma ação, uma possível ação bônus e uma possível reação."
+                },
+                {
+                    "subTitle": "Ações",
+                    "description": "Ações comuns incluem Atacar, Conjurar uma Magia, Disparar, Desengajar, Esquivar, Ajudar, Esconder, Preparar, Procurar e Usar um Objeto."
+                },
+                {
+                    "subTitle": "Rolagens de Ataque",
+                    "description": "Rolagens de ataque comparam o resultado do ataque com a Classe de Armadura."
+                },
+                {
+                    "subTitle": "Dano e Cura",
+                    "description": "Dano reduz pontos de vida, enquanto cura os restaura até o máximo."
+                },
+                {
+                    "subTitle": "Cobertura",
+                    "description": "Cobertura pode conceder bônus na CA e em testes de resistência de Destreza."
+                },
+                {
+                    "subTitle": "Testes de Resistência contra a Morte",
+                    "description": "Uma criatura com 0 pontos de vida pode precisar fazer testes contra a morte se não estiver estável."
+                }
+            ],
+            "reference": "SRD 5.1 - Combat",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Spellcasting",
+            "description": "Spellcasting rules cover spell slots, components, targets, duration, concentration, and magical effects.",
+            "subTopics": [
+                {
+                    "subTitle": "Spell Level",
+                    "description": "A spell’s level is not the same as a character’s level."
+                },
+                {
+                    "subTitle": "Spell Slots",
+                    "description": "Spell slots are spent to cast leveled spells and recovered by class features or rest."
+                },
+                {
+                    "subTitle": "Components",
+                    "description": "Spells may require verbal, somatic, and material components."
+                },
+                {
+                    "subTitle": "Casting Time",
+                    "description": "Casting time determines how long a spell takes to use."
+                },
+                {
+                    "subTitle": "Range and Targets",
+                    "description": "A spell defines where it can reach and what it can affect."
+                },
+                {
+                    "subTitle": "Duration",
+                    "description": "A spell can be instantaneous, timed, or persistent while concentration lasts."
+                },
+                {
+                    "subTitle": "Concentration",
+                    "description": "Concentration limits how many ongoing spells a caster can sustain."
+                }
+            ],
+            "reference": "SRD 5.1 - Spellcasting",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Conjuração",
+            "description": "As regras de conjuração cobrem espaços de magia, componentes, alvos, duração, concentração e efeitos mágicos.",
+            "subTopics": [
+                {
+                    "subTitle": "Nível da Magia",
+                    "description": "O nível de uma magia não é o mesmo que o nível do personagem."
+                },
+                {
+                    "subTitle": "Espaços de Magia",
+                    "description": "Espaços de magia são gastos para lançar magias de nível e recuperados por características de classe ou descanso."
+                },
+                {
+                    "subTitle": "Componentes",
+                    "description": "Magias podem exigir componentes verbais, somáticos e materiais."
+                },
+                {
+                    "subTitle": "Tempo de Conjuração",
+                    "description": "O tempo de conjuração determina quanto tempo a magia leva para ser usada."
+                },
+                {
+                    "subTitle": "Alcance e Alvos",
+                    "description": "Uma magia define onde ela alcança e o que pode afetar."
+                },
+                {
+                    "subTitle": "Duração",
+                    "description": "Uma magia pode ser instantânea, temporizada ou persistente enquanto a concentração durar."
+                },
+                {
+                    "subTitle": "Concentração",
+                    "description": "A concentração limita quantas magias contínuas um conjurador pode sustentar."
+                }
+            ],
+            "reference": "SRD 5.1 - Spellcasting",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Conditions",
+            "description": "Conditions are standardized status effects that alter a creature’s capabilities.",
+            "subTopics": [
+                {
+                    "subTitle": "Blinded",
+                    "description": "The creature cannot see and has major penalties related to vision."
+                },
+                {
+                    "subTitle": "Charmed",
+                    "description": "The creature cannot harm the charmer and is influenced socially."
+                },
+                {
+                    "subTitle": "Frightened",
+                    "description": "The creature suffers penalties while the source of fear is in view."
+                },
+                {
+                    "subTitle": "Grappled",
+                    "description": "The creature’s speed becomes 0."
+                },
+                {
+                    "subTitle": "Incapacitated",
+                    "description": "The creature cannot take actions or reactions."
+                },
+                {
+                    "subTitle": "Invisible",
+                    "description": "The creature cannot be seen without special means."
+                },
+                {
+                    "subTitle": "Paralyzed",
+                    "description": "The creature is incapacitated, cannot move or speak, and becomes highly vulnerable."
+                },
+                {
+                    "subTitle": "Poisoned",
+                    "description": "The creature has disadvantage on attack rolls and ability checks."
+                },
+                {
+                    "subTitle": "Prone",
+                    "description": "The creature is on the ground and movement changes."
+                },
+                {
+                    "subTitle": "Restrained",
+                    "description": "The creature’s speed becomes 0 and attacks against it become easier."
+                },
+                {
+                    "subTitle": "Stunned",
+                    "description": "The creature is incapacitated, cannot move, and automatically fails Strength and Dexterity saves."
+                },
+                {
+                    "subTitle": "Unconscious",
+                    "description": "The creature is unaware, drops prone, and is vulnerable in melee."
+                }
+            ],
+            "reference": "SRD 5.1 - Conditions",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Condições",
+            "description": "Condições são efeitos padronizados de estado que alteram as capacidades de uma criatura.",
+            "subTopics": [
+                {
+                    "subTitle": "Cego",
+                    "description": "A criatura não pode ver e sofre penalidades relevantes ligadas à visão."
+                },
+                {
+                    "subTitle": "Enfeitiçado",
+                    "description": "A criatura não pode ferir quem a enfeitiçou e é influenciada socialmente."
+                },
+                {
+                    "subTitle": "Amedrontado",
+                    "description": "A criatura sofre penalidades enquanto a fonte do medo estiver à vista."
+                },
+                {
+                    "subTitle": "Agarrado",
+                    "description": "O deslocamento da criatura se torna 0."
+                },
+                {
+                    "subTitle": "Incapacitado",
+                    "description": "A criatura não pode realizar ações nem reações."
+                },
+                {
+                    "subTitle": "Invisível",
+                    "description": "A criatura não pode ser vista sem meios especiais."
+                },
+                {
+                    "subTitle": "Paralisado",
+                    "description": "A criatura fica incapacitada, não pode se mover ou falar e se torna muito vulnerável."
+                },
+                {
+                    "subTitle": "Envenenado",
+                    "description": "A criatura tem desvantagem em jogadas de ataque e testes de habilidade."
+                },
+                {
+                    "subTitle": "Caído",
+                    "description": "A criatura está no chão e o movimento muda."
+                },
+                {
+                    "subTitle": "Contido",
+                    "description": "O deslocamento da criatura se torna 0 e ataques contra ela ficam mais fáceis."
+                },
+                {
+                    "subTitle": "Atordoado",
+                    "description": "A criatura fica incapacitada, não pode se mover e falha automaticamente em resistências de Força e Destreza."
+                },
+                {
+                    "subTitle": "Inconsciente",
+                    "description": "A criatura fica sem percepção, cai no chão e se torna vulnerável em combate corpo a corpo."
+                }
+            ],
+            "reference": "SRD 5.1 - Conditions",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
+    },
+    {
+        "active": true,
+        "en": {
+            "title": "Planes of Existence",
+            "description": "The cosmology of SRD 5.1 includes the Material Plane, transitive planes, inner planes, and outer planes.",
+            "subTopics": [
+                {
+                    "subTitle": "Material Plane",
+                    "description": "The primary world of mortal adventure."
+                },
+                {
+                    "subTitle": "Transitive Planes",
+                    "description": "The Ethereal Plane and Astral Plane connect other realities."
+                },
+                {
+                    "subTitle": "Inner Planes",
+                    "description": "These include elemental and energy-oriented planes."
+                },
+                {
+                    "subTitle": "Outer Planes",
+                    "description": "These planes reflect philosophies, alignments, and divine realms."
+                },
+                {
+                    "subTitle": "Planar Travel",
+                    "description": "Magic and special portals can connect different planes."
+                }
+            ],
+            "reference": "SRD 5.1 - The Planes of Existence",
+            "image": "",
+            "homebrew": false
+        },
+        "pt": {
+            "title": "Planos de Existência",
+            "description": "A cosmologia do SRD 5.1 inclui o Plano Material, planos de transição, planos interiores e planos exteriores.",
+            "subTopics": [
+                {
+                    "subTitle": "Plano Material",
+                    "description": "O mundo principal das aventuras mortais."
+                },
+                {
+                    "subTitle": "Planos de Transição",
+                    "description": "O Plano Etéreo e o Plano Astral conectam outras realidades."
+                },
+                {
+                    "subTitle": "Planos Interiores",
+                    "description": "Incluem planos elementais e ligados a energia."
+                },
+                {
+                    "subTitle": "Planos Exteriores",
+                    "description": "Esses planos refletem filosofias, alinhamentos e reinos divinos."
+                },
+                {
+                    "subTitle": "Viagem Planar",
+                    "description": "Magia e portais especiais podem conectar planos diferentes."
+                }
+            ],
+            "reference": "SRD 5.1 - The Planes of Existence",
+            "image": "",
+            "homebrew": false
+        },
+        "homebrew": false
     }
 ]

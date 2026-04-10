@@ -1,20 +1,20 @@
-import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Wiki } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetWikiOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetWiki';
 
 export default class GetWikiOperation {
-    private readonly _getWikiService;
-    private readonly _logger;
+    private readonly getWikiService;
+    private readonly logger;
 
     constructor({ getWikiService, logger }: GetWikiOperationContract) {
-        this._getWikiService = getWikiService;
-        this._logger = logger;
+        this.getWikiService = getWikiService;
+        this.logger = logger;
         this.execute = this.execute.bind(this);
     }
 
     public async execute(id: string): Promise<Internacional<Wiki>> {
-        this._logger('info', 'Execute - GetWikiOperation');
-        const wiki = await this._getWikiService.get(id);
+        this.logger('info', 'Execute - GetWikiOperation');
+        const wiki = await this.getWikiService.get(id);
         return wiki;
     }
 }

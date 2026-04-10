@@ -3,9 +3,7 @@ import ToggleGodsAvailabilityService from 'src/core/dungeons&dragons5e/services/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleGodsAvailabilityService', () => {
-    let toggleGodsAvailabilityService: ToggleGodsAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        gods: any;
+    let toggleGodsAvailabilityService: ToggleGodsAvailabilityService, dungeonsAndDragonsRepository: any, gods: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleGodsAvailabilityService
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Gods'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Gods');
             expect(GodsTest).to.be.deep.equal({ ...gods[0], active: false });
         });
     });

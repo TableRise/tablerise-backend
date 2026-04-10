@@ -3,9 +3,7 @@ import ToggleRaceOperation from 'src/core/dungeons&dragons5e/operations/races/To
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleRaceOperation', () => {
-    let toggleRaceOperation: ToggleRaceOperation,
-        toggleRacesAvailabilityService: any,
-        race: any;
+    let toggleRaceOperation: ToggleRaceOperation, toggleRacesAvailabilityService: any, race: any;
 
     const logger = (): void => {};
 

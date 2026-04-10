@@ -1,13 +1,11 @@
 import sinon from 'sinon';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Users :: Operation :: Users :: PictureProfileOperation', () => {
-    let pictureProfileOperation: PictureProfileOperation,
-        pictureProfileService: any,
-        user: UserInstance;
+    let pictureProfileOperation: PictureProfileOperation, pictureProfileService: any, user: User;
 
     const logger = (): void => {};
 

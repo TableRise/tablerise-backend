@@ -1,26 +1,26 @@
 import sinon from 'sinon';
-import UpdateMatchDatesService from 'src/core/campaigns/services/UpdateMatchDatesService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import UpdateMatchDateService from 'src/core/campaigns/services/UpdateMatchDateService';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
-describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
-    let updateMatchDatesService: UpdateMatchDatesService,
+describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
+    let updateMatchDateService: UpdateMatchDateService,
         campaignsRepository: any,
         updateDatesPayload: any,
         campaignDatesLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
-    context('#updateMatchDates', () => {
+    context('#updateMatchDate', () => {
         context('When a date is added to match data', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignDatesLength = campaign.infos.matchDates.length;
+                campaignDatesLength = campaign.infos.nextMatchDate.length;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -32,22 +32,16 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
                     operation: 'add',
                 };
 
-                updateMatchDatesService = new UpdateMatchDatesService({
+                updateMatchDateService = new UpdateMatchDateService({
                     logger,
                     campaignsRepository,
                 });
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDatesService.updateMatchDates(
-                    updateDatesPayload
-                );
-                expect(matchDataUpdated.infos.matchDates.length).to.be.not.equal(
-                    campaignDatesLength
-                );
-                expect(matchDataUpdated.infos.matchDates.length).to.be.equal(
-                    campaignDatesLength + 1
-                );
+                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength + 1);
             });
         });
 
@@ -55,7 +49,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.infos.matchDates = ['20240404'];
+                campaign.infos.nextMatchDate = '20240404';
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -67,7 +61,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
                     operation: 'add',
                 };
 
-                updateMatchDatesService = new UpdateMatchDatesService({
+                updateMatchDateService = new UpdateMatchDateService({
                     logger,
                     campaignsRepository,
                 });
@@ -75,14 +69,12 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
 
             it('should throw an error', async () => {
                 try {
-                    await updateMatchDatesService.updateMatchDates(updateDatesPayload);
+                    await updateMatchDateService.updateMatchDate(updateDatesPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Date already added');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -91,9 +83,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.infos.matchDates = ['20240404'];
+                campaign.infos.nextMatchDate = '20240404';
 
-                campaignDatesLength = campaign.infos.matchDates.length;
+                campaignDatesLength = campaign.infos.nextMatchDate.length;
 
                 campaignsRepository = {
                     findOne: () => campaign,
@@ -105,22 +97,16 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
                     operation: 'remove',
                 };
 
-                updateMatchDatesService = new UpdateMatchDatesService({
+                updateMatchDateService = new UpdateMatchDateService({
                     logger,
                     campaignsRepository,
                 });
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDatesService.updateMatchDates(
-                    updateDatesPayload
-                );
-                expect(matchDataUpdated.infos.matchDates.length).to.be.not.equal(
-                    campaignDatesLength
-                );
-                expect(matchDataUpdated.infos.matchDates.length).to.be.equal(
-                    campaignDatesLength - 1
-                );
+                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
+                expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength - 1);
             });
         });
     });
@@ -130,20 +116,20 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDatesService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.infos.matchDates = ['20240404'];
+                campaign.infos.nextMatchDate = '20240404';
 
                 campaignsRepository = {
                     update: sinon.spy(() => campaign),
                 };
 
-                updateMatchDatesService = new UpdateMatchDatesService({
+                updateMatchDateService = new UpdateMatchDateService({
                     campaignsRepository,
                     logger,
                 });
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await updateMatchDatesService.save(campaign);
+                const saveCamapaignTest = await updateMatchDateService.save(campaign);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(campaignsRepository.update).to.have.been.calledWith({

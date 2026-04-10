@@ -15,8 +15,12 @@ import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOpera
 import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
 import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFactorOperation';
 import UpdateSecretQuestionOperation from 'src/core/users/operations/users/UpdateSecretQuestionOperation';
+import { IUsersSchemas } from './UsersSchemas';
+import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 
 export interface UsersControllerContract {
+    schemaValidator: SchemaValidator;
+    usersSchemas: IUsersSchemas;
     createUserOperation: CreateUserOperation;
     updateUserOperation: UpdateUserOperation;
     verifyEmailOperation: VerifyEmailOperation;

@@ -1,16 +1,11 @@
 import sinon from 'sinon';
 import PublishmentOperation from 'src/core/campaigns/operations/PublishmentOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
-    let publishmentOperation: PublishmentOperation,
-        publishmentService: any,
-        schemaValidator: any,
-        campaign: CampaignInstance,
-        postPayload: any,
-        campaignsSchema: any;
+    let publishmentOperation: PublishmentOperation, publishmentService: any, campaign: Campaign, postPayload: any;
 
     const logger = (): void => {};
 
@@ -31,14 +26,6 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
                 save: sinon.spy(() => campaign),
             };
 
-            schemaValidator = {
-                entry: sinon.spy(() => {}),
-            };
-
-            campaignsSchema = {
-                campaignPost: {},
-            };
-
             postPayload = {
                 campaignId: campaign.campaignId,
                 userId: newUUID(),
@@ -47,8 +34,6 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
 
             publishmentOperation = new PublishmentOperation({
                 publishmentService,
-                schemaValidator,
-                campaignsSchema,
                 logger,
             });
         });

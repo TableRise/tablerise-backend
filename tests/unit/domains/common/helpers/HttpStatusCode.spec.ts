@@ -15,9 +15,7 @@ describe('Domains :: Common :: Helpers :: HttpStatusCode', () => {
                 'INTERNAL_SERVER',
                 'EXTERNAL_ERROR',
             ];
-            const enumKeysDeclared = Object.keys(HttpStatusCode).filter((key: any) =>
-                isNaN(key)
-            );
+            const enumKeysDeclared = Object.keys(HttpStatusCode).filter((key: any) => isNaN(key));
 
             expect(enumKeys.length).to.be.equal(enumKeysDeclared.length);
             enumKeys.forEach((key, index) => {
@@ -27,9 +25,7 @@ describe('Domains :: Common :: Helpers :: HttpStatusCode', () => {
 
         it('should have the correct values', () => {
             const enumValues = [200, 201, 204, 400, 401, 403, 404, 422, 500, 502];
-            const enumValuesDeclared = Object.values(HttpStatusCode).filter(
-                (key: any) => !isNaN(key)
-            );
+            const enumValuesDeclared = Object.values(HttpStatusCode).filter((key: any) => !isNaN(key));
 
             expect(enumValues.length).to.be.equal(enumValuesDeclared.length);
             enumValues.forEach((value, index) => {

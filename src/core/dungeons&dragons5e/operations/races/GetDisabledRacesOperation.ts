@@ -1,21 +1,21 @@
-import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledRacesOperationContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetDisabledRaces';
 
 export default class GetDisabledRacesOperation {
-    private readonly _getDisabledRacesService;
-    private readonly _logger;
+    private readonly getDisabledRacesService;
+    private readonly logger;
 
     constructor({ getDisabledRacesService, logger }: GetDisabledRacesOperationContract) {
-        this._getDisabledRacesService = getDisabledRacesService;
-        this._logger = logger;
+        this.getDisabledRacesService = getDisabledRacesService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Race>>> {
-        this._logger('info', 'Execute - GetDisabledRacesOperation');
-        const races = await this._getDisabledRacesService.getAllDisabled();
+        this.logger('info', 'Execute - GetDisabledRacesOperation');
+        const races = await this.getDisabledRacesService.getAllDisabled();
 
         return races;
     }

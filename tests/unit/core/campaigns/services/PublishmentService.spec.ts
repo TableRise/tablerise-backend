@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import PublishmentService from 'src/core/campaigns/services/PublishmentService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
 
@@ -10,8 +10,8 @@ describe('Core :: Services :: publishmentService', () => {
         campaignsRepository: any,
         usersRepository: any,
         postPayload: any,
-        campaign: CampaignInstance,
-        user: UserInstance;
+        campaign: Campaign,
+        user: User;
 
     const logger = (): void => {};
 
@@ -54,15 +54,9 @@ describe('Core :: Services :: publishmentService', () => {
             expect(campaignWithPost.infos.announcements[0]).to.have.property('title');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('content');
             expect(campaignWithPost.infos.announcements[0]).to.have.property('author');
-            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(
-                postPayload.payload.title
-            );
-            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(
-                postPayload.payload.content
-            );
-            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(
-                user.nickname
-            );
+            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(postPayload.payload.title);
+            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(postPayload.payload.content);
+            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(user.nickname);
         });
     });
 

@@ -23,7 +23,10 @@ export default class SchemaValidator {
                 code: HttpStatusCode.UNPROCESSABLE_ENTITY,
                 name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
                 details: verify.error.issues.map((err: ZodIssue) => ({
-                    attribute: err.path[0],
+                    attribute: JSON.stringify(err.path)
+                        .replace(/,/g, '.')
+                        .replace(/ /g, '')
+                        .replace(/['"[\]]/g, ''),
                     reason: err.message,
                     path: 'payload',
                 })),
@@ -37,10 +40,7 @@ export default class SchemaValidator {
         return null;
     }
 
-    protected validateExistance(
-        noQueryOrActiveProperty: boolean | undefined | null,
-        errorMessage: string
-    ): void {
+    protected validateExistance(noQueryOrActiveProperty: boolean | undefined | null, errorMessage: string): void {
         if (noQueryOrActiveProperty)
             throw new HttpRequestErrors({
                 message: errorMessage,

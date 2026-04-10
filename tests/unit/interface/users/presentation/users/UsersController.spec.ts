@@ -2,7 +2,9 @@
 import { Request, Response, Express } from 'express';
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
+import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
 import { Readable } from 'stream';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
@@ -24,6 +26,18 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         deleteUserOperation: any,
         logoutUserOperation: any,
         loginUserOperation: any;
+
+    const schemaValidator = { entry: () => {} } as unknown as SchemaValidator;
+    const usersSchemas = {
+        postValidateEmailSendCode: { query: {} },
+        postCreateUser: { body: {} },
+        putUpdateUser: { body: {} },
+        patchActivateSecretQuestion: { body: {} },
+        patchSecretQuestionUpdate: { body: {} },
+        patchUpdateEmail: { body: {} },
+        patchUpdatePassword: { body: {} },
+        patchUpdateUserGameInfo: { body: {} },
+    } as unknown as IUsersSchemas;
 
     context('#register', () => {
         const request = {} as Request;
@@ -52,6 +66,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -109,6 +125,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -164,6 +182,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -226,6 +246,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -284,6 +306,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -340,6 +364,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -400,6 +426,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -458,6 +486,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -521,6 +551,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -582,6 +614,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -606,9 +640,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.activateTwoFactor(request, response);
 
-            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(activateTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -641,6 +673,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -665,9 +699,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetTwoFactor(request, response);
 
-            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(resetTwoFactorOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -701,6 +733,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -765,6 +799,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -786,12 +822,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
 
         it('should correctly call the methods and functions', async () => {
-            request.query = { email: 'test@email.com', code: '123' };
-            request.body = { password: '321' };
+            request.body = { email: 'test@email.com', password: '321' };
             await usersController.updatePassword(request, response);
 
             expect(updatePasswordOperation.execute).to.have.been.calledWith({
-                email: request.query.email,
+                email: request.body.email,
                 password: request.body.password,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
@@ -827,6 +862,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -849,12 +886,17 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { infoId: '123', targetInfo: 'badges', operation: 'add' };
+            request.body = {
+                infoId: '123',
+                targetInfo: 'badges',
+                operation: 'add',
+                data: {},
+            };
             await usersController.updateGameInfo(request, response);
 
             expect(updateGameInfoOperation.execute).to.have.been.calledWith({
                 userId: request.params.id,
-                ...request.query,
+                ...request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
@@ -889,6 +931,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -913,9 +957,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.resetProfile(request, response);
 
-            expect(resetProfileOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(resetProfileOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -950,6 +992,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             loginUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -1022,6 +1066,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             logoutUserOperation = { execute: () => ({}) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,
@@ -1046,9 +1092,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.params = { id: '123' };
             await usersController.delete(request, response);
 
-            expect(deleteUserOperation.execute).to.have.been.calledWith(
-                request.params.id
-            );
+            expect(deleteUserOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();
@@ -1082,6 +1126,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             logoutUserOperation = { execute: sinon.spy(() => ({})) };
 
             usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
                 createUserOperation,
                 updateUserOperation,
                 verifyEmailOperation,

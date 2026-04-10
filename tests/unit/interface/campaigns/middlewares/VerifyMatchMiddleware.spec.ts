@@ -63,9 +63,7 @@ describe('Interface :: Campaigns :: Middlewares :: VerifyMatchMiddleware', () =>
                 expect.fail('if error is throwed skip this line');
             } catch (error) {
                 const err = error as HttpRequestErrors;
-                expect(err.message).to.be.equal(
-                    'Campaign Match does not exist and cannot be updated'
-                );
+                expect(err.message).to.be.equal('Campaign Match does not exist and cannot be updated');
                 expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
             }

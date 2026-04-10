@@ -1,9 +1,8 @@
 import path from 'path';
 import ActivateTwoFactorService from 'src/core/users/services/users/ActivateTwoFactorService';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import TwoFactorHandler from 'src/domains/common/helpers/TwoFactorHandler';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
@@ -18,8 +17,8 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
         usersDetailsRepository: any,
         twoFactorHandler: TwoFactorHandler,
         stateMachine: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+        user: User,
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 
@@ -39,8 +38,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
                 userDetails.userId = user.userId;
 
                 usersRepository = {
@@ -114,12 +112,8 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -140,8 +134,7 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 userDetails.userId = user.userId;
                 user.twoFactorSecret.active = true;
@@ -167,14 +160,12 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
 
             it('should throw an error', async () => {
                 try {
-                    await activateTwoFactorService.activate('userId', false);
+                    await activateTwoFactorService.activate('userId');
 
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        '2FA is already enabled for this user'
-                    );
+                    expect(err.message).to.be.equal('2FA is already enabled for this user');
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }

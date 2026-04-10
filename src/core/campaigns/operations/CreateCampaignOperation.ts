@@ -3,43 +3,24 @@ import { CreateCampaignResponse } from 'src/types/api/campaigns/http/response';
 import { CreateCampaignPayload } from 'src/types/api/campaigns/http/payload';
 
 export default class CreateCampaignOperation {
-    private readonly _campaignsSchema;
-    private readonly _schemaValidator;
-    private readonly _createCampaignService;
-    private readonly _logger;
+    private readonly createCampaignService;
+    private readonly logger;
 
-    constructor({
-        campaignsSchema,
-        schemaValidator,
-        createCampaignService,
-        logger,
-    }: CampaignCoreDependencies['createCampaignOperationContract']) {
-        this._campaignsSchema = campaignsSchema;
-        this._schemaValidator = schemaValidator;
-        this._createCampaignService = createCampaignService;
-        this._logger = logger;
+    constructor({ createCampaignService, logger }: CampaignCoreDependencies['createCampaignOperationContract']) {
+        this.createCampaignService = createCampaignService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        campaign,
-        userId,
-        image,
-    }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
-        this._logger('info', 'Execute - CreateCampaignOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignZod, campaign);
-
-        const entitySerialized = await this._createCampaignService.serialize({
+    public async execute({ campaign, userId, image }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
+        this.logger('info', 'Execute - CreateCampaignOperation');
+        const entitySerialized = await this.createCampaignService.serialize({
             ...campaign,
         });
 
-        const entityEnriched = await this._createCampaignService.enrichment(
-            entitySerialized,
-            userId,
-            image
-        );
+        const entityEnriched = await this.createCampaignService.enrichment(entitySerialized, userId, image);
 
-        return this._createCampaignService.save(entityEnriched);
+        return this.createCampaignService.save(entityEnriched);
     }
 }

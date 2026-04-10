@@ -6,26 +6,23 @@ import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
 const router = Router();
 
 export default class CharactersRoutesBuilder {
-    private readonly _charactersRoutes;
-    private readonly _verifyUserMiddleware;
+    private readonly charactersRoutes;
+    private readonly verifyUserMiddleware;
 
-    constructor({
-        charactersRoutes,
-        verifyUserMiddleware,
-    }: CharactersRoutesBuilderContract) {
-        this._charactersRoutes = charactersRoutes;
-        this._verifyUserMiddleware = verifyUserMiddleware;
+    constructor({ charactersRoutes, verifyUserMiddleware }: CharactersRoutesBuilderContract) {
+        this.charactersRoutes = charactersRoutes;
+        this.verifyUserMiddleware = verifyUserMiddleware;
     }
 
-    private _character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
+    private character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
         const characterRoutesToBuild = bindMiddleware(
-            this._verifyUserMiddleware.userStatus,
-            this._charactersRoutes.routes(),
+            this.verifyUserMiddleware.userStatus,
+            this.charactersRoutes.routes(),
             { addMethod: 'push' }
         );
 
         const characterRoutes = buildRouter(characterRoutesToBuild, router);
-        const characterSwagger = this._charactersRoutes.routes();
+        const characterSwagger = this.charactersRoutes.routes();
 
         return { characterRoutes, characterSwagger };
     }
@@ -34,9 +31,9 @@ export default class CharactersRoutesBuilder {
         charactersSwagger: routeInstance[];
         charactersRoutes: { character: Router };
     } {
-        const charactersSwagger = [...this._character().characterSwagger];
+        const charactersSwagger = [...this.character().characterSwagger];
         const charactersRoutes = {
-            character: this._character().characterRoutes,
+            character: this.character().characterRoutes,
         };
 
         return { charactersSwagger, charactersRoutes };

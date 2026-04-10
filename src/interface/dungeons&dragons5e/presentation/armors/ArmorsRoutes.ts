@@ -1,20 +1,18 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, {
-    generateQueryParam,
-} from 'src/domains/common/helpers/parametersWrapper';
+import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import { ArmorsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/armors/ArmorsRoutes';
 
 const BASE_PATH = '/system/dnd5e/armors';
 
 export default class ArmorsRoutes {
-    private readonly _armorsController;
-    private readonly _verifyIdMiddleware;
+    private readonly armorsController;
+    private readonly verifyIdMiddleware;
 
     constructor({ armorsController, verifyIdMiddleware }: ArmorsRoutesContract) {
-        this._armorsController = armorsController;
-        this._verifyIdMiddleware = verifyIdMiddleware;
+        this.armorsController = armorsController;
+        this.verifyIdMiddleware = verifyIdMiddleware;
     }
 
     public routes(): routeInstance[] {
@@ -22,7 +20,7 @@ export default class ArmorsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
-                controller: this._armorsController.getAll,
+                controller: this.armorsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
@@ -31,7 +29,7 @@ export default class ArmorsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/disabled`,
-                controller: this._armorsController.getDisabled,
+                controller: this.armorsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
@@ -41,12 +39,9 @@ export default class ArmorsRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
-                controller: this._armorsController.get,
+                controller: this.armorsController.get,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
                 },
             },
@@ -57,12 +52,9 @@ export default class ArmorsRoutes {
                     ...generateIDParam(),
                     ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
                 ],
-                controller: this._armorsController.toggleAvailability,
+                controller: this.armorsController.toggleAvailability,
                 options: {
-                    middlewares: [
-                        this._verifyIdMiddleware,
-                        passport.authenticate('cookie', { session: false }),
-                    ],
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'armors',
                 },
             },

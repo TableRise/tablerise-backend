@@ -1,21 +1,21 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Item } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Item } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllItemsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/items/GetAllItemsOperation';
 
 export default class GetAllItemsOperation {
-    private readonly _getAllItemsService;
-    private readonly _logger;
+    private readonly getAllItemsService;
+    private readonly logger;
 
     constructor({ getAllItemsService, logger }: GetAllItemsOperationContract) {
-        this._getAllItemsService = getAllItemsService;
-        this._logger = logger;
+        this.getAllItemsService = getAllItemsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Item>>> {
-        this._logger('info', 'Execute - GetAllItemsOperation');
-        const items = await this._getAllItemsService.getAll();
+        this.logger('info', 'Execute - GetAllItemsOperation');
+        const items = await this.getAllItemsService.getAll();
         return items;
     }
 }

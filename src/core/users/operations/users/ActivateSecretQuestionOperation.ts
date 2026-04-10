@@ -3,30 +3,27 @@ import { ActivateSecretQuestionPayload } from 'src/types/api/users/http/payload'
 import { ActivateSecretQuestionResponse } from 'src/types/api/users/http/response';
 
 export default class ActivateSecretQuestionOperation {
-    private readonly _activateSecretQuestionService;
-    private readonly _logger;
+    private readonly activateSecretQuestionService;
+    private readonly logger;
 
     constructor({
         activateSecretQuestionService,
         logger,
     }: UserCoreDependencies['activateSecretQuestionOperationContract']) {
-        this._activateSecretQuestionService = activateSecretQuestionService;
-        this._logger = logger;
+        this.activateSecretQuestionService = activateSecretQuestionService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        userId,
-        payload,
-    }: ActivateSecretQuestionPayload): Promise<ActivateSecretQuestionResponse> {
-        this._logger('info', 'Execute - ActivateSecretQuestionOperation');
+    public async execute({ userId, payload }: ActivateSecretQuestionPayload): Promise<ActivateSecretQuestionResponse> {
+        this.logger('info', 'Execute - ActivateSecretQuestionOperation');
 
-        const user = await this._activateSecretQuestionService.activate({
+        const user = await this.activateSecretQuestionService.activate({
             userId,
             payload,
         });
 
-        return this._activateSecretQuestionService.save(user);
+        return this.activateSecretQuestionService.save(user);
     }
 }

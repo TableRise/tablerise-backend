@@ -1,15 +1,12 @@
 import sinon from 'sinon';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
 
 describe('Infra :: Repositories :: User :: UsersRepository', () => {
-    let usersRepository: UsersRepository,
-        updateTimestampRepository: any,
-        database: any,
-        serializer: any;
+    let usersRepository: UsersRepository, updateTimestampRepository: any, database: any, serializer: any;
 
     const logger: Logger = () => {};
 
@@ -40,7 +37,7 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
         it('should create an user and return serialized', async () => {
             const result = await usersRepository.create({
                 email: 'test@email.com',
-            } as UserInstance);
+            } as User);
 
             expect(create).to.have.been.called();
             expect(result).to.have.property('email');

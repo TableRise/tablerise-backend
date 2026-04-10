@@ -7,26 +7,21 @@ import { AxiosError, AxiosResponse } from 'axios';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class ImageStorageClient {
-    private readonly _logger;
-    private readonly _configs;
-    private readonly _httpRequest;
-    private readonly _serializer;
+    private readonly logger;
+    private readonly configs;
+    private readonly httpRequest;
+    private readonly serializer;
 
-    constructor({
-        logger,
-        httpRequest,
-        configs,
-        serializer,
-    }: InfraDependencies['imageStorageClientContract']) {
-        this._logger = logger;
-        this._configs = configs;
-        this._httpRequest = httpRequest;
-        this._serializer = serializer;
+    constructor({ logger, httpRequest, configs, serializer }: InfraDependencies['imageStorageClientContract']) {
+        this.logger = logger;
+        this.configs = configs;
+        this.httpRequest = httpRequest;
+        this.serializer = serializer;
     }
 
     async upload(image: FileObject, customTitle?: string): Promise<ImageObject> {
-        this._logger('info', 'Upload - ImageStorageClient');
-        const { baseUrl, authorization, endpoints } = this._configs.api.imgur;
+        this.logger('info', 'Upload - ImageStorageClient');
+        const { baseUrl, authorization, endpoints } = this.configs.api.imgur;
 
         const url = `${baseUrl}${endpoints.postImage}${authorization}`;
 
@@ -59,9 +54,7 @@ export default class ImageStorageClient {
 
         try {
             imageUploaded =
-                process.env.NODE_ENV === 'production'
-                    ? await this._httpRequest(imageUploadPayload)
-                    : imageUploaded;
+                process.env.NODE_ENV === 'production' ? await this.httpRequest(imageUploadPayload) : imageUploaded;
         } catch (error) {
             const err = error as AxiosError;
 
@@ -74,6 +67,6 @@ export default class ImageStorageClient {
 
         imageUploaded.data.title = customTitle ?? imageUploaded.data.title;
 
-        return this._serializer.imageResult(imageUploaded as ApiImgBBResponse);
+        return this.serializer.imageResult(imageUploaded as ApiImgBBResponse);
     }
 }

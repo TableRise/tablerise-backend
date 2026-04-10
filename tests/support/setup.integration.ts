@@ -1,4 +1,5 @@
 import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import setup from 'src/container';
 import logger from '@tablerise/dynamic-logger';
@@ -6,15 +7,13 @@ import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/common/middlewares/AuthorizationMiddleware';
 import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import EmailSender from 'src/domains/users/helpers/EmailSender';
-import {
-    MongooseEnvs,
-    RedisEnvs,
-} from '@tablerise/database-management/dist/src/types/Envs';
+import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src/types/Envs';
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 setup({ loadExt: 'ts' });
-chai.use(require('dirty-chai'));
+chai.use(dirtyChai);
 // @ts-expect-error Will create a new global property
 global.expect = chai.expect;
 
@@ -34,7 +33,13 @@ exports.mochaHooks = {
 
         const user = {
             userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
-            inProgress: { status: InProgressStatusEnum.enum.DONE, code: '' },
+            inProgress: {
+                status: InProgressStatusEnum.enum.DONE,
+                currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
+                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                code: '',
+            },
             providerId: null,
             email: 'joe@email.com',
             password: '@Password61',
@@ -67,10 +72,7 @@ exports.mochaHooks = {
         };
 
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance(
-            'user',
-            'UserDetails'
-        );
+        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
         await UsersModel.create(user);
         await UserDetailsModel.create(details);
@@ -83,16 +85,12 @@ exports.mochaHooks = {
             });
         logger('test', 'Stub AuthorizationMiddleware.prototype');
 
-        sinon
-            .stub(VerifyEmailCodeMiddleware.prototype, 'verify')
-            .callsFake(async (_req, _res, next): Promise<void> => {
-                next();
-            });
+        sinon.stub(VerifyEmailCodeMiddleware.prototype, 'verify').callsFake(async (_req, _res, next): Promise<void> => {
+            next();
+        });
         logger('test', 'Stub VerifyEmailCodeMiddleware.prototype');
 
-        sinon
-            .stub(EmailSender.prototype, 'send')
-            .resolves({ success: true, verificationCode: 'LOKI74' });
+        sinon.stub(EmailSender.prototype, 'send').resolves({ success: true, verificationCode: 'LOKI74' });
         logger('test', 'Stub EmailSender.prototype');
 
         sinon
@@ -102,24 +100,16 @@ exports.mochaHooks = {
             });
         logger('test', 'Stub AuthorizationMiddleware.prototype');
 
-        sinon
-            .stub(VerifyUserMiddleware.prototype, 'userStatus')
-            .callsFake(async (_req, _res, next): Promise<void> => {
-                next();
-            });
+        sinon.stub(VerifyUserMiddleware.prototype, 'userStatus').callsFake(async (_req, _res, next): Promise<void> => {
+            next();
+        });
         logger('test', 'Stub VerifyUserMiddleware.prototype');
     },
 
     async afterAll() {
         const UsersModel = new DatabaseManagement().modelInstance('user', 'Users');
-        const UserDetailsModel = new DatabaseManagement().modelInstance(
-            'user',
-            'UserDetails'
-        );
-        const modelCampaign = new DatabaseManagement().modelInstance(
-            'campaign',
-            'Campaigns'
-        );
+        const UserDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const modelCampaign = new DatabaseManagement().modelInstance('campaign', 'Campaigns');
 
         await modelCampaign.erase();
         await UsersModel.erase();

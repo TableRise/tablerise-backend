@@ -5,16 +5,15 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import StateMachine from 'src/domains/common/StateMachine';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: ResetProfileService', () => {
     let resetProfileService: ResetProfileService,
         usersDetailsRepository: any,
         usersRepository: any,
-        user: UserInstance,
-        currentUserDetails: UserDetailInstance;
+        user: User,
+        currentUserDetails: UserDetail;
 
     const logger = (): void => {};
 
@@ -86,8 +85,7 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 currentUserDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
 
                 currentUserDetails.gameInfo.badges = ['123'];
                 currentUserDetails.gameInfo.campaigns = [
@@ -124,12 +122,8 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

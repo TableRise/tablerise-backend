@@ -3,9 +3,7 @@ import ToggleRealmOperation from 'src/core/dungeons&dragons5e/operations/realms/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleRealmOperation', () => {
-    let toggleRealmOperation: ToggleRealmOperation,
-        toggleRealmsAvailabilityService: any,
-        realm: any;
+    let toggleRealmOperation: ToggleRealmOperation, toggleRealmsAvailabilityService: any, realm: any;
 
     const logger = (): void => {};
 

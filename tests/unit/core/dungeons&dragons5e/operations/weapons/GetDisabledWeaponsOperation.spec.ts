@@ -3,9 +3,7 @@ import GetDisabledWeaponsOperation from 'src/core/dungeons&dragons5e/operations/
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledWeaponsOperation', () => {
-    let getDisabledWeaponsOperation: GetDisabledWeaponsOperation,
-        getDisabledWeaponsService: any,
-        weapons: any;
+    let getDisabledWeaponsOperation: GetDisabledWeaponsOperation, getDisabledWeaponsService: any, weapons: any;
 
     const logger = (): void => {};
 

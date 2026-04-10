@@ -1,10 +1,7 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import {
-    CompleteOAuthPayload,
-    oAuthCompleteZodSchema,
-} from 'src/domains/users/schemas/oAuthValidationSchema';
+import { CompleteOAuthPayload, oAuthCompleteZodSchema } from 'src/domains/users/schemas/oAuthValidationSchema';
 
 describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
     let completeOAuthData: CompleteOAuthPayload;
@@ -52,7 +49,7 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
 
                 expect(err.details).to.have.length(1);
                 expect(err.details[0].attribute).to.be.equal('firstName');
-                expect(err.details[0].reason).to.be.equal('Required');
+                expect(err.details[0].reason).to.be.equal('Invalid input: expected string, received undefined');
             }
         });
     });

@@ -28,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetSpellService', () => {
         it('should return the correct data and call correct methods', async () => {
             const spellsTest = await getSpellService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Spells'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Spells');
             expect(spellsTest).to.be.deep.equal(spell[0]);
         });
     });

@@ -1,10 +1,8 @@
-import {
-    UserSecretQuestion,
-    UserDetailPayload,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetailPayload } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import { FileObject } from 'src/types/shared/file';
+import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export interface UserExternal {
     providerId: string;
@@ -19,6 +17,7 @@ export interface GetByIdPayload {
 export interface UpdateGameInfoPayload {
     userId: string;
     infoId: string;
+    data: GameInfoCampaigns | any;
     targetInfo: 'campaigns' | 'badges' | 'characters';
     operation: 'add' | 'remove';
 }
@@ -78,5 +77,5 @@ export interface VerifyEmailPayload {
 
 export interface ActivateSecretQuestionPayload {
     userId: string;
-    payload: UserSecretQuestion;
+    payload: UserDetail['secretQuestion'];
 }

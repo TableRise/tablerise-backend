@@ -16,14 +16,9 @@ function ErrorMiddleware(
     const errorToThrow = err as HttpRequestErrors;
 
     if (errorToThrow.redirectTo) {
-        logger(
-            'error',
-            `error with redirect - redirecting to [ ${errorToThrow.redirectTo} ]`
-        );
+        logger('error', `error with redirect - redirecting to [ ${errorToThrow.redirectTo} ]`);
         const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
-        res.redirect(
-            `${urlToRedirect}${errorToThrow.redirectTo}?error=${errorToThrow.message}`
-        );
+        res.redirect(`${urlToRedirect}${errorToThrow.redirectTo}?error=${errorToThrow.message}`);
         return;
     }
 

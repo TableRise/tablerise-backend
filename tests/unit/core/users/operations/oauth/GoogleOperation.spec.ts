@@ -1,15 +1,14 @@
 import Sinon from 'sinon';
 import GoogleOperation from 'src/core/users/operations/oauth/GoogleOperation';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
     let googleOperation: GoogleOperation,
         usersRepository: any,
         googleProfile: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         oAuthService: any;
 
     const logger = (): void => {};
@@ -51,9 +50,7 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
             });
 
             it('should call correct methods', async () => {
-                const googleProfileCompleted = await googleOperation.execute(
-                    googleProfile
-                );
+                const googleProfileCompleted = await googleOperation.execute(googleProfile);
 
                 expect(oAuthService.serialize).to.have.been.calledWith(googleProfile);
                 expect(oAuthService.enrichment).to.have.been.called();
@@ -97,9 +94,7 @@ describe('Core :: Users :: Operations :: OAuth :: GoogleOperation', () => {
             });
 
             it('should call correct methods', async () => {
-                const googleProfileCompleted = await googleOperation.execute(
-                    googleProfile
-                );
+                const googleProfileCompleted = await googleOperation.execute(googleProfile);
 
                 expect(oAuthService.serialize).to.have.been.called();
                 expect(oAuthService.enrichment).to.not.have.been.called();

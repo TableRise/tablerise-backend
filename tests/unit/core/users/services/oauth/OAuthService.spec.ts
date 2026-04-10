@@ -4,8 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
@@ -13,8 +12,8 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
         payload: any,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         serializer: any;
 
     const logger = (): void => {};
@@ -66,8 +65,8 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
 
         context('When enrich an object', () => {
             before(() => {
-                user = {} as UserInstance;
-                userDetails = {} as UserDetailInstance;
+                user = {} as User;
+                userDetails = {} as UserDetail;
 
                 usersRepository = {};
                 usersDetailsRepository = {};
@@ -82,10 +81,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
             });
 
             it('should have correct properties', async () => {
-                const userEnriched = await oAuthService.enrichment(
-                    { user, userDetails },
-                    provider
-                );
+                const userEnriched = await oAuthService.enrichment({ user, userDetails }, provider);
 
                 expect(userEnriched.userEnriched).to.have.property('tag');
                 expect(userEnriched.userEnriched).to.have.property('createdAt');
@@ -93,9 +89,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 expect(userEnriched.userEnriched).to.have.property('password');
                 expect(userEnriched.userEnriched).to.have.property('twoFactorSecret');
                 expect(userEnriched.userEnriched).to.have.property('inProgress');
-                expect(userEnriched.userDetailsEnriched).to.have.property(
-                    'secretQuestion'
-                );
+                expect(userEnriched.userDetailsEnriched).to.have.property('secretQuestion');
             });
         });
     });
@@ -134,7 +128,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
 
     context('#login', () => {
         context('When an user is successfully logged in', () => {
-            let userSerialized: UserInstance;
+            let userSerialized: User;
             const sandbox = Sinon.createSandbox();
 
             before(() => {
@@ -170,7 +164,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
         });
 
         context('When login throws error', () => {
-            let userSerialized: UserInstance;
+            let userSerialized: User;
 
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
@@ -198,9 +192,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Email already exists in database');
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });

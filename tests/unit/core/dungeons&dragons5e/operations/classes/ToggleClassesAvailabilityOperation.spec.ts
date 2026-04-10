@@ -3,9 +3,7 @@ import ToggleClassOperation from 'src/core/dungeons&dragons5e/operations/classes
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleClassOperation', () => {
-    let toggleClassOperation: ToggleClassOperation,
-        toggleClassesAvailabilityService: any,
-        _class: any;
+    let toggleClassOperation: ToggleClassOperation, toggleClassesAvailabilityService: any, _class: any;
 
     const logger = (): void => {};
 

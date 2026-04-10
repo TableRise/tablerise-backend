@@ -3,9 +3,7 @@ import ToggleWikiOperation from 'src/core/dungeons&dragons5e/operations/wikis/To
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleWikiOperation', () => {
-    let toggleWikiOperation: ToggleWikiOperation,
-        toggleWikisAvailabilityService: any,
-        wiki: any;
+    let toggleWikiOperation: ToggleWikiOperation, toggleWikisAvailabilityService: any, wiki: any;
 
     const logger = (): void => {};
 

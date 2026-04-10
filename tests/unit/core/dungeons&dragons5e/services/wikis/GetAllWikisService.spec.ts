@@ -3,9 +3,7 @@ import GetAllWikisService from 'src/core/dungeons&dragons5e/services/wikis/GetAl
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Services :: GetAllWikisService', () => {
-    let getAllWikisService: GetAllWikisService,
-        dungeonsAndDragonsRepository: any,
-        wikis: any;
+    let getAllWikisService: GetAllWikisService, dungeonsAndDragonsRepository: any, wikis: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&Dragons5e :: Services :: GetAllWikisService', () => {
         it('should return the correct data and call correct methods', async () => {
             const wikisTest = await getAllWikisService.getAll();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Wikis'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Wikis');
             expect(wikisTest).to.be.deep.equal(wikis);
         });
     });

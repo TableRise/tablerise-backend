@@ -1,26 +1,23 @@
-import { Race } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Race } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledRacesServiceContract } from 'src/types/modules/core/dungeons&dragons5e/races/GetDisabledRaces';
 
 export default class GetDisabledRacesService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
-    constructor({
-        dungeonsAndDragonsRepository,
-        logger,
-    }: GetDisabledRacesServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+    constructor({ dungeonsAndDragonsRepository, logger }: GetDisabledRacesServiceContract) {
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.getAllDisabled = this.getAllDisabled.bind(this);
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Race>>> {
-        this._logger('info', 'getAllDisabled - getDisabledRacesService');
-        this._dungeonsAndDragonsRepository.setEntity('Races');
+        this.logger('info', 'getAllDisabled - getDisabledRacesService');
+        this.dungeonsAndDragonsRepository.setEntity('Races');
 
-        const racesInDb = (await this._dungeonsAndDragonsRepository.find({
+        const racesInDb = (await this.dungeonsAndDragonsRepository.find({
             active: false,
         })) as Array<Internacional<Race>>;
 

@@ -9,10 +9,10 @@ const TEN_MB_LIMIT = 10485760;
 const ALLOWED_EXT = ['png', 'jpg', 'jpeg'];
 
 export default class ImageMiddleware {
-    private readonly _logger;
+    private readonly logger;
 
     constructor({ logger }: InterfaceDependencies['imageMiddlewareContract']) {
-        this._logger = logger;
+        this.logger = logger;
 
         this.fileType = this.fileType.bind(this);
     }
@@ -30,7 +30,7 @@ export default class ImageMiddleware {
     }
 
     public fileType(req: Request, res: Response, next: NextFunction): void {
-        this._logger('info', 'FileType - ImageMiddleware');
+        this.logger('info', 'FileType - ImageMiddleware');
         const file = req.file;
         if (!file) {
             next();

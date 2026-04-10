@@ -2,28 +2,18 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { UpdatePasswordPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdatePasswordOperation {
-    private readonly _updatePasswordService;
-    private readonly _schemaValidator;
-    private readonly _usersSchema;
-    private readonly _logger;
+    private readonly updatePasswordService;
+    private readonly logger;
 
-    constructor({
-        usersSchema,
-        updatePasswordService,
-        schemaValidator,
-        logger,
-    }: UserCoreDependencies['updatePasswordOperationContract']) {
-        this._updatePasswordService = updatePasswordService;
-        this._schemaValidator = schemaValidator;
-        this._usersSchema = usersSchema;
-        this._logger = logger;
+    constructor({ updatePasswordService, logger }: UserCoreDependencies['updatePasswordOperationContract']) {
+        this.updatePasswordService = updatePasswordService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute({ email, password }: UpdatePasswordPayload): Promise<void> {
-        this._logger('info', 'Execute - UpdatePasswordOperation');
-        this._schemaValidator.entry(this._usersSchema.passwordUpdateZod, { password });
-        await this._updatePasswordService.update({ email, password });
+        this.logger('info', 'Execute - UpdatePasswordOperation');
+        await this.updatePasswordService.update({ email, password });
     }
 }

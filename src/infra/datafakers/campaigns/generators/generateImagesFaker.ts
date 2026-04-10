@@ -8,10 +8,7 @@ function createImageFaker({ id = newUUID() }: ImageObject): ImageObject {
     return dataGenerator.cover;
 }
 
-export default function generateImagesFaker({
-    count,
-    id,
-}: ImageJSONPayload): ImageObject[] {
+export default function generateImagesFaker({ count, id }: ImageJSONPayload): ImageObject[] {
     const images: ImageObject[] = [];
 
     for (let index = 0; index <= count; index += 1) {

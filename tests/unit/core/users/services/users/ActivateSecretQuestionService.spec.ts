@@ -1,7 +1,6 @@
 import ActivateSecretQuestionService from 'src/core/users/services/users/ActivateSecretQuestionService';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import sinon from 'sinon';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -12,11 +11,11 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
     let activateSecretQuestionService: ActivateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        details: UserDetailInstance,
+        user: User,
+        details: UserDetail,
         payload: any,
         stateMachine: any,
-        userDetails: UserDetailInstance;
+        userDetails: UserDetail;
 
     const logger = (): void => {};
 
@@ -46,8 +45,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -105,8 +103,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = {
@@ -197,12 +194,8 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -233,8 +226,7 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     }),
                 };
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
                 userDetails.userId = user.userId;
 
                 payload = null;
@@ -262,12 +254,8 @@ describe('Core :: Users :: Services :: ActivateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Structure of new for new question and answer is missing'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.message).to.be.equal('Structure of new for new question and answer is missing');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });

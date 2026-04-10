@@ -58,10 +58,8 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe:
-                        InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                    nextStatusWillBe:
-                        InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
+                    prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                    nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                     code: '',
                 };
 
@@ -115,9 +113,7 @@ describe('Domains :: User :: StateMachine', () => {
                     expect(err.message).to.be.equal(
                         'Entity actual status is done and previous status should be wait-for-new-flow but is actually done'
                     );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });
@@ -143,8 +139,7 @@ describe('Domains :: User :: StateMachine', () => {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
                         prevStatusMustBe: InProgressStatusEnum.enum.DONE,
-                        nextStatusWillBe:
-                            InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
+                        nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                         code: '',
                     };
 
@@ -156,9 +151,7 @@ describe('Domains :: User :: StateMachine', () => {
                     expect(err.message).to.be.equal(
                         'Entity actual status is done and next status should be wait-to-finish-password-change but is actually wait-to-start-password-change'
                     );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });
@@ -208,9 +201,7 @@ describe('Domains :: User :: StateMachine', () => {
                     expect(err.message).to.be.equal(
                         'Entity actual status is done and next status should be wait-to-finish-password-change but is actually wait-to-start-password-change'
                     );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });

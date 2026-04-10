@@ -1,23 +1,23 @@
-import { God } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { God } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetGodServiceContract } from 'src/types/modules/core/dungeons&dragons5e/gods/GetGodService';
 
 export default class GetGodService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetGodServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(id: string): Promise<Internacional<God>> {
-        this._logger('info', 'GetAll - GetGodService');
-        this._dungeonsAndDragonsRepository.setEntity('Gods');
+        this.logger('info', 'GetAll - GetGodService');
+        this.dungeonsAndDragonsRepository.setEntity('Gods');
 
-        const godInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const godInDb = (await this.dungeonsAndDragonsRepository.findOne({
             godId: id,
         })) as Internacional<God>;
         return godInDb;

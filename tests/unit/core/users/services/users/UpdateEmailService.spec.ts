@@ -6,13 +6,13 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateEmailService', () => {
     let updateEmailService: UpdateEmailService,
-        user: UserInstance,
-        newUser: UserInstance,
+        user: User,
+        newUser: User,
         usersRepository: any,
         updateEmailPayload: any;
 
@@ -125,12 +125,8 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -140,8 +136,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
+                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE;
 
                 updateEmailPayload = {
                     userId: user.userId,
@@ -182,9 +177,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Email already exists in database');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });

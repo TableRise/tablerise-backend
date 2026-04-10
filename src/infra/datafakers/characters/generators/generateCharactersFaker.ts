@@ -1,12 +1,10 @@
 import newUUID from 'src/domains/common/helpers/newUUID';
 import dataGenerator from '../dataGenerator';
 import { CharacterJSONPayload } from 'src/types/modules/infra/datafakers/characters/DomainDataFaker';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import DomainDataFaker from '../../campaigns/DomainDataFaker';
 
-function createCharacterFaker({
-    characterId = newUUID(),
-}: CharacterInstance): CharacterInstance {
+function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): CharactersDnd {
     return {
         characterId,
         campaignId: newUUID(),
@@ -14,15 +12,13 @@ function createCharacterFaker({
         author: {
             userId: newUUID(),
             nickname: dataGenerator.nickname(),
-            fullname: `${dataGenerator.name.first('male')} ${dataGenerator.name.last(
-                'male'
-            )}`,
+            fullname: `${dataGenerator.name.first('male')} ${dataGenerator.name.last('male')}`,
         },
         data: {
             profile: {
                 name: dataGenerator.name.first('male'),
-                class: 'warrior',
-                race: 'human',
+                class: 'Fighter',
+                race: 'Human',
                 level: 0,
                 xp: 0,
                 characteristics: {
@@ -63,6 +59,30 @@ function createCharacterFaker({
                         value: 13,
                         modifier: 2,
                         proficiency: true,
+                    },
+                    {
+                        ability: 'Constitution',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Strength',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Charisma',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
+                    },
+                    {
+                        ability: 'Intelligence',
+                        value: 0,
+                        modifier: 0,
+                        proficiency: false,
                     },
                 ],
                 proficiencyBonus: 2,
@@ -172,14 +192,11 @@ function createCharacterFaker({
     };
 }
 
-export default function generateCharactersFaker({
-    count,
-    characterId,
-}: CharacterJSONPayload): CharacterInstance[] {
-    const characters: CharacterInstance[] = [];
+export default function generateCharactersFaker({ count, characterId }: CharacterJSONPayload): CharactersDnd[] {
+    const characters: CharactersDnd[] = [];
 
     for (let index = 0; index <= count; index += 1) {
-        characters.push(createCharacterFaker({ characterId } as CharacterInstance));
+        characters.push(createCharacterFaker({ characterId } as CharactersDnd));
     }
 
     return characters;

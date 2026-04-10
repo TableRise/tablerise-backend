@@ -3,9 +3,7 @@ import GetMonsterService from 'src/core/dungeons&dragons5e/services/monsters/Get
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetMonsterService', () => {
-    let getMonsterService: GetMonsterService,
-        dungeonsAndDragonsRepository: any,
-        monster: any;
+    let getMonsterService: GetMonsterService, dungeonsAndDragonsRepository: any, monster: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetMonsterService', () => {
         it('should return the correct data and call correct methods', async () => {
             const monstersTest = await getMonsterService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Monsters'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Monsters');
             expect(monstersTest).to.be.deep.equal(monster[0]);
         });
     });

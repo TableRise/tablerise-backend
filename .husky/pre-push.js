@@ -6,8 +6,7 @@ const execSilent = (command) => {
     try {
         execSync(command, { stdio: 'ignore' }); // Redireciona stdout e stderr para "nada"
     } catch (error) {
-        if (command === 'npm run prettier' || error.message.includes('github.com'))
-            return;
+        if (command === 'npm run prettier' || error.message.includes('github.com')) return;
         process.exit(1);
     }
 };
@@ -30,7 +29,15 @@ console.log(
 );
 
 try {
-    console.log(chalk.magenta('🔍 Executando lint...'));
+    console.log(chalk.magenta('👾 Executando audit...'));
+    execSilent('npm run audit');
+} catch (error) {
+    console.log(chalk.red('❌ Existem bibliotecas vulneráveis'));
+    process.exit(1);
+}
+
+try {
+    console.log(chalk.magenta('🔬 Executando lint...'));
     execSilent('npm run lint');
 } catch (error) {
     console.log(chalk.red('❌ É necessária a correção do linter'));
@@ -38,7 +45,7 @@ try {
 }
 
 try {
-    console.log(chalk.magenta('🔍 Executando prettier...'));
+    console.log(chalk.magenta('👑 Executando prettier...'));
     execSync('npm run prettier --max-warnings=0');
     console.log(chalk.green('✅ Todos os arquivos já estão formatados corretamente!'));
 } catch (error) {
@@ -58,9 +65,7 @@ if (!REGEX.test(BRANCH)) {
     console.log('');
     console.log(chalk.blue('💡 Por favor, renomeie sua branch utilizando a sintaxe:'));
     console.log(chalk.green('(feat|bugfix|hotfix)/task-id/branch-objective'));
-    console.log(
-        chalk.red('🚫 Pushes nas branches develop, main ou qa não são permitidos.')
-    );
+    console.log(chalk.red('🚫 Pushes nas branches develop, main ou qa não são permitidos.'));
     console.log('');
     console.log(chalk.red('========================'));
     process.exit(1);

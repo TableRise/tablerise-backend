@@ -1,19 +1,18 @@
 import sinon from 'sinon';
 import UpdateSecretQuestionService from 'src/core/users/services/users/UpdateSecretQuestionService';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
     let updateSecretQuestionService: UpdateSecretQuestionService,
         usersRepository: any,
         usersDetailsRepository: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance,
+        user: User,
+        userDetails: UserDetail,
         payload: any;
 
     const logger = (): void => {};
@@ -34,8 +33,7 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: sinon.spy(() => user),
@@ -75,9 +73,8 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
-                user.inProgress.status =
-                    stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
-                userDetails.secretQuestion = null;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_UPDATE_SECRET_QUESTION;
+                userDetails.secretQuestion = {} as UserDetail['secretQuestion'];
 
                 usersRepository = {
                     findOne: () => user,
@@ -112,12 +109,8 @@ describe('Core :: Users :: Services :: UpdateSecretQuestionService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Structure of new for new question and answer is missing'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.message).to.be.equal('Structure of new for new question and answer is missing');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
                 }
             });

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import UpdateMatchMapImagesService from 'src/core/campaigns/services/UpdateMatchMapImagesService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => {
@@ -9,7 +9,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
         updateMatchMapPayload: any,
         imageStorageClient: any,
         campaignMapImagesLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
@@ -35,7 +35,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
                 updateMatchMapPayload = {
                     campaignId: campaign.campaignId,
-                    mapImage: {},
+                    picture: {},
                     operation: 'add',
                 };
 
@@ -47,16 +47,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated =
-                    await updateMatchMapImagesService.updateMatchMapImage(
-                        updateMatchMapPayload
-                    );
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(
-                    campaignMapImagesLength
-                );
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(
-                    campaignMapImagesLength + 1
-                );
+                const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage(updateMatchMapPayload);
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(campaignMapImagesLength);
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(campaignMapImagesLength + 1);
             });
         });
 
@@ -94,16 +87,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated =
-                    await updateMatchMapImagesService.updateMatchMapImage(
-                        updateMatchMapPayload
-                    );
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(
-                    campaignMapImagesLength
-                );
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(
-                    campaignMapImagesLength - 1
-                );
+                const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage(updateMatchMapPayload);
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(campaignMapImagesLength);
+                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(campaignMapImagesLength - 1);
             });
         });
     });
@@ -113,10 +99,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                if (campaign.matchData)
-                    campaign.matchData.mapImages = [
-                        DomainDataFaker.generateImagesObjectJSON()[0],
-                    ];
+                if (campaign.matchData) campaign.matchData.mapImages = [DomainDataFaker.generateImagesObjectJSON()[0]];
 
                 campaignsRepository = {
                     update: sinon.spy(() => campaign),
@@ -132,9 +115,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await updateMatchMapImagesService.save(
-                    campaign
-                );
+                const saveCamapaignTest = await updateMatchMapImagesService.save(campaign);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(campaignsRepository.update).to.have.been.calledWith({

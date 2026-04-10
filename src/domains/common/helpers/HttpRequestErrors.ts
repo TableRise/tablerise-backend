@@ -9,13 +9,7 @@ export default class HttpRequestErrors extends Error {
     details: ErrorDetails[];
     redirectTo: string;
 
-    constructor({
-        message = '',
-        code = 0,
-        details = [],
-        name = '',
-        redirectTo = '',
-    }: Errors) {
+    constructor({ message = '', code = 0, details = [], name = '', redirectTo = '' }: Errors) {
         logger('error', `${message} - ${code}`);
         super(message);
         this.code = code;
@@ -34,14 +28,13 @@ export default class HttpRequestErrors extends Error {
                 });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
-                    message: 'This players is not in the campaign',
+                    message: 'This player is not in the campaign',
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
             case 'save-forbidden-content':
                 throw new HttpRequestErrors({
-                    message:
-                        'Forbidden content was sent to save in database - check business rules',
+                    message: 'Forbidden content was sent to save in database - check business rules',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });

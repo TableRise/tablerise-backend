@@ -9,9 +9,7 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('Interface :: Common :: Middlewares :: StateMachineFlowsMiddleware', () => {
-    let stateMachineFlowsMiddleware: StateMachineFlowsMiddleware,
-        usersRepository: any,
-        user: any;
+    let stateMachineFlowsMiddleware: StateMachineFlowsMiddleware, usersRepository: any, user: any;
 
     const logger = (): any => {};
 
@@ -23,12 +21,10 @@ describe('Interface :: Common :: Middlewares :: StateMachineFlowsMiddleware', ()
         context('When new flow is set', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.currentFlow =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+                user.inProgress.currentFlow = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
 
                 const userWithNewStatus = user;
-                userWithNewStatus.inProgress.currentFlow =
-                    stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
+                userWithNewStatus.inProgress.currentFlow = stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: () => user,
@@ -54,12 +50,10 @@ describe('Interface :: Common :: Middlewares :: StateMachineFlowsMiddleware', ()
         context('When new flow is set - email query', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.currentFlow =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+                user.inProgress.currentFlow = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
 
                 const userWithNewStatus = user;
-                userWithNewStatus.inProgress.currentFlow =
-                    stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
+                userWithNewStatus.inProgress.currentFlow = stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: () => user,
@@ -89,12 +83,10 @@ describe('Interface :: Common :: Middlewares :: StateMachineFlowsMiddleware', ()
         context('When new flow is not set - user does not exist', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                user.inProgress.currentFlow =
-                    InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
+                user.inProgress.currentFlow = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
 
                 const userWithNewStatus = user;
-                userWithNewStatus.inProgress.currentFlow =
-                    stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
+                userWithNewStatus.inProgress.currentFlow = stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION;
 
                 usersRepository = {
                     findOne: () => {},

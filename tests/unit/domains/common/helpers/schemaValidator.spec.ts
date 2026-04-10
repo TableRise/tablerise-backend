@@ -1,13 +1,12 @@
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import usersZodSchema, {
-    UserInstance,
-} from 'src/domains/users/schemas/usersValidationSchema';
+import usersZodSchema from 'src/interface/users/presentation/users/UsersSchemas';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
-    let user: UserInstance[];
+    let user: User[];
     let schemaValidator: SchemaValidator;
 
     context('#validateEntry', () => {
@@ -18,14 +17,12 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
                 email: user.email,
                 password: user.password,
                 nickname: user.nickname,
-                picture: user.picture,
-                twoFactorSecret: user.twoFactorSecret,
-            })) as UserInstance[];
+            })) as User[];
         });
 
         it('should return nothing if success', () => {
             try {
-                schemaValidator.entry(usersZodSchema, user[0]);
+                schemaValidator.entry(usersZodSchema().postCreateUser.body, user[0]);
             } catch (error) {
                 expect('it should not be here').to.be.equal(false);
             }
@@ -33,7 +30,7 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
 
         it('should thrown an error if fail', () => {
             try {
-                schemaValidator.entry(usersZodSchema, {
+                schemaValidator.entry(usersZodSchema().postCreateUser.body, {
                     nickname: 123,
                     email: 'test@email.com',
                     password: '@124Kll*',
@@ -55,18 +52,18 @@ describe('Domains :: Common :: Helpers :: SchemaValidator', () => {
                 nickname: user.nickname,
                 picture: user.picture,
                 twoFactorSecret: user.twoFactorSecret,
-            })) as UserInstance[];
+            })) as User[];
 
             schemaValidator = new SchemaValidator();
         });
 
         it('should return null if success', () => {
-            const validateTest = schemaValidator.entryReturn(usersZodSchema, user[0]);
+            const validateTest = schemaValidator.entryReturn(usersZodSchema().postCreateUser.body, user[0]);
             expect(validateTest).to.be.equal(null);
         });
 
         it('should return zodError if failed', () => {
-            const validateTest: any = schemaValidator.entryReturn(usersZodSchema, {
+            const validateTest: any = schemaValidator.entryReturn(usersZodSchema().postCreateUser.body, {
                 nickname: 123,
             });
             expect(validateTest).to.have.property('success');

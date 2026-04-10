@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import UpdateCampaignImagesService from 'src/core/campaigns/services/UpdateCampaignImagesService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => {
@@ -9,8 +9,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
         updateCampaignImagePayload: any,
         imageStorageClient: any,
         campaignMapImagesLength: number,
-        campaignCharactersImagesLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
@@ -36,7 +35,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
 
                 updateCampaignImagePayload = {
                     campaignId: campaign.campaignId,
-                    image: {},
+                    picture: {},
                     operation: 'add',
                 };
 
@@ -48,16 +47,11 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(
-                    campaignMapImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.maps.length).to.be.equal(
-                    campaignMapImagesLength + 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength + 1);
             });
         });
 
@@ -98,24 +92,19 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(
-                    campaignMapImagesLength
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.maps.length).to.be.equal(
-                    campaignMapImagesLength - 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength - 1);
             });
         });
 
-        context('When a character image is added to campaign images data', () => {
+        context('When a map image is added with a name param provided', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaignCharactersImagesLength = campaign.images.characters.length ?? 0;
+                campaignMapImagesLength = campaign.images.maps.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -124,16 +113,15 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                 imageStorageClient = {
                     upload: () => ({
                         data: {
-                            id: '123',
-                            link: 'https://img.bb',
+                            id: '456',
+                            link: 'https://img.bb/char',
                         },
                     }),
                 };
 
                 updateCampaignImagePayload = {
                     campaignId: campaign.campaignId,
-                    name: 'character',
-                    image: {},
+                    picture: {},
                     operation: 'add',
                 };
 
@@ -144,36 +132,31 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                 });
             });
 
-            it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(
-                    campaignCharactersImagesLength
+            it('should return the updated campaign with map image added', async () => {
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.characters.length).to.be.equal(
-                    campaignCharactersImagesLength + 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength + 1);
             });
         });
 
-        context('When a character image is removed from campaign images', () => {
+        context('When a map image is removed by id', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                campaign.images.characters = [
+                campaign.images.maps = [
                     {
-                        id: '789',
-                        title: 'character',
-                        link: 'https://img.bb',
+                        id: '999',
+                        title: '',
+                        link: 'https://img.bb/map2',
                         uploadDate: '2023-03-27Z14:13',
                         deleteUrl: '',
                         request: { success: true, status: 200 },
                     },
                 ];
 
-                campaignCharactersImagesLength = campaign.images.characters.length ?? 0;
+                campaignMapImagesLength = campaign.images.maps.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => campaign,
@@ -183,8 +166,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
 
                 updateCampaignImagePayload = {
                     campaignId: campaign.campaignId,
-                    imageId: '789',
-                    name: 'character',
+                    imageId: '999',
                     operation: 'remove',
                 };
 
@@ -195,17 +177,12 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
                 });
             });
 
-            it('should return the updated campaign', async () => {
-                const campaignDataUpdated =
-                    await updateCampaignImagesService.updateCampaignImage(
-                        updateCampaignImagePayload
-                    );
-                expect(campaignDataUpdated.images.characters.length).to.be.not.equal(
-                    campaignCharactersImagesLength
+            it('should return the updated campaign with map image removed', async () => {
+                const campaignDataUpdated = await updateCampaignImagesService.updateCampaignImage(
+                    updateCampaignImagePayload
                 );
-                expect(campaignDataUpdated.images.characters.length).to.be.equal(
-                    campaignCharactersImagesLength - 1
-                );
+                expect(campaignDataUpdated.images.maps.length).to.be.not.equal(campaignMapImagesLength);
+                expect(campaignDataUpdated.images.maps.length).to.be.equal(campaignMapImagesLength - 1);
             });
         });
     });
@@ -240,9 +217,7 @@ describe('Core :: Camapaigns :: Services :: UpdateCampaignImagesService', () => 
             });
 
             it('should call correct methods', async () => {
-                const saveCamapaignTest = await updateCampaignImagesService.save(
-                    campaign
-                );
+                const saveCamapaignTest = await updateCampaignImagesService.save(campaign);
 
                 expect(saveCamapaignTest).to.be.deep.equal(campaign);
                 expect(campaignsRepository.update).to.have.been.calledWith({

@@ -2,10 +2,7 @@ import sinon from 'sinon';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 
 describe('Core :: Users :: Operations :: VerifyEmailOperation', () => {
-    let verifyEmailOperation: VerifyEmailOperation,
-        verifyEmailService: any,
-        payload: any,
-        schemaValidator: any;
+    let verifyEmailOperation: VerifyEmailOperation, verifyEmailService: any, payload: any;
 
     const logger = (): void => {};
 
@@ -20,11 +17,8 @@ describe('Core :: Users :: Operations :: VerifyEmailOperation', () => {
                 newEmail: 'newEmail',
             };
 
-            schemaValidator = { entry: () => {} };
-
             verifyEmailOperation = new VerifyEmailOperation({
                 verifyEmailService,
-                schemaValidator,
                 logger,
             });
         });

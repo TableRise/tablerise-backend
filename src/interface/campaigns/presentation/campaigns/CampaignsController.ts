@@ -3,55 +3,62 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
     CampaignPayload,
     UpdateMatchMusicsPayload,
-    // UpdateMatchDatesPayload,
+    // updateMatchDatePayload,
 } from 'src/types/api/campaigns/http/payload';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
-    private readonly _createCampaignOperation;
-    private readonly _updateCampaignOperation;
-    private readonly _getCampaignByIdOperation;
-    private readonly _publishmentOperation;
-    private readonly _getAllCampaignsOperation;
-    private readonly _updateMatchMusicsOperation;
-    private readonly _updateMatchMapImagesOperation;
-    private readonly _updateMatchDatesOperation;
-    private readonly _addMatchPlayersOperation;
-    private readonly _removeMatchPlayersOperation;
-    private readonly _postInvitationEmailOperation;
-    private readonly _postBanPlayerOperation;
-    private readonly _updateCampaignImagesOperation;
+    private readonly getCampaignsByUserIdOperation;
+    private readonly createCampaignOperation;
+    private readonly updateCampaignOperation;
+    private readonly getCampaignByIdOperation;
+    private readonly publishmentOperation;
+    private readonly getAllCampaignsOperation;
+    private readonly updateMatchMusicsOperation;
+    private readonly updateMatchMapImagesOperation;
+    private readonly updateMatchDateOperation;
+    private readonly addCampaignPlayersOperation;
+    private readonly removeCampaignPlayersOperation;
+    private readonly addPlayerCharacterOperation;
+    private readonly postInvitationEmailOperation;
+    private readonly postBanPlayerOperation;
+    private readonly updateCampaignImagesOperation;
 
     constructor({
         getCampaignByIdOperation,
+        getCampaignsByUserIdOperation,
         publishmentOperation,
         createCampaignOperation,
         getAllCampaignsOperation,
         updateCampaignOperation,
         updateMatchMapImagesOperation,
         updateMatchMusicsOperation,
-        updateMatchDatesOperation,
-        addMatchPlayersOperation,
-        removeMatchPlayersOperation,
+        updateMatchDateOperation,
+        addCampaignPlayersOperation,
+        removeCampaignPlayersOperation,
+        addPlayerCharacterOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
     }: CampaignsControllerContract) {
-        this._createCampaignOperation = createCampaignOperation;
-        this._updateCampaignOperation = updateCampaignOperation;
-        this._getCampaignByIdOperation = getCampaignByIdOperation;
-        this._publishmentOperation = publishmentOperation;
-        this._getAllCampaignsOperation = getAllCampaignsOperation;
-        this._updateMatchMapImagesOperation = updateMatchMapImagesOperation;
-        this._updateMatchMusicsOperation = updateMatchMusicsOperation;
-        this._updateMatchDatesOperation = updateMatchDatesOperation;
-        this._addMatchPlayersOperation = addMatchPlayersOperation;
-        this._removeMatchPlayersOperation = removeMatchPlayersOperation;
-        this._postInvitationEmailOperation = postInvitationEmailOperation;
-        this._postBanPlayerOperation = postBanPlayerOperation;
-        this._updateCampaignImagesOperation = updateCampaignImagesOperation;
+        this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
+        this.createCampaignOperation = createCampaignOperation;
+        this.updateCampaignOperation = updateCampaignOperation;
+        this.getCampaignByIdOperation = getCampaignByIdOperation;
+        this.publishmentOperation = publishmentOperation;
+        this.getAllCampaignsOperation = getAllCampaignsOperation;
+        this.updateMatchMapImagesOperation = updateMatchMapImagesOperation;
+        this.updateMatchMusicsOperation = updateMatchMusicsOperation;
+        this.updateMatchDateOperation = updateMatchDateOperation;
+        this.addCampaignPlayersOperation = addCampaignPlayersOperation;
+        this.addPlayerCharacterOperation = addPlayerCharacterOperation;
+        this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
+        this.postInvitationEmailOperation = postInvitationEmailOperation;
+        this.postBanPlayerOperation = postBanPlayerOperation;
+        this.updateCampaignImagesOperation = updateCampaignImagesOperation;
 
+        this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -59,9 +66,10 @@ export default class CampaignsController {
         this.update = this.update.bind(this);
         this.updateMatchMapImages = this.updateMatchMapImages.bind(this);
         this.updateMatchMusics = this.updateMatchMusics.bind(this);
-        this.updateMatchDates = this.updateMatchDates.bind(this);
-        this.addMatchPlayers = this.addMatchPlayers.bind(this);
-        this.removeMatchPlayers = this.removeMatchPlayers.bind(this);
+        this.updateMatchDate = this.updateMatchDate.bind(this);
+        this.addCampaignPlayers = this.addCampaignPlayers.bind(this);
+        this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
+        this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -71,7 +79,7 @@ export default class CampaignsController {
         const campaign = req.body as CampaignPayload;
         const { userId } = req.user as Express.User;
         const image = req.file as FileObject;
-        const result = await this._createCampaignOperation.execute({
+        const result = await this.createCampaignOperation.execute({
             campaign,
             userId,
             image,
@@ -83,14 +91,21 @@ export default class CampaignsController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllCampaignsOperation.execute();
+        const result = await this.getAllCampaignsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getCampaignByIdOperation.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getByUserId(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignsByUserIdOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -99,7 +114,7 @@ export default class CampaignsController {
         const { userId } = req.query as { userId: string };
         const payload = req.body;
 
-        const result = await this._publishmentOperation.execute({
+        const result = await this.publishmentOperation.execute({
             campaignId: id,
             userId,
             payload,
@@ -109,14 +124,11 @@ export default class CampaignsController {
 
     public async inviteEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId, username } = req.user as Express.User;
         const { targetEmail } = req.query as { targetEmail: string };
 
-        await this._postInvitationEmailOperation.execute({
+        await this.postInvitationEmailOperation.execute({
             campaignId: id,
             targetEmail,
-            userId,
-            username,
         });
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
@@ -126,7 +138,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { playerId } = req.query as { playerId: string };
 
-        await this._postBanPlayerOperation.execute({
+        await this.postBanPlayerOperation.execute({
             campaignId: id,
             playerId,
         });
@@ -136,18 +148,18 @@ export default class CampaignsController {
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, operation } = req.query as {
+        const { imageId, operation } = req.body as {
             imageId?: string;
             operation: 'add' | 'remove';
         };
 
-        const mapImage = req.file as FileObject;
+        const picture = req.file as FileObject;
 
-        const result = await this._updateMatchMapImagesOperation.execute({
+        const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
             imageId,
             operation,
-            mapImage,
+            picture,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
@@ -155,10 +167,9 @@ export default class CampaignsController {
 
     public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { operation } = req.query as { operation: 'add' | 'remove' };
-        const { title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
+        const { operation, title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
 
-        const result = await this._updateMatchMusicsOperation.execute({
+        const result = await this.updateMatchMusicsOperation.execute({
             campaignId: id,
             title,
             operation,
@@ -168,14 +179,14 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async updateMatchDates(req: Request, res: Response): Promise<Response> {
+    public async updateMatchDate(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { operation, date } = req.query as {
             operation: 'add' | 'remove';
             date: string;
         };
 
-        const result = await this._updateMatchDatesOperation.execute({
+        const result = await this.updateMatchDateOperation.execute({
             campaignId: id,
             date,
             operation,
@@ -184,34 +195,48 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async addMatchPlayers(req: Request, res: Response): Promise<Response> {
+    public async addCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { characterId, password } = req.query as {
-            characterId: string;
+        const { password } = req.query as {
             password: string;
         };
         const { userId } = req.user as Express.User;
 
-        const result = await this._addMatchPlayersOperation.execute({
+        const result = await this.addCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
-            characterId,
             password,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async removeMatchPlayers(req: Request, res: Response): Promise<Response> {
+    public async removeCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this._removeMatchPlayersOperation.execute({
+        const result = await this.removeCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async addPlayerCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { characterId } = req.query as {
+            characterId: string;
+        };
+
+        const result = await this.addPlayerCharacterOperation.execute({
+            campaignId: id,
+            userId,
+            characterId,
+        });
+
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
@@ -219,7 +244,7 @@ export default class CampaignsController {
         const payload = req.body;
         const cover = req.file;
 
-        const result = await this._updateCampaignOperation.execute({
+        const result = await this.updateCampaignOperation.execute({
             ...payload,
             cover,
             campaignId: id,
@@ -230,19 +255,17 @@ export default class CampaignsController {
 
     public async updateCampaignImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, name, operation } = req.query as {
+        const { imageId, operation } = req.body as {
             imageId?: string;
-            name?: string;
             operation: 'add' | 'remove';
         };
 
-        const image = req.file as FileObject;
+        const picture = req.file as FileObject;
 
-        const result = await this._updateCampaignImagesOperation.execute({
+        const result = await this.updateCampaignImagesOperation.execute({
             campaignId: id,
             imageId,
-            image,
-            name,
+            picture: picture as unknown as File,
             operation,
         });
 

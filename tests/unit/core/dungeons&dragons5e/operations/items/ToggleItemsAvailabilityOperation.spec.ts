@@ -3,9 +3,7 @@ import ToggleItemOperation from 'src/core/dungeons&dragons5e/operations/items/To
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: ToggleItemOperation', () => {
-    let toggleItemOperation: ToggleItemOperation,
-        toggleItemsAvailabilityService: any,
-        item: any;
+    let toggleItemOperation: ToggleItemOperation, toggleItemsAvailabilityService: any, item: any;
 
     const logger = (): void => {};
 

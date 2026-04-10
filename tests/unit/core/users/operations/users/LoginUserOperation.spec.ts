@@ -45,9 +45,7 @@ describe('Core :: Users :: Operations :: LoginUserOperation', () => {
             });
 
             it('should execute with success', async () => {
-                const { tokenData, cookieOptions } = await loginUserOperation.execute(
-                    '123'
-                );
+                const { tokenData, cookieOptions } = await loginUserOperation.execute('123');
 
                 expect(loginUserService.enrichToken).to.have.been.calledWith('123');
                 expect(loginUserService.setCookieOptions).to.have.been.called();

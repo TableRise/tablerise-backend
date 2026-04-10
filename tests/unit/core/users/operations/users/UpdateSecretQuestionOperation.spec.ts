@@ -1,13 +1,13 @@
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import sinon from 'sinon';
 import UpdateSecretQuestionOperation from 'src/core/users/operations/users/UpdateSecretQuestionOperation';
-import { UserSecretQuestion } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Operations :: UpdateSecretQuestionOperation', () => {
     let updateSecretQuestionOperation: UpdateSecretQuestionOperation,
         updateSecretQuestionService: any,
         userDetails: any,
-        newQuestion: UserSecretQuestion,
+        newQuestion: UserDetail['secretQuestion'],
         payload: any;
 
     const logger = (): void => {};

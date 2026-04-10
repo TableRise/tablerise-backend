@@ -3,9 +3,7 @@ import GetDisabledSpellsOperation from 'src/core/dungeons&dragons5e/operations/s
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledSpellsOperation', () => {
-    let getDisabledSpellsOperation: GetDisabledSpellsOperation,
-        getDisabledSpellsService: any,
-        spells: any;
+    let getDisabledSpellsOperation: GetDisabledSpellsOperation, getDisabledSpellsService: any, spells: any;
 
     const logger = (): void => {};
 

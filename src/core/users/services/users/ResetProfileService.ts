@@ -2,10 +2,10 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class ResetProfileService {
-    private readonly _usersDetailsRepository;
-    private readonly _stateMachine;
-    private readonly _usersRepository;
-    private readonly _logger;
+    private readonly usersDetailsRepository;
+    private readonly stateMachine;
+    private readonly usersRepository;
+    private readonly logger;
 
     constructor({
         usersDetailsRepository,
@@ -13,20 +13,20 @@ export default class ResetProfileService {
         usersRepository,
         logger,
     }: UserCoreDependencies['resetProfileServiceContract']) {
-        this._usersRepository = usersRepository;
-        this._usersDetailsRepository = usersDetailsRepository;
-        this._stateMachine = stateMachine;
-        this._logger = logger;
+        this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
+        this.stateMachine = stateMachine;
+        this.logger = logger;
 
         this.reset = this.reset.bind(this);
     }
 
     public async reset(userId: string): Promise<void> {
-        this._logger('info', 'Reset - ResetProfileService');
-        const { status, flows } = this._stateMachine.props;
+        this.logger('info', 'Reset - ResetProfileService');
+        const { status, flows } = this.stateMachine.props;
 
-        const userInDb = await this._usersRepository.findOne({ userId });
-        const userDetailInDb = await this._usersDetailsRepository.findOne({ userId });
+        const userInDb = await this.usersRepository.findOne({ userId });
+        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 
         if (userInDb.inProgress.status !== status.WAIT_TO_RESET_PROFILE)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -35,14 +35,14 @@ export default class ResetProfileService {
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
-        await this._stateMachine.machine(flows.RESET_PROFILE, userInDb);
+        await this.stateMachine.machine(flows.RESET_PROFILE, userInDb);
 
-        await this._usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: userInDb.userId },
             payload: userInDb,
         });
 
-        await this._usersDetailsRepository.update({
+        await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });

@@ -3,9 +3,7 @@ import GetDisabledGodsOperation from 'src/core/dungeons&dragons5e/operations/god
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledGodsOperation', () => {
-    let getDisabledGodsOperation: GetDisabledGodsOperation,
-        getDisabledGodsService: any,
-        gods: any;
+    let getDisabledGodsOperation: GetDisabledGodsOperation, getDisabledGodsService: any, gods: any;
 
     const logger = (): void => {};
 

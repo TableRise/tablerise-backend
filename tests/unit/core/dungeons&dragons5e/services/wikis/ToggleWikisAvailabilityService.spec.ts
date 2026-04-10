@@ -3,9 +3,7 @@ import ToggleWikisAvailabilityService from 'src/core/dungeons&dragons5e/services
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: ToggleWikisAvailabilityService', () => {
-    let toggleWikisAvailabilityService: ToggleWikisAvailabilityService,
-        dungeonsAndDragonsRepository: any,
-        wiki: any;
+    let toggleWikisAvailabilityService: ToggleWikisAvailabilityService, dungeonsAndDragonsRepository: any, wiki: any;
 
     const logger = (): void => {};
 
@@ -34,9 +32,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: ToggleWikisAvailabilityServic
                 availability: false,
             });
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Wikis'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Wikis');
             expect(wikisTest).to.be.deep.equal({ ...wiki[0], active: false });
         });
     });

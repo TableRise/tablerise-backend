@@ -74,9 +74,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         });
 
         it('should return correct keys', () => {
-            const userDetailsDefaultKeys = Object.keys(
-                DomainDataFaker.generateUserDetailsJSON()[0]
-            );
+            const userDetailsDefaultKeys = Object.keys(DomainDataFaker.generateUserDetailsJSON()[0]);
             const userDetails = {};
             const serialized = serializer.postUserDetails(userDetails);
 
@@ -94,6 +92,7 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         it('should return correct keys', () => {
             const campaignDefault = CampaignDomainDataFaker.generateCampaignsJSON()[0];
 
+            // @ts-expect-error visibility is required in Campaign
             delete campaignDefault.visibility;
 
             const campaignDefaultKeys = Object.keys(campaignDefault);
@@ -114,7 +113,9 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         it('should return correct keys', () => {
             const characterDefault = CharacterDomainDataFaker.generateCharactersJSON()[0];
 
+            // @ts-expect-error createdAt/updatedAt are required in CharactersDnd
             delete characterDefault.createdAt;
+            // @ts-expect-error createdAt/updatedAt are required in CharactersDnd
             delete characterDefault.updatedAt;
 
             const characterDefaultKeys = Object.keys(characterDefault);

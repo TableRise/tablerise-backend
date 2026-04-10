@@ -5,10 +5,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
-    let postBanPlayerService: PostBanPlayerService,
-        usersDetailsRepository: any,
-        campaignsRepository: any,
-        payload: any;
+    let postBanPlayerService: PostBanPlayerService, usersDetailsRepository: any, campaignsRepository: any, payload: any;
 
     const logger = (): void => {};
 
@@ -28,14 +25,14 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                         {
                             userId: playerId,
                             role: 'any',
+                            status: 'active',
                         },
                     ],
-                    bannedPlayers: [],
                 };
 
                 userDetail = {
                     gameInfo: {
-                        bannedFromCampaigns: [],
+                        campaigns: [campaignId],
                     },
                 };
 
@@ -131,9 +128,7 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                     } catch (error) {
                         const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal('Player not in match');
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.NOT_FOUND)
-                        );
+                        expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                         expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     }
                 });
@@ -198,14 +193,12 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                         const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal('Player is the dungeon master');
                         expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
+                        expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     }
                 });
             });
 
-            context('when the player is player already banned', () => {
+            context('when the player was not added to the campaign yet', () => {
                 let campaign: any;
                 let campaignId: any;
                 let playerId: any;
@@ -262,11 +255,73 @@ describe('Core :: Campaigns :: Services :: PostBanPlayerService', () => {
                         expect('it should not be here').to.be.equal(false);
                     } catch (error) {
                         const err = error as HttpRequestErrors;
+                        expect(err.message).to.be.equal('Player not in match');
+                        expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                        expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                    }
+                });
+            });
+
+            context('when the player was banned already', () => {
+                let campaign: any;
+                let campaignId: any;
+                let playerId: any;
+                let userDetail: any;
+
+                beforeEach(() => {
+                    campaignId = newUUID();
+                    playerId = newUUID();
+
+                    campaign = {
+                        campaignPlayers: [
+                            {
+                                userId: playerId,
+                                role: 'any',
+                                status: 'banned',
+                            },
+                        ],
+                    };
+
+                    userDetail = {
+                        gameInfo: {
+                            campaigns: [],
+                        },
+                    };
+
+                    usersDetailsRepository = {
+                        findOne: () => userDetail,
+                        update: () => {},
+                    };
+
+                    campaignsRepository = {
+                        findOne: () => campaign,
+                        update: () => ({
+                            success: true,
+                        }),
+                    };
+
+                    payload = {
+                        campaignId,
+                        playerId,
+                    };
+
+                    postBanPlayerService = new PostBanPlayerService({
+                        usersDetailsRepository,
+                        campaignsRepository,
+                        logger,
+                    });
+                });
+
+                it('should return the correct error', async () => {
+                    try {
+                        await postBanPlayerService.banPlayer(payload);
+
+                        expect('it should not be here').to.be.equal(false);
+                    } catch (error) {
+                        const err = error as HttpRequestErrors;
                         expect(err.message).to.be.equal('Player is already banned');
                         expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
+                        expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     }
                 });
             });

@@ -1,28 +1,22 @@
-import { Item } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Item } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleItemsAvailabilityOperationContract } from 'src/types/modules/core/dungeons&dragons5e/items/ToggleItemsAvailabilityOperation';
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleItemsAvailabilityOperation {
-    private readonly _toggleItemsAvailabilityService;
-    private readonly _logger;
+    private readonly toggleItemsAvailabilityService;
+    private readonly logger;
 
-    constructor({
-        toggleItemsAvailabilityService,
-        logger,
-    }: ToggleItemsAvailabilityOperationContract) {
-        this._toggleItemsAvailabilityService = toggleItemsAvailabilityService;
-        this._logger = logger;
+    constructor({ toggleItemsAvailabilityService, logger }: ToggleItemsAvailabilityOperationContract) {
+        this.toggleItemsAvailabilityService = toggleItemsAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Item>> {
-        this._logger('info', 'Execute - GetItemOperation');
-        const items = await this._toggleItemsAvailabilityService.toggle({
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Item>> {
+        this.logger('info', 'Execute - GetItemOperation');
+        const items = await this.toggleItemsAvailabilityService.toggle({
             id,
             availability,
         });

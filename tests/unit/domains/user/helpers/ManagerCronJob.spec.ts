@@ -33,16 +33,8 @@ describe('Domains :: Users :: Helpers :: ManagerCronConJob', () => {
             it('should return the correct result', async () => {
                 await managerCronJob.run();
                 expect(logger).to.have.been.called();
-                expect(logger).to.have.been.calledWith(
-                    'info',
-                    'CronManager - Starting Jobs',
-                    true
-                );
-                expect(logger).to.have.been.calledWith(
-                    'info',
-                    'CronManager - All Jobs Scheduled',
-                    true
-                );
+                expect(logger).to.have.been.calledWith('info', 'CronManager - Starting Jobs', true);
+                expect(logger).to.have.been.calledWith('info', 'CronManager - All Jobs Scheduled', true);
 
                 await clock.tickAsync(ONE_MINUTE_TICK);
                 expect(cronJobFunctionSpy).to.have.been.called();

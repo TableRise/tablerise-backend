@@ -1,28 +1,22 @@
-import { Class } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Class } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { ToggleClassesAvailabilityOperationContract } from 'src/types/modules/core/dungeons&dragons5e/classes/ToggleClassesAvailability';
 import { AvailabilityPayload } from 'src/types/api/dungeons&dragons5e/http/payload';
 
 export default class ToggleClassesAvailabilityOperation {
-    private readonly _toggleClassesAvailabilityService;
-    private readonly _logger;
+    private readonly toggleClassesAvailabilityService;
+    private readonly logger;
 
-    constructor({
-        toggleClassesAvailabilityService,
-        logger,
-    }: ToggleClassesAvailabilityOperationContract) {
-        this._toggleClassesAvailabilityService = toggleClassesAvailabilityService;
-        this._logger = logger;
+    constructor({ toggleClassesAvailabilityService, logger }: ToggleClassesAvailabilityOperationContract) {
+        this.toggleClassesAvailabilityService = toggleClassesAvailabilityService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({
-        id,
-        availability,
-    }: AvailabilityPayload): Promise<Internacional<Class>> {
-        this._logger('info', 'Execute - GetClassOperation');
-        const classes = await this._toggleClassesAvailabilityService.toggle({
+    public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Class>> {
+        this.logger('info', 'Execute - GetClassOperation');
+        const classes = await this.toggleClassesAvailabilityService.toggle({
             id,
             availability,
         });

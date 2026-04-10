@@ -3,9 +3,7 @@ import GetWeaponService from 'src/core/dungeons&dragons5e/services/weapons/GetWe
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetWeaponService', () => {
-    let getWeaponService: GetWeaponService,
-        dungeonsAndDragonsRepository: any,
-        weapon: any;
+    let getWeaponService: GetWeaponService, dungeonsAndDragonsRepository: any, weapon: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetWeaponService', () => {
         it('should return the correct data and call correct methods', async () => {
             const weaponsTest = await getWeaponService.get('123');
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Weapons'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Weapons');
             expect(weaponsTest).to.be.deep.equal(weapon[0]);
         });
     });

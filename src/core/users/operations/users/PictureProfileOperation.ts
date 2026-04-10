@@ -1,23 +1,20 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
 
 export default class PictureProfileOperation {
-    private readonly _pictureProfileService;
-    private readonly _logger;
+    private readonly pictureProfileService;
+    private readonly logger;
 
-    constructor({
-        logger,
-        pictureProfileService,
-    }: UserCoreDependencies['pictureProfileOperationContract']) {
-        this._pictureProfileService = pictureProfileService;
-        this._logger = logger;
+    constructor({ logger, pictureProfileService }: UserCoreDependencies['pictureProfileOperationContract']) {
+        this.pictureProfileService = pictureProfileService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, image }: UserImagePayload): Promise<UserInstance> {
-        this._logger('info', 'Execute - PictureProfileOperation');
-        return this._pictureProfileService.uploadPicture({ userId, image });
+    public async execute({ userId, image }: UserImagePayload): Promise<User> {
+        this.logger('info', 'Execute - PictureProfileOperation');
+        return this.pictureProfileService.uploadPicture({ userId, image });
     }
 }

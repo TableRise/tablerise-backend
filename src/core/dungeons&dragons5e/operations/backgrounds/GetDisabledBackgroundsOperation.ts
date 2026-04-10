@@ -1,24 +1,21 @@
-import { Background } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Background } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetDisabledBackgroundsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/backgrounds/GetDisabledBackgrounds';
 
 export default class GetDisabledBackgroundsOperation {
-    private readonly _getDisabledBackgroundsService;
-    private readonly _logger;
+    private readonly getDisabledBackgroundsService;
+    private readonly logger;
 
-    constructor({
-        getDisabledBackgroundsService,
-        logger,
-    }: GetDisabledBackgroundsOperationContract) {
-        this._getDisabledBackgroundsService = getDisabledBackgroundsService;
-        this._logger = logger;
+    constructor({ getDisabledBackgroundsService, logger }: GetDisabledBackgroundsOperationContract) {
+        this.getDisabledBackgroundsService = getDisabledBackgroundsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Background>>> {
-        this._logger('info', 'Execute - GetBackgroundOperation');
-        const backgrounds = await this._getDisabledBackgroundsService.getAllDisabled();
+        this.logger('info', 'Execute - GetBackgroundOperation');
+        const backgrounds = await this.getDisabledBackgroundsService.getAllDisabled();
         return backgrounds;
     }
 }

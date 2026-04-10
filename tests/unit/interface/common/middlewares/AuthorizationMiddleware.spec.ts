@@ -4,7 +4,7 @@ import AuthorizationMiddleware from 'src/interface/common/middlewares/Authorizat
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import questionEnum from 'src/domains/users/enums/questionEnum';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import StateMachine from 'src/domains/common/StateMachine';
@@ -12,6 +12,8 @@ import StateMachine from 'src/domains/common/StateMachine';
 describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => {
     let authorizationMiddleware: AuthorizationMiddleware,
         usersRepository: any,
+        schemaValidator: any,
+        usersSchemas: any,
         usersDetailsRepository: any,
         twoFactorHandler: any;
 
@@ -48,7 +50,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     }),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -66,37 +79,6 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
             });
         });
 
-        context('And the user not exist', () => {
-            beforeEach(() => {
-                usersRepository = {};
-
-                usersDetailsRepository = { findOne: () => null };
-
-                twoFactorHandler = {};
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                try {
-                    request.user = { userId: '123' } as Express.User;
-                    await authorizationMiddleware.checkAdminRole(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User does not exist');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal('NotFound');
-                }
-            });
-        });
-
         context('And the user is not admin', () => {
             beforeEach(() => {
                 usersRepository = {};
@@ -110,7 +92,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     }),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -142,50 +135,6 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
 
-        context('And the 2FA token is correct with ID', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
-                        },
-                        twoFactorSecret: {
-                            active: true,
-                        },
-                    }),
-                    update: sinon.spy(),
-                };
-
-                usersDetailsRepository = {};
-
-                twoFactorHandler = {
-                    validate: sinon.spy(() => true),
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should call next', async () => {
-                request.params = { id: '123' };
-                request.query = { token: '123', flow: 'update-password' };
-
-                await authorizationMiddleware.twoFactor(request, response, next);
-
-                expect(twoFactorHandler.validate).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
-
         context('And the 2FA token is correct with Email', () => {
             beforeEach(() => {
                 usersRepository = {
@@ -206,7 +155,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     validate: sinon.spy(() => true),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -254,7 +214,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     validate: sinon.spy(() => true),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -279,49 +250,9 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'User status is invalid to perform this operation'
-                    );
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
-        });
-
-        context('And the 2FA token is incorrect - user inexistent', () => {
-            beforeEach(() => {
-                usersRepository = { findOne: () => null };
-                usersDetailsRepository = {};
-
-                twoFactorHandler = {};
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { token: '123' };
-
-                    await authorizationMiddleware.twoFactor(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User does not exist');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal('NotFound');
                 }
             });
         });
@@ -343,7 +274,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     validate: sinon.spy(() => true),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -366,9 +308,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('2FA not enabled for this user');
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                 }
             });
@@ -391,7 +331,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                     validate: sinon.spy(() => false),
                 };
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -421,67 +372,13 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
         });
     });
 
-    context('When user has secret question with ID', () => {
+    context('When user has secret question to authenticate', () => {
         const request = {} as Request;
         const response = {} as Response;
         const next = sinon.spy(() => {}) as NextFunction;
 
         response.status = sinon.spy(() => response);
         response.json = sinon.spy(() => response);
-
-        context('And question/answer are correct with id', () => {
-            const secretQuestion = {
-                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red',
-                flow: 'update-password',
-            };
-
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: stateMachine.props.status.WAIT_TO_SECOND_AUTH,
-                        },
-                    }),
-                    update: () => {},
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        secretQuestion,
-                    }),
-                };
-
-                twoFactorHandler = {};
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                request.params = { id: '123' };
-                request.body = secretQuestion;
-                request.query = { flow: 'update-password' };
-                await authorizationMiddleware.secretQuestion(request, response, next);
-
-                expect(next).to.have.been.called();
-            });
-
-            it('should call next - question/answer in query', async () => {
-                request.body = null;
-                request.params = { id: '123' };
-                request.query = secretQuestion;
-                await authorizationMiddleware.secretQuestion(request, response, next);
-
-                expect(next).to.have.been.called();
-            });
-        });
 
         context('And question/answer are correct with email', () => {
             const secretQuestion = {
@@ -497,7 +394,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                             status: stateMachine.props.status.WAIT_TO_SECOND_AUTH,
                         },
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -509,7 +406,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
 
                 twoFactorHandler = {};
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -526,86 +434,73 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
 
                 expect(next).to.have.been.called();
             });
-
-            it('should call next - question/answer in query', async () => {
-                request.body = null;
-                request.params = {};
-                request.query = {
-                    ...secretQuestion,
-                    email: '123@email.com',
-                    flow: 'update-password',
-                };
-                await authorizationMiddleware.secretQuestion(request, response, next);
-
-                expect(next).to.have.been.called();
-            });
         });
 
-        context(
-            'And question/answer are correct with email but user status is invalid',
-            () => {
-                const secretQuestion = {
-                    question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                    answer: 'red',
+        context('And question/answer are correct with email but user status is invalid', () => {
+            const secretQuestion = {
+                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
+                answer: 'red',
+            };
+
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => ({
+                        email: '123@email.com',
+                        inProgress: {
+                            status: stateMachine.props.status.WAIT_TO_CONFIRM,
+                        },
+                    }),
+                    update: (user: User) => {},
                 };
 
-                beforeEach(() => {
-                    usersRepository = {
-                        findOne: () => ({
-                            email: '123@email.com',
-                            inProgress: {
-                                status: stateMachine.props.status.WAIT_TO_CONFIRM,
-                            },
-                        }),
-                        update: (user: UserInstance) => {},
-                    };
+                usersDetailsRepository = {
+                    findOne: () => ({
+                        inProgress: { status: 'done' },
+                        secretQuestion,
+                    }),
+                };
 
-                    usersDetailsRepository = {
-                        findOne: () => ({
-                            inProgress: { status: 'done' },
-                            secretQuestion,
-                        }),
-                    };
+                twoFactorHandler = {};
 
-                    twoFactorHandler = {};
+                schemaValidator = {
+                    entry: () => {},
+                };
 
-                    authorizationMiddleware = new AuthorizationMiddleware({
-                        usersRepository,
-                        stateMachine,
-                        usersDetailsRepository,
-                        twoFactorHandler,
-                        logger,
-                    });
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
+                authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
+                    usersRepository,
+                    stateMachine,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    logger,
                 });
+            });
 
-                it('should call next', async () => {
-                    try {
-                        request.params = {};
-                        request.query = {
-                            email: '123@email.com',
-                            flow: 'update-password',
-                        };
-                        request.body = secretQuestion;
+            it('should call next', async () => {
+                try {
+                    request.params = {};
+                    request.query = {
+                        email: '123@email.com',
+                        flow: 'update-password',
+                    };
+                    request.body = secretQuestion;
 
-                        await authorizationMiddleware.secretQuestion(
-                            request,
-                            response,
-                            next
-                        );
-                        expect('it should not be here').to.be.equal(false);
-                    } catch (error) {
-                        const err = error as HttpRequestErrors;
-                        expect(err.message).to.be.equal(
-                            'User status is invalid to perform this operation'
-                        );
-                        expect(err.name).to.be.equal(
-                            getErrorName(HttpStatusCode.BAD_REQUEST)
-                        );
-                        expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    }
-                });
-            }
-        );
+                    await authorizationMiddleware.secretQuestion(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
 
         context('And question/answer are incorrect', () => {
             const secretQuestionWrong = {
@@ -624,7 +519,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         inProgress: { status: 'done' },
                         email: '123@email.com',
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -639,7 +534,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
 
                 twoFactorHandler = {};
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,
@@ -687,7 +593,7 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
                         inProgress: { status: 'done' },
                         email: '123@email.com',
                     }),
-                    update: (user: UserInstance) => {},
+                    update: (user: User) => {},
                 };
 
                 usersDetailsRepository = {
@@ -699,7 +605,18 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
 
                 twoFactorHandler = {};
 
+                schemaValidator = {
+                    entry: () => {},
+                };
+
+                usersSchemas = {
+                    postAuthenticate2FA: { query: {} },
+                    postAuthenticateSecretQuestion: { query: {}, body: {} },
+                };
+
                 authorizationMiddleware = new AuthorizationMiddleware({
+                    schemaValidator,
+                    usersSchemas,
                     usersRepository,
                     stateMachine,
                     usersDetailsRepository,

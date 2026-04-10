@@ -4,14 +4,14 @@ import UpdateGameInfoService from 'src/core/users/services/users/UpdateGameInfoS
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
     let updateGameInfoService: UpdateGameInfoService,
         usersDetailsRepository: any,
-        userDetails: UserDetailInstance,
-        newUserDetails: UserDetailInstance,
+        userDetails: UserDetail,
+        newUserDetails: UserDetail,
         updateGameInfoPayload: any;
 
     const logger = (): void => {};
@@ -27,6 +27,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'add',
                 };
@@ -36,6 +37,52 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     gameInfo: {
                         ...userDetails.gameInfo,
                         badges: [infoId],
+                    },
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods', async () => {
+                await updateGameInfoService.update(updateGameInfoPayload);
+                expect(usersDetailsRepository.findOne).to.have.been.called();
+                expect(usersDetailsRepository.update).to.have.been.calledWith({
+                    query: { userDetailId: userDetails.userDetailId },
+                    payload: newUserDetails,
+                });
+            });
+        });
+
+        context('When a game info is added - with data', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {
+                        campaignId: infoId,
+                    },
+                    targetInfo: 'campaigns',
+                    operation: 'add',
+                };
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        campaigns: [updateGameInfoPayload.data],
                     },
                 };
 
@@ -72,6 +119,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'add',
                 };
@@ -95,9 +143,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Info already added');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.BAD_REQUEST)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -114,6 +160,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 updateGameInfoPayload = {
                     userId,
                     infoId,
+                    data: {},
                     targetInfo: 'badges',
                     operation: 'remove',
                 };
@@ -123,6 +170,54 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     gameInfo: {
                         ...userDetails.gameInfo,
                         badges: [],
+                    },
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods', async () => {
+                await updateGameInfoService.update(updateGameInfoPayload);
+                expect(usersDetailsRepository.findOne).to.have.been.called();
+                expect(usersDetailsRepository.update).to.have.been.calledWith({
+                    query: { userDetailId: userDetails.userDetailId },
+                    payload: newUserDetails,
+                });
+            });
+        });
+
+        context('When a game info is removed - with data', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {
+                        campaignId: infoId,
+                    },
+                    targetInfo: 'campaigns',
+                    operation: 'remove',
+                };
+
+                userDetails.gameInfo.campaigns = [updateGameInfoPayload.data];
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        campaigns: [],
                     },
                 };
 

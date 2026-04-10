@@ -2,16 +2,15 @@ import sinon from 'sinon';
 import FormData from 'form-data';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
 import requester from 'tests/support/requester';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
 describe('When a campaign is created', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
@@ -43,12 +42,12 @@ describe('When a campaign is created', () => {
 
             const { body } = await requester()
                 .post('/campaigns/create')
-                .field('ageRestriction', campaignPayload.ageRestriction)
-                .field('description', campaignPayload.description)
-                .field('system', campaignPayload.system)
                 .field('title', campaignPayload.title)
-                .field('password', campaignPayload.password)
+                .field('description', campaignPayload.description)
                 .field('visibility', campaignPayload.visibility as string)
+                .field('system', campaignPayload.system)
+                .field('ageRestriction', campaignPayload.ageRestriction)
+                .field('password', campaignPayload.password)
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');

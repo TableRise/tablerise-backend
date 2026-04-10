@@ -1,6 +1,6 @@
 import logger from '@tablerise/dynamic-logger';
 import daysDifference from 'src/domains/common/helpers/daysDifference';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import UsersRepository from '../../../../infra/repositories/user/UsersRepository';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import cron, { ScheduledTask } from 'node-cron';
@@ -15,11 +15,10 @@ export default async function deleteUserCronJob(
 
         const users = await usersRepository.find();
         const deleteUserList = users.filter(
-            (user: UserInstance) =>
-                user.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
+            (user: User) => user.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_DELETE_USER
         );
 
-        deleteUserList.forEach(async (user: UserInstance) => {
+        deleteUserList.forEach(async (user: User) => {
             const { userId, updatedAt } = user;
 
             const exclusionDate = Date.parse(updatedAt);
@@ -28,11 +27,7 @@ export default async function deleteUserCronJob(
             if (daysDifference(exclusionDate, WAIT_TO_EXCLUSION_PERIOD)) {
                 await usersRepository.delete({ userId });
                 await usersDetailsRepository.delete({ userId });
-                logger(
-                    'info',
-                    `DeleteUserCronJob - userDeleted - ${userId} --- ${user.nickname}`,
-                    true
-                );
+                logger('info', `DeleteUserCronJob - userDeleted - ${userId} --- ${user.nickname}`, true);
             }
         });
     });

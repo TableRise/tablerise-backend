@@ -1,47 +1,26 @@
-import {
-    CreateCampaignOperationContract,
-    CreateCampaignServiceContract,
-} from './campaigns/CreateCampaign';
+import { CreateCampaignOperationContract, CreateCampaignServiceContract } from './campaigns/CreateCampaign';
 
-import {
-    GetCampaignByIdOperationContract,
-    GetCampaignByIdServiceContract,
-} from './campaigns/GetCampaignById';
+import { GetCampaignByIdOperationContract, GetCampaignByIdServiceContract } from './campaigns/GetCampaignById';
 
-import {
-    UpdateCampaignOperationContract,
-    UpdateCampaignServiceContract,
-} from './campaigns/UpdateCampaign';
+import { UpdateCampaignOperationContract, UpdateCampaignServiceContract } from './campaigns/UpdateCampaign';
 
 import {
     UpdateMatchMapImagesOperationContract,
     UpdateMatchMapImagesServiceContract,
 } from './campaigns/UpdateMatchMapImages';
 
-import {
-    UpdateMatchMusicsOperationContract,
-    UpdateMatchMusicsServiceContract,
-} from './campaigns/UpdateMatchMapMusics';
+import { UpdateMatchMusicsOperationContract, UpdateMatchMusicsServiceContract } from './campaigns/UpdateMatchMapMusics';
+
+import { updateMatchDateOperationContract, updateMatchDateServiceContract } from './campaigns/UpdateMatchDate';
+
+import { PublishmentOperationContract, PublishmentServiceContract } from './campaigns/publishment';
 
 import {
-    UpdateMatchDatesOperationContract,
-    UpdateMatchDatesServiceContract,
-} from './campaigns/UpdateMatchDates';
+    RemoveCampaignPlayersOperationContract,
+    RemoveCampaignPlayersServiceContract,
+} from './campaigns/RemoveCampaignPlayers';
 
-import {
-    PublishmentOperationContract,
-    PublishmentServiceContract,
-} from './campaigns/publishment';
-
-import {
-    RemoveMatchPlayersOperationContract,
-    RemoveMatchPlayersServiceContract,
-} from './campaigns/RemoveMatchPlayers';
-
-import {
-    AddMatchPlayersOperationContract,
-    AddMatchPlayersServiceContract,
-} from './campaigns/AddMatchPlayers';
+import { AddCampaignPlayersOperationContract, AddCampaignPlayersServiceContract } from './campaigns/AddCampaignPlayers';
 
 import {
     UpdateCampaignImagesOperationContract,
@@ -49,14 +28,18 @@ import {
 } from './campaigns/UpdateCampaignImages';
 
 import {
-    PostInvitationEmailOperation,
+    PostInvitationEmailOperationContract,
     PostInvitationEmailServiceContract,
 } from './campaigns/PostInvitationEmail';
 
+import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './campaigns/PostBanPlayer';
+
+import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
+
 import {
-    PostBanPlayerOperation,
-    PostBanPlayerServiceContract,
-} from './campaigns/PostBanPlayerOperation';
+    GetCampaignsByUserIdOperationContract,
+    GetCampaignsByUserIdServiceContract,
+} from './campaigns/GetCampaignByUserId';
 
 export default interface CampaignCoreDependencies {
     // Operations
@@ -66,12 +49,14 @@ export default interface CampaignCoreDependencies {
     publishmentOperationContract: PublishmentOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
-    updateMatchDatesOperationContract: UpdateMatchDatesOperationContract;
-    addMatchPlayersOperationContract: AddMatchPlayersOperationContract;
-    removeMatchPlayersOperationContract: RemoveMatchPlayersOperationContract;
-    postInvitationEmailOperation: PostInvitationEmailOperation;
-    postBanPlayerOperation: PostBanPlayerOperation;
+    updateMatchDateOperationContract: updateMatchDateOperationContract;
+    addCampaignPlayersOperationContract: AddCampaignPlayersOperationContract;
+    removeCampaignPlayersOperationContract: RemoveCampaignPlayersOperationContract;
+    addPlayerCharacterOperationContract: AddPlayerCharacterOperationContract;
+    postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
+    postBanPlayerOperationContract: PostBanPlayerOperationContract;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
+    getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -80,10 +65,12 @@ export default interface CampaignCoreDependencies {
     publishmentServiceContract: PublishmentServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
-    updateMatchDatesServiceContract: UpdateMatchDatesServiceContract;
-    addMatchPlayersServiceContract: AddMatchPlayersServiceContract;
-    removeMatchPlayersServiceContract: RemoveMatchPlayersServiceContract;
+    updateMatchDateServiceContract: updateMatchDateServiceContract;
+    addCampaignPlayersServiceContract: AddCampaignPlayersServiceContract;
+    removeCampaignPlayersServiceContract: RemoveCampaignPlayersServiceContract;
+    addPlayerCharacterServiceContract: AddPlayerCharacterServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
+    getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
 }

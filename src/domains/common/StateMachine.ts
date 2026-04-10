@@ -1,11 +1,9 @@
-import userStatusEnum, {
-    InProgressStatus,
-} from 'src/domains/users/enums/InProgressStatusEnum';
+import userStatusEnum, { InProgressStatus } from 'src/domains/users/enums/InProgressStatusEnum';
 import HttpRequestErrors from './helpers/HttpRequestErrors';
 import getErrorName from './helpers/getErrorName';
 import { HttpStatusCode } from './helpers/HttpStatusCode';
 import stateFlowsEnum, { stateFlowsKeys } from './enums/stateFlowsEnum';
-import { UserInstance } from '../users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainsDependencies from 'src/types/modules/domains/DomainsDependencies';
 import { StateMachineProps } from 'src/types/modules/domains/StateMachine';
 
@@ -21,21 +19,9 @@ export const StateMachineFlow = {
         status.DONE,
     ],
     [flows.CREATE_USER]: [status.WAIT_TO_CONFIRM, status.DONE],
-    [flows.ACTIVATE_SECRET_QUESTION]: [
-        status.DONE,
-        status.WAIT_TO_ACTIVATE_SECRET_QUESTION,
-        status.DONE,
-    ],
-    [flows.UPDATE_SECRET_QUESTION]: [
-        status.DONE,
-        status.WAIT_TO_UPDATE_SECRET_QUESTION,
-        status.DONE,
-    ],
-    [flows.ACTIVATE_TWO_FACTOR]: [
-        status.DONE,
-        status.WAIT_TO_ACTIVATE_TWO_FACTOR,
-        status.DONE,
-    ],
+    [flows.ACTIVATE_SECRET_QUESTION]: [status.DONE, status.WAIT_TO_ACTIVATE_SECRET_QUESTION, status.DONE],
+    [flows.UPDATE_SECRET_QUESTION]: [status.DONE, status.WAIT_TO_UPDATE_SECRET_QUESTION, status.DONE],
+    [flows.ACTIVATE_TWO_FACTOR]: [status.DONE, status.WAIT_TO_ACTIVATE_TWO_FACTOR, status.DONE],
     [flows.RESET_TWO_FACTOR]: [
         status.DONE,
         status.WAIT_TO_START_RESET_TWO_FACTOR,
@@ -50,23 +36,16 @@ export const StateMachineFlow = {
         status.DONE,
     ],
     [flows.RESET_PROFILE]: [status.DONE, status.WAIT_TO_RESET_PROFILE, status.DONE],
-    [flows.DELETE_PROFILE]: [
-        status.DONE,
-        status.WAIT_TO_FINISH_DELETE_USER,
-        status.WAIT_TO_DELETE_USER,
-    ],
+    [flows.DELETE_PROFILE]: [status.DONE, status.WAIT_TO_FINISH_DELETE_USER, status.WAIT_TO_DELETE_USER],
 };
 
 export default class StateMachine {
-    private readonly _usersRepository;
-    private readonly _logger;
+    private readonly usersRepository;
+    private readonly logger;
 
-    constructor({
-        usersRepository,
-        logger,
-    }: DomainsDependencies['stateMachineContract']) {
-        this._usersRepository = usersRepository;
-        this._logger = logger;
+    constructor({ usersRepository, logger }: DomainsDependencies['stateMachineContract']) {
+        this.usersRepository = usersRepository;
+        this.logger = logger;
     }
 
     public get props(): StateMachineProps {
@@ -76,19 +55,16 @@ export default class StateMachine {
         };
     }
 
-    private _checkPrevStatus(
-        prevStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+    private checkPrevStatus(
+        prevStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
         const prevStatusFromActual = flow[stepIndex === 0 ? stepIndex : stepIndex - 1];
 
-        if (
-            prevStatusFromActual !== prevStatusMustBe &&
-            user.inProgress.currentFlow !== flows.NO_CURRENT_FLOW
-        ) {
+        if (prevStatusFromActual !== prevStatusMustBe && user.inProgress.currentFlow !== flows.NO_CURRENT_FLOW) {
             const errorMessageOne = `Entity actual status is ${status}`;
             const errorMessageTwo = `and previous status should be ${prevStatusMustBe}`;
             const errorMessageThree = `but is actually ${prevStatusFromActual}`;
@@ -102,20 +78,16 @@ export default class StateMachine {
         }
     }
 
-    private _checkNextStatus(
-        nextStatusMustBe: InProgressStatus,
-        flow: InProgressStatus[],
-        status: InProgressStatus,
+    private checkNextStatus(
+        nextStatusMustBe: User['inProgress']['status'],
+        flow: Array<User['inProgress']['status']>,
+        status: User['inProgress']['status'],
         stepIndex: number,
-        user: UserInstance
+        user: User
     ): void {
-        const nextStatusFromActual =
-            flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
+        const nextStatusFromActual = flow[stepIndex + 1 === flow.length ? stepIndex : stepIndex + 1];
 
-        if (
-            nextStatusFromActual !== nextStatusMustBe &&
-            nextStatusMustBe !== 'wait-for-new-flow'
-        ) {
+        if (nextStatusFromActual !== nextStatusMustBe && nextStatusMustBe !== 'wait-for-new-flow') {
             const errorMessageOne = `Entity actual status is ${status}`;
             const errorMessageTwo = `and next status should be ${nextStatusMustBe}`;
             const errorMessageThree = `but is actually ${nextStatusFromActual}`;
@@ -129,34 +101,25 @@ export default class StateMachine {
         }
     }
 
-    private _moveStatus(
-        user: UserInstance,
+    private moveStatus(
+        user: User,
         stepIndex: number,
         selectFlow: InProgressStatus[],
         flow: stateFlowsKeys
-    ): UserInstance['inProgress'] {
-        const userActualStatus =
-            selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
+    ): User['inProgress'] {
+        const userActualStatus = selectFlow.length > stepIndex + 1 ? selectFlow[stepIndex + 1] : selectFlow[0];
 
         let userCurrentFlow =
-            stepIndex + 1 === selectFlow.length - 1
-                ? flows.NO_CURRENT_FLOW
-                : user.inProgress.currentFlow;
+            stepIndex + 1 === selectFlow.length - 1 ? flows.NO_CURRENT_FLOW : user.inProgress.currentFlow;
 
-        if (
-            userCurrentFlow === flows.NO_CURRENT_FLOW &&
-            stepIndex === 0 &&
-            selectFlow.length > 2
-        ) {
+        if (userCurrentFlow === flows.NO_CURRENT_FLOW && stepIndex === 0 && selectFlow.length > 2) {
             userCurrentFlow = flow;
         }
 
         const userPrevStatus = selectFlow[stepIndex];
 
         const userNextStatus =
-            stepIndex < selectFlow.length - 2
-                ? selectFlow[stepIndex + 2]
-                : ('wait-for-new-flow' as InProgressStatus);
+            stepIndex < selectFlow.length - 2 ? selectFlow[stepIndex + 2] : ('wait-for-new-flow' as InProgressStatus);
 
         return {
             status: userActualStatus,
@@ -167,33 +130,27 @@ export default class StateMachine {
         };
     }
 
-    public async machine(
-        flow: stateFlowsKeys,
-        user: UserInstance
-    ): Promise<UserInstance> {
-        this._logger('warn', 'Machine - StateMachine');
+    public async machine(flow: stateFlowsKeys, user: User): Promise<User> {
+        this.logger('warn', 'Machine - StateMachine');
 
         const { status, nextStatusWillBe, prevStatusMustBe } = user.inProgress;
 
-        this._logger(
-            'info',
-            `Actual user status is ${status} and must change to ${nextStatusWillBe}`
-        );
+        this.logger('info', `Actual user status is ${status} and must change to ${nextStatusWillBe}`);
 
         const selectFlow = StateMachineFlow[flow as keyof typeof StateMachineFlow];
         const stepIndex = selectFlow.findIndex((flowState) => flowState === status);
 
-        this._checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
-        this._checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
+        this.checkPrevStatus(prevStatusMustBe, selectFlow, status, stepIndex, user);
+        this.checkNextStatus(nextStatusWillBe, selectFlow, status, stepIndex, user);
 
-        user.inProgress = this._moveStatus(user, stepIndex, selectFlow, flow);
+        user.inProgress = this.moveStatus(user, stepIndex, selectFlow, flow);
 
-        const userWithStatesUpdated = await this._usersRepository.update({
+        const userWithStatesUpdated = await this.usersRepository.update({
             query: { userId: user.userId },
             payload: user,
         });
 
-        this._logger('info', 'Status update successfully completed');
+        this.logger('info', 'Status update successfully completed');
 
         return userWithStatesUpdated;
     }

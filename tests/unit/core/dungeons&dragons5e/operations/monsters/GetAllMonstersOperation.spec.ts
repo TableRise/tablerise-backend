@@ -3,9 +3,7 @@ import GetAllMonstersOperation from 'src/core/dungeons&dragons5e/operations/mons
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllMonstersOperation', () => {
-    let getAllMonstersOperation: GetAllMonstersOperation,
-        getAllMonstersService: any,
-        monsters: any;
+    let getAllMonstersOperation: GetAllMonstersOperation, getAllMonstersService: any, monsters: any;
 
     const logger = (): void => {};
 

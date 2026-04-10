@@ -3,27 +3,21 @@ import { UpdateMatchMusicsPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class UpdateMatchMusicsOperation {
-    private readonly _updateMatchMusicsService;
-    private readonly _logger;
+    private readonly updateMatchMusicsService;
+    private readonly logger;
 
-    constructor({
-        updateMatchMusicsService,
-        logger,
-    }: CampaignCoreDependencies['updateMatchMusicsOperationContract']) {
-        this._updateMatchMusicsService = updateMatchMusicsService;
-        this._logger = logger;
+    constructor({ updateMatchMusicsService, logger }: CampaignCoreDependencies['updateMatchMusicsOperationContract']) {
+        this.updateMatchMusicsService = updateMatchMusicsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     async execute(payload: UpdateMatchMusicsPayload): Promise<Music[]> {
-        this._logger('info', 'Execute - UpdateMatchMusicsOperation');
+        this.logger('info', 'Execute - UpdateMatchMusicsOperation');
 
-        const campaignWithOperationDone =
-            await this._updateMatchMusicsService.updateMatchMusics(payload);
-        const savedCampaign = await this._updateMatchMusicsService.save(
-            campaignWithOperationDone
-        );
+        const campaignWithOperationDone = await this.updateMatchMusicsService.updateMatchMusics(payload);
+        const savedCampaign = await this.updateMatchMusicsService.save(campaignWithOperationDone);
 
         return savedCampaign.matchData.musics;
     }

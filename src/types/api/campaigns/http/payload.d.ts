@@ -28,6 +28,12 @@ export interface GetCampaignByIdPayload {
     campaignId: string;
 }
 
+export interface addCharacterPayload {
+    campaignId: string;
+    userId: string;
+    characterId: string;
+}
+
 export interface publishmentPayload {
     campaignId: string;
     userId: string;
@@ -51,20 +57,19 @@ export interface UpdateMatchMusicsPayload {
     operation: 'add' | 'remove';
 }
 
-export interface UpdateMatchDatesPayload {
+export interface updateMatchDatePayload {
     campaignId: string;
     date: string;
     operation: 'add' | 'remove';
 }
 
-export interface AddMatchPlayersPayload {
+export interface AddCampaignPlayersPayload {
     campaignId: string;
     userId: string;
-    characterId?: string;
     password: string;
 }
 
-export interface RemoveMatchPlayersPayload {
+export interface RemoveCampaignPlayersPayload {
     campaignId: string;
     userId: string;
 }
@@ -72,13 +77,6 @@ export interface RemoveMatchPlayersPayload {
 export interface CheckCharactersPayload {
     userId: string;
     characterId: string;
-}
-
-export interface PostInvitationEmailPayload {
-    campaignId: string;
-    userId: string;
-    targetEmail: string;
-    username: string;
 }
 
 export interface PostBanPlayerPayload {
@@ -89,7 +87,6 @@ export interface PostBanPlayerPayload {
 export interface UpdateCampaignImagesPayload {
     campaignId: string;
     image?: FileObject;
-    name?: string;
     imageId?: string;
     operation: 'add' | 'remove';
 }

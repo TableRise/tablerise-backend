@@ -11,16 +11,16 @@ import DatabaseManagement from '@tablerise/database-management';
 import { createServer } from 'http';
 
 export default class Application {
-    private readonly _dungeonsAndDragonsRoutesMiddleware;
-    private readonly _usersRoutesMiddleware;
-    private readonly _campaignsRoutesMiddleware;
-    private readonly _charactersRoutesMiddleware;
-    private readonly _swaggerGenerator;
-    private readonly _accessHeadersMiddleware;
-    private readonly _errorMiddleware;
-    private readonly _socketIO;
-    private readonly _logger;
-    private readonly _managerCronJob;
+    private readonly dungeonsAndDragonsRoutesMiddleware;
+    private readonly usersRoutesMiddleware;
+    private readonly campaignsRoutesMiddleware;
+    private readonly charactersRoutesMiddleware;
+    private readonly swaggerGenerator;
+    private readonly accessHeadersMiddleware;
+    private readonly errorMiddleware;
+    private readonly socketIO;
+    private readonly logger;
+    private readonly managerCronJob;
 
     constructor({
         dungeonsAndDragonsRoutesMiddleware,
@@ -34,16 +34,16 @@ export default class Application {
         logger,
         managerCronJob,
     }: ApplicationContract) {
-        this._dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
-        this._usersRoutesMiddleware = usersRoutesMiddleware;
-        this._campaignsRoutesMiddleware = campaignsRoutesMiddleware;
-        this._charactersRoutesMiddleware = charactersRoutesMiddleware;
-        this._swaggerGenerator = swaggerGenerator;
-        this._accessHeadersMiddleware = accessHeadersMiddleware;
-        this._errorMiddleware = errorMiddleware;
-        this._socketIO = socketIO;
-        this._logger = logger;
-        this._managerCronJob = managerCronJob;
+        this.dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
+        this.usersRoutesMiddleware = usersRoutesMiddleware;
+        this.campaignsRoutesMiddleware = campaignsRoutesMiddleware;
+        this.charactersRoutesMiddleware = charactersRoutesMiddleware;
+        this.swaggerGenerator = swaggerGenerator;
+        this.accessHeadersMiddleware = accessHeadersMiddleware;
+        this.errorMiddleware = errorMiddleware;
+        this.socketIO = socketIO;
+        this.logger = logger;
+        this.managerCronJob = managerCronJob;
     }
 
     public setupExpress(): express.Application {
@@ -65,14 +65,14 @@ export default class Application {
             .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
-            .use(this._accessHeadersMiddleware)
+            .use(this.accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
-            .use(this._swaggerGenerator)
-            .use(this._usersRoutesMiddleware.get())
-            .use(this._campaignsRoutesMiddleware.get())
-            .use(this._charactersRoutesMiddleware.get())
-            .use(this._dungeonsAndDragonsRoutesMiddleware.get())
-            .use(this._errorMiddleware);
+            .use(this.swaggerGenerator)
+            .use(this.usersRoutesMiddleware.get())
+            .use(this.campaignsRoutesMiddleware.get())
+            .use(this.charactersRoutesMiddleware.get())
+            .use(this.dungeonsAndDragonsRoutesMiddleware.get())
+            .use(this.errorMiddleware);
 
         return app;
     }
@@ -82,27 +82,19 @@ export default class Application {
         const app = this.setupExpress();
         const server = createServer(app);
 
-        await this._socketIO.connect(server);
-        await this._managerCronJob.run();
+        await this.socketIO.connect(server);
+        await this.managerCronJob.run();
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {
-                this._logger(
-                    'info',
-                    '[ Application - Database connection instanciated ]',
-                    true
-                );
+                this.logger('info', '[ Application - Database connection instanciated ]', true);
             })
             .catch(() => {
-                this._logger('error', '[ Application - Database connection failed ]');
+                this.logger('error', '[ Application - Database connection failed ]');
             });
 
         server.listen(port, () => {
-            this._logger(
-                'info',
-                `[ Application - Server started in port -> ${port} ]`,
-                true
-            );
+            this.logger('info', `[ Application - Server started in port -> ${port} ]`, true);
         });
     }
 }

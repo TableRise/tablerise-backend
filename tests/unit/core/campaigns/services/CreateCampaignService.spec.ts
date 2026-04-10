@@ -1,5 +1,5 @@
 import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
@@ -12,7 +12,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
         campaignsRepository: any,
         usersDetailsRepository: any,
         userDetails: any,
-        campaign: CampaignInstance,
+        campaign: Campaign,
         image: FileObject,
         userId: any;
 
@@ -55,9 +55,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result', async () => {
-                const campaignSerialized = await createCampaignService.serialize(
-                    campaign
-                );
+                const campaignSerialized = await createCampaignService.serialize(campaign);
 
                 expect(campaignSerialized.campaignId).to.be.equal(campaign.campaignId);
             });
@@ -113,11 +111,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result', async () => {
-                const campaignEnriched = await createCampaignService.enrichment(
-                    campaign,
-                    userId,
-                    image
-                );
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
@@ -125,10 +119,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result without image', async () => {
-                const campaignEnriched = await createCampaignService.enrichment(
-                    campaign,
-                    userId
-                );
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();

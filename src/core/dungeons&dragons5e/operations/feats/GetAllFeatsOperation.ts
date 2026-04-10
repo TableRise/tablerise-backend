@@ -1,21 +1,21 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Feat } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Feat } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllFeatsOperationContract } from 'src/types/modules/core/dungeons&dragons5e/feats/GetAllFeats';
 
 export default class GetAllFeatsOperation {
-    private readonly _getAllFeatsService;
-    private readonly _logger;
+    private readonly getAllFeatsService;
+    private readonly logger;
 
     constructor({ getAllFeatsService, logger }: GetAllFeatsOperationContract) {
-        this._getAllFeatsService = getAllFeatsService;
-        this._logger = logger;
+        this.getAllFeatsService = getAllFeatsService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Feat>>> {
-        this._logger('info', 'Execute - GetAllFeatsOperation');
-        const feats = await this._getAllFeatsService.getAll();
+        this.logger('info', 'Execute - GetAllFeatsOperation');
+        const feats = await this.getAllFeatsService.getAll();
         return feats;
     }
 }

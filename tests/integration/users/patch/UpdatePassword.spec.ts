@@ -3,14 +3,13 @@ import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When an user has the password changed', () => {
-    let user: UserInstance, userDetails: UserDetailInstance, model: MongoModel<any>;
+    let user: User, userDetails: UserDetail, model: MongoModel<any>;
 
     context('And all data is correct', () => {
         before(async () => {
@@ -26,7 +25,11 @@ describe('When an user has the password changed', () => {
                 code: 'H45J7F',
             };
 
-            userDetails.secretQuestion = null;
+            userDetails.secretQuestion = {
+                question: '123',
+                answer: '123',
+            } as UserDetail['secretQuestion'];
+            user.twoFactorSecret = { active: true, qrcode: '', secret: '' };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
@@ -36,15 +39,12 @@ describe('When an user has the password changed', () => {
             await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             await requester()
-                .patch(`/users/update/password?email=${user.email}`)
-                .send({ password: 'TheWorld@123' })
+                .patch('/users/update/password')
+                .send({ password: 'TheWorld@123', email: user.email })
                 .expect(HttpStatusCode.NO_CONTENT);
 
             const userInDb = await model.findOne({ email: user.email });
-            const isPasswordValid = await SecurePasswordHandler.comparePassword(
-                'TheWorld@123',
-                userInDb.password
-            );
+            const isPasswordValid = await SecurePasswordHandler.comparePassword('TheWorld@123', userInDb.password);
             expect(isPasswordValid).to.be.true();
         });
     });

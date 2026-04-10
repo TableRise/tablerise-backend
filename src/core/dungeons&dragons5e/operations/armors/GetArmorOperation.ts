@@ -1,21 +1,21 @@
-import { Armor } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Armor } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetArmorOperationContract } from 'src/types/modules/core/dungeons&dragons5e/armors/GetArmor';
 
 export default class GetArmorOperation {
-    private readonly _getArmorService;
-    private readonly _logger;
+    private readonly getArmorService;
+    private readonly logger;
 
     constructor({ getArmorService, logger }: GetArmorOperationContract) {
-        this._getArmorService = getArmorService;
-        this._logger = logger;
+        this.getArmorService = getArmorService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(id: string): Promise<Internacional<Armor>> {
-        this._logger('info', 'Execute - GetArmorOperation');
-        const armor = await this._getArmorService.get(id);
+        this.logger('info', 'Execute - GetArmorOperation');
+        const armor = await this.getArmorService.get(id);
         return armor;
     }
 }

@@ -5,8 +5,7 @@ const get = 'Route to recovery of one user';
 const verify = `This route receives an userId and send an email to verify the user.\n
 The user status is changed and is necessary to confirm the email using the code sent in the email message to perform any further operations.`;
 
-const register =
-    'Route for user registration, after register email confirmation is needed.';
+const register = 'Route for user registration, after register email confirmation is needed.';
 
 const login = 'Route for user login';
 
@@ -32,21 +31,19 @@ const updateGameInfo = `Route to update user game info.\n
 ------------------------
 Params:
 - userId: expects an user id.\n
-Query:
+Body:
 - id: content id to add or remove
 - info: "badges" | "campaigns" | "characters"
 - operation: "add" | "remove"`;
 
 const resetProfile = `Route for user reset, this route erase all the content in: characters - campaigns - badges`;
 
-const profilePicture =
-    'Route used to upload a photo as profile ficture - Only PNG or JPEG';
+const profilePicture = 'Route used to upload a photo as profile ficture - Only PNG or JPEG';
 
 const deleteProfile =
     'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed, if not the secret question will be needed.';
 
-const logoutUser =
-    'Route for logout of an user and addition of token in a forbidden list';
+const logoutUser = 'Route for logout of an user and addition of token in a forbidden list';
 
 const emailCode = 'Route to verify email code sent to user';
 

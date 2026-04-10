@@ -1,26 +1,26 @@
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import { GetCharacterByCampaignPayload } from 'src/types/api/characters/http/payload';
 import { CharacterToPlayerRecover } from 'src/types/api/characters/http/response';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 
 export default class RecoverCharacterByCampaignOperation {
-    private readonly _recoverCharacterByCampaignService;
-    private readonly _logger;
+    private readonly recoverCharacterByCampaignService;
+    private readonly logger;
 
     constructor({
         recoverCharacterByCampaignService,
         logger,
     }: CharacterCoreDependencies['recoverCharacterByCampaignOperationContract']) {
-        this._recoverCharacterByCampaignService = recoverCharacterByCampaignService;
-        this._logger = logger;
+        this.recoverCharacterByCampaignService = recoverCharacterByCampaignService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(
         payload: GetCharacterByCampaignPayload
-    ): Promise<CharacterInstance[] | CharacterToPlayerRecover[]> {
-        this._logger('info', 'RecoverCharacterByCampaignOperation - Execute');
-        return this._recoverCharacterByCampaignService.recoverByCampaign(payload);
+    ): Promise<CharactersDnd[] | CharacterToPlayerRecover[]> {
+        this.logger('info', 'RecoverCharacterByCampaignOperation - Execute');
+        return this.recoverCharacterByCampaignService.recoverByCampaign(payload);
     }
 }

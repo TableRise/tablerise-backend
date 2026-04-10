@@ -3,10 +3,10 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { MagicItemsControllerContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/magicItems/MagicItemsController';
 
 export default class MagicItemsController {
-    private readonly _getMagicItemOperation;
-    private readonly _getAllMagicItemsOperation;
-    private readonly _getDisabledMagicItemsOperation;
-    private readonly _toggleMagicItemsAvailabilityOperation;
+    private readonly getMagicItemOperation;
+    private readonly getAllMagicItemsOperation;
+    private readonly getDisabledMagicItemsOperation;
+    private readonly toggleMagicItemsAvailabilityOperation;
 
     constructor({
         getMagicItemOperation,
@@ -14,11 +14,10 @@ export default class MagicItemsController {
         getDisabledMagicItemsOperation,
         toggleMagicItemsAvailabilityOperation,
     }: MagicItemsControllerContract) {
-        this._getMagicItemOperation = getMagicItemOperation;
-        this._getAllMagicItemsOperation = getAllMagicItemsOperation;
-        this._getDisabledMagicItemsOperation = getDisabledMagicItemsOperation;
-        this._toggleMagicItemsAvailabilityOperation =
-            toggleMagicItemsAvailabilityOperation;
+        this.getMagicItemOperation = getMagicItemOperation;
+        this.getAllMagicItemsOperation = getAllMagicItemsOperation;
+        this.getDisabledMagicItemsOperation = getDisabledMagicItemsOperation;
+        this.toggleMagicItemsAvailabilityOperation = toggleMagicItemsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -29,17 +28,17 @@ export default class MagicItemsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this._getMagicItemOperation.execute(id);
+        const result = await this.getMagicItemOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this._getAllMagicItemsOperation.execute();
+        const result = await this.getAllMagicItemsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this._getDisabledMagicItemsOperation.execute();
+        const result = await this.getDisabledMagicItemsOperation.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -47,7 +46,7 @@ export default class MagicItemsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this._toggleMagicItemsAvailabilityOperation.execute({
+        const result = await this.toggleMagicItemsAvailabilityOperation.execute({
             id,
             availability: availability === 'true',
         });

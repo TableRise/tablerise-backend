@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import UpdateMatchMusicsService from 'src/core/campaigns/services/UpdateMatchMusicsService';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -11,7 +11,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
         campaignsRepository: any,
         updateMusicsPayload: any,
         campaignMusicsLength: number,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
@@ -40,15 +40,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(
-                    updateMusicsPayload
-                );
-                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(
-                    campaignMusicsLength
-                );
-                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(
-                    campaignMusicsLength + 1
-                );
+                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
+                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(campaignMusicsLength);
+                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(campaignMusicsLength + 1);
             });
         });
 
@@ -88,9 +82,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Music link already added');
                     expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                    expect(err.name).to.be.equal(
-                        getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY)
-                    );
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
                 }
             });
         });
@@ -127,15 +119,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(
-                    updateMusicsPayload
-                );
-                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(
-                    campaignMusicsLength
-                );
-                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(
-                    campaignMusicsLength - 1
-                );
+                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
+                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(campaignMusicsLength);
+                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(campaignMusicsLength - 1);
             });
         });
     });

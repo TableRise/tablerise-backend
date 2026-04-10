@@ -1,8 +1,5 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import {
-    UserDetailInstance,
-    UserSecretQuestion,
-} from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail } from 'src/domains/users/schemas/userDetailsValidationSchema';
 import { CookieOptions } from 'express';
 import { JWTResponse } from '../methods';
 
@@ -11,14 +8,14 @@ export default interface UpdateResponse {
     name: string;
 }
 
-export interface RegisterUserResponse extends UserInstance {
-    details: UserDetailInstance;
+export interface RegisterUserResponse extends User {
+    details: UserDetail;
     token?: string;
 }
 
 export interface CompleteUserResponse {
-    user: UserInstance;
-    details: UserDetailInstance;
+    user: User;
+    details: UserDetail;
 }
 
 export interface ConfirmEmailResponse {
@@ -40,5 +37,5 @@ export interface ActivateSecretQuestionResponse {
 }
 
 export interface UpdateSecretQuestionResponse {
-    newQuestion: UserSecretQuestion;
+    newQuestion: UserDetail['secretQuestion'];
 }

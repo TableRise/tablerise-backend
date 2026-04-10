@@ -1,21 +1,21 @@
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
-import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Wiki } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { GetAllWikisOperationContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetAllWikis';
 
 export default class GetAllWikisOperation {
-    private readonly _getAllWikisService;
-    private readonly _logger;
+    private readonly getAllWikisService;
+    private readonly logger;
 
     constructor({ getAllWikisService, logger }: GetAllWikisOperationContract) {
-        this._getAllWikisService = getAllWikisService;
-        this._logger = logger;
+        this.getAllWikisService = getAllWikisService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
     public async execute(): Promise<Array<Internacional<Wiki>>> {
-        this._logger('info', 'Execute - GetAllWikisOperation');
-        const wikis = await this._getAllWikisService.getAll();
+        this.logger('info', 'Execute - GetAllWikisOperation');
+        const wikis = await this.getAllWikisService.getAll();
         return wikis;
     }
 }

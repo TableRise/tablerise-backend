@@ -1,13 +1,13 @@
 import sinon from 'sinon';
 import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/UpdateMatchMusicsOperation';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => {
     let updateMatchMusicsOperation: UpdateMatchMusicsOperation,
         updateMatchMusicsService: any,
         matchMusicsPayload: any,
-        campaign: CampaignInstance;
+        campaign: Campaign;
 
     const logger = (): void => {};
 
@@ -43,16 +43,12 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
             });
 
             it('should call the correct methods', async () => {
-                const updateMusicTest = await updateMatchMusicsOperation.execute(
-                    matchMusicsPayload
-                );
+                const updateMusicTest = await updateMatchMusicsOperation.execute(matchMusicsPayload);
 
                 expect(updateMatchMusicsService.updateMatchMusics).to.have.been.called();
                 expect(updateMatchMusicsService.save).to.have.been.called();
                 expect(updateMusicTest[0]).to.have.property('title');
-                expect(updateMusicTest[0].title).to.be.equal(
-                    campaign.matchData?.musics[0].title
-                );
+                expect(updateMusicTest[0].title).to.be.equal(campaign.matchData?.musics[0].title);
             });
         });
     });

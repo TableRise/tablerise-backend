@@ -1,38 +1,35 @@
 import Google from 'passport-google-oauth20';
 import Facebook from 'passport-facebook';
 import Discord from 'passport-discord';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { UserExternal } from 'src/types/api/users/http/payload';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { ApiImgBBResponse } from 'src/types/modules/infra/clients/ImageStorageClient';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
-import { CharacterInstance } from 'src/domains/characters/schemas/characterPostValidationSchema';
+import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 
 export default class Serializer {
-    private _isDiscordProfile(obj: any): obj is Discord.Profile {
+    private isDiscordProfile(obj: any): obj is Discord.Profile {
         return 'provider' in obj && obj.provider === 'discord';
     }
 
-    private _isGoogleProfile(obj: any): obj is Google.Profile {
+    private isGoogleProfile(obj: any): obj is Google.Profile {
         return 'provider' in obj && obj.provider === 'google';
     }
 
-    public externalUser(
-        userProfile: Google.Profile | Facebook.Profile | Discord.Profile
-    ): UserExternal {
+    public externalUser(userProfile: Google.Profile | Facebook.Profile | Discord.Profile): UserExternal {
         const user: UserExternal = {
             providerId: userProfile.id,
             email: '',
             name: '',
         };
 
-        if (this._isDiscordProfile(userProfile)) {
+        if (this.isDiscordProfile(userProfile)) {
             user.name = userProfile.username;
             user.email = userProfile.email as string;
         }
 
-        if (this._isGoogleProfile(userProfile)) {
+        if (this.isGoogleProfile(userProfile)) {
             user.name = userProfile.displayName;
             user.email = userProfile._json.email as string;
         }
@@ -52,7 +49,7 @@ export default class Serializer {
         twoFactorSecret = null,
         createdAt = null,
         updatedAt = null,
-    }: any): UserInstance {
+    }: any): User {
         return {
             userId,
             providerId,
@@ -79,7 +76,7 @@ export default class Serializer {
         gameInfo = { campaigns: [], characters: [], badges: [], bannedCampaigns: [] },
         biography = null,
         role = 'user',
-    }: any): UserDetailInstance {
+    }: any): UserDetail {
         return {
             userDetailId,
             userId,
@@ -111,12 +108,11 @@ export default class Serializer {
             visibility,
         },
         password = null,
-        bannedPlayers = [],
         lores = null,
         images = null,
         createdAt = null,
         updatedAt = null,
-    }: any): CampaignInstance {
+    }: any): Campaign {
         return {
             campaignId,
             title,
@@ -128,7 +124,6 @@ export default class Serializer {
             matchData,
             infos,
             password,
-            bannedPlayers,
             lores,
             images,
             createdAt,
@@ -145,7 +140,7 @@ export default class Serializer {
         npc = null,
         picture = null,
         logs = null,
-    }: any): CharacterInstance {
+    }: any): Partial<CharactersDnd> {
         return {
             characterId,
             campaignId,
@@ -168,9 +163,7 @@ export default class Serializer {
         dataSerialized.id = id || '';
         dataSerialized.title = title || '';
         dataSerialized.link = url || '';
-        dataSerialized.uploadDate = time
-            ? new Date(time).toISOString()
-            : new Date().toISOString();
+        dataSerialized.uploadDate = time ? new Date(time).toISOString() : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
         dataSerialized.mediumSizeUrl = medium.url || '';
         dataSerialized.deleteUrl = deleteUrl || '';

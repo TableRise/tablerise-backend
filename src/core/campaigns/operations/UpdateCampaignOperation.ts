@@ -1,32 +1,21 @@
-import { CampaignUpdatePayload } from 'src/domains/campaigns/schemas/campaignsUpdateValidationSchema';
-import { CampaignInstance } from 'src/domains/campaigns/schemas/campaignsValidationSchema';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { TUpdateCampaignBody } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 
 export default class UpdateCampaignOperation {
-    private readonly _campaignsSchema;
-    private readonly _schemaValidator;
-    private readonly _updateCampaignService;
-    private readonly _logger;
+    private readonly updateCampaignService;
+    private readonly logger;
 
-    constructor({
-        campaignsSchema,
-        schemaValidator,
-        updateCampaignService,
-        logger,
-    }: CampaignCoreDependencies['updateCampaignOperationContract']) {
-        this._campaignsSchema = campaignsSchema;
-        this._schemaValidator = schemaValidator;
-        this._updateCampaignService = updateCampaignService;
-        this._logger = logger;
+    constructor({ updateCampaignService, logger }: CampaignCoreDependencies['updateCampaignOperationContract']) {
+        this.updateCampaignService = updateCampaignService;
+        this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    async execute(payload: CampaignUpdatePayload): Promise<CampaignInstance> {
-        this._logger('info', 'Execute - UpdateCampaignOperation');
-        this._schemaValidator.entry(this._campaignsSchema.campaignUpdateZod, payload);
-
-        const campaignUpdated = await this._updateCampaignService.update(payload);
-        return this._updateCampaignService.save(campaignUpdated);
+    async execute(payload: TUpdateCampaignBody): Promise<Campaign> {
+        this.logger('info', 'Execute - UpdateCampaignOperation');
+        const campaignUpdated = await this.updateCampaignService.update(payload);
+        return this.updateCampaignService.save(campaignUpdated);
     }
 }

@@ -1,23 +1,23 @@
-import { Wiki } from 'src/domains/dungeons&dragons5e/schemas/DungeonsAndDragons5EInterfaces';
+import { Wiki } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 import { GetWikiServiceContract } from 'src/types/modules/core/dungeons&dragons5e/wikis/GetWiki';
 
 export default class GetWikiService {
-    private readonly _dungeonsAndDragonsRepository;
-    private readonly _logger;
+    private readonly dungeonsAndDragonsRepository;
+    private readonly logger;
 
     constructor({ dungeonsAndDragonsRepository, logger }: GetWikiServiceContract) {
-        this._dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
-        this._logger = logger;
+        this.dungeonsAndDragonsRepository = dungeonsAndDragonsRepository;
+        this.logger = logger;
 
         this.get = this.get.bind(this);
     }
 
     public async get(id: string): Promise<Internacional<Wiki>> {
-        this._logger('info', 'Get - GetWikiService');
-        this._dungeonsAndDragonsRepository.setEntity('Wikis');
+        this.logger('info', 'Get - GetWikiService');
+        this.dungeonsAndDragonsRepository.setEntity('Wikis');
 
-        const wikiInDb = (await this._dungeonsAndDragonsRepository.findOne({
+        const wikiInDb = (await this.dungeonsAndDragonsRepository.findOne({
             wikiId: id,
         })) as Internacional<Wiki>;
 

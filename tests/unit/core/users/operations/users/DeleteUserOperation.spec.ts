@@ -1,14 +1,10 @@
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import sinon from 'sinon';
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 describe('Core :: Users :: Operations :: DeleteUserOperation', () => {
-    let deleteUserOperation: DeleteUserOperation,
-        deleteUserService: any,
-        user: UserInstance,
-        userDetails: UserDetailInstance;
+    let deleteUserOperation: DeleteUserOperation, deleteUserService: any, user: User, userDetails: UserDetail;
 
     const logger = (): void => {};
 

@@ -3,9 +3,7 @@ import GetDisabledSpellsService from 'src/core/dungeons&dragons5e/services/spell
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledSpellsService', () => {
-    let getDisabledSpellsService: GetDisabledSpellsService,
-        dungeonsAndDragonsRepository: any,
-        spells: any;
+    let getDisabledSpellsService: GetDisabledSpellsService, dungeonsAndDragonsRepository: any, spells: any;
 
     const logger = (): void => {};
 
@@ -30,9 +28,7 @@ describe('Core :: Dungeons&dragons5e :: Service :: GetDisabledSpellsService', ()
         it('should return the correct data and call correct methods', async () => {
             const spellsTest = await getDisabledSpellsService.getAllDisabled();
 
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith(
-                'Spells'
-            );
+            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Spells');
             expect(spellsTest).to.be.deep.equal(spells);
         });
     });

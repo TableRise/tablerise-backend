@@ -3,9 +3,7 @@ import GetDisabledRealmsOperation from 'src/core/dungeons&dragons5e/operations/r
 import DomainDataFaker from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
 
 describe('Core :: Dungeons&dragons5e :: Operations :: GetDisabledRealmsOperation', () => {
-    let getDisabledRealmsOperation: GetDisabledRealmsOperation,
-        getDisabledRealmsService: any,
-        realms: any;
+    let getDisabledRealmsOperation: GetDisabledRealmsOperation, getDisabledRealmsService: any, realms: any;
 
     const logger = (): void => {};
 

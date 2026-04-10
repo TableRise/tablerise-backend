@@ -1,14 +1,14 @@
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 
 export default class UsersRepository {
-    private readonly _model;
-    private readonly _updateTimestampRepository;
-    private readonly _serializer;
-    private readonly _logger;
+    private readonly model;
+    private readonly updateTimestampRepository;
+    private readonly serializer;
+    private readonly logger;
 
     constructor({
         updateTimestampRepository,
@@ -16,58 +16,56 @@ export default class UsersRepository {
         serializer,
         logger,
     }: InfraDependencies['usersRepositoryContract']) {
-        this._updateTimestampRepository = updateTimestampRepository;
-        this._model = database.modelInstance('user', 'Users');
-        this._serializer = serializer;
-        this._logger = logger;
+        this.updateTimestampRepository = updateTimestampRepository;
+        this.model = database.modelInstance('user', 'Users');
+        this.serializer = serializer;
+        this.logger = logger;
     }
 
-    private _formatAndSerializeData(data: UserInstance): UserInstance {
+    private formatAndSerializeData(data: User): User {
         const format = JSON.parse(JSON.stringify(data));
-        return this._serializer.postUser(format);
+        return this.serializer.postUser(format);
     }
 
-    public async create(payload: UserInstance): Promise<UserInstance> {
-        this._logger('warn', `Create - UsersRepository`);
+    public async create(payload: User): Promise<User> {
+        this.logger('warn', `Create - UsersRepository`);
 
         payload.userId = newUUID();
 
-        const request = await this._model.create(payload);
-        return this._formatAndSerializeData(request);
+        const request = await this.model.create(payload);
+        return this.formatAndSerializeData(request);
     }
 
-    public async find(query: any = {}): Promise<UserInstance[]> {
-        this._logger('warn', `Find - UsersRepository`);
-        const request = await this._model.findAll(query);
+    public async find(query: any = {}): Promise<User[]> {
+        this.logger('warn', `Find - UsersRepository`);
+        const request = await this.model.findAll(query);
 
-        return request.map((entity: UserInstance) =>
-            this._formatAndSerializeData(entity)
-        );
+        return request.map((entity: User) => this.formatAndSerializeData(entity));
     }
 
-    public async findOne(query: any = {}): Promise<UserInstance> {
-        this._logger('warn', 'FindOne - UsersRepository');
-        const request = await this._model.findOne(query);
+    public async findOne(query: any = {}): Promise<User> {
+        this.logger('warn', 'FindOne - UsersRepository');
+        const request = await this.model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
-    public async update({ query, payload }: UpdateObj): Promise<UserInstance> {
-        this._logger('warn', 'Update - UsersRepository');
+    public async update({ query, payload }: UpdateObj): Promise<User> {
+        this.logger('warn', 'Update - UsersRepository');
 
-        const request = await this._model.update(query, payload);
+        const request = await this.model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        await this._updateTimestampRepository.updateTimestamp(query);
+        await this.updateTimestampRepository.updateTimestamp(query);
 
-        return this._formatAndSerializeData(request);
+        return this.formatAndSerializeData(request);
     }
 
     public async delete(query: any): Promise<void> {
-        this._logger('warn', 'Delete - UsersRepository');
-        await this._model.delete(query);
+        this.logger('warn', 'Delete - UsersRepository');
+        await this.model.delete(query);
     }
 }

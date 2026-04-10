@@ -1,14 +1,13 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { UserDetailInstance } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserInstance } from 'src/domains/users/schemas/usersValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When an user has the email changed', () => {
-    let user: UserInstance, userDetails: UserDetailInstance;
+    let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         before(async () => {
@@ -33,9 +32,7 @@ describe('When an user has the email changed', () => {
                 .send({ email: 'test155@email.com' })
                 .expect(HttpStatusCode.NO_CONTENT);
 
-            const { body } = await requester()
-                .get(`/users/${user.userId}`)
-                .expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             expect(body.email).to.be.not.equal(user.email);
             expect(body.email).to.be.equal('test155@email.com');
