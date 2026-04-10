@@ -11,10 +11,9 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
-        "baseUrl": "./",
         "paths": {
-            "src/*": ["src/*"],
-            "test/*": ["test/*"]
+            "src/*": ["./src/*"],
+            "tests/*": ["./tests/*"]
         }
     },
     "ts-node": {
