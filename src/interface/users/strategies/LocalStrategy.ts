@@ -9,8 +9,12 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import logger from '@tablerise/dynamic-logger';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import InProgressStatusEnum, { InProgressStatus } from 'src/domains/users/enums/InProgressStatusEnum';
 
-const NOT_ALLOWED_STATUS_TO_LOGIN = ['wait-to-delete-user'];
+const NOT_ALLOWED_STATUS_TO_LOGIN = [
+    InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
+    InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+];
 const LocalStrategy = Local.Strategy;
 
 export default class LoginPassport {
@@ -77,7 +81,7 @@ export default class LoginPassport {
                                 })
                             );
 
-                        if (NOT_ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status))
+                        if (NOT_ALLOWED_STATUS_TO_LOGIN.includes(user.inProgress.status as InProgressStatus))
                             return done(
                                 new HttpRequestErrors({
                                     message: 'User status is invalid to perform this operation',

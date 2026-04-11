@@ -61,6 +61,17 @@ export default class Application {
                     secret: (process.env.COOKIE_SECRET as string) || 'catfish',
                 })
             )
+            .use((req, _res, next) => {
+                if (req.session && !req.session.regenerate) {
+                    req.session.regenerate = (cb: () => void) => {
+                        cb();
+                    };
+                    req.session.save = (cb: () => void) => {
+                        cb();
+                    };
+                }
+                next();
+            })
             .use(passport.initialize())
             .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))

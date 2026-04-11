@@ -1,4 +1,5 @@
 import User, { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import { InProgressStatus } from 'src/domains/users/enums/InProgressStatusEnum';
 
 export interface UpdateTimestampPayload {
     userId?: string;
@@ -49,6 +50,7 @@ export interface JWTResponse {
         uploadDate: Date;
     } | null;
     fullname: string;
+    status: InProgressStatus;
     iat?: number;
     exp?: number;
 }
