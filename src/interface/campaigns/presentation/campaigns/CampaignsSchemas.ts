@@ -11,7 +11,7 @@ const postCreateCampaignBodySchema = z.object({
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
     ageRestriction: z.string(),
-    password: z.string().regex(/^\d{4}$/, {
+    password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {
         message: 'Invalid password',
     }),
 });
@@ -24,7 +24,7 @@ const putUpdateCampaignBodySchema = z.object({
 });
 
 const postAddCampaignPlayersQuerySchema = z.object({
-    password: z.string().regex(/^\d{4}$/, {
+    password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {
         message: 'Invalid password',
     }),
 });

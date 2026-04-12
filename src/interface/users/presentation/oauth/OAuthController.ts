@@ -32,9 +32,9 @@ export default class OAuthController {
 
         const result = await this.googleOperation.execute(user as unknown as Google.Profile);
 
-        const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
+        const { cookieOptions } = await this. loginUserOperation.execute(result.token as string);
 
-        const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
+        const urlToRedirect = process.env.URL_TO_REDIRECT ? `${process.env.URL_TO_REDIRECT}?userId=${result.userId}` : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)
@@ -48,7 +48,7 @@ export default class OAuthController {
 
         const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
 
-        const urlToRedirect = process.env.URL_TO_REDIRECT ?? 'http://localhost:3000';
+        const urlToRedirect = process.env.URL_TO_REDIRECT ? `${process.env.URL_TO_REDIRECT}?userId=${result.userId}` : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)

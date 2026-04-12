@@ -1,7 +1,6 @@
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
 import Google from 'passport-google-oauth20';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { __TokenObject } from 'src/types/api/users/methods';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class GoogleOperation {
@@ -17,7 +16,7 @@ export default class GoogleOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(payload: Google.Profile): Promise<RegisterUserResponse | __TokenObject> {
+    public async execute(payload: Google.Profile): Promise<RegisterUserResponse> {
         this.logger('info', 'Execute - GoogleOperation');
 
         const entitySerialized = await this.oAuthService.serialize(payload);

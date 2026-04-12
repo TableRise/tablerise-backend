@@ -1,5 +1,4 @@
-import User from '@tablerise/database-management/dist/src/interfaces/User';
-import { UserDetail } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { CookieOptions } from 'express';
 import { JWTResponse } from '../methods';
 

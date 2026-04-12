@@ -5,7 +5,8 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
-import { __FullUser, __TokenObject, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
+import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
@@ -32,13 +33,13 @@ export default class OAuthService {
         this.saveUser = this.saveUser.bind(this);
     }
 
-    public login(userInDb: User, userSerialized: User): __TokenObject {
+    public login(userInDb: User, userSerialized: User): RegisterUserResponse {
         this.logger('info', 'Login - OAuthService');
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
         if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist', '/register');
 
-        return { token: JWTGenerator.generate(userInDb) };
+        return { ...userInDb, token: JWTGenerator.generate(userInDb) } as RegisterUserResponse;
     }
 
     public async serialize(payload: Google.Profile | Discord.Profile): Promise<__UserSerialized> {
