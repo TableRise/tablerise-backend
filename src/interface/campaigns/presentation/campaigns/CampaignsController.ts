@@ -78,11 +78,14 @@ export default class CampaignsController {
     public async create(req: Request, res: Response): Promise<Response> {
         const campaign = req.body as CampaignPayload;
         const { userId } = req.user as Express.User;
-        const image = req.file as FileObject;
+        const files = req.files as Record<string, Express.Multer.File[]>;
+        const image = files?.cover?.[0] as FileObject | undefined;
+        const mapImages = (files?.mapImages ?? []) as FileObject[];
         const result = await this.createCampaignOperation.execute({
             campaign,
             userId,
             image,
+            mapImages,
         });
 
         delete result.password;

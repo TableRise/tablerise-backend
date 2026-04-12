@@ -72,6 +72,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 campaign.createdAt = null as unknown as string;
                 campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
 
                 serializer = {};
 
@@ -119,11 +120,21 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result without image', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
                 expect(campaignEnriched.updatedAt).to.be.not.null();
+            });
+
+            it('should return the correct result with mapImages', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                const mapImages = [image, image] as FileObject[];
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image, mapImages);
+
+                expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
+                expect(campaignEnriched.images.maps).to.have.lengthOf(2);
             });
         });
     });

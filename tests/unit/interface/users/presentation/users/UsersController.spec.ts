@@ -1150,9 +1150,13 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         it('should correctly call the methods and functions', async () => {
             request.token = '123';
+            response.clearCookie = sinon.spy(() => response);
             await usersController.logoutUser(request, response);
 
             expect(logoutUserOperation.execute).to.have.been.calledWith('123');
+            expect(response.clearCookie).to.have.been.calledWith('token');
+            expect(response.clearCookie).to.have.been.calledWith('session');
+            expect(response.clearCookie).to.have.been.calledWith('session.sig');
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.json).to.have.not.been.called();
             expect(response.end).to.have.been.called();

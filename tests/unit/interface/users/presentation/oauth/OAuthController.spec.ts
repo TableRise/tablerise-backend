@@ -59,7 +59,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             process.env.URL_TO_REDIRECT = 'http://example.com';
 
             request.user = { username: '' } as Express.User;
-            googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
+            googleOperation = { execute: sinon.spy(() => ({ token: 'token-value', userId: '123' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -72,7 +72,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith('http://example.com');
+            expect(response.redirect).to.have.been.calledWith('http://example.com?userId=123');
         });
 
         it('should correctly call the methods and functions', async () => {
@@ -169,7 +169,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             process.env.URL_TO_REDIRECT = 'http://example.com';
 
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
+            discordOperation = { execute: sinon.spy(() => ({ token: 'token-value', userId: '123' })) };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -182,7 +182,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.discord(request, response);
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith('http://example.com');
+            expect(response.redirect).to.have.been.calledWith('http://example.com?userId=123');
         });
 
         it('should correctly call the methods and functions', async () => {

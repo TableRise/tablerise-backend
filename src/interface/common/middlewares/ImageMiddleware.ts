@@ -31,18 +31,35 @@ export default class ImageMiddleware {
 
     public fileType(req: Request, res: Response, next: NextFunction): void {
         this.logger('info', 'FileType - ImageMiddleware');
-        const file = req.file;
-        if (!file) {
+
+        const files: Express.Multer.File[] = [];
+
+        if (req.file) {
+            files.push(req.file);
+        }
+
+        if (req.files) {
+            if (Array.isArray(req.files)) {
+                files.push(...req.files);
+            } else {
+                Object.values(req.files).forEach((fieldFiles) => files.push(...fieldFiles));
+            }
+        }
+
+        if (files.length === 0) {
             next();
             return;
         }
-        const extension = file.mimetype.split('/').pop();
-        if (!ALLOWED_EXT.includes(extension as string))
-            throw new HttpRequestErrors({
-                message: `File extension is not allowed, valid extensions are: [png, jpg, jpeg]`,
-                name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                code: HttpStatusCode.BAD_REQUEST,
-            });
+
+        for (const file of files) {
+            const extension = file.mimetype.split('/').pop();
+            if (!ALLOWED_EXT.includes(extension as string))
+                throw new HttpRequestErrors({
+                    message: `File extension is not allowed, valid extensions are: [png, jpg, jpeg]`,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    code: HttpStatusCode.BAD_REQUEST,
+                });
+        }
 
         next();
     }

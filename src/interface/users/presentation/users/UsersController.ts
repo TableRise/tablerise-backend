@@ -219,6 +219,9 @@ export default class UsersController {
 
     public async logoutUser(req: Request, res: Response): Promise<Response> {
         await this.logoutUserOperation.execute(req.token as string);
+        res.clearCookie('token');
+        res.clearCookie('session');
+        res.clearCookie('session.sig');
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

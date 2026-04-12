@@ -2,14 +2,16 @@ import z from 'zod';
 import { ICampaignsSchemas } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import campaignVisibilityEnum from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import systemsEnum from 'src/domains/common/enums/systemsEnum';
-import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
 
 const postCreateCampaignBodySchema = z.object({
     title: z.string(),
-    cover: imageObjectZodSchema.or(z.string()).optional(),
+    cover: z.file().optional(),
+    mapImages: z.array(z.file()).max(3).optional(),
     description: z.string().max(255),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
+    musics: z.string(),
+    lore: z.string(),
     ageRestriction: z.string(),
     password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {
         message: 'Invalid password',

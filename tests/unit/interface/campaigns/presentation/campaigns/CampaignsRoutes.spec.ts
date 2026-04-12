@@ -12,7 +12,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
     context('When all the routes are correctly implemented', () => {
         campaignsController = {};
         verifyIdMiddleware = () => ({});
-        imageMiddleware = { multer: () => ({ single: () => {} }) };
+        imageMiddleware = { multer: () => ({ single: () => {}, fields: () => {} }) };
         authorizationMiddleware = {};
         verifyMatchMiddleware = { exists: () => {} };
         campaignsSchemas = {

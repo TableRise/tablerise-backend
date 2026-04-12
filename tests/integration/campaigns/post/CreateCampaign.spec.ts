@@ -48,6 +48,8 @@ describe('When a campaign is created', () => {
                 .field('system', campaignPayload.system)
                 .field('ageRestriction', campaignPayload.ageRestriction)
                 .field('password', campaignPayload.password)
+                .field('musics', '[]')
+                .field('lore', 'A great adventure begins')
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
@@ -68,7 +70,8 @@ describe('When a campaign is created', () => {
             expect(body).to.have.property('infos');
             expect(body.infos.visibility).to.be.equal(campaignPayload.visibility);
             expect(body).to.have.property('lores');
-            expect(body.lores).to.be.equal(null);
+            expect(body.lores).to.have.property('mainHistory');
+            expect(body.lores.mainHistory[0].lore).to.be.equal('A great adventure begins');
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
         });

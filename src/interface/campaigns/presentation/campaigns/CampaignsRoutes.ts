@@ -73,7 +73,10 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('cover'),
+                        this.imageMiddleware.multer().fields([
+                            { name: 'cover', maxCount: 1 },
+                            { name: 'mapImages', maxCount: 3 }
+                        ]),
                         this.imageMiddleware.fileType,
                     ],
                     schemas: [{ body: this.campaignsSchemas.postCreateCampaign.body }],

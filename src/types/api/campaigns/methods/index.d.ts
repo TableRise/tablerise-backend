@@ -12,6 +12,7 @@ export interface __CampaignWithID extends Campaign {
 export interface __FullCampaign extends Campaign {
     visibility?: string;
     cover?: ImageObject;
+    lore?: string;
 }
 
 export interface __CampaignEnriched extends Campaign {

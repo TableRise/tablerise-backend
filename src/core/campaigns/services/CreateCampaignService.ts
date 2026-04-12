@@ -39,7 +39,7 @@ export default class CreateCampaignService {
         return this.serializer.postCampaign(campaign);
     }
 
-    public async enrichment(campaign: __FullCampaign, userId: string, image?: FileObject): Promise<__CampaignEnriched> {
+    public async enrichment(campaign: __FullCampaign, userId: string, image?: FileObject, mapImages?: FileObject[]): Promise<__CampaignEnriched> {
         this.logger('info', 'Enrichment - CreateCampaignService');
 
         campaign.campaignPlayers = [
@@ -59,11 +59,32 @@ export default class CreateCampaignService {
             delete campaign.cover;
         }
 
-        campaign.ageRestriction = Number(campaign.ageRestriction);
+        if (mapImages && mapImages.length > 0) {
+            const mapImagesUploaded = [];
 
+            for (const image of mapImages) {
+                // eslint-disable-next-line no-await-in-loop
+                mapImagesUploaded.push(await this.imageStorageClient.upload(image));
+            }
+
+            campaign.images = { maps: mapImagesUploaded, characters: [] };
+        }
+
+        campaign.lores = {
+            playerCharacters: [],
+            dungeonMasterCharacters: [],
+            environments: [],
+            mainHistory: [{
+                title: 'Campaign history',
+                lore: campaign.lore as string,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+            }]
+        };
         campaign.infos.nextMatchDate = 'no-date';
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
+        campaign.musics = JSON.parse(campaign.musics as unknown as string);
         campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);
 
         return campaign;

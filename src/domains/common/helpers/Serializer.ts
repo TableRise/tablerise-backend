@@ -101,6 +101,7 @@ export default class Serializer {
         campaignPlayers = null,
         visibility = null,
         matchData = null,
+        musics = null,
         infos = {
             campaignAge: '1',
             matchDates: [],
@@ -109,10 +110,11 @@ export default class Serializer {
         },
         password = null,
         lores = null,
+        lore = null,
         images = null,
         createdAt = null,
         updatedAt = null,
-    }: any): Campaign {
+    }: any): Campaign & { lore?: string } {
         return {
             campaignId,
             title,
@@ -122,9 +124,11 @@ export default class Serializer {
             ageRestriction,
             campaignPlayers,
             matchData,
+            musics,
             infos,
             password,
             lores,
+            lore,
             images,
             createdAt,
             updatedAt,

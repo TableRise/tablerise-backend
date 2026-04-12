@@ -22,6 +22,7 @@ export interface CreateCampaignPayload {
     campaign: CampaignPayload;
     userId: string;
     image?: FileObject;
+    mapImages?: FileObject[];
 }
 
 export interface GetCampaignByIdPayload {

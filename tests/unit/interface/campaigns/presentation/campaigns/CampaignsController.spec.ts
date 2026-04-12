@@ -75,6 +75,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 campaign: request.body,
                 userId,
                 image: undefined,
+                mapImages: [],
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();

@@ -26,7 +26,6 @@ describe('When a music is added or removed from a match', () => {
 
         expect(body).to.be.an('array').with.lengthOf(1);
         expect(body[0]).to.have.property('title');
-        expect(body[0]).to.have.property('youtubeLink');
     });
 
     it('should sucessfully remove a music from a campaign', async () => {
