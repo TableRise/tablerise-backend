@@ -72,7 +72,7 @@ export interface __UserSerialized {
 
 export interface __TokenObject {
     token: string;
-    user: User
+    user: User;
 }
 
 export interface __UserSaved {

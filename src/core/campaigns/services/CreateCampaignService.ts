@@ -39,7 +39,12 @@ export default class CreateCampaignService {
         return this.serializer.postCampaign(campaign);
     }
 
-    public async enrichment(campaign: __FullCampaign, userId: string, image?: FileObject, mapImages?: FileObject[]): Promise<__CampaignEnriched> {
+    public async enrichment(
+        campaign: __FullCampaign,
+        userId: string,
+        image?: FileObject,
+        mapImages?: FileObject[]
+    ): Promise<__CampaignEnriched> {
         this.logger('info', 'Enrichment - CreateCampaignService');
 
         campaign.campaignPlayers = [
@@ -74,12 +79,14 @@ export default class CreateCampaignService {
             playerCharacters: [],
             dungeonMasterCharacters: [],
             environments: [],
-            mainHistory: [{
-                title: 'Campaign history',
-                lore: campaign.lore as string,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-            }]
+            mainHistory: [
+                {
+                    title: 'Campaign history',
+                    lore: campaign.lore as string,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                },
+            ],
         };
         campaign.infos.nextMatchDate = 'no-date';
         campaign.createdAt = new Date().toISOString();

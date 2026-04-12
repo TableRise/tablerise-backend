@@ -13,7 +13,12 @@ export default class CreateCampaignOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ campaign, userId, image, mapImages }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
+    public async execute({
+        campaign,
+        userId,
+        image,
+        mapImages,
+    }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
         this.logger('info', 'Execute - CreateCampaignOperation');
         const entitySerialized = await this.createCampaignService.serialize({
             ...campaign,

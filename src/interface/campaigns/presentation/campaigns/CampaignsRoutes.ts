@@ -75,7 +75,7 @@ export default class CampaignsRoutes {
                         passport.authenticate('cookie', { session: false }),
                         this.imageMiddleware.multer().fields([
                             { name: 'cover', maxCount: 1 },
-                            { name: 'mapImages', maxCount: 3 }
+                            { name: 'mapImages', maxCount: 3 },
                         ]),
                         this.imageMiddleware.fileType,
                     ],
