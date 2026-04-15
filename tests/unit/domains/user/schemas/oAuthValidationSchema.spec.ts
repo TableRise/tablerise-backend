@@ -14,7 +14,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
                 nickname: 'usb',
                 firstName: 'Jhon',
                 lastName: 'Doe',
-                pronoun: 'he/his',
                 birthday: '2000-10-10',
             };
         });
@@ -33,7 +32,6 @@ describe('Domains :: User :: Schemas :: UserDetailsValidationSchema', () => {
             completeOAuthData = {
                 nickname: 'usb',
                 lastName: 'Doe',
-                pronoun: 'he/his',
                 birthday: '2000-10-10',
             } as CompleteOAuthPayload;
         });

@@ -37,7 +37,6 @@ export default class CompleteUserService {
         user.inProgress.status = InProgressStatusEnum.enum.DONE;
         userDetails.firstName = payload.firstName;
         userDetails.lastName = payload.lastName;
-        userDetails.pronoun = payload.pronoun;
         userDetails.birthday = payload.birthday;
 
         return { user, userDetails };

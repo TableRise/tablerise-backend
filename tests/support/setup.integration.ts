@@ -60,7 +60,6 @@ exports.mochaHooks = {
             userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             firstName: 'Joe',
             lastName: 'Einstein',
-            pronoun: 'he/his',
             secretQuestion: {
                 question: 'What sound does the fox?',
                 answer: 'Kikikikikiu',

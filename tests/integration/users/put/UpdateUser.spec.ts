@@ -35,7 +35,6 @@ describe('When the user is updated', () => {
                 details: {
                     firstName: userDetails.firstName,
                     lastName: userDetails.lastName,
-                    pronoun: 'he/his',
                     biography: userDetails.biography,
                     birthday: userDetails.birthday,
                 },
@@ -51,7 +50,6 @@ describe('When the user is updated', () => {
             expect(userUpdated.picture).to.not.be.equal(userBeforeUpdate.picture);
             expect(userUpdated.details.firstName).to.not.be.equal(userBeforeUpdate.details.firstName);
             expect(userUpdated.details.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
-            expect(userUpdated.details.pronoun).to.not.be.equal(userBeforeUpdate.details.pronoun);
             expect(userUpdated.details.biography).to.not.be.equal(userBeforeUpdate.details.biography);
             expect(userUpdated.details.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
         });

@@ -24,13 +24,12 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 const { nickname, ...userWithoutNickname } = user;
-                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
+                const { firstName, lastName, birthday, ...detailsEmpty } = userDetails;
 
                 payloadToCompleteUser = {
                     nickname,
                     firstName,
                     lastName,
-                    pronoun,
                     birthday,
                 };
 
@@ -59,7 +58,6 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 expect(userProcessed.user.nickname).to.be.equal(payloadToCompleteUser.nickname);
                 expect(userProcessed.userDetails.firstName).to.be.equal(payloadToCompleteUser.firstName);
                 expect(userProcessed.userDetails.lastName).to.be.equal(payloadToCompleteUser.lastName);
-                expect(userProcessed.userDetails.pronoun).to.be.equal(payloadToCompleteUser.pronoun);
                 expect(userProcessed.userDetails.birthday).to.be.equal(payloadToCompleteUser.birthday);
             });
         });
@@ -70,13 +68,12 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 const { nickname } = user;
-                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
+                const { firstName, lastName, birthday, ...detailsEmpty } = userDetails;
 
                 payloadToCompleteUser = {
                     nickname,
                     firstName,
                     lastName,
-                    pronoun,
                     birthday,
                 };
 

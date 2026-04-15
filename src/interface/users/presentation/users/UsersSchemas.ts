@@ -1,5 +1,4 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import pronounEnum from 'src/domains/users/enums/pronounEnum';
 import questionEnum from 'src/domains/users/enums/questionEnum';
 import userGameInfoEnum from 'src/domains/users/enums/userGameInfoEnum';
 import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
@@ -37,7 +36,6 @@ const putUpdateUserBodySchema = z.object({
     details: z.object({
         firstName: z.string().max(16).optional(),
         lastName: z.string().max(80).optional(),
-        pronoun: z.enum(pronounEnum.values).optional(),
         birthday: z.string().optional(),
         biography: z.string().max(500).optional(),
     }),

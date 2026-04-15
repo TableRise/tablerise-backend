@@ -78,7 +78,6 @@ export default class CreateUserService {
 
         userDetails.firstName = '';
         userDetails.lastName = '';
-        userDetails.pronoun = '';
         userDetails.biography = '';
         userDetails.secretQuestion = { question: 'default', answer: 'default' };
         userDetails.birthday = '';

@@ -10,7 +10,6 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
         userId: newUUID(),
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
-        pronoun: 'she/her',
         secretQuestion: {
             question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
             answer: 'black',

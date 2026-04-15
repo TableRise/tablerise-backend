@@ -2,8 +2,9 @@ import Discord from 'passport-discord';
 import Google from 'passport-google-oauth20';
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import { TCompleteOauthRegisterBody } from './OAuthSchemas';
 
 export default class OAuthController {
     private readonly googleOperation;
@@ -34,8 +35,10 @@ export default class OAuthController {
 
         const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
 
+        const partialUrlRedirect = result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}` : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
+
         const urlToRedirect = process.env.URL_TO_REDIRECT
-            ? `${process.env.URL_TO_REDIRECT}?userId=${result.userId}`
+            ? partialUrlRedirect
             : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
@@ -50,8 +53,10 @@ export default class OAuthController {
 
         const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
 
+        const partialUrlRedirect = result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}` : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
+
         const urlToRedirect = process.env.URL_TO_REDIRECT
-            ? `${process.env.URL_TO_REDIRECT}?userId=${result.userId}`
+            ? partialUrlRedirect
             : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
@@ -62,7 +67,7 @@ export default class OAuthController {
 
     public async complete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const payload = req.body as CompleteOAuthPayload;
+        const payload = req.body as TCompleteOauthRegisterBody;
 
         const result = await this.completeUserOperation.execute({ userId: id, payload });
         return res.status(HttpStatusCode.OK).json(result);
