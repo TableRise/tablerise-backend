@@ -11,6 +11,7 @@ const postCreateCampaignBodySchema = z.object({
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
     musics: z.string(),
+    nextMatchDate: z.string(),
     lore: z.string(),
     ageRestriction: z.string(),
     password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {

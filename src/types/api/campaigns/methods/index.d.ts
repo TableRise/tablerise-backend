@@ -13,6 +13,7 @@ export interface __FullCampaign extends Campaign {
     visibility?: string;
     cover?: ImageObject;
     lore?: string;
+    nextMatchDate?: string;
 }
 
 export interface __CampaignEnriched extends Campaign {

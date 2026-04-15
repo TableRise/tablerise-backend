@@ -88,11 +88,14 @@ export default class CreateCampaignService {
                 },
             ],
         };
-        campaign.infos.nextMatchDate = 'no-date';
+        campaign.infos.nextMatchDate = campaign.nextMatchDate as string;
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.musics = JSON.parse(campaign.musics as unknown as string);
         campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);
+
+        delete campaign.lore;
+        delete campaign.nextMatchDate;
 
         return campaign;
     }
