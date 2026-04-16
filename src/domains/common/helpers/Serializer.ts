@@ -110,10 +110,11 @@ export default class Serializer {
         password = null,
         lores = null,
         lore = null,
+        playerAmountLimit = null,
         images = null,
         createdAt = null,
         updatedAt = null,
-    }: any): Campaign & { lore?: string; nextMatchDate?: string } {
+    }: any): Campaign & { lore?: string; nextMatchDate?: string; playerAmountLimit?: number } {
         return {
             campaignId,
             title,
@@ -128,6 +129,7 @@ export default class Serializer {
             infos,
             password,
             lores,
+            playerAmountLimit,
             lore,
             images,
             createdAt,

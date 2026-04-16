@@ -46,9 +46,16 @@ export default class CampaignsRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}`,
+                parameters: [
+                    ...generateQueryParam(2, [
+                        { name: 'title', type: 'string', required: 'off' },
+                        { name: 'code', type: 'string', required: 'off' },
+                    ]),
+                ],
                 controller: this.campaignsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: this.campaignsSchemas.getAllCampaigns.query }],
                     tag: 'recover',
                     description: desc.getAll,
                 },

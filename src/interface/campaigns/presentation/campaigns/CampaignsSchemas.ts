@@ -13,10 +13,14 @@ const postCreateCampaignBodySchema = z.object({
     musics: z.string(),
     nextMatchDate: z.string(),
     lore: z.string(),
+    playerAmountLimit: z.number(),
     ageRestriction: z.string(),
-    password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {
-        message: 'Invalid password',
-    }),
+    password: z
+        .string()
+        .regex(/^[a-zA-Z0-9]{4}$/, {
+            message: 'Invalid password',
+        })
+        .optional(),
 });
 
 const putUpdateCampaignBodySchema = z.object({
@@ -72,6 +76,11 @@ const patchUpdateCampaignImagesBodySchema = z.object({
     operation: z.enum(['add', 'remove']),
 });
 
+const getAllCampaignsQuerySchema = z.object({
+    title: z.string().optional(),
+    code: z.string().max(6).optional(),
+});
+
 export type TCreateCampaignBody = z.infer<typeof postCreateCampaignBodySchema>;
 export type TUpdateCampaignBody = z.infer<typeof putUpdateCampaignBodySchema>;
 export type TCreateCampaignPublishmentBody = z.infer<typeof postCreateCampaignPublishmentBodySchema>;
@@ -83,6 +92,7 @@ export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampai
 export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignMatchMusicsBodySchema>;
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
+export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
@@ -117,5 +127,8 @@ export default (): ICampaignsSchemas => ({
     },
     patchUpdateCampaignImages: {
         body: patchUpdateCampaignImagesBodySchema,
+    },
+    getAllCampaigns: {
+        query: getAllCampaignsQuerySchema,
     },
 });

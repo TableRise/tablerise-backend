@@ -9,7 +9,7 @@ export interface CampaignPayload {
     visibility?: campaignVisibilityEnum.values;
     system: systemsEnum.values;
     ageRestriction: string | number;
-    password: string;
+    password?: string;
 }
 
 interface cover {
@@ -27,6 +27,11 @@ export interface CreateCampaignPayload {
 
 export interface GetCampaignByIdPayload {
     campaignId: string;
+}
+
+export interface GetAllCampaignsQuery {
+    title?: string;
+    code?: string;
 }
 
 export interface addCharacterPayload {

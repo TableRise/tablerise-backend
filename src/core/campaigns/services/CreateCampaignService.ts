@@ -89,13 +89,20 @@ export default class CreateCampaignService {
             ],
         };
         campaign.infos.nextMatchDate = campaign.nextMatchDate as string;
+        campaign.infos.playerAmountLimit = campaign.playerAmountLimite as number;
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.musics = JSON.parse(campaign.musics as unknown as string);
-        campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);
+
+        if (campaign.password) {
+            campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);
+        }
+
+        (campaign as any).code = String(Math.floor(100000 + Math.random() * 900000));
 
         delete campaign.lore;
         delete campaign.nextMatchDate;
+        delete campaign.playerAmountLimite;
 
         return campaign;
     }

@@ -14,6 +14,7 @@ export interface __FullCampaign extends Campaign {
     cover?: ImageObject;
     lore?: string;
     nextMatchDate?: string;
+    playerAmountLimite?: number;
 }
 
 export interface __CampaignEnriched extends Campaign {

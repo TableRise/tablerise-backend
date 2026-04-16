@@ -1,5 +1,6 @@
 import { GetAllCampaignsResponse } from 'src/types/api/campaigns/http/response';
 import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
+import { GetAllCampaignsQuery } from 'src/types/api/campaigns/http/payload';
 
 export default class GetAllCampaignsService {
     private readonly campaignsRepository;
@@ -10,12 +11,22 @@ export default class GetAllCampaignsService {
         this.logger = logger;
     }
 
-    async getAll(): Promise<GetAllCampaignsResponse[]> {
+    async getAll({ title, code }: GetAllCampaignsQuery = {}): Promise<GetAllCampaignsResponse[]> {
         this.logger('info', 'GetAll - GetAllCampaignsService');
-        const campaignsInDb = await this.campaignsRepository.find({});
-        const campaignsVisible = campaignsInDb.filter((campaign) => campaign.infos.visibility === 'visible');
 
-        return campaignsVisible.map(
+        const dbQuery: Record<string, any> = { 'infos.visibility': 'visible' };
+
+        if (title) {
+            dbQuery.title = { $regex: title, $options: 'i' };
+        }
+
+        if (code) {
+            dbQuery.code = code;
+        }
+
+        const campaignsInDb = await this.campaignsRepository.find(dbQuery);
+
+        return campaignsInDb.map(
             (campaign) =>
                 ({
                     title: campaign.title,

@@ -1,5 +1,6 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
+import { GetAllCampaignsQuery } from 'src/types/api/campaigns/http/payload';
 
 export default class GetAllCampaignsOperation {
     private readonly getAllCampaignsService;
@@ -12,8 +13,8 @@ export default class GetAllCampaignsOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(): Promise<Campaign[]> {
+    async execute(query: GetAllCampaignsQuery = {}): Promise<Campaign[]> {
         this.logger('info', 'Execute - GetAllCampaignsOperation');
-        return this.getAllCampaignsService.getAll();
+        return this.getAllCampaignsService.getAll(query);
     }
 }

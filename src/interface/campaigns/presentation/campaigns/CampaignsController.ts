@@ -94,7 +94,8 @@ export default class CampaignsController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this.getAllCampaignsOperation.execute();
+        const { title, code } = req.query as { title?: string; code?: string };
+        const result = await this.getAllCampaignsOperation.execute({ title, code });
         return res.status(HttpStatusCode.OK).json(result);
     }
 
