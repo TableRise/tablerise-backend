@@ -39,7 +39,6 @@ export default class CampaignsRepository {
     public async findOne(query: any = {}): Promise<Campaign> {
         this.logger('warn', 'FindOne - CampaignsRepository');
         const request = await this.model.findOne(query);
-
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
         return this.formatAndSerializeData(request);
