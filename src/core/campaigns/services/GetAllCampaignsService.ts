@@ -29,10 +29,13 @@ export default class GetAllCampaignsService {
         return campaignsInDb.map(
             (campaign) =>
                 ({
+                    campaignId: campaign.campaignId,
                     title: campaign.title,
                     cover: campaign.cover,
                     description: campaign.description,
                     playersAmount: campaign.campaignPlayers.length,
+                    playerAmountLimit: campaign.infos.playerAmountLimit,
+                    system: campaign.system,
                     ageRestriction: campaign.ageRestriction,
                     updatedAt: campaign.updatedAt,
                 }) as GetAllCampaignsResponse

@@ -27,7 +27,8 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
                     campaign.matchData.musics = [
                         {
                             title: matchMusicsPayload.title,
-                            youtubeLink: matchMusicsPayload.youtubeLink,
+                            id: matchMusicsPayload.id,
+                            thumbnail: matchMusicsPayload.thumbnail,
                         },
                     ];
 

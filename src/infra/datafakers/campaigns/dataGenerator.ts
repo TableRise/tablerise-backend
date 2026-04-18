@@ -46,6 +46,7 @@ export default {
         campaignAge: '1',
         nextMatchDate: 'no-date',
         announcements: [],
+        playerAmountLimit: 4,
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     },
     password: '1234',

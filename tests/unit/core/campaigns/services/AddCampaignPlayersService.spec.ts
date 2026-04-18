@@ -61,6 +61,43 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
             });
         });
 
+        context('When a player is added to match data - no password required', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.password = 'no-password';
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaignPlayersLength = campaign.campaignPlayers.length;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    characterId: newUUID(),
+                    userId: userDetails.userId,
+                    password: '',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should return the add campaign without password check', async () => {
+                const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
+            });
+        });
+
         context('When a player is added to match - player already in the match', () => {
             before(async () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
@@ -239,8 +276,8 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('The new player can not be also the master');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).to.be.equal(HttpStatusCode.CONFLICT);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.CONFLICT));
                 }
             });
         });

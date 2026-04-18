@@ -88,21 +88,23 @@ export default class CreateCampaignService {
                 },
             ],
         };
-        campaign.infos.nextMatchDate = campaign.nextMatchDate as string;
-        campaign.infos.playerAmountLimit = campaign.playerAmountLimite as number;
+        campaign.infos.nextMatchDate = (campaign.nextMatchDate as string) || 'no-date';
+        campaign.infos.playerAmountLimit = Number(campaign.playerAmountLimit);
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.musics = JSON.parse(campaign.musics as unknown as string);
 
         if (campaign.password) {
             campaign.password = await SecurePasswordHandler.hashPassword(campaign.password);
+        } else {
+            campaign.password = 'no-password';
         }
 
         (campaign as any).code = String(Math.floor(100000 + Math.random() * 900000));
 
         delete campaign.lore;
         delete campaign.nextMatchDate;
-        delete campaign.playerAmountLimite;
+        delete campaign.playerAmountLimit;
 
         return campaign;
     }

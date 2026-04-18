@@ -123,8 +123,8 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('The new player can not be also the master');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).to.be.equal(HttpStatusCode.CONFLICT);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.CONFLICT));
                 }
             });
         });

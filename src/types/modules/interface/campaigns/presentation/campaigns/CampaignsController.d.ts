@@ -13,6 +13,7 @@ import UpdateCampaignImagesOperation from 'src/core/campaigns/operations/UpdateC
 import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerOperation';
 import AddPlayerCharacterOperation from 'src/core/campaigns/operations/AddPlayerCharacterOperation';
 import GetCampaignsByUserIdOperation from 'src/core/campaigns/operations/GetCampaignsByUserIdOperation';
+import UpdateCampaignPlayerLimitOperation from 'src/core/campaigns/operations/UpdateCampaignPlayerLimitOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -30,4 +31,5 @@ export interface CampaignsControllerContract {
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postBanPlayerOperation: PostBanPlayerOperation;
     updateCampaignImagesOperation: UpdateCampaignImagesOperation;
+    updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation;
 }

@@ -58,8 +58,9 @@ export interface UpdateMatchMapImagesPayload {
 
 export interface UpdateMatchMusicsPayload {
     campaignId: string;
-    youtubeLink: string;
+    id: string;
     title: string;
+    thumbnail: string;
     operation: 'add' | 'remove';
 }
 

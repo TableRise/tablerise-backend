@@ -24,6 +24,7 @@ export default class CampaignsController {
     private readonly postInvitationEmailOperation;
     private readonly postBanPlayerOperation;
     private readonly updateCampaignImagesOperation;
+    private readonly updateCampaignPlayerLimitOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -41,6 +42,7 @@ export default class CampaignsController {
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
+        updateCampaignPlayerLimitOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -57,6 +59,7 @@ export default class CampaignsController {
         this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postBanPlayerOperation = postBanPlayerOperation;
         this.updateCampaignImagesOperation = updateCampaignImagesOperation;
+        this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
 
         this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
@@ -150,6 +153,15 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
+    public async updateCampaignPlayerLimit(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { newLimit } = req.query;
+
+        await this.updateCampaignPlayerLimitOperation.execute(id, Number(newLimit));
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { imageId, operation } = req.body as {
@@ -171,13 +183,13 @@ export default class CampaignsController {
 
     public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { operation, title, youtubeLink } = req.body as UpdateMatchMusicsPayload;
+        const { operation, title, id: youtubeId } = req.body as UpdateMatchMusicsPayload;
 
         const result = await this.updateMatchMusicsOperation.execute({
             campaignId: id,
             title,
             operation,
-            youtubeLink,
+            id: youtubeId,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

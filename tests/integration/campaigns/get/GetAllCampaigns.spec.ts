@@ -9,7 +9,7 @@ describe('When recover all campaigns', () => {
     context('And is succesfull', () => {
         before(async () => {
             campaigns = [];
-            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 1 });
+            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 2 });
             campaigns.forEach(async (campaign) => {
                 campaign.infos.visibility = 'visible';
                 await InjectNewCampaign(campaign);
@@ -21,7 +21,7 @@ describe('When recover all campaigns', () => {
 
             const campaign = body[1];
             expect(body).to.be.an('array');
-            expect(campaign).not.to.have.property('campaignId');
+            expect(campaign).to.have.property('campaignId');
             expect(campaign).to.have.property('title');
             expect(campaign.title).to.be.equal(campaigns[0].title);
             expect(campaign).to.have.property('cover');
@@ -30,7 +30,8 @@ describe('When recover all campaigns', () => {
             expect(campaign.description).to.be.equal(campaigns[0].description);
             expect(campaign).to.have.property('ageRestriction');
             expect(campaign.ageRestriction).to.be.equal(campaigns[0].ageRestriction);
-            expect(campaign).not.to.have.property('system');
+            expect(campaign).to.have.property('playerAmountLimit');
+            expect(campaign).to.have.property('system');
             expect(campaign).not.to.have.property('campaignPlayers');
             expect(campaign).to.have.property('playersAmount');
             expect(campaign.playersAmount).to.be.equal(campaigns[0].campaignPlayers.length);

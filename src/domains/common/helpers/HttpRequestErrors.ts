@@ -47,8 +47,8 @@ export default class HttpRequestErrors extends Error {
             case 'player-master-equal':
                 throw new HttpRequestErrors({
                     message: 'The new player can not be also the master',
-                    code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    code: HttpStatusCode.CONFLICT,
+                    name: getErrorName(HttpStatusCode.CONFLICT),
                 });
             case 'campaign-inexistent':
                 throw new HttpRequestErrors({

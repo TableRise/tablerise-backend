@@ -27,6 +27,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             patchUpdateCampaignMatchDate: { query: {} },
             patchUpdateCampaignPlayerCharacter: { query: {} },
             patchUpdateCampaignImages: { body: {} },
+            patchUpdateCampaignPlayerLimit: { query: {} },
+            getAllCampaigns: { query: {} },
         };
 
         campaignsRoutes = new CampaignsRoutes({
@@ -40,7 +42,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(15);
+            expect(routes).to.have.lengthOf(16);
         });
     });
 });

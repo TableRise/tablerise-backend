@@ -114,7 +114,7 @@ export default class Serializer {
         images = null,
         createdAt = null,
         updatedAt = null,
-    }: any): Campaign & { lore?: string; nextMatchDate?: string; playerAmountLimit?: number } {
+    }: any): Campaign & { lore?: string; nextMatchDate?: string; playerAmountLimit?: string } {
         return {
             campaignId,
             title,

@@ -48,6 +48,7 @@ describe('When a campaign is created', () => {
                 .field('system', campaignPayload.system)
                 .field('ageRestriction', campaignPayload.ageRestriction)
                 .field('password', campaignPayload.password)
+                .field('playerAmountLimit', campaignPayload.playerAmountLimit)
                 .field('musics', '[]')
                 .field('lore', 'A great adventure begins')
                 .expect(HttpStatusCode.CREATED);

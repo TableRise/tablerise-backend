@@ -39,7 +39,12 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should redirect to default URL when URL_TO_REDIRECT is not defined', async () => {
             request.user = { username: '' } as Express.User;
-            googleOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    inProgress: { status: 'done' },
+                })),
+            };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -59,7 +64,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             process.env.URL_TO_REDIRECT = 'http://example.com';
 
             request.user = { username: '' } as Express.User;
-            googleOperation = { execute: sinon.spy(() => ({ token: 'token-value', userId: '123' })) };
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    userId: '123',
+                    inProgress: { status: 'done' },
+                })),
+            };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -72,11 +83,26 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith('http://example.com?userId=123');
+            expect(response.redirect).to.have.been.calledWith('http://example.com-redirect?userId=123');
         });
 
         it('should correctly call the methods and functions', async () => {
             request.user = { username: '' } as Express.User;
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    inProgress: { status: 'done' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                discordOperation,
+                completeUserOperation,
+                loginUserOperation,
+            });
+
             await oauthController.google(request, response);
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
@@ -85,8 +111,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should correctly call the methods and functions - when login', async () => {
             request.user = { username: '' } as Express.User;
-            googleOperation = { execute: sinon.spy(() => '123') };
-            loginUserOperation = { execute: () => ({}) };
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    inProgress: { status: 'done' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -103,8 +134,14 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should correctly call the methods and functions - when login - register', async () => {
             request.user = { username: '' } as Express.User;
-            googleOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
-            loginUserOperation = { execute: () => ({}) };
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    providerId: '123',
+                    inProgress: { status: 'wait-to-complete' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -149,7 +186,12 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should redirect to default URL when URL_TO_REDIRECT is not defined', async () => {
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => ({ token: 'token-value' })) };
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    inProgress: { status: 'done' },
+                })),
+            };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -169,7 +211,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             process.env.URL_TO_REDIRECT = 'http://example.com';
 
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => ({ token: 'token-value', userId: '123' })) };
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    userId: '123',
+                    inProgress: { status: 'done' },
+                })),
+            };
             loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
@@ -182,13 +230,18 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
             await oauthController.discord(request, response);
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
-            expect(response.redirect).to.have.been.calledWith('http://example.com?userId=123');
+            expect(response.redirect).to.have.been.calledWith('http://example.com-redirect?userId=123');
         });
 
         it('should correctly call the methods and functions', async () => {
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => '123') };
-            loginUserOperation = { execute: () => ({}) };
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    inProgress: { status: 'done' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -205,8 +258,13 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should correctly call the methods and functions - when login', async () => {
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => '123') };
-            loginUserOperation = { execute: () => ({}) };
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    inProgress: { status: 'done' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,
@@ -223,8 +281,14 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
         it('should correctly call the methods and functions - when login - register', async () => {
             request.user = { username: '' } as Express.User;
-            discordOperation = { execute: sinon.spy(() => ({ providerId: '123' })) };
-            loginUserOperation = { execute: () => ({}) };
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    providerId: '123',
+                    inProgress: { status: 'wait-to-complete' },
+                    token: null,
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: {} }) };
 
             oauthController = new OAuthController({
                 googleOperation,

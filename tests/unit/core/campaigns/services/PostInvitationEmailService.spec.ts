@@ -34,6 +34,8 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
                     username: 'joaquim',
                 };
 
+                httpRequestErrors = {} as HttpRequestErrors;
+
                 postInvitationEmailService = new PostInvitationEmailService({
                     emailSender,
                     httpRequestErrors,

@@ -41,6 +41,11 @@ import {
     GetCampaignsByUserIdServiceContract,
 } from './campaigns/GetCampaignByUserId';
 
+import {
+    UpdateCampaignPlayerLimitOperationContract,
+    UpdateCampaignPlayerLimitServiceContract,
+} from './campaigns/UpdateCampaignPlayerLimit';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -57,6 +62,7 @@ export default interface CampaignCoreDependencies {
     postBanPlayerOperationContract: PostBanPlayerOperationContract;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
     getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
+    updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -73,4 +79,5 @@ export default interface CampaignCoreDependencies {
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
     getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
+    updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
 }

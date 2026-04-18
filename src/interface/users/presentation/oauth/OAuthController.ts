@@ -35,11 +35,12 @@ export default class OAuthController {
 
         const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
 
-        const partialUrlRedirect = result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}` : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
+        const partialUrlRedirect =
+            result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE
+                ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}`
+                : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
 
-        const urlToRedirect = process.env.URL_TO_REDIRECT
-            ? partialUrlRedirect
-            : 'http://localhost:3000';
+        const urlToRedirect = process.env.URL_TO_REDIRECT ? partialUrlRedirect : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)
@@ -53,11 +54,12 @@ export default class OAuthController {
 
         const { cookieOptions } = await this.loginUserOperation.execute(result.token as string);
 
-        const partialUrlRedirect = result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}` : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
+        const partialUrlRedirect =
+            result.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_COMPLETE
+                ? `${process.env.URL_TO_REDIRECT as string}?completeUser=true&userId=${result.userId}`
+                : `${process.env.URL_TO_REDIRECT as string}-redirect?userId=${result.userId}`;
 
-        const urlToRedirect = process.env.URL_TO_REDIRECT
-            ? partialUrlRedirect
-            : 'http://localhost:3000';
+        const urlToRedirect = process.env.URL_TO_REDIRECT ? partialUrlRedirect : 'http://localhost:3000';
 
         res.cookie('token', result.token, cookieOptions)
             .cookie('session', 'no-use', cookieOptions)

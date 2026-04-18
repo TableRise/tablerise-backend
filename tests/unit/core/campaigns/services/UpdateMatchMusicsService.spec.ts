@@ -28,7 +28,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
                 updateMusicsPayload = {
                     campaignId: campaign.campaignId,
-                    youtubeLink: 'https://youtu.be/12345',
+                    id: 'https://youtu.be/12345',
+                    thumbnail: '',
                     title: 'Main Theme 2',
                     operation: 'add',
                 };
@@ -54,7 +55,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     campaign.matchData.musics = [
                         {
                             title: 'Main Theme 2',
-                            youtubeLink: 'https://youtu.be/12345',
+                            id: 'https://youtu.be/12345',
+                            thumbnail: '',
                         },
                     ];
 
@@ -64,7 +66,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
                 updateMusicsPayload = {
                     campaignId: campaign.campaignId,
-                    youtubeLink: 'https://youtu.be/12345',
+                    id: 'https://youtu.be/12345',
+                    thumbnail: '',
                     title: 'Main Theme 2',
                     operation: 'add',
                 };
@@ -95,7 +98,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     campaign.matchData.musics = [
                         {
                             title: 'Main Theme 2',
-                            youtubeLink: 'https://youtu.be/123',
+                            id: 'https://youtu.be/123',
+                            thumbnail: '',
                         },
                     ];
 
@@ -107,7 +111,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
                 updateMusicsPayload = {
                     campaignId: campaign.campaignId,
-                    youtubeLink: 'https://youtu.be/123456',
+                    id: 'https://youtu.be/123456',
+                    thumbnail: '',
                     title: 'Main Theme 2',
                     operation: 'remove',
                 };
@@ -135,7 +140,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     campaign.matchData.musics = [
                         {
                             title: 'Main Theme',
-                            youtubeLink: 'https://youtu.be/123',
+                            id: 'https://youtu.be/123',
+                            thumbnail: '',
                         },
                     ];
 

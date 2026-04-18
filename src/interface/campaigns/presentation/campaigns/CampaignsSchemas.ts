@@ -11,9 +11,9 @@ const postCreateCampaignBodySchema = z.object({
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
     musics: z.string(),
-    nextMatchDate: z.string(),
+    nextMatchDate: z.string().optional(),
     lore: z.string(),
-    playerAmountLimit: z.number(),
+    playerAmountLimit: z.string(),
     ageRestriction: z.string(),
     password: z
         .string()
@@ -21,6 +21,10 @@ const postCreateCampaignBodySchema = z.object({
             message: 'Invalid password',
         })
         .optional(),
+});
+
+const patchUpdateCampaignPlayerLimitQuerySchema = z.object({
+    newLimit: z.number().min(1),
 });
 
 const putUpdateCampaignBodySchema = z.object({
@@ -31,9 +35,7 @@ const putUpdateCampaignBodySchema = z.object({
 });
 
 const postAddCampaignPlayersQuerySchema = z.object({
-    password: z.string().regex(/^[a-zA-Z0-9]{4}$/, {
-        message: 'Invalid password',
-    }),
+    password: z.string().optional(),
 });
 
 const postBanCampaignPlayerQuerySchema = z.object({
@@ -93,6 +95,7 @@ export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignM
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
 export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
+export type TUpdateCampaignPlayerLimitQuery = z.infer<typeof patchUpdateCampaignPlayerLimitQuerySchema>;
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
@@ -127,6 +130,9 @@ export default (): ICampaignsSchemas => ({
     },
     patchUpdateCampaignImages: {
         body: patchUpdateCampaignImagesBodySchema,
+    },
+    patchUpdateCampaignPlayerLimit: {
+        query: patchUpdateCampaignPlayerLimitQuerySchema,
     },
     getAllCampaigns: {
         query: getAllCampaignsQuerySchema,

@@ -14,8 +14,9 @@ export default class UpdateMatchMusicsService {
 
     async updateMatchMusics({
         campaignId,
-        youtubeLink,
+        id,
         title,
+        thumbnail,
         operation,
     }: UpdateMatchMusicsPayload): Promise<Campaign> {
         this.logger('info', 'UpdateMatchMusics - UpdateMatchMusicsService');
@@ -23,14 +24,15 @@ export default class UpdateMatchMusicsService {
 
         if (operation === 'add' && campaign.matchData) {
             const musicWithSameLinkExists = campaign.matchData.musics.find(
-                (music) => music.youtubeLink === youtubeLink
+                (music) => music.id === id
             );
 
             if (musicWithSameLinkExists) HttpRequestErrors.throwError('music-link-already-added');
 
             campaign.matchData.musics.push({
                 title,
-                youtubeLink,
+                id,
+                thumbnail
             });
         }
 

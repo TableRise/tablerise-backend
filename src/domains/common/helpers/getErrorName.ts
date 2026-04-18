@@ -12,6 +12,8 @@ export default (code: number): string => {
             return 'ForbiddenRequest';
         case HttpStatusCode.UNAUTHORIZED:
             return 'Unauthorized';
+        case HttpStatusCode.CONFLICT:
+            return 'Conflict'
         case HttpStatusCode.EXTERNAL_ERROR:
             return 'ExternalError';
         case HttpStatusCode.INTERNAL_SERVER:

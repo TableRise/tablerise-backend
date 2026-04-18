@@ -51,6 +51,8 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
                     flow: 'update-password',
                 };
 
+                httpRequestErrors = {} as HttpRequestErrors;
+
                 verifyEmailService = new VerifyEmailService({
                     usersRepository,
                     stateMachine,

@@ -29,9 +29,10 @@ export default class AddCampaignPlayersService {
         this.logger('info', 'AddCampaignPlayers - AddCampaignPlayersService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        const isPasswordValid = await SecurePasswordHandler.comparePassword(password, campaign.password);
-
-        if (!isPasswordValid) HttpRequestErrors.throwError('unauthorized');
+        if (campaign.password !== 'no-password') {
+            const isPasswordValid = await SecurePasswordHandler.comparePassword(password, campaign.password);
+            if (!isPasswordValid) HttpRequestErrors.throwError('unauthorized');
+        }
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         const dungeonMaster = campaign.campaignPlayers.find(

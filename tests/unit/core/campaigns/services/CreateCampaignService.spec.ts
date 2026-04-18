@@ -136,6 +136,15 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.images.maps).to.have.lengthOf(2);
             });
+
+            it('should return the correct result without password', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.password = '' as unknown as string;
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
+                expect(campaignEnriched.createdAt).to.be.not.null();
+            });
         });
     });
 

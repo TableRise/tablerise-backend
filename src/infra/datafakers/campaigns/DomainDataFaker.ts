@@ -50,6 +50,7 @@ const mocks = {
         system,
         ageRestriction,
         password,
+        playerAmountLimit: '4',
         visibility: infos.visibility,
         cover: { isBinary: true },
     },

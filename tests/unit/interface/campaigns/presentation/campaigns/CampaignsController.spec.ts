@@ -21,7 +21,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         postBanPlayerOperation: any,
         getAllCampaignsOperation: any,
         postInvitationEmailOperation: any,
-        updateCampaignImagesOperation: any;
+        updateCampaignImagesOperation: any,
+        updateCampaignPlayerLimitOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -63,6 +64,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
             });
         });
 
@@ -76,6 +78,25 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 userId,
                 image: undefined,
                 mapImages: [],
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+            expect(response.json).to.have.been.called();
+        });
+
+        it('should correctly call the methods and functions with files', async () => {
+            request.body = { title: 'The new era' };
+            request.user = { userId } as Express.User;
+            request.files = {
+                cover: [{ fieldname: 'cover' } as Express.Multer.File],
+                mapImages: [{ fieldname: 'mapImages' } as Express.Multer.File],
+            };
+            await campaignsController.create(request, response);
+
+            expect(createCampaignOperation.execute).to.have.been.calledWith({
+                campaign: request.body,
+                userId,
+                image: { fieldname: 'cover' },
+                mapImages: [{ fieldname: 'mapImages' }],
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
@@ -119,6 +140,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -179,6 +201,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -230,6 +253,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -277,11 +301,13 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
+            request.query = {};
             await campaignsController.getAll(request, response);
 
             expect(getAllCampaignsOperation.execute).to.have.been.called();
@@ -327,6 +353,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -388,6 +415,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -447,6 +475,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -507,13 +536,14 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.body = { title: 'Main Theme', operation: 'add', youtubeLink: 'https://youtu.be/123' };
+            request.body = { title: 'Main Theme', operation: 'add', id: 'https://youtu.be/123' };
 
             await campaignsController.updateMatchMusics(request, response);
 
@@ -521,7 +551,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 campaignId: request.params.id,
                 title: 'Main Theme',
                 operation: 'add',
-                youtubeLink: 'https://youtu.be/123',
+                id: 'https://youtu.be/123',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
@@ -565,6 +595,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -622,6 +653,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -681,6 +713,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -739,6 +772,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getCampaignsByUserIdOperation,
                 removeCampaignPlayersOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
@@ -797,6 +831,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 getCampaignsByUserIdOperation,
                 removeCampaignPlayersOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 getAllCampaignsOperation,
                 postInvitationEmailOperation,
                 updateCampaignImagesOperation,
@@ -857,6 +892,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 updateCampaignImagesOperation,
                 postInvitationEmailOperation,
                 postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
             });
         });
@@ -876,6 +912,63 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#updateCampaignPlayerLimit', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
+
+            updateCampaignPlayerLimitOperation = { execute: sinon.spy() };
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { execute: () => {} };
+            updateMatchDateOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postBanPlayerOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                publishmentOperation,
+                updateMatchMapImagesOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                updateCampaignOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+                postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.query = { newLimit: '5' };
+
+            await campaignsController.updateCampaignPlayerLimit(request, response);
+
+            expect(updateCampaignPlayerLimitOperation.execute).to.have.been.calledWith('123', 5);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.end).to.have.been.called();
         });
     });
 });
