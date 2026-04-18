@@ -93,6 +93,7 @@ export default class Serializer {
         campaignId = null,
         title = null,
         cover = null,
+        code = null,
         description = null,
         system = null,
         ageRestriction = null,
@@ -112,13 +113,21 @@ export default class Serializer {
         lore = null,
         playerAmountLimit = null,
         images = null,
+        socialMedia = null,
         createdAt = null,
         updatedAt = null,
-    }: any): Campaign & { lore?: string; nextMatchDate?: string; playerAmountLimit?: string } {
+    }: any): Campaign & {
+        lore?: string;
+        nextMatchDate?: string;
+        playerAmountLimit?: string;
+        socialMedia?: { discord?: string; twitter?: string; youtube?: string };
+        code:  string
+    } {
         return {
             campaignId,
             title,
             cover,
+            code,
             description,
             system,
             nextMatchDate,
@@ -132,6 +141,7 @@ export default class Serializer {
             playerAmountLimit,
             lore,
             images,
+            socialMedia,
             createdAt,
             updatedAt,
         };

@@ -23,16 +23,14 @@ export default class UpdateMatchMusicsService {
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         if (operation === 'add' && campaign.matchData) {
-            const musicWithSameLinkExists = campaign.matchData.musics.find(
-                (music) => music.id === id
-            );
+            const musicWithSameLinkExists = campaign.matchData.musics.find((music) => music.id === id);
 
             if (musicWithSameLinkExists) HttpRequestErrors.throwError('music-link-already-added');
 
             campaign.matchData.musics.push({
                 title,
                 id,
-                thumbnail
+                thumbnail,
             });
         }
 

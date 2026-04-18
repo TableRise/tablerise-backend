@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import UpdateCampaignPlayerLimitOperation from 'src/core/campaigns/operations/UpdateCampaignPlayerLimitOperation';
 
 describe('Core :: Campaigns :: Operations :: UpdateCampaignPlayerLimitOperation', () => {
-    let updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation,
-        updateCampaignPlayerLimitService: any;
+    let updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation, updateCampaignPlayerLimitService: any;
 
     const logger = (): void => {};
 
@@ -26,7 +25,10 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignPlayerLimitOperation'
 
                 await updateCampaignPlayerLimitOperation.execute(campaignId, newLimit);
 
-                expect(updateCampaignPlayerLimitService.updatePlayerLimit).to.have.been.calledWith(campaignId, newLimit);
+                expect(updateCampaignPlayerLimitService.updatePlayerLimit).to.have.been.calledWith(
+                    campaignId,
+                    newLimit
+                );
             });
         });
     });

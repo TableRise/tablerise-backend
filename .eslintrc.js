@@ -13,7 +13,6 @@ module.exports = {
     },
     rules: {
         'no-console': 'warn',
-        'no-await-in-loop': 'error',
         'no-inline-comments': 'warn',
         'space-before-function-paren': 0,
         '@typescript-eslint/semi': 0,

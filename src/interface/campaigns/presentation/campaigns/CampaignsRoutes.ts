@@ -131,7 +131,10 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/add`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'password', type: 'string', required: 'off' }])],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'password', type: 'string', required: 'off' }]),
+                ],
                 controller: this.campaignsController.addCampaignPlayers,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -198,10 +201,7 @@ export default class CampaignsRoutes {
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'newLimit', type: 'number' }])],
                 controller: this.campaignsController.updateCampaignPlayerLimit,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this.verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignPlayerLimit.query }],
                     description: desc.updateMatchImages,
                     tag: 'update',

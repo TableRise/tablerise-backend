@@ -13,7 +13,7 @@ export default (code: number): string => {
         case HttpStatusCode.UNAUTHORIZED:
             return 'Unauthorized';
         case HttpStatusCode.CONFLICT:
-            return 'Conflict'
+            return 'Conflict';
         case HttpStatusCode.EXTERNAL_ERROR:
             return 'ExternalError';
         case HttpStatusCode.INTERNAL_SERVER:

@@ -31,13 +31,12 @@ export default class GetCampaignsByUserIdService {
 
         if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        const userCampaignsPromises = [] as Array<Promise<Campaign>>;
+        const userCampaigns = [] as Campaign[];
 
-        userCampaignIds.forEach((campaignId: string) => {
-            userCampaignsPromises.push(this.campaignsRepository.findOne({ campaignId }));
-        });
-
-        const userCampaigns = await Promise.all(userCampaignsPromises);
+        for (const campaignId of userCampaignIds) {
+            const campaignFound = await this.campaignsRepository.findOne({ campaignId });
+            userCampaigns.push(campaignFound);
+        }
 
         const master = [] as Campaign[];
         const player = [] as Campaign[];

@@ -20,7 +20,13 @@ export default class UpdateCampaignService {
         this.update = this.update.bind(this);
     }
 
-    async update({ campaignId, title, description, visibility, cover }: TUpdateCampaignBody & { campaignId: string }): Promise<Campaign> {
+    async update({
+        campaignId,
+        title,
+        description,
+        visibility,
+        cover,
+    }: TUpdateCampaignBody & { campaignId: string }): Promise<Campaign> {
         this.logger('info', 'Update - UpdateCampaignService');
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
 

@@ -17,6 +17,7 @@ export default class GetCampaignsByUserIdOperation {
 
     public async execute(userId: string): Promise<GetCampaignByUserIdResponse> {
         this.logger('info', 'Execute - GetCampaignsByUserIdOperation');
+        console.log(userId);
         return this.getCampaignsByUserIdService.getByUserId(userId);
     }
 }

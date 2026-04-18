@@ -56,8 +56,6 @@ export default class CreateCampaignService {
             },
         ];
 
-        delete campaign.visibility;
-
         if (image) {
             campaign.cover = await this.imageStorageClient.upload(image);
         } else {
@@ -88,8 +86,18 @@ export default class CreateCampaignService {
                 },
             ],
         };
-        campaign.infos.nextMatchDate = (campaign.nextMatchDate as string) || 'no-date';
-        campaign.infos.playerAmountLimit = Number(campaign.playerAmountLimit);
+
+        campaign.infos = {
+            ...campaign.infos,
+            nextMatchDate: (campaign.nextMatchDate as string) || 'no-date',
+            playerAmountLimit: Number(campaign.playerAmountLimit),
+            journal: [],
+            campaignAge: '0',
+            socialMedia: {
+                ...JSON.parse(campaign.socialMedia as string)
+            }
+        };
+        
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.musics = JSON.parse(campaign.musics as unknown as string);
@@ -102,6 +110,8 @@ export default class CreateCampaignService {
 
         (campaign as any).code = String(Math.floor(100000 + Math.random() * 900000));
 
+        delete campaign.visibility;
+        delete campaign.socialMedia;
         delete campaign.lore;
         delete campaign.nextMatchDate;
         delete campaign.playerAmountLimit;

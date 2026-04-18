@@ -84,6 +84,7 @@ export default class CampaignsController {
         const files = req.files as Record<string, Express.Multer.File[]>;
         const image = files?.cover?.[0] as FileObject | undefined;
         const mapImages = (files?.mapImages ?? []) as FileObject[];
+
         const result = await this.createCampaignOperation.execute({
             campaign,
             userId,
