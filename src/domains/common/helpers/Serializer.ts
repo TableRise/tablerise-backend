@@ -121,7 +121,7 @@ export default class Serializer {
         nextMatchDate?: string;
         playerAmountLimit?: string;
         socialMedia?: { discord?: string; twitter?: string; youtube?: string };
-        code:  string
+        code: string;
     } {
         return {
             campaignId,

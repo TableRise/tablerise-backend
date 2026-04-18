@@ -28,6 +28,10 @@ const patchUpdateCampaignPlayerLimitQuerySchema = z.object({
     newLimit: z.number().min(1),
 });
 
+const postConfirmPlayerPresenceQuerySchema = z.object({
+    cancel: z.boolean().default(false).optional(),
+});
+
 const putUpdateCampaignBodySchema = z.object({
     title: z.string().optional(),
     description: z.string().max(255).optional(),
@@ -97,6 +101,7 @@ export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCamp
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
 export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
 export type TUpdateCampaignPlayerLimitQuery = z.infer<typeof patchUpdateCampaignPlayerLimitQuerySchema>;
+export type TConfirmPlayerPresenceQuery = z.infer<typeof postConfirmPlayerPresenceQuerySchema>;
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
@@ -137,5 +142,8 @@ export default (): ICampaignsSchemas => ({
     },
     getAllCampaigns: {
         query: getAllCampaignsQuerySchema,
+    },
+    postConfirmPlayerPresence: {
+        query: postConfirmPlayerPresenceQuerySchema,
     },
 });

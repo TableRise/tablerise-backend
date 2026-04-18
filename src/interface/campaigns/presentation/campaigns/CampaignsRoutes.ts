@@ -154,6 +154,17 @@ export default class CampaignsRoutes {
                     tag: 'management',
                 },
             },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/update/match/player-presence`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'cancel', type: 'boolean' }])],
+                controller: this.campaignsController.confirmPlayerPresence,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.removeCampaignPlayers,
+                    tag: 'management',
+                },
+            },
 
             // PUT
             {

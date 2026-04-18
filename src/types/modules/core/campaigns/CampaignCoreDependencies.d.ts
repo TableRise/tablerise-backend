@@ -46,6 +46,11 @@ import {
     UpdateCampaignPlayerLimitServiceContract,
 } from './campaigns/UpdateCampaignPlayerLimit';
 
+import {
+    ConfirmMatchPlayerPresenceOperationContract,
+    ConfirmMatchPlayerPresenceServiceContract,
+} from './campaigns/ConfirmMatchPlayerPresence';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -63,6 +68,7 @@ export default interface CampaignCoreDependencies {
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
     getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
+    confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -80,4 +86,5 @@ export default interface CampaignCoreDependencies {
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
     getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
+    confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
 }

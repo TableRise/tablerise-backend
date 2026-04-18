@@ -25,6 +25,7 @@ export default class CampaignsController {
     private readonly postBanPlayerOperation;
     private readonly updateCampaignImagesOperation;
     private readonly updateCampaignPlayerLimitOperation;
+    private readonly confirmMatchPlayerPresenceOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -43,6 +44,7 @@ export default class CampaignsController {
         postBanPlayerOperation,
         updateCampaignImagesOperation,
         updateCampaignPlayerLimitOperation,
+        confirmMatchPlayerPresenceOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -60,6 +62,7 @@ export default class CampaignsController {
         this.postBanPlayerOperation = postBanPlayerOperation;
         this.updateCampaignImagesOperation = updateCampaignImagesOperation;
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
+        this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
 
         this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
@@ -76,6 +79,7 @@ export default class CampaignsController {
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
+        this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -159,6 +163,16 @@ export default class CampaignsController {
         const { newLimit } = req.query;
 
         await this.updateCampaignPlayerLimitOperation.execute(id, Number(newLimit));
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async confirmPlayerPresence(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { cancel } = req.query as unknown as { cancel: boolean };
+
+        await this.confirmMatchPlayerPresenceOperation.execute(id, userId, cancel);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }

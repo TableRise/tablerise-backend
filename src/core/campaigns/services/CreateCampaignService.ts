@@ -8,6 +8,7 @@ import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { FileObject } from 'src/types/shared/file';
+import newUUID from 'src/domains/common/helpers/newUUID';
 
 export default class CreateCampaignService {
     private readonly campaignsRepository;
@@ -62,31 +63,6 @@ export default class CreateCampaignService {
             delete campaign.cover;
         }
 
-        if (mapImages && mapImages.length > 0) {
-            const mapImagesUploaded = [];
-
-            for (const image of mapImages) {
-                // eslint-disable-next-line no-await-in-loop
-                mapImagesUploaded.push(await this.imageStorageClient.upload(image));
-            }
-
-            campaign.images = { maps: mapImagesUploaded, characters: [] };
-        }
-
-        campaign.lores = {
-            playerCharacters: [],
-            dungeonMasterCharacters: [],
-            environments: [],
-            mainHistory: [
-                {
-                    title: 'Campaign history',
-                    lore: campaign.lore as string,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                },
-            ],
-        };
-
         campaign.infos = {
             ...campaign.infos,
             nextMatchDate: (campaign.nextMatchDate as string) || 'no-date',
@@ -94,10 +70,27 @@ export default class CreateCampaignService {
             journal: [],
             campaignAge: '0',
             socialMedia: {
-                ...JSON.parse(campaign.socialMedia as string)
-            }
+                ...JSON.parse(campaign.socialMedia as string),
+            },
         };
-        
+
+        campaign.matchData = {
+            matchId: newUUID(),
+            prevDate: campaign.nextMatchDate as string,
+            confirmedPlayers: [],
+            characters: [],
+            charactersInGame: [],
+            musics: [],
+            mapImages: [],
+            logs: [],
+        };
+
+        if (mapImages) {
+            for (const mapImage of mapImages) {
+                campaign.matchData.mapImages.push(await this.imageStorageClient.upload(mapImage));
+            }
+        }
+
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
         campaign.musics = JSON.parse(campaign.musics as unknown as string);

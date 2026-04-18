@@ -54,7 +54,7 @@ export default class ImageStorageClient {
 
         try {
             imageUploaded =
-                process.env.NODE_ENV === 'production' ? await this.httpRequest(imageUploadPayload) : imageUploaded;
+                process.env.NODE_ENV === 'develop' ? await this.httpRequest(imageUploadPayload) : imageUploaded;
         } catch (error) {
             const err = error as AxiosError;
 

@@ -14,4 +14,5 @@ export interface ICampaignsSchemas {
     patchUpdateCampaignImages: ISchemaProps;
     patchUpdateCampaignPlayerLimit: ISchemaProps;
     getAllCampaigns: ISchemaProps;
+    postConfirmPlayerPresence: ISchemaProps;
 }
