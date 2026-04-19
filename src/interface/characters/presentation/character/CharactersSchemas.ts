@@ -18,8 +18,7 @@ const appearanceCharacterZodSchema = z.object({
     weight: z.string(),
     height: z.string(),
     skin: z.string(),
-    hair: z.string(),
-    picture: imageObjectZodSchema.optional().nullable(),
+    hair: z.string()
 });
 
 const otherCharacterZodSchema = z.object({
@@ -143,8 +142,7 @@ const dataCharacterZodSchema = z.object({
 
 const characterPostZodSchema = z.object({
     data: dataCharacterZodSchema,
-    npc: z.boolean().default(false),
-    picture: imageObjectZodSchema.optional().nullable(),
+    npc: z.boolean().default(false)
 });
 
 // ─── PUT (update) ─────────────────────────────────────────────────────────────

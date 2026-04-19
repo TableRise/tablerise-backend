@@ -77,7 +77,7 @@ export default class CharactersRoutes {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     schemas: [{ body: this.charactersSchemas.postCreateCharacter.body }],
                     description: desc.create,
-                    tag: 'create',
+                    tag: 'create'
                 },
             },
             {

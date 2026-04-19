@@ -17,7 +17,7 @@
         "prettier:fix": "npx prettier . --write",
         "check-lib": "node scripts/checkUnauthorizedChars.js",
         "check-cov": "node scripts/checkCoverage.js",
-        "populate": "npx @tablerise/database-seeder@5.5.5",
+        "populate": "npx @tablerise/database-seeder@5.7.1",
         "circular": "npx dpdm --no-warning --no-tree src/server.ts",
         "reset": "rm -rf node_modules && rm package-lock.json && npm install",
         "prepare": "husky install"
@@ -37,7 +37,7 @@
         "@types/cookie-parser": "1.4.6",
         "@types/cookie-session": "2.0.48",
         "@types/cors": "2.8.13",
-        "@types/dirty-chai": "^2.0.5",
+        "@types/dirty-chai": "2.0.5",
         "@types/expect": "24.3.0",
         "@types/express": "4.17.17",
         "@types/express-session": "1.17.7",
@@ -90,7 +90,7 @@
     },
     "dependencies": {
         "@tablerise/auto-swagger": "4.6.2",
-        "@tablerise/database-management": "5.8.6",
+        "@tablerise/database-management": "5.9.3",
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",
         "awilix": "9.0.0",

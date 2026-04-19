@@ -182,7 +182,7 @@ export default class CreateCharacterService {
         payload.data.stats.skills = {};
         payload.picture = null as unknown as ImageObject;
         payload.data.profile.characteristics.appearance.picture = null as unknown as ImageObject;
-        payload.data.profile.characteristics.alliesAndOrgs[0].symbol = null as unknown as ImageObject;
+        payload.data.profile.characteristics.alliesAndOrgs = [];
         payload.data.createdAt = new Date().toISOString();
         payload.data.updatedAt = new Date().toISOString();
         payload.createdAt = new Date().toISOString();

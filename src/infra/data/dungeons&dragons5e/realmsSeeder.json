@@ -4,12 +4,14 @@
         "en": {
             "name": "The Material Plane",
             "description": "The nexus of mortal life and mundane matter, where the influences of the other planes meet. It contains the fantasy worlds where most campaigns begin.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/1/1f/Material_Plane.jpg/revision/latest?cb=20180627193113"
         },
         "pt": {
             "name": "O Plano Material",
             "description": "O ponto de encontro da vida mortal e da matéria mundana, onde as influências dos outros planos se cruzam. Ele contém os mundos de fantasia onde a maioria das campanhas começa.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/1/1f/Material_Plane.jpg/revision/latest?cb=20180627193113"
         }
     },
     {
@@ -17,12 +19,14 @@
         "en": {
             "name": "The Ethereal Plane",
             "description": "A misty transitive plane that overlaps the Material Plane and the Inner Planes. It serves as a route between connected locations across those planes.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/2/2e/Ethereal_Plane.jpg/revision/latest?cb=20181001012947"
         },
         "pt": {
             "name": "O Plano Etéreo",
             "description": "Um plano transitivo enevoado que se sobrepõe ao Plano Material e aos Planos Interiores. Ele serve como rota entre locais correspondentes nesses planos.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/2/2e/Ethereal_Plane.jpg/revision/latest?cb=20181001012947"
         }
     },
     {
@@ -30,12 +34,14 @@
         "en": {
             "name": "The Astral Plane",
             "description": "A silvery transitive plane of thought and dream. Travelers cross it to reach divine and fiendish realms beyond the Material Plane.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/f/f0/Astral_Plane.jpg/revision/latest?cb=20180627145008"
         },
         "pt": {
             "name": "O Plano Astral",
             "description": "Um plano transitivo prateado de pensamento e sonho. Viajantes o atravessam para alcançar reinos divinos e infernais além do Plano Material.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/f/f0/Astral_Plane.jpg/revision/latest?cb=20180627145008"
         }
     },
     {
@@ -43,12 +49,14 @@
         "en": {
             "name": "The Inner Planes",
             "description": "The source of the raw elemental substance from which worlds are formed. They include the elemental realms and the turmoil of the Elemental Chaos.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static0.srcdn.com/wordpress/wp-content/uploads/2021/05/The-Most-Dangerous-Planes-In-DD-Include-The-Elemental-Chaos-Home-Of-The-Titans.jpg?q=50&fit=crop&w=825&dpr=1.5"
         },
         "pt": {
             "name": "Os Planos Interiores",
             "description": "A fonte da substância elemental bruta da qual os mundos são formados. Eles incluem os reinos elementais e o tumulto do Caos Elemental.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static0.srcdn.com/wordpress/wp-content/uploads/2021/05/The-Most-Dangerous-Planes-In-DD-Include-The-Elemental-Chaos-Home-Of-The-Titans.jpg?q=50&fit=crop&w=825&dpr=1.5"
         }
     },
     {
@@ -56,12 +64,14 @@
         "en": {
             "name": "The Plane of Air",
             "description": "One of the four Elemental Planes. Near the Material Plane it can resemble a natural sky, but farther out it becomes a realm of pure air.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/4/44/Elemental_Plane_of_Air_5_point_5.jpg/revision/latest/scale-to-width-down/400?cb=20241202165908"
         },
         "pt": {
             "name": "O Plano do Ar",
             "description": "Um dos quatro Planos Elementais. Perto do Plano Material ele pode lembrar um céu natural, mas mais adiante torna-se um reino de ar puro.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/4/44/Elemental_Plane_of_Air_5_point_5.jpg/revision/latest/scale-to-width-down/400?cb=20241202165908"
         }
     },
     {
@@ -69,12 +79,14 @@
         "en": {
             "name": "The Plane of Earth",
             "description": "One of the four Elemental Planes. Near the Material Plane it can resemble solid terrain, but farther out it becomes vast expanses of pure earth.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/rift/images/0/00/Plane_of_Earth-Concept.jpg/revision/latest?cb=20100719205834"
         },
         "pt": {
             "name": "O Plano da Terra",
             "description": "Um dos quatro Planos Elementais. Perto do Plano Material ele pode lembrar terreno sólido, mas mais adiante torna-se uma vasta extensão de terra pura.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/rift/images/0/00/Plane_of_Earth-Concept.jpg/revision/latest?cb=20100719205834"
         }
     },
     {
@@ -82,12 +94,14 @@
         "en": {
             "name": "The Plane of Fire",
             "description": "One of the four Elemental Planes. Near the Material Plane it can resemble a fiery world, but farther out it becomes a domain of blazing pure fire.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/0113c7e16e9f213d2f892992b3368b09.jpg"
         },
         "pt": {
             "name": "O Plano do Fogo",
             "description": "Um dos quatro Planos Elementais. Perto do Plano Material ele pode lembrar um mundo ardente, mas mais adiante torna-se um domínio de fogo puro e intenso.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/0113c7e16e9f213d2f892992b3368b09.jpg"
         }
     },
     {
@@ -95,12 +109,14 @@
         "en": {
             "name": "The Plane of Water",
             "description": "One of the four Elemental Planes. Near the Material Plane it can resemble seas and coasts, but farther out it becomes a realm of pure water.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/660a3d59830f7bc26695f5f68614dda1.jpg"
         },
         "pt": {
             "name": "O Plano da Água",
             "description": "Um dos quatro Planos Elementais. Perto do Plano Material ele pode lembrar mares e costas, mas mais adiante torna-se um reino de água pura.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/660a3d59830f7bc26695f5f68614dda1.jpg"
         }
     },
     {
@@ -108,12 +124,14 @@
         "en": {
             "name": "The Elemental Chaos",
             "description": "The farthest tumult of the Inner Planes, where pure elements dissolve into clashing energies and colliding substance.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1f/Elemental_chaos.jpg/revision/latest?cb=20081119021939"
         },
         "pt": {
             "name": "O Caos Elemental",
             "description": "O tumulto mais distante dos Planos Interiores, onde os elementos puros se desfazem em energias conflitantes e substâncias em colisão.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1f/Elemental_chaos.jpg/revision/latest?cb=20081119021939"
         }
     },
     {
@@ -121,12 +139,14 @@
         "en": {
             "name": "The Outer Planes",
             "description": "Planes of spirit, thought, and divine purpose. They are best known as the homes of deities and powerful moral forces.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://preview.redd.it/art-my-version-of-the-march-of-the-dead-event-in-curse-of-v0-mnihj182u1i91.gif?format=png8&s=84b20c4e5d14db84deb89a3067eee90d1882852a"
         },
         "pt": {
             "name": "Os Planos Exteriores",
             "description": "Planos de espírito, pensamento e propósito divino. São mais conhecidos como os lares de divindades e de poderosas forças morais.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://preview.redd.it/art-my-version-of-the-march-of-the-dead-event-in-curse-of-v0-mnihj182u1i91.gif?format=png8&s=84b20c4e5d14db84deb89a3067eee90d1882852a"
         }
     },
     {
@@ -134,12 +154,14 @@
         "en": {
             "name": "The Upper Planes",
             "description": "Outer Planes with an element of good in their nature. Celestial beings such as angels and pegasi dwell there.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/17e5b2928ddc2b0e3e22a1b6df85b544.png"
         },
         "pt": {
             "name": "Os Planos Superiores",
             "description": "Planos Exteriores com um elemento de bondade em sua natureza. Seres celestiais como anjos e pégasos habitam esses lugares.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/17e5b2928ddc2b0e3e22a1b6df85b544.png"
         }
     },
     {
@@ -147,12 +169,14 @@
         "en": {
             "name": "The Lower Planes",
             "description": "Outer Planes with an element of evil in their nature. Fiends such as demons and devils dwell there.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.dndbeyond.com/attachments/thumbnails/6/418/850/433/az93n-f-06-fortress.jpg"
         },
         "pt": {
             "name": "Os Planos Inferiores",
             "description": "Planos Exteriores com um elemento de maldade em sua natureza. Corruptores como demônios e diabos habitam esses lugares.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://www.dndbeyond.com/attachments/thumbnails/6/418/850/433/az93n-f-06-fortress.jpg"
         }
     },
     {
@@ -160,12 +184,14 @@
         "en": {
             "name": "Demiplanes",
             "description": "Small extradimensional spaces with their own rules. They can be created by magic, formed by powerful beings, or arise naturally.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/4e-planescape/images/2/24/Ethdemiplane.jpg/revision/latest?cb=20160926154712"
         },
         "pt": {
             "name": "Semiplanos",
             "description": "Pequenos espaços extradimensionais com regras próprias. Eles podem ser criados por magia, formados por seres poderosos ou surgir naturalmente.",
-            "homebrew": false
+            "homebrew": false,
+            "thumbnail": "https://static.wikia.nocookie.net/4e-planescape/images/2/24/Ethdemiplane.jpg/revision/latest?cb=20160926154712"
         }
     },
     {
@@ -173,12 +199,14 @@
         "en": {
             "name": "The Feywild",
             "description": "A bright echo of the Material Plane shaped by intense life, emotion, and magic. Its lands feel vivid, unpredictable, and touched by enchantment.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/8/85/NewSharandar_-_Howard_Lyon.jpg/revision/latest?cb=20210204141831"
         },
         "pt": {
             "name": "A Agrestia das Fadas",
             "description": "Um eco brilhante do Plano Material moldado por vida intensa, emoção e magia. Suas terras parecem vívidas, imprevisíveis e tocadas por encantamento.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/forgottenrealms/images/8/85/NewSharandar_-_Howard_Lyon.jpg/revision/latest?cb=20210204141831"
         }
     },
     {
@@ -186,12 +214,14 @@
         "en": {
             "name": "The Shadowfell",
             "description": "A dark echo of the Material Plane marked by gloom, stillness, and decay. It reflects familiar places through a bleak and haunted lens.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.wargamer.com/wp-content/sites/wargamer/2023/11/dnd-shadowfell-5e-guide-feywild-wilderness.jpg"
         },
         "pt": {
             "name": "A Umbra",
             "description": "Um eco sombrio do Plano Material marcado por melancolia, quietude e decadência. Ele reflete lugares familiares por uma lente sombria e assombrada.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.wargamer.com/wp-content/sites/wargamer/2023/11/dnd-shadowfell-5e-guide-feywild-wilderness.jpg"
         }
     },
     {
@@ -199,12 +229,14 @@
         "en": {
             "name": "Mount Celestia",
             "description": "A lawful good plane of ascending holy realms, where order, virtue, and spiritual discipline are held in highest regard.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/c/c2/Celestia.jpg/revision/latest?cb=20181012151455"
         },
         "pt": {
             "name": "Monte Celéstia",
             "description": "Um plano leal e bom de reinos sagrados ascendentes, onde ordem, virtude e disciplina espiritual são altamente valorizadas.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/emerald-isles/images/c/c2/Celestia.jpg/revision/latest?cb=20181012151455"
         }
     },
     {
@@ -212,12 +244,14 @@
         "en": {
             "name": "Bytopia",
             "description": "A good-aligned plane of productive harmony, cooperation, and practical labor. Its realms reward effort, balance, and shared purpose.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://miro.medium.com/v2/resize:fit:1400/0*4LGCq85wTBC8xmRa"
         },
         "pt": {
             "name": "Bitópia",
             "description": "Um plano bondoso de harmonia produtiva, cooperação e trabalho prático. Seus reinos valorizam esforço, equilíbrio e propósito compartilhado.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://miro.medium.com/v2/resize:fit:1400/0*4LGCq85wTBC8xmRa"
         }
     },
     {
@@ -225,12 +259,14 @@
         "en": {
             "name": "Elysium",
             "description": "A plane of peace, kindness, and restorative calm. It is often seen as a refuge of pure goodness and deep serenity.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/1be646c37c4c2a6def5562b03b273944.jpg"
         },
         "pt": {
             "name": "Elísio",
             "description": "Um plano de paz, bondade e calma restauradora. Ele é frequentemente visto como um refúgio de pura benevolência e profunda serenidade.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/1be646c37c4c2a6def5562b03b273944.jpg"
         }
     },
     {
@@ -238,12 +274,14 @@
         "en": {
             "name": "The Beastlands",
             "description": "A wild good-aligned plane where instinct, freedom, and the natural world flourish. Beasts and primal spirits feel especially at home there.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/f0a2552779312f322c7f4d36272c0ca5.jpg"
         },
         "pt": {
             "name": "As Terras Feras",
             "description": "Um plano selvagem e bondoso onde instinto, liberdade e natureza florescem. Bestas e espíritos primordiais se sentem especialmente em casa ali.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/f0a2552779312f322c7f4d36272c0ca5.jpg"
         }
     },
     {
@@ -251,12 +289,14 @@
         "en": {
             "name": "Arborea",
             "description": "A chaotic good plane of passion, beauty, art, and fierce emotion. Joy and fury alike can take on mythic scale there.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://images.squarespace-cdn.com/content/v1/5bd88db093a6320f071b1a50/1588603318259-NJXIQW36NMOJANK5Y06F/image-asset.jpeg"
         },
         "pt": {
             "name": "Arbórea",
             "description": "Um plano caótico e bom de paixão, beleza, arte e emoção intensa. Alegria e fúria podem assumir proporções míticas ali.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://images.squarespace-cdn.com/content/v1/5bd88db093a6320f071b1a50/1588603318259-NJXIQW36NMOJANK5Y06F/image-asset.jpeg"
         }
     },
     {
@@ -264,12 +304,14 @@
         "en": {
             "name": "Ysgard",
             "description": "A heroic plane of glorious struggle, bold deeds, and fearless spirits. Conflict there is often tied to honor, strength, and legend.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/ed991dd569621aa4f7d044d6f8d670a8.jpg"
         },
         "pt": {
             "name": "Ysgard",
             "description": "Um plano heroico de luta gloriosa, feitos ousados e espíritos destemidos. O conflito ali costuma estar ligado à honra, força e lenda.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/ed991dd569621aa4f7d044d6f8d670a8.jpg"
         }
     },
     {
@@ -277,12 +319,14 @@
         "en": {
             "name": "Limbo",
             "description": "A plane of pure chaos where matter and energy shift constantly. Survival often depends on willpower, focus, or magical control.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://i0.wp.com/dmdave.com/wp-content/uploads/2019/06/limbo-2-2776280187-1560152577225.jpg?resize=618%2C347&ssl=1"
         },
         "pt": {
             "name": "Limbo",
             "description": "Um plano de caos puro onde matéria e energia mudam sem cessar. Sobreviver ali costuma depender de força de vontade, foco ou controle mágico.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://i0.wp.com/dmdave.com/wp-content/uploads/2019/06/limbo-2-2776280187-1560152577225.jpg?resize=618%2C347&ssl=1"
         }
     },
     {
@@ -290,12 +334,14 @@
         "en": {
             "name": "Pandemonium",
             "description": "A plane of darkness, madness, and endless winds. Its howling reaches and twisting passages wear down calm thought and certainty.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/karnione1/images/2/2c/Pandemonium_Fortress-RoS1.jpg/revision/latest/scale-to-width-down/1200?cb=20140928014208"
         },
         "pt": {
             "name": "Pandemônio",
             "description": "Um plano de escuridão, loucura e ventos incessantes. Suas extensões uivantes e passagens tortuosas desgastam a calma e a certeza.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/karnione1/images/2/2c/Pandemonium_Fortress-RoS1.jpg/revision/latest/scale-to-width-down/1200?cb=20140928014208"
         }
     },
     {
@@ -303,12 +349,14 @@
         "en": {
             "name": "The Abyss",
             "description": "A chaotic evil plane of ruin, rage, and monstrous corruption. It is associated with relentless destruction and demonic power.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://wiki.alexissmolensk.com/images/4/42/Abyss_Plane.jpg"
         },
         "pt": {
             "name": "O Abismo",
             "description": "Um plano caótico e maligno de ruína, fúria e corrupção monstruosa. Ele é associado à destruição incessante e ao poder demoníaco.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://wiki.alexissmolensk.com/images/4/42/Abyss_Plane.jpg"
         }
     },
     {
@@ -316,25 +364,14 @@
         "en": {
             "name": "Carceri",
             "description": "A plane of confinement, bitterness, and betrayal. Its nature reflects imprisonment, failed ambition, and the urge to escape.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/4d799dc1e0e12109286b59af7cdf9bc6.jpg"
         },
         "pt": {
             "name": "Cárceri",
             "description": "Um plano de confinamento, amargura e traição. Sua natureza reflete aprisionamento, ambição fracassada e o desejo de escapar.",
-            "homebrew": true
-        }
-    },
-    {
-        "active": true,
-        "en": {
-            "name": "Hades",
-            "description": "A bleak plane of despair, apathy, and spiritual exhaustion. Hope feels distant there, and purpose can slowly fade away.",
-            "homebrew": true
-        },
-        "pt": {
-            "name": "Hades",
-            "description": "Um plano sombrio de desespero, apatia e exaustão espiritual. A esperança parece distante ali, e o propósito pode desaparecer aos poucos.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://www.worldanvil.com/uploads/images/4d799dc1e0e12109286b59af7cdf9bc6.jpg"
         }
     },
     {
@@ -342,25 +379,14 @@
         "en": {
             "name": "Gehenna",
             "description": "A harsh plane of cruelty, ambition, and destructive self-interest. Its hostile terrain mirrors the danger of ruthless desire.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://mimir.net/wp-content/uploads/three_ghostly_figures_pluton_gray_waste.webp"
         },
         "pt": {
             "name": "Geena",
             "description": "Um plano severo de crueldade, ambição e egoísmo destrutivo. Seu terreno hostil reflete o perigo do desejo implacável.",
-            "homebrew": true
-        }
-    },
-    {
-        "active": true,
-        "en": {
-            "name": "The Nine Hells",
-            "description": "A lawful evil plane built on tyranny, hierarchy, and infernal bargains. Its structure rewards obedience, cunning, and domination.",
-            "homebrew": true
-        },
-        "pt": {
-            "name": "Os Nove Infernos",
-            "description": "Um plano leal e maligno construído sobre tirania, hierarquia e pactos infernais. Sua estrutura recompensa obediência, astúcia e dominação.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://mimir.net/wp-content/uploads/three_ghostly_figures_pluton_gray_waste.webp"
         }
     },
     {
@@ -368,12 +394,14 @@
         "en": {
             "name": "Acheron",
             "description": "A plane of war, discipline, and endless conflict between organized powers. It embodies struggle carried out through force and structure.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://images.squarespace-cdn.com/content/v1/51b3dc8ee4b051b96ceb10de/1586209113483-BJD7B100RDCDHVOCABUK/image-asset.jpeg"
         },
         "pt": {
             "name": "Aqueronte",
             "description": "Um plano de guerra, disciplina e conflito interminável entre poderes organizados. Ele incorpora a luta conduzida por força e estrutura.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://images.squarespace-cdn.com/content/v1/51b3dc8ee4b051b96ceb10de/1586209113483-BJD7B100RDCDHVOCABUK/image-asset.jpeg"
         }
     },
     {
@@ -381,12 +409,14 @@
         "en": {
             "name": "Mechanus",
             "description": "A plane of absolute order, precise function, and cosmic regulation. Everything there tends toward system, pattern, and exact balance.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/the-atlas-of-the-planes-project/images/8/8c/Mechanus.jpg/revision/latest?cb=20220315115612"
         },
         "pt": {
             "name": "Mecânus",
             "description": "Um plano de ordem absoluta, função precisa e regulação cósmica. Tudo ali tende a sistema, padrão e equilíbrio exato.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://static.wikia.nocookie.net/the-atlas-of-the-planes-project/images/8/8c/Mechanus.jpg/revision/latest?cb=20220315115612"
         }
     },
     {
@@ -394,12 +424,14 @@
         "en": {
             "name": "Arcadia",
             "description": "A lawful good plane of harmony, duty, and structured peace. It values cooperation directed by order and shared ideals.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://cdnb.artstation.com/p/assets/images/images/096/364/775/large/airi-pan-ssnstart-airipan-concept-keyframe-small.webp?1771112915"
         },
         "pt": {
             "name": "Arcádia",
             "description": "Um plano leal e bom de harmonia, dever e paz estruturada. Ele valoriza a cooperação guiada por ordem e ideais compartilhados.",
-            "homebrew": true
+            "homebrew": true,
+            "thumbnail": "https://cdnb.artstation.com/p/assets/images/images/096/364/775/large/airi-pan-ssnstart-airipan-concept-keyframe-small.webp?1771112915"
         }
     }
 ]
