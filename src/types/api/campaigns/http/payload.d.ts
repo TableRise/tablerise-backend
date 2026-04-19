@@ -36,7 +36,6 @@ export interface GetAllCampaignsQuery {
 
 export interface addCharacterPayload {
     campaignId: string;
-    userId: string;
     characterId: string;
 }
 

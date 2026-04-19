@@ -109,10 +109,8 @@ export default class Serializer {
         },
         nextMatchDate = null,
         password = null,
-        lores = null,
         lore = null,
         playerAmountLimit = null,
-        images = null,
         socialMedia = null,
         createdAt = null,
         updatedAt = null,
@@ -137,10 +135,8 @@ export default class Serializer {
             musics,
             infos,
             password,
-            lores,
             playerAmountLimit,
             lore,
-            images,
             socialMedia,
             createdAt,
             updatedAt,
@@ -181,7 +177,7 @@ export default class Serializer {
         dataSerialized.link = url || '';
         dataSerialized.uploadDate = time ? new Date(time).toISOString() : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
-        dataSerialized.mediumSizeUrl = medium.url || '';
+        dataSerialized.mediumSizeUrl = medium?.url || '';
         dataSerialized.deleteUrl = deleteUrl || '';
         dataSerialized.request = { success: result.success, status: result.status };
 

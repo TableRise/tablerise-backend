@@ -256,14 +256,12 @@ export default class CampaignsController {
 
     public async addPlayerCharacter(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.user as Express.User;
         const { characterId } = req.query as {
             characterId: string;
         };
 
         const result = await this.addPlayerCharacterOperation.execute({
             campaignId: id,
-            userId,
             characterId,
         });
 
