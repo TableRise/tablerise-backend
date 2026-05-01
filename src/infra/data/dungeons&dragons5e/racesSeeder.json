@@ -201,7 +201,7 @@
             "heightMax": 1.8,
             "weightMax": 0,
             "size": "medium",
-            "speed": 9.1,
+            "speed": [9.1],
             "language": ["Common", "Elvish"],
             "skillProficiencies": ["Perception"],
             "characteristics": [
@@ -323,7 +323,7 @@
             "heightMax": 1.8,
             "weightMax": 0,
             "size": "médio",
-            "speed": 9.1,
+            "speed": [9.1],
             "language": ["Comum", "Élfico"],
             "skillProficiencies": ["Percepção"],
             "characteristics": [
