@@ -132,7 +132,6 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                 gp: 0,
                 pp: 0,
             },
-            features: [''],
             spells: {
                 cantrips: [],
                 1: {

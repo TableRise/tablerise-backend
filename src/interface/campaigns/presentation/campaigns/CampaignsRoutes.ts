@@ -255,13 +255,25 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/player/character`,
+                path: `${BASE_PATH}/:id/update/player/character/add`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }])],
                 controller: this.campaignsController.addPlayerCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.addPlayerCharacter,
                     schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignPlayerCharacter.query }],
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/player/character/remove`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }])],
+                controller: this.campaignsController.removePlayerCharacter,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.removePlayerCharacter,
+                    schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignPlayerCharacter.query }],
                     tag: 'management',
                 },
             },

@@ -11,6 +11,7 @@ export interface ICampaignsSchemas {
     patchUpdateCampaignMatchMapImages: ISchemaProps;
     patchUpdateCampaignMatchMusics: ISchemaProps;
     patchUpdateCampaignPlayerCharacter: ISchemaProps;
+    patchRemoveCampaignPlayerCharacter: ISchemaProps;
     patchUpdateCampaignImages: ISchemaProps;
     patchUpdateCampaignPlayerLimit: ISchemaProps;
     getAllCampaigns: ISchemaProps;

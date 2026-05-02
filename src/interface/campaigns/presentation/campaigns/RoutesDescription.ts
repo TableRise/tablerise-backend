@@ -18,6 +18,7 @@ const inviteEmail = 'This route sends a campaign invitation via email';
 const updateCampaignImages = 'This route updates the campaign images';
 const banPlayer = 'This route banish a player';
 const addPlayerCharacter = 'In this route you can send a character of a player to be added to campaign';
+const removePlayerCharacter = 'In this route you can remove a character of a player from a campaign';
 
 export default {
     create,
@@ -34,4 +35,5 @@ export default {
     updateCampaignImages,
     banPlayer,
     addPlayerCharacter,
+    removePlayerCharacter,
 };

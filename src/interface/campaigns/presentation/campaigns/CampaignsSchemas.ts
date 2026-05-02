@@ -134,6 +134,9 @@ export default (): ICampaignsSchemas => ({
     patchUpdateCampaignPlayerCharacter: {
         query: patchUpdateCampaignPlayerCharacterQuerySchema,
     },
+    patchRemoveCampaignPlayerCharacter: {
+        query: patchUpdateCampaignPlayerCharacterQuerySchema,
+    },
     patchUpdateCampaignImages: {
         body: patchUpdateCampaignImagesBodySchema,
     },

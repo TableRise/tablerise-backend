@@ -79,12 +79,6 @@ const statsCharacterZodSchema = z.object({
     spellCasting: spellCastingCharacterZodSchema,
 });
 
-const attacksCharacterZodSchema = z.object({
-    name: z.string(),
-    atkBonus: z.string(),
-    damage: z.string(),
-});
-
 const moneyCharacterZodSchema = z.object({
     cp: z.number(),
     sp: z.number(),
@@ -95,6 +89,12 @@ const moneyCharacterZodSchema = z.object({
 
 const spellLevelCharacterZodSchema = z.object({
     spellIds: z.array(z.string()),
+    slotsTotal: z.number(),
+    slotsExpended: z.number(),
+});
+
+const extraAbilityLevelCharacterZodSchema = z.object({
+    extraAbilities: z.array(z.string()),
     slotsTotal: z.number(),
     slotsExpended: z.number(),
 });
@@ -112,14 +112,26 @@ const spellsCharacterZodSchema = z.object({
     9: spellLevelCharacterZodSchema,
 });
 
+const extraAbilitiesCharacterZodSchema = z.object({
+    cantrips: z.array(z.string()),
+    1: extraAbilityLevelCharacterZodSchema,
+    2: extraAbilityLevelCharacterZodSchema,
+    3: extraAbilityLevelCharacterZodSchema,
+    4: extraAbilityLevelCharacterZodSchema,
+    5: extraAbilityLevelCharacterZodSchema,
+    6: extraAbilityLevelCharacterZodSchema,
+    7: extraAbilityLevelCharacterZodSchema,
+    8: extraAbilityLevelCharacterZodSchema,
+    9: extraAbilityLevelCharacterZodSchema,
+});
+
 const dataCharacterZodSchema = z.object({
     profile: profileCharacterZodSchema,
     stats: statsCharacterZodSchema,
-    attacks: z.array(attacksCharacterZodSchema),
     equipments: z.string(),
     money: moneyCharacterZodSchema.optional(),
-    features: z.string(),
     spells: spellsCharacterZodSchema.optional(),
+    extraAbilities: extraAbilitiesCharacterZodSchema.optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });

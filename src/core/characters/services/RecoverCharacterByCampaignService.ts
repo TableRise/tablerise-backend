@@ -29,6 +29,8 @@ export default class RecoverCharacterByCampaignService {
                 author: char.author,
                 picture: char.picture,
                 profile: char.data.profile,
+                createdAt: char.data.createdAt,
+                updatedAt: char.data.updatedAt,
             };
         });
     }

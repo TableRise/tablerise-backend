@@ -21,6 +21,7 @@ export default class CampaignsController {
     private readonly addCampaignPlayersOperation;
     private readonly removeCampaignPlayersOperation;
     private readonly addPlayerCharacterOperation;
+    private readonly removePlayerCharacterOperation;
     private readonly postInvitationEmailOperation;
     private readonly postBanPlayerOperation;
     private readonly updateCampaignImagesOperation;
@@ -40,6 +41,7 @@ export default class CampaignsController {
         addCampaignPlayersOperation,
         removeCampaignPlayersOperation,
         addPlayerCharacterOperation,
+        removePlayerCharacterOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
@@ -57,6 +59,7 @@ export default class CampaignsController {
         this.updateMatchDateOperation = updateMatchDateOperation;
         this.addCampaignPlayersOperation = addCampaignPlayersOperation;
         this.addPlayerCharacterOperation = addPlayerCharacterOperation;
+        this.removePlayerCharacterOperation = removePlayerCharacterOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postBanPlayerOperation = postBanPlayerOperation;
@@ -76,6 +79,7 @@ export default class CampaignsController {
         this.addCampaignPlayers = this.addCampaignPlayers.bind(this);
         this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
+        this.removePlayerCharacter = this.removePlayerCharacter.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -266,6 +270,20 @@ export default class CampaignsController {
         });
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async removePlayerCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { characterId } = req.query as {
+            characterId: string;
+        };
+
+        const result = await this.removePlayerCharacterOperation.execute({
+            campaignId: id,
+            characterId,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {
