@@ -1,16 +1,7 @@
 import { z } from 'zod';
 import { ICharactersSchemas } from 'src/types/modules/interface/characters/presentation/characters/CharactersSchemas';
-import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
-import racesEnum from 'src/domains/dungeons&dragons5e/enums/racesEnum';
-import classesEnum from 'src/domains/dungeons&dragons5e/enums/classesEnum';
 
 // ─── POST (create) ────────────────────────────────────────────────────────────
-
-const alliesAndOrgsCharacterZodSchema = z.object({
-    orgName: z.string(),
-    symbol: imageObjectZodSchema.optional().nullable(),
-    content: z.string(),
-});
 
 const appearanceCharacterZodSchema = z.object({
     eyes: z.string(),
@@ -18,11 +9,10 @@ const appearanceCharacterZodSchema = z.object({
     weight: z.string(),
     height: z.string(),
     skin: z.string(),
-    hair: z.string()
+    hair: z.string(),
 });
 
 const otherCharacterZodSchema = z.object({
-    languages: z.array(z.string()),
     proficiencies: z.string(),
     extraCharacteristics: z.string(),
 });
@@ -35,15 +25,15 @@ const characteristicsCharacterZodSchema = z.object({
     bonds: z.string(),
     flaws: z.string(),
     appearance: appearanceCharacterZodSchema,
-    alliesAndOrgs: z.array(alliesAndOrgsCharacterZodSchema),
+    alliesAndOrgs: z.string(),
     other: otherCharacterZodSchema,
-    treasure: z.array(z.string()),
+    treasure: z.string(),
 });
 
 const profileCharacterZodSchema = z.object({
     name: z.string(),
-    class: z.enum(classesEnum.values),
-    race: z.enum(racesEnum.values),
+    class: z.string(),
+    race: z.string(),
     level: z.number().default(0).optional(),
     xp: z.number().default(0).optional(),
     characteristics: characteristicsCharacterZodSchema,
@@ -89,16 +79,10 @@ const statsCharacterZodSchema = z.object({
     spellCasting: spellCastingCharacterZodSchema,
 });
 
-const damageAttacksCharacterZodSchema = z.object({
-    type: z.string(),
-    bonus: z.number(),
-    dice: z.string(),
-});
-
 const attacksCharacterZodSchema = z.object({
     name: z.string(),
-    atkBonus: z.number(),
-    damage: z.array(damageAttacksCharacterZodSchema),
+    atkBonus: z.string(),
+    damage: z.string(),
 });
 
 const moneyCharacterZodSchema = z.object({
@@ -132,9 +116,9 @@ const dataCharacterZodSchema = z.object({
     profile: profileCharacterZodSchema,
     stats: statsCharacterZodSchema,
     attacks: z.array(attacksCharacterZodSchema),
-    equipments: z.array(z.string()),
+    equipments: z.string(),
     money: moneyCharacterZodSchema.optional(),
-    features: z.array(z.string()),
+    features: z.string(),
     spells: spellsCharacterZodSchema.optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
@@ -142,7 +126,7 @@ const dataCharacterZodSchema = z.object({
 
 const characterPostZodSchema = z.object({
     data: dataCharacterZodSchema,
-    npc: z.boolean().default(false)
+    npc: z.boolean().default(false),
 });
 
 // ─── PUT (update) ─────────────────────────────────────────────────────────────

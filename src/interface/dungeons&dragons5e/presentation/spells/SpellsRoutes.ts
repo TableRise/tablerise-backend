@@ -37,6 +37,16 @@ export default class SpellsRoutes {
             },
             {
                 method: 'get',
+                path: `${BASE_PATH}/by-level`,
+                parameters: [...generateQueryParam(1, [{ name: 'queryLevel', type: 'string' }])],
+                controller: this.spellsController.getByLevel,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'spells',
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/:id`,
                 parameters: [...generateIDParam()],
                 controller: this.spellsController.get,

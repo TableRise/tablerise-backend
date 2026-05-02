@@ -26,7 +26,6 @@ export default class AddPlayerCharacterService {
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const characterInDb = await this.charactersRepository.findOne({ characterId });
 
-
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex(
             (player: Player) => player.userId === characterInDb.author.userId
         );

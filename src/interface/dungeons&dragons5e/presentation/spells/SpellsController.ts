@@ -6,22 +6,26 @@ export default class SpellsController {
     private readonly getSpellOperation;
     private readonly getAllSpellsOperation;
     private readonly getDisabledSpellsOperation;
+    private readonly getByLevelOperation;
     private readonly toggleSpellsAvailabilityOperation;
 
     constructor({
         getSpellOperation,
         getAllSpellsOperation,
         getDisabledSpellsOperation,
+        getByLevelOperation,
         toggleSpellsAvailabilityOperation,
     }: SpellsControllerContract) {
         this.getSpellOperation = getSpellOperation;
         this.getAllSpellsOperation = getAllSpellsOperation;
         this.getDisabledSpellsOperation = getDisabledSpellsOperation;
+        this.getByLevelOperation = getByLevelOperation;
         this.toggleSpellsAvailabilityOperation = toggleSpellsAvailabilityOperation;
 
         this.get = this.get.bind(this);
         this.getAll = this.getAll.bind(this);
         this.getDisabled = this.getDisabled.bind(this);
+        this.getByLevel = this.getByLevel.bind(this);
         this.toggleAvailability = this.toggleAvailability.bind(this);
     }
 
@@ -39,6 +43,11 @@ export default class SpellsController {
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
         const result = await this.getDisabledSpellsOperation.execute();
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getByLevel(req: Request, res: Response): Promise<Response> {
+        const result = await this.getByLevelOperation.execute(Number(req.query.queryLevel));
         return res.status(HttpStatusCode.OK).json(result);
     }
 

@@ -17,8 +17,7 @@ export default class CreateCharacterOperation {
         this.logger('info', 'Execute - CreateCharacterOperation');
         const characterSerialized = this.createCharacterService.serialize(payload);
         const characterEnriched = await this.createCharacterService.enrichment(characterSerialized, payload.userId);
-        const characterAutomated = await this.createCharacterService.automation(characterEnriched);
 
-        return this.createCharacterService.save(characterAutomated);
+        return this.createCharacterService.save(characterEnriched);
     }
 }
