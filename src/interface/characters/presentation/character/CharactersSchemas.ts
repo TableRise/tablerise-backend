@@ -167,6 +167,8 @@ const characteristicsUpdateZodSchema = z.object({
     flaws: z.string().optional(),
     appearance: appearanceUpdateZodSchema,
     other: otherUpdateZodSchema,
+    alliesAndOrgs: z.string().optional(),
+    treasure: z.string().optional(),
 });
 
 const profileUpdateZodSchema = z.object({
@@ -204,9 +206,11 @@ const statsUpdateZodSchema = z.object({
     speed: z.number().optional(),
     initiative: z.number().optional(),
     armorClass: z.number().optional(),
-    hitPoints: hitPointsUpdateZodSchema,
-    deathSaves: deathSavesUpdateZodSchema,
-    spellCasting: spellCastingUpdateZodSchema,
+    hitPoints: hitPointsUpdateZodSchema.optional(),
+    deathSaves: deathSavesUpdateZodSchema.optional(),
+    spellCasting: spellCastingUpdateZodSchema.optional(),
+    abilityScores: z.array(abilityScoresZodSchema).optional(),
+    skills: z.record(z.string(), z.number()).optional(),
 });
 
 const moneyUpdateZodSchema = z.object({
@@ -217,10 +221,50 @@ const moneyUpdateZodSchema = z.object({
     pp: z.number().optional(),
 });
 
+const spellLevelUpdateZodSchema = z.object({
+    spellIds: z.array(z.string()).optional(),
+    slotsTotal: z.number().optional(),
+    slotsExpended: z.number().optional(),
+});
+
+const spellsUpdateZodSchema = z.object({
+    cantrips: z.array(z.string()).optional(),
+    1: spellLevelUpdateZodSchema.optional(),
+    2: spellLevelUpdateZodSchema.optional(),
+    3: spellLevelUpdateZodSchema.optional(),
+    4: spellLevelUpdateZodSchema.optional(),
+    5: spellLevelUpdateZodSchema.optional(),
+    6: spellLevelUpdateZodSchema.optional(),
+    7: spellLevelUpdateZodSchema.optional(),
+    8: spellLevelUpdateZodSchema.optional(),
+    9: spellLevelUpdateZodSchema.optional(),
+});
+
+const extraAbilityLevelUpdateZodSchema = z.object({
+    extraAbilityNames: z.array(z.string()).optional(),
+    slotsTotal: z.number().optional(),
+    slotsExpended: z.number().optional(),
+});
+
+const extraAbilitiesUpdateZodSchema = z.object({
+    cantrips: z.array(z.string()).optional(),
+    1: extraAbilityLevelUpdateZodSchema.optional(),
+    2: extraAbilityLevelUpdateZodSchema.optional(),
+    3: extraAbilityLevelUpdateZodSchema.optional(),
+    4: extraAbilityLevelUpdateZodSchema.optional(),
+    5: extraAbilityLevelUpdateZodSchema.optional(),
+    6: extraAbilityLevelUpdateZodSchema.optional(),
+    7: extraAbilityLevelUpdateZodSchema.optional(),
+    8: extraAbilityLevelUpdateZodSchema.optional(),
+    9: extraAbilityLevelUpdateZodSchema.optional(),
+});
+
 const dataUpdateZodSchema = z.object({
     profile: profileUpdateZodSchema.optional(),
     stats: statsUpdateZodSchema.optional(),
     money: moneyUpdateZodSchema.optional(),
+    spells: spellsUpdateZodSchema.optional(),
+    extraAbilities: extraAbilitiesUpdateZodSchema.optional(),
 });
 
 const updateCharacterZodSchema = z.object({

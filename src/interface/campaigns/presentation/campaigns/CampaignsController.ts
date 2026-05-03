@@ -22,6 +22,7 @@ export default class CampaignsController {
     private readonly removeCampaignPlayersOperation;
     private readonly addPlayerCharacterOperation;
     private readonly removePlayerCharacterOperation;
+    private readonly getCampaignCharactersOperation;
     private readonly postInvitationEmailOperation;
     private readonly postBanPlayerOperation;
     private readonly updateCampaignImagesOperation;
@@ -42,6 +43,7 @@ export default class CampaignsController {
         removeCampaignPlayersOperation,
         addPlayerCharacterOperation,
         removePlayerCharacterOperation,
+        getCampaignCharactersOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
@@ -60,6 +62,7 @@ export default class CampaignsController {
         this.addCampaignPlayersOperation = addCampaignPlayersOperation;
         this.addPlayerCharacterOperation = addPlayerCharacterOperation;
         this.removePlayerCharacterOperation = removePlayerCharacterOperation;
+        this.getCampaignCharactersOperation = getCampaignCharactersOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postBanPlayerOperation = postBanPlayerOperation;
@@ -80,6 +83,7 @@ export default class CampaignsController {
         this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.removePlayerCharacter = this.removePlayerCharacter.bind(this);
+        this.getCampaignCharacters = this.getCampaignCharacters.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -282,6 +286,14 @@ export default class CampaignsController {
             campaignId: id,
             characterId,
         });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getCampaignCharacters(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignCharactersOperation.execute(id);
 
         return res.status(HttpStatusCode.OK).json(result);
     }

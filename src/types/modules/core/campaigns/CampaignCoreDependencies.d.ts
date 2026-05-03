@@ -36,6 +36,10 @@ import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './
 
 import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
 import {
+    GetCampaignCharactersOperationContract,
+    GetCampaignCharactersServiceContract,
+} from './campaigns/GetCampaignCharacters';
+import {
     RemovePlayerCharacterOperationContract,
     RemovePlayerCharacterServiceContract,
 } from './campaigns/RemovePlayerCharacter';
@@ -68,6 +72,7 @@ export default interface CampaignCoreDependencies {
     removeCampaignPlayersOperationContract: RemoveCampaignPlayersOperationContract;
     addPlayerCharacterOperationContract: AddPlayerCharacterOperationContract;
     removePlayerCharacterOperationContract: RemovePlayerCharacterOperationContract;
+    getCampaignCharactersOperationContract: GetCampaignCharactersOperationContract;
     postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
     postBanPlayerOperationContract: PostBanPlayerOperationContract;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
@@ -87,6 +92,7 @@ export default interface CampaignCoreDependencies {
     removeCampaignPlayersServiceContract: RemoveCampaignPlayersServiceContract;
     addPlayerCharacterServiceContract: AddPlayerCharacterServiceContract;
     removePlayerCharacterServiceContract: RemovePlayerCharacterServiceContract;
+    getCampaignCharactersServiceContract: GetCampaignCharactersServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;

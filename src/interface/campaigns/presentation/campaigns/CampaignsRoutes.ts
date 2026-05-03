@@ -71,6 +71,17 @@ export default class CampaignsRoutes {
                     description: desc.getAll,
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/characters`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.getCampaignCharacters,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.getCampaignCharacters,
+                    tag: 'recover',
+                },
+            },
 
             // POST
             {

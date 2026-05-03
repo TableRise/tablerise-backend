@@ -19,6 +19,7 @@ const updateCampaignImages = 'This route updates the campaign images';
 const banPlayer = 'This route banish a player';
 const addPlayerCharacter = 'In this route you can send a character of a player to be added to campaign';
 const removePlayerCharacter = 'In this route you can remove a character of a player from a campaign';
+const getCampaignCharacters = 'This route returns all characters belonging to a campaign';
 
 export default {
     create,
@@ -36,4 +37,5 @@ export default {
     banPlayer,
     addPlayerCharacter,
     removePlayerCharacter,
+    getCampaignCharacters,
 };

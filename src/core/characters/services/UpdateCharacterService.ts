@@ -17,14 +17,20 @@ export default class UpdateCharacterService {
         this.logger('info', 'UpdateCharacterService - Update');
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
-        const { profile: profilePayload, stats: statsPayload, money: moneyPayload } = payload.data;
+        const {
+            profile: profilePayload,
+            stats: statsPayload,
+            money: moneyPayload,
+            spells: spellsPayload,
+            extraAbilities: extraAbilitiesPayload,
+        } = payload.data;
 
         const dbProfile = characterInDb.data.profile;
         const dbStats = characterInDb.data.stats;
         const dbCharacteristics = dbProfile?.characteristics ?? ({} as any);
         const characteristicsPayload = profilePayload?.characteristics;
 
-        const characterToUpdate: CharactersDnd = {
+        const characterToUpdate = {
             ...characterInDb,
             data: {
                 ...characterInDb.data,
@@ -42,8 +48,8 @@ export default class UpdateCharacterService {
                             ...(dbCharacteristics.other ?? {}),
                             ...(characteristicsPayload?.other ?? {}),
                         },
-                        alliesAndOrgs: dbCharacteristics.alliesAndOrgs,
-                        treasure: dbCharacteristics.treasure,
+                        alliesAndOrgs: characteristicsPayload?.alliesAndOrgs ?? dbCharacteristics.alliesAndOrgs,
+                        treasure: characteristicsPayload?.treasure ?? dbCharacteristics.treasure,
                     },
                 },
                 stats: {
@@ -61,19 +67,54 @@ export default class UpdateCharacterService {
                         ...(dbStats?.spellCasting ?? {}),
                         ...(statsPayload?.spellCasting ?? {}),
                     },
-                    abilityScores: dbStats?.abilityScores,
-                    skills: dbStats?.skills,
+                    abilityScores: statsPayload?.abilityScores ?? dbStats?.abilityScores,
+                    skills: statsPayload?.skills ?? dbStats?.skills,
                 },
                 money: {
                     ...(characterInDb.data.money ?? {}),
                     ...(moneyPayload ?? {}),
                 },
+                spells: spellsPayload
+                    ? {
+                          ...(characterInDb.data.spells ?? {}),
+                          cantrips: spellsPayload.cantrips ?? characterInDb.data.spells?.cantrips ?? [],
+                          ...([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).reduce(
+                              (acc, lvl) => ({
+                                  ...acc,
+                                  [lvl]: {
+                                      ...(characterInDb.data.spells?.[lvl] ?? {}),
+                                      ...(spellsPayload[lvl] ?? {}),
+                                  },
+                              }),
+                              {}
+                          ),
+                      }
+                    : characterInDb.data.spells,
+                extraAbilities: extraAbilitiesPayload
+                    ? {
+                          ...(characterInDb.data.extraAbilities ?? {}),
+                          cantrips: extraAbilitiesPayload.cantrips ?? characterInDb.data.extraAbilities?.cantrips ?? [],
+                          ...([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).reduce(
+                              (acc, lvl) => ({
+                                  ...acc,
+                                  [lvl]: {
+                                      ...(characterInDb.data.extraAbilities?.[lvl] ?? {}),
+                                      ...(extraAbilitiesPayload[lvl] ?? {}),
+                                  },
+                              }),
+                              {}
+                          ),
+                      }
+                    : characterInDb.data.extraAbilities,
             },
+            characterId: characterInDb.characterId,
+            campaignId: characterInDb.campaignId,
+            matchId: characterInDb.matchId,
         };
 
         return this.charactersRepository.update({
             query: { characterId },
-            payload: characterToUpdate,
+            payload: characterToUpdate as unknown as CharactersDnd,
         });
     }
 }
