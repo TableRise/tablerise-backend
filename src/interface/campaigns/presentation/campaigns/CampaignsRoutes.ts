@@ -82,6 +82,17 @@ export default class CampaignsRoutes {
                     tag: 'recover',
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/players`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.getCampaignPlayers,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.getCampaignPlayers,
+                    tag: 'recover',
+                },
+            },
 
             // POST
             {

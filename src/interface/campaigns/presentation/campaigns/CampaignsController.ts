@@ -84,6 +84,7 @@ export default class CampaignsController {
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.removePlayerCharacter = this.removePlayerCharacter.bind(this);
         this.getCampaignCharacters = this.getCampaignCharacters.bind(this);
+        this.getCampaignPlayers = this.getCampaignPlayers.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -296,6 +297,14 @@ export default class CampaignsController {
         const result = await this.getCampaignCharactersOperation.execute(id);
 
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getCampaignPlayers(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
+
+        return res.status(HttpStatusCode.OK).json(result.campaignPlayers);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {

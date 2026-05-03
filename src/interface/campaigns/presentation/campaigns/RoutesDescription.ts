@@ -20,6 +20,7 @@ const banPlayer = 'This route banish a player';
 const addPlayerCharacter = 'In this route you can send a character of a player to be added to campaign';
 const removePlayerCharacter = 'In this route you can remove a character of a player from a campaign';
 const getCampaignCharacters = 'This route returns all characters belonging to a campaign';
+const getCampaignPlayers = 'This route returns all players belonging to a campaign';
 
 export default {
     create,
@@ -38,4 +39,5 @@ export default {
     addPlayerCharacter,
     removePlayerCharacter,
     getCampaignCharacters,
+    getCampaignPlayers,
 };
