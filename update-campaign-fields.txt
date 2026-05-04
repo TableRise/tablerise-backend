@@ -1,0 +1,22 @@
+PUT /{campaignId}/update — Fields sent by the frontend
+==========================================================
+
+Field              | Type    | Notes
+-------------------|---------|--------------------------------------------------------------
+title              | string  | Campaign name
+description        | string  | Campaign description
+nextMatchDate      | string  | ISO 8601 (e.g. "2026-05-10T19:00:00"). Empty string to clear.
+socialMedia        | object  | { discord?, twitter?, youtube? } — only non-empty keys sent
+nextSessionResume  | string  | Free text, up to 1000 chars
+visibility         | string  | "visible" or "hidden"
+ageRestriction     | string  | "L", "10", "14", "16", or "+18"
+playerAmountLimit  | number  | Integer >= 1
+adminId            | string  | userId to promote to admin_player role.
+                   |         | ONLY sent when a player is selected in the dropdown.
+                   |         | OMITTED entirely when "Nenhum administrador" is selected.
+
+Notes:
+- All fields except adminId are always sent on every save.
+- When adminId is sent, the backend should demote any existing admin_player back
+  to player before promoting the new one.
+- The dungeon_master role is never affected by adminId.

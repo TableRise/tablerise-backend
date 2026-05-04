@@ -25,6 +25,10 @@ const getCampaignJournalPosts = 'This route returns all journal posts belonging 
 const getCharactersByPlayer = 'This route returns all characters of the authenticated player in a campaign';
 const confirmCampaignPlayer =
     'This route confirms a pending player in the campaign, allowed only for dungeon_master or admin_player';
+const updateCampaignCover = 'This route updates the cover image of a campaign';
+const removeCampaignImage = 'This route removes an image from a campaign (cover or mapImages)';
+const transferDungeonMaster =
+    'This route transfers the dungeon_master role to another player, only the current dungeon_master can perform this action';
 
 export default {
     create,
@@ -47,4 +51,7 @@ export default {
     getCampaignJournalPosts,
     getCharactersByPlayer,
     confirmCampaignPlayer,
+    updateCampaignCover,
+    removeCampaignImage,
+    transferDungeonMaster,
 };

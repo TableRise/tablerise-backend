@@ -19,6 +19,9 @@ import GetCampaignsByUserIdOperation from 'src/core/users/operations/users/GetCa
 import UpdateCampaignPlayerLimitOperation from 'src/core/campaigns/operations/UpdateCampaignPlayerLimitOperation';
 import ConfirmMatchPlayerPresenceOperation from 'src/core/campaigns/operations/ConfirmMatchPlayerPresenceOperation';
 import ConfirmCampaignPlayerOperation from 'src/core/campaigns/operations/ConfirmCampaignPlayerOperation';
+import UpdateCampaignCoverOperation from 'src/core/campaigns/operations/UpdateCampaignCoverOperation';
+import RemoveCampaignImageOperation from 'src/core/campaigns/operations/RemoveCampaignImageOperation';
+import TransferDungeonMasterOperation from 'src/core/campaigns/operations/TransferDungeonMasterOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -42,4 +45,7 @@ export interface CampaignsControllerContract {
     updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation;
     confirmMatchPlayerPresenceOperation: ConfirmMatchPlayerPresenceOperation;
     confirmCampaignPlayerOperation: ConfirmCampaignPlayerOperation;
+    updateCampaignCoverOperation: UpdateCampaignCoverOperation;
+    removeCampaignImageOperation: RemoveCampaignImageOperation;
+    transferDungeonMasterOperation: TransferDungeonMasterOperation;
 }

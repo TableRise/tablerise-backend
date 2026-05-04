@@ -17,4 +17,7 @@ export interface ICampaignsSchemas {
     getAllCampaigns: ISchemaProps;
     postConfirmPlayerPresence: ISchemaProps;
     patchConfirmCampaignPlayer: ISchemaProps;
+    patchUpdateCampaignCover: ISchemaProps;
+    patchRemoveCampaignImage: ISchemaProps;
+    patchTransferDungeonMaster: ISchemaProps;
 }

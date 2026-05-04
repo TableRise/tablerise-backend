@@ -212,16 +212,10 @@ export default class CampaignsRoutes {
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.update,
                 options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('cover'),
-                        this.imageMiddleware.fileType,
-                        this.verifyIdMiddleware,
-                    ],
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [{ body: this.campaignsSchemas.putUpdateCampaign.body }],
                     description: desc.update,
                     tag: 'update',
-                    fileUpload: true,
                 },
             },
 
@@ -234,7 +228,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.multer().fields([{ name: 'mapImages', maxCount: 3 }]),
                         this.imageMiddleware.fileType,
                         this.verifyIdMiddleware,
                         this.verifyMatchMiddleware.exists,
@@ -294,6 +288,21 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/update/player/dungeon-master`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'userToMaster', type: 'string' }]),
+                ],
+                controller: this.campaignsController.transferDungeonMaster,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchTransferDungeonMaster.query }],
+                    description: desc.transferDungeonMaster,
+                    tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/update/player/confirm`,
                 parameters: [
                     ...generateIDParam(),
@@ -329,6 +338,42 @@ export default class CampaignsRoutes {
                     description: desc.removePlayerCharacter,
                     schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignPlayerCharacter.query }],
                     tag: 'management',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/images/remove`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'imageUrl', type: 'string' },
+                        { name: 'type', type: 'string' },
+                    ]),
+                ],
+                controller: this.campaignsController.removeCampaignImage,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignImage.query }],
+                    description: desc.removeCampaignImage,
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/cover`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.updateCampaignCover,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                    ],
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignCover.body }],
+                    description: desc.updateCampaignCover,
+                    tag: 'update',
+                    fileUpload: true,
                 },
             },
             {

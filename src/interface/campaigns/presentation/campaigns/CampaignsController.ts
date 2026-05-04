@@ -30,6 +30,9 @@ export default class CampaignsController {
     private readonly updateCampaignPlayerLimitOperation;
     private readonly confirmMatchPlayerPresenceOperation;
     private readonly confirmCampaignPlayerOperation;
+    private readonly updateCampaignCoverOperation;
+    private readonly removeCampaignImageOperation;
+    private readonly transferDungeonMasterOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -53,6 +56,9 @@ export default class CampaignsController {
         updateCampaignPlayerLimitOperation,
         confirmMatchPlayerPresenceOperation,
         confirmCampaignPlayerOperation,
+        updateCampaignCoverOperation,
+        removeCampaignImageOperation,
+        transferDungeonMasterOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -75,6 +81,9 @@ export default class CampaignsController {
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
         this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
         this.confirmCampaignPlayerOperation = confirmCampaignPlayerOperation;
+        this.updateCampaignCoverOperation = updateCampaignCoverOperation;
+        this.removeCampaignImageOperation = removeCampaignImageOperation;
+        this.transferDungeonMasterOperation = transferDungeonMasterOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -97,6 +106,9 @@ export default class CampaignsController {
         this.banPlayer = this.banPlayer.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
         this.confirmCampaignPlayer = this.confirmCampaignPlayer.bind(this);
+        this.updateCampaignCover = this.updateCampaignCover.bind(this);
+        this.removeCampaignImage = this.removeCampaignImage.bind(this);
+        this.transferDungeonMaster = this.transferDungeonMaster.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -199,18 +211,12 @@ export default class CampaignsController {
 
     public async updateMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { imageId, operation } = req.body as {
-            imageId?: string;
-            operation: 'add' | 'remove';
-        };
-
-        const picture = req.file as FileObject;
+        const files = req.files as { mapImages?: Express.Multer.File[] };
+        const mapImages = files?.mapImages;
 
         const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
-            imageId,
-            operation,
-            picture,
+            mapImages,
         });
 
         return res.status(HttpStatusCode.OK).json(result);
@@ -218,12 +224,13 @@ export default class CampaignsController {
 
     public async updateMatchMusics(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { operation, title, id: youtubeId } = req.body as UpdateMatchMusicsPayload;
+        const { operation, title, id: youtubeId, thumbnail } = req.body as UpdateMatchMusicsPayload;
 
         const result = await this.updateMatchMusicsOperation.execute({
             campaignId: id,
             title,
             operation,
+            thumbnail,
             id: youtubeId,
         });
 
@@ -342,11 +349,9 @@ export default class CampaignsController {
     public async update(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body;
-        const cover = req.file;
 
         const result = await this.updateCampaignOperation.execute({
             ...payload,
-            cover,
             campaignId: id,
         });
 
@@ -370,5 +375,40 @@ export default class CampaignsController {
         });
 
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCampaignCover(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const picture = req.file as FileObject;
+
+        const result = await this.updateCampaignCoverOperation.execute({
+            campaignId: id,
+            picture,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removeCampaignImage(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { imageUrl, type } = req.query as { imageUrl: string; type: 'cover' | 'mapImages' };
+
+        await this.removeCampaignImageOperation.execute({
+            campaignId: id,
+            imageUrl,
+            type,
+        });
+
+        return res.status(HttpStatusCode.NO_CONTENT).send();
+    }
+
+    public async transferDungeonMaster(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { userToMaster } = req.query as { userToMaster: string };
+
+        await this.transferDungeonMasterOperation.execute(id, userId, userToMaster);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 }

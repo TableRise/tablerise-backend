@@ -1,5 +1,4 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { RemoveCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
@@ -28,9 +27,6 @@ export default class RemoveCampaignPlayersService {
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
-        const dungeonMaster = campaign.campaignPlayers.find((player) => player.role === 'dungeon_master');
-
-        if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
             (campaign) => campaign.campaignId !== campaignId

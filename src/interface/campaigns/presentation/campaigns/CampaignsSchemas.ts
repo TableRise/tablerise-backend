@@ -36,7 +36,18 @@ const putUpdateCampaignBodySchema = z.object({
     title: z.string().optional(),
     description: z.string().max(255).optional(),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
-    cover: z.file().optional(),
+    ageRestriction: z.enum(['L', '10', '14', '16', '+18']).optional(),
+    nextMatchDate: z.string().optional(),
+    nextSessionResume: z.string().max(1000).optional(),
+    playerAmountLimit: z.number().int().min(1).optional(),
+    socialMedia: z
+        .object({
+            discord: z.string().optional(),
+            twitter: z.string().optional(),
+            youtube: z.string().optional(),
+        })
+        .optional(),
+    adminId: z.string().optional(),
 });
 
 const postAddCampaignPlayersQuerySchema = z.object({
@@ -64,15 +75,14 @@ const patchUpdateCampaignMatchDateQuerySchema = z.object({
 });
 
 const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
-    operation: z.enum(['add', 'remove']),
-    imageId: z.string().optional(),
-    picture: z.file().optional(),
+    mapImages: z.array(z.file()).max(3).optional(),
 });
 
 const patchUpdateCampaignMatchMusicsBodySchema = z.object({
-    operation: z.enum(['add', 'remove']),
+    id: z.string(),
     title: z.string(),
-    youtubeLink: z.string(),
+    thumbnail: z.string(),
+    operation: z.enum(['add', 'remove']),
 });
 
 const patchUpdateCampaignPlayerCharacterQuerySchema = z.object({
@@ -83,10 +93,23 @@ const patchConfirmCampaignPlayerQuerySchema = z.object({
     userToActivate: z.uuid(),
 });
 
+const patchTransferDungeonMasterQuerySchema = z.object({
+    userToMaster: z.uuid(),
+});
+
 const patchUpdateCampaignImagesBodySchema = z.object({
     imageId: z.string().optional(),
     picture: z.file().optional(),
     operation: z.enum(['add', 'remove']),
+});
+
+const patchUpdateCampaignCoverBodySchema = z.object({
+    picture: z.file(),
+});
+
+const patchRemoveCampaignImageQuerySchema = z.object({
+    imageUrl: z.string().url(),
+    type: z.enum(['cover', 'mapImages']),
 });
 
 const getAllCampaignsQuerySchema = z.object({
@@ -105,7 +128,10 @@ export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampai
 export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignMatchMusicsBodySchema>;
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
 export type TConfirmCampaignPlayerQuery = z.infer<typeof patchConfirmCampaignPlayerQuerySchema>;
+export type TTransferDungeonMasterQuery = z.infer<typeof patchTransferDungeonMasterQuerySchema>;
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
+export type TUpdateCampaignCoverBodySchema = z.infer<typeof patchUpdateCampaignCoverBodySchema>;
+export type TRemoveCampaignImageQuery = z.infer<typeof patchRemoveCampaignImageQuerySchema>;
 export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
 export type TUpdateCampaignPlayerLimitQuery = z.infer<typeof patchUpdateCampaignPlayerLimitQuerySchema>;
 export type TConfirmPlayerPresenceQuery = z.infer<typeof postConfirmPlayerPresenceQuerySchema>;
@@ -158,5 +184,14 @@ export default (): ICampaignsSchemas => ({
     },
     patchConfirmCampaignPlayer: {
         query: patchConfirmCampaignPlayerQuerySchema,
+    },
+    patchUpdateCampaignCover: {
+        body: patchUpdateCampaignCoverBodySchema,
+    },
+    patchRemoveCampaignImage: {
+        query: patchRemoveCampaignImageQuerySchema,
+    },
+    patchTransferDungeonMaster: {
+        query: patchTransferDungeonMasterQuerySchema,
     },
 });

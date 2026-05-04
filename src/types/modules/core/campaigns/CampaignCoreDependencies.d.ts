@@ -62,6 +62,21 @@ import {
     ConfirmCampaignPlayerServiceContract,
 } from './campaigns/ConfirmCampaignPlayer';
 
+import {
+    UpdateCampaignCoverOperationContract,
+    UpdateCampaignCoverServiceContract,
+} from './campaigns/UpdateCampaignCover';
+
+import {
+    RemoveCampaignImageOperationContract,
+    RemoveCampaignImageServiceContract,
+} from './campaigns/RemoveCampaignImage';
+
+import {
+    TransferDungeonMasterOperationContract,
+    TransferDungeonMasterServiceContract,
+} from './campaigns/TransferDungeonMaster';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -83,6 +98,9 @@ export default interface CampaignCoreDependencies {
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
     confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
+    updateCampaignCoverOperationContract: UpdateCampaignCoverOperationContract;
+    removeCampaignImageOperationContract: RemoveCampaignImageOperationContract;
+    transferDungeonMasterOperationContract: TransferDungeonMasterOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -104,4 +122,7 @@ export default interface CampaignCoreDependencies {
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
     confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;
+    updateCampaignCoverServiceContract: UpdateCampaignCoverServiceContract;
+    removeCampaignImageServiceContract: RemoveCampaignImageServiceContract;
+    transferDungeonMasterServiceContract: TransferDungeonMasterServiceContract;
 }
