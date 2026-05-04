@@ -9,7 +9,6 @@ export default class CharactersController {
     private readonly getAllCharactersOperation;
     private readonly getCharacterByIdOperation;
     private readonly updateCharacterOperation;
-    private readonly recoverCharacterByCampaignOperation;
     private readonly updateCharacterPictureOperation;
     private readonly orgPictureUploadOperation;
 
@@ -17,13 +16,11 @@ export default class CharactersController {
         createCharacterOperation,
         getAllCharactersOperation,
         getCharacterByIdOperation,
-        recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
         updateCharacterOperation,
         updateCharacterPictureOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this.createCharacterOperation = createCharacterOperation;
-        this.recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
         this.getCharacterByIdOperation = getCharacterByIdOperation;
         this.orgPictureUploadOperation = orgPictureUploadOperation;
@@ -33,7 +30,6 @@ export default class CharactersController {
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
-        this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
         this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
         this.updateCharacter = this.updateCharacter.bind(this);
         this.organizationPicture = this.organizationPicture.bind(this);
@@ -81,17 +77,6 @@ export default class CharactersController {
 
     public async getAll(req: Request, res: Response): Promise<Response> {
         const result = await this.getAllCharactersOperation.execute();
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async recoverCharactersByCampaign(req: Request, res: Response): Promise<Response> {
-        const { id: campaignId } = req.params;
-        const { userId } = req.user as Express.User;
-
-        const result = await this.recoverCharacterByCampaignOperation.execute({
-            userId,
-            campaignId,
-        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

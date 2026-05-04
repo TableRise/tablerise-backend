@@ -82,6 +82,17 @@ export default class UsersRoutes {
                     description: desc.get,
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/campaigns`,
+                controller: this.usersController.getCampaignsByUserId,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'users',
+                    description: desc.getAll,
+                },
+            },
 
             // POST
             {

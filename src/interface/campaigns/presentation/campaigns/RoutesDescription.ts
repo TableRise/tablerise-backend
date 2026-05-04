@@ -21,6 +21,10 @@ const addPlayerCharacter = 'In this route you can send a character of a player t
 const removePlayerCharacter = 'In this route you can remove a character of a player from a campaign';
 const getCampaignCharacters = 'This route returns all characters belonging to a campaign';
 const getCampaignPlayers = 'This route returns all players belonging to a campaign';
+const getCampaignJournalPosts = 'This route returns all journal posts belonging to a campaign';
+const getCharactersByPlayer = 'This route returns all characters of the authenticated player in a campaign';
+const confirmCampaignPlayer =
+    'This route confirms a pending player in the campaign, allowed only for dungeon_master or admin_player';
 
 export default {
     create,
@@ -40,4 +44,7 @@ export default {
     removePlayerCharacter,
     getCampaignCharacters,
     getCampaignPlayers,
+    getCampaignJournalPosts,
+    getCharactersByPlayer,
+    confirmCampaignPlayer,
 };

@@ -19,6 +19,10 @@ import {
     UpdateSecretQuestionOperationContract,
     UpdateSecretQuestionServiceContract,
 } from './users/UpdateSecretQuestion';
+import {
+    GetCampaignsByUserIdOperationContract,
+    GetCampaignsByUserIdServiceContract,
+} from './campaigns/GetCampaignByUserId';
 
 export default interface UserCoreDependencies {
     // Operations
@@ -39,6 +43,7 @@ export default interface UserCoreDependencies {
     updateUserOperationContract: UpdateUserOperationContract;
     verifyEmailOperationContract: VerifyEmailOperationContract;
     loginUserOperationContract: LoginUserOperationContract;
+    getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
 
     // Services
     activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
@@ -58,4 +63,5 @@ export default interface UserCoreDependencies {
     updateUserServiceContract: UpdateUserServiceContract;
     verifyEmailServiceContract: VerifyEmailServiceContract;
     loginUserServiceContract: LoginUserServiceContract;
+    getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
 }

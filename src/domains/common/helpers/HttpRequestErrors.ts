@@ -26,6 +26,18 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'forbidden-post-category':
+                throw new HttpRequestErrors({
+                    message: 'The post category is forbidden for this role',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'forbidden-role-operation':
+                throw new HttpRequestErrors({
+                    message: 'The operation is forbidden for this role',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
                     message: 'This player is not in the campaign',

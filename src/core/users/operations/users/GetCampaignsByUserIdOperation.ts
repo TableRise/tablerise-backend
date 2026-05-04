@@ -1,5 +1,5 @@
 import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/response';
-import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class GetCampaignsByUserIdOperation {
     private readonly getCampaignsByUserIdService: any;
@@ -8,7 +8,7 @@ export default class GetCampaignsByUserIdOperation {
     constructor({
         getCampaignsByUserIdService,
         logger,
-    }: CampaignCoreDependencies['getCampaignsByUserIdOperationContract']) {
+    }: UserCoreDependencies['getCampaignsByUserIdOperationContract']) {
         this.getCampaignsByUserIdService = getCampaignsByUserIdService;
         this.logger = logger;
 

@@ -15,7 +15,7 @@ const postCreateCampaignBodySchema = z.object({
     lore: z.string(),
     playerAmountLimit: z.string(),
     ageRestriction: z.string(),
-    socialMedia: z.string(),
+    socialMedia: z.string().optional(),
     password: z
         .string()
         .regex(/^[a-zA-Z0-9]{4}$/, {
@@ -41,6 +41,7 @@ const putUpdateCampaignBodySchema = z.object({
 
 const postAddCampaignPlayersQuerySchema = z.object({
     password: z.string().optional(),
+    userToAdd: z.uuid().optional(),
 });
 
 const postBanCampaignPlayerQuerySchema = z.object({
@@ -53,7 +54,8 @@ const postInvitePlayerByEmailQuerySchema = z.object({
 
 const postCreateCampaignPublishmentBodySchema = z.object({
     title: z.string(),
-    content: z.string().max(250),
+    content: z.string(),
+    category: z.string(),
 });
 
 const patchUpdateCampaignMatchDateQuerySchema = z.object({
@@ -77,6 +79,10 @@ const patchUpdateCampaignPlayerCharacterQuerySchema = z.object({
     characterId: z.uuid(),
 });
 
+const patchConfirmCampaignPlayerQuerySchema = z.object({
+    userToActivate: z.uuid(),
+});
+
 const patchUpdateCampaignImagesBodySchema = z.object({
     imageId: z.string().optional(),
     picture: z.file().optional(),
@@ -98,6 +104,7 @@ export type TUpdateCampaignMatchDateQuery = z.infer<typeof patchUpdateCampaignMa
 export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampaignMatchMapImagesBodySchema>;
 export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignMatchMusicsBodySchema>;
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
+export type TConfirmCampaignPlayerQuery = z.infer<typeof patchConfirmCampaignPlayerQuerySchema>;
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
 export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
 export type TUpdateCampaignPlayerLimitQuery = z.infer<typeof patchUpdateCampaignPlayerLimitQuerySchema>;
@@ -148,5 +155,8 @@ export default (): ICampaignsSchemas => ({
     },
     postConfirmPlayerPresence: {
         query: postConfirmPlayerPresenceQuerySchema,
+    },
+    patchConfirmCampaignPlayer: {
+        query: patchConfirmCampaignPlayerQuerySchema,
     },
 });

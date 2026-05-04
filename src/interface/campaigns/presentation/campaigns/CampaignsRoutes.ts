@@ -62,17 +62,6 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/user/:id`,
-                controller: this.campaignsController.getByUserId,
-                parameters: [...generateIDParam()],
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    tag: 'recover',
-                    description: desc.getAll,
-                },
-            },
-            {
-                method: 'get',
                 path: `${BASE_PATH}/:id/characters`,
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.getCampaignCharacters,
@@ -90,6 +79,28 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.getCampaignPlayers,
+                    tag: 'recover',
+                },
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/characters-by-player`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.getCharactersByPlayer,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.getCharactersByPlayer,
+                    tag: 'recover',
+                },
+            },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/journal/posts`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.getCampaignJournalPosts,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.getCampaignJournalPosts,
                     tag: 'recover',
                 },
             },
@@ -116,8 +127,8 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/publishment`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
+                path: `${BASE_PATH}/:id/journal/post`,
+                parameters: [...generateIDParam()],
                 controller: this.campaignsController.publishment,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -155,7 +166,10 @@ export default class CampaignsRoutes {
                 path: `${BASE_PATH}/:id/update/player/add`,
                 parameters: [
                     ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'password', type: 'string', required: 'off' }]),
+                    ...generateQueryParam(2, [
+                        { name: 'password', type: 'string', required: 'off' },
+                        { name: 'userToAdd', type: 'string', required: 'off' },
+                    ]),
                 ],
                 controller: this.campaignsController.addCampaignPlayers,
                 options: {
@@ -168,7 +182,10 @@ export default class CampaignsRoutes {
             {
                 method: 'post',
                 path: `${BASE_PATH}/:id/update/player/remove`,
-                parameters: [...generateIDParam()],
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'userToRemove', type: 'string', required: 'off' }]),
+                ],
                 controller: this.campaignsController.removeCampaignPlayers,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -273,6 +290,21 @@ export default class CampaignsRoutes {
                     schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignMatchDate.query }],
                     description: desc.updateMatchDate,
                     tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/player/confirm`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(1, [{ name: 'userToActivate', type: 'string' }]),
+                ],
+                controller: this.campaignsController.confirmCampaignPlayer,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchConfirmCampaignPlayer.query }],
+                    description: desc.confirmCampaignPlayer,
+                    tag: 'management',
                 },
             },
             {

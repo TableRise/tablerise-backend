@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import GetCampaignsByUserIdService from 'src/core/campaigns/services/GetCampaignsByUserIdService';
+import GetCampaignsByUserIdService from 'src/core/users/services/users/GetCampaignsByUserIdService';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';

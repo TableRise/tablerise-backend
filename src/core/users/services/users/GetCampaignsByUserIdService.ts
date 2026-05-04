@@ -1,8 +1,8 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
 export default class GetCampaignsByUserIdService {
     private readonly campaignsRepository;
@@ -13,7 +13,7 @@ export default class GetCampaignsByUserIdService {
         campaignsRepository,
         usersDetailsRepository,
         logger,
-    }: CampaignCoreDependencies['getCampaignsByUserIdServiceContract']) {
+    }: UserCoreDependencies['getCampaignsByUserIdServiceContract']) {
         this.campaignsRepository = campaignsRepository;
         this.usersDetailsRepository = usersDetailsRepository;
         this.logger = logger;

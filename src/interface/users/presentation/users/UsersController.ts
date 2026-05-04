@@ -30,10 +30,9 @@ export default class UsersController {
     private readonly deleteUserOperation;
     private readonly logoutUserOperation;
     private readonly loginUserOperation;
+    private readonly getCampaignsByUserIdOperation;
 
     constructor({
-        usersSchemas,
-        schemaValidator,
         createUserOperation,
         updateUserOperation,
         verifyEmailOperation,
@@ -51,6 +50,7 @@ export default class UsersController {
         deleteUserOperation,
         logoutUserOperation,
         loginUserOperation,
+        getCampaignsByUserIdOperation,
     }: InterfaceDependencies['usersControllerContract']) {
         this.createUserOperation = createUserOperation;
         this.updateUserOperation = updateUserOperation;
@@ -69,6 +69,7 @@ export default class UsersController {
         this.deleteUserOperation = deleteUserOperation;
         this.logoutUserOperation = logoutUserOperation;
         this.loginUserOperation = loginUserOperation;
+        this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
 
         this.register = this.register.bind(this);
         this.update = this.update.bind(this);
@@ -87,6 +88,7 @@ export default class UsersController {
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
         this.login = this.login.bind(this);
+        this.getCampaignsByUserId = this.getCampaignsByUserId.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -110,6 +112,13 @@ export default class UsersController {
         delete (result as Partial<RegisterUserResponse>).password;
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async getCampaignsByUserId(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignsByUserIdOperation.execute(id);
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {

@@ -23,11 +23,13 @@ export default class CampaignsController {
     private readonly addPlayerCharacterOperation;
     private readonly removePlayerCharacterOperation;
     private readonly getCampaignCharactersOperation;
+    private readonly getCharactersByPlayerOperation;
     private readonly postInvitationEmailOperation;
     private readonly postBanPlayerOperation;
     private readonly updateCampaignImagesOperation;
     private readonly updateCampaignPlayerLimitOperation;
     private readonly confirmMatchPlayerPresenceOperation;
+    private readonly confirmCampaignPlayerOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -44,11 +46,13 @@ export default class CampaignsController {
         addPlayerCharacterOperation,
         removePlayerCharacterOperation,
         getCampaignCharactersOperation,
+        getCharactersByPlayerOperation,
         postInvitationEmailOperation,
         postBanPlayerOperation,
         updateCampaignImagesOperation,
         updateCampaignPlayerLimitOperation,
         confirmMatchPlayerPresenceOperation,
+        confirmCampaignPlayerOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -63,14 +67,15 @@ export default class CampaignsController {
         this.addPlayerCharacterOperation = addPlayerCharacterOperation;
         this.removePlayerCharacterOperation = removePlayerCharacterOperation;
         this.getCampaignCharactersOperation = getCampaignCharactersOperation;
+        this.getCharactersByPlayerOperation = getCharactersByPlayerOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postBanPlayerOperation = postBanPlayerOperation;
         this.updateCampaignImagesOperation = updateCampaignImagesOperation;
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
         this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
+        this.confirmCampaignPlayerOperation = confirmCampaignPlayerOperation;
 
-        this.getByUserId = this.getByUserId.bind(this);
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
@@ -84,11 +89,14 @@ export default class CampaignsController {
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
         this.removePlayerCharacter = this.removePlayerCharacter.bind(this);
         this.getCampaignCharacters = this.getCampaignCharacters.bind(this);
+        this.getCharactersByPlayer = this.getCharactersByPlayer.bind(this);
         this.getCampaignPlayers = this.getCampaignPlayers.bind(this);
+        this.getCampaignJournalPosts = this.getCampaignJournalPosts.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
+        this.confirmCampaignPlayer = this.confirmCampaignPlayer.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -123,16 +131,9 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async getByUserId(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-
-        const result = await this.getCampaignsByUserIdOperation.execute(id);
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
     public async publishment(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.query as { userId: string };
+        const { userId } = req.user as { userId: string };
         const payload = req.body;
 
         const result = await this.publishmentOperation.execute({
@@ -182,6 +183,16 @@ export default class CampaignsController {
         const { cancel } = req.query as unknown as { cancel: boolean };
 
         await this.confirmMatchPlayerPresenceOperation.execute(id, userId, cancel);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async confirmCampaignPlayer(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { userToActivate } = req.query as { userToActivate: string };
+
+        await this.confirmCampaignPlayerOperation.execute(id, userId, userToActivate);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -237,10 +248,12 @@ export default class CampaignsController {
 
     public async addCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { password } = req.query as {
+        const { password, userToAdd } = req.query as {
             password: string;
+            userToAdd?: string;
         };
-        const { userId } = req.user as Express.User;
+        const { userId: callerId } = req.user as Express.User;
+        const userId = userToAdd ?? callerId;
 
         const result = await this.addCampaignPlayersOperation.execute({
             campaignId: id,
@@ -253,7 +266,9 @@ export default class CampaignsController {
 
     public async removeCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.user as Express.User;
+        const { userToRemove } = req.query as { userToRemove?: string };
+        const { userId: callerId } = req.user as Express.User;
+        const userId = userToRemove ?? callerId;
 
         const result = await this.removeCampaignPlayersOperation.execute({
             campaignId: id,
@@ -299,12 +314,29 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
+    public async getCharactersByPlayer(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        const result = await this.getCharactersByPlayerOperation.execute(id, userId);
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
     public async getCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
         const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
 
         return res.status(HttpStatusCode.OK).json(result.campaignPlayers);
+    }
+
+    public async getCampaignJournalPosts(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
+
+        return res.status(HttpStatusCode.OK).json(result.infos.journal);
     }
 
     public async update(req: Request, res: Response): Promise<Response> {

@@ -52,4 +52,6 @@ export type ErrorTypes =
     | 'character-does-not-exist'
     | 'player-master-equal'
     | 'save-forbidden-content'
-    | 'campaign-player-not-exists';
+    | 'campaign-player-not-exists'
+    | 'forbidden-post-category'
+    | 'forbidden-role-operation';

@@ -43,11 +43,10 @@ import {
     RemovePlayerCharacterOperationContract,
     RemovePlayerCharacterServiceContract,
 } from './campaigns/RemovePlayerCharacter';
-
 import {
-    GetCampaignsByUserIdOperationContract,
-    GetCampaignsByUserIdServiceContract,
-} from './campaigns/GetCampaignByUserId';
+    GetCharactersByPlayerOperationContract,
+    GetCharactersByPlayerServiceContract,
+} from './campaigns/GetCharactersByPlayer';
 
 import {
     UpdateCampaignPlayerLimitOperationContract,
@@ -58,6 +57,10 @@ import {
     ConfirmMatchPlayerPresenceOperationContract,
     ConfirmMatchPlayerPresenceServiceContract,
 } from './campaigns/ConfirmMatchPlayerPresence';
+import {
+    ConfirmCampaignPlayerOperationContract,
+    ConfirmCampaignPlayerServiceContract,
+} from './campaigns/ConfirmCampaignPlayer';
 
 export default interface CampaignCoreDependencies {
     // Operations
@@ -73,12 +76,13 @@ export default interface CampaignCoreDependencies {
     addPlayerCharacterOperationContract: AddPlayerCharacterOperationContract;
     removePlayerCharacterOperationContract: RemovePlayerCharacterOperationContract;
     getCampaignCharactersOperationContract: GetCampaignCharactersOperationContract;
+    getCharactersByPlayerOperationContract: GetCharactersByPlayerOperationContract;
     postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
     postBanPlayerOperationContract: PostBanPlayerOperationContract;
     updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
-    getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
+    confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -93,10 +97,11 @@ export default interface CampaignCoreDependencies {
     addPlayerCharacterServiceContract: AddPlayerCharacterServiceContract;
     removePlayerCharacterServiceContract: RemovePlayerCharacterServiceContract;
     getCampaignCharactersServiceContract: GetCampaignCharactersServiceContract;
+    getCharactersByPlayerServiceContract: GetCharactersByPlayerServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
-    getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
+    confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;
 }

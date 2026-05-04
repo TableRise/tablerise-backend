@@ -1,6 +1,5 @@
 import PublishmentService from 'src/core/campaigns/services/campaigns/PublishmentService';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
-import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface PublishmentOperationContract {
@@ -10,6 +9,5 @@ export interface PublishmentOperationContract {
 
 export interface PublishmentServiceContract {
     campaignsRepository: CampaignsRepository;
-    usersRepository: UsersRepository;
     logger: Logger;
 }

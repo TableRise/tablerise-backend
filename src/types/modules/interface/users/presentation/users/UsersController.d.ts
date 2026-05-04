@@ -17,6 +17,7 @@ import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFac
 import UpdateSecretQuestionOperation from 'src/core/users/operations/users/UpdateSecretQuestionOperation';
 import { IUsersSchemas } from './UsersSchemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
+import GetCampaignsByUserIdOperation from 'src/core/users/operations/users/GetCampaignsByUserIdOperation';
 
 export interface UsersControllerContract {
     schemaValidator: SchemaValidator;
@@ -38,4 +39,5 @@ export interface UsersControllerContract {
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
     loginUserOperation: LoginUserOperation;
+    getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation;
 }

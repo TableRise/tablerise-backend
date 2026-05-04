@@ -45,6 +45,15 @@ export interface publishmentPayload {
     payload: {
         title: string;
         content: string;
+        category:
+            | 'master'
+            | 'admin'
+            | 'players'
+            | 'characters-players'
+            | 'characters-master'
+            | 'environment'
+            | 'world-news'
+            | 'announcements';
     };
 }
 
