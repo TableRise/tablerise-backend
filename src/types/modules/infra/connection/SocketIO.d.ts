@@ -8,8 +8,8 @@ export interface SocketIOContract {
     logger: Logger;
 }
 
-export interface MatchAvatar {
-    avatar_id: string;
+export interface MatchCharacter {
+    character_id: string;
     user_id: string;
     picture: string;
     position: {
@@ -39,7 +39,7 @@ export interface Logs {
     content: string;
 }
 
-export type SocketMatches = Record<string, MatchData>;
+export type SocketMatches = Record<string, MatchData & { campaignId: string }>;
 
 export interface SquareSize {
     width: number;
@@ -63,27 +63,60 @@ export interface changeMapImageSocketEventPayload {
     mapId: string;
 }
 
-export interface addAvatarSocketEventPayload {
+export interface addCharacterSocketEventPayload {
     matchId: string;
     userId: string;
     campaignId: string;
-    avatarId: string | null;
+    characterId: string | null;
 }
 
-export interface moveAvatarSocketEventPayload {
+export interface moveCharacterSocketEventPayload {
     matchId: string;
-    avatarId: string;
+    characterId: string;
     coordinates: Coordinates;
     socketId: string;
 }
 
-export interface deleteAvatarSocketEventPayload {
+export interface deleteCharacterSocketEventPayload {
     matchId: string;
-    avatarId: string;
+    characterId: string;
 }
 
-export interface disconnectAvatarSocketEvent {
+export interface disconnectCharacterSocketEvent {
     matchId: string;
     campaignId: string;
     userId: string;
+}
+
+export interface changeMusicSocketEventPayload {
+    matchId: string;
+    musicId: string;
+}
+
+export interface endMatchSocketEventPayload {
+    matchId: string;
+    campaignId: string;
+}
+
+export interface setCharacterPictureSocketEventPayload {
+    matchId: string;
+    characterId: string;
+}
+
+export interface changeCharacterStatusSocketEventPayload {
+    matchId: string;
+    characterId: string;
+    status: 'alive' | 'dead' | 'viewer';
+}
+
+export interface rollDiceSocketEventPayload {
+    matchId: string;
+    userId: string;
+    notation: string;
+    result: number;
+}
+
+export interface addLogSocketEventPayload {
+    matchId: string;
+    content: string;
 }

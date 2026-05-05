@@ -36,6 +36,7 @@ export default class UpdateCampaignService {
         campaignInDb.infos.playerAmountLimit = playerAmountLimit ?? campaignInDb.infos.playerAmountLimit;
         if (campaignInDb.matchData)
             campaignInDb.matchData.nextSessionResume = nextSessionResume ?? campaignInDb.matchData.nextSessionResume;
+        if (!campaignInDb.infos.socialMedia) campaignInDb.infos.socialMedia = {};
 
         campaignInDb.infos.socialMedia.youtube = socialMedia?.youtube;
         campaignInDb.infos.socialMedia.discord = socialMedia?.discord;

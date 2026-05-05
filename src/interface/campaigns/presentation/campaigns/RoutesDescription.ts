@@ -29,6 +29,8 @@ const updateCampaignCover = 'This route updates the cover image of a campaign';
 const removeCampaignImage = 'This route removes an image from a campaign (cover or mapImages)';
 const transferDungeonMaster =
     'This route transfers the dungeon_master role to another player, only the current dungeon_master can perform this action';
+const updateMatchCharacterPicture =
+    'This route uploads and sets the picture (token) for a character in an active match';
 
 export default {
     create,
@@ -54,4 +56,5 @@ export default {
     updateCampaignCover,
     removeCampaignImage,
     transferDungeonMaster,
+    updateMatchCharacterPicture,
 };

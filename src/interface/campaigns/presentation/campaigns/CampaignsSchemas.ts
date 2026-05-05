@@ -128,7 +128,12 @@ export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampai
 export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignMatchMusicsBodySchema>;
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
 export type TConfirmCampaignPlayerQuery = z.infer<typeof patchConfirmCampaignPlayerQuerySchema>;
+const patchUpdateMatchCharacterPictureBodySchema = z.object({
+    picture: z.file(),
+});
+
 export type TTransferDungeonMasterQuery = z.infer<typeof patchTransferDungeonMasterQuerySchema>;
+export type TUpdateMatchCharacterPictureBody = z.infer<typeof patchUpdateMatchCharacterPictureBodySchema>;
 export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
 export type TUpdateCampaignCoverBodySchema = z.infer<typeof patchUpdateCampaignCoverBodySchema>;
 export type TRemoveCampaignImageQuery = z.infer<typeof patchRemoveCampaignImageQuerySchema>;
@@ -193,5 +198,8 @@ export default (): ICampaignsSchemas => ({
     },
     patchTransferDungeonMaster: {
         query: patchTransferDungeonMasterQuerySchema,
+    },
+    patchUpdateMatchCharacterPicture: {
+        body: patchUpdateMatchCharacterPictureBodySchema,
     },
 });

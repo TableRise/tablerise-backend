@@ -20,4 +20,5 @@ export interface ICampaignsSchemas {
     patchUpdateCampaignCover: ISchemaProps;
     patchRemoveCampaignImage: ISchemaProps;
     patchTransferDungeonMaster: ISchemaProps;
+    patchUpdateMatchCharacterPicture: ISchemaProps;
 }

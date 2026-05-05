@@ -77,6 +77,11 @@ import {
     TransferDungeonMasterServiceContract,
 } from './campaigns/TransferDungeonMaster';
 
+import {
+    UpdateMatchCharacterPictureOperationContract,
+    UpdateMatchCharacterPictureServiceContract,
+} from './campaigns/UpdateMatchCharacterPicture';
+
 export default interface CampaignCoreDependencies {
     // Operations
     createCampaignOperationContract: CreateCampaignOperationContract;
@@ -101,6 +106,7 @@ export default interface CampaignCoreDependencies {
     updateCampaignCoverOperationContract: UpdateCampaignCoverOperationContract;
     removeCampaignImageOperationContract: RemoveCampaignImageOperationContract;
     transferDungeonMasterOperationContract: TransferDungeonMasterOperationContract;
+    updateMatchCharacterPictureOperationContract: UpdateMatchCharacterPictureOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -125,4 +131,5 @@ export default interface CampaignCoreDependencies {
     updateCampaignCoverServiceContract: UpdateCampaignCoverServiceContract;
     removeCampaignImageServiceContract: RemoveCampaignImageServiceContract;
     transferDungeonMasterServiceContract: TransferDungeonMasterServiceContract;
+    updateMatchCharacterPictureServiceContract: UpdateMatchCharacterPictureServiceContract;
 }

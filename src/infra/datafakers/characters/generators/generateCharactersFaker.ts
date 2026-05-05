@@ -107,9 +107,7 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                     saveDc: 15,
                     attackBonus: 12,
                 },
-                skills: {
-                    arcanism: 5,
-                },
+                skills: [{ name: 'arcanism', value: 5, checked: false }],
             },
             attacks: [
                 {

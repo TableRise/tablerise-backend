@@ -33,6 +33,7 @@ export default class CampaignsController {
     private readonly updateCampaignCoverOperation;
     private readonly removeCampaignImageOperation;
     private readonly transferDungeonMasterOperation;
+    private readonly updateMatchCharacterPictureOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -59,6 +60,7 @@ export default class CampaignsController {
         updateCampaignCoverOperation,
         removeCampaignImageOperation,
         transferDungeonMasterOperation,
+        updateMatchCharacterPictureOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -84,6 +86,7 @@ export default class CampaignsController {
         this.updateCampaignCoverOperation = updateCampaignCoverOperation;
         this.removeCampaignImageOperation = removeCampaignImageOperation;
         this.transferDungeonMasterOperation = transferDungeonMasterOperation;
+        this.updateMatchCharacterPictureOperation = updateMatchCharacterPictureOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -109,6 +112,7 @@ export default class CampaignsController {
         this.updateCampaignCover = this.updateCampaignCover.bind(this);
         this.removeCampaignImage = this.removeCampaignImage.bind(this);
         this.transferDungeonMaster = this.transferDungeonMaster.bind(this);
+        this.updateMatchCharacterPicture = this.updateMatchCharacterPicture.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -410,5 +414,19 @@ export default class CampaignsController {
         await this.transferDungeonMasterOperation.execute(id, userId, userToMaster);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async updateMatchCharacterPicture(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { characterId } = req.query as { characterId: string };
+        const picture = req.file as FileObject;
+
+        const result = await this.updateMatchCharacterPictureOperation.execute({
+            campaignId: id,
+            characterId,
+            picture,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
     }
 }

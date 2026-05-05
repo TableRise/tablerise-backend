@@ -36,7 +36,7 @@ export default class LoginUserService {
         this.logger('info', 'SetCookieOptions - LoginUserService');
 
         return {
-            maxAge: 8640000,
+            maxAge: 86_400_000,
             httpOnly: true,
             secure: process.env.COOKIE_SECURE === 'yes',
             sameSite: 'lax',

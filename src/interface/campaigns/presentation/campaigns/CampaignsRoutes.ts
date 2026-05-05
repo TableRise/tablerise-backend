@@ -395,6 +395,25 @@ export default class CampaignsRoutes {
                     fileUpload: true,
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/character/picture`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'characterId', type: 'string' }])],
+                controller: this.campaignsController.updateMatchCharacterPicture,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.imageMiddleware.multer().single('picture'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateMatchCharacterPicture.body }],
+                    description: desc.updateMatchCharacterPicture,
+                    tag: 'update',
+                    fileUpload: true,
+                },
+            },
         ] as routeInstance[];
     }
 }

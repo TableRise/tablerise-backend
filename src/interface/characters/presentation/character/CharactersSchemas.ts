@@ -67,7 +67,7 @@ const spellCastingCharacterZodSchema = z.object({
 
 const statsCharacterZodSchema = z.object({
     abilityScores: z.array(abilityScoresZodSchema).optional(),
-    skills: z.record(z.string(), z.number()).optional(),
+    skills: z.array(z.object({ name: z.string(), value: z.number(), checked: z.boolean() })).optional(),
     proficiencyBonus: z.number(),
     inspiration: z.number(),
     passiveWisdom: z.number(),
@@ -210,7 +210,7 @@ const statsUpdateZodSchema = z.object({
     deathSaves: deathSavesUpdateZodSchema.optional(),
     spellCasting: spellCastingUpdateZodSchema.optional(),
     abilityScores: z.array(abilityScoresZodSchema).optional(),
-    skills: z.record(z.string(), z.number()).optional(),
+    skills: z.array(z.object({ name: z.string(), value: z.number(), checked: z.boolean() })).optional(),
 });
 
 const moneyUpdateZodSchema = z.object({
