@@ -1,5 +1,4 @@
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { addCharacterPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
@@ -24,13 +23,10 @@ export default class RemovePlayerCharacterService {
     public async removeCharacter({ characterId, campaignId }: addCharacterPayload): Promise<Campaign> {
         this.logger('info', 'RemoveCharacter - RemovePlayerCharacterService');
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
-        const characterInDb = await this.charactersRepository.findOne({ characterId });
 
         const playerInCampaignIndex = campaignInDb.campaignPlayers.findIndex(
-            (player: Player) => player.userId === characterInDb.author.userId
+            (player: Player) => player.characterIds.includes(characterId)
         );
-
-        if (playerInCampaignIndex === -1) HttpRequestErrors.throwError('campaign-player-not-exists');
 
         campaignInDb.campaignPlayers[playerInCampaignIndex].characterIds = campaignInDb.campaignPlayers[
             playerInCampaignIndex
