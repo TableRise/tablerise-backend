@@ -62,10 +62,7 @@ export default class AddCampaignPlayersService {
 
         userDetails.gameInfo.campaigns.push({
             campaignId: campaign.campaignId as string,
-            role: player.role,
-            title: campaign.title,
-            description: campaign.description,
-            cover: campaign.cover,
+            notes: [],
         });
 
         campaign.campaignPlayers.push(player);

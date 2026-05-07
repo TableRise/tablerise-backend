@@ -69,6 +69,38 @@ const postCreateCampaignPublishmentBodySchema = z.object({
     category: z.string(),
 });
 
+const campaignJournalHighlightPostSchema = z.object({
+    title: z.string(),
+    author: z.object({
+        userId: z.uuid(),
+        characterIds: z.array(z.string()),
+        role: z.enum(['admin_player', 'dungeon_master', 'player']),
+        status: z.enum(['pending', 'active', 'inactive', 'banned']),
+    }),
+    content: z.string(),
+    timestamp: z.string(),
+    category: z.enum([
+        'master',
+        'admin',
+        'players',
+        'characters-players',
+        'characters-master',
+        'environment',
+        'world-news',
+        'announcements',
+    ]),
+});
+
+const patchUpdateCampaignJournalHighlightBodySchema = z
+    .object({
+        toggle: z.enum(['on', 'off']),
+        post: campaignJournalHighlightPostSchema.optional(),
+    })
+    .refine((payload) => payload.toggle === 'off' || payload.post !== undefined, {
+        path: ['post'],
+        message: 'Post is required when toggle is on',
+    });
+
 const patchUpdateCampaignMatchDateQuerySchema = z.object({
     date: z.string().regex(/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$/),
     operation: z.enum(['add', 'remove']),
@@ -120,6 +152,7 @@ const getAllCampaignsQuerySchema = z.object({
 export type TCreateCampaignBody = z.infer<typeof postCreateCampaignBodySchema>;
 export type TUpdateCampaignBody = z.infer<typeof putUpdateCampaignBodySchema>;
 export type TCreateCampaignPublishmentBody = z.infer<typeof postCreateCampaignPublishmentBodySchema>;
+export type TUpdateCampaignJournalHighlightBody = z.infer<typeof patchUpdateCampaignJournalHighlightBodySchema>;
 export type TAddCampaignPlayersQuery = z.infer<typeof postAddCampaignPlayersQuerySchema>;
 export type TBanCampaignPlayerQuery = z.infer<typeof postBanCampaignPlayerQuerySchema>;
 export type TInvitePlayerByEmailQuery = z.infer<typeof postInvitePlayerByEmailQuerySchema>;
@@ -201,5 +234,8 @@ export default (): ICampaignsSchemas => ({
     },
     patchUpdateMatchCharacterPicture: {
         body: patchUpdateMatchCharacterPictureBodySchema,
+    },
+    patchUpdateCampaignJournalHighlight: {
+        body: patchUpdateCampaignJournalHighlightBodySchema,
     },
 });

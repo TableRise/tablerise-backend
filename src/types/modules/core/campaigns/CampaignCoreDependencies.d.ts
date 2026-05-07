@@ -81,6 +81,10 @@ import {
     UpdateMatchCharacterPictureOperationContract,
     UpdateMatchCharacterPictureServiceContract,
 } from './campaigns/UpdateMatchCharacterPicture';
+import {
+    UpdateCampaignJournalHighlightOperationContract,
+    UpdateCampaignJournalHighlightServiceContract,
+} from './campaigns/UpdateCampaignJournalHighlight';
 
 export default interface CampaignCoreDependencies {
     // Operations
@@ -107,6 +111,7 @@ export default interface CampaignCoreDependencies {
     removeCampaignImageOperationContract: RemoveCampaignImageOperationContract;
     transferDungeonMasterOperationContract: TransferDungeonMasterOperationContract;
     updateMatchCharacterPictureOperationContract: UpdateMatchCharacterPictureOperationContract;
+    updateCampaignJournalHighlightOperationContract: UpdateCampaignJournalHighlightOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -132,4 +137,5 @@ export default interface CampaignCoreDependencies {
     removeCampaignImageServiceContract: RemoveCampaignImageServiceContract;
     transferDungeonMasterServiceContract: TransferDungeonMasterServiceContract;
     updateMatchCharacterPictureServiceContract: UpdateMatchCharacterPictureServiceContract;
+    updateCampaignJournalHighlightServiceContract: UpdateCampaignJournalHighlightServiceContract;
 }

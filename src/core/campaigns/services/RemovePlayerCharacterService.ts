@@ -24,8 +24,8 @@ export default class RemovePlayerCharacterService {
         this.logger('info', 'RemoveCharacter - RemovePlayerCharacterService');
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
 
-        const playerInCampaignIndex = campaignInDb.campaignPlayers.findIndex(
-            (player: Player) => player.characterIds.includes(characterId)
+        const playerInCampaignIndex = campaignInDb.campaignPlayers.findIndex((player: Player) =>
+            player.characterIds.includes(characterId)
         );
 
         campaignInDb.campaignPlayers[playerInCampaignIndex].characterIds = campaignInDb.campaignPlayers[

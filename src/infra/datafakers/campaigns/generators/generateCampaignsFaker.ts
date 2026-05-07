@@ -7,6 +7,7 @@ function createCampaignFaker({ campaignId = newUUID() }: Campaign): Campaign {
     return {
         campaignId,
         title: dataGenerator.title,
+        code: dataGenerator.code,
         description: dataGenerator.description,
         visibility: dataGenerator.visibility,
         system: dataGenerator.system,

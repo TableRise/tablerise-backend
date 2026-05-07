@@ -36,6 +36,16 @@ Body:
 - info: "badges" | "campaigns" | "characters"
 - operation: "add" | "remove"`;
 
+const updateCampaignNotes = `Route to append a note to one campaign inside user game info.\n
+------------------------
+Params:
+- userId: expects an user id.\n
+Query:
+- campaignId: expects a campaign id.\n
+Body:
+- title: note title
+- content: note content`;
+
 const resetProfile = `Route for user reset, this route erase all the content in: characters - campaigns - badges`;
 
 const profilePicture = 'Route used to upload a photo as profile ficture - Only PNG or JPEG';
@@ -66,6 +76,7 @@ export default {
     updateEmail,
     updatePassword,
     updateGameInfo,
+    updateCampaignNotes,
     resetProfile,
     profilePicture,
     deleteProfile,

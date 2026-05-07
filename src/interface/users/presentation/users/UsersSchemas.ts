@@ -84,6 +84,15 @@ const patchUpdateUserGameInfoBodySchema = z.object({
     data: z.any().default({}),
 });
 
+const patchUpdateCampaignNotesQuerySchema = z.object({
+    campaignId: z.uuidv4(),
+});
+
+const patchUpdateCampaignNotesBodySchema = z.object({
+    title: z.string(),
+    content: z.string(),
+});
+
 export type TValidateEmailSendCodeQuery = z.infer<typeof postValidateEmailSendCodeQuerySchema>;
 export type TCreateUserBody = z.infer<typeof postCreateUserBodySchema>;
 export type TLoginBody = z.infer<typeof postLoginBodySchema>;
@@ -98,6 +107,8 @@ export type TSecretQuestionUpdateBody = z.infer<typeof postAuthenticateSecretQue
 export type TUpdateEmailBody = z.infer<typeof patchUpdateEmailBodySchema>;
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
 export type TUpdateUserGameInfoBody = z.infer<typeof patchUpdateUserGameInfoBodySchema>;
+export type TUpdateCampaignNotesQuery = z.infer<typeof patchUpdateCampaignNotesQuerySchema>;
+export type TUpdateCampaignNotesBody = z.infer<typeof patchUpdateCampaignNotesBodySchema>;
 
 export default (): IUsersSchemas => ({
     postValidateEmailSendCode: {
@@ -139,5 +150,9 @@ export default (): IUsersSchemas => ({
     },
     patchUpdateUserGameInfo: {
         body: patchUpdateUserGameInfoBodySchema,
+    },
+    patchUpdateCampaignNotes: {
+        query: patchUpdateCampaignNotesQuerySchema,
+        body: patchUpdateCampaignNotesBodySchema,
     },
 });

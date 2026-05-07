@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
     CampaignPayload,
+    HighlightedJournalPayload,
     UpdateMatchMusicsPayload,
     // updateMatchDatePayload,
 } from 'src/types/api/campaigns/http/payload';
@@ -34,6 +35,7 @@ export default class CampaignsController {
     private readonly removeCampaignImageOperation;
     private readonly transferDungeonMasterOperation;
     private readonly updateMatchCharacterPictureOperation;
+    private readonly updateCampaignJournalHighlightOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -61,6 +63,7 @@ export default class CampaignsController {
         removeCampaignImageOperation,
         transferDungeonMasterOperation,
         updateMatchCharacterPictureOperation,
+        updateCampaignJournalHighlightOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
         this.createCampaignOperation = createCampaignOperation;
@@ -87,6 +90,7 @@ export default class CampaignsController {
         this.removeCampaignImageOperation = removeCampaignImageOperation;
         this.transferDungeonMasterOperation = transferDungeonMasterOperation;
         this.updateMatchCharacterPictureOperation = updateMatchCharacterPictureOperation;
+        this.updateCampaignJournalHighlightOperation = updateCampaignJournalHighlightOperation;
 
         this.create = this.create.bind(this);
         this.getById = this.getById.bind(this);
@@ -104,6 +108,7 @@ export default class CampaignsController {
         this.getCharactersByPlayer = this.getCharactersByPlayer.bind(this);
         this.getCampaignPlayers = this.getCampaignPlayers.bind(this);
         this.getCampaignJournalPosts = this.getCampaignJournalPosts.bind(this);
+        this.getCampaignJournalHighlight = this.getCampaignJournalHighlight.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.updateCampaignImages = this.updateCampaignImages.bind(this);
         this.banPlayer = this.banPlayer.bind(this);
@@ -113,6 +118,7 @@ export default class CampaignsController {
         this.removeCampaignImage = this.removeCampaignImage.bind(this);
         this.transferDungeonMaster = this.transferDungeonMaster.bind(this);
         this.updateMatchCharacterPicture = this.updateMatchCharacterPicture.bind(this);
+        this.updateCampaignJournalHighlight = this.updateCampaignJournalHighlight.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -350,6 +356,14 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.OK).json(result.infos.journal);
     }
 
+    public async getCampaignJournalHighlight(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
+
+        return res.status(HttpStatusCode.OK).json((result.infos.highlightedJournal ?? {}) as HighlightedJournalPayload);
+    }
+
     public async update(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const payload = req.body;
@@ -425,6 +439,19 @@ export default class CampaignsController {
             campaignId: id,
             characterId,
             picture,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCampaignJournalHighlight(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        const result = await this.updateCampaignJournalHighlightOperation!.execute({
+            campaignId: id,
+            userId,
+            ...req.body,
         });
 
         return res.status(HttpStatusCode.OK).json(result);

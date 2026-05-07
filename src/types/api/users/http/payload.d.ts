@@ -22,6 +22,12 @@ export interface UpdateGameInfoPayload {
     operation: 'add' | 'remove';
 }
 
+export interface AddCampaignNotePayload {
+    userId: string;
+    campaignId: string;
+    note: GameInfoCampaigns['notes'][number];
+}
+
 export interface UserImagePayload {
     userId: string;
     image: FileObject;

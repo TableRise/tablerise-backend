@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 export default {
     title: faker.company.catchPhrase(),
+    code: faker.string.alphanumeric({ length: 6 }).toUpperCase(),
     description: faker.company.buzzPhrase(),
     visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     system: faker.helpers.arrayElement(['dnd5e']),
@@ -45,9 +46,11 @@ export default {
     infos: {
         campaignAge: '1',
         nextMatchDate: 'no-date',
-        announcements: [],
+        highlightedJournal: {},
+        journal: [],
         playerAmountLimit: 4,
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
+        socialMedia: {},
     },
     password: '1234',
     lores: {

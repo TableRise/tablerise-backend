@@ -1,3 +1,4 @@
+import { AddCampaignNoteOperationContract, AddCampaignNoteServiceContract } from './users/AddCampaignNote';
 import {
     ActivateSecretQuestionOperationContract,
     ActivateSecretQuestionServiceContract,
@@ -14,11 +15,13 @@ import { ResetProfileOperationContract, ResetProfileServiceContract } from './us
 import { ResetTwoFactorOperationContract, ResetTwoFactorServiceContract } from './users/ResetTwoFactor';
 import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './users/VerifyEmail';
 import { UpdateEmailOperationContract, UpdateEmailServiceContract } from './users/UpdateEmail';
+import { UpdateGameInfoOperationContract, UpdateGameInfoServiceContract } from './users/UpdateGameInfo';
 import { UpdatePasswordOperationContract, UpdatePasswordServiceContract } from './users/UpdatePassword';
 import {
     UpdateSecretQuestionOperationContract,
     UpdateSecretQuestionServiceContract,
 } from './users/UpdateSecretQuestion';
+import { UpdateUserOperationContract, UpdateUserServiceContract } from './users/UpdateUser';
 import {
     GetCampaignsByUserIdOperationContract,
     GetCampaignsByUserIdServiceContract,
@@ -26,6 +29,7 @@ import {
 
 export default interface UserCoreDependencies {
     // Operations
+    addCampaignNoteOperationContract: AddCampaignNoteOperationContract;
     activateSecretQuestionOperationContract: ActivateSecretQuestionOperationContract;
     activateTwoFactorOperationContract: ActivateTwoFactorOperationContract;
     resetTwoFactorOperationContract: ResetTwoFactorOperationContract;
@@ -46,6 +50,7 @@ export default interface UserCoreDependencies {
     getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
 
     // Services
+    addCampaignNoteServiceContract: AddCampaignNoteServiceContract;
     activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
     activateTwoFactorServiceContract: ActivateTwoFactorServiceContract;
     resetTwoFactorServiceContract: ResetTwoFactorServiceContract;

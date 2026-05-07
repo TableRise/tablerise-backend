@@ -1,5 +1,6 @@
 import ActivateSecretQuestionOperation from 'src/core/users/operations/users/ActivateSecretQuestionOperation';
 import ActivateTwoFactorOperation from 'src/core/users/operations/users/ActivateTwoFactorOperation';
+import AddCampaignNoteOperation from 'src/core/users/operations/users/AddCampaignNoteOperation';
 import CreateUserOperation from 'src/core/users/operations/users/CreateUserOperation';
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
@@ -34,6 +35,7 @@ export interface UsersControllerContract {
     updateEmailOperation: UpdateEmailOperation;
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;
+    addCampaignNoteOperation: AddCampaignNoteOperation;
     resetProfileOperation: ResetProfileOperation;
     pictureProfileOperation: PictureProfileOperation;
     deleteUserOperation: DeleteUserOperation;

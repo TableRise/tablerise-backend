@@ -305,6 +305,21 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/update/campaign/notes`,
+                controller: this.usersController.updateCampaignNotes,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'campaignId', type: 'string' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [
+                        { query: this.usersSchemas.patchUpdateCampaignNotes.query },
+                        { body: this.usersSchemas.patchUpdateCampaignNotes.body },
+                    ],
+                    tag: 'management',
+                    description: desc.updateCampaignNotes,
+                },
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/reset`,
                 controller: this.usersController.resetProfile,
                 parameters: [...generateIDParam()],

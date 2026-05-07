@@ -23,6 +23,7 @@ import UpdateCampaignCoverOperation from 'src/core/campaigns/operations/UpdateCa
 import RemoveCampaignImageOperation from 'src/core/campaigns/operations/RemoveCampaignImageOperation';
 import TransferDungeonMasterOperation from 'src/core/campaigns/operations/TransferDungeonMasterOperation';
 import UpdateMatchCharacterPictureOperation from 'src/core/campaigns/operations/UpdateMatchCharacterPictureOperation';
+import UpdateCampaignJournalHighlightOperation from 'src/core/campaigns/operations/UpdateCampaignJournalHighlightOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -50,4 +51,5 @@ export interface CampaignsControllerContract {
     removeCampaignImageOperation: RemoveCampaignImageOperation;
     transferDungeonMasterOperation: TransferDungeonMasterOperation;
     updateMatchCharacterPictureOperation: UpdateMatchCharacterPictureOperation;
+    updateCampaignJournalHighlightOperation?: UpdateCampaignJournalHighlightOperation;
 }

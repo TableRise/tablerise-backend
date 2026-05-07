@@ -124,10 +124,7 @@ export default class CreateCampaignService {
 
         userDetailsInDb.gameInfo.campaigns.push({
             campaignId: campaignCreated.campaignId as string,
-            role: campaignCreated.campaignPlayers[0].role,
-            title: campaignCreated.title,
-            description: campaignCreated.description,
-            cover: campaignCreated.cover,
+            notes: [],
         });
 
         await this.usersDetailsRepository.update({

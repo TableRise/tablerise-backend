@@ -104,6 +104,17 @@ export default class CampaignsRoutes {
                     tag: 'recover',
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/journal/highlight`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.getCampaignJournalHighlight,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.getCampaignJournalHighlight,
+                    tag: 'recover',
+                },
+            },
 
             // POST
             {
@@ -220,6 +231,18 @@ export default class CampaignsRoutes {
             },
 
             // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/journal/highlight`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.updateCampaignJournalHighlight,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignJournalHighlight.body }],
+                    description: desc.updateCampaignJournalHighlight,
+                    tag: 'update',
+                },
+            },
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/update/match/map-images`,

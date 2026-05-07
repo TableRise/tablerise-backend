@@ -26,8 +26,15 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             patchUpdateCampaignMatchMusics: { body: {} },
             patchUpdateCampaignMatchDate: { query: {} },
             patchUpdateCampaignPlayerCharacter: { query: {} },
+            patchRemoveCampaignPlayerCharacter: { query: {} },
             patchUpdateCampaignImages: { body: {} },
             patchUpdateCampaignPlayerLimit: { query: {} },
+            patchUpdateCampaignJournalHighlight: { body: {} },
+            patchConfirmCampaignPlayer: { query: {} },
+            patchUpdateCampaignCover: { body: {} },
+            patchRemoveCampaignImage: { query: {} },
+            patchTransferDungeonMaster: { query: {} },
+            patchUpdateMatchCharacterPicture: { body: {} },
             getAllCampaigns: { query: {} },
         };
 
@@ -42,7 +49,19 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(16);
+            expect(routes).to.have.lengthOf(28);
+        });
+
+        it('should include the journal highlight routes', () => {
+            const routes = campaignsRoutes.routes();
+
+            expect(routes.some((route) => route.path === '/campaigns/:id/journal/highlight' && route.method === 'get'))
+                .to.be.true;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/journal/highlight' && route.method === 'patch'
+                )
+            ).to.be.true;
         });
     });
 });

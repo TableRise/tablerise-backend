@@ -22,6 +22,7 @@ const removePlayerCharacter = 'In this route you can remove a character of a pla
 const getCampaignCharacters = 'This route returns all characters belonging to a campaign';
 const getCampaignPlayers = 'This route returns all players belonging to a campaign';
 const getCampaignJournalPosts = 'This route returns all journal posts belonging to a campaign';
+const getCampaignJournalHighlight = 'This route returns the highlighted journal post belonging to a campaign';
 const getCharactersByPlayer = 'This route returns all characters of the authenticated player in a campaign';
 const confirmCampaignPlayer =
     'This route confirms a pending player in the campaign, allowed only for dungeon_master or admin_player';
@@ -31,6 +32,8 @@ const transferDungeonMaster =
     'This route transfers the dungeon_master role to another player, only the current dungeon_master can perform this action';
 const updateMatchCharacterPicture =
     'This route uploads and sets the picture (token) for a character in an active match';
+const updateCampaignJournalHighlight =
+    'This route updates the highlighted journal post, allowed only for dungeon_master or admin_player';
 
 export default {
     create,
@@ -51,10 +54,12 @@ export default {
     getCampaignCharacters,
     getCampaignPlayers,
     getCampaignJournalPosts,
+    getCampaignJournalHighlight,
     getCharactersByPlayer,
     confirmCampaignPlayer,
     updateCampaignCover,
     removeCampaignImage,
     transferDungeonMaster,
     updateMatchCharacterPicture,
+    updateCampaignJournalHighlight,
 };

@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import {
+    AddCampaignNotePayload,
     RegisterUserPayload,
     UpdateGameInfoPayload,
     VerifyEmailPayload,
@@ -9,7 +10,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { TCreateUserBody } from './UsersSchemas';
+import { TCreateUserBody, TUpdateCampaignNotesBody, TUpdateCampaignNotesQuery } from './UsersSchemas';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class UsersController {
@@ -25,6 +26,7 @@ export default class UsersController {
     private readonly updateEmailOperation;
     private readonly updatePasswordOperation;
     private readonly updateGameInfoOperation;
+    private readonly addCampaignNoteOperation;
     private readonly resetProfileOperation;
     private readonly pictureProfileOperation;
     private readonly deleteUserOperation;
@@ -45,6 +47,7 @@ export default class UsersController {
         updateEmailOperation,
         updatePasswordOperation,
         updateGameInfoOperation,
+        addCampaignNoteOperation,
         resetProfileOperation,
         pictureProfileOperation,
         deleteUserOperation,
@@ -64,6 +67,7 @@ export default class UsersController {
         this.updateEmailOperation = updateEmailOperation;
         this.updatePasswordOperation = updatePasswordOperation;
         this.updateGameInfoOperation = updateGameInfoOperation;
+        this.addCampaignNoteOperation = addCampaignNoteOperation;
         this.resetProfileOperation = resetProfileOperation;
         this.pictureProfileOperation = pictureProfileOperation;
         this.deleteUserOperation = deleteUserOperation;
@@ -83,6 +87,7 @@ export default class UsersController {
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.updateGameInfo = this.updateGameInfo.bind(this);
+        this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
@@ -215,6 +220,20 @@ export default class UsersController {
             userId: id,
             ...payload,
         });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCampaignNotes(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { campaignId } = req.query as unknown as TUpdateCampaignNotesQuery;
+        const payload = req.body as TUpdateCampaignNotesBody;
+
+        const result = await this.addCampaignNoteOperation.execute({
+            userId: id,
+            campaignId,
+            note: payload,
+        } as AddCampaignNotePayload);
 
         return res.status(HttpStatusCode.OK).json(result);
     }

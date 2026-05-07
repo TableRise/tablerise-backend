@@ -42,18 +42,20 @@ export default class GetCampaignsByUserIdService {
         const player = [] as Campaign[];
 
         userDetailsInDb.gameInfo.campaigns.forEach((campaign: GameInfoCampaigns) => {
-            if (campaign.role === 'dungeon_master') {
-                const campaignComplete = userCampaigns.find(
-                    (userCampaign) => userCampaign.campaignId === campaign.campaignId
-                );
-                master.push(campaignComplete as Campaign);
+            const campaignComplete = userCampaigns.find(
+                (userCampaign) => userCampaign.campaignId === campaign.campaignId
+            );
+            const playerInCampaign = campaignComplete?.campaignPlayers.find(
+                (currentPlayer) => currentPlayer.userId === userId
+            );
+
+            if (!campaignComplete || !playerInCampaign) return;
+            if (playerInCampaign.role === 'dungeon_master') {
+                master.push(campaignComplete);
             }
 
-            if (campaign.role === 'player' || campaign.role === 'player_admin') {
-                const campaignComplete = userCampaigns.find(
-                    (userCampaign) => userCampaign.campaignId === campaign.campaignId
-                );
-                player.push(campaignComplete as Campaign);
+            if (playerInCampaign.role === 'player' || playerInCampaign.role === 'admin_player') {
+                player.push(campaignComplete);
             }
         });
 

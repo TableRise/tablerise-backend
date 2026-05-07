@@ -17,8 +17,12 @@ export default class UpdateGameInfoService {
     private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
         this.logger('info', 'AddId - UpdateGameInfoService');
 
-        const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
         const dataLength = Object.keys(data).length;
+        const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
+        const hasInfo =
+            dataLength > 0
+                ? gameInfo[targetInfo].some((currentData) => currentData[filterProp] === data[filterProp])
+                : gameInfo[targetInfo].some((currentData) => currentData === infoId);
 
         hasInfo
             ? HttpRequestErrors.throwError('info-already-added')

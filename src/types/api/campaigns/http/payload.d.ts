@@ -1,3 +1,4 @@
+import { Journal } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
@@ -104,4 +105,13 @@ export interface UpdateCampaignImagesPayload {
     image?: FileObject;
     imageId?: string;
     operation: 'add' | 'remove';
+}
+
+export type HighlightedJournalPayload = Journal | Record<string, never>;
+
+export interface UpdateCampaignJournalHighlightPayload {
+    campaignId: string;
+    userId: string;
+    toggle: 'on' | 'off';
+    post?: Journal;
 }
