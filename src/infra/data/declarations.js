@@ -1,21 +1,3 @@
 module.exports = {
-    'dungeons&dragons5e': [
-        'armors',
-        'backgrounds',
-        'classes',
-        'feats',
-        'gods',
-        'items',
-        'magicItems',
-        'monsters',
-        'races',
-        'realms',
-        'spells',
-        'weapons',
-        'wiki',
-        'system',
-    ],
-    user: ['users', 'userdetails'],
-    campaign: ['campaigns'],
-    character: ['characters'],
+    'dungeons&dragons5e': ['classes', 'feats', 'races', 'spells', 'system'],
 };

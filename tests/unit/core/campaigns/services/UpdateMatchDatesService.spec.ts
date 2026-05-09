@@ -15,7 +15,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
 
     const logger = (): void => {};
 
-    context('#updateMatchDate', () => {
+    context('#addMatchDate', () => {
         context('When a date is added to match data', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
@@ -29,7 +29,6 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
                 updateDatesPayload = {
                     campaignId: campaign.campaignId,
                     date: '20240403',
-                    operation: 'add',
                 };
 
                 updateMatchDateService = new UpdateMatchDateService({
@@ -39,7 +38,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                const matchDataUpdated = await updateMatchDateService.addMatchDate(updateDatesPayload);
                 expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
                 expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength + 1);
             });
@@ -58,7 +57,6 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
                 updateDatesPayload = {
                     campaignId: campaign.campaignId,
                     date: '20240404',
-                    operation: 'add',
                 };
 
                 updateMatchDateService = new UpdateMatchDateService({
@@ -69,7 +67,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
 
             it('should throw an error', async () => {
                 try {
-                    await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                    await updateMatchDateService.addMatchDate(updateDatesPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Date already added');
@@ -78,7 +76,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
                 }
             });
         });
+    });
 
+    context('#removeMatchDate', () => {
         context('When a date is removed from match data', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
@@ -93,8 +93,6 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
 
                 updateDatesPayload = {
                     campaignId: campaign.campaignId,
-                    date: '20240404',
-                    operation: 'remove',
                 };
 
                 updateMatchDateService = new UpdateMatchDateService({
@@ -104,7 +102,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchDateService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchDateService.updateMatchDate(updateDatesPayload);
+                const matchDataUpdated = await updateMatchDateService.removeMatchDate(updateDatesPayload);
                 expect(matchDataUpdated.infos.nextMatchDate.length).to.be.not.equal(campaignDatesLength);
                 expect(matchDataUpdated.infos.nextMatchDate.length).to.be.equal(campaignDatesLength - 1);
             });

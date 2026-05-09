@@ -83,6 +83,14 @@ export default class CreateCampaignService {
             musics: [],
             mapImages: [],
             logs: [],
+            state: {
+                activeMapId: null,
+                gridVisible: true,
+                activeEffect: null,
+                playingMusicId: null,
+                visibleCharacterIds: [],
+                tokens: [],
+            },
         };
 
         if (mapImages) {

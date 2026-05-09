@@ -11,6 +11,7 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
         campaign: Campaign;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign has the match players', () => {
@@ -43,6 +44,7 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
 
                 addCampaignPlayersOperation = new AddCampaignPlayersOperation({
                     addCampaignPlayersService,
+                    socketIO,
                     logger,
                 });
             });

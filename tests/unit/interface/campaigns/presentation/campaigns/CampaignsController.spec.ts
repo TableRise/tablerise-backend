@@ -22,7 +22,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         getAllCampaignsOperation: any,
         postInvitationEmailOperation: any,
         updateCampaignImagesOperation: any,
-        updateCampaignPlayerLimitOperation: any;
+        updateCampaignPlayerLimitOperation: any,
+        removeCampaignImageOperation: any;
 
     context('#create', () => {
         const request = {} as Request;
@@ -158,7 +159,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
             expect(updateCampaignOperation.execute).to.have.been.calledWith({
                 ...request.body,
-                cover: {},
                 campaignId: '123',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
@@ -213,56 +213,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             expect(getCampaignByIdOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
             });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
-        });
-    });
-
-    context('#getByUserId', () => {
-        const request = {} as Request;
-        const response = {} as Response;
-
-        beforeEach(() => {
-            response.status = sinon.spy(() => response);
-            response.json = sinon.spy(() => response);
-
-            createCampaignOperation = { execute: () => {} };
-            getCampaignByIdOperation = { execute: () => {} };
-            updateMatchMapImagesOperation = { execute: () => {} };
-            updateMatchMusicsOperation = { execute: () => {} };
-            updateMatchDateOperation = { execute: () => {} };
-            addCampaignPlayersOperation = { execute: () => {} };
-            getCampaignsByUserIdOperation = { execute: sinon.spy(() => ({})) };
-            addPlayerCharacterOperation = { execute: () => {} };
-            removeCampaignPlayersOperation = { execute: () => {} };
-            postInvitationEmailOperation = { execute: () => {} };
-            updateCampaignImagesOperation = { execute: () => {} };
-
-            campaignsController = new CampaignsController({
-                createCampaignOperation,
-                updateMatchMapImagesOperation,
-                publishmentOperation,
-                updateCampaignOperation,
-                updateMatchMusicsOperation,
-                updateMatchDateOperation,
-                getCampaignByIdOperation,
-                addCampaignPlayersOperation,
-                getCampaignsByUserIdOperation,
-                removeCampaignPlayersOperation,
-                getAllCampaignsOperation,
-                postInvitationEmailOperation,
-                updateCampaignImagesOperation,
-                postBanPlayerOperation,
-                updateCampaignPlayerLimitOperation,
-                addPlayerCharacterOperation,
-            });
-        });
-
-        it('should correctly call the methods and functions', async () => {
-            request.params = { id: '123' };
-            await campaignsController.getByUserId(request, response);
-
-            expect(getCampaignsByUserIdOperation.execute).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -360,7 +310,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { userId: '456' };
+            request.user = { userId: '456' } as Express.User;
             request.body = {
                 title: 'Some new title',
                 content: 'Some new content',
@@ -369,7 +319,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
             expect(publishmentOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
-                userId: request.query.userId,
+                userId: '456',
                 payload: request.body,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
@@ -436,7 +386,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#updateMatchMapImages', () => {
+    context('#addMatchMapImages', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -482,23 +432,20 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.body = { operation: 'add' };
-            request.file = {} as Express.Multer.File;
+            request.files = { mapImages: [{} as Express.Multer.File] };
 
-            await campaignsController.updateMatchMapImages(request, response);
+            await campaignsController.addMatchMapImages(request, response);
 
             expect(updateMatchMapImagesOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
-                imageId: undefined,
-                operation: 'add',
-                picture: {},
+                mapImages: request.files.mapImages,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
     });
 
-    context('#updateMatchMusics', () => {
+    context('#addMatchMusic', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -512,8 +459,12 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             publishmentOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
-            updateMatchMusicsOperation = { execute: sinon.spy(() => ({})) };
-            updateMatchDateOperation = { execute: () => {} };
+            updateMatchMusicsOperation = {
+                add: sinon.spy(() => ({})),
+                remove: sinon.spy(() => ({})),
+                edit: sinon.spy(() => ({})),
+            };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
             addCampaignPlayersOperation = { execute: () => {} };
             getCampaignsByUserIdOperation = { execute: () => {} };
             addPlayerCharacterOperation = { execute: () => {} };
@@ -543,14 +494,18 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.body = { title: 'Main Theme', operation: 'add', id: 'https://youtu.be/123' };
+            request.body = {
+                title: 'Main Theme',
+                thumbnail: 'https://i.ytimg.com/vi/123/default.jpg',
+                id: 'https://youtu.be/123',
+            };
 
-            await campaignsController.updateMatchMusics(request, response);
+            await campaignsController.addMatchMusic(request, response);
 
-            expect(updateMatchMusicsOperation.execute).to.have.been.calledWith({
+            expect(updateMatchMusicsOperation.add).to.have.been.calledWith({
                 campaignId: request.params.id,
                 title: 'Main Theme',
-                operation: 'add',
+                thumbnail: 'https://i.ytimg.com/vi/123/default.jpg',
                 id: 'https://youtu.be/123',
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
@@ -558,7 +513,137 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#updateMatchDate', () => {
+    context('#removeMatchMusic', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = {
+                add: sinon.spy(() => ({})),
+                remove: sinon.spy(() => ({})),
+                edit: sinon.spy(() => ({})),
+            };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishmentOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+                postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.body = { id: 'https://youtu.be/123' };
+
+            await campaignsController.removeMatchMusic(request, response);
+
+            expect(updateMatchMusicsOperation.remove).to.have.been.calledWith({
+                campaignId: request.params.id,
+                id: 'https://youtu.be/123',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#editMatchMusic', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = {
+                add: sinon.spy(() => ({})),
+                remove: sinon.spy(() => ({})),
+                edit: sinon.spy(() => ({})),
+            };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishmentOperation,
+                updateCampaignOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+                postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.body = {
+                title: 'Edited Theme',
+                thumbnail: 'https://i.ytimg.com/vi/edited/default.jpg',
+                id: 'https://youtu.be/123',
+            };
+
+            await campaignsController.editMatchMusic(request, response);
+
+            expect(updateMatchMusicsOperation.edit).to.have.been.calledWith({
+                campaignId: request.params.id,
+                title: 'Edited Theme',
+                thumbnail: 'https://i.ytimg.com/vi/edited/default.jpg',
+                id: 'https://youtu.be/123',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#addMatchDate', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -571,8 +656,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             getAllCampaignsOperation = { execute: () => {} };
             publishmentOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
-            updateMatchMusicsOperation = { execute: () => {} };
-            updateMatchDateOperation = { execute: sinon.spy(() => ({})) };
+            updateMatchMusicsOperation = { add: () => {}, remove: () => {}, edit: () => {} };
+            updateMatchDateOperation = { add: sinon.spy(() => ({})), remove: sinon.spy(() => ({})) };
             addCampaignPlayersOperation = { execute: () => {} };
             getCampaignsByUserIdOperation = { execute: () => {} };
             addPlayerCharacterOperation = { execute: () => {} };
@@ -602,14 +687,68 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.query = { operation: 'add', date: '20240404' };
+            request.query = { date: '20240404' };
 
-            await campaignsController.updateMatchDate(request, response);
+            await campaignsController.addMatchDate(request, response);
 
-            expect(updateMatchDateOperation.execute).to.have.been.calledWith({
+            expect(updateMatchDateOperation.add).to.have.been.calledWith({
                 campaignId: request.params.id,
                 date: '20240404',
-                operation: 'add',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#removeMatchDate', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { add: () => {}, remove: () => {}, edit: () => {} };
+            updateMatchDateOperation = { add: sinon.spy(() => ({})), remove: sinon.spy(() => ({})) };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: () => {} };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishmentOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                updateCampaignOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                postInvitationEmailOperation,
+                updateCampaignImagesOperation,
+                postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+
+            await campaignsController.removeMatchDate(request, response);
+
+            expect(updateMatchDateOperation.remove).to.have.been.calledWith({
+                campaignId: request.params.id,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
@@ -721,13 +860,11 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
             request.query = { characterId: '321' };
-            request.user = { userId } as Express.User;
 
             await campaignsController.addPlayerCharacter(request, response);
 
             expect(addPlayerCharacterOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
-                userId,
                 characterId: request.query.characterId,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
@@ -783,6 +920,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
             request.user = { userId } as Express.User;
+            request.query = {};
 
             await campaignsController.removeCampaignPlayers(request, response);
 
@@ -853,13 +991,13 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#updateCampaignImages', () => {
+    context('#removeMatchMapImage', () => {
         const request = {} as Request;
         const response = {} as Response;
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
-            response.json = sinon.spy(() => response);
+            response.end = sinon.spy(() => response);
 
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
@@ -868,14 +1006,18 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             updateCampaignOperation = { execute: () => {} };
             updateCampaignOperation = { execute: () => {} };
             updateMatchMapImagesOperation = { execute: () => {} };
-            updateMatchMusicsOperation = { execute: () => {} };
-            updateMatchDateOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { add: () => {}, remove: () => {}, edit: () => {} };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
             addCampaignPlayersOperation = { execute: () => {} };
             getCampaignsByUserIdOperation = { execute: () => {} };
             addPlayerCharacterOperation = { execute: () => {} };
             removeCampaignPlayersOperation = { execute: () => {} };
             postInvitationEmailOperation = { execute: () => {} };
             updateCampaignImagesOperation = { execute: sinon.spy(() => ({})) };
+            removeCampaignImageOperation = {
+                removeMatchMapImage: sinon.spy(() => ({})),
+                removeCover: sinon.spy(() => ({})),
+            };
 
             campaignsController = new CampaignsController({
                 createCampaignOperation,
@@ -894,24 +1036,81 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 postBanPlayerOperation,
                 updateCampaignPlayerLimitOperation,
                 addPlayerCharacterOperation,
+                removeCampaignImageOperation,
             });
         });
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
-            request.body = { operation: 'add' };
-            request.file = {} as Express.Multer.File;
+            request.query = { imageUrl: 'https://img.bb/map.png' };
 
-            await campaignsController.updateCampaignImages(request, response);
+            await campaignsController.removeMatchMapImage(request, response);
 
-            expect(updateCampaignImagesOperation.execute).to.have.been.calledWith({
+            expect(removeCampaignImageOperation.removeMatchMapImage).to.have.been.calledWith({
                 campaignId: request.params.id,
-                imageId: undefined,
-                operation: 'add',
-                picture: {},
+                imageUrl: request.query.imageUrl,
             });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-            expect(response.json).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.end).to.have.been.called();
+        });
+    });
+
+    context('#removeCampaignCover', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.send = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { add: () => {}, remove: () => {}, edit: () => {} };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: sinon.spy(() => ({})) };
+            removeCampaignImageOperation = {
+                removeMatchMapImage: sinon.spy(() => ({})),
+                removeCover: sinon.spy(() => ({})),
+            };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishmentOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                updateCampaignImagesOperation,
+                postInvitationEmailOperation,
+                postBanPlayerOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+                removeCampaignImageOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+
+            await campaignsController.removeCampaignCover(request, response);
+
+            expect(removeCampaignImageOperation.removeCover).to.have.been.calledWith(request.params.id);
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.send).to.have.been.called();
         });
     });
 

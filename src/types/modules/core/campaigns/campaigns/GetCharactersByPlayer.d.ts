@@ -1,10 +1,11 @@
+import GetCharactersByPlayerService from 'src/core/campaigns/services/GetCharactersByPlayerService';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import CharactersRepository from 'src/infra/repositories/character/CharactersRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface GetCharactersByPlayerOperationContract {
     logger: Logger;
-    getCharactersByPlayerService: any;
+    getCharactersByPlayerService: GetCharactersByPlayerService;
 }
 
 export interface GetCharactersByPlayerServiceContract {

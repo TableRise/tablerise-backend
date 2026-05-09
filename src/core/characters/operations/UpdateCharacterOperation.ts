@@ -4,10 +4,16 @@ import CharacterCoreDependencies from 'src/types/modules/core/characters/Charact
 
 export default class UpdateCharacterOperation {
     private readonly updateCharacterService;
+    private readonly socketIO;
     private readonly logger;
 
-    constructor({ updateCharacterService, logger }: CharacterCoreDependencies['updateCharacterOperationContract']) {
+    constructor({
+        updateCharacterService,
+        socketIO,
+        logger,
+    }: CharacterCoreDependencies['updateCharacterOperationContract']) {
         this.updateCharacterService = updateCharacterService;
+        this.socketIO = socketIO;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
@@ -15,6 +21,34 @@ export default class UpdateCharacterOperation {
 
     async execute({ characterId, payload }: updateCharacterPayload): Promise<CharactersDnd> {
         this.logger('info', 'UpdateCharacterOperation - Execute');
-        return this.updateCharacterService.update({ characterId, payload });
+        const updatedCharacter = await this.updateCharacterService.update({ characterId, payload });
+        const summary = {
+            currentHitPoints: updatedCharacter.data.stats.hitPoints.currentPoints ?? null,
+            level: updatedCharacter.data.profile.level ?? null,
+        };
+        const updatedFields = this.getUpdatedFields(payload.data ?? {});
+
+        if (updatedCharacter.campaignId) {
+            this.socketIO.emitToCampaign(updatedCharacter.campaignId, 'character:updated', {
+                characterId: updatedCharacter.characterId,
+                campaignId: updatedCharacter.campaignId,
+                updatedFields,
+                summary,
+                updatedAt: updatedCharacter.updatedAt,
+            });
+        }
+
+        return updatedCharacter;
+    }
+
+    private getUpdatedFields(payloadData: Record<string, any>, path = ''): string[] {
+        return Object.entries(payloadData).flatMap(([key, value]) => {
+            const currentPath = path ? `${path}.${key}` : key;
+            if (value && typeof value === 'object' && !Array.isArray(value)) {
+                return this.getUpdatedFields(value, currentPath);
+            }
+
+            return [currentPath];
+        });
     }
 }

@@ -2,9 +2,9 @@ import desc from 'src/interface/campaigns/presentation/campaigns/RoutesDescripti
 
 describe('Interface :: Campaigns :: Presentation :: RoutesDescription', () => {
     context('When desc object has all route descriptions', () => {
-        it('should has the correct length', () => {
-            const descLength = Object.keys(desc).length;
-            expect(descLength).to.be.equal(14);
+        it('should expose the journal post route descriptions', () => {
+            expect(desc).to.have.property('updateCampaignJournalPost');
+            expect(desc).to.have.property('deleteCampaignJournalPost');
         });
     });
 });

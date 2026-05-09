@@ -4,13 +4,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class UpdateMatchMapImagesOperation {
     private readonly updateMatchMapImagesService;
+    private readonly socketIO;
     private readonly logger;
 
     constructor({
         updateMatchMapImagesService,
+        socketIO,
         logger,
     }: CampaignCoreDependencies['updateMatchMapImagesOperationContract']) {
         this.updateMatchMapImagesService = updateMatchMapImagesService;
+        this.socketIO = socketIO;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
@@ -21,6 +24,12 @@ export default class UpdateMatchMapImagesOperation {
 
         const campaignWithOperationDone = await this.updateMatchMapImagesService.updateMatchMapImage(payload);
         const savedCampaign = await this.updateMatchMapImagesService.save(campaignWithOperationDone);
+
+        this.socketIO.syncActiveCampaign(savedCampaign);
+        this.socketIO.emitToCampaign(payload.campaignId, 'campaign:maps_updated', {
+            campaignId: payload.campaignId,
+            mapImages: savedCampaign.matchData.mapImages,
+        });
 
         return savedCampaign.matchData.mapImages;
     }

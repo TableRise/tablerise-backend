@@ -9,11 +9,11 @@ export default class UpdateCampaignPlayerLimitService {
         this.logger = logger;
     }
 
-    async updatePlayerLimit(campaignId: string, newLimit: number): Promise<void> {
+    async updatePlayerLimit(campaignId: string, newLimit: number) {
         this.logger('info', 'Execute - updatePlayerLimit');
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         campaignInDb.infos.playerAmountLimit = newLimit;
-        await this.campaignsRepository.update({
+        return await this.campaignsRepository.update({
             query: { campaignId },
             payload: campaignInDb,
         });

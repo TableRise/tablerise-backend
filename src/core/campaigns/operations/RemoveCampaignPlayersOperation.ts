@@ -4,13 +4,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class RemoveCampaignPlayersOperation {
     private readonly removeCampaignPlayersService;
+    private readonly socketIO;
     private readonly logger;
 
     constructor({
         removeCampaignPlayersService,
+        socketIO,
         logger,
     }: CampaignCoreDependencies['removeCampaignPlayersOperationContract']) {
         this.removeCampaignPlayersService = removeCampaignPlayersService;
+        this.socketIO = socketIO;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
@@ -18,9 +21,18 @@ export default class RemoveCampaignPlayersOperation {
 
     async execute(payload: RemoveCampaignPlayersPayload): Promise<Player[]> {
         this.logger('info', 'Execute - RemoveCampaignPlayersOperation');
-        const { campaign, userDetails } = await this.removeCampaignPlayersService.removeCampaignPlayers(payload);
+        const { campaign, userDetails, removedPlayer } = await this.removeCampaignPlayersService.removeCampaignPlayers(
+            payload
+        );
 
         const savedCampaign = await this.removeCampaignPlayersService.save(campaign, userDetails);
+
+        this.socketIO.syncActiveCampaign(savedCampaign);
+        this.socketIO.emitToCampaign(payload.campaignId, 'campaign:player_left', {
+            campaignId: payload.campaignId,
+            userId: payload.userId,
+            player: removedPlayer ?? null,
+        });
 
         return savedCampaign.campaignPlayers;
     }

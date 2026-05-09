@@ -293,14 +293,26 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/game-info`,
-                controller: this.usersController.updateGameInfo,
+                path: `${BASE_PATH}/:id/update/game-info/add`,
+                controller: this.usersController.addGameInfo,
                 parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ body: this.usersSchemas.patchUpdateUserGameInfo.body }],
+                    schemas: [{ body: this.usersSchemas.patchAddUserGameInfo.body }],
                     tag: 'management',
-                    description: desc.updateGameInfo,
+                    description: desc.addGameInfo,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/game-info/remove`,
+                controller: this.usersController.removeGameInfo,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.patchRemoveUserGameInfo.body }],
+                    tag: 'management',
+                    description: desc.removeGameInfo,
                 },
             },
             {

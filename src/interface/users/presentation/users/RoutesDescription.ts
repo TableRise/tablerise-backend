@@ -27,14 +27,21 @@ If the user has 2FA enabled the 2FA token will be needed as well.`;
 const updatePassword =
     'Route to perform the password reset operation, receives an email code and 2FA or secret question if enabled.';
 
-const updateGameInfo = `Route to update user game info.\n
+const addGameInfo = `Route to add user game info.\n
 ------------------------
 Params:
 - userId: expects an user id.\n
 Body:
-- id: content id to add or remove
-- info: "badges" | "campaigns" | "characters"
-- operation: "add" | "remove"`;
+- id: content id to add
+- info: "badges" | "campaigns" | "characters"`;
+
+const removeGameInfo = `Route to remove user game info.\n
+------------------------
+Params:
+- userId: expects an user id.\n
+Body:
+- id: content id to remove
+- info: "badges" | "campaigns" | "characters"`;
 
 const updateCampaignNotes = `Route to append a note to one campaign inside user game info.\n
 ------------------------
@@ -75,7 +82,8 @@ export default {
     confirm,
     updateEmail,
     updatePassword,
-    updateGameInfo,
+    addGameInfo,
+    removeGameInfo,
     updateCampaignNotes,
     resetProfile,
     profilePicture,

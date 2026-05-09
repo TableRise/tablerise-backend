@@ -3,6 +3,18 @@ import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
 
+export type CampaignJournalCategory =
+    | 'master'
+    | 'admin'
+    | 'players'
+    | 'characters-players'
+    | 'characters-master'
+    | 'environment'
+    | 'world-news'
+    | 'announcements';
+
+export type CampaignJournalPost = Journal & { postId: string };
+
 export interface CampaignPayload {
     title: string;
     cover?: cover | string;
@@ -46,15 +58,7 @@ export interface publishmentPayload {
     payload: {
         title: string;
         content: string;
-        category:
-            | 'master'
-            | 'admin'
-            | 'players'
-            | 'characters-players'
-            | 'characters-master'
-            | 'environment'
-            | 'world-news'
-            | 'announcements';
+        category: CampaignJournalCategory;
     };
 }
 
@@ -62,21 +66,34 @@ export interface UpdateMatchMapImagesPayload {
     campaignId: string;
     mapImage?: FileObject;
     imageId?: string;
-    operation: 'add' | 'remove';
 }
 
-export interface UpdateMatchMusicsPayload {
+export interface AddMatchMusicPayload {
     campaignId: string;
     id: string;
     title: string;
     thumbnail: string;
-    operation: 'add' | 'remove';
 }
 
-export interface updateMatchDatePayload {
+export interface RemoveMatchMusicPayload {
+    campaignId: string;
+    id: string;
+}
+
+export interface EditMatchMusicPayload {
+    campaignId: string;
+    id: string;
+    title: string;
+    thumbnail: string;
+}
+
+export interface AddMatchDatePayload {
     campaignId: string;
     date: string;
-    operation: 'add' | 'remove';
+}
+
+export interface RemoveMatchDatePayload {
+    campaignId: string;
 }
 
 export interface AddCampaignPlayersPayload {
@@ -100,18 +117,37 @@ export interface PostBanPlayerPayload {
     playerId: string;
 }
 
-export interface UpdateCampaignImagesPayload {
+export interface RemoveCampaignCoverPayload {
     campaignId: string;
-    image?: FileObject;
-    imageId?: string;
-    operation: 'add' | 'remove';
 }
 
-export type HighlightedJournalPayload = Journal | Record<string, never>;
+export interface RemoveMatchMapImagePayload {
+    campaignId: string;
+    imageUrl: string;
+}
+
+export type HighlightedJournalPayload = CampaignJournalPost | Record<string, never>;
 
 export interface UpdateCampaignJournalHighlightPayload {
     campaignId: string;
     userId: string;
     toggle: 'on' | 'off';
-    post?: Journal;
+    post?: CampaignJournalPost;
+}
+
+export interface UpdateCampaignJournalPostPayload {
+    campaignId: string;
+    callerId: string;
+    userId: string;
+    postId: string;
+    title: string;
+    post: string;
+    category: CampaignJournalCategory;
+}
+
+export interface DeleteCampaignJournalPostPayload {
+    campaignId: string;
+    callerId: string;
+    userId: string;
+    postId: string;
 }

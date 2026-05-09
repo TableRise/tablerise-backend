@@ -9,7 +9,6 @@ import PublishmentOperation from 'src/core/campaigns/operations/campaigns/Publis
 import AddCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/AddCampaignPlayersOperation';
 import RemoveCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveCampaignPlayersOperation';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
-import UpdateCampaignImagesOperation from 'src/core/campaigns/operations/UpdateCampaignImagesOperation';
 import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerOperation';
 import AddPlayerCharacterOperation from 'src/core/campaigns/operations/AddPlayerCharacterOperation';
 import RemovePlayerCharacterOperation from 'src/core/campaigns/operations/RemovePlayerCharacterOperation';
@@ -24,6 +23,8 @@ import RemoveCampaignImageOperation from 'src/core/campaigns/operations/RemoveCa
 import TransferDungeonMasterOperation from 'src/core/campaigns/operations/TransferDungeonMasterOperation';
 import UpdateMatchCharacterPictureOperation from 'src/core/campaigns/operations/UpdateMatchCharacterPictureOperation';
 import UpdateCampaignJournalHighlightOperation from 'src/core/campaigns/operations/UpdateCampaignJournalHighlightOperation';
+import UpdateCampaignJournalPostOperation from 'src/core/campaigns/operations/UpdateCampaignJournalPostOperation';
+import DeleteCampaignJournalPostOperation from 'src/core/campaigns/operations/DeleteCampaignJournalPostOperation';
 
 export interface CampaignsControllerContract {
     getAllCampaignsOperation: GetAllCampaignsOperation;
@@ -43,7 +44,6 @@ export interface CampaignsControllerContract {
     getCharactersByPlayerOperation: GetCharactersByPlayerOperation;
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postBanPlayerOperation: PostBanPlayerOperation;
-    updateCampaignImagesOperation: UpdateCampaignImagesOperation;
     updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation;
     confirmMatchPlayerPresenceOperation: ConfirmMatchPlayerPresenceOperation;
     confirmCampaignPlayerOperation: ConfirmCampaignPlayerOperation;
@@ -52,4 +52,6 @@ export interface CampaignsControllerContract {
     transferDungeonMasterOperation: TransferDungeonMasterOperation;
     updateMatchCharacterPictureOperation: UpdateMatchCharacterPictureOperation;
     updateCampaignJournalHighlightOperation?: UpdateCampaignJournalHighlightOperation;
+    updateCampaignJournalPostOperation?: UpdateCampaignJournalPostOperation;
+    deleteCampaignJournalPostOperation?: DeleteCampaignJournalPostOperation;
 }

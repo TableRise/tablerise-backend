@@ -1,20 +1,27 @@
 import sinon from 'sinon';
 import UpdateCampaignPlayerLimitOperation from 'src/core/campaigns/operations/UpdateCampaignPlayerLimitOperation';
+import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: UpdateCampaignPlayerLimitOperation', () => {
     let updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation, updateCampaignPlayerLimitService: any;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When campaign player limit is updated', () => {
             before(() => {
                 updateCampaignPlayerLimitService = {
-                    updatePlayerLimit: sinon.spy(),
+                    updatePlayerLimit: sinon.spy(() => {
+                        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                        campaign.infos.playerAmountLimit = 5;
+                        return campaign;
+                    }),
                 };
 
                 updateCampaignPlayerLimitOperation = new UpdateCampaignPlayerLimitOperation({
                     updateCampaignPlayerLimitService,
+                    socketIO,
                     logger,
                 });
             });

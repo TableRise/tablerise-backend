@@ -13,6 +13,7 @@ export interface IUsersSchemas {
     patchSecretQuestionUpdate: ISchemaProps;
     patchUpdateEmail: ISchemaProps;
     patchUpdatePassword: ISchemaProps;
-    patchUpdateUserGameInfo: ISchemaProps;
+    patchAddUserGameInfo: ISchemaProps;
+    patchRemoveUserGameInfo: ISchemaProps;
     patchUpdateCampaignNotes: ISchemaProps;
 }

@@ -3,6 +3,17 @@ import { ICampaignsSchemas } from 'src/types/modules/interface/campaigns/present
 import campaignVisibilityEnum from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import systemsEnum from 'src/domains/common/enums/systemsEnum';
 
+const journalCategories = [
+    'master',
+    'admin',
+    'players',
+    'characters-players',
+    'characters-master',
+    'environment',
+    'world-news',
+    'announcements',
+] as const;
+
 const postCreateCampaignBodySchema = z.object({
     title: z.string(),
     cover: z.file().optional(),
@@ -70,6 +81,7 @@ const postCreateCampaignPublishmentBodySchema = z.object({
 });
 
 const campaignJournalHighlightPostSchema = z.object({
+    postId: z.uuid().optional(),
     title: z.string(),
     author: z.object({
         userId: z.uuid(),
@@ -79,16 +91,7 @@ const campaignJournalHighlightPostSchema = z.object({
     }),
     content: z.string(),
     timestamp: z.string(),
-    category: z.enum([
-        'master',
-        'admin',
-        'players',
-        'characters-players',
-        'characters-master',
-        'environment',
-        'world-news',
-        'announcements',
-    ]),
+    category: z.enum(journalCategories),
 });
 
 const patchUpdateCampaignJournalHighlightBodySchema = z
@@ -101,20 +104,28 @@ const patchUpdateCampaignJournalHighlightBodySchema = z
         message: 'Post is required when toggle is on',
     });
 
-const patchUpdateCampaignMatchDateQuerySchema = z.object({
+const patchAddCampaignMatchDateQuerySchema = z.object({
     date: z.string().regex(/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$/),
-    operation: z.enum(['add', 'remove']),
 });
 
 const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
     mapImages: z.array(z.file()).max(3).optional(),
 });
 
-const patchUpdateCampaignMatchMusicsBodySchema = z.object({
+const patchAddCampaignMatchMusicsBodySchema = z.object({
     id: z.string(),
     title: z.string(),
     thumbnail: z.string(),
-    operation: z.enum(['add', 'remove']),
+});
+
+const patchRemoveCampaignMatchMusicBodySchema = z.object({
+    id: z.string(),
+});
+
+const patchEditCampaignMatchMusicBodySchema = z.object({
+    id: z.string(),
+    title: z.string(),
+    thumbnail: z.string(),
 });
 
 const patchUpdateCampaignPlayerCharacterQuerySchema = z.object({
@@ -129,19 +140,28 @@ const patchTransferDungeonMasterQuerySchema = z.object({
     userToMaster: z.uuid(),
 });
 
-const patchUpdateCampaignImagesBodySchema = z.object({
-    imageId: z.string().optional(),
-    picture: z.file().optional(),
-    operation: z.enum(['add', 'remove']),
-});
-
 const patchUpdateCampaignCoverBodySchema = z.object({
     picture: z.file(),
 });
 
-const patchRemoveCampaignImageQuerySchema = z.object({
+const patchRemoveCampaignMatchMapImageQuerySchema = z.object({
     imageUrl: z.string().url(),
-    type: z.enum(['cover', 'mapImages']),
+});
+
+const patchUpdateCampaignJournalPostQuerySchema = z.object({
+    userId: z.uuid(),
+});
+
+const patchUpdateCampaignJournalPostBodySchema = z.object({
+    postId: z.uuid(),
+    title: z.string(),
+    post: z.string(),
+    category: z.enum(journalCategories),
+});
+
+const patchDeleteCampaignJournalPostQuerySchema = z.object({
+    userId: z.uuid(),
+    postId: z.uuid(),
 });
 
 const getAllCampaignsQuerySchema = z.object({
@@ -156,9 +176,11 @@ export type TUpdateCampaignJournalHighlightBody = z.infer<typeof patchUpdateCamp
 export type TAddCampaignPlayersQuery = z.infer<typeof postAddCampaignPlayersQuerySchema>;
 export type TBanCampaignPlayerQuery = z.infer<typeof postBanCampaignPlayerQuerySchema>;
 export type TInvitePlayerByEmailQuery = z.infer<typeof postInvitePlayerByEmailQuerySchema>;
-export type TUpdateCampaignMatchDateQuery = z.infer<typeof patchUpdateCampaignMatchDateQuerySchema>;
+export type TAddCampaignMatchDateQuery = z.infer<typeof patchAddCampaignMatchDateQuerySchema>;
 export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampaignMatchMapImagesBodySchema>;
-export type TUpdateCampaignMatchMusicsBody = z.infer<typeof patchUpdateCampaignMatchMusicsBodySchema>;
+export type TAddCampaignMatchMusicsBody = z.infer<typeof patchAddCampaignMatchMusicsBodySchema>;
+export type TRemoveCampaignMatchMusicBody = z.infer<typeof patchRemoveCampaignMatchMusicBodySchema>;
+export type TEditCampaignMatchMusicBody = z.infer<typeof patchEditCampaignMatchMusicBodySchema>;
 export type TUpdateCampaignPlayerCharacterQuery = z.infer<typeof patchUpdateCampaignPlayerCharacterQuerySchema>;
 export type TConfirmCampaignPlayerQuery = z.infer<typeof patchConfirmCampaignPlayerQuerySchema>;
 const patchUpdateMatchCharacterPictureBodySchema = z.object({
@@ -167,12 +189,14 @@ const patchUpdateMatchCharacterPictureBodySchema = z.object({
 
 export type TTransferDungeonMasterQuery = z.infer<typeof patchTransferDungeonMasterQuerySchema>;
 export type TUpdateMatchCharacterPictureBody = z.infer<typeof patchUpdateMatchCharacterPictureBodySchema>;
-export type TUpdateCampaignImagesBodySchema = z.infer<typeof patchUpdateCampaignImagesBodySchema>;
 export type TUpdateCampaignCoverBodySchema = z.infer<typeof patchUpdateCampaignCoverBodySchema>;
-export type TRemoveCampaignImageQuery = z.infer<typeof patchRemoveCampaignImageQuerySchema>;
+export type TRemoveCampaignMatchMapImageQuery = z.infer<typeof patchRemoveCampaignMatchMapImageQuerySchema>;
 export type TGetAllCampaignsQuery = z.infer<typeof getAllCampaignsQuerySchema>;
 export type TUpdateCampaignPlayerLimitQuery = z.infer<typeof patchUpdateCampaignPlayerLimitQuerySchema>;
 export type TConfirmPlayerPresenceQuery = z.infer<typeof postConfirmPlayerPresenceQuerySchema>;
+export type TUpdateCampaignJournalPostQuery = z.infer<typeof patchUpdateCampaignJournalPostQuerySchema>;
+export type TUpdateCampaignJournalPostBody = z.infer<typeof patchUpdateCampaignJournalPostBodySchema>;
+export type TDeleteCampaignJournalPostQuery = z.infer<typeof patchDeleteCampaignJournalPostQuerySchema>;
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
@@ -193,23 +217,26 @@ export default (): ICampaignsSchemas => ({
     postCreateCampaignPublishment: {
         body: postCreateCampaignPublishmentBodySchema,
     },
-    patchUpdateCampaignMatchDate: {
-        query: patchUpdateCampaignMatchDateQuerySchema,
+    patchAddCampaignMatchDate: {
+        query: patchAddCampaignMatchDateQuerySchema,
     },
     patchUpdateCampaignMatchMapImages: {
         body: patchUpdateCampaignMatchMapImagesBodySchema,
     },
-    patchUpdateCampaignMatchMusics: {
-        body: patchUpdateCampaignMatchMusicsBodySchema,
+    patchAddCampaignMatchMusics: {
+        body: patchAddCampaignMatchMusicsBodySchema,
+    },
+    patchRemoveCampaignMatchMusic: {
+        body: patchRemoveCampaignMatchMusicBodySchema,
+    },
+    patchEditCampaignMatchMusic: {
+        body: patchEditCampaignMatchMusicBodySchema,
     },
     patchUpdateCampaignPlayerCharacter: {
         query: patchUpdateCampaignPlayerCharacterQuerySchema,
     },
     patchRemoveCampaignPlayerCharacter: {
         query: patchUpdateCampaignPlayerCharacterQuerySchema,
-    },
-    patchUpdateCampaignImages: {
-        body: patchUpdateCampaignImagesBodySchema,
     },
     patchUpdateCampaignPlayerLimit: {
         query: patchUpdateCampaignPlayerLimitQuerySchema,
@@ -226,8 +253,8 @@ export default (): ICampaignsSchemas => ({
     patchUpdateCampaignCover: {
         body: patchUpdateCampaignCoverBodySchema,
     },
-    patchRemoveCampaignImage: {
-        query: patchRemoveCampaignImageQuerySchema,
+    patchRemoveCampaignMatchMapImage: {
+        query: patchRemoveCampaignMatchMapImageQuerySchema,
     },
     patchTransferDungeonMaster: {
         query: patchTransferDungeonMasterQuerySchema,
@@ -237,5 +264,12 @@ export default (): ICampaignsSchemas => ({
     },
     patchUpdateCampaignJournalHighlight: {
         body: patchUpdateCampaignJournalHighlightBodySchema,
+    },
+    patchUpdateCampaignJournalPost: {
+        query: patchUpdateCampaignJournalPostQuerySchema,
+        body: patchUpdateCampaignJournalPostBodySchema,
+    },
+    patchDeleteCampaignJournalPost: {
+        query: patchDeleteCampaignJournalPostQuerySchema,
     },
 });

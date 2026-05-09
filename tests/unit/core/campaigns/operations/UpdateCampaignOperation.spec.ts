@@ -10,6 +10,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
         updateCampaignService: any;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign is updated', () => {
@@ -33,6 +34,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
 
                 updateCampaignOperation = new UpdateCampaignOperation({
                     updateCampaignService,
+                    socketIO,
                     logger,
                 });
             });
@@ -68,6 +70,7 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
 
                 updateCampaignOperation = new UpdateCampaignOperation({
                     updateCampaignService,
+                    socketIO,
                     logger,
                 });
             });

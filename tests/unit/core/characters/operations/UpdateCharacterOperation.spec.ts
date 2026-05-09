@@ -5,12 +5,27 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
     let updateCharacterOperation: UpdateCharacterOperation, payloadToUpdate: any, updateCharacterService: any;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: Sinon.spy() } as any;
 
     context('#execute', () => {
         context('When character are successfully updated', () => {
             before(() => {
                 updateCharacterService = {
-                    update: Sinon.spy(),
+                    update: Sinon.spy(() => ({
+                        characterId: '123',
+                        campaignId: null,
+                        updatedAt: new Date().toISOString(),
+                        data: {
+                            profile: {
+                                level: 1,
+                            },
+                            stats: {
+                                hitPoints: {
+                                    currentPoints: 10,
+                                },
+                            },
+                        },
+                    })),
                 };
 
                 payloadToUpdate = {
@@ -20,6 +35,7 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
 
                 updateCharacterOperation = new UpdateCharacterOperation({
                     updateCharacterService,
+                    socketIO,
                     logger,
                 });
             });

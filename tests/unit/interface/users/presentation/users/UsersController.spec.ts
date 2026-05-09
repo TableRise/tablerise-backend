@@ -36,7 +36,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         patchSecretQuestionUpdate: { body: {} },
         patchUpdateEmail: { body: {} },
         patchUpdatePassword: { body: {} },
-        patchUpdateUserGameInfo: { body: {} },
+        patchAddUserGameInfo: { body: {} },
+        patchRemoveUserGameInfo: { body: {} },
     } as unknown as IUsersSchemas;
 
     context('#register', () => {
@@ -835,7 +836,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
     });
 
-    context('#updateGameInfo', () => {
+    context('#addGameInfo', () => {
         const request = {} as Request;
         const response = {} as Response;
 
@@ -854,7 +855,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             resetTwoFactorOperation = { execute: () => ({}) };
             updateEmailOperation = { execute: () => ({}) };
             updatePasswordOperation = { execute: () => ({}) };
-            updateGameInfoOperation = { execute: sinon.spy(() => ({})) };
+            updateGameInfoOperation = { add: sinon.spy(() => ({})), remove: sinon.spy(() => ({})) };
             resetProfileOperation = { execute: () => ({}) };
             pictureProfileOperation = { execute: () => ({}) };
             deleteUserOperation = { execute: () => ({}) };
@@ -889,12 +890,78 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             request.body = {
                 infoId: '123',
                 targetInfo: 'badges',
-                operation: 'add',
                 data: {},
             };
-            await usersController.updateGameInfo(request, response);
+            await usersController.addGameInfo(request, response);
 
-            expect(updateGameInfoOperation.execute).to.have.been.calledWith({
+            expect(updateGameInfoOperation.add).to.have.been.calledWith({
+                userId: request.params.id,
+                ...request.body,
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#removeGameInfo', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createUserOperation = { execute: () => ({}) };
+            updateUserOperation = { execute: () => ({}) };
+            verifyEmailOperation = { execute: () => ({}) };
+            getUsersOperation = { execute: () => ({}) };
+            getUserByIdOperation = { execute: () => ({}) };
+            activateSecretQuestionOperation = { execute: () => ({}) };
+            updateSecretQuestionOperation = { execute: () => ({}) };
+            activateTwoFactorOperation = { execute: () => ({}) };
+            resetTwoFactorOperation = { execute: () => ({}) };
+            updateEmailOperation = { execute: () => ({}) };
+            updatePasswordOperation = { execute: () => ({}) };
+            updateGameInfoOperation = { add: sinon.spy(() => ({})), remove: sinon.spy(() => ({})) };
+            resetProfileOperation = { execute: () => ({}) };
+            pictureProfileOperation = { execute: () => ({}) };
+            deleteUserOperation = { execute: () => ({}) };
+            logoutUserOperation = { execute: () => ({}) };
+            loginUserOperation = { execute: () => ({}) };
+
+            usersController = new UsersController({
+                schemaValidator,
+                usersSchemas,
+                createUserOperation,
+                updateUserOperation,
+                verifyEmailOperation,
+                getUsersOperation,
+                getUserByIdOperation,
+                activateSecretQuestionOperation,
+                updateSecretQuestionOperation,
+                activateTwoFactorOperation,
+                resetTwoFactorOperation,
+                updateEmailOperation,
+                updatePasswordOperation,
+                updateGameInfoOperation,
+                resetProfileOperation,
+                pictureProfileOperation,
+                deleteUserOperation,
+                logoutUserOperation,
+                loginUserOperation,
+            });
+        });
+
+        it('should correctly call the methods and functions', async () => {
+            request.params = { id: '123' };
+            request.body = {
+                infoId: '123',
+                targetInfo: 'badges',
+                data: {},
+            };
+            await usersController.removeGameInfo(request, response);
+
+            expect(updateGameInfoOperation.remove).to.have.been.calledWith({
                 userId: request.params.id,
                 ...request.body,
             });

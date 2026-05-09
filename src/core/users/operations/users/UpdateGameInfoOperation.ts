@@ -1,5 +1,5 @@
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
+import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 
 export default class UpdateGameInfoOperation {
     private readonly updateGameInfoService;
@@ -9,11 +9,17 @@ export default class UpdateGameInfoOperation {
         this.updateGameInfoService = updateGameInfoService;
         this.logger = logger;
 
-        this.execute = this.execute.bind(this);
+        this.add = this.add.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
-    public async execute(payload: UpdateGameInfoPayload): Promise<string> {
-        this.logger('info', 'Execute - UpdateGameInfoOperation');
-        return this.updateGameInfoService.update(payload);
+    public async add(payload: AddGameInfoPayload): Promise<string> {
+        this.logger('info', 'Add - UpdateGameInfoOperation');
+        return this.updateGameInfoService.add(payload);
+    }
+
+    public async remove(payload: RemoveGameInfoPayload): Promise<string> {
+        this.logger('info', 'Remove - UpdateGameInfoOperation');
+        return this.updateGameInfoService.remove(payload);
     }
 }

@@ -7,6 +7,7 @@ import UpdateCampaignJournalHighlightService from 'src/core/campaigns/services/U
 describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService', () => {
     let campaign: Campaign;
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     beforeEach(() => {
         campaign = DomainDataFaker.generateCampaignsJSON({ count: 1 })[0];
@@ -23,9 +24,11 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         };
         const service = new UpdateCampaignJournalHighlightService({
             campaignsRepository: campaignsRepository as any,
+            socketIO,
             logger,
         });
         const post = {
+            postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
             title: 'Pinned note',
             author: campaign.campaignPlayers[0],
             content: 'The ritual starts at dawn.',
@@ -53,6 +56,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         };
         const service = new UpdateCampaignJournalHighlightService({
             campaignsRepository: campaignsRepository as any,
+            socketIO,
             logger,
         });
 
@@ -61,6 +65,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
             userId,
             toggle: 'on',
             post: {
+                postId: '12cd093b-0a8a-42fe-910f-001f2ab28451',
                 title: 'Pinned note',
                 author: campaign.campaignPlayers[0],
                 content: 'The market is closed.',
@@ -81,6 +86,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         };
         const service = new UpdateCampaignJournalHighlightService({
             campaignsRepository: campaignsRepository as any,
+            socketIO,
             logger,
         });
 
@@ -103,6 +109,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         const userId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
         campaign.campaignPlayers = [{ userId, characterIds: [], role: 'dungeon_master', status: 'active' }];
         campaign.infos.highlightedJournal = {
+            postId: '12cd093b-0a8a-42fe-910f-001f2ab28452',
             title: 'Pinned note',
             author: campaign.campaignPlayers[0],
             content: 'Some content',
@@ -115,6 +122,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         };
         const service = new UpdateCampaignJournalHighlightService({
             campaignsRepository: campaignsRepository as any,
+            socketIO,
             logger,
         });
 
@@ -136,6 +144,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
         };
         const service = new UpdateCampaignJournalHighlightService({
             campaignsRepository: campaignsRepository as any,
+            socketIO,
             logger,
         });
 
@@ -144,6 +153,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignJournalHighlightService
             userId,
             toggle: 'off',
             post: {
+                postId: '12cd093b-0a8a-42fe-910f-001f2ab28453',
                 title: 'Should be ignored',
                 author: campaign.campaignPlayers[0],
                 content: 'Ignored content',

@@ -54,4 +54,5 @@ export type ErrorTypes =
     | 'save-forbidden-content'
     | 'campaign-player-not-exists'
     | 'forbidden-post-category'
-    | 'forbidden-role-operation';
+    | 'forbidden-role-operation'
+    | 'journal-post-inexistent';

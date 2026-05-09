@@ -10,6 +10,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
         campaign: Campaign;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign has the match musics', () => {
@@ -18,13 +19,13 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
 
                 matchMusicsPayload = {
                     campaignId: campaign.campaignId,
-                    youtubeLink: 'https://youtu.be/123',
+                    id: 'https://youtu.be/123',
+                    thumbnail: '',
                     title: 'Main Theme 2',
-                    operation: 'add',
                 };
 
                 if (campaign.matchData)
-                    campaign.matchData.musics = [
+                    campaign.musics = [
                         {
                             title: matchMusicsPayload.title,
                             id: matchMusicsPayload.id,
@@ -33,23 +34,24 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMusicsOperation', () => 
                     ];
 
                 updateMatchMusicsService = {
-                    updateMatchMusics: sinon.spy(),
+                    addMatchMusic: sinon.spy(),
                     save: sinon.spy(() => campaign),
                 };
 
                 updateMatchMusicsOperation = new UpdateMatchMusicsOperation({
                     updateMatchMusicsService,
+                    socketIO,
                     logger,
                 });
             });
 
             it('should call the correct methods', async () => {
-                const updateMusicTest = await updateMatchMusicsOperation.execute(matchMusicsPayload);
+                const updateMusicTest = await updateMatchMusicsOperation.add(matchMusicsPayload);
 
-                expect(updateMatchMusicsService.updateMatchMusics).to.have.been.called();
+                expect(updateMatchMusicsService.addMatchMusic).to.have.been.called();
                 expect(updateMatchMusicsService.save).to.have.been.called();
                 expect(updateMusicTest[0]).to.have.property('title');
-                expect(updateMusicTest[0].title).to.be.equal(campaign.matchData?.musics[0].title);
+                expect(updateMusicTest[0].title).to.be.equal(campaign.musics[0].title);
             });
         });
     });

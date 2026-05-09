@@ -15,12 +15,13 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
     const logger = (): void => {};
 
-    context('#updateMatchMusics', () => {
+    context('#addMatchMusic', () => {
         context('When a music is added to match data', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
-                campaignMusicsLength = campaign.matchData?.musics.length ?? 0;
+                campaignMusicsLength = campaign.musics.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
@@ -31,7 +32,6 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     id: 'https://youtu.be/12345',
                     thumbnail: '',
                     title: 'Main Theme 2',
-                    operation: 'add',
                 };
 
                 updateMatchMusicsService = new UpdateMatchMusicsService({
@@ -41,18 +41,19 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
-                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(campaignMusicsLength);
-                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(campaignMusicsLength + 1);
+                const matchDataUpdated = await updateMatchMusicsService.addMatchMusic(updateMusicsPayload);
+                expect(matchDataUpdated.musics.length).to.be.not.equal(campaignMusicsLength);
+                expect(matchDataUpdated.musics.length).to.be.equal(campaignMusicsLength + 1);
             });
         });
 
         context('When a music is added to match data - music already exists', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
                 if (campaign.matchData)
-                    campaign.matchData.musics = [
+                    campaign.musics = [
                         {
                             title: 'Main Theme 2',
                             id: 'https://youtu.be/12345',
@@ -69,7 +70,6 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                     id: 'https://youtu.be/12345',
                     thumbnail: '',
                     title: 'Main Theme 2',
-                    operation: 'add',
                 };
 
                 updateMatchMusicsService = new UpdateMatchMusicsService({
@@ -80,7 +80,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
             it('should throw an error', async () => {
                 try {
-                    await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
+                    await updateMatchMusicsService.addMatchMusic(updateMusicsPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('Music link already added');
@@ -89,13 +89,16 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 }
             });
         });
+    });
 
+    context('#removeMatchMusic', () => {
         context('When a music is removed from match data', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
                 if (campaign.matchData)
-                    campaign.matchData.musics = [
+                    campaign.musics = [
                         {
                             title: 'Main Theme 2',
                             id: 'https://youtu.be/123',
@@ -103,7 +106,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                         },
                     ];
 
-                campaignMusicsLength = campaign.matchData?.musics.length ?? 0;
+                campaignMusicsLength = campaign.musics.length ?? 0;
 
                 campaignsRepository = {
                     findOne: () => campaign,
@@ -111,10 +114,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
 
                 updateMusicsPayload = {
                     campaignId: campaign.campaignId,
-                    id: 'https://youtu.be/123456',
-                    thumbnail: '',
-                    title: 'Main Theme 2',
-                    operation: 'remove',
+                    id: 'https://youtu.be/123',
                 };
 
                 updateMatchMusicsService = new UpdateMatchMusicsService({
@@ -124,9 +124,9 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             });
 
             it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMusicsService.updateMatchMusics(updateMusicsPayload);
-                expect(matchDataUpdated.matchData?.musics.length).to.be.not.equal(campaignMusicsLength);
-                expect(matchDataUpdated.matchData?.musics.length).to.be.equal(campaignMusicsLength - 1);
+                const matchDataUpdated = await updateMatchMusicsService.removeMatchMusic(updateMusicsPayload);
+                expect(matchDataUpdated.musics.length).to.be.not.equal(campaignMusicsLength);
+                expect(matchDataUpdated.musics.length).to.be.equal(campaignMusicsLength - 1);
             });
         });
     });
@@ -135,9 +135,10 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
         context('When a campaign with new music is saved', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
                 if (campaign.matchData)
-                    campaign.matchData.musics = [
+                    campaign.musics = [
                         {
                             title: 'Main Theme',
                             id: 'https://youtu.be/123',

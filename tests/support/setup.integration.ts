@@ -11,6 +11,7 @@ import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 
 setup({ loadExt: 'ts' });
 chai.use(dirtyChai);
@@ -103,6 +104,16 @@ exports.mochaHooks = {
             next();
         });
         logger('test', 'Stub VerifyUserMiddleware.prototype');
+
+        sinon.stub(ImageStorageClient.prototype, 'upload').callsFake(async () => ({
+            id: 'stub-image-id',
+            link: 'https://img.bb/stub-image',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            title: '',
+            request: { success: true, status: 200 },
+        }));
+        logger('test', 'Stub ImageStorageClient.prototype');
     },
 
     async afterAll() {

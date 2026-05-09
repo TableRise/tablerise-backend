@@ -11,27 +11,34 @@ export default class RemoveCampaignImageService {
         this.logger = logger;
     }
 
-    async removeImage({
-        campaignId,
-        imageUrl,
-        type,
-    }: {
-        campaignId: string;
-        imageUrl: string;
-        type: 'cover' | 'mapImages';
-    }): Promise<Campaign> {
-        this.logger('info', 'RemoveImage - RemoveCampaignImageService');
+    async removeCover({ campaignId }: { campaignId: string }): Promise<Campaign> {
+        this.logger('info', 'RemoveCover - RemoveCampaignImageService');
+
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
+        (campaign as unknown as { cover: ImageObject | null }).cover = null;
+
+        return campaign;
+    }
+
+    async removeMatchMapImage({ campaignId, imageUrl }: { campaignId: string; imageUrl: string }): Promise<Campaign> {
+        this.logger('info', 'RemoveMatchMapImage - RemoveCampaignImageService');
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        if (type === 'cover') {
-            (campaign as unknown as { cover: ImageObject | null }).cover = null;
-        }
-
-        if (type === 'mapImages' && campaign.matchData) {
+        if (campaign.matchData) {
             campaign.matchData.mapImages = campaign.matchData.mapImages.filter(
                 (img: ImageObject) => img.link !== imageUrl
             );
+
+            if ((campaign.matchData as any).state?.activeMapId) {
+                const activeMapStillExists = campaign.matchData.mapImages.some(
+                    (img: ImageObject) => img.id === (campaign.matchData as any).state.activeMapId
+                );
+
+                if (!activeMapStillExists) {
+                    (campaign.matchData as any).state.activeMapId = null;
+                }
+            }
         }
 
         return campaign;

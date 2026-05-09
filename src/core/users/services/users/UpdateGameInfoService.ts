@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
+import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
 
 export default class UpdateGameInfoService {
@@ -11,7 +11,8 @@ export default class UpdateGameInfoService {
         this.usersDetailsRepository = usersDetailsRepository;
         this.logger = logger;
 
-        this.update = this.update.bind(this);
+        this.add = this.add.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
@@ -58,22 +59,31 @@ export default class UpdateGameInfoService {
         return gameInfo;
     }
 
-    public async update({ userId, infoId, data, targetInfo, operation }: UpdateGameInfoPayload): Promise<string> {
-        this.logger('info', 'Update - UpdateGameInfoService');
+    public async add({ userId, infoId, data, targetInfo }: AddGameInfoPayload): Promise<string> {
+        this.logger('info', 'Add - UpdateGameInfoService');
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 
-        let gameInfo = userDetailInDb.gameInfo;
-
-        if (operation === 'add') gameInfo = this.addId({ infoId, targetInfo, gameInfo, data });
-        if (operation === 'remove') gameInfo = this.removeId({ infoId, targetInfo, gameInfo, data });
-
-        userDetailInDb.gameInfo = gameInfo;
+        userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
 
-        return `ID ${infoId} ${operation} with success to ${targetInfo}`;
+        return `ID ${infoId} add with success to ${targetInfo}`;
+    }
+
+    public async remove({ userId, infoId, data, targetInfo }: RemoveGameInfoPayload): Promise<string> {
+        this.logger('info', 'Remove - UpdateGameInfoService');
+        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+
+        userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetailInDb.userDetailId },
+            payload: userDetailInDb,
+        });
+
+        return `ID ${infoId} remove with success to ${targetInfo}`;
     }
 }

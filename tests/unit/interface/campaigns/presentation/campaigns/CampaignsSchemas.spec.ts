@@ -11,12 +11,15 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('postBanCampaignPlayer');
             expect(schemas).to.have.property('postInvitePlayerByEmail');
             expect(schemas).to.have.property('postCreateCampaignPublishment');
-            expect(schemas).to.have.property('patchUpdateCampaignMatchDate');
+            expect(schemas).to.have.property('patchAddCampaignMatchDate');
             expect(schemas).to.have.property('patchUpdateCampaignMatchMapImages');
-            expect(schemas).to.have.property('patchUpdateCampaignMatchMusics');
+            expect(schemas).to.have.property('patchAddCampaignMatchMusics');
+            expect(schemas).to.have.property('patchRemoveCampaignMatchMusic');
+            expect(schemas).to.have.property('patchEditCampaignMatchMusic');
             expect(schemas).to.have.property('patchUpdateCampaignPlayerCharacter');
-            expect(schemas).to.have.property('patchUpdateCampaignImages');
             expect(schemas).to.have.property('patchUpdateCampaignJournalHighlight');
+            expect(schemas).to.have.property('patchUpdateCampaignJournalPost');
+            expect(schemas).to.have.property('patchDeleteCampaignJournalPost');
         });
 
         it('should validate highlighted journal payload rules', () => {
@@ -52,6 +55,32 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     toggle: 'on',
                 })
             ).to.throw();
+        });
+
+        it('should validate update and delete journal post payloads', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.patchUpdateCampaignJournalPost.query.parse({
+                    userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignJournalPost.body.parse({
+                    postId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                    title: 'Session recap',
+                    post: 'The ruins are open.',
+                    category: 'players',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchDeleteCampaignJournalPost.query.parse({
+                    userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                    postId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                })
+            ).to.not.throw();
         });
     });
 });

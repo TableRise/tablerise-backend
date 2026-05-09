@@ -10,7 +10,7 @@ export default class ConfirmCampaignPlayerService {
         this.logger = logger;
     }
 
-    public async confirm(campaignId: string, userId: string, userToActivate: string): Promise<void> {
+    public async confirm(campaignId: string, userId: string, userToActivate: string) {
         this.logger('info', 'Execute - ConfirmCampaignPlayerService');
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
@@ -27,7 +27,7 @@ export default class ConfirmCampaignPlayerService {
 
         target.status = 'active';
 
-        await this.campaignsRepository.update({
+        return await this.campaignsRepository.update({
             query: { campaignId },
             payload: campaign,
         });

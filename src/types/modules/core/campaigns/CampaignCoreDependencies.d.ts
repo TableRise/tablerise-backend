@@ -23,11 +23,6 @@ import {
 import { AddCampaignPlayersOperationContract, AddCampaignPlayersServiceContract } from './campaigns/AddCampaignPlayers';
 
 import {
-    UpdateCampaignImagesOperationContract,
-    UpdateCampaignImagesServiceContract,
-} from './campaigns/UpdateCampaignImages';
-
-import {
     PostInvitationEmailOperationContract,
     PostInvitationEmailServiceContract,
 } from './campaigns/PostInvitationEmail';
@@ -85,6 +80,14 @@ import {
     UpdateCampaignJournalHighlightOperationContract,
     UpdateCampaignJournalHighlightServiceContract,
 } from './campaigns/UpdateCampaignJournalHighlight';
+import {
+    UpdateCampaignJournalPostOperationContract,
+    UpdateCampaignJournalPostServiceContract,
+} from './campaigns/UpdateCampaignJournalPost';
+import {
+    DeleteCampaignJournalPostOperationContract,
+    DeleteCampaignJournalPostServiceContract,
+} from './campaigns/DeleteCampaignJournalPost';
 
 export default interface CampaignCoreDependencies {
     // Operations
@@ -103,7 +106,6 @@ export default interface CampaignCoreDependencies {
     getCharactersByPlayerOperationContract: GetCharactersByPlayerOperationContract;
     postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
     postBanPlayerOperationContract: PostBanPlayerOperationContract;
-    updateCampaignImagesOperationContract: UpdateCampaignImagesOperationContract;
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
     confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
@@ -112,6 +114,8 @@ export default interface CampaignCoreDependencies {
     transferDungeonMasterOperationContract: TransferDungeonMasterOperationContract;
     updateMatchCharacterPictureOperationContract: UpdateMatchCharacterPictureOperationContract;
     updateCampaignJournalHighlightOperationContract: UpdateCampaignJournalHighlightOperationContract;
+    updateCampaignJournalPostOperationContract: UpdateCampaignJournalPostOperationContract;
+    deleteCampaignJournalPostOperationContract: DeleteCampaignJournalPostOperationContract;
 
     // Services
     createCampaignServiceContract: CreateCampaignServiceContract;
@@ -129,7 +133,6 @@ export default interface CampaignCoreDependencies {
     getCharactersByPlayerServiceContract: GetCharactersByPlayerServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     postBanPlayerServiceContract: PostBanPlayerServiceContract;
-    updateCampaignImagesServiceContract: UpdateCampaignImagesServiceContract;
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
     confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;
@@ -138,4 +141,6 @@ export default interface CampaignCoreDependencies {
     transferDungeonMasterServiceContract: TransferDungeonMasterServiceContract;
     updateMatchCharacterPictureServiceContract: UpdateMatchCharacterPictureServiceContract;
     updateCampaignJournalHighlightServiceContract: UpdateCampaignJournalHighlightServiceContract;
+    updateCampaignJournalPostServiceContract: UpdateCampaignJournalPostServiceContract;
+    deleteCampaignJournalPostServiceContract: DeleteCampaignJournalPostServiceContract;
 }

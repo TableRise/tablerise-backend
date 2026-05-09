@@ -1,93 +1,66 @@
 import sinon from 'sinon';
 import PublishmentService from 'src/core/campaigns/services/PublishmentService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
-import DomainDataFakerUser from 'src/infra/datafakers/users/DomainDataFaker';
 
-describe('Core :: Services :: publishmentService', () => {
-    let publishmentService: PublishmentService,
-        campaignsRepository: any,
-        usersRepository: any,
-        postPayload: any,
-        campaign: Campaign,
-        user: User;
+describe('Core :: Campaigns :: Services :: PublishmentService', () => {
+    let publishmentService: PublishmentService;
+    let campaignsRepository: any;
+    let campaign: Campaign;
 
     const logger = (): void => {};
 
-    context('When a new post is added to the campaign', () => {
-        before(() => {
-            campaign = DomainDataFaker.generateCampaignsJSON()[0];
-            user = DomainDataFakerUser.generateUsersJSON()[0];
+    beforeEach(() => {
+        campaign = DomainDataFaker.generateCampaignsJSON({ count: 1 })[0];
+        campaign.campaignPlayers = [
+            {
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                characterIds: [],
+                role: 'player',
+                status: 'active',
+            },
+        ];
+        campaign.infos.journal = [];
 
-            campaign.infos.announcements = [];
+        campaignsRepository = {
+            findOne: sinon.stub().resolves(campaign),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
 
-            campaignsRepository = {
-                findOne: sinon.spy(() => campaign),
-            };
-
-            usersRepository = {
-                findOne: sinon.spy(() => user),
-            };
-
-            postPayload = {
-                campaignId: campaign.campaignId,
-                userId: user.userId,
-                payload: {
-                    title: 'Some new title',
-                    content: 'Some new content',
-                },
-            };
-
-            publishmentService = new PublishmentService({
-                campaignsRepository,
-                usersRepository,
-                logger,
-            });
-        });
-
-        it('should return correct data', async () => {
-            const campaignWithPost = await publishmentService.addPost(postPayload);
-
-            expect(campaignWithPost.infos).to.have.property('announcements');
-            expect(campaignWithPost.infos.announcements).to.be.an('array');
-            expect(campaignWithPost.infos.announcements[0]).to.have.property('title');
-            expect(campaignWithPost.infos.announcements[0]).to.have.property('content');
-            expect(campaignWithPost.infos.announcements[0]).to.have.property('author');
-            expect(campaignWithPost.infos.announcements[0].title).to.be.equal(postPayload.payload.title);
-            expect(campaignWithPost.infos.announcements[0].content).to.be.equal(postPayload.payload.content);
-            expect(campaignWithPost.infos.announcements[0].author).to.be.equal(user.nickname);
-        });
+        publishmentService = new PublishmentService({
+            campaignsRepository,
+            logger,
+        } as any);
     });
 
-    context('When campaign is saved with new post', () => {
-        before(() => {
-            campaign = DomainDataFaker.generateCampaignsJSON()[0];
-            user = DomainDataFakerUser.generateUsersJSON()[0];
-
-            campaignsRepository = {
-                update: sinon.spy(() => campaign),
-            };
-
-            usersRepository = {
-                findOne: sinon.spy(() => user),
-            };
-
-            publishmentService = new PublishmentService({
-                campaignsRepository,
-                usersRepository,
-                logger,
-            });
+    it('should append a new journal post with postId', async () => {
+        const result = await publishmentService.addPost({
+            campaignId: campaign.campaignId as string,
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            payload: {
+                title: 'Session recap',
+                content: 'The party reached the bridge.',
+                category: 'players',
+            },
         });
 
-        it('should return correct data', async () => {
-            const campaignSaved = await publishmentService.save(campaign);
-
-            expect(campaignsRepository.update).to.have.been.calledWith({
-                query: { campaignId: campaign.campaignId },
-                payload: campaign,
-            });
-            expect(campaignSaved).to.be.deep.equal(campaign);
+        expect(result.infos.journal).to.have.lengthOf(1);
+        expect(result.infos.journal[0]).to.include({
+            title: 'Session recap',
+            content: 'The party reached the bridge.',
+            category: 'players',
         });
+        expect(result.infos.journal[0].author.userId).to.be.equal('12cd093b-0a8a-42fe-910f-001f2ab28454');
+        expect((result.infos.journal[0] as any).postId).to.be.a('string');
+    });
+
+    it('should persist the campaign', async () => {
+        const result = await publishmentService.save(campaign);
+
+        expect(campaignsRepository.update).to.have.been.calledWith({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
+        });
+        expect(result).to.be.deep.equal(campaign);
     });
 });

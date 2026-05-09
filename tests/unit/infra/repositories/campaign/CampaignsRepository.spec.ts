@@ -251,4 +251,89 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             });
         });
     });
+
+    context('#updateRealtimeState', () => {
+        let update: sinon.SinonSpy;
+
+        beforeEach(() => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0] as Campaign;
+            update = sinon.spy((_query: any, payload: any) => ({
+                ...campaign,
+                payload,
+            }));
+
+            database = {
+                modelInstance: () => ({ update }),
+            };
+
+            serializer = {
+                postCampaign: (payload: any) => payload,
+            };
+
+            updateTimestampRepository = {
+                updateTimestamp: sinon.stub().resolves(),
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                updateTimestampRepository,
+                serializer,
+                logger,
+            });
+        });
+
+        it('should build a partial realtime update payload for hot state fields', async () => {
+            await campaignsRepository.updateRealtimeState(
+                campaign.campaignId as string,
+                {
+                    matchStateFields: {
+                        activeMapId: 'map-2',
+                        gridVisible: false,
+                    },
+                    tokens: [],
+                    logs: [{ loggedAt: new Date().toISOString(), content: 'token moved' }],
+                    confirmedPlayers: ['user-1'],
+                } as any
+            );
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.activeMapId': 'map-2',
+                        'matchData.state.gridVisible': false,
+                        'matchData.state.tokens': [],
+                        'matchData.logs': [{ loggedAt: sinon.match.string, content: 'token moved' }],
+                        'matchData.confirmedPlayers': ['user-1'],
+                    },
+                }
+            );
+        });
+
+        it('should update tokens through the dedicated helper', async () => {
+            await campaignsRepository.updateTokens(campaign.campaignId as string, []);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.tokens': [],
+                    },
+                }
+            );
+        });
+
+        it('should update highlighted journal through the dedicated helper', async () => {
+            await campaignsRepository.updateHighlightedJournal(campaign.campaignId as string, null as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'infos.highlightedJournal': null,
+                    },
+                }
+            );
+        });
+    });
 });

@@ -7,19 +7,22 @@ export interface ICampaignsSchemas {
     postBanCampaignPlayer: ISchemaProps;
     postInvitePlayerByEmail: ISchemaProps;
     postCreateCampaignPublishment: ISchemaProps;
-    patchUpdateCampaignMatchDate: ISchemaProps;
+    patchAddCampaignMatchDate: ISchemaProps;
     patchUpdateCampaignMatchMapImages: ISchemaProps;
-    patchUpdateCampaignMatchMusics: ISchemaProps;
+    patchAddCampaignMatchMusics: ISchemaProps;
+    patchRemoveCampaignMatchMusic: ISchemaProps;
+    patchEditCampaignMatchMusic: ISchemaProps;
     patchUpdateCampaignPlayerCharacter: ISchemaProps;
     patchRemoveCampaignPlayerCharacter: ISchemaProps;
-    patchUpdateCampaignImages: ISchemaProps;
     patchUpdateCampaignPlayerLimit: ISchemaProps;
     getAllCampaigns: ISchemaProps;
     postConfirmPlayerPresence: ISchemaProps;
     patchConfirmCampaignPlayer: ISchemaProps;
     patchUpdateCampaignCover: ISchemaProps;
-    patchRemoveCampaignImage: ISchemaProps;
+    patchRemoveCampaignMatchMapImage: ISchemaProps;
     patchTransferDungeonMaster: ISchemaProps;
     patchUpdateMatchCharacterPicture: ISchemaProps;
     patchUpdateCampaignJournalHighlight: ISchemaProps;
+    patchUpdateCampaignJournalPost: ISchemaProps;
+    patchDeleteCampaignJournalPost: ISchemaProps;
 }

@@ -40,12 +40,11 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeOne,
                     targetInfo: 'badges',
-                    operation: 'add',
                     data: {},
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/add`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
@@ -61,7 +60,6 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeTwo,
                     targetInfo: 'campaigns',
-                    operation: 'add',
                     data: {
                         campaignId: 'string',
                         role: 'string',
@@ -71,7 +69,7 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/add`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
@@ -87,12 +85,11 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeThree,
                     targetInfo: 'characters',
-                    operation: 'add',
                     data: {},
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/add`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
@@ -110,12 +107,11 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeOne,
                     targetInfo: 'badges',
-                    operation: 'remove',
                     data: {},
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/remove`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
@@ -131,7 +127,6 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeThree,
                     targetInfo: 'campaigns',
-                    operation: 'remove',
                     data: {
                         campaignId: 'string',
                         role: 'string',
@@ -141,7 +136,7 @@ describe('When user game info are updated', () => {
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/remove`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 
@@ -157,12 +152,11 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeThree,
                     targetInfo: 'characters',
-                    operation: 'remove',
                     data: {},
                 };
 
                 const { body } = await requester()
-                    .patch(`/users/${user.userId}/update/game-info`)
+                    .patch(`/users/${user.userId}/update/game-info/remove`)
                     .send(payload)
                     .expect(HttpStatusCode.OK);
 

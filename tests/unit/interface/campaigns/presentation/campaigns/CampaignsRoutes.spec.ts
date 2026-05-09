@@ -23,19 +23,22 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             postAddCampaignPlayers: { query: {} },
             putUpdateCampaign: { body: {} },
             patchUpdateCampaignMatchMapImages: { body: {} },
-            patchUpdateCampaignMatchMusics: { body: {} },
-            patchUpdateCampaignMatchDate: { query: {} },
+            patchAddCampaignMatchMusics: { body: {} },
+            patchRemoveCampaignMatchMusic: { body: {} },
+            patchEditCampaignMatchMusic: { body: {} },
+            patchAddCampaignMatchDate: { query: {} },
             patchUpdateCampaignPlayerCharacter: { query: {} },
             patchRemoveCampaignPlayerCharacter: { query: {} },
-            patchUpdateCampaignImages: { body: {} },
             patchUpdateCampaignPlayerLimit: { query: {} },
             patchUpdateCampaignJournalHighlight: { body: {} },
             patchConfirmCampaignPlayer: { query: {} },
             patchUpdateCampaignCover: { body: {} },
-            patchRemoveCampaignImage: { query: {} },
+            patchRemoveCampaignMatchMapImage: { query: {} },
             patchTransferDungeonMaster: { query: {} },
             patchUpdateMatchCharacterPicture: { body: {} },
             getAllCampaigns: { query: {} },
+            patchUpdateCampaignJournalPost: { query: {}, body: {} },
+            patchDeleteCampaignJournalPost: { query: {} },
         };
 
         campaignsRoutes = new CampaignsRoutes({
@@ -49,7 +52,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(28);
+            expect(routes).to.have.lengthOf(33);
         });
 
         it('should include the journal highlight routes', () => {
@@ -62,6 +65,10 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
                     (route) => route.path === '/campaigns/:id/update/journal/highlight' && route.method === 'patch'
                 )
             ).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/journal/update' && route.method === 'patch'))
+                .to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/journal/delete' && route.method === 'patch'))
+                .to.be.true;
         });
     });
 });

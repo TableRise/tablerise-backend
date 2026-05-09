@@ -233,6 +233,41 @@ export default class CampaignsRoutes {
             // PATCH
             {
                 method: 'patch',
+                path: `${BASE_PATH}/:id/journal/update`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
+                controller: this.campaignsController.updateJournalPost,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [
+                        {
+                            query: this.campaignsSchemas.patchUpdateCampaignJournalPost.query,
+                            body: this.campaignsSchemas.patchUpdateCampaignJournalPost.body,
+                        },
+                    ],
+                    description: desc.updateCampaignJournalPost,
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/journal/delete`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'userId', type: 'string' },
+                        { name: 'postId', type: 'string' },
+                    ]),
+                ],
+                controller: this.campaignsController.deleteJournalPost,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchDeleteCampaignJournalPost.query }],
+                    description: desc.deleteCampaignJournalPost,
+                    tag: 'delete',
+                },
+            },
+            {
+                method: 'patch',
                 path: `${BASE_PATH}/:id/update/journal/highlight`,
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.updateCampaignJournalHighlight,
@@ -245,9 +280,9 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/match/map-images`,
+                path: `${BASE_PATH}/:id/update/match/map-images/add`,
                 parameters: [...generateIDParam()],
-                controller: this.campaignsController.updateMatchMapImages,
+                controller: this.campaignsController.addMatchMapImages,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -257,9 +292,25 @@ export default class CampaignsRoutes {
                         this.verifyMatchMiddleware.exists,
                     ],
                     schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignMatchMapImages.body }],
-                    description: desc.updateMatchImages,
+                    description: desc.addMatchImages,
                     tag: 'update',
                     fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/map-images/remove`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'imageUrl', type: 'string' }])],
+                controller: this.campaignsController.removeMatchMapImage,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignMatchMapImage.query }],
+                    description: desc.removeMatchImage,
+                    tag: 'update',
                 },
             },
             {
@@ -277,35 +328,72 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/match/musics`,
+                path: `${BASE_PATH}/:id/update/match/musics/add`,
                 parameters: [...generateIDParam()],
-                controller: this.campaignsController.updateMatchMusics,
+                controller: this.campaignsController.addMatchMusic,
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
                         this.verifyIdMiddleware,
                         this.verifyMatchMiddleware.exists,
                     ],
-                    description: desc.updateMatchMusics,
-                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignMatchMusics.body }],
+                    description: desc.addMatchMusic,
+                    schemas: [{ body: this.campaignsSchemas.patchAddCampaignMatchMusics.body }],
                     tag: 'update',
                 },
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/infos/match-dates`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(2, [
-                        { name: 'date', type: 'string' },
-                        { name: 'operation', type: 'string' },
-                    ]),
-                ],
-                controller: this.campaignsController.updateMatchDate,
+                path: `${BASE_PATH}/:id/update/match/musics/remove`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.removeMatchMusic,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    description: desc.removeMatchMusic,
+                    schemas: [{ body: this.campaignsSchemas.patchRemoveCampaignMatchMusic.body }],
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/musics/edit`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.editMatchMusic,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    description: desc.editMatchMusic,
+                    schemas: [{ body: this.campaignsSchemas.patchEditCampaignMatchMusic.body }],
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/infos/match-dates/add`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'date', type: 'string' }])],
+                controller: this.campaignsController.addMatchDate,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignMatchDate.query }],
-                    description: desc.updateMatchDate,
+                    schemas: [{ query: this.campaignsSchemas.patchAddCampaignMatchDate.query }],
+                    description: desc.addMatchDate,
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/infos/match-dates/remove`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.removeMatchDate,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.removeMatchDate,
                     tag: 'update',
                 },
             },
@@ -365,19 +453,12 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/images/remove`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(2, [
-                        { name: 'imageUrl', type: 'string' },
-                        { name: 'type', type: 'string' },
-                    ]),
-                ],
-                controller: this.campaignsController.removeCampaignImage,
+                path: `${BASE_PATH}/:id/update/cover/remove`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.removeCampaignCover,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignImage.query }],
-                    description: desc.removeCampaignImage,
+                    description: desc.removeCampaignCover,
                     tag: 'update',
                 },
             },
@@ -395,25 +476,6 @@ export default class CampaignsRoutes {
                     ],
                     schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignCover.body }],
                     description: desc.updateCampaignCover,
-                    tag: 'update',
-                    fileUpload: true,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/update/images`,
-                parameters: [...generateIDParam()],
-                controller: this.campaignsController.updateCampaignImages,
-                options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('picture'),
-                        this.imageMiddleware.fileType,
-                        this.verifyIdMiddleware,
-                        this.verifyMatchMiddleware.exists,
-                    ],
-                    description: desc.updateCampaignImages,
-                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignImages.body }],
                     tag: 'update',
                     fileUpload: true,
                 },

@@ -22,11 +22,14 @@ export default class RemoveCampaignPlayersService {
     async removeCampaignPlayers({
         campaignId,
         userId,
-    }: RemoveCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
+    }: RemoveCampaignPlayersPayload): Promise<
+        UpdateMatchPlayersResponse & { removedPlayer?: Campaign['campaignPlayers'][number] }
+    > {
         this.logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
+        const removedPlayer = campaign.campaignPlayers.find((player) => player.userId === userId);
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
             (campaign) => campaign.campaignId !== campaignId
@@ -34,7 +37,7 @@ export default class RemoveCampaignPlayersService {
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter((player) => player.userId !== userId);
 
-        return { campaign, userDetails };
+        return { campaign, userDetails, removedPlayer };
     }
 
     async save(campaign: Campaign, userDetails: UserDetail): Promise<Campaign> {

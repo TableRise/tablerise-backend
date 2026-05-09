@@ -5,13 +5,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class UpdateCampaignJournalHighlightService {
     private readonly campaignsRepository;
+    private readonly socketIO;
     private readonly logger;
 
     constructor({
         logger,
         campaignsRepository,
+        socketIO,
     }: CampaignCoreDependencies['updateCampaignJournalHighlightServiceContract']) {
         this.campaignsRepository = campaignsRepository;
+        this.socketIO = socketIO;
         this.logger = logger;
     }
 
@@ -36,6 +39,12 @@ export default class UpdateCampaignJournalHighlightService {
         const updatedCampaign = await this.campaignsRepository.update({
             query: { campaignId },
             payload: campaign,
+        });
+
+        this.socketIO.syncActiveCampaign(updatedCampaign);
+        this.socketIO.emitToCampaign(campaignId, 'journal:highlight_changed', {
+            campaignId,
+            highlightedJournalPost: (updatedCampaign.infos.highlightedJournal ?? null) || null,
         });
 
         return (updatedCampaign.infos.highlightedJournal ?? {}) as HighlightedJournalPayload;

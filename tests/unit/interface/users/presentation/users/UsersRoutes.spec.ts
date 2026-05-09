@@ -27,7 +27,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             patchSecretQuestionUpdate: { example: {} },
             patchUpdateEmail: { example: {} },
             patchUpdatePassword: { example: {} },
-            patchUpdateUserGameInfo: { example: {} },
+            patchAddUserGameInfo: { example: {} },
+            patchRemoveUserGameInfo: { example: {} },
+            patchUpdateCampaignNotes: { query: {}, body: {} },
         };
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
@@ -51,7 +53,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(20);
+            expect(routes).to.have.lengthOf(23);
         });
     });
 });

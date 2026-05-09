@@ -38,6 +38,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'journal-post-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Journal post does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
                     message: 'This player is not in the campaign',

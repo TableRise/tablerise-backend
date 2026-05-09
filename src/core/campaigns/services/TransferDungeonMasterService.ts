@@ -10,7 +10,7 @@ export default class TransferDungeonMasterService {
         this.logger = logger;
     }
 
-    public async transfer(campaignId: string, userId: string, userToMaster: string): Promise<void> {
+    public async transfer(campaignId: string, userId: string, userToMaster: string) {
         this.logger('info', 'Execute - TransferDungeonMasterService');
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
@@ -38,7 +38,7 @@ export default class TransferDungeonMasterService {
             }
         );
 
-        await this.campaignsRepository.update({
+        return await this.campaignsRepository.update({
             query: { campaignId },
             payload: campaign,
         });

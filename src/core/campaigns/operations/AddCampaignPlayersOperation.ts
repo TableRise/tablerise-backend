@@ -4,13 +4,16 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 
 export default class AddCampaignPlayersOperation {
     private readonly addCampaignPlayersService;
+    private readonly socketIO;
     private readonly logger;
 
     constructor({
         addCampaignPlayersService,
+        socketIO,
         logger,
     }: CampaignCoreDependencies['addCampaignPlayersOperationContract']) {
         this.addCampaignPlayersService = addCampaignPlayersService;
+        this.socketIO = socketIO;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
@@ -21,6 +24,17 @@ export default class AddCampaignPlayersOperation {
         const { campaign, userDetails } = await this.addCampaignPlayersService.addCampaignPlayers(payload);
 
         const savedCampaign = await this.addCampaignPlayersService.save(campaign, userDetails);
+        this.socketIO.syncActiveCampaign(savedCampaign);
+        const joinedPlayer = savedCampaign.campaignPlayers.find(
+            (player: { userId: string }) => player.userId === payload.userId
+        );
+
+        if (joinedPlayer) {
+            this.socketIO.emitToCampaign(payload.campaignId, 'campaign:player_joined', {
+                campaignId: payload.campaignId,
+                player: joinedPlayer,
+            });
+        }
 
         return savedCampaign.campaignPlayers;
     }

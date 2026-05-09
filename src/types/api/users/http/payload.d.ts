@@ -14,12 +14,18 @@ export interface GetByIdPayload {
     userId: string;
 }
 
-export interface UpdateGameInfoPayload {
+export interface AddGameInfoPayload {
     userId: string;
     infoId: string;
     data: GameInfoCampaigns | any;
     targetInfo: 'campaigns' | 'badges' | 'characters';
-    operation: 'add' | 'remove';
+}
+
+export interface RemoveGameInfoPayload {
+    userId: string;
+    infoId: string;
+    data: GameInfoCampaigns | any;
+    targetInfo: 'campaigns' | 'badges' | 'characters';
 }
 
 export interface AddCampaignNotePayload {

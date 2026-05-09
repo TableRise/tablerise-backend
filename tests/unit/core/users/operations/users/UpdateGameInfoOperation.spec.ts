@@ -14,14 +14,14 @@ describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () =
 
             before(() => {
                 updateGameInfoService = {
-                    update: sinon.spy(),
+                    add: sinon.spy(),
+                    remove: sinon.spy(),
                 };
 
                 updateGameInfoPayload = {
                     userId,
                     infoId,
                     targetInfo: 'badges',
-                    operation: 'add',
                 };
 
                 updateGameInfoOperation = new UpdateGameInfoOperation({
@@ -31,8 +31,8 @@ describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () =
             });
 
             it('should call the correct methods', async () => {
-                await updateGameInfoOperation.execute(updateGameInfoPayload);
-                expect(updateGameInfoService.update).to.have.been.calledWith(updateGameInfoPayload);
+                await updateGameInfoOperation.add(updateGameInfoPayload);
+                expect(updateGameInfoService.add).to.have.been.calledWith(updateGameInfoPayload);
             });
         });
     });

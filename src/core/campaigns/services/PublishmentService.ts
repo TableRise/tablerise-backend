@@ -1,6 +1,7 @@
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import newUUID from 'src/domains/common/helpers/newUUID';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { publishmentPayload } from 'src/types/api/campaigns/http/payload';
+import { CampaignJournalPost, publishmentPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 const CATEGORIES_ALLOWED_FOR_PLAYER = ['players', 'characters-players'];
@@ -36,13 +37,14 @@ export default class PublishmentService {
         if (playerInCampaign.role === 'admin_player' && !CATEGORIES_ALLOWED_FOR_ADMIN.includes(payload.category))
             HttpRequestErrors.throwError('forbidden-post-category');
 
-        campaignInDb.infos.journal.push({
+        (campaignInDb.infos.journal as CampaignJournalPost[]).push({
+            postId: newUUID(),
             title: payload.title,
             content: payload.content,
             author: campaignInDb.campaignPlayers.find((p) => p.userId === userId) as Player,
             timestamp: new Date().toISOString(),
             category: payload.category,
-        });
+        } as CampaignJournalPost);
 
         return campaignInDb;
     }

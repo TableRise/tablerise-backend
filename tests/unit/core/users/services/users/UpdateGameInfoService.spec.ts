@@ -16,7 +16,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
 
     const logger = (): void => {};
 
-    context('#update', () => {
+    context('#add', () => {
         context('When a game info is added', () => {
             const userId = newUUID();
             const infoId = newUUID();
@@ -29,7 +29,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     infoId,
                     data: {},
                     targetInfo: 'badges',
-                    operation: 'add',
                 };
 
                 newUserDetails = {
@@ -52,7 +51,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.add(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
@@ -75,7 +74,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
-                    operation: 'add',
                 };
 
                 newUserDetails = {
@@ -98,7 +96,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.add(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
@@ -121,7 +119,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     infoId,
                     data: {},
                     targetInfo: 'badges',
-                    operation: 'add',
                 };
 
                 usersDetailsRepository = {
@@ -137,7 +134,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
 
             it('should call correct methods', async () => {
                 try {
-                    await updateGameInfoService.update(updateGameInfoPayload);
+                    await updateGameInfoService.add(updateGameInfoPayload);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -147,7 +144,9 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 }
             });
         });
+    });
 
+    context('#remove', () => {
         context('When a game info is removed', () => {
             const userId = newUUID();
             const infoId = newUUID();
@@ -162,7 +161,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     infoId,
                     data: {},
                     targetInfo: 'badges',
-                    operation: 'remove',
                 };
 
                 newUserDetails = {
@@ -185,7 +183,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.remove(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
@@ -208,7 +206,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
-                    operation: 'remove',
                 };
 
                 userDetails.gameInfo.campaigns = [updateGameInfoPayload.data];
@@ -233,7 +230,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.remove(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },

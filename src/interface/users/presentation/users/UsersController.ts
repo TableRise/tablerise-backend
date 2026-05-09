@@ -1,8 +1,9 @@
 import { Response, Request } from 'express';
 import {
     AddCampaignNotePayload,
+    AddGameInfoPayload,
     RegisterUserPayload,
-    UpdateGameInfoPayload,
+    RemoveGameInfoPayload,
     VerifyEmailPayload,
     UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
@@ -86,7 +87,8 @@ export default class UsersController {
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
-        this.updateGameInfo = this.updateGameInfo.bind(this);
+        this.addGameInfo = this.addGameInfo.bind(this);
+        this.removeGameInfo = this.removeGameInfo.bind(this);
         this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
@@ -212,11 +214,23 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async updateGameInfo(req: Request, res: Response): Promise<Response> {
+    public async addGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const payload = req.body as Omit<UpdateGameInfoPayload, 'userId'>;
+        const payload = req.body as Omit<AddGameInfoPayload, 'userId'>;
 
-        const result = await this.updateGameInfoOperation.execute({
+        const result = await this.updateGameInfoOperation.add({
+            userId: id,
+            ...payload,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removeGameInfo(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as Omit<RemoveGameInfoPayload, 'userId'>;
+
+        const result = await this.updateGameInfoOperation.remove({
             userId: id,
             ...payload,
         });

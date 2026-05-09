@@ -1,9 +1,11 @@
 import UpdateCampaignPlayerLimitService from 'src/core/campaigns/services/UpdateCampaignPlayerLimitService';
+import SocketIO from 'src/infra/clients/SocketIO';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface UpdateCampaignPlayerLimitOperationContract {
     updateCampaignPlayerLimitService: UpdateCampaignPlayerLimitService;
+    socketIO: SocketIO;
     logger: Logger;
 }
 

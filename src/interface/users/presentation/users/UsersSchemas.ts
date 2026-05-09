@@ -77,10 +77,15 @@ const patchUpdatePasswordBodySchema = z.object({
         .default(''),
 });
 
-const patchUpdateUserGameInfoBodySchema = z.object({
+const patchAddUserGameInfoBodySchema = z.object({
     infoId: z.uuidv4(),
     targetInfo: z.enum(userGameInfoEnum.values),
-    operation: z.enum(['add', 'remove']),
+    data: z.any().default({}),
+});
+
+const patchRemoveUserGameInfoBodySchema = z.object({
+    infoId: z.uuidv4(),
+    targetInfo: z.enum(userGameInfoEnum.values),
     data: z.any().default({}),
 });
 
@@ -106,7 +111,8 @@ export type TActivateSecretQuestionBody = z.infer<typeof postAuthenticateSecretQ
 export type TSecretQuestionUpdateBody = z.infer<typeof postAuthenticateSecretQuestionBodySchema>;
 export type TUpdateEmailBody = z.infer<typeof patchUpdateEmailBodySchema>;
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
-export type TUpdateUserGameInfoBody = z.infer<typeof patchUpdateUserGameInfoBodySchema>;
+export type TAddUserGameInfoBody = z.infer<typeof patchAddUserGameInfoBodySchema>;
+export type TRemoveUserGameInfoBody = z.infer<typeof patchRemoveUserGameInfoBodySchema>;
 export type TUpdateCampaignNotesQuery = z.infer<typeof patchUpdateCampaignNotesQuerySchema>;
 export type TUpdateCampaignNotesBody = z.infer<typeof patchUpdateCampaignNotesBodySchema>;
 
@@ -148,8 +154,11 @@ export default (): IUsersSchemas => ({
     patchUpdatePassword: {
         body: patchUpdatePasswordBodySchema,
     },
-    patchUpdateUserGameInfo: {
-        body: patchUpdateUserGameInfoBodySchema,
+    patchAddUserGameInfo: {
+        body: patchAddUserGameInfoBodySchema,
+    },
+    patchRemoveUserGameInfo: {
+        body: patchRemoveUserGameInfoBodySchema,
     },
     patchUpdateCampaignNotes: {
         query: patchUpdateCampaignNotesQuerySchema,
