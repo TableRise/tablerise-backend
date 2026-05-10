@@ -92,7 +92,7 @@
     "dependencies": {
         "@socket.io/redis-adapter": "8.3.0",
         "@tablerise/auto-swagger": "4.6.2",
-        "@tablerise/database-management": "6.0.2",
+        "@tablerise/database-management": "7.0.1",
         "@tablerise/database-seeder": "5.8.0",
         "@tablerise/dynamic-logger": "1.6.2",
         "@types/chai-as-promised": "7.1.7",

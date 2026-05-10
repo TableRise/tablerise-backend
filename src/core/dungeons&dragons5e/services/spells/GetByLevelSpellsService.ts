@@ -17,7 +17,7 @@ export default class GetByLevelSpellsService {
         this.logger('info', 'GetByLevel - GetByLevelSpellsService');
         this.dungeonsAndDragonsRepository.setEntity('Spells');
 
-        const spellsInDb = (await this.dungeonsAndDragonsRepository.find({ 'en.level': queryLevel })) as Array<
+        const spellsInDb = (await this.dungeonsAndDragonsRepository.find({ level: queryLevel })) as Array<
             Internacional<Spell>
         >;
 
