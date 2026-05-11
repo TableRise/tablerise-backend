@@ -44,6 +44,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.NOT_FOUND,
                     name: getErrorName(HttpStatusCode.NOT_FOUND),
                 });
+            case 'equipment-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Equipment already added to character',
+                    code: HttpStatusCode.CONFLICT,
+                    name: getErrorName(HttpStatusCode.CONFLICT),
+                });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
                     message: 'This player is not in the campaign',

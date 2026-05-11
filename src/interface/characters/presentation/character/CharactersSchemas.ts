@@ -128,7 +128,7 @@ const extraAbilitiesCharacterZodSchema = z.object({
 const dataCharacterZodSchema = z.object({
     profile: profileCharacterZodSchema,
     stats: statsCharacterZodSchema,
-    equipments: z.string(),
+    inventory: z.string(),
     money: moneyCharacterZodSchema.optional(),
     spells: spellsCharacterZodSchema.optional(),
     extraAbilities: extraAbilitiesCharacterZodSchema.optional(),
@@ -153,9 +153,9 @@ const appearanceUpdateZodSchema = z.object({
 });
 
 const otherUpdateZodSchema = z.object({
-    languages: z.array(z.string()).optional(),
-    proficiencies: z.string().optional(),
-    extraCharacteristics: z.string().optional(),
+    languagesAndProficiencies: z.string().optional(),
+    characteristicsAndAbilities: z.string().optional(),
+    characteristicsAndAdditionalAbilities: z.string().optional(),
 });
 
 const characteristicsUpdateZodSchema = z.object({
@@ -259,12 +259,26 @@ const extraAbilitiesUpdateZodSchema = z.object({
     9: extraAbilityLevelUpdateZodSchema.optional(),
 });
 
+const equipmentItemZodSchema = z.object({
+    name: z.string(),
+    type: z.string(),
+    price: z.array(z.any()),
+    armorClass: z.array(z.any()).optional(),
+    strength: z.string().nullable().optional(),
+    stealth: z.string().optional(),
+    weight: z.string(),
+    damage: z.string().nullable().optional(),
+    properties: z.string().nullable().optional(),
+});
+
 const dataUpdateZodSchema = z.object({
     profile: profileUpdateZodSchema.optional(),
     stats: statsUpdateZodSchema.optional(),
     money: moneyUpdateZodSchema.optional(),
     spells: spellsUpdateZodSchema.optional(),
     extraAbilities: extraAbilitiesUpdateZodSchema.optional(),
+    inventory: z.string().optional(),
+    equipments: z.array(equipmentItemZodSchema).optional(),
 });
 
 const updateCharacterZodSchema = z.object({

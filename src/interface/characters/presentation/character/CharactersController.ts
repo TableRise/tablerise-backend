@@ -11,6 +11,8 @@ export default class CharactersController {
     private readonly updateCharacterOperation;
     private readonly updateCharacterPictureOperation;
     private readonly orgPictureUploadOperation;
+    private readonly addEquipmentOperation;
+    private readonly removeEquipmentOperation;
 
     constructor({
         createCharacterOperation,
@@ -19,6 +21,8 @@ export default class CharactersController {
         orgPictureUploadOperation,
         updateCharacterOperation,
         updateCharacterPictureOperation,
+        addEquipmentOperation,
+        removeEquipmentOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this.createCharacterOperation = createCharacterOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
@@ -26,6 +30,8 @@ export default class CharactersController {
         this.orgPictureUploadOperation = orgPictureUploadOperation;
         this.updateCharacterPictureOperation = updateCharacterPictureOperation;
         this.updateCharacterOperation = updateCharacterOperation;
+        this.addEquipmentOperation = addEquipmentOperation;
+        this.removeEquipmentOperation = removeEquipmentOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
@@ -33,6 +39,8 @@ export default class CharactersController {
         this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
         this.updateCharacter = this.updateCharacter.bind(this);
         this.organizationPicture = this.organizationPicture.bind(this);
+        this.addEquipment = this.addEquipment.bind(this);
+        this.removeEquipment = this.removeEquipment.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -88,5 +96,21 @@ export default class CharactersController {
         });
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async addEquipment(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { equipmentId } = req.query as { equipmentId: string };
+
+        const result = await this.addEquipmentOperation.execute({ characterId: id, equipmentId });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removeEquipment(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { equipmentId } = req.query as { equipmentId: string };
+
+        const result = await this.removeEquipmentOperation.execute({ characterId: id, equipmentId });
+        return res.status(HttpStatusCode.OK).json(result);
     }
 }

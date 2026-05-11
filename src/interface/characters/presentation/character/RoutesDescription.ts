@@ -7,6 +7,8 @@ const getById = 'This route gets an already created character by ID';
 const getAll = 'This route returns all characters';
 const orgSymbol = 'Upload a Organization picture';
 const update = 'Update character stats and infos';
+const addEquipment = 'Add an equipment to character by equipment ID';
+const removeEquipment = 'Remove an equipment from character and refund 90% of its value';
 
 const updatePicture = `
 This route can be used to upload a picture for your character, must be
@@ -20,4 +22,6 @@ export default {
     update,
     updatePicture,
     orgSymbol,
+    addEquipment,
+    removeEquipment,
 };

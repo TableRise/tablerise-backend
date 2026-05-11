@@ -45,6 +45,10 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'avatar-inexistent': "Doens't exists any avatar in this game",
         'character-does-not-exist': 'Character not found or not belongs to user',
         'player-master-equal': 'The new player can not be also the master',
+        'forbidden-post-category': 'The post category is forbidden for this role',
+        'forbidden-role-operation': 'The operation is forbidden for this role',
+        'journal-post-inexistent': 'Journal post does not exist',
+        'equipment-already-added': 'Equipment already added to character',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

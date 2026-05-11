@@ -3,7 +3,7 @@
         "active": true,
         "name": "Bárbaro",
         "hitPoints": {
-            "hitDice": ["1d12", "por nível de bárbaro"],
+            "hitDice": "1d12",
             "hitPointsAtFirstLevel": 12,
             "hitPointsAtHigherLevels": "1d12 (ou 7) + modificador de Constituição por nível de bárbaro após o primeiro nível"
         },
@@ -52,7 +52,7 @@
         "active": true,
         "name": "Bardo",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de bardo"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de bardo após o primeiro"
         },
@@ -121,7 +121,7 @@
         "active": true,
         "name": "Clérigo",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de clérigo"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de clérigo após o primeiro"
         },
@@ -190,7 +190,7 @@
         "active": true,
         "name": "Druida",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de druida"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de druida após o primeiro nível"
         },
@@ -259,7 +259,7 @@
         "active": true,
         "name": "Guerreiro",
         "hitPoints": {
-            "hitDice": ["1d10", "por nível de guerreiro"],
+            "hitDice": "1d10",
             "hitPointsAtFirstLevel": 10,
             "hitPointsAtHigherLevels": "1d10 (ou 6) + modificador de Constituição por nível de guerreiro após o primeiro nível"
         },
@@ -303,7 +303,7 @@
         "active": true,
         "name": "Monge",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de monge"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de monge após o 1º"
         },
@@ -351,7 +351,7 @@
         "active": true,
         "name": "Paladin",
         "hitPoints": {
-            "hitDice": ["1d10", "por nível de paladino"],
+            "hitDice": "1d10",
             "hitPointsAtFirstLevel": 10,
             "hitPointsAtHigherLevels": "1d10 (ou 6) + modificador de Constituição por nível de paladino após o 1º"
         },
@@ -416,7 +416,7 @@
         "active": true,
         "name": "Patrulheiro",
         "hitPoints": {
-            "hitDice": ["1d10", "por nível de patrulheiro"],
+            "hitDice": "1d10",
             "hitPointsAtFirstLevel": 10,
             "hitPointsAtHigherLevels": "1d10 (ou 6) + modificador de Constituição por nível de patrulheiro após o 1º"
         },
@@ -485,7 +485,7 @@
         "active": true,
         "name": "Ladino",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de ladino"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de ladino após o primeiro"
         },
@@ -533,7 +533,7 @@
         "active": true,
         "name": "Feiticeiro",
         "hitPoints": {
-            "hitDice": ["1d6", "por nível de feiticeiro"],
+            "hitDice": "1d6",
             "hitPointsAtFirstLevel": 6,
             "hitPointsAtHigherLevels": "1d6 (ou 4) + modificador de Constituição por nível de feiticeiro após o primeiro"
         },
@@ -602,7 +602,7 @@
         "active": true,
         "name": "Bruxo",
         "hitPoints": {
-            "hitDice": ["1d8", "por nível de bruxo"],
+            "hitDice": "1d8",
             "hitPointsAtFirstLevel": 8,
             "hitPointsAtHigherLevels": "1d8 (ou 5) + modificador de Constituição por nível de bruxo após o primeiro"
         },
@@ -671,7 +671,7 @@
         "active": true,
         "name": "Mago",
         "hitPoints": {
-            "hitDice": ["1d6", "por nível de mago"],
+            "hitDice": "1d6",
             "hitPointsAtFirstLevel": 6,
             "hitPointsAtHigherLevels": "1d6 (ou 4) + modificador de Constituição por nível de mago após o 1º"
         },
@@ -731,8 +731,8 @@
                 ]
             },
             "spellsKnown": {
-                "isValidToThisClass": false,
-                "amount": []
+                "isValidToThisClass": true,
+                "amount": [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44]
             }
         }
     }

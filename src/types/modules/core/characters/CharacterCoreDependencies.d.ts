@@ -13,6 +13,12 @@ import {
 } from './characters/UpdateCharacterPicture';
 import { OrgPictureUploadOperationContract, OrgPictureUploadServiceContract } from './characters/OrganizationPicture';
 import { UpdateCharacterOperationContract, UpdateCharacterServiceContract } from './characters/UpdateCharacter';
+import {
+    AddEquipmentOperationContract,
+    AddEquipmentServiceContract,
+    RemoveEquipmentOperationContract,
+    RemoveEquipmentServiceContract,
+} from './characters/ManageEquipment';
 
 export default interface CharacterCoreDependencies {
     // Operations
@@ -22,6 +28,8 @@ export default interface CharacterCoreDependencies {
     updateCharacterPictureOperationContract: UpdateCharacterPictureOperationContract;
     orgPictureUploadOperationContract: OrgPictureUploadOperationContract;
     updateCharacterOperationContract: UpdateCharacterOperationContract;
+    addEquipmentOperationContract: AddEquipmentOperationContract;
+    removeEquipmentOperationContract: RemoveEquipmentOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;
@@ -30,4 +38,6 @@ export default interface CharacterCoreDependencies {
     updateCharacterPictureOperationService: UpdateCharacterPictureOperationService;
     orgPictureUploadServiceContract: OrgPictureUploadServiceContract;
     updateCharacterServiceContract: UpdateCharacterServiceContract;
+    addEquipmentServiceContract: AddEquipmentServiceContract;
+    removeEquipmentServiceContract: RemoveEquipmentServiceContract;
 }

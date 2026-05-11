@@ -55,4 +55,5 @@ export type ErrorTypes =
     | 'campaign-player-not-exists'
     | 'forbidden-post-category'
     | 'forbidden-role-operation'
-    | 'journal-post-inexistent';
+    | 'journal-post-inexistent'
+    | 'equipment-already-added';

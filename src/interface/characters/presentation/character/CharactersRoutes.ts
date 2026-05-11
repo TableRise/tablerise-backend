@@ -122,7 +122,30 @@ export default class CharactersRoutes {
                     tag: 'management',
                 },
             },
+
             // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/equipments/add`,
+                controller: this.charactersController.addEquipment,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.addEquipment,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/equipments/remove`,
+                controller: this.charactersController.removeEquipment,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.removeEquipment,
+                },
+            },
         ] as routeInstance[];
     }
 }

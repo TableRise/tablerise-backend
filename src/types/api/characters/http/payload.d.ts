@@ -28,3 +28,8 @@ export interface updateCharacterPayload {
     characterId: string;
     payload: TUpdateCharacterBody;
 }
+
+export interface ManageEquipmentPayload {
+    characterId: string;
+    equipmentId: string;
+}
