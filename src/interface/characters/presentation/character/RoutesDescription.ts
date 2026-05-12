@@ -9,6 +9,7 @@ const orgSymbol = 'Upload a Organization picture';
 const update = 'Update character stats and infos';
 const addEquipment = 'Add an equipment to character by equipment ID';
 const removeEquipment = 'Remove an equipment from character and refund 90% of its value';
+const updateMoney = 'Update a character\'s money by adding or subtracting a value from a specific money type (PC, PP, PE, PO, PL)';
 
 const updatePicture = `
 This route can be used to upload a picture for your character, must be
@@ -24,4 +25,5 @@ export default {
     orgSymbol,
     addEquipment,
     removeEquipment,
+    updateMoney,
 };

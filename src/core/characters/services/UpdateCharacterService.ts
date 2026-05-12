@@ -24,7 +24,6 @@ export default class UpdateCharacterService {
             spells: spellsPayload,
             extraAbilities: extraAbilitiesPayload,
             inventory: inventoryPayload,
-            equipments: equipmentsPayload,
         } = payload.data;
 
         const dbProfile = characterInDb.data.profile;
@@ -109,7 +108,7 @@ export default class UpdateCharacterService {
                       }
                     : characterInDb.data.extraAbilities,
                 inventory: inventoryPayload ?? characterInDb.data.inventory,
-                equipments: equipmentsPayload ?? characterInDb.data.equipments,
+                equipments: characterInDb.data.equipments,
             },
             characterId: characterInDb.characterId,
             campaignId: characterInDb.campaignId,

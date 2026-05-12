@@ -33,3 +33,10 @@ export interface ManageEquipmentPayload {
     characterId: string;
     equipmentId: string;
 }
+
+export interface UpdateCharacterMoneyPayload {
+    characterId: string;
+    operation: 'add' | 'subtract';
+    money: number;
+    moneyType: 'PC' | 'PP' | 'PE' | 'PO' | 'PL';
+}

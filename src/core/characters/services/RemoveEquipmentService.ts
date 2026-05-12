@@ -35,6 +35,7 @@ export default class RemoveEquipmentService {
                 const unitKey = UNIT_MAP[price[1]];
                 if (unitKey && !Number.isNaN(value)) {
                     (characterInDb.data.money as any)[unitKey] =
+                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                         ((characterInDb.data.money as any)[unitKey] ?? 0) + Math.floor(value * 0.9);
                 }
             }

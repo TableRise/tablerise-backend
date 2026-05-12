@@ -146,6 +146,18 @@ export default class CharactersRoutes {
                     description: desc.removeEquipment,
                 },
             },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/money`,
+                controller: this.charactersController.updateCharacterMoney,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.charactersSchemas.patchUpdateMoney.body }],
+                    tag: 'management',
+                    description: desc.updateMoney,
+                },
+            },
         ] as routeInstance[];
     }
 }

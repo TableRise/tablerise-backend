@@ -19,6 +19,18 @@ import {
     RemoveEquipmentOperationContract,
     RemoveEquipmentServiceContract,
 } from './characters/ManageEquipment';
+import UpdateCharacterMoneyOperation from 'src/core/characters/operations/UpdateCharacterMoneyOperation';
+import UpdateCharacterMoneyService from 'src/core/characters/services/UpdateCharacterMoneyService';
+
+export interface UpdateCharacterMoneyOperationContract {
+    updateCharacterMoneyService: UpdateCharacterMoneyService;
+    logger: Logger;
+}
+
+export interface UpdateCharacterMoneyServiceContract {
+    charactersRepository: CharactersRepository;
+    logger: Logger;
+}
 
 export default interface CharacterCoreDependencies {
     // Operations
@@ -30,6 +42,7 @@ export default interface CharacterCoreDependencies {
     updateCharacterOperationContract: UpdateCharacterOperationContract;
     addEquipmentOperationContract: AddEquipmentOperationContract;
     removeEquipmentOperationContract: RemoveEquipmentOperationContract;
+    updateCharacterMoneyOperationContract: UpdateCharacterMoneyOperationContract;
 
     // Service
     createCharacterServiceContract: CreateCharacterServiceContract;
@@ -40,4 +53,5 @@ export default interface CharacterCoreDependencies {
     updateCharacterServiceContract: UpdateCharacterServiceContract;
     addEquipmentServiceContract: AddEquipmentServiceContract;
     removeEquipmentServiceContract: RemoveEquipmentServiceContract;
+    updateCharacterMoneyServiceContract: UpdateCharacterMoneyServiceContract;
 }

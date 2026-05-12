@@ -6,6 +6,7 @@ import OrgPictureUploadOperation from 'src/core/characters/operations/OrgPicture
 import RemoveEquipmentOperation from 'src/core/characters/operations/RemoveEquipmentOperation';
 import UpdateCharacterOperation from 'src/core/characters/operations/UpdateCharacterOperation';
 import UpdateCharacterPictureOperation from 'src/core/characters/operations/UpdateCharacterPictureOperation';
+import UpdateCharacterMoneyOperation from 'src/core/characters/operations/UpdateCharacterMoneyOperation';
 
 export interface CharactersControllerContract {
     createCharacterOperation: CreateCharacterOperation;
@@ -16,4 +17,5 @@ export interface CharactersControllerContract {
     updateCharacterOperation: UpdateCharacterOperation;
     addEquipmentOperation: AddEquipmentOperation;
     removeEquipmentOperation: RemoveEquipmentOperation;
+    updateCharacterMoneyOperation: UpdateCharacterMoneyOperation;
 }

@@ -259,18 +259,6 @@ const extraAbilitiesUpdateZodSchema = z.object({
     9: extraAbilityLevelUpdateZodSchema.optional(),
 });
 
-const equipmentItemZodSchema = z.object({
-    name: z.string(),
-    type: z.string(),
-    price: z.array(z.any()),
-    armorClass: z.array(z.any()).optional(),
-    strength: z.string().nullable().optional(),
-    stealth: z.string().optional(),
-    weight: z.string(),
-    damage: z.string().nullable().optional(),
-    properties: z.string().nullable().optional(),
-});
-
 const dataUpdateZodSchema = z.object({
     profile: profileUpdateZodSchema.optional(),
     stats: statsUpdateZodSchema.optional(),
@@ -278,7 +266,6 @@ const dataUpdateZodSchema = z.object({
     spells: spellsUpdateZodSchema.optional(),
     extraAbilities: extraAbilitiesUpdateZodSchema.optional(),
     inventory: z.string().optional(),
-    equipments: z.array(equipmentItemZodSchema).optional(),
 });
 
 const updateCharacterZodSchema = z.object({
@@ -293,12 +280,19 @@ const insertCharacterPictureZodSchema = z.object({
     picture: z.file(),
 });
 
+const updateMoneyZodSchema = z.object({
+    operation: z.enum(['add', 'subtract']),
+    money: z.number(),
+    moneyType: z.enum(['PC', 'PP', 'PE', 'PO', 'PL']),
+});
+
 // ─── Exports ──────────────────────────────────────────────────────────────────
 
 export type TCreateCharacterBody = z.infer<typeof characterPostZodSchema>;
 export type TUpdateCharacterBody = z.infer<typeof updateCharacterZodSchema>;
 export type TInsertOrgPictureQuery = z.infer<typeof insertOrganizationPictureZodSchema>;
 export type TInsertCharacterPictureBody = z.infer<typeof insertCharacterPictureZodSchema>;
+export type TUpdateMoneyBody = z.infer<typeof updateMoneyZodSchema>;
 
 export default (): ICharactersSchemas => ({
     postCreateCharacter: {
@@ -312,5 +306,8 @@ export default (): ICharactersSchemas => ({
     },
     postCharacterPicture: {
         body: insertCharacterPictureZodSchema,
+    },
+    patchUpdateMoney: {
+        body: updateMoneyZodSchema,
     },
 });

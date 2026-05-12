@@ -13,6 +13,7 @@ export default class CharactersController {
     private readonly orgPictureUploadOperation;
     private readonly addEquipmentOperation;
     private readonly removeEquipmentOperation;
+    private readonly updateCharacterMoneyOperation;
 
     constructor({
         createCharacterOperation,
@@ -23,6 +24,7 @@ export default class CharactersController {
         updateCharacterPictureOperation,
         addEquipmentOperation,
         removeEquipmentOperation,
+        updateCharacterMoneyOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this.createCharacterOperation = createCharacterOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
@@ -32,6 +34,7 @@ export default class CharactersController {
         this.updateCharacterOperation = updateCharacterOperation;
         this.addEquipmentOperation = addEquipmentOperation;
         this.removeEquipmentOperation = removeEquipmentOperation;
+        this.updateCharacterMoneyOperation = updateCharacterMoneyOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
@@ -41,6 +44,7 @@ export default class CharactersController {
         this.organizationPicture = this.organizationPicture.bind(this);
         this.addEquipment = this.addEquipment.bind(this);
         this.removeEquipment = this.removeEquipment.bind(this);
+        this.updateCharacterMoney = this.updateCharacterMoney.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -111,6 +115,18 @@ export default class CharactersController {
         const { equipmentId } = req.query as { equipmentId: string };
 
         const result = await this.removeEquipmentOperation.execute({ characterId: id, equipmentId });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCharacterMoney(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { operation, money, moneyType } = req.body;
+        const result = await this.updateCharacterMoneyOperation.execute({
+            characterId: id,
+            operation,
+            money,
+            moneyType,
+        });
         return res.status(HttpStatusCode.OK).json(result);
     }
 }
