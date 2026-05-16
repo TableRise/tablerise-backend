@@ -112,13 +112,15 @@ export default class Serializer {
         lore = null,
         playerAmountLimit = null,
         socialMedia = null,
+        configurations = { xpSystem: false, shopSystem: false },
         createdAt = null,
         updatedAt = null,
     }: any): Campaign & {
         lore?: string;
         nextMatchDate?: string;
         playerAmountLimit?: string;
-        socialMedia?: { discord?: string; twitter?: string; youtube?: string };
+        socialMedia?: { discord?: string; twitter?: string; youtube?: string } | string;
+        configurations?: Campaign['configurations'];
         code: string;
     } {
         return {
@@ -138,6 +140,7 @@ export default class Serializer {
             playerAmountLimit,
             lore,
             socialMedia,
+            configurations,
             createdAt,
             updatedAt,
         };

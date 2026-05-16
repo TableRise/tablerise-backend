@@ -52,6 +52,10 @@ export default {
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
         socialMedia: {},
     },
+    configurations: {
+        xpSystem: faker.datatype.boolean(),
+        shopSystem: faker.datatype.boolean(),
+    },
     password: '1234',
     lores: {
         playerCharacters: [],

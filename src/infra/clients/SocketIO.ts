@@ -30,6 +30,7 @@ interface PresenceEntry {
     socketId: string;
     userId: string;
     role: 'dungeon_master' | 'admin_player' | 'player';
+    username?: string;
 }
 
 interface TokenUpdatePayload {
@@ -77,6 +78,10 @@ interface RealtimeStateUpdatePayload {
 
 const DM_ROLES: Array<'dungeon_master' | 'admin_player'> = ['dungeon_master', 'admin_player'];
 const TOKEN_FLUSH_DEBOUNCE_MS = 500;
+const toUTCMinus3ISOString = (date: Date = new Date()): string => {
+    const adjustedDate = new Date(date.getTime() - 3 * 60 * 60 * 1000);
+    return adjustedDate.toISOString().replace('Z', '-03:00');
+};
 const createDirtyRealtimeSections = (): DirtyRealtimeSections => ({
     matchStateFields: new Set<MatchStateField>(),
     tokens: false,
@@ -383,8 +388,10 @@ export default class SocketIO {
 
                     const rollResult = rollDiceNotation(payload.notation);
                     campaign.matchData.logs.push({
-                        loggedAt: new Date().toISOString(),
-                        content: `[${authenticatedSocket.data.user?.userId}] rolled ${payload.notation} = ${rollResult.total}`,
+                        loggedAt: toUTCMinus3ISOString(),
+                        content: `[${this.getSocketDisplayName(socket)}] rolled ${payload.notation} = ${
+                            rollResult.total
+                        }`,
                     });
 
                     const activeEntry = this.getActiveCampaignEntry(payload.campaignId);
@@ -461,6 +468,26 @@ export default class SocketIO {
 
     private getCampaignRoom(campaignId: string): string {
         return `campaign:${campaignId}`;
+    }
+
+    private getSocketDisplayName(socket: AuthenticatedSocket): string {
+        return socket.data.user?.username ?? socket.data.user?.userId ?? 'unknown-user';
+    }
+
+    private appendCampaignLog(campaignId: string, campaign: RealtimeCampaign, content: string): void {
+        campaign.matchData.logs = campaign.matchData.logs ?? [];
+        campaign.matchData.logs.push({
+            loggedAt: toUTCMinus3ISOString(),
+            content,
+        });
+
+        const activeEntry = this.getActiveCampaignEntry(campaignId);
+        if (activeEntry) {
+            activeEntry.campaign = campaign;
+            this.markActiveCampaignDirty(activeEntry, { logs: true });
+        }
+
+        this.scheduleStatePersist(campaignId);
     }
 
     private async authenticateSocket(socket: AuthenticatedSocket): Promise<JwtPayload & { userId: string }> {
@@ -542,7 +569,16 @@ export default class SocketIO {
             socketId: socket.id,
             userId: socket.data.user?.userId as string,
             role: player.role,
+            username: socket.data.user?.username,
         });
+
+        if (shouldBroadcastJoin) {
+            this.appendCampaignLog(
+                payload.campaignId,
+                campaign,
+                `[${this.getSocketDisplayName(socket)}] joined the session`
+            );
+        }
 
         socket.emit('campaign:sync', buildCampaignSyncPayload(campaign, this.listConnectedUsers(payload.campaignId)));
 
@@ -895,6 +931,15 @@ export default class SocketIO {
         );
 
         if (!userStillConnected) {
+            const activeEntry = this.getActiveCampaignEntry(campaignId);
+            if (activeEntry) {
+                this.appendCampaignLog(
+                    campaignId,
+                    activeEntry.campaign,
+                    `[${removedPresence.username ?? removedPresence.userId}] left the session`
+                );
+            }
+
             this.emitToCampaign(campaignId, 'presence:user_left', {
                 campaignId,
                 userId: removedPresence.userId,

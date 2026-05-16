@@ -9,6 +9,11 @@ import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignC
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
 import { FileObject } from 'src/types/shared/file';
 import newUUID from 'src/domains/common/helpers/newUUID';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+
+function normalizeBooleanValue(value: boolean | string | undefined): boolean {
+    return value === true || value === 'true';
+}
 
 export default class CreateCampaignService {
     private readonly campaignsRepository;
@@ -47,6 +52,13 @@ export default class CreateCampaignService {
         mapImages?: FileObject[]
     ): Promise<__CampaignEnriched> {
         this.logger('info', 'Enrichment - CreateCampaignService');
+        const socialMedia =
+            typeof campaign.socialMedia === 'string' ? JSON.parse(campaign.socialMedia) : campaign.socialMedia ?? {};
+        const configurationsPayload = JSON.parse(campaign.configurations as string);
+        const configurations = {
+            xpSystem: normalizeBooleanValue(configurationsPayload.xpSystem),
+            shopSystem: normalizeBooleanValue(configurationsPayload.shopSystem),
+        };
 
         campaign.campaignPlayers = [
             {
@@ -70,9 +82,11 @@ export default class CreateCampaignService {
             journal: [],
             campaignAge: '0',
             socialMedia: {
-                ...JSON.parse(campaign.socialMedia as string),
+                ...socialMedia,
             },
         };
+
+        campaign.configurations = configurations;
 
         campaign.matchData = {
             matchId: newUUID(),
@@ -80,7 +94,7 @@ export default class CreateCampaignService {
             confirmedPlayers: [],
             characters: [],
             charactersInGame: [],
-            musics: [],
+            actualMapImage: {} as Campaign['matchData']['actualMapImage'],
             mapImages: [],
             logs: [],
             state: {
@@ -117,7 +131,7 @@ export default class CreateCampaignService {
         delete campaign.nextMatchDate;
         delete campaign.playerAmountLimit;
 
-        return campaign;
+        return campaign as __CampaignEnriched;
     }
 
     public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {

@@ -15,7 +15,8 @@ export interface __FullCampaign extends Campaign {
     lore?: string;
     nextMatchDate?: string;
     playerAmountLimit?: string;
-    socialMedia?: { discord?: string; twitter?: string; youtube?: string };
+    socialMedia?: { discord?: string; twitter?: string; youtube?: string } | string;
+    configurations?: string | Campaign['configurations'];
 }
 
 export interface __CampaignEnriched extends Campaign {

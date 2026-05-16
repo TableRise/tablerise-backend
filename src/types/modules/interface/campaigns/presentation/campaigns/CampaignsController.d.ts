@@ -9,7 +9,7 @@ import PublishmentOperation from 'src/core/campaigns/operations/campaigns/Publis
 import AddCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/AddCampaignPlayersOperation';
 import RemoveCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveCampaignPlayersOperation';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
-import PostBanPlayerOperation from 'src/core/campaigns/operations/PostBanPlayerOperation';
+import PostCampaignLogOperation from 'src/core/campaigns/operations/PostCampaignLogOperation';
 import AddPlayerCharacterOperation from 'src/core/campaigns/operations/AddPlayerCharacterOperation';
 import RemovePlayerCharacterOperation from 'src/core/campaigns/operations/RemovePlayerCharacterOperation';
 import GetCampaignCharactersOperation from 'src/core/campaigns/operations/GetCampaignCharactersOperation';
@@ -25,8 +25,10 @@ import UpdateMatchCharacterPictureOperation from 'src/core/campaigns/operations/
 import UpdateCampaignJournalHighlightOperation from 'src/core/campaigns/operations/UpdateCampaignJournalHighlightOperation';
 import UpdateCampaignJournalPostOperation from 'src/core/campaigns/operations/UpdateCampaignJournalPostOperation';
 import DeleteCampaignJournalPostOperation from 'src/core/campaigns/operations/DeleteCampaignJournalPostOperation';
+import DeleteCampaignOperation from 'src/core/campaigns/operations/DeleteCampaignOperation';
 
 export interface CampaignsControllerContract {
+    deleteCampaignOperation: DeleteCampaignOperation;
     getAllCampaignsOperation: GetAllCampaignsOperation;
     getCampaignByIdOperation: GetCampaignByIdOperation;
     publishmentOperation: PublishmentOperation;
@@ -43,7 +45,7 @@ export interface CampaignsControllerContract {
     getCampaignCharactersOperation: GetCampaignCharactersOperation;
     getCharactersByPlayerOperation: GetCharactersByPlayerOperation;
     postInvitationEmailOperation: PostInvitationEmailOperation;
-    postBanPlayerOperation: PostBanPlayerOperation;
+    postCampaignLogOperation: PostCampaignLogOperation;
     updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation;
     confirmMatchPlayerPresenceOperation: ConfirmMatchPlayerPresenceOperation;
     confirmCampaignPlayerOperation: ConfirmCampaignPlayerOperation;
@@ -51,7 +53,7 @@ export interface CampaignsControllerContract {
     removeCampaignImageOperation: RemoveCampaignImageOperation;
     transferDungeonMasterOperation: TransferDungeonMasterOperation;
     updateMatchCharacterPictureOperation: UpdateMatchCharacterPictureOperation;
-    updateCampaignJournalHighlightOperation?: UpdateCampaignJournalHighlightOperation;
-    updateCampaignJournalPostOperation?: UpdateCampaignJournalPostOperation;
-    deleteCampaignJournalPostOperation?: DeleteCampaignJournalPostOperation;
+    updateCampaignJournalHighlightOperation: UpdateCampaignJournalHighlightOperation;
+    updateCampaignJournalPostOperation: UpdateCampaignJournalPostOperation;
+    deleteCampaignJournalPostOperation: DeleteCampaignJournalPostOperation;
 }

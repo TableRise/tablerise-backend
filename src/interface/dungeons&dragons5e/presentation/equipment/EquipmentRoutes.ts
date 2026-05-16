@@ -5,6 +5,12 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 import { EquipmentRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/equipment/EquipmentRoutes';
 
 const BASE_PATH = '/system/dnd5e/equipment';
+const desc = {
+    getAll: 'List all D&D 5e equipment available in the system.',
+    getDisabled: 'List D&D 5e equipment currently marked as unavailable.',
+    getById: 'Get one D&D 5e equipment item by id.',
+    toggleAvailability: 'Enable or disable a D&D 5e equipment item.',
+};
 
 export default class EquipmentRoutes {
     private readonly equipmentController;
@@ -24,6 +30,7 @@ export default class EquipmentRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'equipment',
+                    description: desc.getAll,
                 },
             },
             {
@@ -33,6 +40,7 @@ export default class EquipmentRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'equipment',
+                    description: desc.getDisabled,
                 },
             },
             {
@@ -43,6 +51,7 @@ export default class EquipmentRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'equipment',
+                    description: desc.getById,
                 },
             },
             {
@@ -56,6 +65,7 @@ export default class EquipmentRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'equipment',
+                    description: desc.toggleAvailability,
                 },
             },
         ] as unknown as routeInstance[];

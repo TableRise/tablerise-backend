@@ -22,6 +22,7 @@ export default class UpdateCampaignService {
         nextMatchDate,
         nextSessionResume,
         playerAmountLimit,
+        configurations,
         socialMedia,
         adminId,
     }: TUpdateCampaignBody & { campaignId: string }): Promise<Campaign> {
@@ -38,9 +39,8 @@ export default class UpdateCampaignService {
             campaignInDb.matchData.nextSessionResume = nextSessionResume ?? campaignInDb.matchData.nextSessionResume;
         if (!campaignInDb.infos.socialMedia) campaignInDb.infos.socialMedia = {};
 
-        campaignInDb.infos.socialMedia.youtube = socialMedia?.youtube;
-        campaignInDb.infos.socialMedia.discord = socialMedia?.discord;
-        campaignInDb.infos.socialMedia.twitter = socialMedia?.twitter;
+        campaignInDb.infos.socialMedia = { ...campaignInDb.infos.socialMedia, ...socialMedia };
+        campaignInDb.configurations = { ...campaignInDb.configurations, ...configurations };
 
         if (adminId !== undefined) {
             if (adminId === 'none') {

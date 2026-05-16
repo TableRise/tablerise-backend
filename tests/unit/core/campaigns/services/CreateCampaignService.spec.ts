@@ -134,7 +134,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image, mapImages);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
-                expect(campaignEnriched.images.maps).to.have.lengthOf(2);
+                expect(campaignEnriched.matchData.mapImages).to.have.lengthOf(2);
             });
 
             it('should return the correct result without password', async () => {

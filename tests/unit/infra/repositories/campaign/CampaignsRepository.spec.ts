@@ -336,4 +336,31 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             );
         });
     });
+
+    context('#delete', () => {
+        const remove = sinon.spy(() => undefined);
+
+        beforeEach(() => {
+            database = {
+                modelInstance: () => ({ delete: remove }),
+            };
+
+            serializer = {
+                postCampaign: (payload: any) => payload,
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                serializer,
+                updateTimestampRepository,
+                logger,
+            });
+        });
+
+        it('should delegate delete to model', async () => {
+            await campaignsRepository.delete({ campaignId: '123' });
+
+            expect(remove).to.have.been.calledWith({ campaignId: '123' });
+        });
+    });
 });

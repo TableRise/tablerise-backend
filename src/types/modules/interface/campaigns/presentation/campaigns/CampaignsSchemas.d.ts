@@ -4,9 +4,9 @@ export interface ICampaignsSchemas {
     postCreateCampaign: ISchemaProps;
     putUpdateCampaign: ISchemaProps;
     postAddCampaignPlayers: ISchemaProps;
-    postBanCampaignPlayer: ISchemaProps;
     postInvitePlayerByEmail: ISchemaProps;
     postCreateCampaignPublishment: ISchemaProps;
+    postCampaignLog: ISchemaProps;
     patchAddCampaignMatchDate: ISchemaProps;
     patchUpdateCampaignMatchMapImages: ISchemaProps;
     patchAddCampaignMatchMusics: ISchemaProps;

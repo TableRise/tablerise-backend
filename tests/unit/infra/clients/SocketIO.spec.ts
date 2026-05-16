@@ -349,6 +349,102 @@ describe('Infra :: Clients :: SocketIO', () => {
         expect((socketIO as any).getActiveCampaignEntry(campaign.campaignId)).to.equal(null);
     });
 
+    it('should append a log when a new user joins a campaign room', async () => {
+        const clock = sinon.useFakeTimers();
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.campaignPlayers = [
+            {
+                userId: 'user-1',
+                characterIds: [],
+                role: 'player',
+                status: 'active',
+            },
+        ];
+        const campaignsRepository = buildCampaignRepository(campaign);
+        const socketIO = new SocketIO({
+            campaignsRepository,
+            tokenForbidden,
+            redisClient: null,
+            logger,
+        } as any);
+        const joinedRoomEmitter = { emit: sinon.stub() };
+        const socket = {
+            id: 'socket-1',
+            data: {
+                user: {
+                    userId: 'user-1',
+                    username: 'joe_the_great',
+                },
+            },
+            join: sinon.stub().resolves(),
+            leave: sinon.stub().resolves(),
+            emit: sinon.stub(),
+            to: sinon.stub().returns(joinedRoomEmitter),
+        } as any;
+
+        try {
+            await (socketIO as any).joinCampaign(socket, { campaignId: campaign.campaignId });
+
+            expect(campaignsRepository.updateRealtimeState).not.to.have.been.called();
+
+            await clock.tickAsync(500);
+
+            expect(campaignsRepository.updateRealtimeState).to.have.been.calledOnce;
+            expect(campaignsRepository.updateRealtimeState.firstCall.args[1].logs.at(-1).content).to.equal(
+                '[joe_the_great] joined the session'
+            );
+            expect(campaignsRepository.updateRealtimeState.firstCall.args[1].logs.at(-1).loggedAt).to.be.a('string');
+        } finally {
+            clock.restore();
+        }
+    });
+
+    it('should append a log when the last socket of a user leaves a campaign room', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.campaignPlayers = [
+            {
+                userId: 'user-1',
+                characterIds: [],
+                role: 'player',
+                status: 'active',
+            },
+        ];
+        const campaignsRepository = buildCampaignRepository(campaign);
+        const socketIO = new SocketIO({
+            campaignsRepository,
+            tokenForbidden,
+            redisClient: null,
+            logger,
+        } as any);
+        const socket = {
+            id: 'socket-1',
+            data: {
+                campaignId: campaign.campaignId,
+                user: {
+                    userId: 'user-1',
+                    username: 'joe_the_great',
+                },
+                role: 'player',
+            },
+        } as any;
+
+        await (socketIO as any).getActiveCampaign(campaign.campaignId);
+        (socketIO as any).addPresence(campaign.campaignId, {
+            socketId: socket.id,
+            userId: 'user-1',
+            role: 'player',
+            username: 'joe_the_great',
+        });
+
+        await (socketIO as any).handleDisconnect(socket);
+
+        expect(campaignsRepository.updateRealtimeState).to.have.been.calledOnce;
+        expect(campaignsRepository.updateRealtimeState.firstCall.args[1].logs.at(-1).content).to.equal(
+            '[joe_the_great] left the session'
+        );
+        expect(campaignsRepository.updateRealtimeState.firstCall.args[1].logs.at(-1).loggedAt).to.be.a('string');
+    });
+
     it('should initialize the redis adapter when a redis client is available', async () => {
         const adapterInstance = { name: 'redis-adapter' };
         const createAdapter = sinon.stub().returns(adapterInstance);

@@ -330,6 +330,56 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 }
             });
         });
+
+        context('When a player is added to match - campaign already reached player limit', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaign.infos.playerAmountLimit = 1;
+                campaign.campaignPlayers = [
+                    {
+                        userId: newUUID(),
+                        characterIds: [],
+                        role: 'dungeon_master',
+                        status: 'active',
+                    },
+                ];
+                hashPassword = await SecurePasswordHandler.hashPassword('1234');
+                campaign.password = hashPassword;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: userDetails.userId,
+                    password: '1234',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('The campaign reached the limit of players');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
     });
 
     context('#save', () => {
@@ -376,6 +426,39 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                     query: { campaignId: campaign.campaignId },
                     payload: campaign,
                 });
+            });
+        });
+
+        context('When a campaign contains a legacy invalid highlighted journal', () => {
+            let updateCall: sinon.SinonSpy;
+
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+                campaign.infos.highlightedJournal = {} as any;
+
+                updateCall = sinon.spy(() => campaign);
+
+                campaignsRepository = {
+                    update: updateCall,
+                };
+
+                usersDetailsRepository = {
+                    update: sinon.spy(() => {}),
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should sanitize highlighted journal before update', async () => {
+                await addCampaignPlayersService.save(campaign, userDetails);
+
+                expect(updateCall).to.have.been.called();
+                expect(updateCall.args[0][0].payload.infos).to.not.have.property('highlightedJournal');
             });
         });
     });

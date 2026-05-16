@@ -50,6 +50,8 @@ describe('When a campaign is created', () => {
                 .field('password', campaignPayload.password)
                 .field('playerAmountLimit', campaignPayload.playerAmountLimit)
                 .field('musics', '[]')
+                .field('configurations[xpSystem]', String(campaignPayload.configurations.xpSystem))
+                .field('configurations[shopSystem]', String(campaignPayload.configurations.shopSystem))
                 .field('lore', 'A great adventure begins')
                 .expect(HttpStatusCode.CREATED);
 
@@ -67,12 +69,12 @@ describe('When a campaign is created', () => {
             expect(body).to.have.property('campaignPlayers');
             expect(body.campaignPlayers[0].userId).to.be.equal(userLoggedId);
             expect(body).to.have.property('matchData');
-            expect(body.matchData).to.be.equal(null);
+            expect(body.matchData).to.be.an('object');
             expect(body).to.have.property('infos');
             expect(body.infos.visibility).to.be.equal(campaignPayload.visibility);
-            expect(body).to.have.property('lores');
-            expect(body.lores).to.have.property('mainHistory');
-            expect(body.lores.mainHistory[0].lore).to.be.equal('A great adventure begins');
+            expect(body).to.have.property('configurations');
+            expect(body.configurations.xpSystem).to.be.equal(campaignPayload.configurations.xpSystem);
+            expect(body.configurations.shopSystem).to.be.equal(campaignPayload.configurations.shopSystem);
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
         });

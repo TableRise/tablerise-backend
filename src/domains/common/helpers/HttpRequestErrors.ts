@@ -20,6 +20,12 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes, redirectTo?: string): never {
         switch (errorType) {
+            case 'already-full-campaign':
+                throw new HttpRequestErrors({
+                    message: 'The campaign reached the limit of players',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-match-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign Match does not exist and cannot be updated',

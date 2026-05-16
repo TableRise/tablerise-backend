@@ -8,7 +8,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('postCreateCampaign');
             expect(schemas).to.have.property('putUpdateCampaign');
             expect(schemas).to.have.property('postAddCampaignPlayers');
-            expect(schemas).to.have.property('postBanCampaignPlayer');
             expect(schemas).to.have.property('postInvitePlayerByEmail');
             expect(schemas).to.have.property('postCreateCampaignPublishment');
             expect(schemas).to.have.property('patchAddCampaignMatchDate');
@@ -55,6 +54,35 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     toggle: 'on',
                 })
             ).to.throw();
+        });
+
+        it('should require configurations in the create campaign payload', () => {
+            const schemas = CampaignsSchemas();
+            const basePayload = {
+                title: 'Campaign',
+                description: 'A short description',
+                system: 'dnd5e',
+                musics: '[]',
+                lore: 'A great adventure begins',
+                playerAmountLimit: '4',
+                ageRestriction: '16',
+            };
+
+            expect(() => schemas.postCreateCampaign.body.parse(basePayload)).to.throw();
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    ...basePayload,
+                    configurations: { xpSystem: true, shopSystem: false },
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    ...basePayload,
+                    configurations: { xpSystem: 'true', shopSystem: 'false' },
+                })
+            ).to.not.throw();
         });
 
         it('should validate update and delete journal post payloads', () => {

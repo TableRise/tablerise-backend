@@ -90,7 +90,7 @@ export default class UsersRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'users',
-                    description: desc.getAll,
+                    description: desc.getCampaigns,
                 },
             },
 

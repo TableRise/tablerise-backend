@@ -18,8 +18,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
         campaignsSchemas = {
             postCreateCampaign: { body: {} },
             postCreateCampaignPublishment: { body: {} },
+            postCampaignLog: { body: {} },
             postInvitePlayerByEmail: { query: {} },
-            postBanCampaignPlayer: { query: {} },
             postAddCampaignPlayers: { query: {} },
             putUpdateCampaign: { body: {} },
             patchUpdateCampaignMatchMapImages: { body: {} },
@@ -52,7 +52,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(33);
+            expect(routes).to.have.lengthOf(34);
         });
 
         it('should include the journal highlight routes', () => {
@@ -69,6 +69,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
                 .to.be.true;
             expect(routes.some((route) => route.path === '/campaigns/:id/journal/delete' && route.method === 'patch'))
                 .to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id' && route.method === 'delete')).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/logs' && route.method === 'post')).to.be.true;
         });
     });
 });

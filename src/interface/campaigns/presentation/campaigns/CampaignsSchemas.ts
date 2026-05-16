@@ -27,6 +27,7 @@ const postCreateCampaignBodySchema = z.object({
     playerAmountLimit: z.string(),
     ageRestriction: z.string(),
     socialMedia: z.string().optional(),
+    configurations: z.string(),
     password: z
         .string()
         .regex(/^[a-zA-Z0-9]{4}$/, {
@@ -41,6 +42,10 @@ const patchUpdateCampaignPlayerLimitQuerySchema = z.object({
 
 const postConfirmPlayerPresenceQuerySchema = z.object({
     cancel: z.boolean().default(false).optional(),
+});
+
+const configurationsBodySchema = z.object({
+    shopOn: z.boolean(),
 });
 
 const putUpdateCampaignBodySchema = z.object({
@@ -59,15 +64,12 @@ const putUpdateCampaignBodySchema = z.object({
         })
         .optional(),
     adminId: z.string().optional(),
+    configurations: configurationsBodySchema.optional(),
 });
 
 const postAddCampaignPlayersQuerySchema = z.object({
     password: z.string().optional(),
     userToAdd: z.uuid().optional(),
-});
-
-const postBanCampaignPlayerQuerySchema = z.object({
-    playerId: z.uuid(),
 });
 
 const postInvitePlayerByEmailQuerySchema = z.object({
@@ -78,6 +80,11 @@ const postCreateCampaignPublishmentBodySchema = z.object({
     title: z.string(),
     content: z.string(),
     category: z.string(),
+});
+
+const postCampaignLogBodySchema = z.object({
+    loggedAt: z.string(),
+    content: z.string(),
 });
 
 const campaignJournalHighlightPostSchema = z.object({
@@ -145,7 +152,7 @@ const patchUpdateCampaignCoverBodySchema = z.object({
 });
 
 const patchRemoveCampaignMatchMapImageQuerySchema = z.object({
-    imageUrl: z.string().url(),
+    imageUrl: z.string(),
 });
 
 const patchUpdateCampaignJournalPostQuerySchema = z.object({
@@ -172,9 +179,9 @@ const getAllCampaignsQuerySchema = z.object({
 export type TCreateCampaignBody = z.infer<typeof postCreateCampaignBodySchema>;
 export type TUpdateCampaignBody = z.infer<typeof putUpdateCampaignBodySchema>;
 export type TCreateCampaignPublishmentBody = z.infer<typeof postCreateCampaignPublishmentBodySchema>;
+export type TPostCampaignLogBody = z.infer<typeof postCampaignLogBodySchema>;
 export type TUpdateCampaignJournalHighlightBody = z.infer<typeof patchUpdateCampaignJournalHighlightBodySchema>;
 export type TAddCampaignPlayersQuery = z.infer<typeof postAddCampaignPlayersQuerySchema>;
-export type TBanCampaignPlayerQuery = z.infer<typeof postBanCampaignPlayerQuerySchema>;
 export type TInvitePlayerByEmailQuery = z.infer<typeof postInvitePlayerByEmailQuerySchema>;
 export type TAddCampaignMatchDateQuery = z.infer<typeof patchAddCampaignMatchDateQuerySchema>;
 export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampaignMatchMapImagesBodySchema>;
@@ -208,14 +215,14 @@ export default (): ICampaignsSchemas => ({
     postAddCampaignPlayers: {
         query: postAddCampaignPlayersQuerySchema,
     },
-    postBanCampaignPlayer: {
-        query: postBanCampaignPlayerQuerySchema,
-    },
     postInvitePlayerByEmail: {
         query: postInvitePlayerByEmailQuerySchema,
     },
     postCreateCampaignPublishment: {
         body: postCreateCampaignPublishmentBodySchema,
+    },
+    postCampaignLog: {
+        body: postCampaignLogBodySchema,
     },
     patchAddCampaignMatchDate: {
         query: patchAddCampaignMatchDateQuerySchema,

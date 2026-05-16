@@ -150,6 +150,18 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'post',
+                path: `${BASE_PATH}/:id/logs`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.postCampaignLog,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.campaignsSchemas.postCampaignLog.body }],
+                    description: desc.postCampaignLog,
+                    tag: 'create',
+                },
+            },
+            {
+                method: 'post',
                 path: `${BASE_PATH}/:id/invite`,
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.inviteEmail,
@@ -158,18 +170,6 @@ export default class CampaignsRoutes {
                     schemas: [{ query: this.campaignsSchemas.postInvitePlayerByEmail.query }],
                     tag: 'management',
                     description: desc.inviteEmail,
-                },
-            },
-            {
-                method: 'post',
-                path: `${BASE_PATH}/:id/ban`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'playerId', type: 'string' }])],
-                controller: this.campaignsController.banPlayer,
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ query: this.campaignsSchemas.postBanCampaignPlayer.query }],
-                    tag: 'ban',
-                    description: desc.banPlayer,
                 },
             },
             {
@@ -211,7 +211,7 @@ export default class CampaignsRoutes {
                 controller: this.campaignsController.confirmPlayerPresence,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    description: desc.removeCampaignPlayers,
+                    description: desc.confirmPlayerPresence,
                     tag: 'management',
                 },
             },
@@ -233,7 +233,7 @@ export default class CampaignsRoutes {
             // PATCH
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/journal/update`,
+                path: `${BASE_PATH}/:id/update/journal`,
                 parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'userId', type: 'string' }])],
                 controller: this.campaignsController.updateJournalPost,
                 options: {
@@ -249,8 +249,8 @@ export default class CampaignsRoutes {
                 },
             },
             {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/journal/delete`,
+                method: 'delete',
+                path: `${BASE_PATH}/:id/delete/journal`,
                 parameters: [
                     ...generateIDParam(),
                     ...generateQueryParam(2, [
@@ -321,7 +321,7 @@ export default class CampaignsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [{ query: this.campaignsSchemas.patchUpdateCampaignPlayerLimit.query }],
-                    description: desc.updateMatchImages,
+                    description: desc.updateCampaignPlayerLimit,
                     tag: 'update',
                     fileUpload: true,
                 },
@@ -497,6 +497,19 @@ export default class CampaignsRoutes {
                     description: desc.updateMatchCharacterPicture,
                     tag: 'update',
                     fileUpload: true,
+                },
+            },
+
+            // DELETE
+            {
+                method: 'delete',
+                path: `${BASE_PATH}/:id/delete`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.deleteCampaign,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    description: desc.deleteCampaign,
+                    tag: 'delete',
                 },
             },
         ] as routeInstance[];

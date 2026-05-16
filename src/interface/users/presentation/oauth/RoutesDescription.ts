@@ -1,8 +1,8 @@
-export const google = 'Route to login with google';
+export const google = 'Start the Google sign-in flow.';
 
-export const discord = 'Route to login with discord';
+export const discord = 'Start the Discord sign-in flow.';
 
-export const confirmExternal = 'Route to confirm external registration';
+export const confirmExternal = 'Complete the profile setup for a user created with an external provider.';
 
 export default {
     google,

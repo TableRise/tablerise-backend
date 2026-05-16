@@ -76,6 +76,11 @@ export default class CampaignsRepository {
         return this.updateAndSerialize(query, payload);
     }
 
+    public async delete(query: any): Promise<void> {
+        this.logger('warn', 'Delete - CampaignsRepository');
+        await this.model.delete(query);
+    }
+
     public async updateRealtimeState(campaignId: string, payload: RealtimeStateUpdatePayload): Promise<Campaign> {
         this.logger('warn', 'UpdateRealtimeState - CampaignsRepository');
 

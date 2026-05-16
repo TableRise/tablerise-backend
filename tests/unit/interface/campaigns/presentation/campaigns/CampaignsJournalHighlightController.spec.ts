@@ -25,7 +25,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsJourna
             getCampaignCharactersOperation: { execute: sinon.stub() },
             getCharactersByPlayerOperation: { execute: sinon.stub() },
             postInvitationEmailOperation: { execute: sinon.stub() },
-            postBanPlayerOperation: { execute: sinon.stub() },
             updateCampaignPlayerLimitOperation: { execute: sinon.stub() },
             confirmMatchPlayerPresenceOperation: { execute: sinon.stub() },
             confirmCampaignPlayerOperation: { execute: sinon.stub() },

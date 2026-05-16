@@ -16,6 +16,7 @@ function createCampaignFaker({ campaignId = newUUID() }: Campaign): Campaign {
         campaignPlayers: dataGenerator.campaignPlayers,
         matchData: dataGenerator.matchData,
         infos: { ...dataGenerator.infos },
+        configurations: dataGenerator.configurations,
         password: dataGenerator.password,
         lores: dataGenerator.lores,
         images: dataGenerator.images,

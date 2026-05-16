@@ -14,6 +14,7 @@ import { UpdateMatchMusicsOperationContract, UpdateMatchMusicsServiceContract } 
 import { updateMatchDateOperationContract, updateMatchDateServiceContract } from './campaigns/UpdateMatchDate';
 
 import { PublishmentOperationContract, PublishmentServiceContract } from './campaigns/publishment';
+import { PostCampaignLogOperationContract, PostCampaignLogServiceContract } from './campaigns/PostCampaignLog';
 
 import {
     RemoveCampaignPlayersOperationContract,
@@ -26,8 +27,6 @@ import {
     PostInvitationEmailOperationContract,
     PostInvitationEmailServiceContract,
 } from './campaigns/PostInvitationEmail';
-
-import { PostBanPlayerOperationContract, PostBanPlayerServiceContract } from './campaigns/PostBanPlayer';
 
 import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
 import {
@@ -88,13 +87,16 @@ import {
     DeleteCampaignJournalPostOperationContract,
     DeleteCampaignJournalPostServiceContract,
 } from './campaigns/DeleteCampaignJournalPost';
+import { DeleteCampaignOperationContract, DeleteCampaignServiceContract } from './campaigns/DeleteCampaign';
 
 export default interface CampaignCoreDependencies {
     // Operations
+    deleteCampaignOperationContract: DeleteCampaignOperationContract;
     createCampaignOperationContract: CreateCampaignOperationContract;
     updateCampaignOperationContract: UpdateCampaignOperationContract;
     getCampaignByIdOperationContract: GetCampaignByIdOperationContract;
     publishmentOperationContract: PublishmentOperationContract;
+    postCampaignLogOperationContract: PostCampaignLogOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
     updateMatchDateOperationContract: updateMatchDateOperationContract;
@@ -105,7 +107,6 @@ export default interface CampaignCoreDependencies {
     getCampaignCharactersOperationContract: GetCampaignCharactersOperationContract;
     getCharactersByPlayerOperationContract: GetCharactersByPlayerOperationContract;
     postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
-    postBanPlayerOperationContract: PostBanPlayerOperationContract;
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
     confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
@@ -118,10 +119,12 @@ export default interface CampaignCoreDependencies {
     deleteCampaignJournalPostOperationContract: DeleteCampaignJournalPostOperationContract;
 
     // Services
+    deleteCampaignServiceContract: DeleteCampaignServiceContract;
     createCampaignServiceContract: CreateCampaignServiceContract;
     updateCampaignServiceContract: UpdateCampaignServiceContract;
     getCampaignByIdServiceContract: GetCampaignByIdServiceContract;
     publishmentServiceContract: PublishmentServiceContract;
+    postCampaignLogServiceContract: PostCampaignLogServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
     updateMatchDateServiceContract: updateMatchDateServiceContract;
@@ -132,7 +135,6 @@ export default interface CampaignCoreDependencies {
     getCampaignCharactersServiceContract: GetCampaignCharactersServiceContract;
     getCharactersByPlayerServiceContract: GetCharactersByPlayerServiceContract;
     postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
-    postBanPlayerServiceContract: PostBanPlayerServiceContract;
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
     confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;

@@ -22,6 +22,7 @@ import { FileObject } from 'src/types/shared/file';
 
 export default class CampaignsController {
     private readonly getCampaignsByUserIdOperation;
+    private readonly deleteCampaignOperation;
     private readonly createCampaignOperation;
     private readonly updateCampaignOperation;
     private readonly getCampaignByIdOperation;
@@ -37,7 +38,7 @@ export default class CampaignsController {
     private readonly getCampaignCharactersOperation;
     private readonly getCharactersByPlayerOperation;
     private readonly postInvitationEmailOperation;
-    private readonly postBanPlayerOperation;
+    private readonly postCampaignLogOperation;
     private readonly updateCampaignPlayerLimitOperation;
     private readonly confirmMatchPlayerPresenceOperation;
     private readonly confirmCampaignPlayerOperation;
@@ -66,7 +67,7 @@ export default class CampaignsController {
         getCampaignCharactersOperation,
         getCharactersByPlayerOperation,
         postInvitationEmailOperation,
-        postBanPlayerOperation,
+        postCampaignLogOperation,
         updateCampaignPlayerLimitOperation,
         confirmMatchPlayerPresenceOperation,
         confirmCampaignPlayerOperation,
@@ -77,8 +78,10 @@ export default class CampaignsController {
         updateCampaignJournalHighlightOperation,
         updateCampaignJournalPostOperation,
         deleteCampaignJournalPostOperation,
+        deleteCampaignOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
+        this.deleteCampaignOperation = deleteCampaignOperation;
         this.createCampaignOperation = createCampaignOperation;
         this.updateCampaignOperation = updateCampaignOperation;
         this.getCampaignByIdOperation = getCampaignByIdOperation;
@@ -94,7 +97,7 @@ export default class CampaignsController {
         this.getCharactersByPlayerOperation = getCharactersByPlayerOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this.postInvitationEmailOperation = postInvitationEmailOperation;
-        this.postBanPlayerOperation = postBanPlayerOperation;
+        this.postCampaignLogOperation = postCampaignLogOperation;
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
         this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
         this.confirmCampaignPlayerOperation = confirmCampaignPlayerOperation;
@@ -107,6 +110,7 @@ export default class CampaignsController {
         this.deleteCampaignJournalPostOperation = deleteCampaignJournalPostOperation;
 
         this.create = this.create.bind(this);
+        this.deleteCampaign = this.deleteCampaign.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
         this.publishment = this.publishment.bind(this);
@@ -128,7 +132,7 @@ export default class CampaignsController {
         this.getCampaignJournalPosts = this.getCampaignJournalPosts.bind(this);
         this.getCampaignJournalHighlight = this.getCampaignJournalHighlight.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
-        this.banPlayer = this.banPlayer.bind(this);
+        this.postCampaignLog = this.postCampaignLog.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
         this.confirmCampaignPlayer = this.confirmCampaignPlayer.bind(this);
         this.updateCampaignCover = this.updateCampaignCover.bind(this);
@@ -157,6 +161,15 @@ export default class CampaignsController {
         delete result.password;
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async deleteCampaign(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        await this.deleteCampaignOperation.execute(id, userId);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
@@ -197,16 +210,18 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
-    public async banPlayer(req: Request, res: Response): Promise<Response> {
+    public async postCampaignLog(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { playerId } = req.query as { playerId: string };
+        const { userId } = req.user as Express.User;
+        const payload = req.body;
 
-        await this.postBanPlayerOperation.execute({
+        const result = await this.postCampaignLogOperation.execute({
             campaignId: id,
-            playerId,
+            userId,
+            payload,
         });
 
-        return res.status(HttpStatusCode.NO_CONTENT).end();
+        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async updateCampaignPlayerLimit(req: Request, res: Response): Promise<Response> {
@@ -486,7 +501,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this.updateCampaignJournalHighlightOperation!.execute({
+        const result = await this.updateCampaignJournalHighlightOperation.execute({
             campaignId: id,
             userId,
             ...req.body,
@@ -501,7 +516,7 @@ export default class CampaignsController {
         const { userId } = req.query as unknown as TUpdateCampaignJournalPostQuery;
         const { postId, title, post, category } = req.body as TUpdateCampaignJournalPostBody;
 
-        const result = await this.updateCampaignJournalPostOperation!.execute({
+        const result = await this.updateCampaignJournalPostOperation.execute({
             campaignId: id,
             callerId,
             userId,
@@ -519,7 +534,7 @@ export default class CampaignsController {
         const { userId: callerId } = req.user as Express.User;
         const { userId, postId } = req.query as unknown as TDeleteCampaignJournalPostQuery;
 
-        await this.deleteCampaignJournalPostOperation!.execute({
+        await this.deleteCampaignJournalPostOperation.execute({
             campaignId: id,
             callerId,
             userId,

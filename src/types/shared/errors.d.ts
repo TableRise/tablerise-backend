@@ -56,4 +56,5 @@ export type ErrorTypes =
     | 'forbidden-post-category'
     | 'forbidden-role-operation'
     | 'journal-post-inexistent'
-    | 'equipment-already-added';
+    | 'equipment-already-added'
+    | 'already-full-campaign';

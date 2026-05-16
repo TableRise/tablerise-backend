@@ -6,7 +6,10 @@ export default class UpdateCharacterMoneyOperation {
     private readonly updateCharacterMoneyService;
     private readonly logger;
 
-    constructor({ updateCharacterMoneyService, logger }: CharacterCoreDependencies['updateCharacterMoneyOperationContract']) {
+    constructor({
+        updateCharacterMoneyService,
+        logger,
+    }: CharacterCoreDependencies['updateCharacterMoneyOperationContract']) {
         this.updateCharacterMoneyService = updateCharacterMoneyService;
         this.logger = logger;
         this.execute = this.execute.bind(this);

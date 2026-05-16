@@ -1,4 +1,4 @@
-import { Journal } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import Campaign, { Journal } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
@@ -21,7 +21,13 @@ export interface CampaignPayload {
     description: string;
     visibility?: campaignVisibilityEnum.values;
     system: systemsEnum.values;
+    musics: Campaign['musics'] | string;
+    nextMatchDate?: string;
+    lore: string;
+    playerAmountLimit: string | number;
     ageRestriction: string | number;
+    socialMedia?: Campaign['infos']['socialMedia'] | string;
+    configurations: Campaign['configurations'];
     password?: string;
 }
 
@@ -60,6 +66,12 @@ export interface publishmentPayload {
         content: string;
         category: CampaignJournalCategory;
     };
+}
+
+export interface PostCampaignLogPayload {
+    campaignId: string;
+    userId: string;
+    payload: Campaign['matchData']['logs'][number];
 }
 
 export interface UpdateMatchMapImagesPayload {
@@ -110,11 +122,6 @@ export interface RemoveCampaignPlayersPayload {
 export interface CheckCharactersPayload {
     userId: string;
     characterId: string;
-}
-
-export interface PostBanPlayerPayload {
-    campaignId: string;
-    playerId: string;
 }
 
 export interface RemoveCampaignCoverPayload {

@@ -21,6 +21,11 @@ export default class AddCampaignPlayersService {
         this.logger = logger;
     }
 
+    private hasReachedPlayerLimit(campaign: Campaign): boolean {
+        const currentPlayersAmount = campaign.campaignPlayers.filter((player) => player.status !== 'banned').length;
+        return currentPlayersAmount >= campaign.infos.playerAmountLimit;
+    }
+
     public async addCampaignPlayers({
         campaignId,
         userId,
@@ -51,6 +56,10 @@ export default class AddCampaignPlayersService {
             }
 
             HttpRequestErrors.throwError('player-already-in-match');
+        }
+
+        if (this.hasReachedPlayerLimit(campaign)) {
+            HttpRequestErrors.throwError('already-full-campaign');
         }
 
         const player: Player = {
