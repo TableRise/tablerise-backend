@@ -56,6 +56,7 @@ export default {
         xpSystem: faker.datatype.boolean(),
         shopSystem: faker.datatype.boolean(),
     },
+    buys: [],
     password: '1234',
     lores: {
         playerCharacters: [],

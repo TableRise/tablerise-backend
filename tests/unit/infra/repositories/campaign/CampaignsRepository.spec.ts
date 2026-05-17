@@ -335,6 +335,35 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                 }
             );
         });
+
+        it('should update buys through the dedicated helper', async () => {
+            await campaignsRepository.updateBuys(campaign.campaignId as string, [
+                {
+                    name: 'Potion',
+                    cost: '10 gp',
+                    character: 'Lia',
+                    user: 'user-1',
+                    date: '2026-05-16',
+                },
+            ]);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        buys: [
+                            {
+                                name: 'Potion',
+                                cost: '10 gp',
+                                character: 'Lia',
+                                user: 'user-1',
+                                date: '2026-05-16',
+                            },
+                        ],
+                    },
+                }
+            );
+        });
     });
 
     context('#delete', () => {

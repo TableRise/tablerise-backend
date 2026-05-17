@@ -87,6 +87,14 @@ const postCampaignLogBodySchema = z.object({
     content: z.string(),
 });
 
+const postCampaignBuyBodySchema = z.object({
+    name: z.string(),
+    cost: z.string(),
+    character: z.string(),
+    user: z.string(),
+    date: z.string(),
+});
+
 const campaignJournalHighlightPostSchema = z.object({
     postId: z.uuid().optional(),
     title: z.string(),
@@ -180,6 +188,7 @@ export type TCreateCampaignBody = z.infer<typeof postCreateCampaignBodySchema>;
 export type TUpdateCampaignBody = z.infer<typeof putUpdateCampaignBodySchema>;
 export type TCreateCampaignPublishmentBody = z.infer<typeof postCreateCampaignPublishmentBodySchema>;
 export type TPostCampaignLogBody = z.infer<typeof postCampaignLogBodySchema>;
+export type TPostCampaignBuyBody = z.infer<typeof postCampaignBuyBodySchema>;
 export type TUpdateCampaignJournalHighlightBody = z.infer<typeof patchUpdateCampaignJournalHighlightBodySchema>;
 export type TAddCampaignPlayersQuery = z.infer<typeof postAddCampaignPlayersQuerySchema>;
 export type TInvitePlayerByEmailQuery = z.infer<typeof postInvitePlayerByEmailQuerySchema>;
@@ -223,6 +232,9 @@ export default (): ICampaignsSchemas => ({
     },
     postCampaignLog: {
         body: postCampaignLogBodySchema,
+    },
+    postCampaignBuy: {
+        body: postCampaignBuyBodySchema,
     },
     patchAddCampaignMatchDate: {
         query: patchAddCampaignMatchDateQuerySchema,

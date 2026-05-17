@@ -74,6 +74,12 @@ export interface PostCampaignLogPayload {
     payload: Campaign['matchData']['logs'][number];
 }
 
+export interface PostCampaignBuyPayload {
+    campaignId: string;
+    userId: string;
+    payload: Campaign['buys'][number];
+}
+
 export interface UpdateMatchMapImagesPayload {
     campaignId: string;
     mapImage?: FileObject;

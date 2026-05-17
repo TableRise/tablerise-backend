@@ -101,6 +101,7 @@ export default class Serializer {
         visibility = null,
         matchData = null,
         musics = null,
+        buys = [],
         infos = {
             campaignAge: '1',
             nextMatchDate: '',
@@ -135,6 +136,7 @@ export default class Serializer {
             campaignPlayers,
             matchData,
             musics,
+            buys,
             infos,
             password,
             playerAmountLimit,

@@ -162,6 +162,18 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'post',
+                path: `${BASE_PATH}/:id/buys`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.postCampaignBuy,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.campaignsSchemas.postCampaignBuy.body }],
+                    description: desc.postCampaignBuy,
+                    tag: 'create',
+                },
+            },
+            {
+                method: 'post',
                 path: `${BASE_PATH}/:id/invite`,
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.inviteEmail,

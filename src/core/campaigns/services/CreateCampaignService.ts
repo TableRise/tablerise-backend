@@ -87,6 +87,7 @@ export default class CreateCampaignService {
         };
 
         campaign.configurations = configurations;
+        campaign.buys = [];
 
         campaign.matchData = {
             matchId: newUUID(),

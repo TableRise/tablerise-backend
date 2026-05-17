@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
     AddMatchDatePayload,
+    PostCampaignBuyPayload,
     AddMatchMusicPayload,
     CampaignPayload,
     DeleteCampaignJournalPostPayload,
@@ -14,6 +15,7 @@ import {
 } from 'src/types/api/campaigns/http/payload';
 import {
     TDeleteCampaignJournalPostQuery,
+    TPostCampaignBuyBody,
     TUpdateCampaignJournalPostBody,
     TUpdateCampaignJournalPostQuery,
 } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
@@ -39,6 +41,7 @@ export default class CampaignsController {
     private readonly getCharactersByPlayerOperation;
     private readonly postInvitationEmailOperation;
     private readonly postCampaignLogOperation;
+    private readonly postCampaignBuyOperation;
     private readonly updateCampaignPlayerLimitOperation;
     private readonly confirmMatchPlayerPresenceOperation;
     private readonly confirmCampaignPlayerOperation;
@@ -68,6 +71,7 @@ export default class CampaignsController {
         getCharactersByPlayerOperation,
         postInvitationEmailOperation,
         postCampaignLogOperation,
+        postCampaignBuyOperation,
         updateCampaignPlayerLimitOperation,
         confirmMatchPlayerPresenceOperation,
         confirmCampaignPlayerOperation,
@@ -98,6 +102,7 @@ export default class CampaignsController {
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
         this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postCampaignLogOperation = postCampaignLogOperation;
+        this.postCampaignBuyOperation = postCampaignBuyOperation;
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
         this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
         this.confirmCampaignPlayerOperation = confirmCampaignPlayerOperation;
@@ -133,6 +138,7 @@ export default class CampaignsController {
         this.getCampaignJournalHighlight = this.getCampaignJournalHighlight.bind(this);
         this.inviteEmail = this.inviteEmail.bind(this);
         this.postCampaignLog = this.postCampaignLog.bind(this);
+        this.postCampaignBuy = this.postCampaignBuy.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
         this.confirmCampaignPlayer = this.confirmCampaignPlayer.bind(this);
         this.updateCampaignCover = this.updateCampaignCover.bind(this);
@@ -220,6 +226,20 @@ export default class CampaignsController {
             userId,
             payload,
         });
+
+        return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async postCampaignBuy(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const payload = req.body as TPostCampaignBuyBody;
+
+        const result = await this.postCampaignBuyOperation.execute({
+            campaignId: id,
+            userId,
+            payload,
+        } as PostCampaignBuyPayload);
 
         return res.status(HttpStatusCode.CREATED).json(result);
     }

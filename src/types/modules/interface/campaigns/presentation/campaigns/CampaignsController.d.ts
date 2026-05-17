@@ -10,6 +10,7 @@ import AddCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns
 import RemoveCampaignPlayersOperation from 'src/core/campaigns/operations/campaigns/RemoveCampaignPlayersOperation';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import PostCampaignLogOperation from 'src/core/campaigns/operations/PostCampaignLogOperation';
+import PostCampaignBuyOperation from 'src/core/campaigns/operations/PostCampaignBuyOperation';
 import AddPlayerCharacterOperation from 'src/core/campaigns/operations/AddPlayerCharacterOperation';
 import RemovePlayerCharacterOperation from 'src/core/campaigns/operations/RemovePlayerCharacterOperation';
 import GetCampaignCharactersOperation from 'src/core/campaigns/operations/GetCampaignCharactersOperation';
@@ -46,6 +47,7 @@ export interface CampaignsControllerContract {
     getCharactersByPlayerOperation: GetCharactersByPlayerOperation;
     postInvitationEmailOperation: PostInvitationEmailOperation;
     postCampaignLogOperation: PostCampaignLogOperation;
+    postCampaignBuyOperation: PostCampaignBuyOperation;
     updateCampaignPlayerLimitOperation: UpdateCampaignPlayerLimitOperation;
     confirmMatchPlayerPresenceOperation: ConfirmMatchPlayerPresenceOperation;
     confirmCampaignPlayerOperation: ConfirmCampaignPlayerOperation;

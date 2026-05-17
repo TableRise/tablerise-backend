@@ -15,6 +15,7 @@ import { updateMatchDateOperationContract, updateMatchDateServiceContract } from
 
 import { PublishmentOperationContract, PublishmentServiceContract } from './campaigns/publishment';
 import { PostCampaignLogOperationContract, PostCampaignLogServiceContract } from './campaigns/PostCampaignLog';
+import { PostCampaignBuyOperationContract, PostCampaignBuyServiceContract } from './campaigns/PostCampaignBuy';
 
 import {
     RemoveCampaignPlayersOperationContract,
@@ -97,6 +98,7 @@ export default interface CampaignCoreDependencies {
     getCampaignByIdOperationContract: GetCampaignByIdOperationContract;
     publishmentOperationContract: PublishmentOperationContract;
     postCampaignLogOperationContract: PostCampaignLogOperationContract;
+    postCampaignBuyOperationContract: PostCampaignBuyOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
     updateMatchDateOperationContract: updateMatchDateOperationContract;
@@ -125,6 +127,7 @@ export default interface CampaignCoreDependencies {
     getCampaignByIdServiceContract: GetCampaignByIdServiceContract;
     publishmentServiceContract: PublishmentServiceContract;
     postCampaignLogServiceContract: PostCampaignLogServiceContract;
+    postCampaignBuyServiceContract: PostCampaignBuyServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
     updateMatchDateServiceContract: updateMatchDateServiceContract;

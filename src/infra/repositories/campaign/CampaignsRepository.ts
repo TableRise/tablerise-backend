@@ -126,6 +126,18 @@ export default class CampaignsRepository {
         return this.updateRealtimeState(campaignId, { logs });
     }
 
+    public async updateBuys(campaignId: string, buys: Campaign['buys']): Promise<Campaign> {
+        this.logger('warn', 'UpdateBuys - CampaignsRepository');
+        return this.updateAndSerialize(
+            { campaignId },
+            {
+                $set: {
+                    buys,
+                },
+            }
+        );
+    }
+
     public async updateConfirmedPlayers(
         campaignId: string,
         confirmedPlayers: Campaign['matchData']['confirmedPlayers']

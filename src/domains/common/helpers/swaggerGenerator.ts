@@ -9,6 +9,18 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
     const router = Router();
     const urls = [process.env.SWAGGER_URL as string];
     const pathLevel = process.env.SWAGGER_PATH_LEVEL as string;
+    const mountSwaggerRoute = (routePath: string, swaggerDocument: any): void => {
+        const swaggerOptions = {
+            swaggerOptions: {
+                url: `${routePath}/swagger.json`,
+            },
+        };
+
+        router.get(`${routePath}/swagger.json`, (_req: Request, res: Response) => {
+            res.json(swaggerDocument);
+        });
+        router.use(routePath, swaggerUI.serveFiles(null, swaggerOptions), swaggerUI.setup(null, swaggerOptions));
+    };
 
     autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {
         title: 'dungeons&dragons5e',
@@ -18,11 +30,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             logger('info', 'SwaggerGenerator - dungeons&dragons5e - document generated');
 
             const SwaggerDocumentDnD5E = require(`${pathLevel}/api-docs/swagger-doc-dungeons&dragons5e.json`);
-
-            router.use('/api-docs/system/dnd5e', swaggerUI.serve, (req: Request, res: Response) => {
-                const html = swaggerUI.generateHTML(SwaggerDocumentDnD5E);
-                res.send(html);
-            });
+            mountSwaggerRoute('/api-docs/system/dnd5e', SwaggerDocumentDnD5E);
         })
         .catch((error: any) => {
             console.log(error);
@@ -36,11 +44,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             logger('info', 'SwaggerGenerator - users - document generated');
 
             const SwaggerDocumentUser = require(`${pathLevel}/api-docs/swagger-doc-users.json`);
-
-            router.use('/api-docs/users', swaggerUI.serve, (req: Request, res: Response) => {
-                const html = swaggerUI.generateHTML(SwaggerDocumentUser);
-                res.send(html);
-            });
+            mountSwaggerRoute('/api-docs/users', SwaggerDocumentUser);
         })
         .catch((error: any) => {
             console.log(error);
@@ -54,11 +58,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             logger('info', 'SwaggerGenerator - campaigns - document generated');
 
             const SwaggerDocumentCampaign = require(`${pathLevel}/api-docs/swagger-doc-campaigns.json`);
-
-            router.use('/api-docs/campaigns', swaggerUI.serve, (req: Request, res: Response) => {
-                const html = swaggerUI.generateHTML(SwaggerDocumentCampaign);
-                res.send(html);
-            });
+            mountSwaggerRoute('/api-docs/campaigns', SwaggerDocumentCampaign);
         })
         .catch((error: any) => {
             console.log(error);
@@ -72,11 +72,7 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
             logger('info', 'SwaggerGenerator - characters - document generated');
 
             const SwaggerDocumentCharacters = require(`${pathLevel}/api-docs/swagger-doc-characters.json`);
-
-            router.use('/api-docs/characters', swaggerUI.serve, (req: Request, res: Response) => {
-                const html = swaggerUI.generateHTML(SwaggerDocumentCharacters);
-                res.send(html);
-            });
+            mountSwaggerRoute('/api-docs/characters', SwaggerDocumentCharacters);
         })
         .catch((error: any) => {
             console.log(error);

@@ -10,6 +10,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('postAddCampaignPlayers');
             expect(schemas).to.have.property('postInvitePlayerByEmail');
             expect(schemas).to.have.property('postCreateCampaignPublishment');
+            expect(schemas).to.have.property('postCampaignLog');
+            expect(schemas).to.have.property('postCampaignBuy');
             expect(schemas).to.have.property('patchAddCampaignMatchDate');
             expect(schemas).to.have.property('patchUpdateCampaignMatchMapImages');
             expect(schemas).to.have.property('patchAddCampaignMatchMusics');
@@ -109,6 +111,29 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     postId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
                 })
             ).to.not.throw();
+        });
+
+        it('should validate campaign buy payloads', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.postCampaignBuy.body.parse({
+                    name: 'Potion',
+                    cost: '10 gp',
+                    character: 'Lia',
+                    user: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                    date: '2026-05-16',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.postCampaignBuy.body.parse({
+                    name: 'Potion',
+                    cost: '10 gp',
+                    character: 'Lia',
+                    user: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                })
+            ).to.throw();
         });
     });
 });

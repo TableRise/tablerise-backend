@@ -15,6 +15,7 @@ const addCampaignPlayers = 'Add a player to the campaign.';
 const removeCampaignPlayers = 'Remove a player from the campaign.';
 const inviteEmail = 'Send a campaign invitation by email.';
 const postCampaignLog = 'Add a new entry to the campaign log.';
+const postCampaignBuy = 'Add a new buy entry to the campaign.';
 const addPlayerCharacter = 'Assign a character to a player in the campaign.';
 const removePlayerCharacter = 'Remove a player character from the campaign.';
 const getCampaignCharacters = 'List all characters currently linked to the campaign.';
@@ -54,6 +55,7 @@ export default {
     removeCampaignPlayers,
     inviteEmail,
     postCampaignLog,
+    postCampaignBuy,
     addPlayerCharacter,
     removePlayerCharacter,
     getCampaignCharacters,
