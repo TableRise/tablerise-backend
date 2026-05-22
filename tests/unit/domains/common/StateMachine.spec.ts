@@ -34,7 +34,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
                     code: '',
                 };
@@ -46,7 +46,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     code: '',
                 };
@@ -58,7 +58,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                     code: '',
                 };
@@ -70,7 +70,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
@@ -100,7 +100,7 @@ describe('Domains :: User :: StateMachine', () => {
                     user.inProgress = {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
+                        prevStatusWas: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
                         nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
                         code: '',
                     };
@@ -138,7 +138,7 @@ describe('Domains :: User :: StateMachine', () => {
                     user.inProgress = {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                         code: '',
                     };
@@ -176,7 +176,7 @@ describe('Domains :: User :: StateMachine', () => {
                     user.inProgress = {
                         status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
                         currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                        prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: '',
                     };
@@ -188,7 +188,7 @@ describe('Domains :: User :: StateMachine', () => {
                     user.inProgress = {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                        prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
                         nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
                         code: '',
                     };

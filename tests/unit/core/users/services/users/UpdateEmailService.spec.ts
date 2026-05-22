@@ -37,7 +37,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     ...user.inProgress,
                     status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 };
 
@@ -53,7 +53,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
@@ -100,7 +100,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
@@ -150,7 +150,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },

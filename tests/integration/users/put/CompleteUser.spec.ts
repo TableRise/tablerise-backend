@@ -20,7 +20,7 @@ describe('When an user has the account completed', function () {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'KJJH45',
             };

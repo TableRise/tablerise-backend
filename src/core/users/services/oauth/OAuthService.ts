@@ -67,7 +67,7 @@ export default class OAuthService {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };

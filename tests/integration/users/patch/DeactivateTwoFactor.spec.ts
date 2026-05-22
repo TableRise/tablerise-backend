@@ -18,7 +18,7 @@ describe('When the user has twoFactor deactivated', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_DISABLE_TWO_FACTOR,
             currentFlow: stateFlowsEnum.enum.DISABLE_TWO_FACTOR,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };

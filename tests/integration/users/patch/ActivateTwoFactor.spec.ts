@@ -16,7 +16,7 @@ describe('When the user has twoFactor activated', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_TWO_FACTOR,
             currentFlow: stateFlowsEnum.enum.ACTIVATE_TWO_FACTOR,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
             nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
             code: '',
         };

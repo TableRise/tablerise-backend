@@ -121,7 +121,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
@@ -172,7 +172,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };

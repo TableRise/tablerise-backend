@@ -42,7 +42,7 @@ describe('When characters are recovered by campaign', () => {
             user[0].inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
@@ -50,7 +50,7 @@ describe('When characters are recovered by campaign', () => {
             user[1].inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
@@ -117,7 +117,7 @@ describe('When characters are recovered by campaign', () => {
             user[0].inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
@@ -125,7 +125,7 @@ describe('When characters are recovered by campaign', () => {
             user[1].inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };

@@ -19,7 +19,7 @@ describe('When an user is deleted', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER,
                 currentFlow: stateFlowsEnum.enum.DELETE_PROFILE,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
                 code: '',
             };
