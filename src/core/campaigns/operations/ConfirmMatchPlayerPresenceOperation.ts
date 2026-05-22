@@ -13,7 +13,8 @@ export default class ConfirmMatchPlayerPresenceOperation {
     }
 
     async execute(campaignId: string, userId: string, cancel: boolean): Promise<void> {
-        this.logger('info', 'Execute - ConfirmMatchPlayerPresenceOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.confirmMatchPlayerPresenceService.confirmPresence(campaignId, userId, cancel);
     }
 }

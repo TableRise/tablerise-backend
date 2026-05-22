@@ -16,7 +16,8 @@ export default class UpdateCharacterMoneyOperation {
     }
 
     async execute(payload: UpdateCharacterMoneyPayload): Promise<CharactersDnd> {
-        this.logger('info', 'UpdateCharacterMoneyOperation - Execute');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.updateCharacterMoneyService.update(payload);
     }
 }

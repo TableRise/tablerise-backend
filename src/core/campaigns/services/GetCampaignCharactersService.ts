@@ -13,7 +13,8 @@ export default class GetCampaignCharactersService {
     }
 
     public async get(campaignId: string): Promise<CharactersDnd[]> {
-        this.logger('info', 'Get - GetCampaignCharactersService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         return this.charactersRepository.find({ campaignId });
     }
 }

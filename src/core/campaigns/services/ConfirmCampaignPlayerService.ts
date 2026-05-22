@@ -11,7 +11,8 @@ export default class ConfirmCampaignPlayerService {
     }
 
     public async confirm(campaignId: string, userId: string, userToActivate: string) {
-        this.logger('info', 'Execute - ConfirmCampaignPlayerService');
+        const callName = `[${this.constructor.name}] - ${this.confirm.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 

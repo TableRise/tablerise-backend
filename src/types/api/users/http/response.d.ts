@@ -30,11 +30,3 @@ export interface TwoFactorResponse {
     qrcode: string;
     active: boolean;
 }
-
-export interface ActivateSecretQuestionResponse {
-    active: boolean;
-}
-
-export interface UpdateSecretQuestionResponse {
-    newQuestion: UserDetail['secretQuestion'];
-}

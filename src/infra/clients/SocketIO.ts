@@ -143,7 +143,8 @@ export default class SocketIO {
     }
 
     public async connect(httpServer: HttpServer): Promise<void> {
-        this.logger('info', 'Connect - SocketIO', true);
+        const callName = `[${this.constructor.name}] - ${this.connect.name}`;
+        this.logger('info', callName);
 
         this.io = new Server(httpServer, {
             cors: {

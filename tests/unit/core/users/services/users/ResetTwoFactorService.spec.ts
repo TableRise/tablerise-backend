@@ -59,7 +59,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_CONFIRM;
 
                 usersRepository = {
                     findOne: () => user,

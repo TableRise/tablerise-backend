@@ -29,6 +29,11 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 hashPassword = await SecurePasswordHandler.hashPassword('1234');
                 campaign.password = hashPassword;
                 userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.campaigns = Array.from({ length: 49 }, (_, index) => ({
+                    campaignId: `existing-${index}`,
+                    notes: [],
+                })) as any;
+                userDetails.gameInfo.badges = [];
 
                 campaignPlayersLength = campaign.campaignPlayers.length;
 
@@ -58,6 +63,8 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
+                expect(matchDataAdded.userDetails.gameInfo.badges).to.include('badge_10_campaigns');
+                expect(matchDataAdded.userDetails.gameInfo.badges).to.include('badge_50_campaigns');
             });
         });
 

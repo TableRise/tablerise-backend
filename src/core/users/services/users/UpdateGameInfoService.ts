@@ -1,4 +1,5 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { syncRankByBadgesLength } from 'src/domains/users/helpers/BadgeAwardHandler';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
@@ -16,7 +17,8 @@ export default class UpdateGameInfoService {
     }
 
     private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
-        this.logger('info', 'AddId - UpdateGameInfoService');
+        const callName = `[${this.constructor.name}] - ${this.addId.name}`;
+        this.logger('info', callName);
 
         const dataLength = Object.keys(data).length;
         const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
@@ -60,10 +62,12 @@ export default class UpdateGameInfoService {
     }
 
     public async add({ userId, infoId, data, targetInfo }: AddGameInfoPayload): Promise<string> {
-        this.logger('info', 'Add - UpdateGameInfoService');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 
         userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
+        if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
@@ -74,7 +78,8 @@ export default class UpdateGameInfoService {
     }
 
     public async remove({ userId, infoId, data, targetInfo }: RemoveGameInfoPayload): Promise<string> {
-        this.logger('info', 'Remove - UpdateGameInfoService');
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 
         userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });

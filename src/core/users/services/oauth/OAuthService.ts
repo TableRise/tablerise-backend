@@ -34,7 +34,8 @@ export default class OAuthService {
     }
 
     public login(userInDb: User, userSerialized: User): RegisterUserResponse {
-        this.logger('info', 'Login - OAuthService');
+        const callName = `[${this.constructor.name}] - ${this.login.name}`;
+        this.logger('info', callName);
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
         if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist', '/register');
@@ -43,7 +44,8 @@ export default class OAuthService {
     }
 
     public async serialize(payload: Google.Profile | Discord.Profile): Promise<__UserSerialized> {
-        this.logger('info', 'Serialize - OAuthService');
+        const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
+        this.logger('info', callName);
         const userExternalSerialized = this.serializer.externalUser(payload);
 
         const userSerialized = this.serializer.postUser(userExternalSerialized);
@@ -52,8 +54,9 @@ export default class OAuthService {
         return { userSerialized, userDetailsSerialized };
     }
 
-    public async enrichment({ user, userDetails }: __FullUser, provider: string): Promise<__UserEnriched> {
-        this.logger('info', 'Enrichment - CreateUserService');
+    public async enrichment({ user, userDetails }: __FullUser, _provider: string): Promise<__UserEnriched> {
+        const callName = `[${this.constructor.name}] - ${this.enrichment.name}`;
+        this.logger('info', callName);
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
 
         user.tag = tag;
@@ -69,8 +72,6 @@ export default class OAuthService {
             code: '',
         };
 
-        userDetails.secretQuestion = { question: 'oauth', answer: provider };
-
         return {
             userEnriched: user,
             userDetailsEnriched: userDetails,
@@ -78,7 +79,8 @@ export default class OAuthService {
     }
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this.logger('info', 'SaveUser - CreateUserService');
+        const callName = `[${this.constructor.name}] - ${this.saveUser.name}`;
+        this.logger('info', callName);
         const userSaved = await this.usersRepository.create({
             ...user,
             userId: newUUID(),

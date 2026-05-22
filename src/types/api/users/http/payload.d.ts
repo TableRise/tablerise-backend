@@ -1,8 +1,6 @@
-import { UserDetailPayload } from 'src/domains/users/schemas/userDetailsValidationSchema';
-import { UserPayload } from 'src/domains/users/schemas/usersValidationSchema';
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import { FileObject } from 'src/types/shared/file';
-import { GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import User, { GameInfoCampaigns, UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 
 export interface UserExternal {
     providerId: string;
@@ -48,28 +46,34 @@ export interface emailUpdatePayload {
     email: string;
 }
 
-export interface RegisterUserPayload extends UserPayload {
-    details: UserDetailPayload;
+export interface RegisterUserPayload extends Pick<User, 'email' | 'password' | 'nickname'> {
+    details: Pick<UserDetail, 'firstName' | 'lastName' | 'birthday' | 'biography'>;
+}
+
+export interface UserUpdateBodyPayload {
+    nickname?: string;
+}
+
+export interface UserDetailsUpdateBodyPayload {
+    firstName?: string;
+    lastName?: string;
+    birthday?: string;
+    biography?: string;
 }
 
 export interface UpdateUserPayload {
     userId: string;
-    payload: RegisterUserPayload;
+    payload: UserUpdateBodyPayload;
+}
+
+export interface UpdateUserDetailsPayload {
+    userId: string;
+    payload: UserDetailsUpdateBodyPayload;
 }
 
 export interface ConfirmEmailPayload {
     email: string;
     code: string;
-}
-
-export interface UpdateSecretQuestion {
-    question: string;
-    answer: string;
-}
-
-export interface UpdateSecretQuestionPayload {
-    userId: string;
-    payload: UpdateSecretQuestion;
 }
 
 export interface UpdateEmailPayload {
@@ -85,9 +89,4 @@ export interface UpdatePasswordPayload {
 export interface VerifyEmailPayload {
     email: string;
     flow: StateMachineFlowKeys;
-}
-
-export interface ActivateSecretQuestionPayload {
-    userId: string;
-    payload: UserDetail['secretQuestion'];
 }

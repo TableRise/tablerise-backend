@@ -12,7 +12,8 @@ export default class GetAllCampaignsService {
     }
 
     async getAll({ title, code }: GetAllCampaignsQuery = {}): Promise<GetAllCampaignsResponse[]> {
-        this.logger('info', 'GetAll - GetAllCampaignsService');
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
 
         const dbQuery: Record<string, any> = { 'infos.visibility': 'visible' };
 

@@ -14,7 +14,8 @@ export default class GetAllRacesService {
     }
 
     public async getAll(): Promise<Array<Internacional<Race>>> {
-        this.logger('info', 'GetAll - GetAllRacesService');
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Races');
 
         const racesInDb = (await this.dungeonsAndDragonsRepository.find({

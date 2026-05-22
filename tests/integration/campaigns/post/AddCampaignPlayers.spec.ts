@@ -5,9 +5,16 @@ import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 import sinon from 'sinon';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import DatabaseManagement from '@tablerise/database-management';
+import newUUID from 'src/domains/common/helpers/newUUID';
 
-describe('When a player is added to a match', () => {
+describe('When a player is added to a match', function () {
+    this.timeout(30000);
+
     let campaign: Campaign;
+    const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
+    const userLoggedDetailsId = 'ff2abce1-fc9e-41d7-b8ab-8cb599adb111';
+    const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
     const buildHighlightedJournal = (player: Campaign['campaignPlayers'][number]) => ({
         postId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
@@ -24,6 +31,15 @@ describe('When a player is added to a match', () => {
         campaign.infos.highlightedJournal = buildHighlightedJournal(campaign.campaignPlayers[0]);
 
         await InjectNewCampaign(campaign);
+
+        const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
+        authenticatedUserDetails.gameInfo.campaigns = Array.from({ length: 49 }, (_, index) => ({
+            campaignId: newUUID(),
+            notes: [],
+        }));
+        authenticatedUserDetails.gameInfo.badges = [];
+
+        await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
     });
 
     after(() => {
@@ -40,6 +56,12 @@ describe('When a player is added to a match', () => {
         expect(body[1]).to.have.property('characterIds');
         expect(body[1]).to.have.property('role');
         expect(body[1]).to.have.property('status');
+
+        const { body: authenticatedUserUpdated } = await requester()
+            .get(`/users/${userLoggedId}`)
+            .expect(HttpStatusCode.OK);
+        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_10_campaigns');
+        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_50_campaigns');
     });
 
     it('should return an error when campaign already reached player limit', async () => {

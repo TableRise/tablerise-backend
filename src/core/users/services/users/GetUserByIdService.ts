@@ -22,7 +22,8 @@ export default class GetUserByIdService {
     }
 
     public async get({ userId }: GetByIdPayload): Promise<RegisterUserResponse> {
-        this.logger('info', 'Get - GetUserByIdService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ userId });
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
 

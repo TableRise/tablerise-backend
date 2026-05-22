@@ -17,7 +17,8 @@ export default class RemovePlayerCharacterOperation {
     }
 
     public async execute(payload: addCharacterPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - RemovePlayerCharacterOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const campaignWithCharacterRemoved = await this.removePlayerCharacterService.removeCharacter(payload);
         return this.removePlayerCharacterService.save(campaignWithCharacterRemoved);

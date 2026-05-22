@@ -28,7 +28,8 @@ export default class UsersDetailsRepository {
     }
 
     public async create(payload: UserDetail): Promise<UserDetail> {
-        this.logger('warn', `Create - UsersDetailsRepository`);
+        const callName = `[${this.constructor.name}] - ${this.create.name}`;
+        this.logger('info', callName);
 
         payload.userDetailId = newUUID();
 
@@ -37,14 +38,16 @@ export default class UsersDetailsRepository {
     }
 
     public async find(query: any = {}): Promise<UserDetail[]> {
-        this.logger('warn', `Find - UsersDetailsRepository`);
+        const callName = `[${this.constructor.name}] - ${this.find.name}`;
+        this.logger('info', callName);
         const request = await this.model.findAll(query);
 
         return request.map((entity: UserDetail) => this.formatAndSerializeData(entity));
     }
 
     public async findOne(query: any = {}): Promise<UserDetail> {
-        this.logger('warn', 'FindOne - UsersDetailsRepository');
+        const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
+        this.logger('info', callName);
         const request = await this.model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
@@ -53,7 +56,8 @@ export default class UsersDetailsRepository {
     }
 
     public async update({ query, payload }: UpdateObj): Promise<UserDetail> {
-        this.logger('warn', 'Update - UsersDetailsRepository');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         const request = await this.model.update(query, payload);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
@@ -64,7 +68,8 @@ export default class UsersDetailsRepository {
     }
 
     public async delete(query: any): Promise<void> {
-        this.logger('warn', 'Delete - UsersDetailsRepository');
+        const callName = `[${this.constructor.name}] - ${this.delete.name}`;
+        this.logger('info', callName);
         await this.model.delete(query);
     }
 }

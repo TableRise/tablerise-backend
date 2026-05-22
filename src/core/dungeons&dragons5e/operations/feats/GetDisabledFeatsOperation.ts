@@ -14,7 +14,8 @@ export default class GetDisabledFeatsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Feat>>> {
-        this.logger('info', 'Execute - GetFeatOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const feats = await this.getDisabledFeatsService.getAllDisabled();
         return feats;
     }

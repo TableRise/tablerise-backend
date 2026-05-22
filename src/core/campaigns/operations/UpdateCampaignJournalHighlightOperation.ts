@@ -14,7 +14,8 @@ export default class UpdateCampaignJournalHighlightOperation {
     }
 
     public async execute(payload: UpdateCampaignJournalHighlightPayload): Promise<HighlightedJournalPayload> {
-        this.logger('info', 'Execute - UpdateCampaignJournalHighlightOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.updateCampaignJournalHighlightService.updateHighlight(payload);
     }
 }

@@ -32,7 +32,8 @@ export default class GetCharactersByPlayerService {
     }
 
     public async get(campaignId: string, userId: string): Promise<CharacterToPlayerRecover[]> {
-        this.logger('info', 'Get - GetCharactersByPlayerService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
 
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const player = campaignInDb.campaignPlayers.find((p) => p.userId === userId);

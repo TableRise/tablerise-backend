@@ -1,5 +1,5 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { GetCampaignByUserIdResponse } from 'src/types/api/campaigns/http/response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
@@ -22,12 +22,13 @@ export default class GetCampaignsByUserIdService {
     }
 
     public async getByUserId(userId: string): Promise<GetCampaignByUserIdResponse> {
-        this.logger('info', 'GetByUserId - GetCampaignsByUserIdService');
+        const callName = `[${this.constructor.name}] - ${this.getByUserId.name}`;
+        this.logger('info', callName);
 
         const userDetailsInDb = (await this.usersDetailsRepository.findOne({
             userId,
         })) as UserDetail;
-        const userCampaignIds = userDetailsInDb.gameInfo.campaigns.map((campaign) => campaign.campaignId);
+        const userCampaignIds = userDetailsInDb.gameInfo.campaigns;
 
         if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');
 
@@ -41,10 +42,8 @@ export default class GetCampaignsByUserIdService {
         const master = [] as Campaign[];
         const player = [] as Campaign[];
 
-        userDetailsInDb.gameInfo.campaigns.forEach((campaign: GameInfoCampaigns) => {
-            const campaignComplete = userCampaigns.find(
-                (userCampaign) => userCampaign.campaignId === campaign.campaignId
-            );
+        userDetailsInDb.gameInfo.campaigns.forEach((campaign: string) => {
+            const campaignComplete = userCampaigns.find((userCampaign) => userCampaign.campaignId === campaign);
             const playerInCampaign = campaignComplete?.campaignPlayers.find(
                 (currentPlayer) => currentPlayer.userId === userId
             );

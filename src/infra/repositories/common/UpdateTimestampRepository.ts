@@ -20,7 +20,8 @@ export default class UpdateTimestampRepository {
     }
 
     public async updateTimestamp(query: UpdateTimestampPayload): Promise<void> {
-        this.logger('info', 'UpdateTimestamp - UpdateTimestampRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateTimestamp.name}`;
+        this.logger('info', callName);
 
         const updateMethods = {
             userId: this.updateToUserId,

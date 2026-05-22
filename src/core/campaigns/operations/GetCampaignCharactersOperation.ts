@@ -16,7 +16,8 @@ export default class GetCampaignCharactersOperation {
     }
 
     public async execute(campaignId: string): Promise<CharactersDnd[]> {
-        this.logger('info', 'Execute - GetCampaignCharactersOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getCampaignCharactersService.get(campaignId);
     }
 }

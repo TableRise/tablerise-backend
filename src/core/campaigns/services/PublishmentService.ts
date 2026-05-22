@@ -25,7 +25,8 @@ export default class PublishmentService {
     }
 
     async addPost({ campaignId, userId, payload }: publishmentPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - publishmentService');
+        const callName = `[${this.constructor.name}] - ${this.addPost.name}`;
+        this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
 
         const playerInCampaign = campaignInDb.campaignPlayers.find((p) => p.userId === userId) as Player;
@@ -50,7 +51,8 @@ export default class PublishmentService {
     }
 
     async save(campaign: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - publishmentService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,

@@ -14,7 +14,8 @@ export default class GetAllCampaignsOperation {
     }
 
     async execute(query: GetAllCampaignsQuery = {}): Promise<Campaign[]> {
-        this.logger('info', 'Execute - GetAllCampaignsOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getAllCampaignsService.getAll(query);
     }
 }

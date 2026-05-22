@@ -14,7 +14,8 @@ export default class GetAllSpellsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Spell>>> {
-        this.logger('info', 'Execute - GetAllSpellsOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const spells = await this.getAllSpellsService.getAll();
 
         return spells;

@@ -14,7 +14,8 @@ export default class GetBackgroundOperation {
     }
 
     public async execute(id: string): Promise<Internacional<Background>> {
-        this.logger('info', 'Execute - GetBackgroundOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const background = await this.getBackgroundService.get(id);
         return background;
     }

@@ -13,7 +13,8 @@ export default class GetAllEquipmentOperation {
     }
 
     public async execute(): Promise<Equipment[]> {
-        this.logger('info', 'Execute - GetAllEquipmentOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const equipment = await this.getAllEquipmentService.getAll();
 
         return equipment;

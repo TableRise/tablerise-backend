@@ -14,7 +14,8 @@ export default class ToggleEquipmentAvailabilityOperation {
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Equipment> {
-        this.logger('info', 'Execute - ToggleEquipmentAvailabilityOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const equipment = await this.toggleEquipmentAvailabilityService.toggle({
             id,
             availability,

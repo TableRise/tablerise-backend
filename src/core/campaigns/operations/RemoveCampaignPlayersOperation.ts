@@ -20,7 +20,8 @@ export default class RemoveCampaignPlayersOperation {
     }
 
     async execute(payload: RemoveCampaignPlayersPayload): Promise<Player[]> {
-        this.logger('info', 'Execute - RemoveCampaignPlayersOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const { campaign, userDetails, removedPlayer } = await this.removeCampaignPlayersService.removeCampaignPlayers(
             payload
         );

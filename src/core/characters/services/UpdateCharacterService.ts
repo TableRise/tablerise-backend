@@ -14,7 +14,8 @@ export default class UpdateCharacterService {
     }
 
     async update({ characterId, payload }: updateCharacterPayload): Promise<CharactersDnd> {
-        this.logger('info', 'UpdateCharacterService - Update');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
         const {

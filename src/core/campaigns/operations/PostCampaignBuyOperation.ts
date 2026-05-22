@@ -12,7 +12,8 @@ export default class PostCampaignBuyOperation {
     }
 
     public async execute(payload: PostCampaignBuyPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - PostCampaignBuyOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return await this.postCampaignBuyService.createBuy(payload);
     }
 }

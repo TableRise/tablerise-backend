@@ -21,7 +21,8 @@ export default class RemovePlayerCharacterService {
     }
 
     public async removeCharacter({ characterId, campaignId }: addCharacterPayload): Promise<Campaign> {
-        this.logger('info', 'RemoveCharacter - RemovePlayerCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.removeCharacter.name}`;
+        this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
 
         const playerInCampaignIndex = campaignInDb.campaignPlayers.findIndex((player: Player) =>
@@ -41,7 +42,8 @@ export default class RemovePlayerCharacterService {
     }
 
     public async save(payload: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - RemovePlayerCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: payload.campaignId },
             payload,

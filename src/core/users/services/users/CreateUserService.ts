@@ -5,6 +5,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
+import { awardNewbieBadge } from 'src/domains/users/helpers/BadgeAwardHandler';
 
 export default class CreateUserService {
     private readonly usersRepository;
@@ -32,7 +33,8 @@ export default class CreateUserService {
     }
 
     public async serialize(user: TCreateUserBody): Promise<__UserSerialized> {
-        this.logger('info', 'Serialize - CreateUserService');
+        const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
+        this.logger('info', callName);
         const userSerialized = this.serializer.postUser(user);
         const userDetailsSerialized = this.serializer.postUserDetails({});
 
@@ -46,7 +48,8 @@ export default class CreateUserService {
     }
 
     public async enrichment({ user, userDetails }: __FullUser): Promise<__UserEnriched> {
-        this.logger('info', 'Enrichment - CreateUserService');
+        const callName = `[${this.constructor.name}] - ${this.enrichment.name}`;
+        this.logger('info', callName);
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
         const tagInDb = await this.usersRepository.find({
             tag,
@@ -62,13 +65,13 @@ export default class CreateUserService {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
             currentFlow: stateFlowsEnum.enum.CREATE_USER,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
         user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
         user.picture = {
-            link: 'https://i.imgur.com/WxNkK7J.png',
+            link: '',
             title: '',
             id: '',
             deleteUrl: '',
@@ -79,7 +82,6 @@ export default class CreateUserService {
         userDetails.firstName = '';
         userDetails.lastName = '';
         userDetails.biography = '';
-        userDetails.secretQuestion = { question: 'default', answer: 'default' };
         userDetails.birthday = '';
         userDetails.gameInfo = {
             campaigns: [],
@@ -87,6 +89,8 @@ export default class CreateUserService {
             badges: [],
         };
         userDetails.role = 'user';
+        userDetails.rank = 'bronze';
+        awardNewbieBadge(userDetails);
 
         return {
             userEnriched: user,
@@ -95,7 +99,8 @@ export default class CreateUserService {
     }
 
     public async save({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this.logger('info', 'Save - CreateUserService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
 
         const userSaved = await this.usersRepository.create({
             ...user,

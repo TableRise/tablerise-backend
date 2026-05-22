@@ -1,6 +1,7 @@
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { AddCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
@@ -66,13 +67,12 @@ export default class AddCampaignPlayersService {
             userId,
             characterIds: [],
             role: 'player',
+            notes: [],
             status: 'pending',
         };
 
-        userDetails.gameInfo.campaigns.push({
-            campaignId: campaign.campaignId as string,
-            notes: [],
-        });
+        userDetails.gameInfo.campaigns.push(campaign.campaignId as string);
+        awardCampaignBadges(userDetails);
 
         campaign.campaignPlayers.push(player);
 

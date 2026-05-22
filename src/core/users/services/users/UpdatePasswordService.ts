@@ -17,18 +17,18 @@ export default class UpdatePasswordService {
     }
 
     private async changePassword({ user, password }: UserPassword): Promise<User> {
-        this.logger('info', 'ChangePassword - UpdatePasswordService');
+        const callName = `[${this.constructor.name}] - ${this.changePassword.name}`;
+        this.logger('info', callName);
         const { flows } = this.stateMachine.props;
 
         user.password = await SecurePasswordHandler.hashPassword(password);
 
-        await this.stateMachine.machine(flows.UPDATE_PASSWORD, user);
-
-        return user;
+        return this.stateMachine.machine(flows.UPDATE_PASSWORD, user);
     }
 
     public async update({ email, password }: UpdatePasswordPayload): Promise<void> {
-        this.logger('info', 'Update - UpdatePasswordService');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         const { status } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ email });

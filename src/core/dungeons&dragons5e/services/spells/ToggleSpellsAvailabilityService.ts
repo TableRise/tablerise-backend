@@ -15,7 +15,8 @@ export default class ToggleSpellsAvailabilityService {
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Spell>> {
-        this.logger('info', 'Toggle - ToggleSpellsAvailabilityService');
+        const callName = `[${this.constructor.name}] - ${this.toggle.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Spells');
 
         const spellInDb = (await this.dungeonsAndDragonsRepository.findOne({

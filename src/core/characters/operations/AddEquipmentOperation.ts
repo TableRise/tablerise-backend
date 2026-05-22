@@ -14,7 +14,8 @@ export default class AddEquipmentOperation {
     }
 
     async execute({ characterId, equipmentId }: ManageEquipmentPayload): Promise<CharactersDnd> {
-        this.logger('info', 'AddEquipmentOperation - Execute');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.addEquipmentService.add({ characterId, equipmentId });
     }
 }

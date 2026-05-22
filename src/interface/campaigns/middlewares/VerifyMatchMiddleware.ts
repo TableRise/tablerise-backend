@@ -13,7 +13,8 @@ export default class VerifyMatchMiddleware {
     }
 
     public async exists(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', 'Exists - VerifyMatchMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.exists.name}`;
+        this.logger('info', callName);
 
         const { id } = req.params;
         const campaign = await this.campaignsRepository.findOne({ campaignId: id });

@@ -14,7 +14,8 @@ export default class AddCampaignNoteOperation {
     }
 
     public async execute(payload: AddCampaignNotePayload): Promise<GameInfoCampaigns> {
-        this.logger('info', 'Execute - AddCampaignNoteOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.addCampaignNoteService.add(payload);
     }
 }

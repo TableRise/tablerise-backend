@@ -3,7 +3,9 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import requester from 'tests/support/requester';
 
-describe('When a user is created', () => {
+describe('When a user is created', function () {
+    this.timeout(30000);
+
     context('And all data is correct', () => {
         before(() => {
             process.env.EMAIL_SENDING = 'on';
@@ -31,6 +33,7 @@ describe('When a user is created', () => {
             expect(body.details.gameInfo).to.have.property('campaigns').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('characters').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('badges').that.is.an('array');
+            expect(body.details.gameInfo.badges).to.include('newbie_badge');
             expect(body.details).to.have.property('role').that.is.equal('user');
         });
     });

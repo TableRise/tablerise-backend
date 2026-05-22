@@ -14,12 +14,14 @@ export default class UpdateGameInfoOperation {
     }
 
     public async add(payload: AddGameInfoPayload): Promise<string> {
-        this.logger('info', 'Add - UpdateGameInfoOperation');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
         return this.updateGameInfoService.add(payload);
     }
 
     public async remove(payload: RemoveGameInfoPayload): Promise<string> {
-        this.logger('info', 'Remove - UpdateGameInfoOperation');
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
         return this.updateGameInfoService.remove(payload);
     }
 }

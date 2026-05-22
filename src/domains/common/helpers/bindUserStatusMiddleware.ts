@@ -1,8 +1,8 @@
 import { routeInstance } from '@tablerise/auto-swagger';
 import express from 'express';
-import { bindOptions } from 'src/types/modules/domains/common/helpers/bindMiddleware';
+import { bindOptions } from 'src/types/modules/domains/common/helpers/bindUserStatusMiddleware';
 
-export default function bindMiddleware(
+export default function bindUserStatusMiddleware(
     middleware: express.Handler,
     routes: routeInstance[],
     options: bindOptions = {

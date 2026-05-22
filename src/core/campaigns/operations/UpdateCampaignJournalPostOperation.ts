@@ -17,7 +17,8 @@ export default class UpdateCampaignJournalPostOperation {
     }
 
     public async execute(payload: UpdateCampaignJournalPostPayload): Promise<CampaignJournalPost> {
-        this.logger('info', 'Execute - UpdateCampaignJournalPostOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const { campaign, updatedPost } = await this.updateCampaignJournalPostService.updatePost(payload);
         const savedCampaign = await this.updateCampaignJournalPostService.save(campaign);

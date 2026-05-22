@@ -20,7 +20,8 @@ export default class GetByLevelOperation {
     }
 
     public async execute(queryLevel: number): Promise<Array<Internacional<Spell>>> {
-        this.logger('info', 'Execute - GetByLevelOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const spells = await this.getByLevelSpellsService.getByLevel(queryLevel);
 
         return spells;

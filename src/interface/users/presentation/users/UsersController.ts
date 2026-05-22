@@ -2,27 +2,27 @@ import { Response, Request } from 'express';
 import {
     AddCampaignNotePayload,
     AddGameInfoPayload,
-    RegisterUserPayload,
     RemoveGameInfoPayload,
+    UpdateUserDetailsPayload,
+    UpdateUserPayload,
     VerifyEmailPayload,
-    UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import { TCreateUserBody, TUpdateCampaignNotesBody, TUpdateCampaignNotesQuery } from './UsersSchemas';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class UsersController {
     private readonly createUserOperation;
     private readonly updateUserOperation;
+    private readonly updateUserDetailsOperation;
     private readonly verifyEmailOperation;
     private readonly getUsersOperation;
     private readonly getUserByIdOperation;
-    private readonly activateSecretQuestionOperation;
-    private readonly updateSecretQuestionOperation;
     private readonly activateTwoFactorOperation;
+    private readonly deactivateTwoFactorOperation;
     private readonly resetTwoFactorOperation;
     private readonly updateEmailOperation;
     private readonly updatePasswordOperation;
@@ -38,12 +38,12 @@ export default class UsersController {
     constructor({
         createUserOperation,
         updateUserOperation,
+        updateUserDetailsOperation,
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
-        activateSecretQuestionOperation,
-        updateSecretQuestionOperation,
         activateTwoFactorOperation,
+        deactivateTwoFactorOperation,
         resetTwoFactorOperation,
         updateEmailOperation,
         updatePasswordOperation,
@@ -58,12 +58,12 @@ export default class UsersController {
     }: InterfaceDependencies['usersControllerContract']) {
         this.createUserOperation = createUserOperation;
         this.updateUserOperation = updateUserOperation;
+        this.updateUserDetailsOperation = updateUserDetailsOperation;
         this.verifyEmailOperation = verifyEmailOperation;
         this.getUsersOperation = getUsersOperation;
         this.getUserByIdOperation = getUserByIdOperation;
-        this.activateSecretQuestionOperation = activateSecretQuestionOperation;
-        this.updateSecretQuestionOperation = updateSecretQuestionOperation;
         this.activateTwoFactorOperation = activateTwoFactorOperation;
+        this.deactivateTwoFactorOperation = deactivateTwoFactorOperation;
         this.resetTwoFactorOperation = resetTwoFactorOperation;
         this.updateEmailOperation = updateEmailOperation;
         this.updatePasswordOperation = updatePasswordOperation;
@@ -77,13 +77,13 @@ export default class UsersController {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
 
         this.register = this.register.bind(this);
-        this.update = this.update.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+        this.updateUserDetails = this.updateUserDetails.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.getUserById = this.getUserById.bind(this);
-        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
-        this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
+        this.deactivateTwoFactor = this.deactivateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
@@ -111,14 +111,23 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(res.locals);
     }
 
-    public async update(req: Request, res: Response): Promise<Response> {
+    public async updateUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const payload = req.body as RegisterUserPayload;
+        const payload = req.body as UpdateUserPayload['payload'];
 
         const result = await this.updateUserOperation.execute({ userId: id, payload });
-        delete (result as Partial<RegisterUserResponse>).password;
+        delete (result as Partial<User>).password;
 
-        return res.status(HttpStatusCode.CREATED).json(result);
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateUserDetails(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as UpdateUserDetailsPayload['payload'];
+
+        const result = await this.updateUserDetailsOperation.execute({ userId: id, payload });
+
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getCampaignsByUserId(req: Request, res: Response): Promise<Response> {
@@ -158,29 +167,18 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).cookie('token', token, cookieOptions).json(tokenData);
     }
 
-    public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as UserDetail['secretQuestion'];
-
-        await this.activateSecretQuestionOperation.execute({ userId: id, payload });
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
-    public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as UpdateSecretQuestion;
-
-        await this.updateSecretQuestionOperation.execute({ userId: id, payload });
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
         const result = await this.activateTwoFactorOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async deactivateTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        await this.deactivateTwoFactorOperation.execute(id);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async resetTwoFactor(req: Request, res: Response): Promise<Response> {

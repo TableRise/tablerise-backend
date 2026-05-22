@@ -1,5 +1,6 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import newUUID from 'src/domains/common/helpers/newUUID';
+import { awardCharacterBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
@@ -28,14 +29,16 @@ export default class CreateCharacterService {
     }
 
     public serialize(payload: CreateCharacterPayload): CharactersDnd {
-        this.logger('info', 'Serialize - CreateCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
+        this.logger('info', callName);
         const characterSerialized = this.serializer.postCharacter(payload.payload);
 
         return characterSerialized as CharactersDnd;
     }
 
     public async enrichment(payload: CharactersDnd, userId: string): Promise<CharactersDnd> {
-        this.logger('info', 'Enrichment - CreateCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.enrichment.name}`;
+        this.logger('info', callName);
 
         const userInDb = await this.usersRepository.findOne({ userId });
         const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
@@ -64,13 +67,15 @@ export default class CreateCharacterService {
     }
 
     public async save(character: CharactersDnd): Promise<CharactersDnd> {
-        this.logger('info', 'Save - CreateCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         const characterId = newUUID();
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: character.author.userId,
         });
 
         userDetailsInDb.gameInfo.characters.push(characterId);
+        awardCharacterBadges(userDetailsInDb);
 
         await this.usersDetailsRepository.update({
             query: { userId: character.author.userId },

@@ -48,7 +48,8 @@ export default class CampaignsRepository {
     }
 
     public async create(payload: Campaign): Promise<Campaign> {
-        this.logger('warn', `Create - CampaignsRepository`);
+        const callName = `[${this.constructor.name}] - ${this.create.name}`;
+        this.logger('info', callName);
 
         payload.campaignId = newUUID();
 
@@ -57,7 +58,8 @@ export default class CampaignsRepository {
     }
 
     public async findOne(query: any = {}): Promise<Campaign> {
-        this.logger('warn', 'FindOne - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
+        this.logger('info', callName);
         const request = await this.model.findOne(query);
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
@@ -65,24 +67,28 @@ export default class CampaignsRepository {
     }
 
     public async find(query: any = {}): Promise<Campaign[]> {
-        this.logger('warn', `Find - CampaignsRepository`);
+        const callName = `[${this.constructor.name}] - ${this.find.name}`;
+        this.logger('info', callName);
         const request = await this.model.findAll(query);
 
         return request.map((data) => this.formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<Campaign> {
-        this.logger('warn', 'Update - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         return this.updateAndSerialize(query, payload);
     }
 
     public async delete(query: any): Promise<void> {
-        this.logger('warn', 'Delete - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.delete.name}`;
+        this.logger('info', callName);
         await this.model.delete(query);
     }
 
     public async updateRealtimeState(campaignId: string, payload: RealtimeStateUpdatePayload): Promise<Campaign> {
-        this.logger('warn', 'UpdateRealtimeState - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateRealtimeState.name}`;
+        this.logger('info', callName);
 
         const updatePayload: Record<string, unknown> = {};
 
@@ -112,22 +118,26 @@ export default class CampaignsRepository {
     }
 
     public async updateMatchStateFields(campaignId: string, patch: MatchStatePatch): Promise<Campaign> {
-        this.logger('warn', 'UpdateMatchStateFields - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateMatchStateFields.name}`;
+        this.logger('info', callName);
         return this.updateRealtimeState(campaignId, { matchStateFields: patch });
     }
 
     public async updateTokens(campaignId: string, tokens: Campaign['matchData']['state']['tokens']): Promise<Campaign> {
-        this.logger('warn', 'UpdateTokens - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateTokens.name}`;
+        this.logger('info', callName);
         return this.updateRealtimeState(campaignId, { tokens });
     }
 
     public async updateMatchLogs(campaignId: string, logs: Campaign['matchData']['logs']): Promise<Campaign> {
-        this.logger('warn', 'UpdateMatchLogs - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateMatchLogs.name}`;
+        this.logger('info', callName);
         return this.updateRealtimeState(campaignId, { logs });
     }
 
     public async updateBuys(campaignId: string, buys: Campaign['buys']): Promise<Campaign> {
-        this.logger('warn', 'UpdateBuys - CampaignsRepository');
+        const callName = `[${this.constructor.name}] - ${this.updateBuys.name}`;
+        this.logger('info', callName);
         return this.updateAndSerialize(
             { campaignId },
             {

@@ -16,7 +16,8 @@ export default class GetCampaignsByUserIdOperation {
     }
 
     public async execute(userId: string): Promise<GetCampaignByUserIdResponse> {
-        this.logger('info', 'Execute - GetCampaignsByUserIdOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getCampaignsByUserIdService.getByUserId(userId);
     }
 }

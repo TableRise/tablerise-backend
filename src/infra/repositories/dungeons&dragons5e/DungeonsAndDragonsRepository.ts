@@ -24,7 +24,8 @@ export default class DungeonsAndDragonsRepository {
     }
 
     public async find(query: any = {}): Promise<unknown[]> {
-        this.logger('warn', `Find - DungeonsAndDragonsRepository`);
+        const callName = `[${this.constructor.name}] - ${this.find.name}`;
+        this.logger('info', callName);
         const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.findAll(query);
 
@@ -32,7 +33,8 @@ export default class DungeonsAndDragonsRepository {
     }
 
     public async findOne(query: any = {}): Promise<unknown> {
-        this.logger('warn', 'FindOne - DungeonsAndDragonsRepository');
+        const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
+        this.logger('info', callName);
         const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.findOne(query);
 
@@ -42,7 +44,8 @@ export default class DungeonsAndDragonsRepository {
     }
 
     public async update({ query, payload }: UpdateObj): Promise<unknown> {
-        this.logger('warn', 'Update - DungeonsAndDragonsRepository');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         const model = this.model('dungeons&dragons5e', this.entity as DnDEntities);
         const request = await model.update(query, payload);
 

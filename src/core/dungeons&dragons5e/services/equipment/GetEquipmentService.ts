@@ -13,7 +13,8 @@ export default class GetEquipmentService {
     }
 
     public async get(id: string): Promise<Equipment> {
-        this.logger('info', 'Get - GetEquipmentService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Equipment' as any);
 
         const equipmentInDb = (await this.dungeonsAndDragonsRepository.findOne({

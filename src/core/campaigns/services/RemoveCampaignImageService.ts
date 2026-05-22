@@ -12,7 +12,8 @@ export default class RemoveCampaignImageService {
     }
 
     async removeCover({ campaignId }: { campaignId: string }): Promise<Campaign> {
-        this.logger('info', 'RemoveCover - RemoveCampaignImageService');
+        const callName = `[${this.constructor.name}] - ${this.removeCover.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         (campaign as unknown as { cover: ImageObject | null }).cover = null;
@@ -45,7 +46,8 @@ export default class RemoveCampaignImageService {
     }
 
     async save(campaign: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - RemoveCampaignImageService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,

@@ -18,7 +18,8 @@ export default class PostCampaignLogOperation {
     }
 
     public async execute(payload: PostCampaignLogPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - PostCampaignLogOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const savedCampaign = await this.postCampaignLogService.createLog(payload);
         const createdLog = savedCampaign.matchData.logs[savedCampaign.matchData.logs.length - 1];

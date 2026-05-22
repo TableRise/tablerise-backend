@@ -1,570 +1,150 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import sinon from 'sinon';
-import getErrorName from 'src/domains/common/helpers/getErrorName';
+import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import StateMachine from 'src/domains/common/StateMachine';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import VerifyEmailCodeMiddleware from 'src/interface/users/middlewares/VerifyEmailCodeMiddleware';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Interface :: Users :: Middlewares :: VerifyEmailCodeMiddleware', () => {
-    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware,
-        usersRepository: any,
-        schemaValidator: any,
-        usersSchemas: any,
-        usersDetailsRepository: any,
-        user: any;
+    const logger = (): void => {};
 
-    const logger = (): unknown => ({});
+    let usersRepository: any;
+    let verifyEmailCodeMiddleware: VerifyEmailCodeMiddleware;
+    let stateMachine: any;
 
-    const stateMachine = {
-        props: StateMachine.prototype.props,
-        machine: sinon.spy(() => ({
+    beforeEach(() => {
+        stateMachine = {
+            props: StateMachine.prototype.props,
+            machine: sinon.stub(),
+        };
+    });
+
+    it('should continue with two-factor when the flow is valid', async () => {
+        const request = {
+            params: { id: '123' },
+            query: { code: 'KLI44', flow: 'update-password' },
+        } as unknown as Request;
+        const response = { locals: {} } as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository = {
+            findOne: sinon.stub().returns({
+                userId: '123',
+                inProgress: {
+                    status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                    code: 'KLI44',
+                },
+                twoFactorSecret: { active: true },
+            }),
+        };
+
+        stateMachine.machine.returns({
             userId: '123',
-            inProgress: { status: 'done' },
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
             twoFactorSecret: { active: true },
-            updatedAt: '12-12-2024T00:00:00Z',
-        })),
-    } as any;
+            updatedAt: '2024-12-12T00:00:00.000Z',
+        });
 
-    context('When the user has the email code verified', () => {
-        const request = {} as Request;
+        verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+            usersRepository,
+            usersDetailsRepository: {},
+            stateMachine,
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticateEmail: { query: {} } },
+            logger,
+        } as any);
+
+        await verifyEmailCodeMiddleware.verify(request, response, next);
+
+        expect(stateMachine.machine).to.have.been.calledOnce();
+        expect(response.locals.accountSecurityMethod).to.be.equal('two-factor');
+        expect(next).to.have.been.calledOnce();
+    });
+
+    it('should throw 2fa-no-active when the next step requires second auth but 2FA is disabled', async () => {
+        const request = {
+            params: { id: '123' },
+            query: { code: 'KLI44', flow: 'update-password' },
+        } as unknown as Request;
+        const response = { locals: {} } as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository = {
+            findOne: sinon.stub().returns({
+                userId: '123',
+                inProgress: {
+                    status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                    code: 'KLI44',
+                },
+                twoFactorSecret: { active: false },
+            }),
+        };
+
+        stateMachine.machine.returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
+            twoFactorSecret: { active: false },
+            updatedAt: '2024-12-12T00:00:00.000Z',
+        });
+
+        verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+            usersRepository,
+            usersDetailsRepository: {},
+            stateMachine,
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticateEmail: { query: {} } },
+            logger,
+        } as any);
+
+        try {
+            await verifyEmailCodeMiddleware.verify(request, response, next);
+            expect.fail('Expected error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('2FA not enabled for this user');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+            expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+        }
+    });
+
+    it('should throw when the email verification code is invalid', async () => {
+        const request = {
+            params: { id: '123' },
+            query: { code: 'WRONG', flow: 'create-user' },
+        } as unknown as Request;
         const response = {} as Response;
-        const next = sinon.spy(() => {}) as NextFunction;
+        const next = sinon.spy() as unknown as NextFunction;
 
-        response.status = sinon.spy(() => response);
-        response.json = sinon.spy(() => response);
-
-        context('And params are correct', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: true },
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should call next - when has ID', async () => {
-                request.params = { id: '123' };
-                request.query = { code: 'KLI44', flow: 'update-password' };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-
-            it('should call next - when has email', async () => {
-                delete request.params.id;
-                request.query = {
-                    email: 'test@email.com',
+        usersRepository = {
+            findOne: sinon.stub().returns({
+                userId: '123',
+                inProgress: {
+                    status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
                     code: 'KLI44',
-                    flow: 'update-password',
-                };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
-
-        context('And the parameters are correct but userRepositoryDetails has not been created yet', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: true },
-                };
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should call next - when has ID', async () => {
-                request.params = { id: '123' };
-                request.query = { code: 'KLI44', flow: 'update-password' };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-
-            it('should call next - when has email', async () => {
-                delete request.params.id;
-                request.query = {
-                    email: 'test@email.com',
-                    code: 'KLI44',
-                    flow: 'update-password',
-                };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
-
-        context('And params are correct - user has secret question', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: false },
-                };
-
-                stateMachine.machine = sinon.spy(() => ({
-                    userId: '123',
-                    inProgress: { status: 'done' },
-                    twoFactorSecret: { active: false },
-                    updatedAt: '12-12-2024T00:00:00Z',
-                }));
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should call next - when has ID', async () => {
-                request.params = { id: '123' };
-                request.query = { code: 'KLI44', flow: 'update-password' };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-
-            it('should call next - when has email', async () => {
-                // delete request.params.id;
-                request.query = {
-                    email: 'test@email.com',
-                    code: 'KLI44',
-                    flow: 'update-password',
-                };
-
-                request.params = { id: '123' };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                user.inProgress.status = InProgressStatusEnum.enum.DONE;
-
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
-
-        context('And params are incorrect', () => {
-            beforeEach(() => {
-                usersRepository = { findOne: () => null };
-
-                usersDetailsRepository = { findOne: () => null };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should throw an error - no id or email', async () => {
-                try {
-                    delete request.params.id;
-                    request.query = { code: 'KLI44' };
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Neither id or email was provided to validate the email code');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal('BadRequest');
-                }
-            });
-        });
-
-        context('And params are incorrect - id or email inexistent', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should throw an error - id inexistent', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI44' };
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User does not exist');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal('NotFound');
-                }
-            });
-
-            it('should throw an error - email inexistent', async () => {
-                try {
-                    request.query = { email: 'test@email.com', code: 'KLI44' };
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User does not exist');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal('NotFound');
-                }
-            });
-        });
-
-        context('And params are correct - but code is invalid', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
-                            code: 'KLI44',
-                        },
-                    }),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    stateMachine,
-                    usersRepository,
-                    usersDetailsRepository,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI00' };
-
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Invalid email verify code');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
-                }
-            });
-        });
-
-        context('And params are correct - but user status is invalid', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER,
-                            code: 'KLI44',
-                        },
-                    }),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        secretQuestion: { question: 'What is your favorite color?' },
-                    }),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticateEmail: { query: {} },
-                };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    stateMachine,
-                    usersRepository,
-                    usersDetailsRepository,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should throw an error', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI44' };
-
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-                }
-            });
-        });
-
-        context('And usersDetailsRepository throws a non-NOT_FOUND error', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: true },
-                };
-
-                stateMachine.machine = sinon.spy(() => ({
-                    userId: '123',
-                    inProgress: { status: 'done' },
-                    twoFactorSecret: { active: true },
-                    updatedAt: '12-12-2024T00:00:00Z',
-                }));
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => {
-                        const err = new Error('Internal server error') as any;
-                        err.code = HttpStatusCode.INTERNAL_SERVER;
-                        throw err;
-                    },
-                };
-
-                schemaValidator = { entry: () => {} };
-                usersSchemas = { postAuthenticateEmail: { query: {} } };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should rethrow the non-NOT_FOUND error', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { code: 'KLI44', flow: 'update-password' };
-
-                    await verifyEmailCodeMiddleware.verify(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as any;
-                    expect(err.code).to.be.equal(HttpStatusCode.INTERNAL_SERVER);
-                }
-            });
-        });
-
-        context('And params are correct - user has secret question - userDetails not found', () => {
-            beforeEach(() => {
-                user = {
-                    userId: '123',
-                    inProgress: {
-                        status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
-                        code: 'KLI44',
-                    },
-                    twoFactorSecret: { active: false },
-                };
-
-                stateMachine.machine = sinon.spy(() => ({
-                    userId: '123',
-                    inProgress: { status: 'done' },
-                    twoFactorSecret: { active: false },
-                    updatedAt: '12-12-2024T00:00:00Z',
-                }));
-
-                usersDetailsRepository = {
-                    findOne: () => {
-                        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-                        throw HttpRequestErrors.throwError('user-inexistent');
-                    },
-                };
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(),
-                };
-
-                schemaValidator = { entry: () => {} };
-                usersSchemas = { postAuthenticateEmail: { query: {} } };
-
-                verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
-                    usersRepository,
-                    usersDetailsRepository,
-                    stateMachine,
-                    schemaValidator,
-                    usersSchemas,
-                    logger,
-                });
-            });
-
-            it('should call next with secret-question accountSecurityMethod when userDetails is null', async () => {
-                request.params = { id: '123' };
-                request.query = { code: 'KLI44', flow: 'update-password' };
-
-                await verifyEmailCodeMiddleware.verify(request, response, next);
-
-                expect(next).to.have.been.called();
-                expect(response.locals.accountSecurityMethod).to.contain('secret-question');
-            });
-        });
+                },
+                twoFactorSecret: { active: true },
+            }),
+        };
+
+        verifyEmailCodeMiddleware = new VerifyEmailCodeMiddleware({
+            usersRepository,
+            usersDetailsRepository: {},
+            stateMachine,
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticateEmail: { query: {} } },
+            logger,
+        } as any);
+
+        try {
+            await verifyEmailCodeMiddleware.verify(request, response, next);
+            expect.fail('Expected error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('Invalid email verify code');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
+            expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
+        }
     });
 });

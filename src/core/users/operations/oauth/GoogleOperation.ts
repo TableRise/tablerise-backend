@@ -17,7 +17,8 @@ export default class GoogleOperation {
     }
 
     public async execute(payload: Google.Profile): Promise<RegisterUserResponse> {
-        this.logger('info', 'Execute - GoogleOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const entitySerialized = await this.oAuthService.serialize(payload);
 
@@ -32,7 +33,8 @@ export default class GoogleOperation {
     }
 
     private async createUser(userSerialized: User, userDetailsSerialized: UserDetail): Promise<RegisterUserResponse> {
-        this.logger('info', 'CreateUser - GoogleOperation');
+        const callName = `[${this.constructor.name}] - ${this.createUser.name}`;
+        this.logger('info', callName);
 
         const entityEnriched = await this.oAuthService.enrichment(
             {

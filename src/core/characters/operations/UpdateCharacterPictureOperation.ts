@@ -15,7 +15,8 @@ export default class UpdateCharacterPictureOperation {
     }
 
     public async execute(payload: UpdateCharacterPicturePayload): Promise<CharactersDnd> {
-        this.logger('info', 'Execute - UpdateCharacterPictureOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.updateCharacterPictureService.uploadPicture(payload);
     }
 }

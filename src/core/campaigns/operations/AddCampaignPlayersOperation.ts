@@ -20,7 +20,8 @@ export default class AddCampaignPlayersOperation {
     }
 
     async execute(payload: AddCampaignPlayersPayload): Promise<Player[]> {
-        this.logger('info', 'Execute - AddCampaignPlayersOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const { campaign, userDetails } = await this.addCampaignPlayersService.addCampaignPlayers(payload);
 
         const savedCampaign = await this.addCampaignPlayersService.save(campaign, userDetails);

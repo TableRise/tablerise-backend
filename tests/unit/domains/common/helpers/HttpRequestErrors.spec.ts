@@ -12,7 +12,6 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',
         '2fa-no-active': '2FA not enabled for this user',
-        '2fa-and-secret-question-no-active': '2FA not enabled for this user neither secretQuestion',
         '2fa-already-active': '2FA is already enabled for this user',
         '2fa-incorrect': 'Two factor code does not match',
         'rpg-not-found-id': 'NotFound an object with provided ID',
@@ -29,8 +28,6 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'player-already-banned': 'Player is already banned',
         'player-not-in-match': 'Player not in match',
         'content-inexistent': 'This content do not exist in the RPG system',
-        'incorrect-secret-question': 'Secret question is incorrect',
-        'new-structure-secret-question-missing': 'Structure of new for new question and answer is missing',
         'blank-question-or-answer': 'Some error not specified ocurred',
         'campaign-match-inexistent': 'Campaign Match does not exist and cannot be updated',
 

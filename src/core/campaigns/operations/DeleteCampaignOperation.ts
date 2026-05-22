@@ -12,7 +12,8 @@ export default class DeleteCampaignOperation {
     }
 
     public async execute(campaignId: string, userId: string): Promise<void> {
-        this.logger('info', 'Execute - DeleteCampaignOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.deleteCampaignService.deleteCampaign(campaignId, userId);
     }
 }

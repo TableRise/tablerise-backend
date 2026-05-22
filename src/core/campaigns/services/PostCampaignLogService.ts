@@ -13,7 +13,8 @@ export default class PostCampaignLogService {
     }
 
     public async createLog({ campaignId, userId, payload }: PostCampaignLogPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - PostCampaignLogService');
+        const callName = `[${this.constructor.name}] - ${this.createLog.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const caller = campaign.campaignPlayers.find((player) => player.userId === userId);

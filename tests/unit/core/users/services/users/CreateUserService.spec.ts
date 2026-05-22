@@ -125,7 +125,6 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
-                userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
                 user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
 
                 serializer = {};
@@ -157,7 +156,7 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 expect(userEnriched.updatedAt).to.be.not.null();
                 expect(userEnriched.password).to.be.not.equal('testepwd@');
                 expect(userEnriched.twoFactorSecret.active).to.be.equal(false);
-                expect(userDetailsEnriched.secretQuestion).to.be.deep.equal(userDetails.secretQuestion);
+                expect(userDetailsEnriched.gameInfo.badges).to.include('newbie_badge');
             });
         });
 
@@ -177,7 +176,6 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
-                userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
 
                 serializer = {};
 

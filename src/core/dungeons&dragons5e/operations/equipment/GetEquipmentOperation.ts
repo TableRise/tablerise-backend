@@ -13,7 +13,8 @@ export default class GetEquipmentOperation {
     }
 
     public async execute(id: string): Promise<Equipment> {
-        this.logger('info', 'Execute - GetEquipmentOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const equipment = await this.getEquipmentService.get(id);
 
         return equipment;

@@ -14,7 +14,8 @@ export default class GetDisabledClassesOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Class>>> {
-        this.logger('info', 'Execute - GetClassOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const classes = await this.getDisabledClassesService.getAllDisabled();
         return classes;
     }

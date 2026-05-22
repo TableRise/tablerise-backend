@@ -11,7 +11,8 @@ export default class GetCharacterByIdService {
     }
 
     async get(characterId: string): Promise<CharactersDnd> {
-        this.logger('info', 'Execute - GetCharacterByIdService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         return this.charactersRepository.findOne({ characterId });
     }
 }

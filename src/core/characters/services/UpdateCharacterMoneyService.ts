@@ -22,7 +22,8 @@ export default class UpdateCharacterMoneyService {
     }
 
     async update({ characterId, operation, money, moneyType }: UpdateCharacterMoneyPayload): Promise<CharactersDnd> {
-        this.logger('info', 'UpdateCharacterMoneyService - Update');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         const characterInDb = await this.charactersRepository.findOne({ characterId });
         const unitKey = UNIT_MAP[moneyType];
         if (!unitKey) HttpRequestErrors.throwError('query-string-incorrect');

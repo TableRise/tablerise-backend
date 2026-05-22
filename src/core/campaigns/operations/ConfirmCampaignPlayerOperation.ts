@@ -18,7 +18,8 @@ export default class ConfirmCampaignPlayerOperation {
     }
 
     public async execute(campaignId: string, userId: string, userToActivate: string): Promise<void> {
-        this.logger('info', 'Execute - ConfirmCampaignPlayerOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
         const savedCampaign = await this.confirmCampaignPlayerService.confirm(campaignId, userId, userToActivate);
         this.socketIO.syncActiveCampaign(savedCampaign);

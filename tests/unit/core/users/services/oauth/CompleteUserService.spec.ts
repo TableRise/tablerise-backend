@@ -59,6 +59,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 expect(userProcessed.userDetails.firstName).to.be.equal(payloadToCompleteUser.firstName);
                 expect(userProcessed.userDetails.lastName).to.be.equal(payloadToCompleteUser.lastName);
                 expect(userProcessed.userDetails.birthday).to.be.equal(payloadToCompleteUser.birthday);
+                expect(userProcessed.userDetails.gameInfo.badges).to.include('newbie_badge');
             });
         });
 
@@ -113,6 +114,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.badges = ['newbie_badge'];
 
                 user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
@@ -140,6 +142,7 @@ describe('Core :: Users :: Operations :: OAuth :: CompleteUserService', () => {
                 expect(userProcessed).to.have.property('details');
                 expect(userProcessed.nickname).to.be.equal(user.nickname);
                 expect(userProcessed.details).to.be.deep.equal(userDetails);
+                expect(userProcessed.details.gameInfo.badges).to.include('newbie_badge');
             });
         });
     });

@@ -17,7 +17,8 @@ export default class DeleteCampaignJournalPostOperation {
     }
 
     public async execute(payload: DeleteCampaignJournalPostPayload): Promise<void> {
-        this.logger('info', 'Execute - DeleteCampaignJournalPostOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const { campaign } = await this.deleteCampaignJournalPostService.deletePost(payload);
         const savedCampaign = await this.deleteCampaignJournalPostService.save(campaign);

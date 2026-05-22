@@ -21,7 +21,8 @@ export default class AddEquipmentService {
     }
 
     async add({ characterId, equipmentId }: ManageEquipmentPayload): Promise<CharactersDnd> {
-        this.logger('info', 'AddEquipmentService - Add');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
 

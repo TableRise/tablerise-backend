@@ -7,6 +7,7 @@ import {
 import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
+import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { FileObject } from 'src/types/shared/file';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
@@ -41,7 +42,8 @@ export default class CreateCampaignService {
     }
 
     public async serialize(campaign: CampaignPayload): Promise<__CampaignSerialized> {
-        this.logger('info', 'Serialize - CreateCampaignService');
+        const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
+        this.logger('info', callName);
         return this.serializer.postCampaign(campaign);
     }
 
@@ -65,6 +67,7 @@ export default class CreateCampaignService {
                 userId,
                 characterIds: [],
                 role: 'dungeon_master',
+                notes: [],
                 status: 'active',
             },
         ];
@@ -86,7 +89,7 @@ export default class CreateCampaignService {
             },
         };
 
-        campaign.configurations = configurations;
+        campaign.configurations = { ...configurations, shopOn: configurations.shopSystem && true };
         campaign.buys = [];
 
         campaign.matchData = {
@@ -136,7 +139,8 @@ export default class CreateCampaignService {
     }
 
     public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {
-        this.logger('info', 'Save - CreateCampaignService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: campaign.campaignPlayers[0].userId,
         });
@@ -145,10 +149,8 @@ export default class CreateCampaignService {
             ...campaign,
         });
 
-        userDetailsInDb.gameInfo.campaigns.push({
-            campaignId: campaignCreated.campaignId as string,
-            notes: [],
-        });
+        userDetailsInDb.gameInfo.campaigns.push(campaignCreated.campaignId as string);
+        awardCampaignBadges(userDetailsInDb);
 
         await this.usersDetailsRepository.update({
             query: { userId: campaign.campaignPlayers[0].userId },

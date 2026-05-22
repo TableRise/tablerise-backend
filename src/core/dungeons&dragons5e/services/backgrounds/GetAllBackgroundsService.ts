@@ -14,7 +14,8 @@ export default class GetAllBackgroundsService {
     }
 
     public async getAll(): Promise<Array<Internacional<Background>>> {
-        this.logger('info', 'GetAll - GetAllBackgroundsService');
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
         const backgroundsInDb = (await this.dungeonsAndDragonsRepository.find({

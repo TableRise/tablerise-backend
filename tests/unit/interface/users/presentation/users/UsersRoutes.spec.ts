@@ -18,13 +18,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             postCreateUser: { example: {} },
             postLogin: { example: {} },
             postUpdateUserProfilePicture: { example: {} },
-            postAuthenticateSecretQuestion: { example: {} },
             postValidateEmailSendCode: { query: {} },
             postAuthenticateEmail: { query: {} },
             postAuthenticate2FA: { query: {} },
-            putUpdateUser: { example: {} },
-            patchActivateSecretQuestion: { example: {} },
-            patchSecretQuestionUpdate: { example: {} },
+            putUpdateUser: { body: {} },
+            putUpdateUserDetails: { body: {} },
             patchUpdateEmail: { example: {} },
             patchUpdatePassword: { example: {} },
             patchAddUserGameInfo: { example: {} },
@@ -53,7 +51,19 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(23);
+            expect(routes).to.have.lengthOf(22);
+            expect(routes.find((route) => route.path === '/users/:id/update')?.options?.schemas?.[0]).to.be.deep.equal({
+                body: usersSchemas.putUpdateUser.body,
+            });
+            expect(
+                routes.find((route) => route.path === '/users/:id/update/details')?.options?.schemas?.[0]
+            ).to.be.deep.equal({
+                body: usersSchemas.putUpdateUserDetails.body,
+            });
+            expect(routes.find((route) => route.path === '/users/:id/2fa/deactivate')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/users/authenticate/secret-question')).to.be.undefined();
+            expect(routes.find((route) => route.path === '/users/:id/question/activate')).to.be.undefined();
+            expect(routes.find((route) => route.path === '/users/:id/question/update')).to.be.undefined();
         });
     });
 });

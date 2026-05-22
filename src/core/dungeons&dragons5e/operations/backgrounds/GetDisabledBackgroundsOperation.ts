@@ -14,7 +14,8 @@ export default class GetDisabledBackgroundsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Background>>> {
-        this.logger('info', 'Execute - GetBackgroundOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const backgrounds = await this.getDisabledBackgroundsService.getAllDisabled();
         return backgrounds;
     }

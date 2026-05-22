@@ -33,7 +33,8 @@ export default class UpdateMatchMusicsOperation {
     }
 
     async add(payload: AddMatchMusicPayload): Promise<Music[]> {
-        this.logger('info', 'Add - UpdateMatchMusicsOperation');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
         const campaignWithOperationDone = await this.updateMatchMusicsService.addMatchMusic(payload);
         const savedCampaign = await this.updateMatchMusicsService.save(campaignWithOperationDone);
 
@@ -43,7 +44,8 @@ export default class UpdateMatchMusicsOperation {
     }
 
     async remove(payload: RemoveMatchMusicPayload): Promise<Music[]> {
-        this.logger('info', 'Remove - UpdateMatchMusicsOperation');
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
         const campaignWithOperationDone = await this.updateMatchMusicsService.removeMatchMusic(payload);
         const savedCampaign = await this.updateMatchMusicsService.save(campaignWithOperationDone);
 
@@ -53,7 +55,8 @@ export default class UpdateMatchMusicsOperation {
     }
 
     async edit(payload: EditMatchMusicPayload): Promise<Music[]> {
-        this.logger('info', 'Edit - UpdateMatchMusicsOperation');
+        const callName = `[${this.constructor.name}] - ${this.edit.name}`;
+        this.logger('info', callName);
         const campaignWithOperationDone = await this.updateMatchMusicsService.editMatchMusic(payload);
         const savedCampaign = await this.updateMatchMusicsService.save(campaignWithOperationDone);
 

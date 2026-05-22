@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 import { CharactersRoutesBuilderContract } from 'src/types/modules/interface/characters/CharactersRoutesBuilder';
-import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
+import bindUserStatusMiddleware from 'src/domains/common/helpers/bindUserStatusMiddleware';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ export default class CharactersRoutesBuilder {
     }
 
     private character(): { characterRoutes: Router; characterSwagger: routeInstance[] } {
-        const characterRoutesToBuild = bindMiddleware(
+        const characterRoutesToBuild = bindUserStatusMiddleware(
             this.verifyUserMiddleware.userStatus,
             this.charactersRoutes.routes(),
             { addMethod: 'push' }

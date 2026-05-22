@@ -13,7 +13,8 @@ export default class updateMatchDateService {
     }
 
     async addMatchDate({ campaignId, date }: AddMatchDatePayload): Promise<Campaign> {
-        this.logger('info', 'AddMatchDate - UpdateMatchDateService');
+        const callName = `[${this.constructor.name}] - ${this.addMatchDate.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const dateExist = campaign.infos.nextMatchDate;
 
@@ -25,7 +26,8 @@ export default class updateMatchDateService {
     }
 
     async removeMatchDate({ campaignId }: RemoveMatchDatePayload): Promise<Campaign> {
-        this.logger('info', 'RemoveMatchDate - UpdateMatchDateService');
+        const callName = `[${this.constructor.name}] - ${this.removeMatchDate.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         campaign.infos.nextMatchDate = 'no-date';
 

@@ -20,7 +20,8 @@ export default class UpdateMatchMapImagesOperation {
     }
 
     async execute(payload: TUpdateCampaignMatchMapImagesBody & { campaignId: string }): Promise<ImageObject[]> {
-        this.logger('info', 'Execute - UpdateMatchMapImagesOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const campaignWithOperationDone = await this.updateMatchMapImagesService.updateMatchMapImage(payload);
         const savedCampaign = await this.updateMatchMapImagesService.save(campaignWithOperationDone);

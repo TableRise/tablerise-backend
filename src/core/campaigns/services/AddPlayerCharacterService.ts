@@ -22,7 +22,8 @@ export default class AddPlayerCharacterService {
     }
 
     public async addCharacter({ characterId, campaignId }: addCharacterPayload): Promise<Campaign> {
-        this.logger('info', 'AddCharacter - AddPlayerCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.addCharacter.name}`;
+        this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const characterInDb = await this.charactersRepository.findOne({ characterId });
 
@@ -43,7 +44,8 @@ export default class AddPlayerCharacterService {
     }
 
     public async save(payload: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - AddPlayerCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: payload.campaignId },
             payload,

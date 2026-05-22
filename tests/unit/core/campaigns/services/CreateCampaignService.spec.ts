@@ -153,6 +153,11 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
                 userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.campaigns = Array.from({ length: 9 }, (_, index) => ({
+                    campaignId: `existing-${index}`,
+                    notes: [],
+                })) as any;
+                userDetails.gameInfo.badges = [];
 
                 serializer = {};
 
@@ -188,6 +193,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 const campaignSaved = await createCampaignService.save(campaign);
 
                 expect(campaignSaved).to.be.deep.equal(campaign);
+                expect(userDetails.gameInfo.badges).to.include('badge_10_campaigns');
             });
         });
     });

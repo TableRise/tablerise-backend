@@ -12,13 +12,13 @@ const login = 'Sign in with email and password and return the authenticated sess
 
 const update = 'Update the allowed profile fields for a user.';
 
-const activateQuestion = 'Enable secret question verification for the user. This disables 2FA.';
-
-const updateSecretQuestion = 'Update the user secret question and answer.';
+const updateDetails = 'Update the allowed user detail fields for a user.';
 
 const confirm = 'Confirm a recently created account with the code sent by email.';
 
 const activate2FA = 'Enable two-factor authentication and return the setup data.';
+
+const deactivate2FA = 'Disable the user two-factor authentication after the deactivation flow is completed.';
 
 const reset2FA = 'Reset the user two-factor authentication setup.';
 
@@ -44,8 +44,6 @@ const emailCode = 'Validate an email verification code for the requested flow.';
 
 const token2FA = 'Validate a two-factor authentication token for the requested flow.';
 
-const secretQuestion = 'Validate the user secret question answer for the requested flow.';
-
 export default {
     get,
     getAll,
@@ -54,10 +52,10 @@ export default {
     verify,
     login,
     update,
+    updateDetails,
     activate2FA,
+    deactivate2FA,
     reset2FA,
-    activateQuestion,
-    updateSecretQuestion,
     confirm,
     updateEmail,
     updatePassword,
@@ -70,5 +68,4 @@ export default {
     logoutUser,
     emailCode,
     token2FA,
-    secretQuestion,
 };

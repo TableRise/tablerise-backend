@@ -20,7 +20,8 @@ export default class OrgPictureUploadService {
     }
 
     public async uploadPicture({ characterId, image, orgName }: orgPicturePayload): Promise<CharactersDnd> {
-        this.logger('info', 'UploadPicture - OrgPictureUploadService');
+        const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
+        this.logger('info', callName);
         const characterInDb = await this.characterRepository.findOne({ characterId });
         const allyOrOrgIndex = characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
             (ally) => ally.orgName === orgName

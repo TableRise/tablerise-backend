@@ -36,7 +36,7 @@ Tablerise Backend provides the full server-side logic for the TableRise platform
 -   Campaign creation and lifecycle management, including match sessions with real-time map and avatar control via WebSockets
 -   Character sheet creation with automatic D&D 5e rule enrichment
 -   Read-only access to the D&D 5e system catalogue (armors, weapons, spells, monsters, etc.)
--   Two-factor authentication (TOTP + QR code) and secret question security
+-   Two-factor authentication (TOTP + QR code) for protected account flows
 -   Email verification flows with a finite-state machine
 -   Scheduled jobs (e.g., automatic deletion of pending-delete user accounts)
 -   Auto-generated Swagger documentation
@@ -280,10 +280,7 @@ All endpoints except registration, login, and email verification require a valid
 | `POST`   | `/users/authenticate/email/send-code` | Send email verification code                     |
 | `POST`   | `/users/authenticate/email`           | Verify email code (initiates internal auth flow) |
 | `POST`   | `/users/authenticate/2fa`             | Verify TOTP 2FA token                            |
-| `POST`   | `/users/authenticate/secret-question` | Verify secret question answer                    |
 | `PUT`    | `/users/:id/update`                   | Update user profile                              |
-| `PATCH`  | `/users/:id/question/activate`        | Activate secret question security                |
-| `PATCH`  | `/users/:id/question/update`          | Update secret question                           |
 | `PATCH`  | `/users/:id/2fa/activate`             | Activate TOTP 2FA (returns QR code)              |
 | `PATCH`  | `/users/:id/2fa/reset`                | Reset TOTP 2FA                                   |
 | `PATCH`  | `/users/:id/update/email`             | Update email address                             |
@@ -384,7 +381,7 @@ The API uses **cookie-based sessions** via `passport-cookie`. After a successful
 
 1. Request a verification code: `POST /users/authenticate/email/send-code`
 2. Submit the code: `POST /users/authenticate/email`
-3. Proceed with either TOTP (`/authenticate/2fa`) or secret question (`/authenticate/secret-question`)
+3. Proceed with TOTP (`/authenticate/2fa`) when the flow requires second-factor confirmation
 
 ---
 

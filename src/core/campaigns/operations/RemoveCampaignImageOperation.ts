@@ -20,14 +20,16 @@ export default class RemoveCampaignImageOperation {
     }
 
     async removeCover(campaignId: string): Promise<void> {
-        this.logger('info', 'RemoveCover - RemoveCampaignImageOperation');
+        const callName = `[${this.constructor.name}] - ${this.removeCover.name}`;
+        this.logger('info', callName);
         const campaignUpdated = await this.removeCampaignImageService.removeCover({ campaignId });
         const savedCampaign = await this.removeCampaignImageService.save(campaignUpdated);
         this.socketIO.syncActiveCampaign(savedCampaign);
     }
 
     async removeMatchMapImage({ campaignId, imageUrl }: RemoveMatchMapImagePayload): Promise<void> {
-        this.logger('info', 'RemoveMatchMapImage - RemoveCampaignImageOperation');
+        const callName = `[${this.constructor.name}] - ${this.removeMatchMapImage.name}`;
+        this.logger('info', callName);
         const campaignUpdated = await this.removeCampaignImageService.removeMatchMapImage({ campaignId, imageUrl });
         const savedCampaign = await this.removeCampaignImageService.save(campaignUpdated);
         this.socketIO.syncActiveCampaign(savedCampaign);

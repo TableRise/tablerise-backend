@@ -70,21 +70,23 @@ export default class Serializer {
         userId = null,
         firstName = null,
         lastName = null,
-        secretQuestion = null,
         birthday = null,
         gameInfo = { campaigns: [], characters: [], badges: [], bannedCampaigns: [] },
         biography = null,
+        rank = null,
         role = 'user',
+        cover = null,
     }: any): UserDetail {
         return {
             userDetailId,
             userId,
             firstName,
             lastName,
-            secretQuestion,
             birthday,
             gameInfo,
             biography,
+            rank,
+            cover,
             role,
         };
     }
@@ -114,6 +116,7 @@ export default class Serializer {
         playerAmountLimit = null,
         socialMedia = null,
         configurations = { xpSystem: false, shopSystem: false },
+        mainHistory = null,
         createdAt = null,
         updatedAt = null,
     }: any): Campaign & {
@@ -134,6 +137,7 @@ export default class Serializer {
             nextMatchDate,
             ageRestriction,
             campaignPlayers,
+            mainHistory,
             matchData,
             musics,
             buys,

@@ -14,7 +14,8 @@ export default class CreateCharacterOperation {
     }
 
     public async execute(payload: CreateCharacterPayload): Promise<CharactersDnd> {
-        this.logger('info', 'Execute - CreateCharacterOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const characterSerialized = this.createCharacterService.serialize(payload);
         const characterEnriched = await this.createCharacterService.enrichment(characterSerialized, payload.userId);
 

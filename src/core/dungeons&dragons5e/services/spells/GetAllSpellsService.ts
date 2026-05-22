@@ -14,7 +14,8 @@ export default class GetAllSpellsService {
     }
 
     public async getAll(): Promise<Array<Internacional<Spell>>> {
-        this.logger('info', 'GetAll - GetAllSpellsService');
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Spells');
 
         const spellsInDb = (await this.dungeonsAndDragonsRepository.find({

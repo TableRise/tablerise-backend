@@ -14,7 +14,8 @@ export default class PictureProfileOperation {
     }
 
     public async execute({ userId, image }: UserImagePayload): Promise<User> {
-        this.logger('info', 'Execute - PictureProfileOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.pictureProfileService.uploadPicture({ userId, image });
     }
 }

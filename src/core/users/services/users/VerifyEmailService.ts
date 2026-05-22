@@ -23,7 +23,8 @@ export default class VerifyEmailService {
     }
 
     private async send(user: User, flow: stateFlowsKeys): Promise<User> {
-        this.logger('info', 'Send - SendEmail - VerifyEmailService');
+        const callName = `[${this.constructor.name}] - ${this.send.name}`;
+        this.logger('info', callName);
         this.emailSender.type = 'verification';
 
         const emailSendResult = await this.emailSender.send(
@@ -34,27 +35,21 @@ export default class VerifyEmailService {
             user.email
         );
 
-        if (!emailSendResult.success) {
-            this.logger('error', 'Some error ocurred in email sending - VerifyEmailService');
-            HttpRequestErrors.throwError('user-inexistent');
-        }
-
+        if (!emailSendResult.success) HttpRequestErrors.throwError('user-inexistent');
         user.inProgress.code = emailSendResult.verificationCode as string;
-
-        await this.stateMachine.machine(flow, user);
-
-        return user;
+        return this.stateMachine.machine(flow, user);
     }
 
     public async sendEmail({ email, flow }: VerifyEmailPayload): Promise<void> {
-        this.logger('info', 'SendEmail - VerifyEmailService');
+        const callName = `[${this.constructor.name}] - ${this.sendEmail.name}`;
+        this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ email });
 
-        const userToUpdate = await this.send(userInDb, flow as stateFlowsKeys);
+        const userUpdated = await this.send(userInDb, flow as stateFlowsKeys);
 
         await this.usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userToUpdate,
+            payload: userUpdated,
         });
     }
 }

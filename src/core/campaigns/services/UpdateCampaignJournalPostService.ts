@@ -72,7 +72,8 @@ export default class UpdateCampaignJournalPostService {
     }
 
     public async save(campaign: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - UpdateCampaignJournalPostService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: campaign.campaignId },
             payload: campaign,

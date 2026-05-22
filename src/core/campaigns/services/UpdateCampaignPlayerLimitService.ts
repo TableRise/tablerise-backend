@@ -10,7 +10,8 @@ export default class UpdateCampaignPlayerLimitService {
     }
 
     async updatePlayerLimit(campaignId: string, newLimit: number) {
-        this.logger('info', 'Execute - updatePlayerLimit');
+        const callName = `[${this.constructor.name}] - ${this.updatePlayerLimit.name}`;
+        this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         campaignInDb.infos.playerAmountLimit = newLimit;
         return await this.campaignsRepository.update({

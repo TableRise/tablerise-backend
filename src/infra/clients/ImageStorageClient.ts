@@ -20,7 +20,8 @@ export default class ImageStorageClient {
     }
 
     async upload(image: FileObject, customTitle?: string): Promise<ImageObject> {
-        this.logger('info', 'Upload - ImageStorageClient');
+        const callName = `[${this.constructor.name}] - ${this.upload.name}`;
+        this.logger('info', callName);
         const { baseUrl, authorization, endpoints } = this.configs.api.imgur;
 
         const url = `${baseUrl}${endpoints.postImage}${authorization}`;

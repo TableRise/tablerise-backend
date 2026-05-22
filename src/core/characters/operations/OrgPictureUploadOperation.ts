@@ -14,7 +14,8 @@ export default class OrgPictureUploadOperation {
     }
 
     public async execute(payload: orgPicturePayload): Promise<CharactersDnd> {
-        this.logger('info', 'Execute - OrgPictureUploadOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.orgPictureUploadService.uploadPicture(payload);
     }
 }

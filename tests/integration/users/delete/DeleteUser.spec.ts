@@ -25,10 +25,6 @@ describe('When an user is deleted', () => {
             };
 
             user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
-            userDetails.secretQuestion = {
-                answer: '123',
-                question: '123',
-            } as UserDetail['secretQuestion'];
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);

@@ -61,10 +61,6 @@ exports.mochaHooks = {
             userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             firstName: 'Joe',
             lastName: 'Einstein',
-            secretQuestion: {
-                question: 'What sound does the fox?',
-                answer: 'Kikikikikiu',
-            },
             birthday: '1995-10-25',
             gameInfo: { campaigns: [], characters: [], badges: [] },
             biography: 'Some bio',

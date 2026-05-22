@@ -13,7 +13,8 @@ export default class PostCampaignBuyService {
     }
 
     public async createBuy({ campaignId, userId, payload }: PostCampaignBuyPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - PostCampaignBuyService');
+        const callName = `[${this.constructor.name}] - ${this.createBuy.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const caller = campaign.campaignPlayers.find((player) => player.userId === userId);

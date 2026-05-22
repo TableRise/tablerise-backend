@@ -6,15 +6,22 @@ import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependen
 
 export default class StateMachineFlowsMiddleware {
     private readonly usersRepository;
+    private readonly stateMachine;
     private readonly logger;
 
-    constructor({ usersRepository, logger }: InterfaceDependencies['stateMachineFlowsMiddlewareContract']) {
+    constructor({
+        usersRepository,
+        stateMachine,
+        logger,
+    }: InterfaceDependencies['stateMachineFlowsMiddlewareContract']) {
         this.usersRepository = usersRepository;
+        this.stateMachine = stateMachine;
         this.logger = logger;
     }
 
     public async setNewFlow(req: Request, res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', 'SetNewFlow - StateMachineFlowsMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.setNewFlow.name}`;
+        this.logger('info', callName);
 
         const { id } = req.params;
         const { email, flow } = req.query;
@@ -26,11 +33,6 @@ export default class StateMachineFlowsMiddleware {
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
-        userInDb.inProgress.currentFlow = flow as stateFlowsKeys;
-
-        await this.usersRepository.update({
-            query: { userId: userInDb.userId },
-            payload: userInDb,
-        });
+        await this.stateMachine.machine(flow as stateFlowsKeys, userInDb);
     }
 }

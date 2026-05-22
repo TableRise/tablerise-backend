@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
+import bindUserStatusMiddleware from 'src/domains/common/helpers/bindUserStatusMiddleware';
 
 const router = Router();
 
@@ -14,7 +14,6 @@ const ROUTES_WITH_NO_VERIFY = [
     '/:id/delete',
     '/authenticate/email',
     '/authenticate/2fa',
-    '/authenticate/secret-question',
     '/update/password',
 ];
 
@@ -34,11 +33,15 @@ export default class UsersRoutesBuilder {
     }
 
     private users(): { usersRoutes: Router; usersSwagger: routeInstance[] } {
-        const usersRoutesToBuild = bindMiddleware(this.verifyUserMiddleware.userStatus, this.usersRoutes.routes(), {
-            substringLoc: 6,
-            addMethod: 'push',
-            pathsToIgnore: ROUTES_WITH_NO_VERIFY,
-        });
+        const usersRoutesToBuild = bindUserStatusMiddleware(
+            this.verifyUserMiddleware.userStatus,
+            this.usersRoutes.routes(),
+            {
+                substringLoc: 6,
+                addMethod: 'push',
+                pathsToIgnore: ROUTES_WITH_NO_VERIFY,
+            }
+        );
 
         const usersRoutes = buildRouter(usersRoutesToBuild, router);
         const usersSwagger = this.usersRoutes.routes();

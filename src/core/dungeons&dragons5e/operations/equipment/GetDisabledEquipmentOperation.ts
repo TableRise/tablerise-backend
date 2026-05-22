@@ -13,7 +13,8 @@ export default class GetDisabledEquipmentOperation {
     }
 
     public async execute(): Promise<Equipment[]> {
-        this.logger('info', 'Execute - GetDisabledEquipmentOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const equipment = await this.getDisabledEquipmentService.getAllDisabled();
 
         return equipment;

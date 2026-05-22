@@ -7,7 +7,6 @@ import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
 
 export default class VerifyEmailCodeMiddleware {
     private readonly usersRepository;
-    private readonly usersDetailsRepository;
     private readonly stateMachine;
     private readonly usersSchemas;
     private readonly schemaValidator;
@@ -24,7 +23,6 @@ export default class VerifyEmailCodeMiddleware {
     }: InterfaceDependencies['verifyEmailCodeMiddlewareContract']) {
         this.usersRepository = usersRepository;
         this.usersSchemas = usersSchemas;
-        this.usersDetailsRepository = usersDetailsRepository;
         this.stateMachine = stateMachine;
         this.schemaValidator = schemaValidator;
         this.logger = logger;
@@ -59,8 +57,8 @@ export default class VerifyEmailCodeMiddleware {
     }
 
     public async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
-        const callName = `[${this.constructor.name} - ${this.verify.name}]`;
-        this.logger('warn', callName);
+        const callName = `[${this.constructor.name}] - ${this.verify.name}`;
+        this.logger('info', callName);
 
         const { id } = req.params;
         const { email, code, flow } = req.query;
@@ -77,22 +75,16 @@ export default class VerifyEmailCodeMiddleware {
         if (userValidated.inProgress.code !== code) HttpRequestErrors.throwError('invalid-email-verify-code');
 
         const userWithValidState = await this.stateMachine.machine(flow as stateFlowsKeys, userValidated);
-
-        let userDetails = null;
-        try {
-            userDetails = await this.usersDetailsRepository.findOne({
-                userId: userWithValidState.userId,
-            });
-        } catch (error: any) {
-            if (error.code !== HttpStatusCode.NOT_FOUND) throw error;
+        const shouldRequireSecondAuth =
+            userWithValidState.inProgress.status === this.stateMachine.props.status.WAIT_TO_SECOND_AUTH;
+        if (shouldRequireSecondAuth && !userWithValidState.twoFactorSecret.active) {
+            HttpRequestErrors.throwError('2fa-no-active');
         }
 
         res.locals = {
             userId: userWithValidState.userId,
             userStatus: userWithValidState.inProgress.status,
-            accountSecurityMethod: !userWithValidState.twoFactorSecret.active
-                ? `secret-question%${userDetails?.secretQuestion?.question as string}`
-                : 'two-factor',
+            accountSecurityMethod: 'two-factor',
             lastUpdate: userWithValidState.updatedAt,
         };
 

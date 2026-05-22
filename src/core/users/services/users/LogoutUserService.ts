@@ -12,7 +12,8 @@ export default class LogoutUserService {
     }
 
     async addToForbiddenList(token: string): Promise<void> {
-        this.logger('info', 'AddToForbiddenList - LogoutUserService');
+        const callName = `[${this.constructor.name}] - ${this.addToForbiddenList.name}`;
+        this.logger('info', callName);
         await this.tokenForbideen.addToken(token);
     }
 }

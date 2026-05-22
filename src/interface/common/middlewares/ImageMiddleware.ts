@@ -30,7 +30,8 @@ export default class ImageMiddleware {
     }
 
     public fileType(req: Request, res: Response, next: NextFunction): void {
-        this.logger('info', 'FileType - ImageMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.fileType.name}`;
+        this.logger('info', callName);
 
         const files: Express.Multer.File[] = [];
 

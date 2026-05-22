@@ -17,7 +17,8 @@ export default class UpdateMatchMusicsService {
     }
 
     async addMatchMusic({ campaignId, id, title, thumbnail }: AddMatchMusicPayload): Promise<Campaign> {
-        this.logger('info', 'AddMatchMusic - UpdateMatchMusicsService');
+        const callName = `[${this.constructor.name}] - ${this.addMatchMusic.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
@@ -35,7 +36,8 @@ export default class UpdateMatchMusicsService {
     }
 
     async removeMatchMusic({ campaignId, id }: RemoveMatchMusicPayload): Promise<Campaign> {
-        this.logger('info', 'RemoveMatchMusic - UpdateMatchMusicsService');
+        const callName = `[${this.constructor.name}] - ${this.removeMatchMusic.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 
@@ -49,7 +51,8 @@ export default class UpdateMatchMusicsService {
     }
 
     async editMatchMusic({ campaignId, id, title, thumbnail }: EditMatchMusicPayload): Promise<Campaign> {
-        this.logger('info', 'EditMatchMusic - UpdateMatchMusicsService');
+        const callName = `[${this.constructor.name}] - ${this.editMatchMusic.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
 

@@ -19,7 +19,8 @@ export default class PostInvitationEmailOperation {
     }
 
     public async execute({ targetEmail, campaignId }: CampaignPlayerInvitationPayload): Promise<void> {
-        this.logger('info', 'Execute - PostInvitationEmailOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const user = await this.usersRepository.findOne({ email: targetEmail });
 
         await this.postInvitationEmailService.sendEmail({

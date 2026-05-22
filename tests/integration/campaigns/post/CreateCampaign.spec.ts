@@ -8,12 +8,18 @@ import User, { UserDetail } from '@tablerise/database-management/dist/src/interf
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import DatabaseManagement from '@tablerise/database-management';
+import newUUID from 'src/domains/common/helpers/newUUID';
 
-describe('When a campaign is created', () => {
+describe('When a campaign is created', function () {
+    this.timeout(30000);
+
     let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
+        const userLoggedDetailsId = 'ff2abce1-fc9e-41d7-b8ab-8cb599adb111';
+        const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
         before(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
@@ -29,6 +35,15 @@ describe('When a campaign is created', () => {
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
+
+            const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
+            authenticatedUserDetails.gameInfo.campaigns = Array.from({ length: 9 }, (_, index) => ({
+                campaignId: newUUID(),
+                notes: [],
+            }));
+            authenticatedUserDetails.gameInfo.badges = [];
+
+            await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
         });
 
         after(() => {
@@ -77,6 +92,11 @@ describe('When a campaign is created', () => {
             expect(body.configurations.shopSystem).to.be.equal(campaignPayload.configurations.shopSystem);
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
+
+            const { body: authenticatedUserUpdated } = await requester()
+                .get(`/users/${userLoggedId}`)
+                .expect(HttpStatusCode.OK);
+            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_10_campaigns');
         });
     });
 });

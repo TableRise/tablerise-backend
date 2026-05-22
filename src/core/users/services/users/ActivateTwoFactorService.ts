@@ -28,7 +28,8 @@ export default class ActivateTwoFactorService {
     }
 
     public async activate(userId: string): Promise<__FullUser> {
-        this.logger('info', 'Activate - ActivateTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.activate.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
@@ -43,15 +44,14 @@ export default class ActivateTwoFactorService {
             userId: userInDb.userId,
         });
 
-        userDetailInDb.secretQuestion = { question: '', answer: '' };
-
         await this.stateMachine.machine(flows.ACTIVATE_TWO_FACTOR, userInDb);
 
         return { user: userInDb, userDetails: userDetailInDb };
     }
 
     public async save({ user, userDetails }: __FullUser): Promise<TwoFactorResponse> {
-        this.logger('info', 'Save - ActivateTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
 
         const userSaved = await this.usersRepository.update({
             query: { userId: user.userId },

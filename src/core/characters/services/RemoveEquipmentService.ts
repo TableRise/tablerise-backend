@@ -22,7 +22,8 @@ export default class RemoveEquipmentService {
     }
 
     async remove({ characterId, equipmentId }: ManageEquipmentPayload): Promise<CharactersDnd> {
-        this.logger('info', 'RemoveEquipmentService - Remove');
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
 
         const characterInDb = await this.charactersRepository.findOne({ characterId });
 

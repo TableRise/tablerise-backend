@@ -22,7 +22,8 @@ export default class DeleteUserService {
     }
 
     public async delete(userId: string): Promise<void> {
-        this.logger('info', `Delete - DeleteUserService - ReceivedID is ${userId}`);
+        const callName = `[${this.constructor.name}] - ${this.delete.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
@@ -35,16 +36,16 @@ export default class DeleteUserService {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 
-        await this.stateMachine.machine(flows.DELETE_PROFILE, userInDb);
+        const userUpdated = await this.stateMachine.machine(flows.DELETE_PROFILE, userInDb);
 
-        const userUpdated = await this.usersRepository.update({
+        await this.usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb,
+            payload: userUpdated,
         });
 
         this.logger(
             'info',
-            `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`
+            `Delete Service - User waiting to be deleted from database with ID ${userInDb.userId} and status ${userInDb.inProgress.status}`
         );
     }
 }

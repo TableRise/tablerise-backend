@@ -17,7 +17,8 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
         serializer: any,
         characterPayloadMock: any,
         characterMock: any,
-        dndRulesRaceMock: any;
+        dndRulesRaceMock: any,
+        userDetailsUpdated: any;
 
     const logger = (): void => {};
 
@@ -229,7 +230,11 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
     context('#Save', () => {
         context('When a character enriched is saved', () => {
             before(() => {
-                const userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                characterMock = DomainDataFaker.generateCharactersJSON()[0];
+                characterMock.author = { userId: newUUID(), nickname: 'tester', fullname: 'Test User' };
+                userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetailsUpdated.gameInfo.characters = Array.from({ length: 9 }, (_, index) => `existing-${index}`);
+                userDetailsUpdated.gameInfo.badges = [];
 
                 charactersRepository = {
                     create: () => characterMock,
@@ -238,7 +243,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 usersRepository = {};
 
                 usersDetailsRepository = {
-                    findOne: () => DomainDataFakerUsers.generateUserDetailsJSON()[0],
+                    findOne: () => userDetailsUpdated,
                     update: () => userDetailsUpdated,
                 };
 
@@ -257,6 +262,46 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             it('should return correct character', async () => {
                 const characterCreated = await createCharacterService.save(characterMock);
                 expect(characterCreated).to.deep.equal(characterMock);
+                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_creative');
+            });
+        });
+
+        context('When the twentieth character is saved', () => {
+            before(() => {
+                characterMock = DomainDataFaker.generateCharactersJSON()[0];
+                characterMock.author = { userId: newUUID(), nickname: 'tester', fullname: 'Test User' };
+                userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetailsUpdated.gameInfo.characters = Array.from({ length: 19 }, (_, index) => `existing-${index}`);
+                userDetailsUpdated.gameInfo.badges = [];
+
+                charactersRepository = {
+                    create: () => characterMock,
+                };
+
+                usersRepository = {};
+
+                usersDetailsRepository = {
+                    findOne: () => userDetailsUpdated,
+                    update: () => userDetailsUpdated,
+                };
+
+                serializer = {};
+
+                createCharacterService = new CreateCharacterService({
+                    charactersRepository,
+                    usersRepository,
+                    dungeonsAndDragonsRepository,
+                    usersDetailsRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should award both character badges', async () => {
+                await createCharacterService.save(characterMock);
+
+                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_creative');
+                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_elder');
             });
         });
     });

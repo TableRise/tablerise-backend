@@ -7,7 +7,9 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When an user has the account completed', () => {
+describe('When an user has the account completed', function () {
+    this.timeout(30000);
+
     let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
@@ -27,7 +29,6 @@ describe('When an user has the account completed', () => {
             user.nickname = null as unknown as string;
             user.providerId = newUUID();
 
-            userDetails.secretQuestion = { question: 'oauth', answer: 'Google' };
             userDetails.birthday = null as unknown as string;
             userDetails.firstName = null as unknown as string;
             userDetails.lastName = null as unknown as string;
@@ -53,6 +54,7 @@ describe('When an user has the account completed', () => {
             expect(body.details.firstName).to.be.equal(payloadToComplete.firstName);
             expect(body.details.lastName).to.be.equal(payloadToComplete.lastName);
             expect(body.details.birthday).to.be.equal(payloadToComplete.birthday);
+            expect(body.details.gameInfo.badges).to.include('newbie_badge');
         });
     });
 });

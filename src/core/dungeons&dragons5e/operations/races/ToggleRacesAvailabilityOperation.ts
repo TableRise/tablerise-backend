@@ -15,7 +15,8 @@ export default class ToggleRacesAvailabilityOperation {
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Race>> {
-        this.logger('info', 'Execute - ToggleRacesAvailabilityOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const races = await this.toggleRacesAvailabilityService.toggle({
             id,
             availability,

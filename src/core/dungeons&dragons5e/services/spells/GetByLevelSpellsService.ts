@@ -14,7 +14,8 @@ export default class GetByLevelSpellsService {
     }
 
     public async getByLevel(queryLevel: number): Promise<Array<Internacional<Spell>>> {
-        this.logger('info', 'GetByLevel - GetByLevelSpellsService');
+        const callName = `[${this.constructor.name}] - ${this.getByLevel.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Spells');
 
         const spellsInDb = (await this.dungeonsAndDragonsRepository.find({ level: queryLevel })) as Array<

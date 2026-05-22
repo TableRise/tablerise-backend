@@ -134,18 +134,6 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
-            case 'new-structure-secret-question-missing':
-                throw new HttpRequestErrors({
-                    message: 'Structure of new for new question and answer is missing',
-                    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
-                    name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
-                });
-            case 'incorrect-secret-question':
-                throw new HttpRequestErrors({
-                    message: 'Secret question is incorrect',
-                    code: HttpStatusCode.UNAUTHORIZED,
-                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
-                });
             case 'content-inexistent':
                 throw new HttpRequestErrors({
                     message: 'This content do not exist in the RPG system',
@@ -180,12 +168,6 @@ export default class HttpRequestErrors extends Error {
             case '2fa-no-active':
                 throw new HttpRequestErrors({
                     message: '2FA not enabled for this user',
-                    code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                });
-            case '2fa-and-secret-question-no-active':
-                throw new HttpRequestErrors({
-                    message: '2FA not enabled for this user neither secretQuestion',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });

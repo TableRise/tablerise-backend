@@ -27,7 +27,8 @@ export default class updateMatchDateOperation {
     }
 
     async add(payload: AddMatchDatePayload): Promise<string> {
-        this.logger('info', 'Add - updateMatchDateOperation');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
         const campaignWithOperationDone = await this.updateMatchDateService.addMatchDate(payload);
         const savedCampaign = await this.updateMatchDateService.save(campaignWithOperationDone);
 
@@ -38,7 +39,8 @@ export default class updateMatchDateOperation {
     }
 
     async remove(payload: RemoveMatchDatePayload): Promise<string> {
-        this.logger('info', 'Remove - updateMatchDateOperation');
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
         const campaignWithOperationDone = await this.updateMatchDateService.removeMatchDate(payload);
         const savedCampaign = await this.updateMatchDateService.save(campaignWithOperationDone);
 

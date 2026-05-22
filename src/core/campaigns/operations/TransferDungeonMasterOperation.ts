@@ -18,7 +18,8 @@ export default class TransferDungeonMasterOperation {
     }
 
     public async execute(campaignId: string, userId: string, userToMaster: string): Promise<void> {
-        this.logger('info', 'Execute - TransferDungeonMasterOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const savedCampaign = await this.transferDungeonMasterService.transfer(campaignId, userId, userToMaster);
         this.socketIO.syncActiveCampaign(savedCampaign);
         this.socketIO.emitToCampaign(campaignId, 'campaign:dungeon_master_transferred', {

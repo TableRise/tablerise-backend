@@ -15,7 +15,8 @@ export default class AddCampaignNoteService {
     }
 
     public async add({ userId, campaignId, note }: AddCampaignNotePayload): Promise<GameInfoCampaigns> {
-        this.logger('info', 'Add - AddCampaignNoteService');
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
 
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
         const campaign = userDetailInDb.gameInfo.campaigns.find((item) => item.campaignId === campaignId);

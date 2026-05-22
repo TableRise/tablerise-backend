@@ -11,7 +11,8 @@ export default class TransferDungeonMasterService {
     }
 
     public async transfer(campaignId: string, userId: string, userToMaster: string) {
-        this.logger('info', 'Execute - TransferDungeonMasterService');
+        const callName = `[${this.constructor.name}] - ${this.transfer.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 

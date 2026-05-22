@@ -16,7 +16,8 @@ export default class GetCharactersByPlayerOperation {
     }
 
     public async execute(campaignId: string, userId: string): Promise<CharacterToPlayerRecover[]> {
-        this.logger('info', 'Execute - GetCharactersByPlayerOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         console.log(userId);
         return this.getCharactersByPlayerService.get(campaignId, userId);
     }

@@ -20,7 +20,8 @@ export default class UpdateCampaignOperation {
     }
 
     async execute(payload: TUpdateCampaignBody & { campaignId: string }): Promise<Campaign> {
-        this.logger('info', 'Execute - UpdateCampaignOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const campaignUpdated = await this.updateCampaignService.update(payload);
         const savedCampaign = await this.updateCampaignService.save(campaignUpdated);
 

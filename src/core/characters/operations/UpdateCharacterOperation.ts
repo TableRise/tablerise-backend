@@ -20,7 +20,8 @@ export default class UpdateCharacterOperation {
     }
 
     async execute({ characterId, payload }: updateCharacterPayload): Promise<CharactersDnd> {
-        this.logger('info', 'UpdateCharacterOperation - Execute');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const updatedCharacter = await this.updateCharacterService.update({ characterId, payload });
         const summary = {
             currentHitPoints: updatedCharacter.data.stats.hitPoints.currentPoints ?? null,

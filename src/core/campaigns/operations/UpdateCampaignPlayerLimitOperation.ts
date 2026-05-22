@@ -16,7 +16,8 @@ export default class UpdateCampaignPlayerLimitOperation {
     }
 
     async execute(campaignId: string, newLimit: number): Promise<void> {
-        this.logger('info', 'Execute - updateMatchDateOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
         const savedCampaign = await this.updateCampaignPlayerLimitService.updatePlayerLimit(campaignId, newLimit);
         this.socketIO.syncActiveCampaign(savedCampaign);

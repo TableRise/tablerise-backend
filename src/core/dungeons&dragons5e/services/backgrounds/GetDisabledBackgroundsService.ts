@@ -14,7 +14,8 @@ export default class GetDisabledBackgroundsService {
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Background>>> {
-        this.logger('info', 'GetAll - GetDisabledBackgroundsService');
+        const callName = `[${this.constructor.name}] - ${this.getAllDisabled.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
         const backgroundInDb = (await this.dungeonsAndDragonsRepository.find({

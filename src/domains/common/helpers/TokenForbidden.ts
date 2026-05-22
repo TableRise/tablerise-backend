@@ -16,7 +16,8 @@ export default class TokenForbidden {
     }
 
     async addToken(token: string): Promise<void> {
-        this.logger('info', 'AddToken - TokenFobidden');
+        const callName = `[${this.constructor.name}] - ${this.addToken.name}`;
+        this.logger('info', callName);
         if (process.env.TEST_TYPE === 'integration') return;
 
         const tokenInfo = JWT.decode(token) as JWT.JwtPayload;
@@ -29,7 +30,8 @@ export default class TokenForbidden {
     }
 
     async verifyForbiddenToken(token: string): Promise<boolean> {
-        this.logger('info', 'VerifyForbiddenToken - TokenFobidden');
+        const callName = `[${this.constructor.name}] - ${this.verifyForbiddenToken.name}`;
+        this.logger('info', callName);
         const tokenHash = this.generateTokenHash(token);
 
         const tokenExists = process.env.TEST_TYPE !== 'integration' ? await this.redisClient.exists(tokenHash) : 0;

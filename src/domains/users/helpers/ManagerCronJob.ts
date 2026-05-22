@@ -14,7 +14,8 @@ export default class ManagerCronJob {
     }
 
     public async run(): Promise<void> {
-        this.logger('info', 'CronManager - Starting Jobs', true);
+        const callName = `[${this.constructor.name}] - ${this.run.name}`;
+        this.logger('info', callName);
 
         const deleteUserScheduleTask = await deleteUserCronJob(this.usersRepository, this.usersDetailsRepository);
         deleteUserScheduleTask.start();

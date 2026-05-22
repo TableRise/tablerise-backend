@@ -13,7 +13,8 @@ export default class GetDisabledEquipmentService {
     }
 
     public async getAllDisabled(): Promise<Equipment[]> {
-        this.logger('info', 'GetAllDisabled - GetDisabledEquipmentService');
+        const callName = `[${this.constructor.name}] - ${this.getAllDisabled.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Equipment' as any);
 
         const equipmentInDb = (await this.dungeonsAndDragonsRepository.find({

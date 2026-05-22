@@ -29,7 +29,8 @@ export default class DeleteCampaignService {
     }
 
     public async deleteCampaign(campaignId: string, userId: string): Promise<void> {
-        this.logger('info', 'Execute - DeleteCampaignService');
+        const callName = `[${this.constructor.name}] - ${this.deleteCampaign.name}`;
+        this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
@@ -44,7 +45,7 @@ export default class DeleteCampaignService {
         await Promise.all(
             userDetailsList.map(async (userDetails) => {
                 userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
-                    (campaignInfo) => campaignInfo.campaignId !== campaignId
+                    (campaignInfo) => campaignInfo !== campaignId
                 );
 
                 await this.usersDetailsRepository.update({

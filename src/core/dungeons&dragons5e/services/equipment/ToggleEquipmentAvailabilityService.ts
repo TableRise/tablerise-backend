@@ -14,7 +14,8 @@ export default class ToggleEquipmentAvailabilityService {
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Equipment> {
-        this.logger('info', 'Toggle - ToggleEquipmentAvailabilityService');
+        const callName = `[${this.constructor.name}] - ${this.toggle.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Equipment' as any);
 
         const equipmentInDb = (await this.dungeonsAndDragonsRepository.findOne({

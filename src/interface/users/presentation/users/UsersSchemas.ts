@@ -1,5 +1,4 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import questionEnum from 'src/domains/users/enums/questionEnum';
 import userGameInfoEnum from 'src/domains/users/enums/userGameInfoEnum';
 import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
 import { z } from 'zod';
@@ -33,12 +32,13 @@ const postUpdateUserProfilePictureBodySchema = z.object({
 
 const putUpdateUserBodySchema = z.object({
     nickname: z.string().max(32).optional(),
-    details: z.object({
-        firstName: z.string().max(16).optional(),
-        lastName: z.string().max(80).optional(),
-        birthday: z.string().optional(),
-        biography: z.string().max(500).optional(),
-    }),
+});
+
+const putUpdateUserDetailsBodySchema = z.object({
+    firstName: z.string().max(16).optional(),
+    lastName: z.string().max(80).optional(),
+    birthday: z.string().optional(),
+    biography: z.string().max(500).optional(),
 });
 
 const postAuthenticateEmailQuerySchema = z.object({
@@ -51,16 +51,6 @@ const postAuthenticate2FAQuerySchema = z.object({
     email: z.email().default(''),
     token: z.string().max(6).default(''),
     flow: z.enum(stateFlowsEnum.values).default('reset-two-factor'),
-});
-
-const postAuthenticateSecretQuestionQuerySchema = z.object({
-    email: z.email().default(''),
-    flow: z.enum(stateFlowsEnum.values).default('reset-two-factor'),
-});
-
-const postAuthenticateSecretQuestionBodySchema = z.object({
-    question: z.enum(questionEnum.values),
-    answer: z.string().max(80),
 });
 
 const patchUpdateEmailBodySchema = z.object({
@@ -103,12 +93,9 @@ export type TCreateUserBody = z.infer<typeof postCreateUserBodySchema>;
 export type TLoginBody = z.infer<typeof postLoginBodySchema>;
 export type TUpdateUserProfilePictureBody = z.infer<typeof postUpdateUserProfilePictureBodySchema>;
 export type TUpdateUserBody = z.infer<typeof putUpdateUserBodySchema>;
+export type TUpdateUserDetailsBody = z.infer<typeof putUpdateUserDetailsBodySchema>;
 export type TAuthenticateEmailQuery = z.infer<typeof postAuthenticateEmailQuerySchema>;
 export type TAuthenticate2FAQuery = z.infer<typeof postAuthenticate2FAQuerySchema>;
-export type TAuthenticateSecretQuestionBody = z.infer<typeof postAuthenticateSecretQuestionBodySchema>;
-export type TAuthenticateSecretQuestionQuery = z.infer<typeof postAuthenticateSecretQuestionQuerySchema>;
-export type TActivateSecretQuestionBody = z.infer<typeof postAuthenticateSecretQuestionQuerySchema>;
-export type TSecretQuestionUpdateBody = z.infer<typeof postAuthenticateSecretQuestionBodySchema>;
 export type TUpdateEmailBody = z.infer<typeof patchUpdateEmailBodySchema>;
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
 export type TAddUserGameInfoBody = z.infer<typeof patchAddUserGameInfoBodySchema>;
@@ -132,21 +119,14 @@ export default (): IUsersSchemas => ({
     putUpdateUser: {
         body: putUpdateUserBodySchema,
     },
+    putUpdateUserDetails: {
+        body: putUpdateUserDetailsBodySchema,
+    },
     postAuthenticateEmail: {
         query: postAuthenticateEmailQuerySchema,
     },
     postAuthenticate2FA: {
         query: postAuthenticate2FAQuerySchema,
-    },
-    postAuthenticateSecretQuestion: {
-        query: postAuthenticateSecretQuestionQuerySchema,
-        body: postAuthenticateSecretQuestionBodySchema,
-    },
-    patchActivateSecretQuestion: {
-        body: postAuthenticateSecretQuestionBodySchema,
-    },
-    patchSecretQuestionUpdate: {
-        body: postAuthenticateSecretQuestionBodySchema,
     },
     patchUpdateEmail: {
         body: patchUpdateEmailBodySchema,

@@ -2,7 +2,6 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UserDetailJSONPayload } from 'src/types/modules/infra/datafakers/users/DomainDataFaker';
 import dataGenerator from '../dataGenerator';
-import questionEnum from 'src/domains/users/enums/questionEnum';
 
 function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDetail {
     return {
@@ -10,10 +9,6 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
         userId: newUUID(),
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
-        secretQuestion: {
-            question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-            answer: 'black',
-        },
         birthday: dataGenerator.birthday().toISOString(),
         gameInfo: { campaigns: [], characters: [], badges: [], bannedFromCampaigns: [] },
         biography: dataGenerator.biography(),

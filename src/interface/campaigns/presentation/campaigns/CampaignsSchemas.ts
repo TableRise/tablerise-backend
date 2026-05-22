@@ -28,6 +28,7 @@ const postCreateCampaignBodySchema = z.object({
     ageRestriction: z.string(),
     socialMedia: z.string().optional(),
     configurations: z.string(),
+    mainHistory: z.string(),
     password: z
         .string()
         .regex(/^[a-zA-Z0-9]{4}$/, {

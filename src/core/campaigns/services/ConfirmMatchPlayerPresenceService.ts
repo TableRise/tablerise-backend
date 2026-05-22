@@ -17,7 +17,8 @@ export default class ConfirmMatchPlayerPresenceService {
     }
 
     async confirmPresence(campaignId: string, userId: string, cancel: boolean): Promise<void> {
-        this.logger('info', 'Execute - ConfirmMatchPlayerPresenceService');
+        const callName = `[${this.constructor.name}] - ${this.confirmPresence.name}`;
+        this.logger('info', callName);
 
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
         const userInCampaign = campaignInDb.campaignPlayers.find((pc: { userId: string }) => pc.userId === userId);

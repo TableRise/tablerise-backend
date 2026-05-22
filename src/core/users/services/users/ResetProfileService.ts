@@ -22,7 +22,8 @@ export default class ResetProfileService {
     }
 
     public async reset(userId: string): Promise<void> {
-        this.logger('info', 'Reset - ResetProfileService');
+        const callName = `[${this.constructor.name}] - ${this.reset.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
@@ -35,11 +36,11 @@ export default class ResetProfileService {
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
-        await this.stateMachine.machine(flows.RESET_PROFILE, userInDb);
+        const userUpdated = await this.stateMachine.machine(flows.RESET_PROFILE, userInDb);
 
         await this.usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb,
+            payload: userUpdated,
         });
 
         await this.usersDetailsRepository.update({

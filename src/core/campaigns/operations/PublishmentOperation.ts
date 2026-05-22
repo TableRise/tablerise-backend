@@ -16,7 +16,8 @@ export default class PublishmentOperation {
     }
 
     async execute({ campaignId, userId, payload }: publishmentPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - publishmentOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const campaignWithPost = await this.publishmentService.addPost({
             campaignId,
             userId,

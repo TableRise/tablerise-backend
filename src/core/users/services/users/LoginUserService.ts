@@ -16,7 +16,8 @@ export default class LoginUserService {
     }
 
     async enrichToken(token: string): Promise<JWTResponse> {
-        this.logger('info', 'EnrichToken - LoginUserService');
+        const callName = `[${this.constructor.name}] - ${this.enrichToken.name}`;
+        this.logger('info', callName);
 
         const tokenData = JWTGenerator.verify(token) as JWTResponse;
 
@@ -33,7 +34,8 @@ export default class LoginUserService {
     }
 
     setCookieOptions(): CookieOptions {
-        this.logger('info', 'SetCookieOptions - LoginUserService');
+        const callName = `[${this.constructor.name}] - ${this.setCookieOptions.name}`;
+        this.logger('info', callName);
 
         return {
             maxAge: 86_400_000,

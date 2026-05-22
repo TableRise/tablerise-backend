@@ -27,13 +27,15 @@ export default class CharactersRepository {
     }
 
     public async create(payload: CharactersDnd): Promise<CharactersDnd> {
-        this.logger('warn', `Create - CharactersRepository`);
+        const callName = `[${this.constructor.name}] - ${this.create.name}`;
+        this.logger('info', callName);
         const request = await this.model.create(payload);
         return this.formatAndSerializeData(request);
     }
 
     public async findOne(query: any = {}): Promise<CharactersDnd> {
-        this.logger('warn', 'FindOne - CharactersRepository');
+        const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
+        this.logger('info', callName);
         const request = await this.model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('character-does-not-exist');
@@ -42,14 +44,16 @@ export default class CharactersRepository {
     }
 
     public async find(query: any = {}): Promise<CharactersDnd[]> {
-        this.logger('warn', `Find - CharactersRepository`);
+        const callName = `[${this.constructor.name}] - ${this.find.name}`;
+        this.logger('info', callName);
         const request = await this.model.findAll(query);
 
         return request.map((data: CharactersDnd) => this.formatAndSerializeData(data));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CharactersDnd> {
-        this.logger('warn', 'Update - CharactersRepository');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
 
         const request = await this.model.update(query, payload);
 
