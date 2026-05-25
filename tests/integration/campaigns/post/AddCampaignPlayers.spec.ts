@@ -60,8 +60,7 @@ describe('When a player is added to a match', function () {
         const { body: authenticatedUserUpdated } = await requester()
             .get(`/users/${userLoggedId}`)
             .expect(HttpStatusCode.OK);
-        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_10_campaigns');
-        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_50_campaigns');
+        expect(authenticatedUserUpdated.details.gameInfo.campaignsJoinedAmount).to.equal(0);
     });
 
     it('should return an error when campaign already reached player limit', async () => {
@@ -85,5 +84,23 @@ describe('When a player is added to a match', function () {
             .expect(HttpStatusCode.BAD_REQUEST);
 
         expect(body.message).to.be.equal('The campaign reached the limit of players');
+    });
+
+    it('should return a campaign password error without invalidating the authenticated session', async () => {
+        const wrongPasswordCampaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+        wrongPasswordCampaign.password = await SecurePasswordHandler.hashPassword('1234');
+        wrongPasswordCampaign.infos.highlightedJournal = buildHighlightedJournal(
+            wrongPasswordCampaign.campaignPlayers[0]
+        );
+
+        await InjectNewCampaign(wrongPasswordCampaign);
+
+        const { body } = await requester()
+            .post(`/campaigns/${wrongPasswordCampaign.campaignId as string}/update/player/add?password=0000`)
+            .expect(HttpStatusCode.BAD_REQUEST);
+
+        expect(body.message).to.be.equal('The campaign password is incorrect');
+
+        await requester().get(`/users/${userLoggedId}`).expect(HttpStatusCode.OK);
     });
 });

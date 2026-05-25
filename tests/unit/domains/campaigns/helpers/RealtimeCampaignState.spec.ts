@@ -54,6 +54,8 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
 
         expect(campaign.matchData.state.activeMapId).to.be.equal('map-1');
         expect(campaign.matchData.state.gridVisible).to.be.equal(true);
+        expect(campaign.matchData.images).to.deep.equal([]);
+        expect(campaign.matchData.imageHighlighted).to.equal(null);
         expect(campaign.matchData.state.tokens).to.have.length(1);
         expect(campaign.matchData.state.tokens[0].tokenId).to.be.equal('base:character-1');
     });
@@ -90,6 +92,16 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
                 charactersInGame: [],
                 musics: [],
                 mapImages: [],
+                images: [
+                    {
+                        id: 'image-1',
+                        link: 'https://example.com/image-1',
+                    },
+                ],
+                imageHighlighted: {
+                    id: 'image-1',
+                    link: 'https://example.com/image-1',
+                },
                 logs: [],
                 state: {
                     activeMapId: null,
@@ -126,5 +138,7 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
         expect(payload.presence.connectedUsers).to.have.length(1);
         expect(payload.match.activeEffect).to.be.equal('rain');
         expect(payload.match.playingMusicId).to.be.equal('music-1');
+        expect(payload.match.images).to.have.length(1);
+        expect(payload.match.imageHighlighted?.id).to.equal('image-1');
     });
 });

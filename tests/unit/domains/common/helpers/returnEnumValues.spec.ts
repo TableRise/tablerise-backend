@@ -9,7 +9,7 @@ describe('Domains :: Common :: Helpers :: ReturnEnumValues', () => {
         'reset-two-factor',
         'update-email',
         'reset-profile',
-        'delete-profile',
+        'delete-user',
         'no-current-flow',
     ];
 

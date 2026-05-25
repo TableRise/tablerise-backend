@@ -22,6 +22,7 @@ export default class DeactivateTwoFactorService {
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_DISABLE_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');

@@ -73,6 +73,12 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 campaign.createdAt = null as unknown as string;
                 campaign.updatedAt = null as unknown as string;
                 campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify(
+                    campaign.configurations
+                ) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify(
+                    campaign.infos.socialMedia ?? {}
+                ) as unknown as typeof campaign.socialMedia;
 
                 serializer = {};
 
@@ -121,6 +127,11 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
             it('should return the correct result without image', async () => {
                 campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
@@ -130,6 +141,11 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
             it('should return the correct result with mapImages', async () => {
                 campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
                 const mapImages = [image, image] as FileObject[];
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image, mapImages);
 
@@ -140,6 +156,11 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             it('should return the correct result without password', async () => {
                 campaign.musics = '[]' as unknown as typeof campaign.musics;
                 campaign.password = '' as unknown as string;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
@@ -158,6 +179,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                     notes: [],
                 })) as any;
                 userDetails.gameInfo.badges = [];
+                userDetails.gameInfo.campaignsCreatedAmount = 1;
 
                 serializer = {};
 
@@ -193,7 +215,8 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 const campaignSaved = await createCampaignService.save(campaign);
 
                 expect(campaignSaved).to.be.deep.equal(campaign);
-                expect(userDetails.gameInfo.badges).to.include('badge_10_campaigns');
+                expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
+                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric-badge']);
             });
         });
     });

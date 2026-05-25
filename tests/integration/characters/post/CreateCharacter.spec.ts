@@ -43,7 +43,7 @@ describe('When some character is created', function () {
             sinon.restore();
         });
 
-        it('should return correct character created and award badge_creative', async () => {
+        it('should return correct character created without automatic badge changes', async () => {
             const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
             authenticatedUserDetails.gameInfo.characters = Array.from({ length: 9 }, (_, index) => `existing-${index}`);
             authenticatedUserDetails.gameInfo.badges = [];
@@ -79,10 +79,10 @@ describe('When some character is created', function () {
             const { body: authenticatedUserUpdated } = await requester()
                 .get(`/users/${userLoggedId}`)
                 .expect(HttpStatusCode.OK);
-            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_creative');
+            expect(authenticatedUserUpdated.details.gameInfo.badges).to.deep.equal([]);
         });
 
-        it('should award badge_elder on twentieth character', async () => {
+        it('should not award character badges on twentieth character', async () => {
             const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
             authenticatedUserDetails.gameInfo.characters = Array.from(
                 { length: 19 },
@@ -98,8 +98,7 @@ describe('When some character is created', function () {
             const { body: authenticatedUserUpdated } = await requester()
                 .get(`/users/${userLoggedId}`)
                 .expect(HttpStatusCode.OK);
-            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_creative');
-            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_elder');
+            expect(authenticatedUserUpdated.details.gameInfo.badges).to.deep.equal([]);
         });
     });
 });

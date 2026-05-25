@@ -36,16 +36,13 @@ export default class DeleteUserService {
             HttpRequestErrors.throwError('linked-mandatory-data-when-delete');
         }
 
-        const userUpdated = await this.stateMachine.machine(flows.DELETE_PROFILE, userInDb);
-
-        await this.usersRepository.update({
-            query: { userId: userInDb.userId },
-            payload: userUpdated,
-        });
+        await this.stateMachine.machine(flows.DELETE_USER, userInDb);
+        await this.usersRepository.delete({ userId });
+        await this.usersDetailsRepository.delete({ userId });
 
         this.logger(
             'info',
-            `Delete Service - User waiting to be deleted from database with ID ${userInDb.userId} and status ${userInDb.inProgress.status}`
+            `Delete Service - User deleted from database with ID ${userInDb.userId} and status ${userInDb.inProgress.status}`
         );
     }
 }

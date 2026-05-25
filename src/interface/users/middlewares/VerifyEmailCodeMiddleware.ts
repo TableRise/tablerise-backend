@@ -33,6 +33,7 @@ export default class VerifyEmailCodeMiddleware {
             stateMachine.props.status.WAIT_TO_START_EMAIL_CHANGE,
             stateMachine.props.status.WAIT_TO_START_PASSWORD_CHANGE,
             stateMachine.props.status.WAIT_TO_START_RESET_TWO_FACTOR,
+            stateMachine.props.status.WAIT_TO_SECOND_AUTH,
         ];
 
         this.verify = this.verify.bind(this);
@@ -50,6 +51,7 @@ export default class VerifyEmailCodeMiddleware {
 
         if (id) user = await this.usersRepository.findOne({ userId: id });
         if (email) user = await this.usersRepository.findOne({ email });
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
 
         if (!this.ALLOWED_STATUS.includes(user.inProgress.status)) HttpRequestErrors.throwError('invalid-user-status');
 

@@ -42,6 +42,7 @@ describe('When a campaign is created', function () {
                 notes: [],
             }));
             authenticatedUserDetails.gameInfo.badges = [];
+            authenticatedUserDetails.gameInfo.campaignsCreatedAmount = 1;
 
             await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
         });
@@ -96,7 +97,8 @@ describe('When a campaign is created', function () {
             const { body: authenticatedUserUpdated } = await requester()
                 .get(`/users/${userLoggedId}`)
                 .expect(HttpStatusCode.OK);
-            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('badge_10_campaigns');
+            expect(authenticatedUserUpdated.details.gameInfo.campaignsCreatedAmount).to.equal(2);
+            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('cleric-badge');
         });
     });
 });

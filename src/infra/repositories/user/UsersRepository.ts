@@ -3,6 +3,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
+import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
 
 export default class UsersRepository {
     private readonly model;
@@ -42,7 +43,9 @@ export default class UsersRepository {
         this.logger('info', callName);
         const request = await this.model.findAll(query);
 
-        return request.map((entity: User) => this.formatAndSerializeData(entity));
+        return request
+            .map((entity: User) => this.formatAndSerializeData(entity))
+            .filter((user) => !isUserWaitingToDelete(user));
     }
 
     public async findOne(query: any = {}): Promise<User> {
@@ -52,7 +55,10 @@ export default class UsersRepository {
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this.formatAndSerializeData(request);
+        const user = this.formatAndSerializeData(request);
+        if (isUserWaitingToDelete(user)) return null as unknown as User;
+
+        return user;
     }
 
     public async update({ query, payload }: UpdateObj): Promise<User> {

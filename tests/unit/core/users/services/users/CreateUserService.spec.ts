@@ -156,7 +156,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 expect(userEnriched.updatedAt).to.be.not.null();
                 expect(userEnriched.password).to.be.not.equal('testepwd@');
                 expect(userEnriched.twoFactorSecret.active).to.be.equal(false);
-                expect(userDetailsEnriched.gameInfo.badges).to.include('newbie_badge');
+                expect(userDetailsEnriched.gameInfo.badges).to.deep.equal([]);
+                expect(userDetailsEnriched.rank).to.equal(undefined);
             });
         });
 

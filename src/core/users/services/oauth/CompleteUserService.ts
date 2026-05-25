@@ -4,7 +4,7 @@ import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDepende
 import { __UserWithID, __FullUser } from 'src/types/api/users/methods';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
-import { awardNewbieBadge } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class CompleteUserService {
     private readonly usersRepository;
@@ -40,8 +40,7 @@ export default class CompleteUserService {
         userDetails.firstName = payload.firstName;
         userDetails.lastName = payload.lastName;
         userDetails.birthday = payload.birthday;
-        userDetails.rank = 'bronze';
-        awardNewbieBadge(userDetails);
+        ensureGameInfoCounters(userDetails);
 
         return { user, userDetails };
     }

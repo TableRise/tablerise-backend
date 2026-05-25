@@ -2,7 +2,6 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { GetByIdPayload } from 'src/types/api/users/http/payload';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 export default class GetUserByIdService {
     private readonly usersRepository;
@@ -25,10 +24,10 @@ export default class GetUserByIdService {
         const callName = `[${this.constructor.name}] - ${this.get.name}`;
         this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ userId });
-        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
-        if (userInDb.inProgress.status === InProgressStatusEnum.enum.WAIT_TO_DELETE_USER)
-            HttpRequestErrors.throwError('user-inexistent');
+        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         return {
             ...userInDb,

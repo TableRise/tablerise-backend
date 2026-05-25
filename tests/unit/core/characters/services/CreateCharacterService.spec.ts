@@ -262,7 +262,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             it('should return correct character', async () => {
                 const characterCreated = await createCharacterService.save(characterMock);
                 expect(characterCreated).to.deep.equal(characterMock);
-                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_creative');
+                expect(userDetailsUpdated.gameInfo.badges).to.deep.equal([]);
             });
         });
 
@@ -297,11 +297,10 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 });
             });
 
-            it('should award both character badges', async () => {
+            it('should not award character badges automatically', async () => {
                 await createCharacterService.save(characterMock);
 
-                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_creative');
-                expect(userDetailsUpdated.gameInfo.badges).to.include('badge_elder');
+                expect(userDetailsUpdated.gameInfo.badges).to.deep.equal([]);
             });
         });
     });

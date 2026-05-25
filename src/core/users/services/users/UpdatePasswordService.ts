@@ -32,6 +32,7 @@ export default class UpdatePasswordService {
         const { status } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ email });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_PASSWORD_CHANGE)
             HttpRequestErrors.throwError('invalid-user-status');

@@ -20,7 +20,6 @@ export default class Application {
     private readonly errorMiddleware;
     private readonly socketIO;
     private readonly logger;
-    private readonly managerCronJob;
 
     constructor({
         dungeonsAndDragonsRoutesMiddleware,
@@ -32,7 +31,6 @@ export default class Application {
         accessHeadersMiddleware,
         socketIO,
         logger,
-        managerCronJob,
     }: ApplicationContract) {
         this.dungeonsAndDragonsRoutesMiddleware = dungeonsAndDragonsRoutesMiddleware;
         this.usersRoutesMiddleware = usersRoutesMiddleware;
@@ -43,7 +41,6 @@ export default class Application {
         this.errorMiddleware = errorMiddleware;
         this.socketIO = socketIO;
         this.logger = logger;
-        this.managerCronJob = managerCronJob;
     }
 
     public setupExpress(): express.Application {
@@ -94,7 +91,6 @@ export default class Application {
         const server = createServer(app);
 
         await this.socketIO.connect(server);
-        await this.managerCronJob.run();
 
         await DatabaseManagement.connect(true, 'mongoose')
             .then(() => {

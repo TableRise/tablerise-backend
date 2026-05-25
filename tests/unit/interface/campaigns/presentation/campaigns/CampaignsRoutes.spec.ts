@@ -32,6 +32,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             patchRemoveCampaignPlayerCharacter: { query: {} },
             patchUpdateCampaignPlayerLimit: { query: {} },
             patchUpdateCampaignJournalHighlight: { body: {} },
+            patchUpdateCampaignMatchImages: { body: {} },
+            patchHighlightCampaignMatchImage: { query: {} },
             patchConfirmCampaignPlayer: { query: {} },
             patchUpdateCampaignCover: { body: {} },
             patchRemoveCampaignMatchMapImage: { query: {} },
@@ -53,7 +55,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(35);
+            expect(routes).to.have.lengthOf(37);
         });
 
         it('should include the journal highlight routes', () => {
@@ -70,7 +72,16 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
                 .to.be.true;
             expect(routes.some((route) => route.path === '/campaigns/:id/delete/journal' && route.method === 'delete'))
                 .to.be.true;
-            expect(routes.some((route) => route.path === '/campaigns/:id' && route.method === 'delete')).to.be.true;
+            expect(
+                routes.some((route) => route.path === '/campaigns/:id/update/match/images' && route.method === 'patch')
+            ).to.be.true;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/match/images/highlight' && route.method === 'patch'
+                )
+            ).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/delete' && route.method === 'patch')).to.be
+                .true;
             expect(routes.some((route) => route.path === '/campaigns/:id/logs' && route.method === 'post')).to.be.true;
             expect(routes.some((route) => route.path === '/campaigns/:id/buys' && route.method === 'post')).to.be.true;
         });

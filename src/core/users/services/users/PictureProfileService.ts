@@ -40,6 +40,7 @@ export default class PictureProfileService {
         const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
         this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         this.verifyLastUpdate(userInDb);
 

@@ -4,10 +4,10 @@ import CharacterCoreDependencies from 'src/types/modules/core/characters/Charact
 
 const UNIT_MAP: Record<string, string> = {
     PC: 'cp',
-    PP: 'pp',
+    PP: 'sp',
     PE: 'ep',
     PO: 'gp',
-    PL: 'sp',
+    PL: 'pp',
 };
 
 export default class RemoveEquipmentService {

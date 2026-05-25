@@ -299,22 +299,22 @@ All endpoints except registration, login, and email verification require a valid
 
 ### Campaigns
 
-| Method   | Path                                     | Description                                        |
-| -------- | ---------------------------------------- | -------------------------------------------------- |
-| `GET`    | `/campaigns`                             | Get all campaigns                                  |
-| `GET`    | `/campaigns/:id`                         | Get campaign by ID                                 |
-| `GET`    | `/campaigns/user/:id`                    | Get campaigns by user ID                           |
-| `POST`   | `/campaigns/create`                      | Create a new campaign (with cover image)           |
-| `POST`   | `/campaigns/:id/publishment`             | Publish a campaign match session                   |
-| `POST`   | `/campaigns/:id/invite`                  | Invite a player by email                           |
-| `POST`   | `/campaigns/:id/ban`                     | Ban a player from the campaign                     |
-| `POST`   | `/campaigns/:id/update/player/add`       | Add a player to the campaign                       |
-| `POST`   | `/campaigns/:id/update/player/remove`    | Remove a player from the campaign                  |
-| `PUT`    | `/campaigns/:id/update`                  | Update campaign details (with cover image)         |
-| `PATCH`  | `/campaigns/:id/update/match/map-images` | Upload a map image for the active match            |
-| `PATCH`  | `/campaigns/:id/update/match/musics`     | Update background music links for the active match |
-| `PATCH`  | `/campaigns/:id/update/images`           | Update campaign gallery images                     |
-| `DELETE` | `/campaigns/:id/delete`                  | Delete a campaign                                  |
+| Method  | Path                                     | Description                                        |
+| ------- | ---------------------------------------- | -------------------------------------------------- |
+| `GET`   | `/campaigns`                             | Get all campaigns                                  |
+| `GET`   | `/campaigns/:id`                         | Get campaign by ID                                 |
+| `GET`   | `/campaigns/user/:id`                    | Get campaigns by user ID                           |
+| `POST`  | `/campaigns/create`                      | Create a new campaign (with cover image)           |
+| `POST`  | `/campaigns/:id/publishment`             | Publish a campaign match session                   |
+| `POST`  | `/campaigns/:id/invite`                  | Invite a player by email                           |
+| `POST`  | `/campaigns/:id/ban`                     | Ban a player from the campaign                     |
+| `POST`  | `/campaigns/:id/update/player/add`       | Add a player to the campaign                       |
+| `POST`  | `/campaigns/:id/update/player/remove`    | Remove a player from the campaign                  |
+| `PUT`   | `/campaigns/:id/update`                  | Update campaign details (with cover image)         |
+| `PATCH` | `/campaigns/:id/update/match/map-images` | Upload a map image for the active match            |
+| `PATCH` | `/campaigns/:id/update/match/musics`     | Update background music links for the active match |
+| `PATCH` | `/campaigns/:id/update/images`           | Update campaign gallery images                     |
+| `PATCH` | `/campaigns/:id/delete`                  | Close a campaign by setting its status to closed   |
 
 ### Characters
 

@@ -14,6 +14,7 @@ export default class CharactersController {
     private readonly addEquipmentOperation;
     private readonly removeEquipmentOperation;
     private readonly updateCharacterMoneyOperation;
+    private readonly deleteCharacterOperation;
 
     constructor({
         createCharacterOperation,
@@ -25,6 +26,7 @@ export default class CharactersController {
         addEquipmentOperation,
         removeEquipmentOperation,
         updateCharacterMoneyOperation,
+        deleteCharacterOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this.createCharacterOperation = createCharacterOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
@@ -35,6 +37,7 @@ export default class CharactersController {
         this.addEquipmentOperation = addEquipmentOperation;
         this.removeEquipmentOperation = removeEquipmentOperation;
         this.updateCharacterMoneyOperation = updateCharacterMoneyOperation;
+        this.deleteCharacterOperation = deleteCharacterOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
@@ -45,6 +48,7 @@ export default class CharactersController {
         this.addEquipment = this.addEquipment.bind(this);
         this.removeEquipment = this.removeEquipment.bind(this);
         this.updateCharacterMoney = this.updateCharacterMoney.bind(this);
+        this.deleteCharacter = this.deleteCharacter.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -128,5 +132,17 @@ export default class CharactersController {
             moneyType,
         });
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async deleteCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        await this.deleteCharacterOperation.execute({
+            characterId: id,
+            userId,
+        });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 }

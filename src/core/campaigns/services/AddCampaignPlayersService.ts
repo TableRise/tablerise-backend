@@ -1,7 +1,6 @@
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
-import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { AddCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
@@ -37,10 +36,11 @@ export default class AddCampaignPlayersService {
 
         if (campaign.password !== 'no-password') {
             const isPasswordValid = await SecurePasswordHandler.comparePassword(password, campaign.password);
-            if (!isPasswordValid) HttpRequestErrors.throwError('unauthorized');
+            if (!isPasswordValid) HttpRequestErrors.throwError('campaign-password-incorrect');
         }
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
         const dungeonMaster = campaign.campaignPlayers.find(
             (player: { role: string }) => player.role === 'dungeon_master'
         );
@@ -72,7 +72,6 @@ export default class AddCampaignPlayersService {
         };
 
         userDetails.gameInfo.campaigns.push(campaign.campaignId as string);
-        awardCampaignBadges(userDetails);
 
         campaign.campaignPlayers.push(player);
 

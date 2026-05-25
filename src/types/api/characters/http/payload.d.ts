@@ -40,3 +40,8 @@ export interface UpdateCharacterMoneyPayload {
     money: number;
     moneyType: 'PC' | 'PP' | 'PE' | 'PO' | 'PL';
 }
+
+export interface DeleteCharacterPayload {
+    characterId: string;
+    userId: string;
+}

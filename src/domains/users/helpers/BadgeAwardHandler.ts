@@ -1,82 +1,83 @@
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import { ensureGameInfoCounters, UserGameInfoCounterKey } from './GameInfoCounters';
+
+type CounterBadgeRule = {
+    counter: UserGameInfoCounterKey;
+    amount: number;
+    badge: string;
+};
 
 export const CAMPAIGN_BADGE_RULES = [
-    { threshold: 10, badge: 'badge_10_campaigns' },
-    { threshold: 50, badge: 'badge_50_campaigns' },
-    { threshold: 100, badge: 'badge_100_campaigns' },
-    { threshold: 500, badge: 'badge_500_campaigns' },
-    { threshold: 1000, badge: 'badge_1000_campaigns' },
+    { counter: 'campaignsJoinedAmount', amount: 2, badge: 'enthusiast-badge' },
+    { counter: 'campaignsJoinedAmount', amount: 5, badge: 'student-badge' },
+    { counter: 'campaignsJoinedAmount', amount: 10, badge: 'mage-badge' },
+    { counter: 'campaignsJoinedAmount', amount: 30, badge: 'necromant-badge' },
+    { counter: 'campaignsJoinedAmount', amount: 50, badge: 'dragon-badge' },
+    { counter: 'campaignsCreatedAmount', amount: 2, badge: 'cleric-badge' },
+    { counter: 'campaignsCreatedAmount', amount: 5, badge: 'high-cleric-badge' },
+    { counter: 'campaignsCreatedAmount', amount: 10, badge: 'sorcerer-badge' },
+    { counter: 'campaignsCreatedAmount', amount: 30, badge: 'high-sorcerer-badge' },
+    { counter: 'campaignsCreatedAmount', amount: 50, badge: 'supreme-sorcerer-cleric-badge' },
+    { counter: 'campaignsClosedAmount', amount: 2, badge: 'warrior-badge' },
+    { counter: 'campaignsClosedAmount', amount: 5, badge: 'warrior-young-badge' },
+    { counter: 'campaignsClosedAmount', amount: 10, badge: 'warrior-arcane-badge' },
+    { counter: 'campaignsClosedAmount', amount: 30, badge: 'warrior-darkness-badge' },
+    { counter: 'campaignsClosedAmount', amount: 50, badge: 'warrior-ancient-badge' },
+    { counter: 'equipBoughtAmount', amount: 10, badge: 'imp-badge' },
+    { counter: 'equipBoughtAmount', amount: 30, badge: 'imp-rich-badge' },
+    { counter: 'equipBoughtAmount', amount: 50, badge: 'imp-very-rich-badge' },
+    { counter: 'equipBoughtAmount', amount: 70, badge: 'imp-with-glasses-and-money' },
+    { counter: 'equipBoughtAmount', amount: 90, badge: 'imp-king-rich-badge' },
 ] as const;
-
-export const CHARACTER_BADGE_RULES = [
-    { threshold: 10, badge: 'badge_creative' },
-    { threshold: 20, badge: 'badge_elder' },
-] as const;
-
-export const NEWBIE_BADGE = 'badge_newbie';
+export const CHARACTER_BADGE_RULES = [] as const;
+export const NEWBIE_BADGE = null;
 export const BADGE_RANK_RULES = [
-    { threshold: 50, rank: 'white' },
-    { threshold: 20, rank: 'gold' },
-    { threshold: 10, rank: 'diamond' },
+    { badgesAmount: 20, rank: 'white' },
+    { badgesAmount: 15, rank: 'gold' },
+    { badgesAmount: 10, rank: 'diamond' },
 ] as const;
 
-function ensureBadges(userDetails: UserDetail): string[] {
-    if (!userDetails.gameInfo) {
-        userDetails.gameInfo = {
-            campaigns: [],
-            characters: [],
-            badges: [],
-        };
+function addBadge(userDetails: UserDetail, badge: string): UserDetail {
+    ensureGameInfoCounters(userDetails);
+    userDetails.gameInfo.badges = userDetails.gameInfo.badges ?? [];
+
+    if (!userDetails.gameInfo.badges.includes(badge)) {
+        userDetails.gameInfo.badges.push(badge);
     }
-
-    if (!Array.isArray(userDetails.gameInfo.badges)) {
-        userDetails.gameInfo.badges = [];
-    }
-
-    return userDetails.gameInfo.badges;
-}
-
-export function syncRankByBadgesLength(userDetails: UserDetail): UserDetail {
-    const currentBadges = ensureBadges(userDetails);
-    const matchedRule = BADGE_RANK_RULES.find((rule) => currentBadges.length >= rule.threshold);
-
-    if (!matchedRule) return userDetails;
-
-    userDetails.rank = matchedRule.rank;
 
     return userDetails;
 }
 
-function addBadges(userDetails: UserDetail, badges: string[]): UserDetail {
-    const currentBadges = ensureBadges(userDetails);
+function awardBadgesByRules(userDetails: UserDetail, rules: readonly CounterBadgeRule[]): UserDetail {
+    ensureGameInfoCounters(userDetails);
 
-    badges.forEach((badge) => {
-        if (!currentBadges.includes(badge)) currentBadges.push(badge);
-    });
+    for (const rule of rules) {
+        const currentAmount = (userDetails.gameInfo as Record<UserGameInfoCounterKey, number>)[rule.counter];
+        if (currentAmount >= rule.amount) {
+            addBadge(userDetails, rule.badge);
+        }
+    }
 
-    syncRankByBadgesLength(userDetails);
+    return syncRankByBadgesLength(userDetails);
+}
+
+export function syncRankByBadgesLength(userDetails: UserDetail): UserDetail {
+    const badgesLength = userDetails.gameInfo?.badges?.length ?? 0;
+    const matchedRule = BADGE_RANK_RULES.find((rule) => badgesLength >= rule.badgesAmount);
+
+    userDetails.rank = matchedRule?.rank ?? null;
 
     return userDetails;
 }
 
 export function awardNewbieBadge(userDetails: UserDetail): UserDetail {
-    return addBadges(userDetails, [NEWBIE_BADGE]);
+    return userDetails;
 }
 
 export function awardCampaignBadges(userDetails: UserDetail): UserDetail {
-    const campaignsLength = userDetails.gameInfo?.campaigns?.length ?? 0;
-    const badgesToAdd = CAMPAIGN_BADGE_RULES.filter((rule) => campaignsLength >= rule.threshold).map(
-        (rule) => rule.badge
-    );
-
-    return addBadges(userDetails, badgesToAdd);
+    return awardBadgesByRules(userDetails, CAMPAIGN_BADGE_RULES);
 }
 
 export function awardCharacterBadges(userDetails: UserDetail): UserDetail {
-    const charactersLength = userDetails.gameInfo?.characters?.length ?? 0;
-    const badgesToAdd = CHARACTER_BADGE_RULES.filter((rule) => charactersLength >= rule.threshold).map(
-        (rule) => rule.badge
-    );
-
-    return addBadges(userDetails, badgesToAdd);
+    return userDetails;
 }

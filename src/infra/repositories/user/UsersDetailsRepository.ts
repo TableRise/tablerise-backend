@@ -3,9 +3,11 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
+import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
 
 export default class UsersDetailsRepository {
     private readonly model;
+    private readonly usersModel;
     private readonly updateTimestampRepository;
     private readonly serializer;
     private readonly logger;
@@ -18,6 +20,7 @@ export default class UsersDetailsRepository {
     }: InfraDependencies['usersDetailsRepositoryContract']) {
         this.updateTimestampRepository = updateTimestampRepository;
         this.model = database.modelInstance('user', 'UserDetails');
+        this.usersModel = database.modelInstance('user', 'Users');
         this.serializer = serializer;
         this.logger = logger;
     }
@@ -25,6 +28,13 @@ export default class UsersDetailsRepository {
     private formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
         return this.serializer.postUserDetails(format);
+    }
+
+    private async shouldHideUserDetail(data: UserDetail | null | undefined): Promise<boolean> {
+        if (!data?.userId) return false;
+
+        const user = await this.usersModel.findOne({ userId: data.userId });
+        return isUserWaitingToDelete(user);
     }
 
     public async create(payload: UserDetail): Promise<UserDetail> {
@@ -41,8 +51,12 @@ export default class UsersDetailsRepository {
         const callName = `[${this.constructor.name}] - ${this.find.name}`;
         this.logger('info', callName);
         const request = await this.model.findAll(query);
+        const serializedUsers = request.map((entity: UserDetail) => this.formatAndSerializeData(entity));
+        const availability = await Promise.all(
+            serializedUsers.map(async (userDetail) => !(await this.shouldHideUserDetail(userDetail)))
+        );
 
-        return request.map((entity: UserDetail) => this.formatAndSerializeData(entity));
+        return serializedUsers.filter((_userDetail, index) => availability[index]);
     }
 
     public async findOne(query: any = {}): Promise<UserDetail> {
@@ -52,7 +66,10 @@ export default class UsersDetailsRepository {
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this.formatAndSerializeData(request);
+        const userDetail = this.formatAndSerializeData(request);
+        if (await this.shouldHideUserDetail(userDetail)) return null as unknown as UserDetail;
+
+        return userDetail;
     }
 
     public async update({ query, payload }: UpdateObj): Promise<UserDetail> {

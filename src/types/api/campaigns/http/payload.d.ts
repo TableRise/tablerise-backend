@@ -2,6 +2,7 @@ import Campaign, { Journal } from '@tablerise/database-management/dist/src/inter
 import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export type CampaignJournalCategory =
     | 'master'
@@ -86,6 +87,17 @@ export interface UpdateMatchMapImagesPayload {
     imageId?: string;
 }
 
+export interface UpdateMatchImagesPayload {
+    campaignId: string;
+    images?: FileObject[];
+}
+
+export interface UpdateMatchHighlightedImagePayload {
+    campaignId: string;
+    imageId?: string;
+    remove?: boolean;
+}
+
 export interface AddMatchMusicPayload {
     campaignId: string;
     id: string;
@@ -163,4 +175,17 @@ export interface DeleteCampaignJournalPostPayload {
     callerId: string;
     userId: string;
     postId: string;
+}
+
+export interface UpdateCampaignPlayerNotePayload {
+    campaignId: string;
+    userId: string;
+    title: string;
+    content: string;
+}
+
+export interface RemoveCampaignPlayerNotePayload {
+    campaignId: string;
+    userId: string;
+    title: string;
 }

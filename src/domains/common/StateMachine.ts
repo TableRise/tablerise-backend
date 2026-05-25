@@ -11,7 +11,6 @@ export const StateMachineFlows = {
     [flows.UPDATE_PASSWORD]: [
         status.DONE,
         status.WAIT_TO_START_PASSWORD_CHANGE,
-        status.WAIT_TO_SECOND_AUTH,
         status.WAIT_TO_FINISH_PASSWORD_CHANGE,
         status.DONE,
     ],
@@ -36,7 +35,12 @@ export const StateMachineFlows = {
         status.DONE,
     ],
     [flows.RESET_PROFILE]: [status.DONE, status.WAIT_TO_RESET_PROFILE, status.DONE],
-    [flows.DELETE_PROFILE]: [status.DONE, status.WAIT_TO_FINISH_DELETE_USER, status.WAIT_TO_DELETE_USER],
+    [flows.DELETE_USER]: [
+        status.DONE,
+        status.WAIT_TO_CONFIRM,
+        status.WAIT_TO_FINISH_DELETE_USER,
+        status.WAIT_TO_DELETE_USER,
+    ],
     [flows.DISABLE_TWO_FACTOR]: [status.DONE, status.WAIT_TO_DISABLE_TWO_FACTOR, status.DONE],
 };
 

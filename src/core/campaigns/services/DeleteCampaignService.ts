@@ -1,22 +1,21 @@
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
+import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 
 export default class DeleteCampaignService {
     private readonly campaignsRepository;
     private readonly usersDetailsRepository;
-    private readonly charactersRepository;
     private readonly logger;
 
     constructor({
         campaignsRepository,
         usersDetailsRepository,
-        charactersRepository,
         logger,
     }: CampaignCoreDependencies['deleteCampaignServiceContract']) {
         this.campaignsRepository = campaignsRepository;
         this.usersDetailsRepository = usersDetailsRepository;
-        this.charactersRepository = charactersRepository;
         this.logger = logger;
     }
 
@@ -28,25 +27,22 @@ export default class DeleteCampaignService {
         }
     }
 
-    public async deleteCampaign(campaignId: string, userId: string): Promise<void> {
+    public async deleteCampaign(campaignId: string, userId: string): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.deleteCampaign.name}`;
         this.logger('info', callName);
 
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         this.validateCaller(campaign, userId);
-
-        const userIds = [...new Set(campaign.campaignPlayers.map((player) => player.userId))];
-        const userDetailsList = await Promise.all(
-            userIds.map(async (playerUserId) => await this.usersDetailsRepository.findOne({ userId: playerUserId }))
-        );
-        const characters = await this.charactersRepository.find({ campaignId });
+        campaign.status = 'closed';
 
         await Promise.all(
-            userDetailsList.map(async (userDetails) => {
-                userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
-                    (campaignInfo) => campaignInfo !== campaignId
-                );
+            campaign.campaignPlayers.map(async (player: Player) => {
+                const userDetails = await this.usersDetailsRepository.findOne({ userId: player.userId });
+                if (!userDetails) return;
+
+                incrementGameInfoCounter(userDetails, 'campaignsClosedAmount');
+                awardCampaignBadges(userDetails);
 
                 await this.usersDetailsRepository.update({
                     query: { userDetailId: userDetails.userDetailId },
@@ -55,15 +51,9 @@ export default class DeleteCampaignService {
             })
         );
 
-        await Promise.all(
-            characters.map(async (character) => {
-                await this.charactersRepository.update({
-                    query: { characterId: character.characterId },
-                    payload: { campaignId: null },
-                });
-            })
-        );
-
-        await this.campaignsRepository.delete({ campaignId });
+        return this.campaignsRepository.update({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
+        });
     }
 }

@@ -44,6 +44,7 @@ export default class VerifyEmailService {
         const callName = `[${this.constructor.name}] - ${this.sendEmail.name}`;
         this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ email });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         const userUpdated = await this.send(userInDb, flow as stateFlowsKeys);
 

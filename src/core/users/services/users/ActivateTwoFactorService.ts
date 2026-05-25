@@ -33,6 +33,7 @@ export default class ActivateTwoFactorService {
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -43,6 +44,7 @@ export default class ActivateTwoFactorService {
         const userDetailInDb = await this.usersDetailsRepository.findOne({
             userId: userInDb.userId,
         });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         await this.stateMachine.machine(flows.ACTIVATE_TWO_FACTOR, userInDb);
 

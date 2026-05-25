@@ -3,6 +3,7 @@ import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
+import { isClosedCampaign } from 'src/domains/common/helpers/RepositoryVisibility';
 
 type MatchStatePatch = Partial<Omit<Campaign['matchData']['state'], 'tokens'>>;
 
@@ -63,7 +64,10 @@ export default class CampaignsRepository {
         const request = await this.model.findOne(query);
         if (!request) HttpRequestErrors.throwError('campaign-inexistent');
 
-        return this.formatAndSerializeData(request);
+        const campaign = this.formatAndSerializeData(request);
+        if (isClosedCampaign(campaign)) return null as unknown as Campaign;
+
+        return campaign;
     }
 
     public async find(query: any = {}): Promise<Campaign[]> {
@@ -71,7 +75,9 @@ export default class CampaignsRepository {
         this.logger('info', callName);
         const request = await this.model.findAll(query);
 
-        return request.map((data) => this.formatAndSerializeData(data));
+        return request
+            .map((data) => this.formatAndSerializeData(data))
+            .filter((campaign) => !isClosedCampaign(campaign));
     }
 
     public async update({ query, payload }: UpdateObj): Promise<Campaign> {

@@ -40,6 +40,8 @@ export default {
             deleteUrl: '',
             request: { success: true, status: 200 },
         },
+        images: [],
+        imageHighlighted: null,
         password: faker.word.sample(),
         logs: [],
     },

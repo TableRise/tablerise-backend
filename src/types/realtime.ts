@@ -38,6 +38,8 @@ export interface RealtimeMatchData {
     nextSessionResume?: string;
     confirmedPlayers: Player[];
     mapImages: ImageObject[];
+    images: ImageObject[];
+    imageHighlighted: ImageObject | null;
     logs: Log[];
     state: MatchState;
     characters?: CharacterInGame[];
@@ -69,6 +71,8 @@ export interface CampaignSyncPayload {
         playingMusicId: string | null;
         visibleCharacterIds: string[];
         tokens: MatchToken[];
+        images: ImageObject[];
+        imageHighlighted: ImageObject | null;
         highlightedJournalPost: Journal | null;
     };
 }

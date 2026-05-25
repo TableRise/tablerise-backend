@@ -14,6 +14,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('postCampaignBuy');
             expect(schemas).to.have.property('patchAddCampaignMatchDate');
             expect(schemas).to.have.property('patchUpdateCampaignMatchMapImages');
+            expect(schemas).to.have.property('patchUpdateCampaignMatchImages');
+            expect(schemas).to.have.property('patchHighlightCampaignMatchImage');
             expect(schemas).to.have.property('patchAddCampaignMatchMusics');
             expect(schemas).to.have.property('patchRemoveCampaignMatchMusic');
             expect(schemas).to.have.property('patchEditCampaignMatchMusic');
@@ -65,7 +67,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                 description: 'A short description',
                 system: 'dnd5e',
                 musics: '[]',
-                lore: 'A great adventure begins',
+                mainHistory: 'A great adventure begins',
                 playerAmountLimit: '4',
                 ageRestriction: '16',
             };
@@ -75,7 +77,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(() =>
                 schemas.postCreateCampaign.body.parse({
                     ...basePayload,
-                    configurations: { xpSystem: true, shopSystem: false },
+                    configurations: JSON.stringify({ xpSystem: true, shopSystem: false }),
                 })
             ).to.not.throw();
 
@@ -84,7 +86,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     ...basePayload,
                     configurations: { xpSystem: 'true', shopSystem: 'false' },
                 })
-            ).to.not.throw();
+            ).to.throw();
         });
 
         it('should validate update and delete journal post payloads', () => {
@@ -111,6 +113,24 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     postId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
                 })
             ).to.not.throw();
+        });
+
+        it('should validate the highlighted match image query', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.patchHighlightCampaignMatchImage.query.parse({
+                    imageId: 'image-123',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchHighlightCampaignMatchImage.query.parse({
+                    remove: true,
+                })
+            ).to.not.throw();
+
+            expect(() => schemas.patchHighlightCampaignMatchImage.query.parse({})).to.throw();
         });
 
         it('should validate campaign buy payloads', () => {

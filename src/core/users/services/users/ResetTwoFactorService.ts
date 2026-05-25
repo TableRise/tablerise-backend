@@ -29,6 +29,7 @@ export default class ResetTwoFactorService {
         this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_RESET_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');

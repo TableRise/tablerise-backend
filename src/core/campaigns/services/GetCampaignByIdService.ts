@@ -1,6 +1,7 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { GetCampaignByIdPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class GetCampaignByIdService {
     private readonly campaignsRepository;
@@ -14,6 +15,10 @@ export default class GetCampaignByIdService {
     async get({ campaignId }: GetCampaignByIdPayload): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.get.name}`;
         this.logger('info', callName);
-        return this.campaignsRepository.findOne({ campaignId });
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
+
+        if (!campaign) HttpRequestErrors.throwError('campaign-inexistent');
+
+        return campaign;
     }
 }

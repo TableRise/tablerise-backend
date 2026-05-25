@@ -158,6 +158,17 @@ export default class CharactersRoutes {
                     description: desc.updateMoney,
                 },
             },
+            {
+                method: 'delete',
+                path: `${BASE_PATH}/:id/delete`,
+                controller: this.charactersController.deleteCharacter,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.deleteCharacter,
+                },
+            },
         ] as routeInstance[];
     }
 }

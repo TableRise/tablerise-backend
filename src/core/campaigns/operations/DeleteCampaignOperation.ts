@@ -1,4 +1,5 @@
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 export default class DeleteCampaignOperation {
     private readonly deleteCampaignService;
@@ -11,9 +12,9 @@ export default class DeleteCampaignOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(campaignId: string, userId: string): Promise<void> {
+    public async execute(campaignId: string, userId: string): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.execute.name}`;
         this.logger('info', callName);
-        await this.deleteCampaignService.deleteCampaign(campaignId, userId);
+        return await this.deleteCampaignService.deleteCampaign(campaignId, userId);
     }
 }

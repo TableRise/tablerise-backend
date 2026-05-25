@@ -30,6 +30,7 @@ export default class UpdateEmailService {
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         const emailAlreadyExist = await this.usersRepository.find({ email });
 

@@ -62,7 +62,15 @@ exports.mochaHooks = {
             firstName: 'Joe',
             lastName: 'Einstein',
             birthday: '1995-10-25',
-            gameInfo: { campaigns: [], characters: [], badges: [] },
+            gameInfo: {
+                campaigns: [],
+                characters: [],
+                badges: [],
+                campaignsJoinedAmount: 0,
+                campaignsCreatedAmount: 0,
+                campaignsClosedAmount: 0,
+                equipBoughtAmount: 0,
+            },
             biography: 'Some bio',
             role: 'admin',
         };

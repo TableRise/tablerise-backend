@@ -37,6 +37,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         ...userDetails.gameInfo,
                         badges: [infoId],
                     },
+                    rank: null,
                 };
 
                 usersDetailsRepository = {
@@ -60,13 +61,14 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
         });
 
-        context('When a badge is added and reaches a rank threshold', () => {
+        context('When a badge is added', () => {
             const userId = newUUID();
             const infoId = newUUID();
 
             before(() => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 userDetails.gameInfo.badges = Array.from({ length: 9 }, (_, index) => `badge-${index}`);
+                userDetails.rank = null;
 
                 updateGameInfoPayload = {
                     userId,
@@ -77,11 +79,11 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
 
                 newUserDetails = {
                     ...userDetails,
-                    rank: 'diamond',
                     gameInfo: {
                         ...userDetails.gameInfo,
                         badges: [...userDetails.gameInfo.badges, infoId],
                     },
+                    rank: 'diamond',
                 };
 
                 usersDetailsRepository = {
@@ -95,7 +97,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 });
             });
 
-            it('should update rank based on total badges', async () => {
+            it('should promote rank to diamond', async () => {
                 await updateGameInfoService.add(updateGameInfoPayload);
 
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
@@ -200,6 +202,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 userDetails.gameInfo.badges = [infoId];
+                userDetails.rank = 'diamond';
 
                 updateGameInfoPayload = {
                     userId,
@@ -214,6 +217,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         ...userDetails.gameInfo,
                         badges: [],
                     },
+                    rank: null,
                 };
 
                 usersDetailsRepository = {
@@ -227,7 +231,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 });
             });
 
-            it('should call correct methods', async () => {
+            it('should call correct methods and clear rank when needed', async () => {
                 await updateGameInfoService.remove(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({

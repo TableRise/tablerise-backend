@@ -1,9 +1,12 @@
 const create = 'Create a new campaign and return the saved campaign data.';
-const deleteCampaign = 'Delete a campaign. This action is only available to the dungeon master.';
+const deleteCampaign =
+    'Close a campaign by updating its status to closed. This action is only available to the dungeon master.';
 const update = 'Update the main campaign information.';
 const getById = 'Get a campaign by its id.';
 const getAll = 'List campaigns, with optional filters by title or code.';
 const addMatchImages = 'Add map images to the active match.';
+const addMatchGalleryImages = 'Add gallery images to the active match.';
+const highlightMatchImage = 'Highlight one gallery image for every player in the active match.';
 const removeMatchImage = 'Remove one map image from the active match.';
 const addMatchMusic = 'Add a music track to the active match.';
 const removeMatchMusic = 'Remove a music track from the active match.';
@@ -36,6 +39,8 @@ const updateCampaignJournalHighlight =
 const updateCampaignJournalPost = 'Edit a campaign journal post. Available to the post author.';
 const deleteCampaignJournalPost =
     'Delete a campaign journal post. Available to the post author, an admin player, or the dungeon master.';
+const updateCampaignPlayerNote = 'Edit one of the authenticated player notes in the campaign by title.';
+const removeCampaignPlayerNote = 'Remove one of the authenticated player notes in the campaign by title.';
 
 export default {
     create,
@@ -44,6 +49,8 @@ export default {
     getById,
     getAll,
     addMatchImages,
+    addMatchGalleryImages,
+    highlightMatchImage,
     removeMatchImage,
     addMatchMusic,
     removeMatchMusic,
@@ -73,4 +80,6 @@ export default {
     updateCampaignJournalHighlight,
     updateCampaignJournalPost,
     deleteCampaignJournalPost,
+    updateCampaignPlayerNote,
+    removeCampaignPlayerNote,
 };

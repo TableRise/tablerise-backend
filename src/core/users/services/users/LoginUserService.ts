@@ -1,5 +1,6 @@
 import { CookieOptions } from 'express';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { JWTResponse } from 'src/types/api/users/methods';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
@@ -27,6 +28,7 @@ export default class LoginUserService {
         const userDetails = await this.usersDetailsRepository.findOne({
             userId: tokenData.userId,
         });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
         tokenData.fullname = userDetails.firstName + ' ' + userDetails.lastName;
 

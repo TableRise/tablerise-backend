@@ -1,8 +1,8 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { syncRankByBadgesLength } from 'src/domains/users/helpers/BadgeAwardHandler';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
+import { syncRankByBadgesLength } from 'src/domains/users/helpers/BadgeAwardHandler';
 
 export default class UpdateGameInfoService {
     private readonly logger;
@@ -65,6 +65,7 @@ export default class UpdateGameInfoService {
         const callName = `[${this.constructor.name}] - ${this.add.name}`;
         this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
         if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
@@ -81,8 +82,10 @@ export default class UpdateGameInfoService {
         const callName = `[${this.constructor.name}] - ${this.remove.name}`;
         this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
+        if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },

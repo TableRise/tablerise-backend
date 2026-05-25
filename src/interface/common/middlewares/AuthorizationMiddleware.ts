@@ -43,6 +43,7 @@ export default class AuthorizationMiddleware {
         const { userId } = req.user as Express.User;
 
         const userDetail = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetail) HttpRequestErrors.throwError('user-inexistent');
 
         if (userDetail.role === 'admin') {
             next();
@@ -60,6 +61,7 @@ export default class AuthorizationMiddleware {
         this.schemaValidator.entry(this.usersSchemas.postAuthenticate2FA.query, { email, token, flow });
 
         const userInDb = await this.usersRepository.findOne({ email });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (!this.ALLOWED_STATUS.includes(userInDb.inProgress.status))
             HttpRequestErrors.throwError('invalid-user-status');

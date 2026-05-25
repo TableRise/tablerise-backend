@@ -110,9 +110,9 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);
-            response.end = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
 
-            deleteCampaignOperation = { execute: sinon.spy(() => ({})) };
+            deleteCampaignOperation = { execute: sinon.spy(() => ({ campaignId: '123', status: 'closed' })) };
             createCampaignOperation = { execute: () => {} };
             getCampaignByIdOperation = { execute: () => {} };
             getAllCampaignsOperation = { execute: () => {} };
@@ -155,8 +155,8 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             await campaignsController.deleteCampaign(request, response);
 
             expect(deleteCampaignOperation.execute).to.have.been.calledWith('123', userId);
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-            expect(response.end).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.calledWith({ campaignId: '123', status: 'closed' });
         });
     });
 

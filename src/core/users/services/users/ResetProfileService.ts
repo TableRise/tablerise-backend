@@ -28,6 +28,7 @@ export default class ResetProfileService {
 
         const userInDb = await this.usersRepository.findOne({ userId });
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userInDb || !userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_RESET_PROFILE)
             HttpRequestErrors.throwError('invalid-user-status');

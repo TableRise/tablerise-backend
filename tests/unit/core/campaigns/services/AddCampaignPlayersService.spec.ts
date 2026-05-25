@@ -63,8 +63,8 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
-                expect(matchDataAdded.userDetails.gameInfo.badges).to.include('badge_10_campaigns');
-                expect(matchDataAdded.userDetails.gameInfo.badges).to.include('badge_50_campaigns');
+                expect(matchDataAdded.userDetails.gameInfo.campaignsJoinedAmount).to.equal(0);
+                expect(matchDataAdded.userDetails.gameInfo.badges).to.deep.equal([]);
             });
         });
 
@@ -102,6 +102,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
+                expect(matchDataAdded.userDetails.gameInfo.campaignsJoinedAmount).to.equal(0);
             });
         });
 
@@ -185,14 +186,14 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 });
             });
 
-            it('should return the add campaign', async () => {
+            it('should throw a campaign-specific password error instead of unauthorized', async () => {
                 try {
                     await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Unauthorized');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+                    expect(err.message).to.be.equal('The campaign password is incorrect');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -411,6 +412,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 };
 
                 usersDetailsRepository = {
+                    findOne: sinon.stub(),
                     update: sinon.spy(() => {}),
                 };
 
@@ -451,6 +453,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 };
 
                 usersDetailsRepository = {
+                    findOne: sinon.stub(),
                     update: sinon.spy(() => {}),
                 };
 

@@ -8,6 +8,11 @@ import {
     UpdateMatchMapImagesOperationContract,
     UpdateMatchMapImagesServiceContract,
 } from './campaigns/UpdateMatchMapImages';
+import { UpdateMatchImagesOperationContract, UpdateMatchImagesServiceContract } from './campaigns/UpdateMatchImages';
+import {
+    UpdateMatchHighlightedImageOperationContract,
+    UpdateMatchHighlightedImageServiceContract,
+} from './campaigns/UpdateMatchHighlightedImage';
 
 import { UpdateMatchMusicsOperationContract, UpdateMatchMusicsServiceContract } from './campaigns/UpdateMatchMapMusics';
 
@@ -88,6 +93,14 @@ import {
     DeleteCampaignJournalPostOperationContract,
     DeleteCampaignJournalPostServiceContract,
 } from './campaigns/DeleteCampaignJournalPost';
+import {
+    UpdateCampaignPlayerNoteOperationContract,
+    UpdateCampaignPlayerNoteServiceContract,
+} from './campaigns/UpdateCampaignPlayerNote';
+import {
+    RemoveCampaignPlayerNoteOperationContract,
+    RemoveCampaignPlayerNoteServiceContract,
+} from './campaigns/RemoveCampaignPlayerNote';
 import { DeleteCampaignOperationContract, DeleteCampaignServiceContract } from './campaigns/DeleteCampaign';
 
 export default interface CampaignCoreDependencies {
@@ -100,6 +113,8 @@ export default interface CampaignCoreDependencies {
     postCampaignLogOperationContract: PostCampaignLogOperationContract;
     postCampaignBuyOperationContract: PostCampaignBuyOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
+    updateMatchImagesOperationContract: UpdateMatchImagesOperationContract;
+    updateMatchHighlightedImageOperationContract: UpdateMatchHighlightedImageOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
     updateMatchDateOperationContract: updateMatchDateOperationContract;
     addCampaignPlayersOperationContract: AddCampaignPlayersOperationContract;
@@ -119,6 +134,8 @@ export default interface CampaignCoreDependencies {
     updateCampaignJournalHighlightOperationContract: UpdateCampaignJournalHighlightOperationContract;
     updateCampaignJournalPostOperationContract: UpdateCampaignJournalPostOperationContract;
     deleteCampaignJournalPostOperationContract: DeleteCampaignJournalPostOperationContract;
+    updateCampaignPlayerNoteOperationContract: UpdateCampaignPlayerNoteOperationContract;
+    removeCampaignPlayerNoteOperationContract: RemoveCampaignPlayerNoteOperationContract;
 
     // Services
     deleteCampaignServiceContract: DeleteCampaignServiceContract;
@@ -129,6 +146,8 @@ export default interface CampaignCoreDependencies {
     postCampaignLogServiceContract: PostCampaignLogServiceContract;
     postCampaignBuyServiceContract: PostCampaignBuyServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
+    updateMatchImagesServiceContract: UpdateMatchImagesServiceContract;
+    updateMatchHighlightedImageServiceContract: UpdateMatchHighlightedImageServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
     updateMatchDateServiceContract: updateMatchDateServiceContract;
     addCampaignPlayersServiceContract: AddCampaignPlayersServiceContract;
@@ -148,4 +167,6 @@ export default interface CampaignCoreDependencies {
     updateCampaignJournalHighlightServiceContract: UpdateCampaignJournalHighlightServiceContract;
     updateCampaignJournalPostServiceContract: UpdateCampaignJournalPostServiceContract;
     deleteCampaignJournalPostServiceContract: DeleteCampaignJournalPostServiceContract;
+    updateCampaignPlayerNoteServiceContract: UpdateCampaignPlayerNoteServiceContract;
+    removeCampaignPlayerNoteServiceContract: RemoveCampaignPlayerNoteServiceContract;
 }

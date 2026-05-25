@@ -2,6 +2,8 @@ import GetCampaignByIdOperation from 'src/core/campaigns/operations/campaigns/Ge
 import createCampaignOperation from 'src/core/campaigns/operations/campaigns/CreateCampaignOperation';
 import GetAllCampaignsOperation from 'src/core/campaigns/operations/campaigns/GetAllCampaignsOperation';
 import UpdateMatchMapImagesOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchMapImagesOperation';
+import UpdateMatchImagesOperation from 'src/core/campaigns/operations/UpdateMatchImagesOperation';
+import UpdateMatchHighlightedImageOperation from 'src/core/campaigns/operations/UpdateMatchHighlightedImageOperation';
 import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/campaigns/UpdateMatchMusicsOperation';
 import UpdateCampaignOperation from 'src/core/campaigns/operations/campaigns/UpdateCampaignOperation';
 import updateMatchDateOperation from 'src/core/campaigns/operations/campaigns/updateMatchDateOperation';
@@ -27,6 +29,8 @@ import UpdateCampaignJournalHighlightOperation from 'src/core/campaigns/operatio
 import UpdateCampaignJournalPostOperation from 'src/core/campaigns/operations/UpdateCampaignJournalPostOperation';
 import DeleteCampaignJournalPostOperation from 'src/core/campaigns/operations/DeleteCampaignJournalPostOperation';
 import DeleteCampaignOperation from 'src/core/campaigns/operations/DeleteCampaignOperation';
+import UpdateCampaignPlayerNoteOperation from 'src/core/campaigns/operations/UpdateCampaignPlayerNoteOperation';
+import RemoveCampaignPlayerNoteOperation from 'src/core/campaigns/operations/RemoveCampaignPlayerNoteOperation';
 
 export interface CampaignsControllerContract {
     deleteCampaignOperation: DeleteCampaignOperation;
@@ -36,6 +40,8 @@ export interface CampaignsControllerContract {
     createCampaignOperation: createCampaignOperation;
     updateCampaignOperation: UpdateCampaignOperation;
     updateMatchMapImagesOperation: UpdateMatchMapImagesOperation;
+    updateMatchImagesOperation: UpdateMatchImagesOperation;
+    updateMatchHighlightedImageOperation: UpdateMatchHighlightedImageOperation;
     updateMatchMusicsOperation: UpdateMatchMusicsOperation;
     updateMatchDateOperation: updateMatchDateOperation;
     addCampaignPlayersOperation: AddCampaignPlayersOperation;
@@ -58,4 +64,6 @@ export interface CampaignsControllerContract {
     updateCampaignJournalHighlightOperation: UpdateCampaignJournalHighlightOperation;
     updateCampaignJournalPostOperation: UpdateCampaignJournalPostOperation;
     deleteCampaignJournalPostOperation: DeleteCampaignJournalPostOperation;
+    updateCampaignPlayerNoteOperation: UpdateCampaignPlayerNoteOperation;
+    removeCampaignPlayerNoteOperation: RemoveCampaignPlayerNoteOperation;
 }

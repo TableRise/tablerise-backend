@@ -28,6 +28,8 @@ export default class GetCampaignsByUserIdService {
         const userDetailsInDb = (await this.usersDetailsRepository.findOne({
             userId,
         })) as UserDetail;
+        if (!userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
+
         const userCampaignIds = userDetailsInDb.gameInfo.campaigns;
 
         if (userCampaignIds.length === 0) HttpRequestErrors.throwError('campaign-player-not-exists');

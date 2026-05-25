@@ -5,7 +5,6 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import { TCreateUserBody } from 'src/interface/users/presentation/users/UsersSchemas';
-import { awardNewbieBadge } from 'src/domains/users/helpers/BadgeAwardHandler';
 
 export default class CreateUserService {
     private readonly usersRepository;
@@ -71,7 +70,7 @@ export default class CreateUserService {
         };
         user.twoFactorSecret = { active: false, secret: '', qrcode: '' };
         user.picture = {
-            link: '',
+            link: 'https://i.ibb.co/gZSWpVM7/Chat-GPT-Image-23-de-mai-de-2026-14-04-30.png',
             title: '',
             id: '',
             deleteUrl: '',
@@ -87,10 +86,12 @@ export default class CreateUserService {
             campaigns: [],
             characters: [],
             badges: [],
+            campaignsJoinedAmount: 0,
+            campaignsCreatedAmount: 0,
+            campaignsClosedAmount: 0,
+            equipBoughtAmount: 0,
         };
         userDetails.role = 'user';
-        userDetails.rank = 'bronze';
-        awardNewbieBadge(userDetails);
 
         return {
             userEnriched: user,

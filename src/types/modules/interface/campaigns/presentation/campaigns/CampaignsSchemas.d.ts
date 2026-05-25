@@ -10,6 +10,8 @@ export interface ICampaignsSchemas {
     postCampaignBuy: ISchemaProps;
     patchAddCampaignMatchDate: ISchemaProps;
     patchUpdateCampaignMatchMapImages: ISchemaProps;
+    patchUpdateCampaignMatchImages: ISchemaProps;
+    patchHighlightCampaignMatchImage: ISchemaProps;
     patchAddCampaignMatchMusics: ISchemaProps;
     patchRemoveCampaignMatchMusic: ISchemaProps;
     patchEditCampaignMatchMusic: ISchemaProps;
@@ -26,4 +28,6 @@ export interface ICampaignsSchemas {
     patchUpdateCampaignJournalHighlight: ISchemaProps;
     patchUpdateCampaignJournalPost: ISchemaProps;
     patchDeleteCampaignJournalPost: ISchemaProps;
+    patchUpdateCampaignPlayerNote: ISchemaProps;
+    patchRemoveCampaignPlayerNote: ISchemaProps;
 }

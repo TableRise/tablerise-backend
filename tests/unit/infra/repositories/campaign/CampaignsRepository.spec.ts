@@ -93,6 +93,39 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             });
         });
 
+        context('When a campaign is closed', () => {
+            const campaignId = newUUID();
+
+            before(() => {
+                campaign = {
+                    campaignId,
+                    status: 'closed',
+                } as Campaign;
+
+                database = {
+                    modelInstance: () => ({ findOne: () => campaign }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
+                };
+
+                updateTimestampRepository = {};
+
+                campaignsRepository = new CampaignsRepository({
+                    database,
+                    updateTimestampRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should return null', async () => {
+                const campaignTest = await campaignsRepository.findOne({ campaignId });
+                expect(campaignTest).to.equal(null);
+            });
+        });
+
         context('When a campaign is not recovered from database', () => {
             const campaignId = newUUID();
 
@@ -159,6 +192,17 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             const campaignsTest = await campaignsRepository.find();
             expect(findAll).to.have.been.called();
             expect(campaignsTest).to.be.deep.equal(campaigns);
+        });
+
+        it('should filter closed campaigns from result', async () => {
+            campaigns = [
+                ...(DomainDataFaker.generateCampaignsJSON({ count: 1 }) as Campaign[]),
+                { ...DomainDataFaker.generateCampaignsJSON({ count: 0 })[0], status: 'closed' } as Campaign,
+            ];
+
+            const campaignsTest = await campaignsRepository.find();
+            expect(campaignsTest).to.have.length(1);
+            expect(campaignsTest.some((campaignResult) => campaignResult.status === 'closed')).to.equal(false);
         });
     });
     context('#update', () => {

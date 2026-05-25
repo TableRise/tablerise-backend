@@ -4,6 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/shared/logger';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
     let usersDetailsRepository: UsersDetailsRepository, updateTimestampRepository: any, database: any, serializer: any;
@@ -46,15 +47,21 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
     });
 
     context('#find', () => {
-        const findAll = sinon.spy(() => [{ firstName: 'Jully' }]);
+        let findAll: sinon.SinonStub;
 
         beforeEach(() => {
+            findAll = sinon.stub().returns([{ userId: 'user-1', firstName: 'Jully' }]);
             updateTimestampRepository = {};
 
             database = {
-                modelInstance: () => ({
-                    findAll,
-                }),
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              findAll,
+                          }
+                        : {
+                              findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                          },
             };
 
             serializer = {
@@ -86,19 +93,60 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
             expect(result[0]).to.have.property('firstName');
             expect(result[0].firstName).to.be.equal('Jully');
         });
+
+        it('should filter users waiting to be deleted', async () => {
+            findAll.returns([
+                { userId: 'user-1', firstName: 'Jully' },
+                { userId: 'user-2', firstName: 'Hidden' },
+            ]);
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              findAll,
+                          }
+                        : {
+                              findOne: sinon
+                                  .stub()
+                                  .callsFake(({ userId }) =>
+                                      userId === 'user-2'
+                                          ? { inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER } }
+                                          : { inProgress: { status: 'done' } }
+                                  ),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await usersDetailsRepository.find({});
+
+            expect(result).to.deep.equal([{ userId: 'user-1', firstName: 'Jully' }]);
+        });
     });
 
     context('#findOne', () => {
         context('when is found', () => {
-            const findOne = sinon.spy(() => ({ firstName: 'Jully' }));
+            let findOne: sinon.SinonStub;
 
             beforeEach(() => {
+                findOne = sinon.stub().returns({ userId: 'user-1', firstName: 'Jully' });
                 updateTimestampRepository = {};
 
                 database = {
-                    modelInstance: () => ({
-                        findOne,
-                    }),
+                    modelInstance: (_scope: string, modelName: string) =>
+                        modelName === 'UserDetails'
+                            ? {
+                                  findOne,
+                              }
+                            : {
+                                  findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                              },
                 };
 
                 serializer = {
@@ -129,6 +177,36 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 expect(findOne).to.have.been.called();
                 expect(result).to.have.property('firstName');
                 expect(result.firstName).to.be.equal('Jully');
+            });
+
+            it('should return null when user is waiting to be deleted', async () => {
+                findOne.returns({ userId: 'user-2', firstName: 'Hidden' });
+
+                database = {
+                    modelInstance: (_scope: string, modelName: string) =>
+                        modelName === 'UserDetails'
+                            ? {
+                                  findOne,
+                              }
+                            : {
+                                  findOne: sinon.stub().returns({
+                                      inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER },
+                                  }),
+                              },
+                };
+
+                usersDetailsRepository = new UsersDetailsRepository({
+                    updateTimestampRepository,
+                    database,
+                    serializer,
+                    logger,
+                });
+
+                const result = await usersDetailsRepository.findOne({
+                    firstName: 'Hidden',
+                });
+
+                expect(result).to.equal(null);
             });
         });
 

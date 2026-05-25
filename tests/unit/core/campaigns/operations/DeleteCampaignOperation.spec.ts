@@ -9,7 +9,7 @@ describe('Core :: Campaigns :: Operations :: DeleteCampaignOperation', () => {
     context('#execute', () => {
         beforeEach(() => {
             deleteCampaignService = {
-                deleteCampaign: sinon.stub().resolves(),
+                deleteCampaign: sinon.stub().resolves({ campaignId: 'campaign-id', status: 'closed' }),
             };
 
             deleteCampaignOperation = new DeleteCampaignOperation({
@@ -19,9 +19,10 @@ describe('Core :: Campaigns :: Operations :: DeleteCampaignOperation', () => {
         });
 
         it('should call service with campaignId and userId', async () => {
-            await deleteCampaignOperation.execute('campaign-id', 'user-id');
+            const result = await deleteCampaignOperation.execute('campaign-id', 'user-id');
 
             expect(deleteCampaignService.deleteCampaign).to.have.been.calledWith('campaign-id', 'user-id');
+            expect(result.status).to.equal('closed');
         });
     });
 });

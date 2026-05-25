@@ -10,7 +10,16 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
         firstName: dataGenerator.name.first('female'),
         lastName: dataGenerator.name.last('female'),
         birthday: dataGenerator.birthday().toISOString(),
-        gameInfo: { campaigns: [], characters: [], badges: [], bannedFromCampaigns: [] },
+        gameInfo: {
+            campaigns: [],
+            characters: [],
+            badges: [],
+            bannedFromCampaigns: [],
+            campaignsJoinedAmount: 0,
+            campaignsCreatedAmount: 0,
+            campaignsClosedAmount: 0,
+            equipBoughtAmount: 0,
+        },
         biography: dataGenerator.biography(),
         role: 'admin',
     } as UserDetail;

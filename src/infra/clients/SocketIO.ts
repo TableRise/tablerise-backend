@@ -593,7 +593,10 @@ export default class SocketIO {
     }
 
     private async loadCampaignIntoCache(campaignId: string): Promise<RealtimeCampaign> {
-        const campaign = hydrateRealtimeCampaign(await this.campaignsRepository.findOne({ campaignId }));
+        const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
+        if (!campaignInDb) HttpRequestErrors.throwError('campaign-inexistent');
+
+        const campaign = hydrateRealtimeCampaign(campaignInDb);
         this.activeCampaignCache.set(campaignId, {
             campaign,
             dirty: createDirtyRealtimeSections(),

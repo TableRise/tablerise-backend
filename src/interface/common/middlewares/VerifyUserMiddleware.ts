@@ -29,6 +29,7 @@ export default class VerifyUserMiddleware {
         const { userId } = req.user as Express.User;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         try {
             if (this.FORBIDDEN_STATUS.includes(userInDb.inProgress.status))

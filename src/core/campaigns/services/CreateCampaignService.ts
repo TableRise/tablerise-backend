@@ -7,10 +7,12 @@ import {
 import { CampaignPayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import SecurePasswordHandler from 'src/domains/users/helpers/SecurePasswordHandler';
-import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
 import { FileObject } from 'src/types/shared/file';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 
 function normalizeBooleanValue(value: boolean | string | undefined): boolean {
     return value === true || value === 'true';
@@ -144,11 +146,13 @@ export default class CreateCampaignService {
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: campaign.campaignPlayers[0].userId,
         });
+        if (!userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
 
         const campaignCreated = await this.campaignsRepository.create({
             ...campaign,
         });
 
+        incrementGameInfoCounter(userDetailsInDb, 'campaignsCreatedAmount');
         userDetailsInDb.gameInfo.campaigns.push(campaignCreated.campaignId as string);
         awardCampaignBadges(userDetailsInDb);
 

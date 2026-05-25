@@ -26,6 +26,12 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
+            case 'campaign-password-incorrect':
+                throw new HttpRequestErrors({
+                    message: 'The campaign password is incorrect',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-match-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign Match does not exist and cannot be updated',

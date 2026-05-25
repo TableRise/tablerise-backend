@@ -1,9 +1,9 @@
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { awardCharacterBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
 import { CreateCharacterPayload } from 'src/types/api/characters/http/payload';
 import CharacterCoreDependencies from 'src/types/modules/core/characters/CharacterCoreDependencies';
 import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class CreateCharacterService {
     private readonly charactersRepository;
@@ -42,6 +42,7 @@ export default class CreateCharacterService {
 
         const userInDb = await this.usersRepository.findOne({ userId });
         const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userInDb || !userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
 
         payload.author = {
             userId,
@@ -49,7 +50,14 @@ export default class CreateCharacterService {
             fullname: `${userDetailsInDb.firstName} ${userDetailsInDb.lastName}`,
         };
 
-        payload.picture = null as unknown as ImageObject;
+        payload.picture = {
+            link: 'https://i.ibb.co/9DzRTQ6/Chat-GPT-Image-23-de-mai-de-2026-14-12-10.png',
+            title: '',
+            id: '',
+            deleteUrl: '',
+            uploadDate: new Date().toISOString(),
+            request: { success: true, status: 200 },
+        };
         payload.data.profile.characteristics.appearance.picture = null as unknown as ImageObject;
         payload.data.createdAt = new Date().toISOString();
         payload.data.updatedAt = new Date().toISOString();
@@ -73,9 +81,9 @@ export default class CreateCharacterService {
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
             userId: character.author.userId,
         });
+        if (!userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
 
         userDetailsInDb.gameInfo.characters.push(characterId);
-        awardCharacterBadges(userDetailsInDb);
 
         await this.usersDetailsRepository.update({
             query: { userId: character.author.userId },

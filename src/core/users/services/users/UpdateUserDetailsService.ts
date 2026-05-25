@@ -39,6 +39,7 @@ export default class UpdateUserDetailsService {
         this.validateUpdateData(payload);
 
         const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailsInDb) HttpRequestErrors.throwError('user-inexistent');
         const newUserDetailsToSave = {
             ...userDetailsInDb,
             ...payload,

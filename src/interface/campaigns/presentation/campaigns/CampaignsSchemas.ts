@@ -23,7 +23,6 @@ const postCreateCampaignBodySchema = z.object({
     system: z.enum(systemsEnum.values),
     musics: z.string(),
     nextMatchDate: z.string().optional(),
-    lore: z.string(),
     playerAmountLimit: z.string(),
     ageRestriction: z.string(),
     socialMedia: z.string().optional(),
@@ -128,6 +127,23 @@ const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
     mapImages: z.array(z.file()).max(3).optional(),
 });
 
+const patchUpdateCampaignMatchImagesBodySchema = z.object({
+    images: z.array(z.file()).optional(),
+});
+
+const patchHighlightCampaignMatchImageQuerySchema = z
+    .object({
+        imageId: z.string().optional(),
+        remove: z.preprocess((value) => {
+            if (typeof value === 'string') return value === 'true';
+            return value;
+        }, z.boolean().optional()),
+    })
+    .refine((payload) => payload.remove === true || payload.imageId !== undefined, {
+        path: ['imageId'],
+        message: 'imageId is required when remove is false',
+    });
+
 const patchAddCampaignMatchMusicsBodySchema = z.object({
     id: z.string(),
     title: z.string(),
@@ -180,6 +196,18 @@ const patchDeleteCampaignJournalPostQuerySchema = z.object({
     postId: z.uuid(),
 });
 
+const patchUpdateCampaignPlayerNoteQuerySchema = z.object({
+    title: z.string(),
+});
+
+const patchUpdateCampaignPlayerNoteBodySchema = z.object({
+    content: z.string(),
+});
+
+const patchRemoveCampaignPlayerNoteQuerySchema = z.object({
+    title: z.string(),
+});
+
 const getAllCampaignsQuerySchema = z.object({
     title: z.string().optional(),
     code: z.string().max(6).optional(),
@@ -195,6 +223,8 @@ export type TAddCampaignPlayersQuery = z.infer<typeof postAddCampaignPlayersQuer
 export type TInvitePlayerByEmailQuery = z.infer<typeof postInvitePlayerByEmailQuerySchema>;
 export type TAddCampaignMatchDateQuery = z.infer<typeof patchAddCampaignMatchDateQuerySchema>;
 export type TUpdateCampaignMatchMapImagesBody = z.infer<typeof patchUpdateCampaignMatchMapImagesBodySchema>;
+export type TUpdateCampaignMatchImagesBody = z.infer<typeof patchUpdateCampaignMatchImagesBodySchema>;
+export type THighlightCampaignMatchImageQuery = z.infer<typeof patchHighlightCampaignMatchImageQuerySchema>;
 export type TAddCampaignMatchMusicsBody = z.infer<typeof patchAddCampaignMatchMusicsBodySchema>;
 export type TRemoveCampaignMatchMusicBody = z.infer<typeof patchRemoveCampaignMatchMusicBodySchema>;
 export type TEditCampaignMatchMusicBody = z.infer<typeof patchEditCampaignMatchMusicBodySchema>;
@@ -214,6 +244,9 @@ export type TConfirmPlayerPresenceQuery = z.infer<typeof postConfirmPlayerPresen
 export type TUpdateCampaignJournalPostQuery = z.infer<typeof patchUpdateCampaignJournalPostQuerySchema>;
 export type TUpdateCampaignJournalPostBody = z.infer<typeof patchUpdateCampaignJournalPostBodySchema>;
 export type TDeleteCampaignJournalPostQuery = z.infer<typeof patchDeleteCampaignJournalPostQuerySchema>;
+export type TUpdateCampaignPlayerNoteQuery = z.infer<typeof patchUpdateCampaignPlayerNoteQuerySchema>;
+export type TUpdateCampaignPlayerNoteBody = z.infer<typeof patchUpdateCampaignPlayerNoteBodySchema>;
+export type TRemoveCampaignPlayerNoteQuery = z.infer<typeof patchRemoveCampaignPlayerNoteQuerySchema>;
 
 export default (): ICampaignsSchemas => ({
     postCreateCampaign: {
@@ -242,6 +275,12 @@ export default (): ICampaignsSchemas => ({
     },
     patchUpdateCampaignMatchMapImages: {
         body: patchUpdateCampaignMatchMapImagesBodySchema,
+    },
+    patchUpdateCampaignMatchImages: {
+        body: patchUpdateCampaignMatchImagesBodySchema,
+    },
+    patchHighlightCampaignMatchImage: {
+        query: patchHighlightCampaignMatchImageQuerySchema,
     },
     patchAddCampaignMatchMusics: {
         body: patchAddCampaignMatchMusicsBodySchema,
@@ -291,5 +330,12 @@ export default (): ICampaignsSchemas => ({
     },
     patchDeleteCampaignJournalPost: {
         query: patchDeleteCampaignJournalPostQuerySchema,
+    },
+    patchUpdateCampaignPlayerNote: {
+        query: patchUpdateCampaignPlayerNoteQuerySchema,
+        body: patchUpdateCampaignPlayerNoteBodySchema,
+    },
+    patchRemoveCampaignPlayerNote: {
+        query: patchRemoveCampaignPlayerNoteQuerySchema,
     },
 });

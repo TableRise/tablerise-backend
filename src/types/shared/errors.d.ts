@@ -54,4 +54,5 @@ export type ErrorTypes =
     | 'forbidden-role-operation'
     | 'journal-post-inexistent'
     | 'equipment-already-added'
-    | 'already-full-campaign';
+    | 'already-full-campaign'
+    | 'campaign-password-incorrect';

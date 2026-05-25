@@ -261,6 +261,35 @@ export default class CampaignsRoutes {
                 },
             },
             {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/notes`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'title', type: 'string' }])],
+                controller: this.campaignsController.updatePlayerNote,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [
+                        {
+                            query: this.campaignsSchemas.patchUpdateCampaignPlayerNote.query,
+                            body: this.campaignsSchemas.patchUpdateCampaignPlayerNote.body,
+                        },
+                    ],
+                    description: desc.updateCampaignPlayerNote,
+                    tag: 'update',
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/notes/remove`,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'title', type: 'string' }])],
+                controller: this.campaignsController.removePlayerNote,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.campaignsSchemas.patchRemoveCampaignPlayerNote.query }],
+                    description: desc.removeCampaignPlayerNote,
+                    tag: 'update',
+                },
+            },
+            {
                 method: 'delete',
                 path: `${BASE_PATH}/:id/delete/journal`,
                 parameters: [
@@ -307,6 +336,47 @@ export default class CampaignsRoutes {
                     description: desc.addMatchImages,
                     tag: 'update',
                     fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/images`,
+                parameters: [...generateIDParam()],
+                controller: this.campaignsController.addMatchImages,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.imageMiddleware.multer().fields([{ name: 'images' }]),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    schemas: [{ body: this.campaignsSchemas.patchUpdateCampaignMatchImages.body }],
+                    description: desc.addMatchGalleryImages,
+                    tag: 'update',
+                    fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/match/images/highlight`,
+                parameters: [
+                    ...generateIDParam(),
+                    ...generateQueryParam(2, [
+                        { name: 'imageId', type: 'string', required: 'off' },
+                        { name: 'remove', type: 'boolean', required: 'off' },
+                    ]),
+                ],
+                controller: this.campaignsController.highlightMatchImage,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.verifyIdMiddleware,
+                        this.verifyMatchMiddleware.exists,
+                    ],
+                    schemas: [{ query: this.campaignsSchemas.patchHighlightCampaignMatchImage.query }],
+                    description: desc.highlightMatchImage,
+                    tag: 'update',
                 },
             },
             {
@@ -514,14 +584,14 @@ export default class CampaignsRoutes {
 
             // DELETE
             {
-                method: 'delete',
-                path: `${BASE_PATH}/:id/delete`,
+                method: 'patch',
+                path: `${BASE_PATH}/:id/close`,
                 parameters: [...generateIDParam()],
                 controller: this.campaignsController.deleteCampaign,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     description: desc.deleteCampaign,
-                    tag: 'delete',
+                    tag: 'update',
                 },
             },
         ] as routeInstance[];

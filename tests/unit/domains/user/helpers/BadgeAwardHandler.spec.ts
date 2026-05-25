@@ -13,93 +13,67 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
     beforeEach(() => {
         userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
         userDetails.gameInfo.badges = [];
-        userDetails.gameInfo.campaigns = [];
-        userDetails.gameInfo.characters = [];
+        userDetails.rank = 'existing-rank';
     });
 
-    it('should add newbie badge once', () => {
-        awardNewbieBadge(userDetails);
+    it('should keep newbie badge flow disabled', () => {
         awardNewbieBadge(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.be.deep.equal(['newbie_badge']);
+        expect(userDetails.gameInfo.badges).to.deep.equal([]);
     });
 
-    it('should award campaign badges with backfill', () => {
-        userDetails.gameInfo.campaigns = Array.from({ length: 50 }, (_, index) => ({
-            campaignId: `${index}`,
-            notes: [],
-        })) as UserDetail['gameInfo']['campaigns'];
+    it('should add joined and created badges when thresholds are reached', () => {
+        userDetails.gameInfo.campaignsJoinedAmount = 5;
+        userDetails.gameInfo.campaignsCreatedAmount = 2;
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include('badge_10_campaigns');
-        expect(userDetails.gameInfo.badges).to.include('badge_50_campaigns');
+        expect(userDetails.gameInfo.badges).to.include.members(['enthusiast-badge', 'student-badge', 'cleric-badge']);
     });
 
-    it('should award all campaign thresholds up to the current total', () => {
-        userDetails.gameInfo.campaigns = Array.from({ length: 1000 }, (_, index) => ({
-            campaignId: `${index}`,
-            notes: [],
-        })) as UserDetail['gameInfo']['campaigns'];
+    it('should add equipment buy badges when thresholds are reached', () => {
+        userDetails.gameInfo.equipBoughtAmount = 30;
+
+        awardCampaignBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges).to.include.members(['imp-badge', 'imp-rich-badge']);
+    });
+
+    it('should award the higher closed-campaign badges at later thresholds', () => {
+        userDetails.gameInfo.campaignsClosedAmount = 50;
 
         awardCampaignBadges(userDetails);
 
         expect(userDetails.gameInfo.badges).to.include.members([
-            'badge_10_campaigns',
-            'badge_50_campaigns',
-            'badge_100_campaigns',
-            'badge_500_campaigns',
-            'badge_1000_campaigns',
+            'warrior-badge',
+            'warrior-young-badge',
+            'warrior-arcane-badge',
+            'warrior-darkness-badge',
+            'warrior-ancient-badge',
         ]);
     });
 
-    it('should award character badges with backfill', () => {
-        userDetails.gameInfo.characters = Array.from({ length: 20 }, (_, index) => `${index}`);
-
+    it('should keep character badge flow disabled', () => {
         awardCharacterBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include('badge_creative');
-        expect(userDetails.gameInfo.badges).to.include('badge_elder');
+        expect(userDetails.gameInfo.badges).to.deep.equal([]);
     });
 
-    it('should not duplicate existing badges when backfilling', () => {
-        userDetails.gameInfo.badges = ['badge_10_campaigns', 'badge_creative'];
-        userDetails.gameInfo.campaigns = Array.from({ length: 100 }, (_, index) => ({
-            campaignId: `${index}`,
-            notes: [],
-        })) as UserDetail['gameInfo']['campaigns'];
-        userDetails.gameInfo.characters = Array.from({ length: 20 }, (_, index) => `${index}`);
-
-        awardCampaignBadges(userDetails);
-        awardCharacterBadges(userDetails);
-
-        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'badge_10_campaigns')).to.have.lengthOf(1);
-        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'badge_creative')).to.have.lengthOf(1);
-        expect(userDetails.gameInfo.badges).to.include('badge_100_campaigns');
-        expect(userDetails.gameInfo.badges).to.include('badge_elder');
-    });
-
-    it('should set rank to diamond when user reaches 10 badges', () => {
+    it('should sync rank to diamond, gold, white, and null based on badge count', () => {
         userDetails.gameInfo.badges = Array.from({ length: 10 }, (_, index) => `badge-${index}`);
-
         syncRankByBadgesLength(userDetails);
+        expect(userDetails.rank).to.equal('diamond');
 
-        expect(userDetails.rank).to.be.equal('diamond');
-    });
+        userDetails.gameInfo.badges = Array.from({ length: 15 }, (_, index) => `badge-${index}`);
+        syncRankByBadgesLength(userDetails);
+        expect(userDetails.rank).to.equal('gold');
 
-    it('should set rank to gold when user reaches 20 badges', () => {
         userDetails.gameInfo.badges = Array.from({ length: 20 }, (_, index) => `badge-${index}`);
-
         syncRankByBadgesLength(userDetails);
+        expect(userDetails.rank).to.equal('white');
 
-        expect(userDetails.rank).to.be.equal('gold');
-    });
-
-    it('should set rank to white when user reaches 50 badges', () => {
-        userDetails.gameInfo.badges = Array.from({ length: 50 }, (_, index) => `badge-${index}`);
-
+        userDetails.gameInfo.badges = ['only-one'];
         syncRankByBadgesLength(userDetails);
-
-        expect(userDetails.rank).to.be.equal('white');
+        expect(userDetails.rank).to.equal(null);
     });
 });

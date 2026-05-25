@@ -8,7 +8,7 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When a badge is added and user rank must be updated', () => {
+describe('When a badge is added', () => {
     let user: User, userDetails: UserDetail;
     const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
 
@@ -33,7 +33,7 @@ describe('When a badge is added and user rank must be updated', () => {
         await InjectNewUserDetails(userDetails, user.userId);
     });
 
-    it('should set rank to diamond when badges reach 10', async () => {
+    it('should promote rank to diamond when the user reaches ten badges', async () => {
         const payload = {
             infoId: newUUID(),
             targetInfo: 'badges',

@@ -54,7 +54,7 @@ describe('When an user has the account completed', function () {
             expect(body.details.firstName).to.be.equal(payloadToComplete.firstName);
             expect(body.details.lastName).to.be.equal(payloadToComplete.lastName);
             expect(body.details.birthday).to.be.equal(payloadToComplete.birthday);
-            expect(body.details.gameInfo.badges).to.include('newbie_badge');
+            expect(body.details.gameInfo.badges).to.deep.equal([]);
         });
     });
 });

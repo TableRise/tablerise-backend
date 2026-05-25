@@ -54,6 +54,7 @@ const uniquePlayers = (players: Player[] = []): Player[] => {
 export const normalizeRealtimeMatchData = (matchData: Campaign['matchData'] | null | undefined): RealtimeMatchData => {
     const legacyMatchData = (matchData ?? {}) as Record<string, any>;
     const actualMapImage = isImageObject(legacyMatchData.actualMapImage) ? legacyMatchData.actualMapImage : undefined;
+    const imageHighlighted = isImageObject(legacyMatchData.imageHighlighted) ? legacyMatchData.imageHighlighted : null;
 
     const normalized: RealtimeMatchData = {
         matchId: typeof legacyMatchData.matchId === 'string' ? legacyMatchData.matchId : newUUID(),
@@ -64,6 +65,8 @@ export const normalizeRealtimeMatchData = (matchData: Campaign['matchData'] | nu
             Array.isArray(legacyMatchData.confirmedPlayers) ? legacyMatchData.confirmedPlayers : []
         ),
         mapImages: Array.isArray(legacyMatchData.mapImages) ? legacyMatchData.mapImages : [],
+        images: Array.isArray(legacyMatchData.images) ? legacyMatchData.images : [],
+        imageHighlighted,
         logs: Array.isArray(legacyMatchData.logs) ? legacyMatchData.logs : [],
         state: {
             ...createDefaultMatchState(),
@@ -161,6 +164,8 @@ export const buildCampaignSyncPayload = (
         playingMusicId: campaign.matchData.state.playingMusicId,
         visibleCharacterIds: campaign.matchData.state.visibleCharacterIds,
         tokens: campaign.matchData.state.tokens,
+        images: campaign.matchData.images,
+        imageHighlighted: campaign.matchData.imageHighlighted,
         highlightedJournalPost: normalizeHighlightedJournal(campaign.infos.highlightedJournal),
     },
 });

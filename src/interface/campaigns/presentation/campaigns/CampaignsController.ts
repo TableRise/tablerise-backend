@@ -8,16 +8,24 @@ import {
     DeleteCampaignJournalPostPayload,
     EditMatchMusicPayload,
     HighlightedJournalPayload,
+    RemoveCampaignPlayerNotePayload,
     RemoveMatchDatePayload,
     RemoveMatchMusicPayload,
     RemoveMatchMapImagePayload,
+    UpdateMatchHighlightedImagePayload,
     UpdateCampaignJournalPostPayload,
+    UpdateCampaignPlayerNotePayload,
 } from 'src/types/api/campaigns/http/payload';
 import {
     TDeleteCampaignJournalPostQuery,
+    THighlightCampaignMatchImageQuery,
     TPostCampaignBuyBody,
+    TUpdateCampaignMatchImagesBody,
     TUpdateCampaignJournalPostBody,
     TUpdateCampaignJournalPostQuery,
+    TRemoveCampaignPlayerNoteQuery,
+    TUpdateCampaignPlayerNoteBody,
+    TUpdateCampaignPlayerNoteQuery,
 } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { FileObject } from 'src/types/shared/file';
@@ -32,6 +40,8 @@ export default class CampaignsController {
     private readonly getAllCampaignsOperation;
     private readonly updateMatchMusicsOperation;
     private readonly updateMatchMapImagesOperation;
+    private readonly updateMatchImagesOperation;
+    private readonly updateMatchHighlightedImageOperation;
     private readonly updateMatchDateOperation;
     private readonly addCampaignPlayersOperation;
     private readonly removeCampaignPlayersOperation;
@@ -52,6 +62,8 @@ export default class CampaignsController {
     private readonly updateCampaignJournalHighlightOperation;
     private readonly updateCampaignJournalPostOperation;
     private readonly deleteCampaignJournalPostOperation;
+    private readonly updateCampaignPlayerNoteOperation;
+    private readonly removeCampaignPlayerNoteOperation;
 
     constructor({
         getCampaignByIdOperation,
@@ -61,6 +73,8 @@ export default class CampaignsController {
         getAllCampaignsOperation,
         updateCampaignOperation,
         updateMatchMapImagesOperation,
+        updateMatchImagesOperation,
+        updateMatchHighlightedImageOperation,
         updateMatchMusicsOperation,
         updateMatchDateOperation,
         addCampaignPlayersOperation,
@@ -82,6 +96,8 @@ export default class CampaignsController {
         updateCampaignJournalHighlightOperation,
         updateCampaignJournalPostOperation,
         deleteCampaignJournalPostOperation,
+        updateCampaignPlayerNoteOperation,
+        removeCampaignPlayerNoteOperation,
         deleteCampaignOperation,
     }: CampaignsControllerContract) {
         this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
@@ -92,6 +108,8 @@ export default class CampaignsController {
         this.publishmentOperation = publishmentOperation;
         this.getAllCampaignsOperation = getAllCampaignsOperation;
         this.updateMatchMapImagesOperation = updateMatchMapImagesOperation;
+        this.updateMatchImagesOperation = updateMatchImagesOperation;
+        this.updateMatchHighlightedImageOperation = updateMatchHighlightedImageOperation;
         this.updateMatchMusicsOperation = updateMatchMusicsOperation;
         this.updateMatchDateOperation = updateMatchDateOperation;
         this.addCampaignPlayersOperation = addCampaignPlayersOperation;
@@ -113,6 +131,8 @@ export default class CampaignsController {
         this.updateCampaignJournalHighlightOperation = updateCampaignJournalHighlightOperation;
         this.updateCampaignJournalPostOperation = updateCampaignJournalPostOperation;
         this.deleteCampaignJournalPostOperation = deleteCampaignJournalPostOperation;
+        this.updateCampaignPlayerNoteOperation = updateCampaignPlayerNoteOperation;
+        this.removeCampaignPlayerNoteOperation = removeCampaignPlayerNoteOperation;
 
         this.create = this.create.bind(this);
         this.deleteCampaign = this.deleteCampaign.bind(this);
@@ -121,6 +141,8 @@ export default class CampaignsController {
         this.publishment = this.publishment.bind(this);
         this.update = this.update.bind(this);
         this.addMatchMapImages = this.addMatchMapImages.bind(this);
+        this.addMatchImages = this.addMatchImages.bind(this);
+        this.highlightMatchImage = this.highlightMatchImage.bind(this);
         this.removeMatchMapImage = this.removeMatchMapImage.bind(this);
         this.addMatchMusic = this.addMatchMusic.bind(this);
         this.removeMatchMusic = this.removeMatchMusic.bind(this);
@@ -148,6 +170,8 @@ export default class CampaignsController {
         this.updateCampaignJournalHighlight = this.updateCampaignJournalHighlight.bind(this);
         this.updateJournalPost = this.updateJournalPost.bind(this);
         this.deleteJournalPost = this.deleteJournalPost.bind(this);
+        this.updatePlayerNote = this.updatePlayerNote.bind(this);
+        this.removePlayerNote = this.removePlayerNote.bind(this);
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
@@ -173,9 +197,9 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        await this.deleteCampaignOperation.execute(id, userId);
+        const result = await this.deleteCampaignOperation.execute(id, userId);
 
-        return res.status(HttpStatusCode.NO_CONTENT).end();
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
@@ -282,6 +306,32 @@ export default class CampaignsController {
             campaignId: id,
             mapImages,
         });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async addMatchImages(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const files = req.files as TUpdateCampaignMatchImagesBody;
+        const images = files?.images;
+
+        const result = await this.updateMatchImagesOperation.execute({
+            campaignId: id,
+            images,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async highlightMatchImage(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { imageId, remove } = req.query as unknown as THighlightCampaignMatchImageQuery;
+
+        const result = await this.updateMatchHighlightedImageOperation.execute({
+            campaignId: id,
+            imageId,
+            remove,
+        } as UpdateMatchHighlightedImagePayload);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -560,6 +610,36 @@ export default class CampaignsController {
             userId,
             postId,
         } as DeleteCampaignJournalPostPayload);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async updatePlayerNote(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { title } = req.query as unknown as TUpdateCampaignPlayerNoteQuery;
+        const { content } = req.body as TUpdateCampaignPlayerNoteBody;
+
+        const result = await this.updateCampaignPlayerNoteOperation.execute({
+            campaignId: id,
+            userId,
+            title,
+            content,
+        } as UpdateCampaignPlayerNotePayload);
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removePlayerNote(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const { title } = req.query as unknown as TRemoveCampaignPlayerNoteQuery;
+
+        await this.removeCampaignPlayerNoteOperation.execute({
+            campaignId: id,
+            userId,
+            title,
+        } as RemoveCampaignPlayerNotePayload);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }

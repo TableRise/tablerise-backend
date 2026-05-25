@@ -7,7 +7,7 @@ enum stateFlowsEnum {
     RESET_TWO_FACTOR = 'reset-two-factor',
     UPDATE_EMAIL = 'update-email',
     RESET_PROFILE = 'reset-profile',
-    DELETE_PROFILE = 'delete-profile',
+    DELETE_USER = 'delete-user',
     DISABLE_TWO_FACTOR = 'disable-two-factor',
 }
 
