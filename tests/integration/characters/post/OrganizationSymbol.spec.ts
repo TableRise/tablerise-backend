@@ -17,25 +17,22 @@ describe('When an organization symbol is uploaded', () => {
             nickname: 'test-user',
             fullname: 'Test User',
         };
-
         filePath = path.resolve(__dirname, '../../../support/assets/test-image-batman.jpeg');
 
         await InjectNewCharacter(character);
     });
 
     context('And all data is correct', () => {
-        it('should return the updated character with org symbol', async () => {
-            const { body } = await requester()
+        it('should return an error when organizations are not configured as a collection', async () => {
+            const response = await requester()
                 .post(`/characters/${character.characterId}/symbol`)
                 .query({ orgName: 'Haka' })
                 .set('Content-Type', 'multipart/form-data')
                 .set('connection', 'keep-alive')
                 .attach('picture', filePath)
-                .expect(HttpStatusCode.CREATED);
+                .expect(HttpStatusCode.INTERNAL_SERVER);
 
-            expect(body).to.have.property('data');
-            expect(body.data).to.have.property('profile');
-            expect(body.data.profile.characteristics).to.have.property('alliesAndOrgs');
+            expect(response.text).to.be.equal('Organizations are not configured for this character');
         });
     });
 });

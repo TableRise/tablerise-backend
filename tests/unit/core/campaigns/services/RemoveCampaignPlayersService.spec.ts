@@ -77,6 +77,33 @@ describe('Core :: Camapaigns :: Services :: RemoveCampaignPlayersService', () =>
                 expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
                 expect(matchDataRemoved.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength - 1);
             });
+
+            it('should also remove campaigns stored as string ids', async () => {
+                userDetails.gameInfo.campaigns = [campaign.campaignId as string];
+
+                const matchDataRemoved = await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
+
+                expect(matchDataRemoved.userDetails.gameInfo.campaigns).to.deep.equal([]);
+            });
+
+            it('should keep campaign objects without campaignId untouched', async () => {
+                userDetails.gameInfo.campaigns = [
+                    { other: 'value' } as any,
+                    { campaignId: campaign.campaignId } as any,
+                ];
+
+                const matchDataRemoved = await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
+
+                expect(matchDataRemoved.userDetails.gameInfo.campaigns).to.deep.equal([{ other: 'value' }]);
+            });
+
+            it('should keep null campaign entries untouched while removing the current campaign id', async () => {
+                userDetails.gameInfo.campaigns = [null as any, { campaignId: campaign.campaignId } as any];
+
+                const matchDataRemoved = await removeCampaignPlayersService.removeCampaignPlayers(removePlayersPayload);
+
+                expect(matchDataRemoved.userDetails.gameInfo.campaigns).to.deep.equal([null]);
+            });
         });
 
         context('When a player is removed from match but the player is the dungeon_master', () => {

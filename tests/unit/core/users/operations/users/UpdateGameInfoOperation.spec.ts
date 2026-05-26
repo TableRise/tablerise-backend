@@ -34,6 +34,11 @@ describe('Core :: Users :: Operations :: Users :: UpdateGameInfoOperation', () =
                 await updateGameInfoOperation.add(updateGameInfoPayload);
                 expect(updateGameInfoService.add).to.have.been.calledWith(updateGameInfoPayload);
             });
+
+            it('should call the remove method with the same payload shape', async () => {
+                await updateGameInfoOperation.remove(updateGameInfoPayload);
+                expect(updateGameInfoService.remove).to.have.been.calledWith(updateGameInfoPayload);
+            });
         });
     });
 });

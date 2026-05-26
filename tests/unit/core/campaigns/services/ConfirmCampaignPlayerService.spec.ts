@@ -169,5 +169,86 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
                 }
             });
         });
+
+        it('should reject when the target player does not exist', async () => {
+            campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+            dungeonMasterId = newUUID();
+
+            campaign.campaignPlayers = [
+                {
+                    userId: dungeonMasterId,
+                    characterIds: [],
+                    role: 'dungeon_master',
+                    status: 'active',
+                },
+            ] as Player[];
+
+            confirmCampaignPlayerService = new ConfirmCampaignPlayerService({
+                campaignsRepository: {
+                    findOne: sinon.stub().resolves(campaign),
+                    update: sinon.stub(),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub(),
+                    update: sinon.stub(),
+                },
+                logger,
+            } as any);
+
+            let thrownError;
+
+            try {
+                await confirmCampaignPlayerService.confirm(
+                    campaign.campaignId as string,
+                    dungeonMasterId,
+                    'missing-user'
+                );
+            } catch (error) {
+                thrownError = error;
+            }
+
+            expect((thrownError as HttpRequestErrors).message).to.equal('This player is not in the campaign');
+        });
+
+        it('should activate a player even when user details are missing', async () => {
+            campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+            dungeonMasterId = newUUID();
+            playerId = newUUID();
+
+            campaign.campaignPlayers = [
+                {
+                    userId: dungeonMasterId,
+                    characterIds: [],
+                    role: 'dungeon_master',
+                    status: 'active',
+                },
+                {
+                    userId: playerId,
+                    characterIds: [],
+                    role: 'player',
+                    status: 'pending',
+                },
+            ] as Player[];
+
+            confirmCampaignPlayerService = new ConfirmCampaignPlayerService({
+                campaignsRepository: {
+                    findOne: sinon.stub().resolves(campaign),
+                    update: sinon.stub().callsFake(async ({ payload }) => payload),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(null),
+                    update: sinon.stub(),
+                },
+                logger,
+            } as any);
+
+            const updatedCampaign = await confirmCampaignPlayerService.confirm(
+                campaign.campaignId as string,
+                dungeonMasterId,
+                playerId
+            );
+
+            expect(updatedCampaign.campaignPlayers[1].status).to.equal('active');
+        });
     });
 });

@@ -43,9 +43,9 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
 
                 userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
 
-                usersRepository = { findOne: () => user, update: () => userUpdated };
+                usersRepository = { findOne: () => user, update: () => userUpdated, delete: sinon.spy(() => {}) };
 
-                usersDetailsRepository = { findOne: () => userDetails };
+                usersDetailsRepository = { findOne: () => userDetails, delete: sinon.spy(() => {}) };
 
                 sinon.spy(usersRepository, 'update');
 
@@ -60,11 +60,11 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
             it('should return the correct result', async () => {
                 await deleteUsersService.delete(user.userId);
 
-                expect(usersRepository.update).to.have.been.called();
-                expect(usersRepository.update).to.have.been.called();
+                expect(usersRepository.delete).to.have.been.calledWith({ userId: user.userId });
+                expect(usersDetailsRepository.delete).to.have.been.calledWith({ userId: user.userId });
                 expect(logger).to.have.been.calledWith(
                     'info',
-                    `Delete Service - User waiting to be deleted from database with ID ${userUpdated.userId} and status ${userUpdated.inProgress.status}`
+                    `Delete Service - User deleted from database with ID ${user.userId} and status ${user.inProgress.status}`
                 );
             });
         });
@@ -76,8 +76,8 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.userId = user.userId;
                 userUpdated = { ...user };
                 userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_CHANGE_EMAIL;
-                usersRepository = { findOne: () => user, update: () => userUpdated };
-                usersDetailsRepository = { findOne: () => userDetails };
+                usersRepository = { findOne: () => user, update: () => userUpdated, delete: sinon.spy(() => {}) };
+                usersDetailsRepository = { findOne: () => userDetails, delete: sinon.spy(() => {}) };
                 sinon.spy(usersRepository, 'update');
 
                 deleteUsersService = new DeleteUserService({
@@ -108,17 +108,10 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.userId = user.userId;
                 message = 'User does not exist';
                 code = HttpStatusCode.NOT_FOUND;
-                userDetails.gameInfo.campaigns = [
-                    {
-                        campaignId: '123',
-                        title: 'some title',
-                        role: 'player',
-                        description: 'some desc',
-                    },
-                ];
+                userDetails.gameInfo.campaigns = ['123'];
                 userUpdated = { ...user };
                 userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
-                usersRepository = { findOne: () => user, update: () => userUpdated };
+                usersRepository = { findOne: () => user, update: () => userUpdated, delete: sinon.spy(() => {}) };
                 usersDetailsRepository = { findOne: () => {} };
 
                 deleteUsersService = new DeleteUserService({
@@ -145,19 +138,12 @@ describe('Core :: Users :: Services :: DeleteUserService', () => {
                 userDetails.userId = user.userId;
                 message = 'There is a campaign or character linked to this user';
                 code = HttpStatusCode.BAD_REQUEST;
-                userDetails.gameInfo.campaigns = [
-                    {
-                        campaignId: '123',
-                        title: 'some title',
-                        role: 'player',
-                        description: 'some desc',
-                    },
-                ];
+                userDetails.gameInfo.campaigns = ['123'];
                 userDetails.gameInfo.characters = ['Levi'];
                 userUpdated = { ...user };
                 userUpdated.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_FINISH_DELETE_USER;
-                usersRepository = { findOne: () => user, update: () => userUpdated };
-                usersDetailsRepository = { findOne: () => userDetails };
+                usersRepository = { findOne: () => user, update: () => userUpdated, delete: sinon.spy(() => {}) };
+                usersDetailsRepository = { findOne: () => userDetails, delete: sinon.spy(() => {}) };
 
                 deleteUsersService = new DeleteUserService({
                     usersRepository,

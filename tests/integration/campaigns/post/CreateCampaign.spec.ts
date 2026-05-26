@@ -20,6 +20,7 @@ describe('When a campaign is created', function () {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
         const userLoggedDetailsId = 'ff2abce1-fc9e-41d7-b8ab-8cb599adb111';
         const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const userDetailsCollection = (userDetailsModel as any)._model.collection;
 
         before(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
@@ -36,15 +37,16 @@ describe('When a campaign is created', function () {
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
 
-            const authenticatedUserDetails = await userDetailsModel.findOne({ userDetailId: userLoggedDetailsId });
-            authenticatedUserDetails.gameInfo.campaigns = Array.from({ length: 9 }, (_, index) => ({
-                campaignId: newUUID(),
-                notes: [],
-            }));
-            authenticatedUserDetails.gameInfo.badges = [];
-            authenticatedUserDetails.gameInfo.campaignsCreatedAmount = 1;
-
-            await userDetailsModel.update({ userDetailId: userLoggedDetailsId }, authenticatedUserDetails);
+            await userDetailsCollection.updateOne(
+                { userDetailId: userLoggedDetailsId },
+                {
+                    $set: {
+                        'gameInfo.campaigns': Array.from({ length: 9 }, () => newUUID()),
+                        'gameInfo.badges': [],
+                        'gameInfo.campaignsCreatedAmount': 1,
+                    },
+                }
+            );
         });
 
         after(() => {
@@ -66,9 +68,8 @@ describe('When a campaign is created', function () {
                 .field('password', campaignPayload.password)
                 .field('playerAmountLimit', campaignPayload.playerAmountLimit)
                 .field('musics', '[]')
-                .field('configurations[xpSystem]', String(campaignPayload.configurations.xpSystem))
-                .field('configurations[shopSystem]', String(campaignPayload.configurations.shopSystem))
-                .field('lore', 'A great adventure begins')
+                .field('configurations', JSON.stringify(campaignPayload.configurations))
+                .field('mainHistory', 'A great adventure begins')
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
@@ -94,11 +95,9 @@ describe('When a campaign is created', function () {
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
 
-            const { body: authenticatedUserUpdated } = await requester()
-                .get(`/users/${userLoggedId}`)
-                .expect(HttpStatusCode.OK);
-            expect(authenticatedUserUpdated.details.gameInfo.campaignsCreatedAmount).to.equal(2);
-            expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('cleric-badge');
+            const authenticatedUserUpdated = await userDetailsCollection.findOne({ userDetailId: userLoggedDetailsId });
+            expect(authenticatedUserUpdated.gameInfo.campaignsCreatedAmount).to.equal(2);
+            expect(authenticatedUserUpdated.gameInfo.badges).to.include('cleric-badge');
         });
     });
 });

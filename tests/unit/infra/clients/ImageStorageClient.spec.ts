@@ -121,7 +121,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             });
 
             it('should throw error', async () => {
-                process.env.NODE_ENV = 'production';
+                process.env.NODE_ENV = 'develop';
                 try {
                     await imageStorageClient.upload(imageMock);
                     expect('it should not be here').to.be.equal(false);
@@ -130,7 +130,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                     expect(err.message).to.be.equal('error test');
                     expect(err.code).to.be.equal(500);
                 }
-                process.env.NODE_ENV = 'develop';
+                process.env.NODE_ENV = 'test';
             });
         });
     });

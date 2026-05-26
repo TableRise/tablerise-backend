@@ -86,6 +86,7 @@ export default class CreateUserService {
             campaigns: [],
             characters: [],
             badges: [],
+            charactersCreatedAmount: 0,
             campaignsJoinedAmount: 0,
             campaignsCreatedAmount: 0,
             campaignsClosedAmount: 0,

@@ -102,6 +102,8 @@ export default class CreateCampaignService {
             charactersInGame: [],
             actualMapImage: {} as Campaign['matchData']['actualMapImage'],
             mapImages: [],
+            images: [],
+            imageHighlighted: null as unknown as Campaign['matchData']['imageHighlighted'],
             logs: [],
             state: {
                 activeMapId: null,
@@ -111,7 +113,7 @@ export default class CreateCampaignService {
                 visibleCharacterIds: [],
                 tokens: [],
             },
-        };
+        } as Campaign['matchData'];
 
         if (mapImages) {
             for (const mapImage of mapImages) {

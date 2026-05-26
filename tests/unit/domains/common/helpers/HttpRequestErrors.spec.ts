@@ -38,6 +38,8 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'music-link-already-added': 'Music link already added',
         'date-already-added': 'Date already added',
         'player-already-in-match': 'Player already in match',
+        'already-full-campaign': 'The campaign reached the limit of players',
+        'campaign-password-incorrect': 'The campaign password is incorrect',
         'player-banned': 'Player is banned',
         'avatar-inexistent': "Doens't exists any avatar in this game",
         'character-does-not-exist': 'Character not found or not belongs to user',

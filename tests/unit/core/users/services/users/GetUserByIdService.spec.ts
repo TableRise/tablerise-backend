@@ -57,10 +57,8 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
                 userDetails.userId = user.userId;
                 userReturned = { ...user, details: userDetails };
 
-                user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_DELETE_USER;
-
                 usersRepository = {
-                    findOne: () => user,
+                    findOne: () => null,
                 };
 
                 usersDetailsRepository = {
@@ -75,6 +73,41 @@ describe('Core :: Users :: Services :: GetUserByIdService', () => {
             });
 
             it('should return the correct result', async () => {
+                try {
+                    await getUserByIdService.get({
+                        userId: user.userId,
+                    });
+
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        context('When get user by id with success - but details are deleted', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+
+                usersRepository = {
+                    findOne: () => user,
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => null,
+                };
+
+                getUserByIdService = new GetUserByIdService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw the same not found error', async () => {
                 try {
                     await getUserByIdService.get({
                         userId: user.userId,

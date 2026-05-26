@@ -51,6 +51,58 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
                 expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(campaignMapImagesLength + 1);
             });
         });
+
+        it('should skip uploads when map images are not provided', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+
+            campaignsRepository = {
+                findOne: () => ({ ...campaign }),
+            };
+
+            imageStorageClient = {
+                upload: sinon.spy(),
+            };
+
+            updateMatchMapImagesService = new UpdateMatchMapImagesService({
+                logger,
+                campaignsRepository,
+                imageStorageClient,
+            });
+
+            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
+                campaignId: campaign.campaignId,
+                mapImages: undefined as any,
+            });
+
+            expect(matchDataUpdated.matchData?.mapImages.length).to.equal(campaign.matchData?.mapImages.length);
+            expect(imageStorageClient.upload).not.to.have.been.called;
+        });
+
+        it('should skip uploads when matchData is missing', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+
+            campaignsRepository = {
+                findOne: () => ({ ...campaign, matchData: null }),
+            };
+
+            imageStorageClient = {
+                upload: sinon.spy(),
+            };
+
+            updateMatchMapImagesService = new UpdateMatchMapImagesService({
+                logger,
+                campaignsRepository,
+                imageStorageClient,
+            });
+
+            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
+                campaignId: campaign.campaignId,
+                mapImages: [{}],
+            } as any);
+
+            expect(matchDataUpdated.matchData).to.equal(null);
+            expect(imageStorageClient.upload).not.to.have.been.called;
+        });
     });
 
     context('#save', () => {

@@ -89,6 +89,29 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 }
             });
         });
+
+        it('should initialize an empty musics list when the campaign has none', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = undefined as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updated = await updateMatchMusicsService.addMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'music-id',
+                title: 'Song',
+                thumbnail: 'thumb',
+            });
+
+            expect(updated.musics).to.have.lengthOf(1);
+        });
     });
 
     context('#removeMatchMusic', () => {
@@ -128,6 +151,199 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
                 expect(matchDataUpdated.musics.length).to.be.not.equal(campaignMusicsLength);
                 expect(matchDataUpdated.musics.length).to.be.equal(campaignMusicsLength - 1);
             });
+        });
+
+        it('should clear the playing music when the removed track is active', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = [
+                {
+                    title: 'Main Theme 2',
+                    id: 'https://youtu.be/active',
+                    thumbnail: '',
+                },
+            ] as any;
+            (campaign.matchData as any).state = (campaign.matchData as any).state ?? {};
+            (campaign.matchData as any).state.playingMusicId = 'https://youtu.be/active';
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.removeMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'https://youtu.be/active',
+            });
+
+            expect((updatedCampaign.matchData as any).state.playingMusicId).to.equal(null);
+        });
+
+        it('should keep playingMusicId untouched when another music is removed', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = [
+                {
+                    title: 'Main Theme 2',
+                    id: 'https://youtu.be/active',
+                    thumbnail: '',
+                },
+            ] as any;
+            (campaign.matchData as any).state = { playingMusicId: 'keep-me' };
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.removeMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'https://youtu.be/active',
+            });
+
+            expect((updatedCampaign.matchData as any).state.playingMusicId).to.equal('keep-me');
+        });
+
+        it('should initialize an empty musics list when removing from a campaign without musics', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = undefined as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.removeMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'missing',
+            });
+
+            expect(updatedCampaign.musics).to.deep.equal([]);
+        });
+
+        it('should keep playingMusicId untouched when matchData is missing', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = [] as any;
+            campaign.matchData = null as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.removeMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'missing',
+            });
+
+            expect(updatedCampaign.matchData).to.equal(null);
+        });
+    });
+
+    context('#editMatchMusic', () => {
+        it('should update the matching music title and thumbnail', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = [
+                {
+                    title: 'Old',
+                    id: 'music-id',
+                    thumbnail: 'old-thumb',
+                },
+            ] as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.editMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'music-id',
+                title: 'New',
+                thumbnail: 'new-thumb',
+            });
+
+            expect(updatedCampaign.musics[0]).to.deep.equal({
+                title: 'New',
+                id: 'music-id',
+                thumbnail: 'new-thumb',
+            });
+        });
+
+        it('should initialize musics when editing a campaign with no list', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = undefined as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.editMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'music-id',
+                title: 'New',
+                thumbnail: 'new-thumb',
+            });
+
+            expect(updatedCampaign.musics).to.deep.equal([]);
+        });
+
+        it('should preserve existing musics when the target id is not found', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.musics = [
+                {
+                    title: 'Existing',
+                    id: 'existing-id',
+                    thumbnail: 'thumb',
+                },
+            ] as any;
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateMatchMusicsService = new UpdateMatchMusicsService({
+                logger,
+                campaignsRepository,
+            });
+
+            const updatedCampaign = await updateMatchMusicsService.editMatchMusic({
+                campaignId: campaign.campaignId,
+                id: 'missing-id',
+                title: 'New',
+                thumbnail: 'new-thumb',
+            });
+
+            expect(updatedCampaign.musics).to.deep.equal([
+                {
+                    title: 'Existing',
+                    id: 'existing-id',
+                    thumbnail: 'thumb',
+                },
+            ]);
         });
     });
 

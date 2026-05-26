@@ -41,7 +41,7 @@ export const createBaseToken = (characterId: string, userId: string, now: string
     updatedAt: now,
 });
 
-const uniquePlayers = (players: Player[] = []): Player[] => {
+const uniquePlayers = (players: Player[]): Player[] => {
     const seen = new Set<string>();
 
     return players.filter((player) => {

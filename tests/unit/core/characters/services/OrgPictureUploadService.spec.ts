@@ -86,6 +86,25 @@ describe('Core :: Characters :: Services :: OrgPictureUploadService', () => {
             }
         });
 
+        it('should throw an error if organizations are not configured as an array', async () => {
+            charactersRepository.findOne = Sinon.spy(async () => ({
+                data: {
+                    profile: {
+                        characteristics: {
+                            alliesAndOrgs: 'invalid',
+                        },
+                    },
+                },
+                characterId: 'string',
+            }));
+
+            try {
+                await orgPictureUploadService.uploadPicture(payload);
+            } catch (error: unknown) {
+                expect((error as Error).message).to.equal('Organizations are not configured for this character');
+            }
+        });
+
         it('should throw an error if image upload fails', async () => {
             imageStorageClient.upload = Sinon.spy(async () => {
                 throw new Error('Image upload failed');

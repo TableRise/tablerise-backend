@@ -14,12 +14,14 @@ describe('When updating a campaign journal post', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'player',
                 status: 'active',
             },
             {
                 userId: 'bcf390df-6bc7-47be-bd72-e6de9a7e21e1',
                 characterIds: [],
+                notes: [],
                 role: 'dungeon_master',
                 status: 'active',
             },
@@ -41,7 +43,7 @@ describe('When updating a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/journal/update?userId=${authenticatedUserId}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/journal?userId=${authenticatedUserId}`)
             .send({
                 postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
                 title: 'Updated title',
@@ -66,7 +68,7 @@ describe('When updating a campaign journal post', () => {
 
         const { body } = await requester()
             .patch(
-                `/campaigns/${campaign.campaignId as string}/journal/update?userId=c3d2d6d0-0bb8-4b57-81a0-d5ece96d719d`
+                `/campaigns/${campaign.campaignId as string}/update/journal?userId=c3d2d6d0-0bb8-4b57-81a0-d5ece96d719d`
             )
             .send({
                 postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
@@ -83,7 +85,7 @@ describe('When updating a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/journal/update?userId=${authenticatedUserId}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/journal?userId=${authenticatedUserId}`)
             .send({
                 postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
                 title: 'Updated title',

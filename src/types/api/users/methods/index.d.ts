@@ -18,10 +18,11 @@ export interface UserGameInfoDoneResponse {
     campaigns: GameInfoCampaigns[] | any[];
     characters: string[];
     badges: string[];
-    campaignsJoinedAmount?: number;
-    campaignsCreatedAmount?: number;
-    campaignsClosedAmount?: number;
-    equipBoughtAmount?: number;
+    charactersCreatedAmount: number;
+    campaignsJoinedAmount: number;
+    campaignsCreatedAmount: number;
+    campaignsClosedAmount: number;
+    equipBoughtAmount: number;
 }
 
 export interface __FullUserPayload {
@@ -37,10 +38,11 @@ export interface UpdateGameInfoProcessPayload {
         campaigns: GameInfoCampaigns[] | any[];
         characters: string[];
         badges: string[];
-        campaignsJoinedAmount?: number;
-        campaignsCreatedAmount?: number;
-        campaignsClosedAmount?: number;
-        equipBoughtAmount?: number;
+        charactersCreatedAmount: number;
+        campaignsJoinedAmount: number;
+        campaignsCreatedAmount: number;
+        campaignsClosedAmount: number;
+        equipBoughtAmount: number;
     };
 }
 

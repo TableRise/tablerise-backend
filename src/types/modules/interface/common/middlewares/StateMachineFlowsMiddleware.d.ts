@@ -4,6 +4,6 @@ import { Logger } from 'src/types/shared/logger';
 
 export interface StateMachineFlowsMiddlewareContract {
     usersRepository: UsersRepository;
-    stateMachine: StateMachine;
+    stateMachine?: StateMachine;
     logger: Logger;
 }

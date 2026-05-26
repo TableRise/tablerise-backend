@@ -20,6 +20,8 @@ describe('When characters are recovered by campaign', () => {
             userDetails = DomainDataFaker.users.generateUserDetailsJSON({ count: 2 });
             campaign = DomainDataFaker.campaign.generateCampaignsJSON()[0];
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
+            character[0].campaignId = campaign.campaignId as string;
+            character[1].campaignId = campaign.campaignId as string;
 
             campaign.campaignPlayers[0].userId = userLoggedId;
             campaign.campaignPlayers[0].characterIds = [character[0].characterId];
@@ -28,6 +30,7 @@ describe('When characters are recovered by campaign', () => {
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
                 characterIds: [character[0].characterId],
+                notes: [],
                 role: 'player',
                 status: 'active',
             };
@@ -35,6 +38,7 @@ describe('When characters are recovered by campaign', () => {
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
                 characterIds: [character[1].characterId],
+                notes: [],
                 role: 'player',
                 status: 'active',
             };
@@ -62,7 +66,6 @@ describe('When characters are recovered by campaign', () => {
 
             await InjectNewUser(user[1]);
             await InjectNewUserDetails(userDetails[1], user[1].userId);
-            await InjectNewCampaign(campaign);
             await InjectNewCharacter(character[1]);
         });
 
@@ -72,10 +75,10 @@ describe('When characters are recovered by campaign', () => {
 
         it('should recover all characters', async () => {
             const { body } = await requester()
-                .get(`/characters/by-campaign/${campaign.campaignId as string}`)
+                .get(`/campaigns/${campaign.campaignId as string}/characters`)
                 .expect(HttpStatusCode.OK);
 
-            expect(body).to.be.an('array').with.lengthOf(3);
+            expect(body).to.be.an('array').with.lengthOf(2);
 
             body.forEach((result: CharactersDnd) => {
                 expect(result).to.have.property('characterId');
@@ -95,6 +98,8 @@ describe('When characters are recovered by campaign', () => {
             userDetails = DomainDataFaker.users.generateUserDetailsJSON({ count: 2 });
             campaign = DomainDataFaker.campaign.generateCampaignsJSON()[0];
             character = DomainDataFaker.character.generateCharactersJSON({ count: 2 });
+            character[0].campaignId = campaign.campaignId as string;
+            character[1].campaignId = campaign.campaignId as string;
 
             campaign.campaignPlayers[0].userId = userLoggedId;
             campaign.campaignPlayers[0].characterIds = [character[0].characterId];
@@ -103,6 +108,7 @@ describe('When characters are recovered by campaign', () => {
             campaign.campaignPlayers[1] = {
                 userId: user[0].userId,
                 characterIds: [character[0].characterId],
+                notes: [],
                 role: 'player',
                 status: 'active',
             };
@@ -110,6 +116,7 @@ describe('When characters are recovered by campaign', () => {
             campaign.campaignPlayers[2] = {
                 userId: user[1].userId,
                 characterIds: [character[1].characterId],
+                notes: [],
                 role: 'player',
                 status: 'active',
             };
@@ -137,7 +144,6 @@ describe('When characters are recovered by campaign', () => {
 
             await InjectNewUser(user[1]);
             await InjectNewUserDetails(userDetails[1], user[1].userId);
-            await InjectNewCampaign(campaign);
             await InjectNewCharacter(character[1]);
         });
 
@@ -147,17 +153,17 @@ describe('When characters are recovered by campaign', () => {
 
         it('should recover all characters', async () => {
             const { body } = await requester()
-                .get(`/characters/by-campaign/${campaign.campaignId as string}`)
+                .get(`/campaigns/${campaign.campaignId as string}/characters`)
                 .expect(HttpStatusCode.OK);
 
-            expect(body).to.be.an('array').with.lengthOf(3);
+            expect(body).to.be.an('array').with.lengthOf(2);
 
             body.forEach((result: CharactersDnd) => {
                 expect(result).to.have.property('characterId');
-                expect(result).to.not.have.property('data');
+                expect(result).to.have.property('data');
                 expect(result).to.have.property('author');
                 expect(result).to.have.property('picture');
-                expect(result).to.not.have.property('npc');
+                expect(result).to.have.property('npc');
             });
         });
     });

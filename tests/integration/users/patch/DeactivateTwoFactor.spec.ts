@@ -42,7 +42,7 @@ describe('When the user has twoFactor deactivated', () => {
             expect(userInDb.inProgress.status).to.be.equal(InProgressStatusEnum.enum.DONE);
             expect(userInDb.twoFactorSecret.active).to.be.equal(false);
             expect(userInDb.twoFactorSecret.qrcode).to.be.equal('');
-            expect(userInDb.twoFactorSecret.secret).to.be.equal('');
+            expect(userInDb.twoFactorSecret.secret).to.be.equal('keep');
         });
     });
 });

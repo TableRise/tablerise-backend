@@ -18,6 +18,7 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'WAIT_TO_FINISH_EMAIL_CHANGE',
         'WAIT_TO_RESET_PROFILE',
         'WAIT_TO_FINISH_DELETE_USER',
+        'WAIT_TO_DISABLE_TWO_FACTOR',
         'DONE',
     ];
     const enumValuesFixed = [
@@ -37,6 +38,7 @@ describe('Domains :: User :: Enum :: UserStatusEnum', () => {
         'wait-to-finish-email-change',
         'wait-to-reset-profile',
         'wait-to-finish-delete-user',
+        'wait-to-disable-two-factor',
         'done',
     ];
 

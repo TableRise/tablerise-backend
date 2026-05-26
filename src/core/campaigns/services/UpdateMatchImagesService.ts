@@ -25,13 +25,19 @@ export default class UpdateMatchImagesService {
         this.logger('info', 'UpdateMatchImages - UpdateMatchImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
-        if (images && campaign.matchData) {
-            campaign.matchData.images = campaign.matchData.images ?? [];
+        if (!images) {
+            return campaign;
+        }
 
-            for (const file of images) {
-                const uploaded = await this.imageStorageClient.upload(file as unknown as FileObject);
-                campaign.matchData.images.push(uploaded);
-            }
+        if (!campaign.matchData) {
+            return campaign;
+        }
+
+        campaign.matchData.images = campaign.matchData.images ?? [];
+
+        for (const file of images) {
+            const uploaded = await this.imageStorageClient.upload(file as unknown as FileObject);
+            campaign.matchData.images.push(uploaded);
         }
 
         return campaign;

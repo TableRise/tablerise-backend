@@ -24,11 +24,13 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                 characteristics: {
                     alignment: 'hero',
                     backstory: dataGenerator.biography(),
+                    background: 'wanderer',
                     personalityTraits: 'Fearless',
                     ideals: 'Be a hero',
                     bonds: 'no bonds',
                     flaws: 'Egocentric',
                     appearance: {
+                        description: 'A brave wandering adventurer.',
                         eyes: 'blue',
                         age: '25',
                         weight: '85',
@@ -37,19 +39,11 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                         hair: 'black',
                         picture: DomainDataFaker.generateImagesObjectJSON()[0],
                     },
-                    alliesAndOrgs: [
-                        {
-                            orgName: 'Haka',
-                            symbol: DomainDataFaker.generateImagesObjectJSON()[0],
-                            content: dataGenerator.lorem(),
-                        },
-                    ],
+                    alliesAndOrgs: 'Haka',
                     other: {
-                        languages: ['human', 'orc'],
-                        proficiencies: 'kniffe throwing',
-                        extraCharacteristics: 'no characteristics',
+                        characteristicsAndAbilities: 'Speaks human and orc. Skilled with knife throwing.',
                     },
-                    treasure: [''],
+                    treasure: '',
                 },
             },
             stats: {
@@ -109,20 +103,8 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                 },
                 skills: [{ name: 'arcanism', value: 5, checked: false }],
             },
-            attacks: [
-                {
-                    name: 'Some attack',
-                    atkBonus: 2,
-                    damage: [
-                        {
-                            type: 'magic',
-                            bonus: 5,
-                            dice: '2d10',
-                        },
-                    ],
-                },
-            ],
-            equipments: [''],
+            inventory: 'Starter adventurer pack',
+            equipments: [],
             money: {
                 cp: 0,
                 sp: 0,
@@ -177,6 +159,18 @@ function createCharacterFaker({ characterId = newUUID() }: CharactersDnd): Chara
                     slotsTotal: 2,
                     slotsExpended: 1,
                 },
+            },
+            extraAbilities: {
+                cantrips: [],
+                1: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                2: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                3: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                4: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                5: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                6: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                7: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                8: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
+                9: { extraAbilityNames: [], slotsTotal: 0, slotsExpended: 0 },
             },
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),

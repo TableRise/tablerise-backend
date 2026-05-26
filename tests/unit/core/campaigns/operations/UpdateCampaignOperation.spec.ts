@@ -84,5 +84,61 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 }
             });
         });
+
+        it('should emit a null nextSessionResume when the saved campaign has no match data', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.matchData = null as any;
+
+            updateCampaignService = {
+                update: sinon.stub().resolves(campaign),
+                save: sinon.stub().resolves(campaign),
+            };
+
+            const isolatedSocketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
+
+            updateCampaignOperation = new UpdateCampaignOperation({
+                updateCampaignService,
+                socketIO: isolatedSocketIO,
+                logger,
+            });
+
+            await updateCampaignOperation.execute({
+                campaignId: campaign.campaignId,
+            } as any);
+
+            expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(
+                campaign.campaignId,
+                'campaign:settings_updated',
+                sinon.match.has('nextSessionResume', null)
+            );
+        });
+
+        it('should emit the saved nextSessionResume when it exists', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.matchData.nextSessionResume = 'Session recap' as any;
+
+            updateCampaignService = {
+                update: sinon.stub().resolves(campaign),
+                save: sinon.stub().resolves(campaign),
+            };
+
+            const isolatedSocketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
+
+            updateCampaignOperation = new UpdateCampaignOperation({
+                updateCampaignService,
+                socketIO: isolatedSocketIO,
+                logger,
+            });
+
+            await updateCampaignOperation.execute({
+                campaignId: campaign.campaignId,
+            } as any);
+
+            expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(
+                campaign.campaignId,
+                'campaign:settings_updated',
+                sinon.match.has('nextSessionResume', 'Session recap')
+            );
+        });
     });
 });

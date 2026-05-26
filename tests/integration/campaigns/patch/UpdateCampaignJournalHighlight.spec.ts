@@ -11,7 +11,7 @@ describe('When updating the highlighted journal post of a campaign', () => {
     beforeEach(() => {
         campaign = DomainDataFaker.generateCampaignsJSON({ count: 1 })[0];
         campaign.infos.journal = [];
-        campaign.infos.highlightedJournal = {} as Campaign['infos']['highlightedJournal'];
+        campaign.infos.highlightedJournal = null as Campaign['infos']['highlightedJournal'];
     });
 
     it('should store the provided post when toggle is on', async () => {
@@ -19,6 +19,7 @@ describe('When updating the highlighted journal post of a campaign', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'dungeon_master',
                 status: 'active',
             },
@@ -26,6 +27,7 @@ describe('When updating the highlighted journal post of a campaign', () => {
         await InjectNewCampaign(campaign);
 
         const post = {
+            postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
             title: 'Pinned note',
             author: campaign.campaignPlayers[0],
             content: 'Meet at the old tower.',
@@ -46,11 +48,13 @@ describe('When updating the highlighted journal post of a campaign', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'admin_player',
                 status: 'active',
             },
         ];
         campaign.infos.highlightedJournal = {
+            postId: '12cd093b-0a8a-42fe-910f-001f2ab28450',
             title: 'Pinned note',
             author: campaign.campaignPlayers[0],
             content: 'Old content',
@@ -72,6 +76,7 @@ describe('When updating the highlighted journal post of a campaign', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'dungeon_master',
                 status: 'active',
             },
@@ -91,6 +96,7 @@ describe('When updating the highlighted journal post of a campaign', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'player',
                 status: 'active',
             },

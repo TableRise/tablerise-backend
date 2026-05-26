@@ -10,17 +10,22 @@ describe('When recover all campaigns', () => {
         before(async () => {
             campaigns = [];
             campaigns = DomainDataFaker.generateCampaignsJSON({ count: 2 });
-            campaigns.forEach(async (campaign) => {
-                campaign.infos.visibility = 'visible';
-                await InjectNewCampaign(campaign);
-            });
+            await Promise.all(
+                campaigns.map(async (campaign) => {
+                    campaign.infos.visibility = 'visible';
+                    await InjectNewCampaign(campaign);
+                })
+            );
         });
 
         it('should return correct data', async () => {
             const { body } = await requester().get(`/campaigns`).expect(HttpStatusCode.OK);
 
-            const campaign = body[1];
+            const campaign = body.find(
+                (currentCampaign: Campaign) => currentCampaign.campaignId === campaigns[0].campaignId
+            );
             expect(body).to.be.an('array');
+            expect(campaign).to.exist;
             expect(campaign).to.have.property('campaignId');
             expect(campaign).to.have.property('title');
             expect(campaign.title).to.be.equal(campaigns[0].title);

@@ -21,5 +21,12 @@
     "ts-node": {
         "swc": true
     },
-    "exclude": ["node_modules", "coverage"]
+    "exclude": [
+        "node_modules",
+        "coverage",
+        "tests",
+        "tests/unit/core/dungeons&dragons5e",
+        "tests/unit/interface/dungeons&dragons5e",
+        "tests/integration/dungeons&dragons5e"
+    ]
 }

@@ -1,5 +1,6 @@
 import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
@@ -166,6 +167,43 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
             });
+
+            it('should accept object social media and string booleans', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: 'true',
+                    shopSystem: 'true',
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = { twitch: 'live' } as any;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.infos.socialMedia).to.deep.equal({ twitch: 'live' });
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: true,
+                    shopSystem: true,
+                    shopOn: true,
+                });
+            });
+
+            it('should default social media to an empty object when it is undefined', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = undefined as any;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.infos.socialMedia).to.deep.equal({});
+            });
         });
     });
 
@@ -218,6 +256,35 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
                 expect(userDetails.gameInfo.badges).to.deep.equal(['cleric-badge']);
             });
+        });
+
+        it('should reject when the owner user details do not exist', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaignsRepository = {
+                create: () => campaign,
+            };
+            usersDetailsRepository = {
+                findOne: () => null,
+                update: () => {},
+            };
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository,
+                usersDetailsRepository,
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            let thrownError;
+
+            try {
+                await createCampaignService.save(campaign);
+            } catch (error) {
+                thrownError = error;
+            }
+
+            expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         });
     });
 });

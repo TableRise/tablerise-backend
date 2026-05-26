@@ -52,7 +52,9 @@ function awardBadgesByRules(userDetails: UserDetail, rules: readonly CounterBadg
     ensureGameInfoCounters(userDetails);
 
     for (const rule of rules) {
-        const currentAmount = (userDetails.gameInfo as Record<UserGameInfoCounterKey, number>)[rule.counter];
+        const currentAmount = (userDetails.gameInfo as UserDetail['gameInfo'] & Record<UserGameInfoCounterKey, number>)[
+            rule.counter
+        ];
         if (currentAmount >= rule.amount) {
             addBadge(userDetails, rule.badge);
         }
@@ -65,7 +67,7 @@ export function syncRankByBadgesLength(userDetails: UserDetail): UserDetail {
     const badgesLength = userDetails.gameInfo?.badges?.length ?? 0;
     const matchedRule = BADGE_RANK_RULES.find((rule) => badgesLength >= rule.badgesAmount);
 
-    userDetails.rank = matchedRule?.rank ?? null;
+    userDetails.rank = matchedRule?.rank ?? '';
 
     return userDetails;
 }

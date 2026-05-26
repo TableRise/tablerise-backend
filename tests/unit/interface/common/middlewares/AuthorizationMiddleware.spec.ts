@@ -118,4 +118,160 @@ describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => 
             expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
         }
     });
+
+    it('should throw unauthorized when the user is not admin', async () => {
+        const request = { user: { userId: '123' } } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersDetailsRepository.findOne = sinon.stub().returns({ role: 'player' });
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.checkAdminRole(request, response, next);
+            expect.fail('Expected unauthorized error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('Unauthorized');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+            expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+        }
+    });
+
+    it('should throw when the user detail does not exist in checkAdminRole', async () => {
+        const request = { user: { userId: '123' } } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersDetailsRepository.findOne = sinon.stub().returns(null);
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.checkAdminRole(request, response, next);
+            expect.fail('Expected missing user detail error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User does not exist');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+            expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+        }
+    });
+
+    it('should throw when the user status is not allowed in twoFactor', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM },
+            twoFactorSecret: { active: true, secret: 'secret' },
+        });
+        twoFactorHandler.validate = sinon.stub().returns(true);
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected invalid status error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User status is invalid to perform this operation');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+            expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+        }
+    });
+
+    it('should throw when the user does not exist in twoFactor', async () => {
+        const request = {
+            query: { email: 'missing@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository.findOne = sinon.stub().returns(null);
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected missing user error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User does not exist');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+            expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+        }
+    });
+
+    it('should throw when 2FA token validation fails', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
+            twoFactorSecret: { active: true, secret: 'secret' },
+        });
+        twoFactorHandler.validate = sinon.stub().returns(false);
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected invalid token error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('Two factor code does not match');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+            expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+        }
+    });
 });

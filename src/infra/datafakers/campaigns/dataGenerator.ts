@@ -21,6 +21,7 @@ export default {
         {
             userId: faker.string.uuid(),
             characterIds: [],
+            notes: [],
             role: faker.helpers.arrayElement(['admin_player', 'dungeon_master', 'player']),
             status: faker.helpers.arrayElement(['pending']),
         },
@@ -48,7 +49,7 @@ export default {
     infos: {
         campaignAge: '1',
         nextMatchDate: 'no-date',
-        highlightedJournal: {},
+        highlightedJournal: null,
         journal: [],
         playerAmountLimit: 4,
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),

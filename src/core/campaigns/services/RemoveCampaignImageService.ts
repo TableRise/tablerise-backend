@@ -31,9 +31,11 @@ export default class RemoveCampaignImageService {
                 (img: ImageObject) => img.link !== imageUrl
             );
 
-            if ((campaign.matchData as any).state?.activeMapId) {
+            const activeMapId = (campaign.matchData as any).state?.activeMapId;
+
+            if (activeMapId) {
                 const activeMapStillExists = campaign.matchData.mapImages.some(
-                    (img: ImageObject) => img.id === (campaign.matchData as any).state.activeMapId
+                    (img: ImageObject) => img.id === activeMapId
                 );
 
                 if (!activeMapStillExists) {

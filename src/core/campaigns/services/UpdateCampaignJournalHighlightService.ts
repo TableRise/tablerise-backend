@@ -34,7 +34,7 @@ export default class UpdateCampaignJournalHighlightService {
         }
 
         campaign.infos.highlightedJournal =
-            toggle === 'on' ? (post as Journal) : ({} as unknown as Campaign['infos']['highlightedJournal']);
+            toggle === 'on' ? (post as Journal) : (null as unknown as Campaign['infos']['highlightedJournal']);
 
         const updatedCampaign = await this.campaignsRepository.update({
             query: { campaignId },

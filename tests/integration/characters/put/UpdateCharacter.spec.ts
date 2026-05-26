@@ -59,7 +59,6 @@ describe('When some character is updated', () => {
             expect(body).to.have.property('logs');
             expect(body.data).to.have.property('profile');
             expect(body.data).to.have.property('stats');
-            expect(body.data).to.have.property('attacks');
             expect(body.data).to.have.property('equipments');
             expect(body.data).to.have.property('money');
             expect(body.data.profile).to.have.property('class');

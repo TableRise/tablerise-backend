@@ -25,11 +25,10 @@ const [
         configurations,
         buys,
         password,
-        lores,
         createdAt,
         updatedAt,
     },
-] = generateCampaignsJSON();
+] = generateCampaignsJSON() as Array<any>;
 
 const mocks = {
     campaignMock: {
@@ -44,7 +43,6 @@ const mocks = {
         configurations,
         buys,
         password,
-        lores,
         createdAt,
         updatedAt,
     },

@@ -73,4 +73,50 @@ describe('Core :: Campaigns :: Services :: RemoveCampaignPlayerNoteService', () 
         expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         expect((thrownError as HttpRequestErrors).message).to.equal('This content do not exist in the RPG system');
     });
+
+    it('should reject when the player is not in the campaign', async () => {
+        let thrownError;
+
+        try {
+            await service.removeNote({
+                campaignId: campaign.campaignId as string,
+                userId: 'missing-player',
+                title: 'Session Plan',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.equal('This player is not in the campaign');
+    });
+
+    it('should initialize notes when missing and still reject unknown titles', async () => {
+        campaign.campaignPlayers[0].notes = undefined as any;
+
+        let thrownError;
+
+        try {
+            await service.removeNote({
+                campaignId: campaign.campaignId as string,
+                userId: 'player-id',
+                title: 'Session Plan',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.equal('This content do not exist in the RPG system');
+    });
+
+    it('should persist campaign updates in save', async () => {
+        const result = await service.save(campaign);
+
+        expect(campaignsRepository.update).to.have.been.calledWith({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
+        });
+        expect(result).to.equal(campaign);
+    });
 });

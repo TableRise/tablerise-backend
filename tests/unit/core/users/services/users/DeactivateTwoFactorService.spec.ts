@@ -48,7 +48,7 @@ describe('Core :: Users :: Services :: DeactivateTwoFactorService', () => {
                 expect(userTest.twoFactorSecret).to.be.deep.equal({
                     active: false,
                     qrcode: '',
-                    secret: '',
+                    secret: 'keep',
                 });
             });
         });
@@ -113,6 +113,33 @@ describe('Core :: Users :: Services :: DeactivateTwoFactorService', () => {
                     expect(err.message).to.be.equal('2FA not enabled for this user');
                     expect(err.name).to.be.equal('BadRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
+
+        context('When deactivate an user two factor fail | user does not exist', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                deactivateTwoFactorService = new DeactivateTwoFactorService({
+                    usersRepository,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await deactivateTwoFactorService.deactivate('userId');
+
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                 }
             });
         });

@@ -50,6 +50,43 @@ describe('Core :: Campaigns :: Services :: UpdateMatchImagesService', () => {
             expect(matchDataUpdated.matchData.images.at(-1)?.id).to.equal('image-123');
             expect(imageStorageClient.upload).to.have.been.calledOnce;
         });
+
+        it('should skip uploads when images are missing', async () => {
+            const matchDataUpdated = await updateMatchImagesService.updateMatchImages({
+                campaignId: campaign.campaignId,
+                images: undefined as any,
+            });
+
+            expect(matchDataUpdated.matchData.images).to.have.lengthOf(campaignImagesLength);
+            expect(imageStorageClient.upload).not.to.have.been.called;
+        });
+
+        it('should skip uploads when matchData is missing', async () => {
+            campaignsRepository.findOne = sinon.stub().resolves({
+                ...campaign,
+                matchData: null,
+            });
+
+            const matchDataUpdated = await updateMatchImagesService.updateMatchImages(updateMatchImagesPayload);
+
+            expect(matchDataUpdated.matchData).to.equal(null);
+            expect(imageStorageClient.upload).not.to.have.been.called;
+        });
+
+        it('should initialize images when the match gallery is missing', async () => {
+            campaignsRepository.findOne = sinon.stub().resolves({
+                ...campaign,
+                matchData: {
+                    ...campaign.matchData,
+                    images: undefined,
+                },
+            });
+
+            const matchDataUpdated = await updateMatchImagesService.updateMatchImages(updateMatchImagesPayload);
+
+            expect(matchDataUpdated.matchData.images).to.have.lengthOf(1);
+            expect(matchDataUpdated.matchData.images[0].id).to.equal('image-123');
+        });
     });
 
     context('#save', () => {

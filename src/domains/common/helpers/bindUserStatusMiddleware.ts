@@ -18,7 +18,11 @@ export default function bindUserStatusMiddleware(
 
         if (pathsToIgnore?.includes(routeSubstring)) return route;
 
-        route.options.middlewares[addMethod ?? 'push'](middleware);
+        const middlewares = route.options.middlewares as Record<
+            'push' | 'unshift',
+            (middleware: express.Handler) => void
+        >;
+        middlewares[addMethod ?? 'push'](middleware);
         return route;
     });
 

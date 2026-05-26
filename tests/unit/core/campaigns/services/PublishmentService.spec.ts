@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import PublishmentService from 'src/core/campaigns/services/PublishmentService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Services :: PublishmentService', () => {
@@ -62,5 +63,112 @@ describe('Core :: Campaigns :: Services :: PublishmentService', () => {
             payload: campaign,
         });
         expect(result).to.be.deep.equal(campaign);
+    });
+
+    it('should reject a forbidden player category', async () => {
+        let thrownError;
+
+        try {
+            await publishmentService.addPost({
+                campaignId: campaign.campaignId as string,
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                payload: {
+                    title: 'Session recap',
+                    content: 'The party reached the bridge.',
+                    category: 'master',
+                },
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.equal('The post category is forbidden for this role');
+    });
+
+    it('should allow a dungeon master category reserved for masters', async () => {
+        campaign.campaignPlayers = [
+            {
+                userId: 'dm-id',
+                characterIds: [],
+                role: 'dungeon_master',
+                status: 'active',
+            },
+        ] as any;
+
+        const result = await publishmentService.addPost({
+            campaignId: campaign.campaignId as string,
+            userId: 'dm-id',
+            payload: {
+                title: 'Master note',
+                content: 'Secret prep',
+                category: 'master',
+            },
+        });
+
+        expect(result.infos.journal[0]).to.include({
+            title: 'Master note',
+            category: 'master',
+        });
+    });
+
+    it('should reject an admin-only forbidden category mismatch', async () => {
+        campaign.campaignPlayers = [
+            {
+                userId: 'admin-id',
+                characterIds: [],
+                role: 'admin_player',
+                status: 'active',
+            },
+        ] as any;
+
+        let thrownError;
+
+        try {
+            await publishmentService.addPost({
+                campaignId: campaign.campaignId as string,
+                userId: 'admin-id',
+                payload: {
+                    title: 'Admin note',
+                    content: 'Restricted',
+                    category: 'master',
+                },
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.equal('The post category is forbidden for this role');
+    });
+
+    it('should reject a forbidden dungeon master category', async () => {
+        campaign.campaignPlayers = [
+            {
+                userId: 'dm-id',
+                characterIds: [],
+                role: 'dungeon_master',
+                status: 'active',
+            },
+        ] as any;
+
+        let thrownError;
+
+        try {
+            await publishmentService.addPost({
+                campaignId: campaign.campaignId as string,
+                userId: 'dm-id',
+                payload: {
+                    title: 'DM note',
+                    content: 'Restricted',
+                    category: 'players',
+                },
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.equal('The post category is forbidden for this role');
     });
 });

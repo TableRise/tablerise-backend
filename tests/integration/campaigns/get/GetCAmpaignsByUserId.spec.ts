@@ -17,26 +17,14 @@ describe('When recover user by id', () => {
             campaignOne = DomainDataFaker.generateCampaignsJSON()[0];
             campaignTwo = DomainDataFaker.generateCampaignsJSON()[0];
 
-            userDetails.gameInfo.campaigns = [
-                {
-                    campaignId: campaignOne.campaignId as string,
-                    title: campaignOne.title,
-                    description: campaignOne.description,
-                    role: 'dungeon_master',
-                },
-                {
-                    campaignId: campaignTwo.campaignId as string,
-                    title: campaignTwo.title,
-                    description: campaignTwo.description,
-                    role: 'player',
-                },
-            ];
+            userDetails.gameInfo.campaigns = [campaignOne.campaignId as string, campaignTwo.campaignId as string];
 
             campaignOne.campaignPlayers = [
                 {
                     userId: user.userId,
                     role: 'dungeon_master',
                     characterIds: [],
+                    notes: [],
                     status: 'active',
                 },
             ];
@@ -46,6 +34,7 @@ describe('When recover user by id', () => {
                     userId: user.userId,
                     role: 'player',
                     characterIds: [],
+                    notes: [],
                     status: 'active',
                 },
             ];
@@ -58,7 +47,7 @@ describe('When recover user by id', () => {
         });
 
         it('should retrieve campaign created', async () => {
-            const { body } = await requester().get(`/campaigns/user/${user.userId}`).expect(HttpStatusCode.OK);
+            const { body } = await requester().get(`/users/${user.userId}/campaigns`).expect(HttpStatusCode.OK);
 
             expect(body).to.be.an('object');
             expect(body).to.have.property('master').to.be.an('array').that.has.lengthOf(1);

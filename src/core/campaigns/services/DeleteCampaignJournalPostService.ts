@@ -8,7 +8,7 @@ const ROLES_ALLOWED_TO_DELETE = ['dungeon_master', 'admin_player'];
 const getHighlightedJournalPostId = (highlightedJournal: Campaign['infos']['highlightedJournal']): string | null => {
     if (typeof highlightedJournal !== 'object' || highlightedJournal === null) return null;
 
-    const highlightedPostId = (highlightedJournal as Record<string, unknown>).postId;
+    const highlightedPostId = (highlightedJournal as unknown as Record<string, unknown>).postId;
     return typeof highlightedPostId === 'string' ? highlightedPostId : null;
 };
 
@@ -47,7 +47,7 @@ export default class DeleteCampaignJournalPostService {
         campaign.infos.journal.splice(postIndex, 1);
 
         if (getHighlightedJournalPostId(campaign.infos.highlightedJournal) === postId) {
-            campaign.infos.highlightedJournal = {} as Campaign['infos']['highlightedJournal'];
+            campaign.infos.highlightedJournal = null as unknown as Campaign['infos']['highlightedJournal'];
         }
 
         return { campaign, deletedPost };

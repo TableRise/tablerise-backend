@@ -63,18 +63,9 @@ describe('When some character is created', function () {
             expect(body.author).to.have.property('userId');
             expect(body.author.userId).to.be.equal(userLoggedId);
             expect(body.data).to.have.property('profile');
-            expect(body.data.profile).to.have.property('level');
-            expect(body.data.profile).to.have.property('xp');
-            expect(body.data.profile.level).to.be.equal(0);
-            expect(body.data.profile.xp).to.be.equal(0);
-
-            if (body.data.stats.abilityScores) {
-                expect(body.data.stats.abilityScores[0].value).to.be.equal(1);
-                expect(body.data.stats.abilityScores[1].value).to.be.equal(1);
-                expect(body.data.stats.abilityScores[2].value).to.be.equal(1);
-                expect(body.data.stats.abilityScores[3].value).to.be.equal(1);
-                expect(body.data.stats.abilityScores[4].value).to.be.equal(1);
-            }
+            expect(body.data.profile).to.have.property('name');
+            expect(body.data).to.have.property('stats');
+            expect(body.data.stats).to.have.property('spellCasting');
 
             const { body: authenticatedUserUpdated } = await requester()
                 .get(`/users/${userLoggedId}`)

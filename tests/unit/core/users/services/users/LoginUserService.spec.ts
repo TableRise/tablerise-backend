@@ -2,6 +2,9 @@ import LoginUserService from 'src/core/users/services/users/LoginUserService';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Users :: Services :: LoginUserService', () => {
     let loginUserService: LoginUserService, usersDetailsRepository: any, user: User, userDetails: UserDetail;
@@ -37,6 +40,27 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(enrichedToken.picture?.link).to.be.equal(user.picture?.link);
                 expect(enrichedToken.picture?.uploadDate).to.be.equal(user.picture?.uploadDate);
                 expect(enrichedToken.fullname).to.be.equal(`${userDetails.firstName} ${userDetails.lastName}`);
+            });
+
+            it('should throw when the user detail does not exist', async () => {
+                usersDetailsRepository = {
+                    findOne: () => null,
+                };
+
+                loginUserService = new LoginUserService({
+                    usersDetailsRepository,
+                    logger,
+                });
+
+                try {
+                    await loginUserService.enrichToken(JWTGenerator.generate(user));
+                    expect.fail('Expected missing user detail error');
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.equal('User does not exist');
+                    expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
             });
         });
     });

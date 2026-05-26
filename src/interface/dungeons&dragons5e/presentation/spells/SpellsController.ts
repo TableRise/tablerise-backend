@@ -32,22 +32,22 @@ export default class SpellsController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getSpellOperation.execute(id);
+        const result = await this.getSpellOperation!.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this.getAllSpellsOperation.execute();
+        const result = await this.getAllSpellsOperation!.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getDisabled(req: Request, res: Response): Promise<Response> {
-        const result = await this.getDisabledSpellsOperation.execute();
+        const result = await this.getDisabledSpellsOperation!.execute();
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getByLevel(req: Request, res: Response): Promise<Response> {
-        const result = await this.getByLevelOperation.execute(Number(req.query.queryLevel));
+        const result = await this.getByLevelOperation!.execute(Number(req.query.queryLevel));
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -55,7 +55,7 @@ export default class SpellsController {
         const { id } = req.params;
         const { availability } = req.query;
 
-        const result = await this.toggleSpellsAvailabilityOperation.execute({
+        const result = await this.toggleSpellsAvailabilityOperation!.execute({
             id,
             availability: availability === 'true',
         });

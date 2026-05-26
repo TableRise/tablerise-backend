@@ -87,6 +87,35 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                 }
             });
         });
+
+        context('When reset an user two factor but user does not exist', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                twoFactorHandler = new TwoFactorHandler({ configs, logger });
+
+                resetTwoFactorService = new ResetTwoFactorService({
+                    usersRepository,
+                    twoFactorHandler,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await resetTwoFactorService.reset('userId');
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
     });
 
     context('#save', () => {

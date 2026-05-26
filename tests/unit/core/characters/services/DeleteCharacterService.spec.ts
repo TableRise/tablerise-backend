@@ -130,4 +130,21 @@ describe('Core :: Characters :: Services :: DeleteCharacterService', () => {
         expect(campaignsRepository.update).to.not.have.been.called();
         expect(charactersRepository.delete).to.not.have.been.called();
     });
+
+    it('should reject deletion when the owner details are missing', async () => {
+        usersDetailsRepository.findOne = sinon.stub().resolves(null);
+
+        let thrownError;
+
+        try {
+            await deleteCharacterService.delete({
+                characterId: 'character-1',
+                userId: 'owner-user',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect((thrownError as HttpRequestErrors).message).to.equal('User does not exist');
+    });
 });

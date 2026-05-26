@@ -32,7 +32,10 @@ export default class RemoveCampaignPlayersService {
         const removedPlayer = campaign.campaignPlayers.find((player) => player.userId === userId);
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
-            (campaign) => campaign.campaignId !== campaignId
+            (storedCampaign: string | { campaignId?: string }) => {
+                if (typeof storedCampaign === 'string') return storedCampaign !== campaignId;
+                return storedCampaign?.campaignId !== campaignId;
+            }
         );
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter((player) => player.userId !== userId);

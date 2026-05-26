@@ -131,6 +131,16 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             ).to.not.throw();
 
             expect(() => schemas.patchHighlightCampaignMatchImage.query.parse({})).to.throw();
+            expect(() =>
+                schemas.patchHighlightCampaignMatchImage.query.parse({
+                    remove: 'true',
+                })
+            ).to.not.throw();
+            expect(() =>
+                schemas.patchHighlightCampaignMatchImage.query.parse({
+                    remove: 'false',
+                })
+            ).to.throw();
         });
 
         it('should validate campaign buy payloads', () => {
@@ -152,6 +162,28 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     cost: '10 gp',
                     character: 'Lia',
                     user: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                })
+            ).to.throw();
+        });
+
+        it('should validate confirm presence defaults and campaign search limits', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(
+                schemas.postConfirmPlayerPresence.query.parse({
+                    cancel: false,
+                })
+            ).to.deep.equal({ cancel: false });
+
+            expect(() =>
+                schemas.getAllCampaigns.query.parse({
+                    code: '123456',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.getAllCampaigns.query.parse({
+                    code: '1234567',
                 })
             ).to.throw();
         });

@@ -101,4 +101,33 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignPlayerNoteService', () 
         expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         expect((thrownError as HttpRequestErrors).message).to.equal('This content do not exist in the RPG system');
     });
+
+    it('should reject when the player notes list is missing', async () => {
+        campaign.campaignPlayers[0].notes = undefined as any;
+
+        let thrownError;
+
+        try {
+            await service.updateNote({
+                campaignId: campaign.campaignId as string,
+                userId: 'player-id',
+                title: 'Session Plan',
+                content: 'New content',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect((thrownError as HttpRequestErrors).message).to.equal('This content do not exist in the RPG system');
+    });
+
+    it('should persist the updated campaign', async () => {
+        const saved = await service.save(campaign);
+
+        expect(saved).to.deep.equal(campaign);
+        expect(campaignsRepository.update).to.have.been.calledWith({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
+        });
+    });
 });

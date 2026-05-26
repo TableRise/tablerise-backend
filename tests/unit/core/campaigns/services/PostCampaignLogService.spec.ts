@@ -85,4 +85,24 @@ describe('Core :: Campaigns :: Services :: PostCampaignLogService', () => {
             expect(err.name).to.equal(getErrorName(HttpStatusCode.NOT_FOUND));
         }
     });
+
+    it('should initialize logs when the campaign has no previous entries', async () => {
+        campaign.matchData.logs = undefined as any;
+
+        const result = await postCampaignLogService.createLog({
+            campaignId: campaign.campaignId as string,
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            payload: {
+                loggedAt: '2026-05-13T12:00:00.000Z',
+                content: 'First log entry',
+            },
+        });
+
+        expect(result.matchData.logs).to.deep.equal([
+            {
+                loggedAt: '2026-05-13T12:00:00.000Z',
+                content: 'First log entry',
+            },
+        ]);
+    });
 });

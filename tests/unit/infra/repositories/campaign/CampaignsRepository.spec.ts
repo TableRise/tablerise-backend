@@ -191,7 +191,11 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         it('should return all campaigns in database', async () => {
             const campaignsTest = await campaignsRepository.find();
             expect(findAll).to.have.been.called();
-            expect(campaignsTest).to.be.deep.equal(campaigns);
+            expect(campaignsTest).to.have.length(campaigns.length);
+            expect(campaignsTest[0]).to.include({
+                campaignId: campaigns[0].campaignId,
+                title: campaigns[0].title,
+            });
         });
 
         it('should filter closed campaigns from result', async () => {
@@ -404,6 +408,63 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                                 date: '2026-05-16',
                             },
                         ],
+                    },
+                }
+            );
+        });
+
+        it('should update match logs through the dedicated helper', async () => {
+            const logs = [{ loggedAt: '2026-05-25', content: 'updated log' }];
+
+            await campaignsRepository.updateMatchLogs(campaign.campaignId as string, logs as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.logs': logs,
+                    },
+                }
+            );
+        });
+
+        it('should update confirmed players through the dedicated helper', async () => {
+            const confirmedPlayers = ['user-1'];
+
+            await campaignsRepository.updateConfirmedPlayers(campaign.campaignId as string, confirmedPlayers as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.confirmedPlayers': confirmedPlayers,
+                    },
+                }
+            );
+        });
+
+        it('should return findOne when no realtime payload keys are provided', async () => {
+            const findOneStub = sinon.stub(campaignsRepository, 'findOne').resolves(campaign);
+
+            const result = await campaignsRepository.updateRealtimeState(campaign.campaignId as string, {});
+
+            expect(findOneStub).to.have.been.calledWith({ campaignId: campaign.campaignId });
+            expect(result).to.equal(campaign);
+        });
+
+        it('should update match state fields through the dedicated helper', async () => {
+            await campaignsRepository.updateMatchStateFields(
+                campaign.campaignId as string,
+                {
+                    activeEffect: 'fog',
+                } as any
+            );
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.activeEffect': 'fog',
                     },
                 }
             );

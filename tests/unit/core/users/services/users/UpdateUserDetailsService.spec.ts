@@ -114,5 +114,37 @@ describe('Core :: Users :: Services :: UpdateUserDetailsService', () => {
                 }
             });
         });
+
+        context('When update fails because the user details no longer exist', () => {
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetailsToUpdate = DomainDataFaker.mocks.updateUserDetailsMock;
+
+                usersDetailsRepository = {
+                    findOne: () => null,
+                    update: () => userDetails,
+                };
+
+                updateUserDetailsService = new UpdateUserDetailsService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await updateUserDetailsService.update({
+                        userId: userDetails.userId,
+                        payload: userDetailsToUpdate,
+                    });
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
     });
 });

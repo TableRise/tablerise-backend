@@ -66,7 +66,7 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignJournalPostService', ()
 
         expect(result.deletedPost.postId).to.be.equal('post-id');
         expect(result.campaign.infos.journal).to.have.lengthOf(0);
-        expect(result.campaign.infos.highlightedJournal).to.be.deep.equal({});
+        expect(result.campaign.infos.highlightedJournal).to.equal(null);
     });
 
     it('should allow admins to delete another author post', async () => {
@@ -114,5 +114,77 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignJournalPostService', ()
 
         expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         expect((thrownError as HttpRequestErrors).message).to.be.equal('Journal post does not exist');
+    });
+
+    it('should reject callers that are not in campaign players', async () => {
+        let thrownError;
+
+        try {
+            await service.deletePost({
+                campaignId: campaign.campaignId as string,
+                callerId: 'missing-caller',
+                userId: 'author-id',
+                postId: 'post-id',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.be.equal('This player is not in the campaign');
+    });
+
+    it('should reject missing journal posts', async () => {
+        let thrownError;
+
+        try {
+            await service.deletePost({
+                campaignId: campaign.campaignId as string,
+                callerId: 'admin-id',
+                userId: 'author-id',
+                postId: 'missing-post',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect((thrownError as HttpRequestErrors).message).to.be.equal('Journal post does not exist');
+    });
+
+    it('should keep highlightedJournal untouched when it is not the deleted post object', async () => {
+        campaign.infos.highlightedJournal = { title: 'Legacy highlight' } as any;
+
+        const result = await service.deletePost({
+            campaignId: campaign.campaignId as string,
+            callerId: 'author-id',
+            userId: 'author-id',
+            postId: 'post-id',
+        });
+
+        expect(result.campaign.infos.highlightedJournal).to.deep.equal({ title: 'Legacy highlight' });
+    });
+
+    it('should keep highlightedJournal null when there is no highlighted post', async () => {
+        campaign.infos.highlightedJournal = null as any;
+
+        const result = await service.deletePost({
+            campaignId: campaign.campaignId as string,
+            callerId: 'author-id',
+            userId: 'author-id',
+            postId: 'post-id',
+        });
+
+        expect(result.campaign.infos.highlightedJournal).to.equal(null);
+    });
+
+    it('should persist campaign updates in save', async () => {
+        const result = await service.save(campaign);
+
+        expect(campaignsRepository.update).to.have.been.calledWith({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
+        });
+        expect(result).to.equal(campaign);
     });
 });

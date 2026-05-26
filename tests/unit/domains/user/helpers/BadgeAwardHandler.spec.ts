@@ -39,6 +39,16 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         expect(userDetails.gameInfo.badges).to.include.members(['imp-badge', 'imp-rich-badge']);
     });
 
+    it('should not duplicate badges that the user already has', () => {
+        userDetails.gameInfo.badges = ['enthusiast-badge'];
+        userDetails.gameInfo.campaignsJoinedAmount = 5;
+
+        awardCampaignBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'enthusiast-badge')).to.have.length(1);
+        expect(userDetails.gameInfo.badges).to.include('student-badge');
+    });
+
     it('should award the higher closed-campaign badges at later thresholds', () => {
         userDetails.gameInfo.campaignsClosedAmount = 50;
 
@@ -51,6 +61,15 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
             'warrior-darkness-badge',
             'warrior-ancient-badge',
         ]);
+    });
+
+    it('should initialize badges when the array is missing', () => {
+        delete (userDetails.gameInfo as any).badges;
+        userDetails.gameInfo.campaignsJoinedAmount = 2;
+
+        awardCampaignBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges).to.deep.equal(['enthusiast-badge']);
     });
 
     it('should keep character badge flow disabled', () => {
@@ -74,6 +93,14 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         userDetails.gameInfo.badges = ['only-one'];
         syncRankByBadgesLength(userDetails);
-        expect(userDetails.rank).to.equal(null);
+        expect(userDetails.rank).to.equal('');
+    });
+
+    it('should keep empty rank when gameInfo or badges are missing', () => {
+        delete (userDetails as any).gameInfo;
+
+        syncRankByBadgesLength(userDetails);
+
+        expect(userDetails.rank).to.equal('');
     });
 });

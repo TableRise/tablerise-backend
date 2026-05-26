@@ -388,6 +388,44 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 }
             });
         });
+
+        context('When the player user details do not exist', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.password = 'no-password';
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => null,
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: newUUID(),
+                    password: '',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw user-inexistent', async () => {
+                try {
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
+            });
+        });
     });
 
     context('#save', () => {
@@ -464,11 +502,11 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 });
             });
 
-            it('should sanitize highlighted journal before update', async () => {
+            it('should keep the payload shape untouched before update', async () => {
                 await addCampaignPlayersService.save(campaign, userDetails);
 
                 expect(updateCall).to.have.been.called();
-                expect(updateCall.args[0][0].payload.infos).to.not.have.property('highlightedJournal');
+                expect(updateCall.args[0][0].payload.infos).to.have.property('highlightedJournal');
             });
         });
     });

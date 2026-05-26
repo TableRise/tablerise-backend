@@ -134,5 +134,58 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignService', () => {
                 }
             });
         });
+
+        it('should skip closed counter updates when a player user detail cannot be found', async () => {
+            campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
+            dungeonMasterId = newUUID();
+            playerId = newUUID();
+
+            campaign.campaignPlayers = [
+                {
+                    userId: dungeonMasterId,
+                    characterIds: [],
+                    role: 'dungeon_master',
+                    status: 'active',
+                },
+                {
+                    userId: playerId,
+                    characterIds: [],
+                    role: 'player',
+                    status: 'active',
+                },
+            ] as Player[];
+
+            deleteCampaignService = new DeleteCampaignService({
+                campaignsRepository: {
+                    findOne: sinon.stub().resolves(campaign),
+                    update: sinon.stub().callsFake(async ({ payload }) => payload),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().callsFake(async ({ userId }) =>
+                        userId === playerId
+                            ? null
+                            : {
+                                  ...UsersDomainDataFaker.generateUserDetailsJSON()[0],
+                                  userId,
+                                  gameInfo: {
+                                      campaigns: [],
+                                      characters: [],
+                                      badges: [],
+                                      campaignsClosedAmount: 1,
+                                  },
+                              }
+                    ),
+                    update: sinon.stub().resolves(),
+                },
+                logger,
+            } as any);
+
+            const updatedCampaign = await deleteCampaignService.deleteCampaign(
+                campaign.campaignId as string,
+                dungeonMasterId
+            );
+
+            expect(updatedCampaign.status).to.equal('closed');
+        });
     });
 });

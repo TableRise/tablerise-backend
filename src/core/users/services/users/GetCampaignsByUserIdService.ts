@@ -45,7 +45,7 @@ export default class GetCampaignsByUserIdService {
         const player = [] as Campaign[];
 
         userDetailsInDb.gameInfo.campaigns.forEach((campaign: string) => {
-            const campaignComplete = userCampaigns.find((userCampaign) => userCampaign.campaignId === campaign);
+            const campaignComplete = userCampaigns.find((userCampaign) => userCampaign?.campaignId === campaign);
             const playerInCampaign = campaignComplete?.campaignPlayers.find(
                 (currentPlayer) => currentPlayer.userId === userId
             );

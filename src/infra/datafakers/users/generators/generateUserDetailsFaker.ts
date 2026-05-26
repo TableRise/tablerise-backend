@@ -15,12 +15,22 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             characters: [],
             badges: [],
             bannedFromCampaigns: [],
+            charactersCreatedAmount: 0,
             campaignsJoinedAmount: 0,
             campaignsCreatedAmount: 0,
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
         },
         biography: dataGenerator.biography(),
+        rank: '',
+        cover: {
+            request: { success: true, status: 200 },
+            id: '',
+            title: '',
+            link: '',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+        },
         role: 'admin',
     } as UserDetail;
 }

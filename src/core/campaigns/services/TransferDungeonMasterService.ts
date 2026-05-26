@@ -1,5 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 export default class TransferDungeonMasterService {
     private readonly campaignsRepository;
@@ -26,18 +27,11 @@ export default class TransferDungeonMasterService {
 
         if (!target) HttpRequestErrors.throwError('campaign-player-not-exists');
 
-        campaign.campaignPlayers = campaign.campaignPlayers.map(
-            (p: {
-                userId: string;
-                characterIds: string[];
-                role: 'dungeon_master' | 'admin_player' | 'player';
-                status: 'pending' | 'active' | 'banned' | 'inactive';
-            }) => {
-                if (p.userId === userId) return { ...p, role: 'player' as const };
-                if (p.userId === userToMaster) return { ...p, role: 'dungeon_master' as const };
-                return p;
-            }
-        );
+        campaign.campaignPlayers = campaign.campaignPlayers.map((p: Player) => {
+            if (p.userId === userId) return { ...p, role: 'player' as const };
+            if (p.userId === userToMaster) return { ...p, role: 'dungeon_master' as const };
+            return p;
+        });
 
         return await this.campaignsRepository.update({
             query: { campaignId },

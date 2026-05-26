@@ -153,4 +153,30 @@ describe('Core :: Campaigns :: Services :: PostCampaignBuyService', () => {
             expect(err.name).to.equal(getErrorName(HttpStatusCode.NOT_FOUND));
         }
     });
+
+    it('should initialize buys when the campaign has none', async () => {
+        campaign.buys = undefined as any;
+
+        const result = await postCampaignBuyService.createBuy({
+            campaignId: campaign.campaignId as string,
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            payload: {
+                name: 'Torch',
+                cost: '1 gp',
+                character: 'Lia',
+                user: 'buyer-user',
+                date: '2026-05-16',
+            },
+        });
+
+        expect(result.buys).to.deep.equal([
+            {
+                name: 'Torch',
+                cost: '1 gp',
+                character: 'Lia',
+                user: 'buyer-user',
+                date: '2026-05-16',
+            },
+        ]);
+    });
 });

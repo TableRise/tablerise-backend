@@ -23,14 +23,7 @@ describe('When game info of an user is reset', () => {
             };
 
             userDetails.gameInfo.badges = ['123'];
-            userDetails.gameInfo.campaigns = [
-                {
-                    campaignId: '123',
-                    title: 'some title',
-                    role: 'player',
-                    description: 'some desc',
-                },
-            ];
+            userDetails.gameInfo.campaigns = ['123'];
             userDetails.gameInfo.characters = ['123', '123'];
 
             await InjectNewUser(user);

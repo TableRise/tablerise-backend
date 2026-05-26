@@ -76,10 +76,10 @@ export default class CharactersRepository {
         const request = await this.model.findAll(query);
         const serializedCharacters = request.map((data: CharactersDnd) => this.formatAndSerializeData(data));
         const availability = await Promise.all(
-            serializedCharacters.map(async (character) => !(await this.shouldHideCharacter(character)))
+            serializedCharacters.map(async (character: CharactersDnd) => !(await this.shouldHideCharacter(character)))
         );
 
-        return serializedCharacters.filter((_character, index) => availability[index]);
+        return serializedCharacters.filter((_character: CharactersDnd, index: number) => availability[index]);
     }
 
     public async update({ query, payload }: UpdateObj): Promise<CharactersDnd> {

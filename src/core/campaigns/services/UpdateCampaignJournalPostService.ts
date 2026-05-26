@@ -17,7 +17,7 @@ const CATEGORIES_ALLOWED_FOR_ADMIN = [
 const getHighlightedJournalPostId = (highlightedJournal: Campaign['infos']['highlightedJournal']): string | null => {
     if (typeof highlightedJournal !== 'object' || highlightedJournal === null) return null;
 
-    const highlightedPostId = (highlightedJournal as Record<string, unknown>).postId;
+    const highlightedPostId = (highlightedJournal as unknown as Record<string, unknown>).postId;
     return typeof highlightedPostId === 'string' ? highlightedPostId : null;
 };
 

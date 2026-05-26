@@ -181,5 +181,38 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                 }
             });
         });
+
+        context('When an email is updated but the user does not exist', () => {
+            before(() => {
+                updateEmailPayload = {
+                    userId: 'missing-user',
+                    email: 'testnew@email.com',
+                };
+
+                usersRepository = {
+                    findOne: sinon.spy(() => null),
+                    find: () => [],
+                    update: sinon.spy(),
+                };
+
+                updateEmailService = new UpdateEmailService({
+                    usersRepository,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await updateEmailService.update(updateEmailPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
+            });
+        });
     });
 });

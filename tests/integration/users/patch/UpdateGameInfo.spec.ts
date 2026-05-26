@@ -60,12 +60,7 @@ describe('When user game info are updated', () => {
                 const payload = {
                     infoId: userIdFakeTwo,
                     targetInfo: 'campaigns',
-                    data: {
-                        campaignId: 'string',
-                        role: 'string',
-                        title: 'string',
-                        description: 'string',
-                    },
+                    data: {},
                 };
 
                 const { body } = await requester()
@@ -78,7 +73,7 @@ describe('When user game info are updated', () => {
                     .expect(HttpStatusCode.OK);
 
                 expect(body).to.be.equal(`ID ${userIdFakeTwo} add with success to campaigns`);
-                expect(userWithGameInfoUpdated.details.gameInfo.campaigns[0].campaignId).to.be.equal('string');
+                expect(userWithGameInfoUpdated.details.gameInfo.campaigns[0]).to.be.equal(userIdFakeTwo);
             });
 
             it('should update the game info - characters', async () => {
@@ -125,14 +120,9 @@ describe('When user game info are updated', () => {
 
             it('should remove the game info - campaigns', async () => {
                 const payload = {
-                    infoId: userIdFakeThree,
+                    infoId: userIdFakeTwo,
                     targetInfo: 'campaigns',
-                    data: {
-                        campaignId: 'string',
-                        role: 'string',
-                        title: 'string',
-                        description: 'string',
-                    },
+                    data: {},
                 };
 
                 const { body } = await requester()
@@ -144,7 +134,7 @@ describe('When user game info are updated', () => {
                     .get(`/users/${user.userId}`)
                     .expect(HttpStatusCode.OK);
 
-                expect(body).to.be.equal(`ID ${userIdFakeThree} remove with success to campaigns`);
+                expect(body).to.be.equal(`ID ${userIdFakeTwo} remove with success to campaigns`);
                 expect(userWithGameInfoUpdated.details.gameInfo.campaigns).to.have.lengthOf(0);
             });
 

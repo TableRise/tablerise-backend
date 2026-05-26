@@ -44,6 +44,118 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
             expect(result).to.have.property('firstName');
             expect(result.firstName).to.be.equal('Jully');
         });
+
+        it('should persist raw gameInfo counters when a raw collection exists', async () => {
+            const updateOne = sinon.stub().resolves();
+            const rawFindOne = sinon.stub().resolves({
+                userId: 'user-1',
+                userDetailId: 'detail-1',
+                firstName: 'Jully',
+                gameInfo: {
+                    campaignsCreatedAmount: 3,
+                },
+            });
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              create,
+                              _model: {
+                                  collection: {
+                                      updateOne,
+                                      findOne: rawFindOne,
+                                  },
+                              },
+                          }
+                        : {
+                              findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await usersDetailsRepository.create({
+                firstName: 'Jully',
+                gameInfo: {
+                    campaignsCreatedAmount: 3,
+                },
+            } as UserDetail);
+
+            expect(updateOne).to.have.been.calledOnce();
+            expect(result.gameInfo.campaignsCreatedAmount).to.equal(3);
+        });
+
+        it('should skip raw persistence when the payload has no numeric campaignsCreatedAmount', async () => {
+            const updateOne = sinon.stub().resolves();
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              create,
+                              _model: {
+                                  collection: {
+                                      updateOne,
+                                      findOne: sinon.stub().resolves({ firstName: 'Jully' }),
+                                  },
+                              },
+                          }
+                        : {
+                              findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            await usersDetailsRepository.create({
+                firstName: 'Jully',
+                gameInfo: {} as any,
+            } as UserDetail);
+
+            expect(updateOne).to.not.have.been.called();
+        });
+
+        it('should create without raw persistence when the raw collection has no updateOne', async () => {
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              create,
+                              _model: {
+                                  collection: {
+                                      findOne: sinon.stub().resolves({ firstName: 'Jully' }),
+                                  },
+                              },
+                          }
+                        : {
+                              findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await usersDetailsRepository.create({
+                firstName: 'Jully',
+            } as UserDetail);
+
+            expect(result.firstName).to.equal('Jully');
+        });
     });
 
     context('#find', () => {
@@ -126,7 +238,77 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
 
             const result = await usersDetailsRepository.find({});
 
-            expect(result).to.deep.equal([{ userId: 'user-1', firstName: 'Jully' }]);
+            expect(result).to.have.lengthOf(1);
+            expect(result[0]).to.include({ userId: 'user-1', firstName: 'Jully' });
+            expect(result[0].gameInfo).to.deep.equal({
+                campaigns: [],
+                characters: [],
+                badges: [],
+                charactersCreatedAmount: 0,
+                campaignsJoinedAmount: 0,
+                campaignsCreatedAmount: 0,
+                campaignsClosedAmount: 0,
+                equipBoughtAmount: 0,
+            });
+        });
+
+        it('should prefer the raw collection when available', async () => {
+            const toArray = sinon.stub().resolves([{ userId: 'user-1', firstName: 'Raw User' }]);
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              _model: {
+                                  collection: {
+                                      find: sinon.stub().returns({ toArray }),
+                                  },
+                              },
+                              findAll: sinon.stub().throws(new Error('should not use findAll')),
+                          }
+                        : {
+                              findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await usersDetailsRepository.find({});
+
+            expect(toArray).to.have.been.calledOnce();
+            expect(result[0].firstName).to.equal('Raw User');
+        });
+
+        it('should keep user details visible when the linked user lookup returns nothing', async () => {
+            findAll.returns([{ userId: 'user-1', firstName: 'Jully' }]);
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails'
+                        ? {
+                              findAll,
+                          }
+                        : {
+                              findOne: sinon.stub().returns(null),
+                          },
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await usersDetailsRepository.find({});
+
+            expect(result).to.have.length(1);
+            expect(result[0].firstName).to.equal('Jully');
         });
     });
 
@@ -208,6 +390,60 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
 
                 expect(result).to.equal(null);
             });
+
+            it('should not try to hide a detail when userId is missing', async () => {
+                findOne.returns({ firstName: 'Anonymous detail' });
+
+                const result = await usersDetailsRepository.findOne({
+                    firstName: 'Anonymous detail',
+                });
+
+                expect(result.firstName).to.equal('Anonymous detail');
+            });
+
+            it('should fallback to model.findOne when no raw collection exists', async () => {
+                const result = await usersDetailsRepository.findOne({
+                    firstName: 'Jully',
+                });
+
+                expect(findOne).to.have.been.calledOnce();
+                expect(result.firstName).to.equal('Jully');
+            });
+
+            it('should prefer raw findOne over model.findOne when available', async () => {
+                const rawFindOne = sinon.stub().resolves({ userId: 'user-1', firstName: 'Raw Jully' });
+                findOne = sinon.stub().throws(new Error('should not use model.findOne'));
+
+                database = {
+                    modelInstance: (_scope: string, modelName: string) =>
+                        modelName === 'UserDetails'
+                            ? {
+                                  findOne,
+                                  _model: {
+                                      collection: {
+                                          findOne: rawFindOne,
+                                      },
+                                  },
+                              }
+                            : {
+                                  findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                              },
+                };
+
+                usersDetailsRepository = new UsersDetailsRepository({
+                    updateTimestampRepository,
+                    database,
+                    serializer,
+                    logger,
+                });
+
+                const result = await usersDetailsRepository.findOne({
+                    firstName: 'Raw Jully',
+                });
+
+                expect(rawFindOne).to.have.been.calledOnce();
+                expect(result.firstName).to.equal('Raw Jully');
+            });
         });
 
         context('when is not found', () => {
@@ -279,6 +515,100 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 expect(update).to.have.been.called();
                 expect(result).to.have.property('firstName');
                 expect(result.firstName).to.be.equal('Jully May');
+            });
+
+            it('should persist raw counters and reread the raw document when available', async () => {
+                const updateOne = sinon.stub().resolves();
+                const rawFindOne = sinon.stub().resolves({
+                    userId: 'user-1',
+                    firstName: 'Jully May',
+                    gameInfo: {
+                        campaignsCreatedAmount: 9,
+                    },
+                });
+
+                updateTimestampRepository = {
+                    updateTimestamp: sinon.stub().resolves(),
+                };
+
+                database = {
+                    modelInstance: (_scope: string, modelName: string) =>
+                        modelName === 'UserDetails'
+                            ? {
+                                  update,
+                                  _model: {
+                                      collection: {
+                                          updateOne,
+                                          findOne: rawFindOne,
+                                      },
+                                  },
+                              }
+                            : {
+                                  findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                              },
+                };
+
+                usersDetailsRepository = new UsersDetailsRepository({
+                    updateTimestampRepository,
+                    database,
+                    serializer,
+                    logger,
+                });
+
+                const result = await usersDetailsRepository.update({
+                    query: { firstName: 'Jully' },
+                    payload: {
+                        firstName: 'Jully May',
+                        gameInfo: {
+                            campaignsCreatedAmount: 9,
+                        },
+                    },
+                });
+
+                expect(updateOne).to.have.been.calledOnce();
+                expect(rawFindOne).to.have.been.calledOnce();
+                expect(result.gameInfo.campaignsCreatedAmount).to.equal(9);
+            });
+
+            it('should skip raw counter persistence during update when campaignsCreatedAmount is absent', async () => {
+                const updateOne = sinon.stub().resolves();
+
+                updateTimestampRepository = {
+                    updateTimestamp: sinon.stub().resolves(),
+                };
+
+                database = {
+                    modelInstance: (_scope: string, modelName: string) =>
+                        modelName === 'UserDetails'
+                            ? {
+                                  update,
+                                  _model: {
+                                      collection: {
+                                          updateOne,
+                                          findOne: sinon.stub().resolves({ userId: 'user-1', firstName: 'Jully May' }),
+                                      },
+                                  },
+                              }
+                            : {
+                                  findOne: sinon.stub().returns({ inProgress: { status: 'done' } }),
+                              },
+                };
+
+                usersDetailsRepository = new UsersDetailsRepository({
+                    updateTimestampRepository,
+                    database,
+                    serializer,
+                    logger,
+                });
+
+                await usersDetailsRepository.update({
+                    query: { firstName: 'Jully' },
+                    payload: {
+                        firstName: 'Jully May',
+                    },
+                });
+
+                expect(updateOne).to.not.have.been.called();
             });
         });
 

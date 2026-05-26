@@ -151,5 +151,45 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
                 }
             });
         });
+
+        context('When sendEmail fail because the user does not exist', () => {
+            before(() => {
+                usersRepository = {
+                    findOne: () => null,
+                    update: sinon.spy(() => ({})),
+                };
+
+                emailSender = {
+                    send: sinon.spy(),
+                };
+
+                payload = {
+                    email: 'oldEmail',
+                    flow: 'update-password',
+                };
+
+                verifyEmailService = new VerifyEmailService({
+                    usersRepository,
+                    stateMachine,
+                    emailSender,
+                    httpRequestErrors,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error before sending email', async () => {
+                try {
+                    await verifyEmailService.sendEmail(payload);
+
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(emailSender.send).to.not.have.been.called();
+                }
+            });
+        });
     });
 });

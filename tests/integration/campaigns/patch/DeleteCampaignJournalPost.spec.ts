@@ -14,18 +14,21 @@ describe('When deleting a campaign journal post', () => {
             {
                 userId: authenticatedUserId,
                 characterIds: [],
+                notes: [],
                 role: 'player',
                 status: 'active',
             },
             {
                 userId: 'f4edb741-65cb-432f-bf04-796fc1dcbadf',
                 characterIds: [],
+                notes: [],
                 role: 'admin_player',
                 status: 'active',
             },
             {
                 userId: 'c3d2d6d0-0bb8-4b57-81a0-d5ece96d719d',
                 characterIds: [],
+                notes: [],
                 role: 'player',
                 status: 'active',
             },
@@ -47,10 +50,10 @@ describe('When deleting a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         await requester()
-            .patch(
+            .delete(
                 `/campaigns/${
                     campaign.campaignId as string
-                }/journal/delete?userId=${authenticatedUserId}&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
+                }/delete/journal?userId=${authenticatedUserId}&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
             )
             .expect(HttpStatusCode.NO_CONTENT);
 
@@ -68,10 +71,10 @@ describe('When deleting a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         await requester()
-            .patch(
+            .delete(
                 `/campaigns/${
                     campaign.campaignId as string
-                }/journal/delete?userId=6d1155b7-7c30-4b0f-890e-1f665fb692d2&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
+                }/delete/journal?userId=6d1155b7-7c30-4b0f-890e-1f665fb692d2&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
             )
             .expect(HttpStatusCode.NO_CONTENT);
     });
@@ -83,10 +86,10 @@ describe('When deleting a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         const { body } = await requester()
-            .patch(
+            .delete(
                 `/campaigns/${
                     campaign.campaignId as string
-                }/journal/delete?userId=c3d2d6d0-0bb8-4b57-81a0-d5ece96d719d&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
+                }/delete/journal?userId=c3d2d6d0-0bb8-4b57-81a0-d5ece96d719d&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
             )
             .expect(HttpStatusCode.BAD_REQUEST);
 
@@ -97,10 +100,10 @@ describe('When deleting a campaign journal post', () => {
         await InjectNewCampaign(campaign);
 
         await requester()
-            .patch(
+            .delete(
                 `/campaigns/${
                     campaign.campaignId as string
-                }/journal/delete?userId=${authenticatedUserId}&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
+                }/delete/journal?userId=${authenticatedUserId}&postId=12cd093b-0a8a-42fe-910f-001f2ab28450`
             )
             .expect(HttpStatusCode.NO_CONTENT);
 

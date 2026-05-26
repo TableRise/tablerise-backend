@@ -33,7 +33,16 @@ export default class StateMachineFlowsMiddleware {
 
         if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
-        await this.stateMachine.machine(flow as stateFlowsKeys, userInDb);
+        if (this.stateMachine) {
+            await this.stateMachine.machine(flow as stateFlowsKeys, userInDb);
+        } else {
+            userInDb.inProgress.currentFlow = flow as string;
+
+            await this.usersRepository.update({
+                query: { userId: userInDb.userId },
+                payload: userInDb,
+            });
+        }
         next();
     }
 }

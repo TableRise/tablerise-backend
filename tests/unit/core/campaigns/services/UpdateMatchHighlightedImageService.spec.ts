@@ -80,4 +80,21 @@ describe('Core :: Campaigns :: Services :: UpdateMatchHighlightedImageService', 
             payload: campaign,
         });
     });
+
+    it('should throw when the campaign has no image gallery', async () => {
+        campaign.matchData = null as any;
+
+        let thrownError;
+
+        try {
+            await updateMatchHighlightedImageService.updateMatchHighlightedImage({
+                campaignId: campaign.campaignId as string,
+                imageId: 'image-1',
+            });
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect((thrownError as Error).message).to.equal('This content do not exist in the RPG system');
+    });
 });

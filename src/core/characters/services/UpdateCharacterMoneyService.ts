@@ -27,7 +27,8 @@ export default class UpdateCharacterMoneyService {
         const characterInDb = await this.charactersRepository.findOne({ characterId });
         const unitKey = UNIT_MAP[moneyType];
         if (!unitKey) HttpRequestErrors.throwError('query-string-incorrect');
-        const current = (characterInDb.data.money as any)[unitKey] ?? 0;
+        const currentValue = (characterInDb.data.money as any)[unitKey];
+        const current = typeof currentValue === 'number' ? currentValue : 0;
         let updated = current;
         if (operation === 'add') updated += money;
         else if (operation === 'subtract') updated -= money;

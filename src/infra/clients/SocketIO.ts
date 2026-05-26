@@ -867,7 +867,7 @@ export default class SocketIO {
         if (dirtySections.matchStateFields.size) {
             const matchStateFields: MatchStatePatch = {};
             dirtySections.matchStateFields.forEach((field) => {
-                matchStateFields[field] = campaign.matchData.state[field];
+                (matchStateFields as any)[field] = campaign.matchData.state[field];
             });
             payload.matchStateFields = matchStateFields;
         }
@@ -913,7 +913,7 @@ export default class SocketIO {
         const mergedCampaign = ensureBaseTokens(hydrateRealtimeCampaign(persistedCampaign));
 
         dirtySections.matchStateFields.forEach((field) => {
-            mergedCampaign.matchData.state[field] = cachedCampaign.matchData.state[field];
+            (mergedCampaign.matchData.state as any)[field] = cachedCampaign.matchData.state[field];
         });
 
         if (dirtySections.tokens) mergedCampaign.matchData.state.tokens = cachedCampaign.matchData.state.tokens;

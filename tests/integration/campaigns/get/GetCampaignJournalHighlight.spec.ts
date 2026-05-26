@@ -13,6 +13,7 @@ describe('When recovering the highlighted journal post of a campaign', () => {
 
     it('should return the stored highlighted journal post', async () => {
         campaign.infos.highlightedJournal = {
+            postId: 'highlight-post-id',
             title: 'Pinned note',
             author: campaign.campaignPlayers[0],
             content: 'The bridge is destroyed.',
@@ -31,7 +32,7 @@ describe('When recovering the highlighted journal post of a campaign', () => {
     });
 
     it('should return an empty object when the highlight is cleared', async () => {
-        campaign.infos.highlightedJournal = {} as Campaign['infos']['highlightedJournal'];
+        campaign.infos.highlightedJournal = null as Campaign['infos']['highlightedJournal'];
 
         await InjectNewCampaign(campaign);
 

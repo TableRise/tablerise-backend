@@ -20,8 +20,10 @@ export default class UpdateCampaignPlayerNoteOperation {
 
         const { campaign } = await this.updateCampaignPlayerNoteService.updateNote(payload);
         const savedCampaign = await this.updateCampaignPlayerNoteService.save(campaign);
-        const player = savedCampaign.campaignPlayers.find((campaignPlayer) => campaignPlayer.userId === payload.userId);
+        const player = savedCampaign.campaignPlayers.find(
+            (campaignPlayer: (typeof savedCampaign.campaignPlayers)[number]) => campaignPlayer.userId === payload.userId
+        );
 
-        return player.notes.find((note: PlayerNotes) => note.title === payload.title) as PlayerNotes;
+        return player?.notes.find((note: PlayerNotes) => note.title === payload.title) as PlayerNotes;
     }
 }

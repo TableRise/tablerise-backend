@@ -19,7 +19,11 @@ export default ({ routesWrapper }: { routesWrapper: RoutesWrapper }): Router => 
         router.get(`${routePath}/swagger.json`, (_req: Request, res: Response) => {
             res.json(swaggerDocument);
         });
-        router.use(routePath, swaggerUI.serveFiles(null, swaggerOptions), swaggerUI.setup(null, swaggerOptions));
+        router.use(
+            routePath,
+            swaggerUI.serveFiles(undefined, swaggerOptions),
+            swaggerUI.setup(undefined, swaggerOptions)
+        );
     };
 
     autoSwagger(routesWrapper.declareRoutes()['dungeons&dragons5e'], {

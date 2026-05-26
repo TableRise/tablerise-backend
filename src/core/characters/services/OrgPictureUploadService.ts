@@ -23,16 +23,19 @@ export default class OrgPictureUploadService {
         const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
         this.logger('info', callName);
         const characterInDb = await this.characterRepository.findOne({ characterId });
-        const allyOrOrgIndex = characterInDb.data.profile.characteristics.alliesAndOrgs.findIndex(
-            (ally) => ally.orgName === orgName
-        );
+        const alliesAndOrgs = characterInDb.data.profile.characteristics.alliesAndOrgs;
+
+        if (!Array.isArray(alliesAndOrgs)) {
+            throw new Error('Organizations are not configured for this character');
+        }
+
+        const allyOrOrgIndex = alliesAndOrgs.findIndex((ally: { orgName: string }) => ally.orgName === orgName);
 
         if (allyOrOrgIndex === -1) {
             throw new Error('Organization not found');
         }
 
-        characterInDb.data.profile.characteristics.alliesAndOrgs[allyOrOrgIndex].symbol =
-            await this.imageStorageClient.upload(image);
+        alliesAndOrgs[allyOrOrgIndex].symbol = await this.imageStorageClient.upload(image);
 
         return this.characterRepository.update({
             query: { characterId: characterInDb.characterId },

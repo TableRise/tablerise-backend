@@ -60,11 +60,11 @@ export const rollDiceNotation = (notation: string): DiceRollResult => {
 
     parsedTerms.forEach((term) => {
         if (term.type === 'modifier') {
-            total += term.sign * (term.value ?? 0);
+            total += term.sign * (term.value as number);
             return;
         }
 
-        for (let index = 0; index < (term.count ?? 0); index += 1) {
+        for (let index = 0; index < (term.count as number); index += 1) {
             const result = rollDie(term.sides as number);
             rolls.push(result);
             total += term.sign * result;

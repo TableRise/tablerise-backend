@@ -20,7 +20,7 @@ export default class UpdateMatchMusicsService {
         const callName = `[${this.constructor.name}] - ${this.addMatchMusic.name}`;
         this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
-        campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
+        campaign.musics = campaign.musics ?? [];
 
         const musicWithSameLinkExists = campaign.musics.find((music) => music.id === id);
 
@@ -39,7 +39,7 @@ export default class UpdateMatchMusicsService {
         const callName = `[${this.constructor.name}] - ${this.removeMatchMusic.name}`;
         this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
-        campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
+        campaign.musics = campaign.musics ?? [];
 
         campaign.musics = campaign.musics.filter((music) => music.id !== id);
 
@@ -54,7 +54,7 @@ export default class UpdateMatchMusicsService {
         const callName = `[${this.constructor.name}] - ${this.editMatchMusic.name}`;
         this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
-        campaign.musics = campaign.musics ?? campaign.matchData?.musics ?? [];
+        campaign.musics = campaign.musics ?? [];
 
         campaign.musics = campaign.musics.map((music) => (music.id === id ? { ...music, title, thumbnail } : music));
 

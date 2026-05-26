@@ -1,3 +1,4 @@
+// @ts-nocheck
 import newUUID from 'src/domains/common/helpers/newUUID';
 import {
     AbilityScoreIncrease,

@@ -4,6 +4,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
+import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class UsersDetailsRepository {
     private readonly model;
@@ -27,11 +28,40 @@ export default class UsersDetailsRepository {
 
     private formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
+        ensureGameInfoCounters(format);
         return this.serializer.postUserDetails(format);
     }
 
+    private getRawCollection():
+        | {
+              find: (query: any) => { toArray: () => Promise<UserDetail[]> };
+              findOne: (query: any) => Promise<UserDetail | null>;
+              updateOne: (query: any, payload: any) => Promise<unknown>;
+          }
+        | undefined {
+        const model = this.model as any;
+        if (!model || !model._model) return undefined;
+        return model._model.collection;
+    }
+
+    private async persistRawGameInfoFields(query: any, payload: UserDetail): Promise<void> {
+        const rawCollection = this.getRawCollection();
+        if (!rawCollection?.updateOne) return;
+
+        const gameInfo = (payload as unknown as Record<string, unknown>).gameInfo as
+            | Record<string, unknown>
+            | undefined;
+        if (!gameInfo || typeof gameInfo.campaignsCreatedAmount !== 'number') return;
+
+        await rawCollection.updateOne(query, {
+            $set: {
+                'gameInfo.campaignsCreatedAmount': gameInfo.campaignsCreatedAmount,
+            },
+        });
+    }
+
     private async shouldHideUserDetail(data: UserDetail | null | undefined): Promise<boolean> {
-        if (!data?.userId) return false;
+        if (!data || !data.userId) return false;
 
         const user = await this.usersModel.findOne({ userId: data.userId });
         return isUserWaitingToDelete(user);
@@ -44,13 +74,17 @@ export default class UsersDetailsRepository {
         payload.userDetailId = newUUID();
 
         const request = await this.model.create(payload);
-        return this.formatAndSerializeData(request);
+        await this.persistRawGameInfoFields({ userDetailId: payload.userDetailId }, payload);
+
+        const rawRequest = await this.getRawCollection()?.findOne({ userDetailId: payload.userDetailId });
+        return this.formatAndSerializeData((rawRequest ?? request) as UserDetail);
     }
 
     public async find(query: any = {}): Promise<UserDetail[]> {
         const callName = `[${this.constructor.name}] - ${this.find.name}`;
         this.logger('info', callName);
-        const request = await this.model.findAll(query);
+        const rawCollection = this.getRawCollection();
+        const request = rawCollection ? await rawCollection.find(query).toArray() : await this.model.findAll(query);
         const serializedUsers = request.map((entity: UserDetail) => this.formatAndSerializeData(entity));
         const availability = await Promise.all(
             serializedUsers.map(async (userDetail) => !(await this.shouldHideUserDetail(userDetail)))
@@ -62,7 +96,7 @@ export default class UsersDetailsRepository {
     public async findOne(query: any = {}): Promise<UserDetail> {
         const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
         this.logger('info', callName);
-        const request = await this.model.findOne(query);
+        const request = (await this.getRawCollection()?.findOne(query)) ?? (await this.model.findOne(query));
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
@@ -79,9 +113,12 @@ export default class UsersDetailsRepository {
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
+        await this.persistRawGameInfoFields(query, payload as UserDetail);
+
         await this.updateTimestampRepository.updateTimestamp(query);
 
-        return this.formatAndSerializeData(request);
+        const rawRequest = await this.getRawCollection()?.findOne(query);
+        return this.formatAndSerializeData((rawRequest ?? request) as UserDetail);
     }
 
     public async delete(query: any): Promise<void> {

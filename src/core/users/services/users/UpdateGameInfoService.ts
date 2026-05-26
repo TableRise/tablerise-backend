@@ -3,6 +3,7 @@ import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependenc
 import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
 import { syncRankByBadgesLength } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class UpdateGameInfoService {
     private readonly logger;
@@ -66,8 +67,10 @@ export default class UpdateGameInfoService {
         this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
+        ensureGameInfoCounters(userDetailInDb);
+        const gameInfo = userDetailInDb.gameInfo as UpdateGameInfoProcessPayload['gameInfo'];
 
-        userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
+        userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo, data });
         if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
 
         await this.usersDetailsRepository.update({
@@ -83,8 +86,10 @@ export default class UpdateGameInfoService {
         this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
+        ensureGameInfoCounters(userDetailInDb);
+        const gameInfo = userDetailInDb.gameInfo as UpdateGameInfoProcessPayload['gameInfo'];
 
-        userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo: userDetailInDb.gameInfo, data });
+        userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo, data });
         if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
 
         await this.usersDetailsRepository.update({

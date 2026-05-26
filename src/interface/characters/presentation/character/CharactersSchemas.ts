@@ -4,22 +4,24 @@ import { ICharactersSchemas } from 'src/types/modules/interface/characters/prese
 // ─── POST (create) ────────────────────────────────────────────────────────────
 
 const appearanceCharacterZodSchema = z.object({
+    description: z.string(),
     eyes: z.string(),
     age: z.string(),
     weight: z.string(),
     height: z.string(),
     skin: z.string(),
     hair: z.string(),
+    picture: z.any().optional(),
 });
 
 const otherCharacterZodSchema = z.object({
-    proficiencies: z.string(),
-    extraCharacteristics: z.string(),
+    characteristicsAndAbilities: z.string(),
 });
 
 const characteristicsCharacterZodSchema = z.object({
     alignment: z.string(),
     backstory: z.string(),
+    background: z.string(),
     personalityTraits: z.string(),
     ideals: z.string(),
     bonds: z.string(),
@@ -34,8 +36,8 @@ const profileCharacterZodSchema = z.object({
     name: z.string(),
     class: z.string(),
     race: z.string(),
-    level: z.number().default(0).optional(),
-    xp: z.number().default(0).optional(),
+    level: z.number(),
+    xp: z.number(),
     characteristics: characteristicsCharacterZodSchema,
 });
 
@@ -66,7 +68,7 @@ const spellCastingCharacterZodSchema = z.object({
 });
 
 const statsCharacterZodSchema = z.object({
-    abilityScores: z.array(abilityScoresZodSchema).optional(),
+    abilityScores: z.array(abilityScoresZodSchema),
     skills: z.array(z.object({ name: z.string(), value: z.number(), checked: z.boolean() })).optional(),
     proficiencyBonus: z.number(),
     inspiration: z.number(),
@@ -75,7 +77,7 @@ const statsCharacterZodSchema = z.object({
     initiative: z.number(),
     armorClass: z.number(),
     hitPoints: hitPointsCharacterZodSchema,
-    deathSaves: deathSavesCharacterZodSchema.optional(),
+    deathSaves: deathSavesCharacterZodSchema,
     spellCasting: spellCastingCharacterZodSchema,
 });
 
@@ -94,7 +96,7 @@ const spellLevelCharacterZodSchema = z.object({
 });
 
 const extraAbilityLevelCharacterZodSchema = z.object({
-    extraAbilities: z.array(z.string()),
+    extraAbilityNames: z.array(z.string()),
     slotsTotal: z.number(),
     slotsExpended: z.number(),
 });
@@ -129,9 +131,10 @@ const dataCharacterZodSchema = z.object({
     profile: profileCharacterZodSchema,
     stats: statsCharacterZodSchema,
     inventory: z.string(),
-    money: moneyCharacterZodSchema.optional(),
-    spells: spellsCharacterZodSchema.optional(),
-    extraAbilities: extraAbilitiesCharacterZodSchema.optional(),
+    equipments: z.array(z.any()).optional(),
+    money: moneyCharacterZodSchema,
+    spells: spellsCharacterZodSchema,
+    extraAbilities: extraAbilitiesCharacterZodSchema,
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });
@@ -144,23 +147,24 @@ const characterPostZodSchema = z.object({
 // ─── PUT (update) ─────────────────────────────────────────────────────────────
 
 const appearanceUpdateZodSchema = z.object({
+    description: z.string().optional(),
     eyes: z.string().optional(),
     age: z.string().optional(),
     weight: z.string().optional(),
     height: z.string().optional(),
     skin: z.string().optional(),
     hair: z.string().optional(),
+    picture: z.any().optional(),
 });
 
 const otherUpdateZodSchema = z.object({
-    languagesAndProficiencies: z.string().optional(),
     characteristicsAndAbilities: z.string().optional(),
-    characteristicsAndAdditionalAbilities: z.string().optional(),
 });
 
 const characteristicsUpdateZodSchema = z.object({
     alignment: z.string().optional(),
     backstory: z.string().optional(),
+    background: z.string().optional(),
     personalityTraits: z.string().optional(),
     ideals: z.string().optional(),
     bonds: z.string().optional(),

@@ -39,4 +39,30 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignPlayerNoteOperation',
         expect(updateCampaignPlayerNoteService.save).to.have.been.calledWith(campaign);
         expect(result).to.deep.equal({ title: 'Session Plan', content: 'New content' });
     });
+
+    it('should return undefined when the saved campaign no longer contains the player note', async () => {
+        const campaign = {
+            campaignPlayers: [],
+        };
+        const updateCampaignPlayerNoteService = {
+            updateNote: sinon.stub().resolves({
+                campaign,
+                updatedNote: { title: 'Session Plan', content: 'New content' },
+            }),
+            save: sinon.stub().resolves(campaign),
+        };
+        const operation = new UpdateCampaignPlayerNoteOperation({
+            updateCampaignPlayerNoteService: updateCampaignPlayerNoteService as any,
+            logger: (): void => {},
+        } as any);
+
+        const result = await operation.execute({
+            campaignId: 'campaign-id',
+            userId: 'missing-player',
+            title: 'Session Plan',
+            content: 'New content',
+        });
+
+        expect(result).to.equal(undefined);
+    });
 });
