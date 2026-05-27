@@ -8,10 +8,7 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 
 describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
-    let postInvitationEmailService: PostInvitationEmailService,
-        campaign: Campaign,
-        emailSender: any,
-        payload: any;
+    let postInvitationEmailService: PostInvitationEmailService, campaign: Campaign, emailSender: any, payload: any;
     let httpRequestErrors: HttpRequestErrors = {} as HttpRequestErrors;
 
     const logger = (): void => {};

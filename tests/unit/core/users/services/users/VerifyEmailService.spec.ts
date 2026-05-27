@@ -9,11 +9,7 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import StateMachine from 'src/domains/common/StateMachine';
 
 describe('Core :: Users :: Services :: VerifyEmailService', () => {
-    let verifyEmailService: VerifyEmailService,
-        usersRepository: any,
-        emailSender: any,
-        user: User,
-        payload: any;
+    let verifyEmailService: VerifyEmailService, usersRepository: any, emailSender: any, user: User, payload: any;
     let httpRequestErrors: HttpRequestErrors = {} as HttpRequestErrors;
 
     const logger = (): void => {};
