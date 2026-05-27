@@ -13,4 +13,4 @@ export interface GetAllCampaignsServiceContract {
     logger: Logger;
 }
 
-export { GetAllCampaignsQuery };
+export type { GetAllCampaignsQuery };

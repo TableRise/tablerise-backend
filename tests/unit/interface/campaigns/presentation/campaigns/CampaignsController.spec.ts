@@ -861,7 +861,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
     context('#addPlayerCharacterOperation', () => {
         const request = {} as Request;
         const response = {} as Response;
-        const userId = newUUID();
 
         beforeEach(() => {
             response.status = sinon.spy(() => response);

@@ -5,9 +5,9 @@ import GetSpellOperation from 'src/core/dungeons&dragons5e/operations/spells/Get
 import ToggleSpellsAvailabilityOperation from 'src/core/dungeons&dragons5e/operations/spells/ToggleSpellsAvailabilityOperation';
 
 export interface SpellsControllerContract {
-    getAllSpellsOperation?: GetAllSpellsOperation;
-    getSpellOperation?: GetSpellOperation;
-    getDisabledSpellsOperation?: GetDisabledSpellsOperation;
-    getByLevelOperation?: GetByLevelOperation;
-    toggleSpellsAvailabilityOperation?: ToggleSpellsAvailabilityOperation;
+    getAllSpellsOperation: GetAllSpellsOperation;
+    getSpellOperation: GetSpellOperation;
+    getDisabledSpellsOperation: GetDisabledSpellsOperation;
+    getByLevelOperation: GetByLevelOperation;
+    toggleSpellsAvailabilityOperation: ToggleSpellsAvailabilityOperation;
 }

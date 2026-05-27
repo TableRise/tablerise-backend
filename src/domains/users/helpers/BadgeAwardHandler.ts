@@ -1,11 +1,11 @@
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { ensureGameInfoCounters, UserGameInfoCounterKey } from './GameInfoCounters';
 
-type CounterBadgeRule = {
+interface CounterBadgeRule {
     counter: UserGameInfoCounterKey;
     amount: number;
     badge: string;
-};
+}
 
 export const CAMPAIGN_BADGE_RULES = [
     { counter: 'campaignsJoinedAmount', amount: 2, badge: 'enthusiast-badge' },

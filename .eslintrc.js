@@ -4,7 +4,16 @@ module.exports = {
         node: true,
     },
     extends: ['standard-with-typescript', 'prettier'],
-    overrides: [],
+    overrides: [
+        {
+            files: ['tests/**/*.ts'],
+            rules: {
+                '@typescript-eslint/no-unused-expressions': 0,
+                '@typescript-eslint/explicit-function-return-type': 0,
+                'new-cap': 0,
+            },
+        },
+    ],
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',

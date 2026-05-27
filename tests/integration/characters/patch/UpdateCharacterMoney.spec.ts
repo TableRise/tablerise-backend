@@ -158,7 +158,7 @@ describe('When a character money is updated', () => {
 
     it('should add PL to pp in the response payload', async () => {
         const { body } = await requester()
-            .patch(`/characters/${character.characterId as string}/update/money`)
+            .patch(`/characters/${character.characterId}/update/money`)
             .send({
                 operation: 'add',
                 money: 3,

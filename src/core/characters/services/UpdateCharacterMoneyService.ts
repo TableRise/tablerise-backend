@@ -36,7 +36,7 @@ export default class UpdateCharacterMoneyService {
         (characterInDb.data.money as any)[unitKey] = updated;
         return this.charactersRepository.update({
             query: { characterId },
-            payload: characterInDb as CharactersDnd,
+            payload: characterInDb,
         });
     }
 }

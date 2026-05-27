@@ -28,7 +28,7 @@ const [
         createdAt,
         updatedAt,
     },
-] = generateCampaignsJSON() as Array<any>;
+] = generateCampaignsJSON() as any[];
 
 const mocks = {
     campaignMock: {

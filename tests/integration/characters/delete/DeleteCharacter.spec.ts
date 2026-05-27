@@ -1,7 +1,6 @@
 import DatabaseManagement from '@tablerise/database-management';
 import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import { CharactersDnd } from '@tablerise/database-management/dist/src/interfaces/CharactersDnd';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -188,7 +187,7 @@ describe('When deleting a character', () => {
         campaign.campaignPlayers = [
             {
                 userId: authenticatedUserId,
-                characterIds: [character.characterId as string, 'other-character'],
+                characterIds: [character.characterId, 'other-character'],
                 role: 'player',
                 status: 'active',
             },
@@ -201,13 +200,9 @@ describe('When deleting a character', () => {
         await InjectNewCampaign(campaign);
         await InjectNewCharacter(character);
 
-        await requester()
-            .delete(`/characters/${character.characterId as string}/delete`)
-            .expect(HttpStatusCode.NO_CONTENT);
+        await requester().delete(`/characters/${character.characterId}/delete`).expect(HttpStatusCode.NO_CONTENT);
 
-        await requester()
-            .get(`/characters/${character.characterId as string}`)
-            .expect(HttpStatusCode.NOT_FOUND);
+        await requester().get(`/characters/${character.characterId}`).expect(HttpStatusCode.NOT_FOUND);
 
         const { body: authenticatedUserUpdated } = await requester()
             .get(`/users/${authenticatedUserId}`)
@@ -219,8 +214,8 @@ describe('When deleting a character', () => {
     });
 
     it('should reject deletion when the authenticated user does not own the character', async () => {
-        const anotherUser = UsersDomainDataFaker.generateUsersJSON()[0] as User;
-        const character = buildCharacter(anotherUser.userId as string);
+        const anotherUser = UsersDomainDataFaker.generateUsersJSON()[0];
+        const character = buildCharacter(anotherUser.userId);
 
         await InjectNewUser(anotherUser);
         character.author.nickname = anotherUser.nickname;
@@ -228,7 +223,7 @@ describe('When deleting a character', () => {
         await InjectNewCharacter(character);
 
         const { body } = await requester()
-            .delete(`/characters/${character.characterId as string}/delete`)
+            .delete(`/characters/${character.characterId}/delete`)
             .expect(HttpStatusCode.BAD_REQUEST);
 
         expect(body.message).to.equal('The operation is forbidden for this role');

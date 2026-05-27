@@ -36,7 +36,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
 
     it('should add PL to pp', async () => {
         const result = await updateCharacterMoneyService.update({
-            characterId: character.characterId as string,
+            characterId: character.characterId,
             operation: 'add',
             money: 3,
             moneyType: 'PL',
@@ -48,7 +48,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
 
     it('should add PP to sp', async () => {
         const result = await updateCharacterMoneyService.update({
-            characterId: character.characterId as string,
+            characterId: character.characterId,
             operation: 'add',
             money: 2,
             moneyType: 'PP',
@@ -60,7 +60,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
 
     it('should subtract money without going below zero', async () => {
         const result = await updateCharacterMoneyService.update({
-            characterId: character.characterId as string,
+            characterId: character.characterId,
             operation: 'subtract',
             money: 999,
             moneyType: 'PO',
@@ -72,7 +72,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
     it('should reject unsupported money types', async () => {
         try {
             await updateCharacterMoneyService.update({
-                characterId: character.characterId as string,
+                characterId: character.characterId,
                 operation: 'add',
                 money: 1,
                 moneyType: 'INVALID' as any,
@@ -88,7 +88,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
 
     it('should keep the current value when the operation is neither add nor subtract', async () => {
         const result = await updateCharacterMoneyService.update({
-            characterId: character.characterId as string,
+            characterId: character.characterId,
             operation: 'noop' as any,
             money: 999,
             moneyType: 'PC',
@@ -101,7 +101,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterMoneyService', () => 
         character.data.money.pp = 'legacy' as any;
 
         const result = await updateCharacterMoneyService.update({
-            characterId: character.characterId as string,
+            characterId: character.characterId,
             operation: 'add',
             money: 2,
             moneyType: 'PL',

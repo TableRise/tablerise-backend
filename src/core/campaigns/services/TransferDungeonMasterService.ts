@@ -1,6 +1,6 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import Campaign, { Player } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 export default class TransferDungeonMasterService {
     private readonly campaignsRepository;
@@ -11,7 +11,7 @@ export default class TransferDungeonMasterService {
         this.logger = logger;
     }
 
-    public async transfer(campaignId: string, userId: string, userToMaster: string) {
+    public async transfer(campaignId: string, userId: string, userToMaster: string): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.transfer.name}`;
         this.logger('info', callName);
 

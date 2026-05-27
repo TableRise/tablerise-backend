@@ -197,21 +197,21 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this.deleteCampaignOperation!.execute(id, userId);
+        const result = await this.deleteCampaignOperation.execute(id, userId);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
         const { title, code } = req.query as { title?: string; code?: string };
-        const result = await this.getAllCampaignsOperation!.execute({ title, code });
+        const result = await this.getAllCampaignsOperation.execute({ title, code });
         return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async getById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getCampaignByIdOperation!.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
         return res.status(HttpStatusCode.OK).json(result);
     }
 
@@ -220,7 +220,7 @@ export default class CampaignsController {
         const { userId } = req.user as { userId: string };
         const payload = req.body;
 
-        const result = await this.publishmentOperation!.execute({
+        const result = await this.publishmentOperation.execute({
             campaignId: id,
             userId,
             payload,
@@ -232,7 +232,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { targetEmail } = req.query as { targetEmail: string };
 
-        await this.postInvitationEmailOperation!.execute({
+        await this.postInvitationEmailOperation.execute({
             campaignId: id,
             targetEmail,
         });
@@ -245,7 +245,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const payload = req.body;
 
-        const result = await this.postCampaignLogOperation!.execute({
+        const result = await this.postCampaignLogOperation.execute({
             campaignId: id,
             userId,
             payload,
@@ -259,7 +259,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const payload = req.body as TPostCampaignBuyBody;
 
-        const result = await this.postCampaignBuyOperation!.execute({
+        const result = await this.postCampaignBuyOperation.execute({
             campaignId: id,
             userId,
             payload,
@@ -272,7 +272,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { newLimit } = req.query;
 
-        await this.updateCampaignPlayerLimitOperation!.execute(id, Number(newLimit));
+        await this.updateCampaignPlayerLimitOperation.execute(id, Number(newLimit));
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -282,7 +282,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const { cancel } = req.query as unknown as { cancel: boolean };
 
-        await this.confirmMatchPlayerPresenceOperation!.execute(id, userId, cancel);
+        await this.confirmMatchPlayerPresenceOperation.execute(id, userId, cancel);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -292,7 +292,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const { userToActivate } = req.query as { userToActivate: string };
 
-        await this.confirmCampaignPlayerOperation!.execute(id, userId, userToActivate);
+        await this.confirmCampaignPlayerOperation.execute(id, userId, userToActivate);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -302,7 +302,7 @@ export default class CampaignsController {
         const files = req.files as { mapImages?: Express.Multer.File[] };
         const mapImages = files?.mapImages;
 
-        const result = await this.updateMatchMapImagesOperation!.execute({
+        const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
             mapImages,
         });
@@ -315,7 +315,7 @@ export default class CampaignsController {
         const files = req.files as TUpdateCampaignMatchImagesBody;
         const images = files?.images;
 
-        const result = await this.updateMatchImagesOperation!.execute({
+        const result = await this.updateMatchImagesOperation.execute({
             campaignId: id,
             images,
         });
@@ -327,7 +327,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { imageId, remove } = req.query as unknown as THighlightCampaignMatchImageQuery;
 
-        const result = await this.updateMatchHighlightedImageOperation!.execute({
+        const result = await this.updateMatchHighlightedImageOperation.execute({
             campaignId: id,
             imageId,
             remove,
@@ -340,7 +340,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { imageUrl } = req.query as { imageUrl: string };
 
-        await this.removeCampaignImageOperation!.removeMatchMapImage({
+        await this.removeCampaignImageOperation.removeMatchMapImage({
             campaignId: id,
             imageUrl,
         } as RemoveMatchMapImagePayload);
@@ -352,7 +352,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { title, id: youtubeId, thumbnail } = req.body as Omit<AddMatchMusicPayload, 'campaignId'>;
 
-        const result = await this.updateMatchMusicsOperation!.add({
+        const result = await this.updateMatchMusicsOperation.add({
             campaignId: id,
             title,
             thumbnail,
@@ -366,7 +366,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { id: youtubeId } = req.body as Omit<RemoveMatchMusicPayload, 'campaignId'>;
 
-        const result = await this.updateMatchMusicsOperation!.remove({
+        const result = await this.updateMatchMusicsOperation.remove({
             campaignId: id,
             id: youtubeId,
         });
@@ -378,7 +378,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { title, id: youtubeId, thumbnail } = req.body as Omit<EditMatchMusicPayload, 'campaignId'>;
 
-        const result = await this.updateMatchMusicsOperation!.edit({
+        const result = await this.updateMatchMusicsOperation.edit({
             campaignId: id,
             title,
             thumbnail,
@@ -392,7 +392,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { date } = req.query as Omit<AddMatchDatePayload, 'campaignId'>;
 
-        const result = await this.updateMatchDateOperation!.add({
+        const result = await this.updateMatchDateOperation.add({
             campaignId: id,
             date,
         });
@@ -403,7 +403,7 @@ export default class CampaignsController {
     public async removeMatchDate(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.updateMatchDateOperation!.remove({
+        const result = await this.updateMatchDateOperation.remove({
             campaignId: id,
         } as RemoveMatchDatePayload);
 
@@ -419,7 +419,7 @@ export default class CampaignsController {
         const { userId: callerId } = req.user as Express.User;
         const userId = userToAdd ?? callerId;
 
-        const result = await this.addCampaignPlayersOperation!.execute({
+        const result = await this.addCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
             password,
@@ -434,7 +434,7 @@ export default class CampaignsController {
         const { userId: callerId } = req.user as Express.User;
         const userId = userToRemove ?? callerId;
 
-        const result = await this.removeCampaignPlayersOperation!.execute({
+        const result = await this.removeCampaignPlayersOperation.execute({
             campaignId: id,
             userId,
         });
@@ -448,7 +448,7 @@ export default class CampaignsController {
             characterId: string;
         };
 
-        const result = await this.addPlayerCharacterOperation!.execute({
+        const result = await this.addPlayerCharacterOperation.execute({
             campaignId: id,
             characterId,
         });
@@ -462,7 +462,7 @@ export default class CampaignsController {
             characterId: string;
         };
 
-        const result = await this.removePlayerCharacterOperation!.execute({
+        const result = await this.removePlayerCharacterOperation.execute({
             campaignId: id,
             characterId,
         });
@@ -473,7 +473,7 @@ export default class CampaignsController {
     public async getCampaignCharacters(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getCampaignCharactersOperation!.execute(id);
+        const result = await this.getCampaignCharactersOperation.execute(id);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -482,7 +482,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this.getCharactersByPlayerOperation!.execute(id, userId);
+        const result = await this.getCharactersByPlayerOperation.execute(id, userId);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -490,7 +490,7 @@ export default class CampaignsController {
     public async getCampaignPlayers(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getCampaignByIdOperation!.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
 
         return res.status(HttpStatusCode.OK).json(result.campaignPlayers);
     }
@@ -498,7 +498,7 @@ export default class CampaignsController {
     public async getCampaignJournalPosts(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getCampaignByIdOperation!.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
 
         return res.status(HttpStatusCode.OK).json(result.infos.journal);
     }
@@ -506,7 +506,7 @@ export default class CampaignsController {
     public async getCampaignJournalHighlight(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.getCampaignByIdOperation!.execute({ campaignId: id });
+        const result = await this.getCampaignByIdOperation.execute({ campaignId: id });
 
         return res.status(HttpStatusCode.OK).json((result.infos.highlightedJournal ?? {}) as HighlightedJournalPayload);
     }
@@ -515,7 +515,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const payload = req.body;
 
-        const result = await this.updateCampaignOperation!.execute({
+        const result = await this.updateCampaignOperation.execute({
             ...payload,
             campaignId: id,
         });
@@ -527,7 +527,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const picture = req.file as FileObject;
 
-        const result = await this.updateCampaignCoverOperation!.execute({
+        const result = await this.updateCampaignCoverOperation.execute({
             campaignId: id,
             picture,
         });
@@ -538,7 +538,7 @@ export default class CampaignsController {
     public async removeCampaignCover(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        await this.removeCampaignImageOperation!.removeCover(id);
+        await this.removeCampaignImageOperation.removeCover(id);
 
         return res.status(HttpStatusCode.NO_CONTENT).send();
     }
@@ -548,7 +548,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const { userToMaster } = req.query as { userToMaster: string };
 
-        await this.transferDungeonMasterOperation!.execute(id, userId, userToMaster);
+        await this.transferDungeonMasterOperation.execute(id, userId, userToMaster);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
@@ -558,7 +558,7 @@ export default class CampaignsController {
         const { characterId } = req.query as { characterId: string };
         const picture = req.file as FileObject;
 
-        const result = await this.updateMatchCharacterPictureOperation!.execute({
+        const result = await this.updateMatchCharacterPictureOperation.execute({
             campaignId: id,
             characterId,
             picture,
@@ -571,7 +571,7 @@ export default class CampaignsController {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
 
-        const result = await this.updateCampaignJournalHighlightOperation!.execute({
+        const result = await this.updateCampaignJournalHighlightOperation.execute({
             campaignId: id,
             userId,
             ...req.body,
@@ -586,7 +586,7 @@ export default class CampaignsController {
         const { userId } = req.query as unknown as TUpdateCampaignJournalPostQuery;
         const { postId, title, post, category } = req.body as TUpdateCampaignJournalPostBody;
 
-        const result = await this.updateCampaignJournalPostOperation!.execute({
+        const result = await this.updateCampaignJournalPostOperation.execute({
             campaignId: id,
             callerId,
             userId,
@@ -604,7 +604,7 @@ export default class CampaignsController {
         const { userId: callerId } = req.user as Express.User;
         const { userId, postId } = req.query as unknown as TDeleteCampaignJournalPostQuery;
 
-        await this.deleteCampaignJournalPostOperation!.execute({
+        await this.deleteCampaignJournalPostOperation.execute({
             campaignId: id,
             callerId,
             userId,
@@ -620,7 +620,7 @@ export default class CampaignsController {
         const { title } = req.query as unknown as TUpdateCampaignPlayerNoteQuery;
         const { content } = req.body as TUpdateCampaignPlayerNoteBody;
 
-        const result = await this.updateCampaignPlayerNoteOperation!.execute({
+        const result = await this.updateCampaignPlayerNoteOperation.execute({
             campaignId: id,
             userId,
             title,
@@ -635,7 +635,7 @@ export default class CampaignsController {
         const { userId } = req.user as Express.User;
         const { title } = req.query as unknown as TRemoveCampaignPlayerNoteQuery;
 
-        await this.removeCampaignPlayerNoteOperation!.execute({
+        await this.removeCampaignPlayerNoteOperation.execute({
             campaignId: id,
             userId,
             title,

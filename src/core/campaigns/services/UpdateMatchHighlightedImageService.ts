@@ -35,7 +35,7 @@ export default class UpdateMatchHighlightedImageService {
 
         if (!imageHighlighted) HttpRequestErrors.throwError('content-inexistent');
 
-        campaign.matchData.imageHighlighted = imageHighlighted as Campaign['matchData']['imageHighlighted'];
+        campaign.matchData.imageHighlighted = imageHighlighted;
 
         return campaign;
     }

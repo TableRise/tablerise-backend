@@ -2,7 +2,6 @@ import GetUserByIdService from 'src/core/users/services/users/GetUserByIdService
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';

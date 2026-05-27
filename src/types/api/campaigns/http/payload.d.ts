@@ -2,7 +2,6 @@ import Campaign, { Journal } from '@tablerise/database-management/dist/src/inter
 import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export type CampaignJournalCategory =
     | 'master'

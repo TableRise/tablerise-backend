@@ -2,6 +2,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
 import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 export default class ConfirmCampaignPlayerService {
     private readonly campaignsRepository;
@@ -18,7 +19,7 @@ export default class ConfirmCampaignPlayerService {
         this.logger = logger;
     }
 
-    public async confirm(campaignId: string, userId: string, userToActivate: string) {
+    public async confirm(campaignId: string, userId: string, userToActivate: string): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.confirm.name}`;
         this.logger('info', callName);
 

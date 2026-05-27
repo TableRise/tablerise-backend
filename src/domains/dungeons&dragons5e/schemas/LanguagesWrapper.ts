@@ -1,5 +1,5 @@
-export type Internacional<T> = {
+export interface Internacional<T> {
     active?: boolean;
     en: T;
     pt: T;
-};
+}

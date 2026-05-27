@@ -1,4 +1,5 @@
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
+import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 
 export default class UpdateCampaignPlayerLimitService {
     private readonly logger;
@@ -9,7 +10,7 @@ export default class UpdateCampaignPlayerLimitService {
         this.logger = logger;
     }
 
-    async updatePlayerLimit(campaignId: string, newLimit: number) {
+    public async updatePlayerLimit(campaignId: string, newLimit: number): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.updatePlayerLimit.name}`;
         this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });

@@ -40,7 +40,7 @@ export default class UsersDetailsRepository {
           }
         | undefined {
         const model = this.model as any;
-        if (!model || !model._model) return undefined;
+        if (!model?._model) return undefined;
         return model._model.collection;
     }
 
@@ -48,9 +48,7 @@ export default class UsersDetailsRepository {
         const rawCollection = this.getRawCollection();
         if (!rawCollection?.updateOne) return;
 
-        const gameInfo = (payload as unknown as Record<string, unknown>).gameInfo as
-            | Record<string, unknown>
-            | undefined;
+        const gameInfo = (payload as unknown as { gameInfo?: Record<string, unknown> }).gameInfo;
         if (!gameInfo || typeof gameInfo.campaignsCreatedAmount !== 'number') return;
 
         await rawCollection.updateOne(query, {
@@ -61,7 +59,7 @@ export default class UsersDetailsRepository {
     }
 
     private async shouldHideUserDetail(data: UserDetail | null | undefined): Promise<boolean> {
-        if (!data || !data.userId) return false;
+        if (!data?.userId) return false;
 
         const user = await this.usersModel.findOne({ userId: data.userId });
         return isUserWaitingToDelete(user);

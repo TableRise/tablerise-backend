@@ -200,7 +200,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
 
         it('should filter closed campaigns from result', async () => {
             campaigns = [
-                ...(DomainDataFaker.generateCampaignsJSON({ count: 1 }) as Campaign[]),
+                ...DomainDataFaker.generateCampaignsJSON({ count: 1 }),
                 { ...DomainDataFaker.generateCampaignsJSON({ count: 0 })[0], status: 'closed' } as Campaign,
             ];
 
@@ -304,7 +304,7 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         let update: sinon.SinonSpy;
 
         beforeEach(() => {
-            campaign = DomainDataFaker.generateCampaignsJSON()[0] as Campaign;
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
             update = sinon.spy((_query: any, payload: any) => ({
                 ...campaign,
                 payload,

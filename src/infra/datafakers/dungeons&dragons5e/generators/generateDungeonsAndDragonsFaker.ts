@@ -1,4 +1,3 @@
-// @ts-nocheck
 import newUUID from 'src/domains/common/helpers/newUUID';
 import {
     AbilityScoreIncrease,
@@ -18,7 +17,7 @@ import {
 } from '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e';
 import { Internacional } from 'src/domains/dungeons&dragons5e/schemas/LanguagesWrapper';
 
-function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Armor> & { armorId: string } {
+function createArmorsFaker({ entityId }: { entityId: string }): any {
     return {
         armorId: entityId || newUUID(),
         active: true,
@@ -51,7 +50,7 @@ function createArmorsFaker({ entityId }: { entityId: string }): Internacional<Ar
     };
 }
 
-function createFeatsFaker({ entityId }: { entityId: string }): Internacional<Feat> & { featId: string } {
+function createFeatsFaker({ entityId }: { entityId: string }): any {
     return {
         featId: entityId || newUUID(),
         active: true,
@@ -77,11 +76,7 @@ function createFeatsFaker({ entityId }: { entityId: string }): Internacional<Fea
     };
 }
 
-function createBackgroundsFaker({
-    entityId,
-}: {
-    entityId: string;
-}): Internacional<Background> & { backgroundId: string } {
+function createBackgroundsFaker({ entityId }: { entityId: string }): any {
     return {
         backgroundId: entityId || newUUID(),
         active: true,
@@ -200,7 +195,7 @@ function createBackgroundsFaker({
     };
 }
 
-function createClassesFaker({ entityId }: { entityId: string }): Internacional<Class> & { classId: string } {
+function createClassesFaker({ entityId }: { entityId: string }): any {
     return {
         classId: entityId || newUUID(),
         active: true,
@@ -754,7 +749,7 @@ function createClassesFaker({ entityId }: { entityId: string }): Internacional<C
     };
 }
 
-function createGodsFaker({ entityId }: { entityId: string }): Internacional<God> & { godId: string } {
+function createGodsFaker({ entityId }: { entityId: string }): any {
     return {
         godId: entityId || newUUID(),
         active: true,
@@ -775,7 +770,7 @@ function createGodsFaker({ entityId }: { entityId: string }): Internacional<God>
     };
 }
 
-function createMagicItemsFaker({ entityId }: { entityId: string }): Internacional<MagicItem> & { magicItemId: string } {
+function createMagicItemsFaker({ entityId }: { entityId: string }): any {
     return {
         magicItemId: entityId || newUUID(),
         active: true,
@@ -794,7 +789,7 @@ function createMagicItemsFaker({ entityId }: { entityId: string }): Internaciona
     };
 }
 
-function createMonstersFaker({ entityId }: { entityId: string }): Internacional<Monster> & { monsterId: string } {
+function createMonstersFaker({ entityId }: { entityId: string }): any {
     return {
         monsterId: entityId || newUUID(),
         active: true,
@@ -1057,7 +1052,7 @@ function createMonstersFaker({ entityId }: { entityId: string }): Internacional<
     };
 }
 
-function createItemsFaker({ entityId }: { entityId: string }): Internacional<Item> & { itemId: string } {
+function createItemsFaker({ entityId }: { entityId: string }): any {
     return {
         itemId: entityId || newUUID(),
         active: true,
@@ -1102,7 +1097,7 @@ function createItemsFaker({ entityId }: { entityId: string }): Internacional<Ite
     };
 }
 
-function createRacesFaker({ entityId }: { entityId: string }): Internacional<Race> & { raceId: string } {
+function createRacesFaker({ entityId }: { entityId: string }): any {
     return {
         raceId: entityId || newUUID(),
         active: true,
@@ -1320,7 +1315,7 @@ function createRacesFaker({ entityId }: { entityId: string }): Internacional<Rac
     };
 }
 
-function createRealmsFaker({ entityId }: { entityId: string }): Internacional<Realm> & { realmId: string } {
+function createRealmsFaker({ entityId }: { entityId: string }): any {
     return {
         realmId: entityId || newUUID(),
         active: true,
@@ -1339,7 +1334,7 @@ function createRealmsFaker({ entityId }: { entityId: string }): Internacional<Re
     };
 }
 
-function createWikisFaker({ entityId }: { entityId: string }): Internacional<Wiki> & { wikiId: string } {
+function createWikisFaker({ entityId }: { entityId: string }): any {
     return {
         wikiId: entityId || newUUID(),
         active: true,
@@ -1440,7 +1435,7 @@ function createWikisFaker({ entityId }: { entityId: string }): Internacional<Wik
     };
 }
 
-function createWeaponsFaker({ entityId }: { entityId: string }): Internacional<Weapon> & { weaponId: string } {
+function createWeaponsFaker({ entityId }: { entityId: string }): any {
     return {
         weaponId: entityId || newUUID(),
         active: true,
@@ -1471,7 +1466,7 @@ function createWeaponsFaker({ entityId }: { entityId: string }): Internacional<W
     };
 }
 
-function createSpellsFaker({ entityId }: { entityId: string }): Internacional<Spell> & { spellId: string } {
+function createSpellsFaker({ entityId }: { entityId: string }): any {
     return {
         spellId: entityId || newUUID(),
         active: true,

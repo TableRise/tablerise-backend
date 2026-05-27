@@ -36,7 +36,7 @@ export default class UpdateCampaignPlayerNoteService {
 
         return {
             campaign,
-            updatedNote: campaign.campaignPlayers[playerIndex].notes[noteIndex] as PlayerNotes,
+            updatedNote: campaign.campaignPlayers[playerIndex].notes[noteIndex],
         };
     }
 

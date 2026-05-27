@@ -19,7 +19,7 @@ const isImageObject = (value: unknown): value is ImageObject =>
 const isJournal = (value: unknown): value is Journal =>
     typeof value === 'object' && value !== null && 'title' in value && 'content' in value;
 
-export const createDefaultMatchState = () => ({
+export const createDefaultMatchState = (): RealtimeMatchData['state'] => ({
     activeMapId: null,
     gridVisible: true,
     activeEffect: null,

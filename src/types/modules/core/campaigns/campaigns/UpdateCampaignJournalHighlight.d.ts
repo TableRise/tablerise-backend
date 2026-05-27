@@ -1,4 +1,3 @@
-import UpdateCampaignJournalHighlightOperation from 'src/core/campaigns/operations/UpdateCampaignJournalHighlightOperation';
 import UpdateCampaignJournalHighlightService from 'src/core/campaigns/services/UpdateCampaignJournalHighlightService';
 import SocketIO from 'src/infra/clients/SocketIO';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';

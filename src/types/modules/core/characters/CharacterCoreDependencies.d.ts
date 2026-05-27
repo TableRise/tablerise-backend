@@ -20,7 +20,6 @@ import {
     RemoveEquipmentServiceContract,
 } from './characters/ManageEquipment';
 import { DeleteCharacterOperationContract, DeleteCharacterServiceContract } from './characters/DeleteCharacter';
-import UpdateCharacterMoneyOperation from 'src/core/characters/operations/UpdateCharacterMoneyOperation';
 import UpdateCharacterMoneyService from 'src/core/characters/services/UpdateCharacterMoneyService';
 
 export interface UpdateCharacterMoneyOperationContract {
