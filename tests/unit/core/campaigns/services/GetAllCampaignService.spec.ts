@@ -31,9 +31,11 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                         campaign.infos = {
                             campaignAge: '1',
                             nextMatchDate: 'no-date',
-                            announcements: [],
+                            highlightedJournal: null as unknown as Campaign['infos']['highlightedJournal'],
+                            journal: [],
                             playerAmountLimit: 1,
                             visibility: 'hidden',
+                            socialMedia: {},
                         };
                         campaign.updatedAt = new Date(2023, 3, 12).toISOString();
                     }

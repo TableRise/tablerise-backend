@@ -13,7 +13,7 @@ export default class UpdateCampaignService {
         this.update = this.update.bind(this);
     }
 
-    async update({
+    public async update({
         campaignId,
         title,
         description,
@@ -35,8 +35,10 @@ export default class UpdateCampaignService {
         campaignInDb.infos.visibility = (visibility as 'hidden' | 'visible') ?? campaignInDb.infos.visibility;
         campaignInDb.infos.nextMatchDate = nextMatchDate ?? campaignInDb.infos.nextMatchDate;
         campaignInDb.infos.playerAmountLimit = playerAmountLimit ?? campaignInDb.infos.playerAmountLimit;
-        if (campaignInDb.matchData)
-            campaignInDb.matchData.nextSessionResume = nextSessionResume ?? campaignInDb.matchData.nextSessionResume;
+        if (campaignInDb.matchData) {
+            campaignInDb.matchData.nextSessionResume =
+                nextSessionResume ?? campaignInDb.matchData.nextSessionResume;
+        }
         if (!campaignInDb.infos.socialMedia) campaignInDb.infos.socialMedia = {};
 
         campaignInDb.infos.socialMedia = { ...campaignInDb.infos.socialMedia, ...socialMedia };
@@ -60,7 +62,7 @@ export default class UpdateCampaignService {
         return campaignInDb;
     }
 
-    async save(campaign: Campaign): Promise<Campaign> {
+    public async save(campaign: Campaign): Promise<Campaign> {
         const callName = `[${this.constructor.name}] - ${this.save.name}`;
         this.logger('info', callName);
         return this.campaignsRepository.update({

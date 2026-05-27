@@ -11,8 +11,8 @@ describe('Core :: Campaigns :: Services :: PostInvitationEmailService', () => {
     let postInvitationEmailService: PostInvitationEmailService,
         campaign: Campaign,
         emailSender: any,
-        payload: any,
-        httpRequestErrors: HttpRequestErrors;
+        payload: any;
+    let httpRequestErrors: HttpRequestErrors = {} as HttpRequestErrors;
 
     const logger = (): void => {};
 

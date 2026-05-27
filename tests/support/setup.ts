@@ -1,5 +1,5 @@
 import chai from 'chai';
-import dirtyChai from 'dirty-chai';
+import dirtyChai = require('dirty-chai');
 import sinonChai from 'sinon-chai';
 
 chai.use(dirtyChai);

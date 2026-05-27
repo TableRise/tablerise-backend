@@ -13,8 +13,8 @@ describe('Core :: Users :: Services :: VerifyEmailService', () => {
         usersRepository: any,
         emailSender: any,
         user: User,
-        payload: any,
-        httpRequestErrors: HttpRequestErrors;
+        payload: any;
+    let httpRequestErrors: HttpRequestErrors = {} as HttpRequestErrors;
 
     const logger = (): void => {};
 

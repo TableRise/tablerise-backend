@@ -58,10 +58,14 @@ export default class CreateCampaignService {
         this.logger('info', 'Enrichment - CreateCampaignService');
         const socialMedia =
             typeof campaign.socialMedia === 'string' ? JSON.parse(campaign.socialMedia) : campaign.socialMedia ?? {};
-        const configurationsPayload = JSON.parse(campaign.configurations as string);
-        const configurations = {
-            xpSystem: normalizeBooleanValue(configurationsPayload.xpSystem),
-            shopSystem: normalizeBooleanValue(configurationsPayload.shopSystem),
+        const configurationsPayload =
+            typeof campaign.configurations === 'string'
+                ? JSON.parse(campaign.configurations)
+                : campaign.configurations ?? {};
+        const configurations: Campaign['configurations'] = {
+            xpSystem: normalizeBooleanValue((configurationsPayload as Record<string, unknown>).xpSystem as any),
+            shopSystem: normalizeBooleanValue((configurationsPayload as Record<string, unknown>).shopSystem as any),
+            shopOn: normalizeBooleanValue((configurationsPayload as Record<string, unknown>).shopOn as any),
         };
 
         campaign.campaignPlayers = [
@@ -91,7 +95,10 @@ export default class CreateCampaignService {
             },
         };
 
-        campaign.configurations = { ...configurations, shopOn: configurations.shopSystem && true };
+        campaign.configurations = {
+            ...configurations,
+            shopOn: configurations.shopOn || configurations.shopSystem,
+        };
         campaign.buys = [];
 
         campaign.matchData = {
