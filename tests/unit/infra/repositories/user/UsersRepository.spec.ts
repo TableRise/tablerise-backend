@@ -4,6 +4,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Infra :: Repositories :: User :: UsersRepository', () => {
     let usersRepository: UsersRepository, updateTimestampRepository: any, database: any, serializer: any;
@@ -46,9 +47,10 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
     });
 
     context('#find', () => {
-        const findAll = sinon.spy(() => [{ email: 'test@email.com' }]);
+        let findAll: sinon.SinonStub;
 
         beforeEach(() => {
+            findAll = sinon.stub().returns([{ email: 'test@email.com' }]);
             updateTimestampRepository = {};
 
             database = {
@@ -86,13 +88,28 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
             expect(result[0]).to.have.property('email');
             expect(result[0].email).to.be.equal('test@email.com');
         });
+
+        it('should filter users waiting to be deleted', async () => {
+            findAll.returns([
+                { email: 'active@email.com', inProgress: { status: 'done' } },
+                {
+                    email: 'hidden@email.com',
+                    inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER },
+                },
+            ]);
+
+            const result = await usersRepository.find({});
+
+            expect(result).to.deep.equal([{ email: 'active@email.com', inProgress: { status: 'done' } }]);
+        });
     });
 
     context('#findOne', () => {
         context('when is found', () => {
-            const findOne = sinon.spy(() => ({ email: 'test@email.com' }));
+            let findOne: sinon.SinonStub;
 
             beforeEach(() => {
+                findOne = sinon.stub().returns({ email: 'test@email.com' });
                 updateTimestampRepository = {};
 
                 database = {
@@ -127,6 +144,17 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
                 expect(findOne).to.have.been.called();
                 expect(result).to.have.property('email');
                 expect(result.email).to.be.equal('test@email.com');
+            });
+
+            it('should return null when user is waiting to be deleted', async () => {
+                findOne.returns({
+                    email: 'hidden@email.com',
+                    inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_DELETE_USER },
+                });
+
+                const result = await usersRepository.findOne({ email: 'hidden@email.com' });
+
+                expect(result).to.equal(null);
             });
         });
 

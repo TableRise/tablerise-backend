@@ -12,7 +12,6 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'tag-already-exist': 'User with this tag already exists in database',
         'user-inexistent': 'User does not exist',
         '2fa-no-active': '2FA not enabled for this user',
-        '2fa-and-secret-question-no-active': '2FA not enabled for this user neither secretQuestion',
         '2fa-already-active': '2FA is already enabled for this user',
         '2fa-incorrect': 'Two factor code does not match',
         'rpg-not-found-id': 'NotFound an object with provided ID',
@@ -29,8 +28,6 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'player-already-banned': 'Player is already banned',
         'player-not-in-match': 'Player not in match',
         'content-inexistent': 'This content do not exist in the RPG system',
-        'incorrect-secret-question': 'Secret question is incorrect',
-        'new-structure-secret-question-missing': 'Structure of new for new question and answer is missing',
         'blank-question-or-answer': 'Some error not specified ocurred',
         'campaign-match-inexistent': 'Campaign Match does not exist and cannot be updated',
 
@@ -41,10 +38,16 @@ describe('Domains :: User :: Helpers :: HttpRequestErrors', () => {
         'music-link-already-added': 'Music link already added',
         'date-already-added': 'Date already added',
         'player-already-in-match': 'Player already in match',
+        'already-full-campaign': 'The campaign reached the limit of players',
+        'campaign-password-incorrect': 'The campaign password is incorrect',
         'player-banned': 'Player is banned',
         'avatar-inexistent': "Doens't exists any avatar in this game",
         'character-does-not-exist': 'Character not found or not belongs to user',
         'player-master-equal': 'The new player can not be also the master',
+        'forbidden-post-category': 'The post category is forbidden for this role',
+        'forbidden-role-operation': 'The operation is forbidden for this role',
+        'journal-post-inexistent': 'Journal post does not exist',
+        'equipment-already-added': 'Equipment already added to character',
     };
 
     context('When an error is throwed by HttpRequestErrors', () => {

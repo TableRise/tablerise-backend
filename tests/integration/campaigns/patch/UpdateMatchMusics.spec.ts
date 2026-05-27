@@ -9,34 +9,62 @@ describe('When a music is added or removed from a match', () => {
 
     before(async () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.infos.highlightedJournal = {
+            title: 'Pinned note',
+            author: {
+                userId: campaign.campaignPlayers[0].userId,
+                characterIds: [],
+                role: 'dungeon_master',
+                status: 'active',
+            },
+            content: 'Current highlight',
+            timestamp: new Date().toISOString(),
+            category: 'master',
+        } as Campaign['infos']['highlightedJournal'];
         await InjectNewCampaign(campaign);
 
         musicPayload = {
-            operation: 'add',
             title: 'Main Theme',
-            youtubeLink: 'https://youtu.be/123',
+            id: 'https://youtu.be/123',
+            thumbnail: 'https://i.ytimg.com/vi/123/default.jpg',
         };
     });
 
     it('should sucessfully add a music to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics/add`)
             .send(musicPayload)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(1);
         expect(body[0]).to.have.property('title');
-        expect(body[0]).to.have.property('youtubeLink');
     });
 
     it('should sucessfully remove a music from a campaign', async () => {
-        musicPayload.operation = 'remove';
-
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics`)
-            .send(musicPayload)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics/remove`)
+            .send({ id: musicPayload.id })
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('array').with.lengthOf(0);
+    });
+
+    it('should sucessfully edit a music from a campaign', async () => {
+        await requester()
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics/add`)
+            .send(musicPayload)
+            .expect(HttpStatusCode.OK);
+
+        const { body } = await requester()
+            .patch(`/campaigns/${campaign.campaignId as string}/update/match/musics/edit`)
+            .send({
+                id: musicPayload.id,
+                title: 'Introducao a Campanha | Theme',
+                thumbnail: 'https://i.ytimg.com/vi/L9dhkINF5Vk/default.jpg',
+            })
+            .expect(HttpStatusCode.OK);
+
+        expect(body).to.be.an('array').with.lengthOf(1);
+        expect(body[0].title).to.be.equal('Introducao a Campanha | Theme');
     });
 });

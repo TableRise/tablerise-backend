@@ -25,13 +25,12 @@ describe('Domains :: Common :: Helpers :: TwoFactorHandler', () => {
     });
 
     context('#validate', () => {
-        const verify = sinon.stub(speakeasy.totp, 'verify').returns(true);
-
         beforeEach(() => {
             twoFactorHandler = new TwoFactorHandler({ configs, logger });
         });
 
         it('should return corret object', () => {
+            const verify = sinon.stub(speakeasy.totp, 'verify').returns(true);
             const result = twoFactorHandler.validate({
                 secret: 'secret',
                 token: 'token',
@@ -39,6 +38,7 @@ describe('Domains :: Common :: Helpers :: TwoFactorHandler', () => {
 
             expect(verify).to.have.been.called();
             expect(result).to.be.equal(true);
+            verify.restore();
         });
     });
 });

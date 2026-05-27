@@ -4,16 +4,24 @@ module.exports = {
         node: true,
     },
     extends: ['standard-with-typescript', 'prettier'],
-    overrides: [],
+    overrides: [
+        {
+            files: ['tests/**/*.ts'],
+            rules: {
+                '@typescript-eslint/no-unused-expressions': 0,
+                '@typescript-eslint/explicit-function-return-type': 0,
+                'new-cap': 0,
+            },
+        },
+    ],
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: 'tsconfig.json',
+        project: 'tsconfig.eslint.json',
         tsconfigRootDir: __dirname,
     },
     rules: {
         'no-console': 'warn',
-        'no-await-in-loop': 'error',
         'no-inline-comments': 'warn',
         'space-before-function-paren': 0,
         '@typescript-eslint/semi': 0,

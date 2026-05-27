@@ -1,5 +1,6 @@
 import { GetAllCampaignsResponse } from 'src/types/api/campaigns/http/response';
 import CampaignsDependencies from 'src/types/modules/core/campaigns/CampaignsDependencies';
+import { GetAllCampaignsQuery } from 'src/types/api/campaigns/http/payload';
 
 export default class GetAllCampaignsService {
     private readonly campaignsRepository;
@@ -10,18 +11,32 @@ export default class GetAllCampaignsService {
         this.logger = logger;
     }
 
-    async getAll(): Promise<GetAllCampaignsResponse[]> {
-        this.logger('info', 'GetAll - GetAllCampaignsService');
-        const campaignsInDb = await this.campaignsRepository.find({});
-        const campaignsVisible = campaignsInDb.filter((campaign) => campaign.infos.visibility === 'visible');
+    async getAll({ title, code }: GetAllCampaignsQuery = {}): Promise<GetAllCampaignsResponse[]> {
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
 
-        return campaignsVisible.map(
+        const dbQuery: Record<string, any> = { 'infos.visibility': 'visible' };
+
+        if (title) {
+            dbQuery.title = { $regex: title, $options: 'i' };
+        }
+
+        if (code) {
+            dbQuery.code = code;
+        }
+
+        const campaignsInDb = await this.campaignsRepository.find(dbQuery);
+
+        return campaignsInDb.map(
             (campaign) =>
                 ({
+                    campaignId: campaign.campaignId,
                     title: campaign.title,
                     cover: campaign.cover,
                     description: campaign.description,
                     playersAmount: campaign.campaignPlayers.length,
+                    playerAmountLimit: campaign.infos.playerAmountLimit,
+                    system: campaign.system,
                     ageRestriction: campaign.ageRestriction,
                     updatedAt: campaign.updatedAt,
                 }) as GetAllCampaignsResponse

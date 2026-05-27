@@ -3,6 +3,7 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
+import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
 
 export default class UsersRepository {
     private readonly model;
@@ -28,7 +29,8 @@ export default class UsersRepository {
     }
 
     public async create(payload: User): Promise<User> {
-        this.logger('warn', `Create - UsersRepository`);
+        const callName = `[${this.constructor.name}] - ${this.create.name}`;
+        this.logger('info', callName);
 
         payload.userId = newUUID();
 
@@ -37,23 +39,31 @@ export default class UsersRepository {
     }
 
     public async find(query: any = {}): Promise<User[]> {
-        this.logger('warn', `Find - UsersRepository`);
+        const callName = `[${this.constructor.name}] - ${this.find.name}`;
+        this.logger('info', callName);
         const request = await this.model.findAll(query);
 
-        return request.map((entity: User) => this.formatAndSerializeData(entity));
+        return request
+            .map((entity: User) => this.formatAndSerializeData(entity))
+            .filter((user) => !isUserWaitingToDelete(user));
     }
 
     public async findOne(query: any = {}): Promise<User> {
-        this.logger('warn', 'FindOne - UsersRepository');
+        const callName = `[${this.constructor.name}] - ${this.findOne.name}`;
+        this.logger('info', callName);
         const request = await this.model.findOne(query);
 
         if (!request) HttpRequestErrors.throwError('user-inexistent');
 
-        return this.formatAndSerializeData(request);
+        const user = this.formatAndSerializeData(request);
+        if (isUserWaitingToDelete(user)) return null as unknown as User;
+
+        return user;
     }
 
     public async update({ query, payload }: UpdateObj): Promise<User> {
-        this.logger('warn', 'Update - UsersRepository');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
 
         const request = await this.model.update(query, payload);
 
@@ -65,7 +75,8 @@ export default class UsersRepository {
     }
 
     public async delete(query: any): Promise<void> {
-        this.logger('warn', 'Delete - UsersRepository');
+        const callName = `[${this.constructor.name}] - ${this.delete.name}`;
+        this.logger('info', callName);
         await this.model.delete(query);
     }
 }

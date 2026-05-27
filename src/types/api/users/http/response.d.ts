@@ -1,5 +1,4 @@
-import User from '@tablerise/database-management/dist/src/interfaces/User';
-import { UserDetail } from 'src/domains/users/schemas/userDetailsValidationSchema';
+import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { CookieOptions } from 'express';
 import { JWTResponse } from '../methods';
 
@@ -30,12 +29,4 @@ export interface LoginResponse {
 export interface TwoFactorResponse {
     qrcode: string;
     active: boolean;
-}
-
-export interface ActivateSecretQuestionResponse {
-    active: boolean;
-}
-
-export interface UpdateSecretQuestionResponse {
-    newQuestion: UserDetail['secretQuestion'];
 }

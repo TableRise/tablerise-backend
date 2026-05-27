@@ -9,6 +9,18 @@ describe('When a date is added or removed from a match', () => {
 
     before(async () => {
         campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        campaign.infos.highlightedJournal = {
+            title: 'Pinned note',
+            author: {
+                userId: campaign.campaignPlayers[0].userId,
+                characterIds: [],
+                role: 'dungeon_master',
+                status: 'active',
+            },
+            content: 'Current highlight',
+            timestamp: new Date().toISOString(),
+            category: 'master',
+        } as Campaign['infos']['highlightedJournal'];
         await InjectNewCampaign(campaign);
 
         date = '2024-01-01';
@@ -16,7 +28,7 @@ describe('When a date is added or removed from a match', () => {
 
     it('should sucessfully add a date to a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates?operation=add&date=${date}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates/add?date=${date}`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('string');
@@ -25,7 +37,7 @@ describe('When a date is added or removed from a match', () => {
 
     it('should sucessfully remove a date from a campaign', async () => {
         const { body } = await requester()
-            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates?operation=remove&date=${date}`)
+            .patch(`/campaigns/${campaign.campaignId as string}/update/infos/match-dates/remove`)
             .expect(HttpStatusCode.OK);
 
         expect(body).to.be.an('string');

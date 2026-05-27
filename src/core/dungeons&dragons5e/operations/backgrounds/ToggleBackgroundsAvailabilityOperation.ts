@@ -15,7 +15,8 @@ export default class ToggleBackgroundsAvailabilityOperation {
     }
 
     public async execute({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
-        this.logger('info', 'Execute - GetBackgroundOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const backgrounds = await this.toggleBackgroundsAvailabilityService.toggle({
             id,
             availability,

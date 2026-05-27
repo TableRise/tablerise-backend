@@ -121,11 +121,10 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
-                userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
                 user.twoFactorSecret = { active: true, secret: '', qrcode: '' };
 
                 serializer = {};
@@ -157,7 +156,8 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 expect(userEnriched.updatedAt).to.be.not.null();
                 expect(userEnriched.password).to.be.not.equal('testepwd@');
                 expect(userEnriched.twoFactorSecret.active).to.be.equal(false);
-                expect(userDetailsEnriched.secretQuestion).to.be.deep.equal(userDetails.secretQuestion);
+                expect(userDetailsEnriched.gameInfo.badges).to.deep.equal([]);
+                expect(userDetailsEnriched.rank).to.equal('');
             });
         });
 
@@ -173,11 +173,10 @@ describe('Core :: Users :: Services :: CreateUserService', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
-                userDetails.secretQuestion = { question: 'testQ', answer: 'testR' };
 
                 serializer = {};
 

@@ -16,7 +16,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
 
     const logger = (): void => {};
 
-    context('#update', () => {
+    context('#add', () => {
         context('When a game info is added', () => {
             const userId = newUUID();
             const infoId = newUUID();
@@ -29,7 +29,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     infoId,
                     data: {},
                     targetInfo: 'badges',
-                    operation: 'add',
                 };
 
                 newUserDetails = {
@@ -38,6 +37,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         ...userDetails.gameInfo,
                         badges: [infoId],
                     },
+                    rank: '',
                 };
 
                 usersDetailsRepository = {
@@ -52,8 +52,54 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.add(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
+                expect(usersDetailsRepository.update).to.have.been.calledWith({
+                    query: { userDetailId: userDetails.userDetailId },
+                    payload: newUserDetails,
+                });
+            });
+        });
+
+        context('When a badge is added', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.badges = Array.from({ length: 9 }, (_, index) => `badge-${index}`);
+                userDetails.rank = null;
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {},
+                    targetInfo: 'badges',
+                };
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        badges: [...userDetails.gameInfo.badges, infoId],
+                    },
+                    rank: 'diamond',
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should promote rank to diamond', async () => {
+                await updateGameInfoService.add(updateGameInfoPayload);
+
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
                     payload: newUserDetails,
@@ -75,7 +121,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
-                    operation: 'add',
                 };
 
                 newUserDetails = {
@@ -98,7 +143,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.add(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
@@ -121,7 +166,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                     infoId,
                     data: {},
                     targetInfo: 'badges',
-                    operation: 'add',
                 };
 
                 usersDetailsRepository = {
@@ -137,7 +181,7 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
 
             it('should call correct methods', async () => {
                 try {
-                    await updateGameInfoService.update(updateGameInfoPayload);
+                    await updateGameInfoService.add(updateGameInfoPayload);
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
@@ -148,29 +192,54 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
         });
 
-        context('When a game info is removed', () => {
+        context('When a game info is added - but the user detail no longer exists', () => {
+            before(() => {
+                updateGameInfoPayload = {
+                    userId: newUUID(),
+                    infoId: newUUID(),
+                    data: {},
+                    targetInfo: 'badges',
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => null),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw user not found', async () => {
+                try {
+                    await updateGameInfoService.add(updateGameInfoPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
+            });
+        });
+
+        context('When a game info object is added - already added', () => {
             const userId = newUUID();
             const infoId = newUUID();
 
             before(() => {
                 userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
-
-                userDetails.gameInfo.badges = [infoId];
+                userDetails.gameInfo.campaigns = [{ campaignId: infoId }] as any;
 
                 updateGameInfoPayload = {
                     userId,
                     infoId,
-                    data: {},
-                    targetInfo: 'badges',
-                    operation: 'remove',
-                };
-
-                newUserDetails = {
-                    ...userDetails,
-                    gameInfo: {
-                        ...userDetails.gameInfo,
-                        badges: [],
+                    data: {
+                        campaignId: infoId,
                     },
+                    targetInfo: 'campaigns',
                 };
 
                 usersDetailsRepository = {
@@ -184,8 +253,60 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                 });
             });
 
-            it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+            it('should throw info already added', async () => {
+                try {
+                    await updateGameInfoService.add(updateGameInfoPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('Info already added');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
+    });
+
+    context('#remove', () => {
+        context('When a game info is removed', () => {
+            const userId = newUUID();
+            const infoId = newUUID();
+
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+
+                userDetails.gameInfo.badges = [infoId];
+                userDetails.rank = 'diamond';
+
+                updateGameInfoPayload = {
+                    userId,
+                    infoId,
+                    data: {},
+                    targetInfo: 'badges',
+                };
+
+                newUserDetails = {
+                    ...userDetails,
+                    gameInfo: {
+                        ...userDetails.gameInfo,
+                        badges: [],
+                    },
+                    rank: '',
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should call correct methods and clear rank when needed', async () => {
+                await updateGameInfoService.remove(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
@@ -208,7 +329,6 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
                         campaignId: infoId,
                     },
                     targetInfo: 'campaigns',
-                    operation: 'remove',
                 };
 
                 userDetails.gameInfo.campaigns = [updateGameInfoPayload.data];
@@ -233,12 +353,45 @@ describe('Core :: Users :: Services :: UpdateGameInfoService', () => {
             });
 
             it('should call correct methods', async () => {
-                await updateGameInfoService.update(updateGameInfoPayload);
+                await updateGameInfoService.remove(updateGameInfoPayload);
                 expect(usersDetailsRepository.findOne).to.have.been.called();
                 expect(usersDetailsRepository.update).to.have.been.calledWith({
                     query: { userDetailId: userDetails.userDetailId },
                     payload: newUserDetails,
                 });
+            });
+        });
+
+        context('When a game info is removed - but the user detail no longer exists', () => {
+            before(() => {
+                updateGameInfoPayload = {
+                    userId: newUUID(),
+                    infoId: newUUID(),
+                    data: {},
+                    targetInfo: 'badges',
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => null),
+                    update: sinon.spy(),
+                };
+
+                updateGameInfoService = new UpdateGameInfoService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw user not found', async () => {
+                try {
+                    await updateGameInfoService.remove(updateGameInfoPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
             });
         });
     });

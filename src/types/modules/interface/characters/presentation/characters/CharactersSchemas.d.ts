@@ -5,4 +5,5 @@ export interface ICharactersSchemas {
     putUpdateCharacter: ISchemaProps;
     postOrganizationPicture: ISchemaProps;
     postCharacterPicture: ISchemaProps;
+    patchUpdateMoney: ISchemaProps;
 }

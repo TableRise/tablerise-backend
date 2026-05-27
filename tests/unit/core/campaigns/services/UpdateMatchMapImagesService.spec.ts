@@ -35,8 +35,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
                 updateMatchMapPayload = {
                     campaignId: campaign.campaignId,
-                    picture: {},
-                    operation: 'add',
+                    mapImages: [{}],
                 };
 
                 updateMatchMapImagesService = new UpdateMatchMapImagesService({
@@ -53,44 +52,56 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             });
         });
 
-        context('When a map image is removed from match data', () => {
-            before(() => {
-                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        it('should skip uploads when map images are not provided', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-                if (campaign.matchData)
-                    campaign.matchData.mapImages = [
-                        DomainDataFaker.generateImagesObjectJSON().map((img) => {
-                            img.id = '789';
-                            return img;
-                        })[0],
-                    ];
+            campaignsRepository = {
+                findOne: () => ({ ...campaign }),
+            };
 
-                campaignMapImagesLength = campaign.matchData?.mapImages.length ?? 0;
+            imageStorageClient = {
+                upload: sinon.spy(),
+            };
 
-                campaignsRepository = {
-                    findOne: () => campaign,
-                };
-
-                imageStorageClient = {};
-
-                updateMatchMapPayload = {
-                    campaignId: campaign.campaignId,
-                    operation: 'remove',
-                    imageId: '789',
-                };
-
-                updateMatchMapImagesService = new UpdateMatchMapImagesService({
-                    logger,
-                    campaignsRepository,
-                    imageStorageClient,
-                });
+            updateMatchMapImagesService = new UpdateMatchMapImagesService({
+                logger,
+                campaignsRepository,
+                imageStorageClient,
             });
 
-            it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage(updateMatchMapPayload);
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(campaignMapImagesLength);
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(campaignMapImagesLength - 1);
+            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
+                campaignId: campaign.campaignId,
+                mapImages: undefined as any,
             });
+
+            expect(matchDataUpdated.matchData?.mapImages.length).to.equal(campaign.matchData?.mapImages.length);
+            expect(imageStorageClient.upload).not.to.have.been.called;
+        });
+
+        it('should skip uploads when matchData is missing', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+
+            campaignsRepository = {
+                findOne: () => ({ ...campaign, matchData: null }),
+            };
+
+            imageStorageClient = {
+                upload: sinon.spy(),
+            };
+
+            updateMatchMapImagesService = new UpdateMatchMapImagesService({
+                logger,
+                campaignsRepository,
+                imageStorageClient,
+            });
+
+            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
+                campaignId: campaign.campaignId,
+                mapImages: [{}],
+            } as any);
+
+            expect(matchDataUpdated.matchData).to.equal(null);
+            expect(imageStorageClient.upload).not.to.have.been.called;
         });
     });
 

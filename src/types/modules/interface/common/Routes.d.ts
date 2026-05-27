@@ -3,20 +3,12 @@ import { Router } from 'express';
 
 export default interface Route {
     'dungeons&dragons5e': {
-        armors: Router;
         backgrounds: Router;
-        // system: Router;
-        realms: Router;
-        gods: Router;
         feats: Router;
-        // weapons: Router;
-        items: Router;
         races: Router;
         classes: Router;
-        magicItems: Router;
+        equipment: Router;
         spells: Router;
-        // wikis: Router;
-        monsters: Router;
     };
     user: {
         oAuth: Router;

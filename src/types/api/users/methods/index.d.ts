@@ -1,4 +1,5 @@
 import User, { UserDetail, GameInfoCampaigns } from '@tablerise/database-management/dist/src/interfaces/User';
+import { InProgressStatus } from 'src/domains/users/enums/InProgressStatusEnum';
 
 export interface UpdateTimestampPayload {
     userId?: string;
@@ -17,6 +18,11 @@ export interface UserGameInfoDoneResponse {
     campaigns: GameInfoCampaigns[] | any[];
     characters: string[];
     badges: string[];
+    charactersCreatedAmount: number;
+    campaignsJoinedAmount: number;
+    campaignsCreatedAmount: number;
+    campaignsClosedAmount: number;
+    equipBoughtAmount: number;
 }
 
 export interface __FullUserPayload {
@@ -32,6 +38,11 @@ export interface UpdateGameInfoProcessPayload {
         campaigns: GameInfoCampaigns[] | any[];
         characters: string[];
         badges: string[];
+        charactersCreatedAmount: number;
+        campaignsJoinedAmount: number;
+        campaignsCreatedAmount: number;
+        campaignsClosedAmount: number;
+        equipBoughtAmount: number;
     };
 }
 
@@ -49,6 +60,7 @@ export interface JWTResponse {
         uploadDate: Date;
     } | null;
     fullname: string;
+    status: InProgressStatus;
     iat?: number;
     exp?: number;
 }
@@ -70,6 +82,7 @@ export interface __UserSerialized {
 
 export interface __TokenObject {
     token: string;
+    user: User;
 }
 
 export interface __UserSaved {

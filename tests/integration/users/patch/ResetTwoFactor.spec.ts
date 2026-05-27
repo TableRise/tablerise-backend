@@ -16,7 +16,7 @@ describe('When the user has twoFactor reset', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_FINISH_RESET_TWO_FACTOR,
             currentFlow: stateFlowsEnum.enum.RESET_TWO_FACTOR,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_START_RESET_TWO_FACTOR,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_START_RESET_TWO_FACTOR,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };

@@ -69,4 +69,30 @@ describe('Interface :: Campaigns :: Middlewares :: VerifyMatchMiddleware', () =>
             }
         });
     });
+
+    context('When a campaign does not exist', () => {
+        beforeEach(() => {
+            campaignsRepository = {
+                findOne: sinon.spy(() => null),
+            };
+
+            verifyMatchMiddleware = new VerifyMatchMiddleware({
+                campaignsRepository,
+                logger,
+            });
+        });
+
+        it('should throw a Not Found Error', async () => {
+            request.params = { id: 'missing-campaign' };
+            try {
+                await verifyMatchMiddleware.exists(request, _response, next);
+                expect.fail('if error is throwed skip this line');
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.message).to.be.equal('Campaign does not exist');
+                expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+            }
+        });
+    });
 });

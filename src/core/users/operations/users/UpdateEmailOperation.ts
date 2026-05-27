@@ -13,7 +13,8 @@ export default class UpdateEmailOperation {
     }
 
     public async execute({ userId, email }: UpdateEmailPayload): Promise<void> {
-        this.logger('info', 'Execute - UpdateEmailOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.updateEmailService.update({ userId, email });
     }
 }

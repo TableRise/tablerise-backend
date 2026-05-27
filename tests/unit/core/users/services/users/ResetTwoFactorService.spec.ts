@@ -59,7 +59,7 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
             beforeEach(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
-                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_SECRET_QUESTION;
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_CONFIRM;
 
                 usersRepository = {
                     findOne: () => user,
@@ -84,6 +84,35 @@ describe('Core :: Users :: Services :: ResetTwoFactorService', () => {
                     expect(err.message).to.be.equal('User status is invalid to perform this operation');
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                }
+            });
+        });
+
+        context('When reset an user two factor but user does not exist', () => {
+            beforeEach(() => {
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                twoFactorHandler = new TwoFactorHandler({ configs, logger });
+
+                resetTwoFactorService = new ResetTwoFactorService({
+                    usersRepository,
+                    twoFactorHandler,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await resetTwoFactorService.reset('userId');
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                 }
             });
         });

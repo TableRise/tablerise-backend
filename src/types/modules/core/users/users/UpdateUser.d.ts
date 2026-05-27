@@ -1,5 +1,4 @@
 import UpdateUserService from 'src/core/users/services/users/UpdateUserService';
-import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
 import { Logger } from 'src/types/shared/logger';
 
@@ -10,6 +9,5 @@ export interface UpdateUserOperationContract {
 
 export interface UpdateUserServiceContract {
     usersRepository: UsersRepository;
-    usersDetailsRepository: UsersDetailsRepository;
     logger: Logger;
 }

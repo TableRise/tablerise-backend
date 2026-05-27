@@ -17,20 +17,13 @@ describe('When game info of an user is reset', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_RESET_PROFILE,
                 currentFlow: stateFlowsEnum.enum.RESET_PROFILE,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
 
             userDetails.gameInfo.badges = ['123'];
-            userDetails.gameInfo.campaigns = [
-                {
-                    campaignId: '123',
-                    title: 'some title',
-                    role: 'player',
-                    description: 'some desc',
-                },
-            ];
+            userDetails.gameInfo.campaigns = ['123'];
             userDetails.gameInfo.characters = ['123', '123'];
 
             await InjectNewUser(user);

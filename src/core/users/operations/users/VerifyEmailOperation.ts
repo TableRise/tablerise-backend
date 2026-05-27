@@ -13,7 +13,8 @@ export default class VerifyEmailOperation {
     }
 
     public async execute(payload: TValidateEmailSendCodeQuery): Promise<void> {
-        this.logger('info', 'Execute - VerifyEmailOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.verifyEmailService.sendEmail(payload);
     }
 }

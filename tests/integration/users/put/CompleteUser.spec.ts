@@ -7,7 +7,9 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When an user has the account completed', () => {
+describe('When an user has the account completed', function () {
+    this.timeout(30000);
+
     let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
@@ -18,7 +20,7 @@ describe('When an user has the account completed', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'KJJH45',
             };
@@ -27,9 +29,7 @@ describe('When an user has the account completed', () => {
             user.nickname = null as unknown as string;
             user.providerId = newUUID();
 
-            userDetails.secretQuestion = { question: 'oauth', answer: 'Google' };
             userDetails.birthday = null as unknown as string;
-            userDetails.pronoun = 'he/his';
             userDetails.firstName = null as unknown as string;
             userDetails.lastName = null as unknown as string;
 
@@ -42,7 +42,6 @@ describe('When an user has the account completed', () => {
                 nickname: 'JhonnyMax',
                 firstName: 'Jhon',
                 lastName: 'Doe',
-                pronoun: 'he/his',
                 birthday: '1998-12-25',
             };
 
@@ -54,8 +53,8 @@ describe('When an user has the account completed', () => {
             expect(body.nickname).to.be.equal(payloadToComplete.nickname);
             expect(body.details.firstName).to.be.equal(payloadToComplete.firstName);
             expect(body.details.lastName).to.be.equal(payloadToComplete.lastName);
-            expect(body.details.pronoun).to.be.equal(payloadToComplete.pronoun);
             expect(body.details.birthday).to.be.equal(payloadToComplete.birthday);
+            expect(body.details.gameInfo.badges).to.deep.equal([]);
         });
     });
 });

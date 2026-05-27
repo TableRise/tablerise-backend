@@ -1,637 +1,277 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import sinon from 'sinon';
 import AuthorizationMiddleware from 'src/interface/common/middlewares/AuthorizationMiddleware';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import questionEnum from 'src/domains/users/enums/questionEnum';
-import User from '@tablerise/database-management/dist/src/interfaces/User';
-import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import StateMachine from 'src/domains/common/StateMachine';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 
 describe('Interface :: Common :: Middlewares :: AuthorizationMiddleware', () => {
-    let authorizationMiddleware: AuthorizationMiddleware,
-        usersRepository: any,
-        schemaValidator: any,
-        usersSchemas: any,
-        usersDetailsRepository: any,
-        twoFactorHandler: any;
-
-    const logger = (): unknown => ({});
+    const logger = (): void => {};
 
     const stateMachine = {
         props: StateMachine.prototype.props,
-        machine: sinon.spy(() => ({
+        machine: sinon.stub().returns({
             userId: '123',
-            inProgress: { status: 'done' },
-            twoFactorSecret: { active: true },
-            updatedAt: '12-12-2024T00:00:00Z',
-        })),
+            inProgress: { status: InProgressStatusEnum.enum.DONE },
+            updatedAt: '2024-12-12T00:00:00.000Z',
+        }),
     } as any;
 
-    context('When user has the role checked', () => {
-        const request = {} as Request;
-        const response = {} as Response;
-        const next = sinon.spy(() => {}) as NextFunction;
+    let usersRepository: any;
+    let usersDetailsRepository: any;
+    let twoFactorHandler: any;
+    let authorizationMiddleware: AuthorizationMiddleware;
 
-        response.status = sinon.spy(() => response);
-        response.json = sinon.spy(() => response);
-
-        context('And the user is admin', () => {
-            beforeEach(() => {
-                usersRepository = {};
-
-                twoFactorHandler = {};
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        role: 'admin',
-                    }),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                request.user = { userId: '123' } as Express.User;
-
-                await authorizationMiddleware.checkAdminRole(request, response, next);
-
-                expect(next).to.have.been.called();
-            });
-        });
-
-        context('And the user is not admin', () => {
-            beforeEach(() => {
-                usersRepository = {};
-
-                twoFactorHandler = {};
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        role: 'user',
-                    }),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                try {
-                    request.user = { userId: '123' } as Express.User;
-                    await authorizationMiddleware.checkAdminRole(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Unauthorized');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal('Unauthorized');
-                }
-            });
-        });
+    beforeEach(() => {
+        usersRepository = {};
+        usersDetailsRepository = {};
+        twoFactorHandler = {};
     });
 
-    context('When user has 2FA', () => {
-        const request = {} as Request;
+    it('should allow admin users in checkAdminRole', async () => {
+        const request = { user: { userId: '123' } } as unknown as Request;
         const response = {} as Response;
-        const next = sinon.spy(() => {}) as NextFunction;
+        const next = sinon.spy() as unknown as NextFunction;
 
-        response.status = sinon.spy(() => response);
-        response.json = sinon.spy(() => response);
+        usersDetailsRepository.findOne = sinon.stub().returns({ role: 'admin' });
 
-        context('And the 2FA token is correct with Email', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
-                        },
-                        twoFactorSecret: {
-                            active: true,
-                        },
-                    }),
-                    update: sinon.spy(),
-                };
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-                usersDetailsRepository = {};
+        await authorizationMiddleware.checkAdminRole(request, response, next);
 
-                twoFactorHandler = {
-                    validate: sinon.spy(() => true),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should call next', async () => {
-                request.query = {
-                    email: '123@email.com',
-                    token: '123',
-                    flow: 'update-password',
-                };
-
-                await authorizationMiddleware.twoFactor(request, response, next);
-
-                expect(twoFactorHandler.validate).to.have.been.called();
-                expect(stateMachine.machine).to.have.been.called();
-                expect(next).to.have.been.called();
-            });
-        });
-
-        context('And the 2FA token is correct but wrong status', () => {
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: {
-                            status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
-                        },
-                        twoFactorSecret: {
-                            active: true,
-                        },
-                    }),
-                    update: sinon.spy(),
-                };
-
-                usersDetailsRepository = {};
-
-                twoFactorHandler = {
-                    validate: sinon.spy(() => true),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should call next', async () => {
-                try {
-                    request.query = {
-                        email: '123@email.com',
-                        token: '123',
-                        flow: 'update-password',
-                    };
-
-                    await authorizationMiddleware.twoFactor(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
-        });
-
-        context('And the 2FA token is incorrect - 2FA not active', () => {
-            beforeEach(() => {
-                usersRepository = usersRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        twoFactorSecret: {
-                            active: false,
-                        },
-                    }),
-                };
-
-                usersDetailsRepository = {};
-
-                twoFactorHandler = {
-                    validate: sinon.spy(() => true),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should call next but not verify the code', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { token: '123' };
-
-                    await authorizationMiddleware.twoFactor(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('2FA not enabled for this user');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
-        });
-
-        context('And the 2FA token is incorrect - 2FA incorrect', () => {
-            beforeEach(() => {
-                usersRepository = usersRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        twoFactorSecret: {
-                            active: true,
-                        },
-                    }),
-                };
-
-                usersDetailsRepository = {};
-
-                twoFactorHandler = {
-                    validate: sinon.spy(() => false),
-                };
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            afterEach(() => {
-                sinon.restore();
-            });
-
-            it('should call next but not verify the code', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.query = { token: '123' };
-
-                    await authorizationMiddleware.twoFactor(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Two factor code does not match');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal('Unauthorized');
-                }
-            });
-        });
+        expect(next).to.have.been.calledOnce();
     });
 
-    context('When user has secret question to authenticate', () => {
-        const request = {} as Request;
+    it('should advance the flow when 2FA is valid', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = { locals: {} } as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
+            twoFactorSecret: { active: true, secret: 'secret' },
+        });
+        twoFactorHandler.validate = sinon.stub().returns(true);
+
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        await authorizationMiddleware.twoFactor(request, response, next);
+
+        expect(twoFactorHandler.validate).to.have.been.calledOnce();
+        expect(stateMachine.machine).to.have.been.calledOnce();
+        expect(response.locals.accountSecurityMethod).to.be.equal('two-factor');
+        expect(next).to.have.been.calledOnce();
+    });
+
+    it('should throw when 2FA is not active', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
         const response = {} as Response;
-        const next = sinon.spy(() => {}) as NextFunction;
+        const next = sinon.spy() as unknown as NextFunction;
 
-        response.status = sinon.spy(() => response);
-        response.json = sinon.spy(() => response);
-
-        context('And question/answer are correct with email', () => {
-            const secretQuestion = {
-                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red',
-            };
-
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        email: '123@email.com',
-                        inProgress: {
-                            status: stateMachine.props.status.WAIT_TO_SECOND_AUTH,
-                        },
-                    }),
-                    update: (user: User) => {},
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        secretQuestion,
-                    }),
-                };
-
-                twoFactorHandler = {};
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                request.params = {};
-                request.query = { email: '123@email.com', flow: 'update-password' };
-                request.body = secretQuestion;
-                await authorizationMiddleware.secretQuestion(request, response, next);
-
-                expect(next).to.have.been.called();
-            });
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
+            twoFactorSecret: { active: false, secret: 'secret' },
         });
+        twoFactorHandler.validate = sinon.stub().returns(true);
 
-        context('And question/answer are correct with email but user status is invalid', () => {
-            const secretQuestion = {
-                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red',
-            };
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        email: '123@email.com',
-                        inProgress: {
-                            status: stateMachine.props.status.WAIT_TO_CONFIRM,
-                        },
-                    }),
-                    update: (user: User) => {},
-                };
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('2FA not enabled for this user');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+            expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+        }
+    });
 
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        secretQuestion,
-                    }),
-                };
+    it('should throw unauthorized when the user is not admin', async () => {
+        const request = { user: { userId: '123' } } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
 
-                twoFactorHandler = {};
+        usersDetailsRepository.findOne = sinon.stub().returns({ role: 'player' });
 
-                schemaValidator = {
-                    entry: () => {},
-                };
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
+        try {
+            await authorizationMiddleware.checkAdminRole(request, response, next);
+            expect.fail('Expected unauthorized error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('Unauthorized');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+            expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+        }
+    });
 
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
+    it('should throw when the user detail does not exist in checkAdminRole', async () => {
+        const request = { user: { userId: '123' } } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
 
-            it('should call next', async () => {
-                try {
-                    request.params = {};
-                    request.query = {
-                        email: '123@email.com',
-                        flow: 'update-password',
-                    };
-                    request.body = secretQuestion;
+        usersDetailsRepository.findOne = sinon.stub().returns(null);
 
-                    await authorizationMiddleware.secretQuestion(request, response, next);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User status is invalid to perform this operation');
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
-            });
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
+
+        try {
+            await authorizationMiddleware.checkAdminRole(request, response, next);
+            expect.fail('Expected missing user detail error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User does not exist');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+            expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+        }
+    });
+
+    it('should throw when the user status is not allowed in twoFactor', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
+
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM },
+            twoFactorSecret: { active: true, secret: 'secret' },
         });
+        twoFactorHandler.validate = sinon.stub().returns(true);
 
-        context('And question/answer are incorrect', () => {
-            const secretQuestionWrong = {
-                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red',
-            };
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-            const secretQuestionAnswerWrong = {
-                question: questionEnum.enum.WHAT_IS_YOUR_FAVORITE_ARTIST,
-                answer: 'blue',
-            };
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected invalid status error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User status is invalid to perform this operation');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+            expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+        }
+    });
 
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        email: '123@email.com',
-                    }),
-                    update: (user: User) => {},
-                };
+    it('should throw when the user does not exist in twoFactor', async () => {
+        const request = {
+            query: { email: 'missing@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
 
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        secretQuestion: {
-                            question: questionEnum.enum.WHAT_IS_YOUR_FAVORITE_ARTIST,
-                            answer: 'red',
-                        },
-                    }),
-                };
+        usersRepository.findOne = sinon.stub().returns(null);
 
-                twoFactorHandler = {};
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-                schemaValidator = {
-                    entry: () => {},
-                };
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected missing user error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('User does not exist');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+            expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+        }
+    });
 
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
+    it('should throw when 2FA token validation fails', async () => {
+        const request = {
+            query: { email: 'test@email.com', token: '123456', flow: 'update-password' },
+        } as unknown as Request;
+        const response = {} as Response;
+        const next = sinon.spy() as unknown as NextFunction;
 
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should not call next and throws an error - question', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.body = secretQuestionWrong;
-                    await authorizationMiddleware.secretQuestion(request, response, next);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Secret question is incorrect');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal('Unauthorized');
-                }
-            });
-
-            it('should not call next and throws an error - answer', async () => {
-                try {
-                    request.params = { id: '123' };
-                    request.body = secretQuestionAnswerWrong;
-                    await authorizationMiddleware.secretQuestion(request, response, next);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Secret question is incorrect');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal('Unauthorized');
-                }
-            });
+        usersRepository.findOne = sinon.stub().returns({
+            userId: '123',
+            inProgress: { status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH },
+            twoFactorSecret: { active: true, secret: 'secret' },
         });
+        twoFactorHandler.validate = sinon.stub().returns(false);
 
-        context('Secret question is null', () => {
-            const secretQuestion = {
-                question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-                answer: 'red',
-            };
+        authorizationMiddleware = new AuthorizationMiddleware({
+            schemaValidator: { entry: sinon.stub() },
+            usersSchemas: { postAuthenticate2FA: { query: {} } },
+            usersRepository,
+            usersDetailsRepository,
+            stateMachine,
+            twoFactorHandler,
+            logger,
+        } as any);
 
-            beforeEach(() => {
-                usersRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        email: '123@email.com',
-                    }),
-                    update: (user: User) => {},
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => ({
-                        inProgress: { status: 'done' },
-                        secretQuestion: null,
-                    }),
-                };
-
-                twoFactorHandler = {};
-
-                schemaValidator = {
-                    entry: () => {},
-                };
-
-                usersSchemas = {
-                    postAuthenticate2FA: { query: {} },
-                    postAuthenticateSecretQuestion: { query: {}, body: {} },
-                };
-
-                authorizationMiddleware = new AuthorizationMiddleware({
-                    schemaValidator,
-                    usersSchemas,
-                    usersRepository,
-                    stateMachine,
-                    usersDetailsRepository,
-                    twoFactorHandler,
-                    logger,
-                });
-            });
-
-            it('should call next', async () => {
-                request.params = { id: '123' };
-                request.body = secretQuestion;
-                await authorizationMiddleware.secretQuestion(request, response, next);
-
-                expect(next).to.have.been.called(1);
-            });
-        });
+        try {
+            await authorizationMiddleware.twoFactor(request, response, next);
+            expect.fail('Expected invalid token error');
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.be.equal('Two factor code does not match');
+            expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+            expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
+        }
     });
 });

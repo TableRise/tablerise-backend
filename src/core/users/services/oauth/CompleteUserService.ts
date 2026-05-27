@@ -4,6 +4,7 @@ import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDepende
 import { __UserWithID, __FullUser } from 'src/types/api/users/methods';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
+import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class CompleteUserService {
     private readonly usersRepository;
@@ -24,7 +25,8 @@ export default class CompleteUserService {
     }
 
     public async process({ user, userDetails }: __FullUser, payload: CompleteOAuthPayload): Promise<__FullUser> {
-        this.logger('info', 'Process - CompleteUserService');
+        const callName = `[${this.constructor.name}] - ${this.process.name}`;
+        this.logger('info', callName);
         user.nickname = payload.nickname;
 
         const nicknameExists = await this.usersRepository.find({
@@ -37,14 +39,15 @@ export default class CompleteUserService {
         user.inProgress.status = InProgressStatusEnum.enum.DONE;
         userDetails.firstName = payload.firstName;
         userDetails.lastName = payload.lastName;
-        userDetails.pronoun = payload.pronoun;
         userDetails.birthday = payload.birthday;
+        ensureGameInfoCounters(userDetails);
 
         return { user, userDetails };
     }
 
     public async save({ userId, user, userDetails }: __UserWithID): Promise<RegisterUserResponse> {
-        this.logger('info', 'Save - CompleteUserService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         const userUpdated = await this.usersRepository.update({
             query: { userId },
             payload: user,

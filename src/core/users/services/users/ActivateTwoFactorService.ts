@@ -28,10 +28,12 @@ export default class ActivateTwoFactorService {
     }
 
     public async activate(userId: string): Promise<__FullUser> {
-        this.logger('info', 'Activate - ActivateTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.activate.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_ACTIVATE_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -42,8 +44,7 @@ export default class ActivateTwoFactorService {
         const userDetailInDb = await this.usersDetailsRepository.findOne({
             userId: userInDb.userId,
         });
-
-        userDetailInDb.secretQuestion = { question: '', answer: '' };
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         await this.stateMachine.machine(flows.ACTIVATE_TWO_FACTOR, userInDb);
 
@@ -51,7 +52,8 @@ export default class ActivateTwoFactorService {
     }
 
     public async save({ user, userDetails }: __FullUser): Promise<TwoFactorResponse> {
-        this.logger('info', 'Save - ActivateTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
 
         const userSaved = await this.usersRepository.update({
             query: { userId: user.userId },

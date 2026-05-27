@@ -17,7 +17,8 @@ export default class GetUsersService {
     }
 
     public async get(): Promise<RegisterUserResponse[]> {
-        this.logger('info', 'Get - GetUsersService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         const userInDb = await this.usersRepository.find({});
         const userDetailInDb = await this.usersDetailsRepository.find({});
         const response: RegisterUserResponse[] = [];

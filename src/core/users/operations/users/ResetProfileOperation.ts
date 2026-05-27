@@ -12,7 +12,8 @@ export default class ResetProfileOperation {
     }
 
     public async execute(userId: string): Promise<void> {
-        this.logger('info', 'Execute - ResetProfileOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.resetProfileService.reset(userId);
     }
 }

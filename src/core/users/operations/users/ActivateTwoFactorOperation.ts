@@ -13,7 +13,8 @@ export default class ActivateTwoFactorOperation {
     }
 
     public async execute(userId: string): Promise<TwoFactorResponse> {
-        this.logger('info', 'Execute - ActivateTwoFactorOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const { user, userDetails } = await this.activateTwoFactorService.activate(userId);
 

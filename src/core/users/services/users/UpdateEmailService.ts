@@ -18,16 +18,19 @@ export default class UpdateEmailService {
     }
 
     private changeEmail({ user, email }: UserEmail): User {
-        this.logger('info', 'ChangeEmail - UpdateEmailService');
+        const callName = `[${this.constructor.name}] - ${this.changeEmail.name}`;
+        this.logger('info', callName);
         user.email = email;
         return user;
     }
 
     public async update({ userId, email }: UpdateEmailPayload): Promise<void> {
-        this.logger('info', 'Update - UpdateEmailService');
+        const callName = `[${this.constructor.name}] - ${this.update.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         const emailAlreadyExist = await this.usersRepository.find({ email });
 

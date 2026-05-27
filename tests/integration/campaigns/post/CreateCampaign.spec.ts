@@ -8,12 +8,19 @@ import User, { UserDetail } from '@tablerise/database-management/dist/src/interf
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import DatabaseManagement from '@tablerise/database-management';
+import newUUID from 'src/domains/common/helpers/newUUID';
 
-describe('When a campaign is created', () => {
+describe('When a campaign is created', function () {
+    this.timeout(30000);
+
     let user: User, userDetails: UserDetail;
 
     context('And all data is correct', () => {
         const userLoggedId = '12cd093b-0a8a-42fe-910f-001f2ab28454';
+        const userLoggedDetailsId = 'ff2abce1-fc9e-41d7-b8ab-8cb599adb111';
+        const userDetailsModel = new DatabaseManagement().modelInstance('user', 'UserDetails');
+        const userDetailsCollection = (userDetailsModel as any)._model.collection;
 
         before(async () => {
             user = DomainDataFaker.generateUsersJSON()[0];
@@ -22,13 +29,24 @@ describe('When a campaign is created', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
 
             await InjectNewUser(user);
             await InjectNewUserDetails(userDetails, user.userId);
+
+            await userDetailsCollection.updateOne(
+                { userDetailId: userLoggedDetailsId },
+                {
+                    $set: {
+                        'gameInfo.campaigns': Array.from({ length: 9 }, () => newUUID()),
+                        'gameInfo.badges': [],
+                        'gameInfo.campaignsCreatedAmount': 1,
+                    },
+                }
+            );
         });
 
         after(() => {
@@ -48,6 +66,10 @@ describe('When a campaign is created', () => {
                 .field('system', campaignPayload.system)
                 .field('ageRestriction', campaignPayload.ageRestriction)
                 .field('password', campaignPayload.password)
+                .field('playerAmountLimit', campaignPayload.playerAmountLimit)
+                .field('musics', '[]')
+                .field('configurations', JSON.stringify(campaignPayload.configurations))
+                .field('mainHistory', 'A great adventure begins')
                 .expect(HttpStatusCode.CREATED);
 
             expect(body).to.have.property('campaignId');
@@ -64,13 +86,18 @@ describe('When a campaign is created', () => {
             expect(body).to.have.property('campaignPlayers');
             expect(body.campaignPlayers[0].userId).to.be.equal(userLoggedId);
             expect(body).to.have.property('matchData');
-            expect(body.matchData).to.be.equal(null);
+            expect(body.matchData).to.be.an('object');
             expect(body).to.have.property('infos');
             expect(body.infos.visibility).to.be.equal(campaignPayload.visibility);
-            expect(body).to.have.property('lores');
-            expect(body.lores).to.be.equal(null);
+            expect(body).to.have.property('configurations');
+            expect(body.configurations.xpSystem).to.be.equal(campaignPayload.configurations.xpSystem);
+            expect(body.configurations.shopSystem).to.be.equal(campaignPayload.configurations.shopSystem);
             expect(body).to.have.property('createdAt');
             expect(body).to.have.property('updatedAt');
+
+            const authenticatedUserUpdated = await userDetailsCollection.findOne({ userDetailId: userLoggedDetailsId });
+            expect(authenticatedUserUpdated.gameInfo.campaignsCreatedAmount).to.equal(2);
+            expect(authenticatedUserUpdated.gameInfo.badges).to.include('cleric-badge');
         });
     });
 });

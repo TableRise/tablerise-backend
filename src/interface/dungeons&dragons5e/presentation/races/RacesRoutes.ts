@@ -5,6 +5,12 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 import { RacesRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/races/RacesRoutes';
 
 const BASE_PATH = '/system/dnd5e/races';
+const desc = {
+    getAll: 'List all D&D 5e races available in the system.',
+    getDisabled: 'List D&D 5e races currently marked as unavailable.',
+    getById: 'Get one D&D 5e race by id.',
+    toggleAvailability: 'Enable or disable a D&D 5e race.',
+};
 
 export default class RacesRoutes {
     private readonly RacesController;
@@ -24,6 +30,7 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'races',
+                    description: desc.getAll,
                 },
             },
             {
@@ -33,6 +40,7 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'races',
+                    description: desc.getDisabled,
                 },
             },
             {
@@ -43,6 +51,7 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'races',
+                    description: desc.getById,
                 },
             },
             {
@@ -56,6 +65,7 @@ export default class RacesRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'races',
+                    description: desc.toggleAvailability,
                 },
             },
         ] as unknown as routeInstance[];

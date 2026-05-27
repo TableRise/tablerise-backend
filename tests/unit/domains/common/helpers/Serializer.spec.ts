@@ -1,5 +1,6 @@
 import Google from 'passport-google-oauth20';
 import Discord from 'passport-discord';
+import Facebook from 'passport-facebook';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Serializer from 'src/domains/common/helpers/Serializer';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
@@ -50,6 +51,21 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             expect(serialized.email).to.be.equal('test@email.com');
             expect(serialized.providerId).to.be.equal(user.id);
         });
+
+        it('should keep default external user fields for providers without custom mapping', () => {
+            const user = {
+                id: newUUID(),
+                provider: 'facebook',
+            } as Facebook.Profile;
+
+            const serialized = serializer.externalUser(user);
+
+            expect(serialized).to.deep.equal({
+                providerId: user.id,
+                email: '',
+                name: '',
+            });
+        });
     });
 
     context('When user is serialized', () => {
@@ -92,10 +108,9 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
         it('should return correct keys', () => {
             const campaignDefault = CampaignDomainDataFaker.generateCampaignsJSON()[0];
 
-            // @ts-expect-error visibility is required in Campaign
-            delete campaignDefault.visibility;
-
-            const campaignDefaultKeys = Object.keys(campaignDefault);
+            const campaignDefaultKeys = Object.keys(campaignDefault).filter(
+                (key) => !['visibility', 'lores', 'images'].includes(key)
+            );
             const campaign = {};
             const serialized = serializer.postCampaign(campaign);
 
@@ -174,6 +189,24 @@ describe('Domains :: User :: Helpers :: Serializer', () => {
             imageDefaultKeys.forEach((key) => {
                 expect(serialized).to.have.property(key);
             });
+        });
+
+        it('should fallback missing image urls to empty strings', () => {
+            const image = {
+                data: {
+                    data: {
+                        thumb: {},
+                    },
+                },
+                success: true,
+                status: 200,
+            } as ApiImgBBResponse;
+
+            const serialized = serializer.imageResult(image);
+
+            expect(serialized.mediumSizeUrl).to.equal('');
+            expect(serialized.thumbSizeUrl).to.equal('');
+            expect(serialized.deleteUrl).to.equal('');
         });
     });
 });

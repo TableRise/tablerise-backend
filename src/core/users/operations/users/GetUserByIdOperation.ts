@@ -12,7 +12,8 @@ export default class GetUserByIdOperation {
     }
 
     public async execute({ userId }: GetByIdPayload): Promise<RegisterUserResponse> {
-        this.logger('info', 'Execute - GetUserByIdOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getUserByIdService.get({ userId });
     }
 }

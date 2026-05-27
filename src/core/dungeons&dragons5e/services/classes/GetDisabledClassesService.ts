@@ -14,7 +14,8 @@ export default class GetDisabledClassesService {
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Class>>> {
-        this.logger('info', 'GetAll - GetDisabledClassesService');
+        const callName = `[${this.constructor.name}] - ${this.getAllDisabled.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Classes');
 
         const classInDb = (await this.dungeonsAndDragonsRepository.find({

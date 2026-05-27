@@ -171,6 +171,82 @@ describe('Core :: Users :: Services :: ActivateTwoFactorService', () => {
                 }
             });
         });
+
+        context('When activate an user two factor fail | user does not exist', () => {
+            before(() => {
+                stateMachine = {
+                    props: StateMachine.prototype.props,
+                    machine: sinon.stub(),
+                };
+
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.stub(),
+                };
+
+                twoFactorHandler = new TwoFactorHandler({ configs, logger });
+
+                activateTwoFactorService = new ActivateTwoFactorService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await activateTwoFactorService.activate('userId');
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
+
+        context('When activate an user two factor fail | user details do not exist', () => {
+            before(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+                user.inProgress.status = stateMachine.props.status.WAIT_TO_ACTIVATE_TWO_FACTOR;
+
+                usersRepository = {
+                    findOne: () => user,
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => null,
+                };
+
+                twoFactorHandler = new TwoFactorHandler({ configs, logger });
+
+                activateTwoFactorService = new ActivateTwoFactorService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    twoFactorHandler,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await activateTwoFactorService.activate('userId');
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
     });
 
     context('#save', () => {

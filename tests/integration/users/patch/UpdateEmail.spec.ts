@@ -17,7 +17,7 @@ describe('When an user has the email changed', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                 currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+                prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'H45J7F',
             };

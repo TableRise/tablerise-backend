@@ -14,7 +14,8 @@ export default class GetFeatService {
     }
 
     public async get(id: string): Promise<Internacional<Feat>> {
-        this.logger('info', 'GetAll - GetFeatService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Feats');
 
         const featInDb = (await this.dungeonsAndDragonsRepository.findOne({

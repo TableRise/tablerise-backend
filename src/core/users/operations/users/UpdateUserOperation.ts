@@ -1,6 +1,6 @@
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UpdateUserPayload } from 'src/types/api/users/http/payload';
-import { RegisterUserResponse } from 'src/types/api/users/http/response';
 
 export default class UpdateUserOperation {
     private readonly updateUserService;
@@ -13,13 +13,9 @@ export default class UpdateUserOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute({ userId, payload }: UpdateUserPayload): Promise<RegisterUserResponse> {
-        this.logger('info', 'Execute - UpdateUserOperation');
-        const { user, userDetails } = await this.updateUserService.update({
-            userId,
-            payload,
-        });
-
-        return this.updateUserService.save({ user, userDetails });
+    public async execute({ userId, payload }: UpdateUserPayload): Promise<User> {
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
+        return this.updateUserService.update({ userId, payload });
     }
 }

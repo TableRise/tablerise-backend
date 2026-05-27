@@ -14,7 +14,8 @@ export default class GetSpellOperation {
     }
 
     public async execute(id: string): Promise<Internacional<Spell>> {
-        this.logger('info', 'Execute - GetSpellOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const spell = await this.getSpellService.get(id);
 
         return spell;

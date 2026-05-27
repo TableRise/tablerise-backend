@@ -20,7 +20,8 @@ export default class UpdateCharacterPictureService {
     }
 
     public async uploadPicture(payload: UpdateCharacterPicturePayload): Promise<CharactersDnd> {
-        this.logger('info', 'UpdateCharacterPicture - UpdateCharacterPictureService');
+        const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
+        this.logger('info', callName);
         const { characterId, image } = payload;
         const characterInDb = await this.charactersRepository.findOne({ characterId });
 

@@ -18,7 +18,8 @@ export default class CompleteUserOperation {
     }
 
     public async execute({ userId, payload }: CompleteOAuth): Promise<RegisterUserResponse> {
-        this.logger('info', 'Execute - CompleteUserOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const { details, ...user } = await this.getUserByIdService.get({ userId });
         const { user: mainUser, userDetails } = await this.completeUserService.process(
             { user, userDetails: details },

@@ -15,7 +15,8 @@ export default class ToggleBackgroundsAvailabilityService {
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Background>> {
-        this.logger('info', 'Toggle - ToggleBackgroundsAvailabilityService');
+        const callName = `[${this.constructor.name}] - ${this.toggle.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Backgrounds');
 
         const backgroundInDb = (await this.dungeonsAndDragonsRepository.findOne({

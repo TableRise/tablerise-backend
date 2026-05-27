@@ -13,7 +13,8 @@ export default class UpdatePasswordOperation {
     }
 
     public async execute({ email, password }: UpdatePasswordPayload): Promise<void> {
-        this.logger('info', 'Execute - UpdatePasswordOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.updatePasswordService.update({ email, password });
     }
 }

@@ -1,16 +1,11 @@
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import UpdateUserService from 'src/core/users/services/users/UpdateUserService';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
 describe('Core :: Users :: Services :: UpdateUserService', () => {
-    let updateUserService: UpdateUserService,
-        usersRepository: any,
-        usersDetailsRepository: any,
-        userToUpdate: any,
-        user: User,
-        userDetails: UserDetail;
+    let updateUserService: UpdateUserService, usersRepository: any, userToUpdate: any, user: User;
 
     const logger = (): void => {};
 
@@ -21,16 +16,15 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
                 usersRepository = {
-                    findOne: () => [],
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => [],
+                    findOne: () => user,
+                    update: () => ({
+                        ...user,
+                        ...userToUpdate,
+                    }),
                 };
 
                 updateUserService = new UpdateUserService({
                     usersRepository,
-                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -43,27 +37,21 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
 
                 const userUpdateResponse = await updateUserService.update(userUpdatePayload);
 
-                expect(userUpdateResponse.user.nickname).to.be.equal(userToUpdate.nickname);
-                expect(userUpdateResponse.userDetails.firstName).to.be.equal(userToUpdate.details.firstName);
+                expect(userUpdateResponse.nickname).to.be.equal(userToUpdate.nickname);
             });
         });
 
         context('When validateUpdateData fail with user', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
-                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
 
                 usersRepository = {
-                    findOne: () => [],
-                };
-
-                usersDetailsRepository = {
-                    findOne: () => [],
+                    findOne: () => user,
+                    update: () => user,
                 };
 
                 updateUserService = new UpdateUserService({
                     usersRepository,
-                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -72,10 +60,7 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                 try {
                     const userPayload = {
                         userId: user.userId,
-                        payload: {
-                            ...user,
-                            details: userDetails,
-                        },
+                        payload: user,
                     };
 
                     await updateUserService.update(userPayload);
@@ -89,24 +74,22 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
             });
         });
 
-        context('When validateUpdateData fail with user details', () => {
+        context('When validateUpdateData fail with user picture', () => {
             before(() => {
                 userToUpdate = DomainDataFaker.mocks.updateUserMock;
                 user = DomainDataFaker.generateUsersJSON()[0];
-                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
                 usersRepository = {
-                    findOne: () => [],
+                    findOne: () => user,
+                    update: () => user,
                 };
 
-                userToUpdate.details.userId = userDetails.userId;
-
-                usersDetailsRepository = {
-                    findOne: () => [],
+                userToUpdate = {
+                    ...userToUpdate,
+                    picture: user.picture,
                 };
 
                 updateUserService = new UpdateUserService({
                     usersRepository,
-                    usersDetailsRepository,
                     logger,
                 });
             });
@@ -122,45 +105,41 @@ describe('Core :: Users :: Services :: UpdateUserService', () => {
                     expect('it should not be here').to.be.equal(false);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Update User Info - forbidden field: userId exists in payload');
+                    expect(err.message).to.be.equal('Update User Info - forbidden field: picture exists in payload');
                     expect(err.name).to.be.equal('ForbiddenRequest');
                     expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
                 }
             });
         });
-    });
 
-    context('#Save', () => {
-        context('When save with success', () => {
+        context('When update fails because the user no longer exists', () => {
             before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userToUpdate = DomainDataFaker.mocks.updateUserMock;
 
                 usersRepository = {
+                    findOne: () => null,
                     update: () => user,
-                };
-
-                usersDetailsRepository = {
-                    update: () => userDetails,
                 };
 
                 updateUserService = new UpdateUserService({
                     usersRepository,
-                    usersDetailsRepository,
                     logger,
                 });
             });
 
-            it('should return the correct result', async () => {
-                const userSavePayload = {
-                    user,
-                    userDetails,
-                };
-
-                const userSaveResponse = await updateUserService.save(userSavePayload);
-
-                expect(userSaveResponse.nickname).to.be.equal(user.nickname);
-                expect(userSaveResponse.details.firstName).to.be.equal(userDetails.firstName);
+            it('should throw a not found error', async () => {
+                try {
+                    await updateUserService.update({
+                        userId: 'missing-user',
+                        payload: userToUpdate,
+                    });
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
             });
         });
     });

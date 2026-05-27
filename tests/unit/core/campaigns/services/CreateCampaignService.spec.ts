@@ -1,5 +1,6 @@
 import CreateCampaignService from 'src/core/campaigns/services/CreateCampaignService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
@@ -72,6 +73,13 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 campaign.createdAt = null as unknown as string;
                 campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify(
+                    campaign.configurations
+                ) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify(
+                    campaign.infos.socialMedia ?? {}
+                ) as unknown as typeof campaign.socialMedia;
 
                 serializer = {};
 
@@ -119,11 +127,120 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             });
 
             it('should return the correct result without image', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
                 const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
 
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
                 expect(campaignEnriched.updatedAt).to.be.not.null();
+            });
+
+            it('should return the correct result with mapImages', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+                const mapImages = [image, image] as FileObject[];
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId, image, mapImages);
+
+                expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
+                expect(campaignEnriched.matchData.mapImages).to.have.lengthOf(2);
+            });
+
+            it('should return the correct result without password', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.password = '' as unknown as string;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
+                expect(campaignEnriched.createdAt).to.be.not.null();
+            });
+
+            it('should accept object social media and string booleans', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: 'true',
+                    shopSystem: 'true',
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = { twitch: 'live' } as any;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.infos.socialMedia).to.deep.equal({ twitch: 'live' });
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: true,
+                    shopSystem: true,
+                    shopOn: true,
+                });
+            });
+
+            it('should default social media to an empty object when it is undefined', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = undefined as any;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.infos.socialMedia).to.deep.equal({});
+            });
+
+            it('should accept object configurations without forcing JSON parsing', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = {
+                    xpSystem: true,
+                    shopSystem: false,
+                    shopOn: false,
+                } as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: true,
+                    shopSystem: false,
+                    shopOn: false,
+                });
+            });
+
+            it('should default configurations to disabled flags when missing', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = undefined as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: false,
+                    shopSystem: false,
+                    shopOn: false,
+                });
             });
         });
     });
@@ -133,6 +250,12 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             before(() => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
                 userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.campaigns = Array.from({ length: 9 }, (_, index) => ({
+                    campaignId: `existing-${index}`,
+                    notes: [],
+                })) as any;
+                userDetails.gameInfo.badges = [];
+                userDetails.gameInfo.campaignsCreatedAmount = 1;
 
                 serializer = {};
 
@@ -168,7 +291,38 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 const campaignSaved = await createCampaignService.save(campaign);
 
                 expect(campaignSaved).to.be.deep.equal(campaign);
+                expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
+                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric-badge']);
             });
+        });
+
+        it('should reject when the owner user details do not exist', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaignsRepository = {
+                create: () => campaign,
+            };
+            usersDetailsRepository = {
+                findOne: () => null,
+                update: () => {},
+            };
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository,
+                usersDetailsRepository,
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            let thrownError;
+
+            try {
+                await createCampaignService.save(campaign);
+            } catch (error) {
+                thrownError = error;
+            }
+
+            expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         });
     });
 });

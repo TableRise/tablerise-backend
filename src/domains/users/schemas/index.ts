@@ -1,7 +1,5 @@
 import { oAuthCompleteZodSchema } from './oAuthValidationSchema';
 
-const schemas = {
+export default {
     oAuthComplete: oAuthCompleteZodSchema,
 };
-
-export default schemas;

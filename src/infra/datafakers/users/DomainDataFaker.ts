@@ -11,7 +11,6 @@ import {
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import generateUsersFaker from './generators/generateUsersFaker';
 import generateUserDetailsFaker from './generators/generateUserDetailsFaker';
-import questionEnum from 'src/domains/users/enums/questionEnum';
 import generateDiscordProfileFaker from './generators/generateDiscordFaker';
 import generateFacebookProfileFaker from './generators/generateFacebookFaker';
 import generateGoogleProfileFaker from './generators/generateGoogleFaker';
@@ -37,7 +36,7 @@ function generateGoogleProfileJSON({ count, id }: GoogleJSONPayload = { count: 1
 }
 
 const [{ email, password, nickname }] = generateUsersJSON();
-const [{ firstName, lastName, pronoun, birthday, biography }] = generateUserDetailsJSON();
+const [{ firstName, lastName, birthday, biography }] = generateUserDetailsJSON();
 
 const mocks = {
     loginMock: { email, password },
@@ -56,34 +55,20 @@ const mocks = {
         nickname,
         firstName,
         lastName,
-        pronoun,
         birthday,
     },
     updateUserMock: {
         nickname,
-        details: {
-            firstName,
-            lastName,
-            pronoun,
-            birthday,
-            biography,
-        },
+    },
+    updateUserDetailsMock: {
+        firstName,
+        lastName,
+        birthday,
+        biography,
     },
     updateEmailMock: { email },
     updatePasswordMock: { password: '@TheWorld456' },
     uploadPicture: { picture: { isBinary: true } },
-    activateSecretQuestionMock: {
-        question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
-        answer: 'Silvera',
-    },
-    updateSecretQuestionMock: {
-        question: questionEnum.enum.WHAT_COLOR_DO_YOU_LIKE_THE_MOST,
-        answer: 'black',
-        new: {
-            question: questionEnum.enum.WHAT_IS_YOUR_GRANDFATHER_LAST_NAME,
-            answer: 'Silvera',
-        },
-    },
 };
 
 export default {

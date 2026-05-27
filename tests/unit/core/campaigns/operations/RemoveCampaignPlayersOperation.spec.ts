@@ -11,6 +11,7 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
         campaign: Campaign;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign has the match players', () => {
@@ -42,6 +43,7 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
 
                 removeCampaignPlayersOperation = new RemoveCampaignPlayersOperation({
                     removeCampaignPlayersService,
+                    socketIO,
                     logger,
                 });
             });
@@ -60,6 +62,76 @@ describe('Core :: Campaigns :: Operations :: RemoveCampaignPlayersOperation', ()
                 expect(removePlayerTest[0]).to.have.property('status');
                 expect(removePlayerTest[0].status).to.be.equal('pending');
             });
+        });
+    });
+
+    it('should emit null as player when the service does not return a removedPlayer', async () => {
+        campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        matchPlayersPayload = {
+            campaignId: campaign.campaignId,
+            userId: 'user-id',
+        };
+
+        const isolatedSocketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
+        removeCampaignPlayersService = {
+            removeCampaignPlayers: sinon.stub().resolves({
+                campaign,
+                userDetails: {},
+                removedPlayer: undefined,
+            }),
+            save: sinon.stub().resolves(campaign),
+        };
+
+        removeCampaignPlayersOperation = new RemoveCampaignPlayersOperation({
+            removeCampaignPlayersService,
+            socketIO: isolatedSocketIO,
+            logger,
+        });
+
+        await removeCampaignPlayersOperation.execute(matchPlayersPayload);
+
+        expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(campaign.campaignId, 'campaign:player_left', {
+            campaignId: campaign.campaignId,
+            userId: 'user-id',
+            player: null,
+        });
+    });
+
+    it('should emit the removed player when the service returns one', async () => {
+        campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const removedPlayer = {
+            userId: 'user-id',
+            characterIds: [],
+            role: 'player',
+            status: 'active',
+        } as any;
+        matchPlayersPayload = {
+            campaignId: campaign.campaignId,
+            userId: 'user-id',
+        };
+
+        const isolatedSocketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
+        removeCampaignPlayersService = {
+            removeCampaignPlayers: sinon.stub().resolves({
+                campaign,
+                userDetails: {},
+                removedPlayer,
+            }),
+            save: sinon.stub().resolves(campaign),
+        };
+
+        removeCampaignPlayersOperation = new RemoveCampaignPlayersOperation({
+            removeCampaignPlayersService,
+            socketIO: isolatedSocketIO,
+            logger,
+        });
+
+        await removeCampaignPlayersOperation.execute(matchPlayersPayload);
+
+        expect(isolatedSocketIO.emitToCampaign).to.have.been.calledWith(campaign.campaignId, 'campaign:player_left', {
+            campaignId: campaign.campaignId,
+            userId: 'user-id',
+            player: removedPlayer,
         });
     });
 });

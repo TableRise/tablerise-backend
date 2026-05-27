@@ -1,5 +1,4 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
 import { RemoveCampaignPlayersPayload } from 'src/types/api/campaigns/http/payload';
 import { UpdateMatchPlayersResponse } from 'src/types/api/users/methods';
@@ -23,22 +22,25 @@ export default class RemoveCampaignPlayersService {
     async removeCampaignPlayers({
         campaignId,
         userId,
-    }: RemoveCampaignPlayersPayload): Promise<UpdateMatchPlayersResponse> {
+    }: RemoveCampaignPlayersPayload): Promise<
+        UpdateMatchPlayersResponse & { removedPlayer?: Campaign['campaignPlayers'][number] }
+    > {
         this.logger('info', 'RemoveCampaignPlayers - RemoveCampaignPlayersService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
-        const dungeonMaster = campaign.campaignPlayers.find((player) => player.role === 'dungeon_master');
-
-        if (dungeonMaster?.userId === userId) HttpRequestErrors.throwError('player-master-equal');
+        const removedPlayer = campaign.campaignPlayers.find((player) => player.userId === userId);
 
         userDetails.gameInfo.campaigns = userDetails.gameInfo.campaigns.filter(
-            (campaign) => campaign.campaignId !== campaignId
+            (storedCampaign: string | { campaignId?: string }) => {
+                if (typeof storedCampaign === 'string') return storedCampaign !== campaignId;
+                return storedCampaign?.campaignId !== campaignId;
+            }
         );
 
         campaign.campaignPlayers = campaign.campaignPlayers.filter((player) => player.userId !== userId);
 
-        return { campaign, userDetails };
+        return { campaign, userDetails, removedPlayer };
     }
 
     async save(campaign: Campaign, userDetails: UserDetail): Promise<Campaign> {

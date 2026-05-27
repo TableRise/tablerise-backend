@@ -1,52 +1,43 @@
 import { z } from 'zod';
 import { ICharactersSchemas } from 'src/types/modules/interface/characters/presentation/characters/CharactersSchemas';
-import { imageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
-import racesEnum from 'src/domains/dungeons&dragons5e/enums/racesEnum';
-import classesEnum from 'src/domains/dungeons&dragons5e/enums/classesEnum';
 
 // ─── POST (create) ────────────────────────────────────────────────────────────
 
-const alliesAndOrgsCharacterZodSchema = z.object({
-    orgName: z.string(),
-    symbol: imageObjectZodSchema.optional().nullable(),
-    content: z.string(),
-});
-
 const appearanceCharacterZodSchema = z.object({
+    description: z.string(),
     eyes: z.string(),
     age: z.string(),
     weight: z.string(),
     height: z.string(),
     skin: z.string(),
     hair: z.string(),
-    picture: imageObjectZodSchema.optional().nullable(),
+    picture: z.any().optional(),
 });
 
 const otherCharacterZodSchema = z.object({
-    languages: z.array(z.string()),
-    proficiencies: z.string(),
-    extraCharacteristics: z.string(),
+    characteristicsAndAbilities: z.string(),
 });
 
 const characteristicsCharacterZodSchema = z.object({
     alignment: z.string(),
     backstory: z.string(),
+    background: z.string(),
     personalityTraits: z.string(),
     ideals: z.string(),
     bonds: z.string(),
     flaws: z.string(),
     appearance: appearanceCharacterZodSchema,
-    alliesAndOrgs: z.array(alliesAndOrgsCharacterZodSchema),
+    alliesAndOrgs: z.string(),
     other: otherCharacterZodSchema,
-    treasure: z.array(z.string()),
+    treasure: z.string(),
 });
 
 const profileCharacterZodSchema = z.object({
     name: z.string(),
-    class: z.enum(classesEnum.values),
-    race: z.enum(racesEnum.values),
-    level: z.number().default(0).optional(),
-    xp: z.number().default(0).optional(),
+    class: z.string(),
+    race: z.string(),
+    level: z.number(),
+    xp: z.number(),
     characteristics: characteristicsCharacterZodSchema,
 });
 
@@ -77,8 +68,8 @@ const spellCastingCharacterZodSchema = z.object({
 });
 
 const statsCharacterZodSchema = z.object({
-    abilityScores: z.array(abilityScoresZodSchema).optional(),
-    skills: z.record(z.string(), z.number()).optional(),
+    abilityScores: z.array(abilityScoresZodSchema),
+    skills: z.array(z.object({ name: z.string(), value: z.number(), checked: z.boolean() })).optional(),
     proficiencyBonus: z.number(),
     inspiration: z.number(),
     passiveWisdom: z.number(),
@@ -86,20 +77,8 @@ const statsCharacterZodSchema = z.object({
     initiative: z.number(),
     armorClass: z.number(),
     hitPoints: hitPointsCharacterZodSchema,
-    deathSaves: deathSavesCharacterZodSchema.optional(),
+    deathSaves: deathSavesCharacterZodSchema,
     spellCasting: spellCastingCharacterZodSchema,
-});
-
-const damageAttacksCharacterZodSchema = z.object({
-    type: z.string(),
-    bonus: z.number(),
-    dice: z.string(),
-});
-
-const attacksCharacterZodSchema = z.object({
-    name: z.string(),
-    atkBonus: z.number(),
-    damage: z.array(damageAttacksCharacterZodSchema),
 });
 
 const moneyCharacterZodSchema = z.object({
@@ -112,6 +91,12 @@ const moneyCharacterZodSchema = z.object({
 
 const spellLevelCharacterZodSchema = z.object({
     spellIds: z.array(z.string()),
+    slotsTotal: z.number(),
+    slotsExpended: z.number(),
+});
+
+const extraAbilityLevelCharacterZodSchema = z.object({
+    extraAbilityNames: z.array(z.string()),
     slotsTotal: z.number(),
     slotsExpended: z.number(),
 });
@@ -129,14 +114,27 @@ const spellsCharacterZodSchema = z.object({
     9: spellLevelCharacterZodSchema,
 });
 
+const extraAbilitiesCharacterZodSchema = z.object({
+    cantrips: z.array(z.string()),
+    1: extraAbilityLevelCharacterZodSchema,
+    2: extraAbilityLevelCharacterZodSchema,
+    3: extraAbilityLevelCharacterZodSchema,
+    4: extraAbilityLevelCharacterZodSchema,
+    5: extraAbilityLevelCharacterZodSchema,
+    6: extraAbilityLevelCharacterZodSchema,
+    7: extraAbilityLevelCharacterZodSchema,
+    8: extraAbilityLevelCharacterZodSchema,
+    9: extraAbilityLevelCharacterZodSchema,
+});
+
 const dataCharacterZodSchema = z.object({
     profile: profileCharacterZodSchema,
     stats: statsCharacterZodSchema,
-    attacks: z.array(attacksCharacterZodSchema),
-    equipments: z.array(z.string()),
-    money: moneyCharacterZodSchema.optional(),
-    features: z.array(z.string()),
-    spells: spellsCharacterZodSchema.optional(),
+    inventory: z.string(),
+    equipments: z.array(z.any()).optional(),
+    money: moneyCharacterZodSchema,
+    spells: spellsCharacterZodSchema,
+    extraAbilities: extraAbilitiesCharacterZodSchema,
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });
@@ -144,35 +142,37 @@ const dataCharacterZodSchema = z.object({
 const characterPostZodSchema = z.object({
     data: dataCharacterZodSchema,
     npc: z.boolean().default(false),
-    picture: imageObjectZodSchema.optional().nullable(),
 });
 
 // ─── PUT (update) ─────────────────────────────────────────────────────────────
 
 const appearanceUpdateZodSchema = z.object({
+    description: z.string().optional(),
     eyes: z.string().optional(),
     age: z.string().optional(),
     weight: z.string().optional(),
     height: z.string().optional(),
     skin: z.string().optional(),
     hair: z.string().optional(),
+    picture: z.any().optional(),
 });
 
 const otherUpdateZodSchema = z.object({
-    languages: z.array(z.string()).optional(),
-    proficiencies: z.string().optional(),
-    extraCharacteristics: z.string().optional(),
+    characteristicsAndAbilities: z.string().optional(),
 });
 
 const characteristicsUpdateZodSchema = z.object({
     alignment: z.string().optional(),
     backstory: z.string().optional(),
+    background: z.string().optional(),
     personalityTraits: z.string().optional(),
     ideals: z.string().optional(),
     bonds: z.string().optional(),
     flaws: z.string().optional(),
     appearance: appearanceUpdateZodSchema,
     other: otherUpdateZodSchema,
+    alliesAndOrgs: z.string().optional(),
+    treasure: z.string().optional(),
 });
 
 const profileUpdateZodSchema = z.object({
@@ -210,9 +210,11 @@ const statsUpdateZodSchema = z.object({
     speed: z.number().optional(),
     initiative: z.number().optional(),
     armorClass: z.number().optional(),
-    hitPoints: hitPointsUpdateZodSchema,
-    deathSaves: deathSavesUpdateZodSchema,
-    spellCasting: spellCastingUpdateZodSchema,
+    hitPoints: hitPointsUpdateZodSchema.optional(),
+    deathSaves: deathSavesUpdateZodSchema.optional(),
+    spellCasting: spellCastingUpdateZodSchema.optional(),
+    abilityScores: z.array(abilityScoresZodSchema).optional(),
+    skills: z.array(z.object({ name: z.string(), value: z.number(), checked: z.boolean() })).optional(),
 });
 
 const moneyUpdateZodSchema = z.object({
@@ -223,10 +225,51 @@ const moneyUpdateZodSchema = z.object({
     pp: z.number().optional(),
 });
 
+const spellLevelUpdateZodSchema = z.object({
+    spellIds: z.array(z.string()).optional(),
+    slotsTotal: z.number().optional(),
+    slotsExpended: z.number().optional(),
+});
+
+const spellsUpdateZodSchema = z.object({
+    cantrips: z.array(z.string()).optional(),
+    1: spellLevelUpdateZodSchema.optional(),
+    2: spellLevelUpdateZodSchema.optional(),
+    3: spellLevelUpdateZodSchema.optional(),
+    4: spellLevelUpdateZodSchema.optional(),
+    5: spellLevelUpdateZodSchema.optional(),
+    6: spellLevelUpdateZodSchema.optional(),
+    7: spellLevelUpdateZodSchema.optional(),
+    8: spellLevelUpdateZodSchema.optional(),
+    9: spellLevelUpdateZodSchema.optional(),
+});
+
+const extraAbilityLevelUpdateZodSchema = z.object({
+    extraAbilityNames: z.array(z.string()).optional(),
+    slotsTotal: z.number().optional(),
+    slotsExpended: z.number().optional(),
+});
+
+const extraAbilitiesUpdateZodSchema = z.object({
+    cantrips: z.array(z.string()).optional(),
+    1: extraAbilityLevelUpdateZodSchema.optional(),
+    2: extraAbilityLevelUpdateZodSchema.optional(),
+    3: extraAbilityLevelUpdateZodSchema.optional(),
+    4: extraAbilityLevelUpdateZodSchema.optional(),
+    5: extraAbilityLevelUpdateZodSchema.optional(),
+    6: extraAbilityLevelUpdateZodSchema.optional(),
+    7: extraAbilityLevelUpdateZodSchema.optional(),
+    8: extraAbilityLevelUpdateZodSchema.optional(),
+    9: extraAbilityLevelUpdateZodSchema.optional(),
+});
+
 const dataUpdateZodSchema = z.object({
     profile: profileUpdateZodSchema.optional(),
     stats: statsUpdateZodSchema.optional(),
     money: moneyUpdateZodSchema.optional(),
+    spells: spellsUpdateZodSchema.optional(),
+    extraAbilities: extraAbilitiesUpdateZodSchema.optional(),
+    inventory: z.string().optional(),
 });
 
 const updateCharacterZodSchema = z.object({
@@ -241,12 +284,19 @@ const insertCharacterPictureZodSchema = z.object({
     picture: z.file(),
 });
 
+const updateMoneyZodSchema = z.object({
+    operation: z.enum(['add', 'subtract']),
+    money: z.number(),
+    moneyType: z.enum(['PC', 'PP', 'PE', 'PO', 'PL']),
+});
+
 // ─── Exports ──────────────────────────────────────────────────────────────────
 
 export type TCreateCharacterBody = z.infer<typeof characterPostZodSchema>;
 export type TUpdateCharacterBody = z.infer<typeof updateCharacterZodSchema>;
 export type TInsertOrgPictureQuery = z.infer<typeof insertOrganizationPictureZodSchema>;
 export type TInsertCharacterPictureBody = z.infer<typeof insertCharacterPictureZodSchema>;
+export type TUpdateMoneyBody = z.infer<typeof updateMoneyZodSchema>;
 
 export default (): ICharactersSchemas => ({
     postCreateCharacter: {
@@ -260,5 +310,8 @@ export default (): ICharactersSchemas => ({
     },
     postCharacterPicture: {
         body: insertCharacterPictureZodSchema,
+    },
+    patchUpdateMoney: {
+        body: updateMoneyZodSchema,
     },
 });

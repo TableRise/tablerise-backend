@@ -28,9 +28,9 @@ describe('Core :: Users :: Operations :: OAuth', () => {
                     oAuthComplete: {},
                 };
 
-                const { firstName, lastName, pronoun, birthday, ...detailsEmpty } = userDetails;
+                const { firstName, lastName, birthday, ...detailsEmpty } = userDetails;
 
-                payload = { firstName, lastName, pronoun, birthday };
+                payload = { firstName, lastName, birthday };
 
                 user.inProgress.status = InProgressStatusEnum.enum.WAIT_TO_COMPLETE;
 
@@ -46,7 +46,7 @@ describe('Core :: Users :: Operations :: OAuth', () => {
 
                 user.inProgress.status = InProgressStatusEnum.enum.DONE;
 
-                userDetails = { ...userDetails, firstName, lastName, pronoun, birthday };
+                userDetails = { ...userDetails, firstName, lastName, birthday };
 
                 completeUserService = {
                     process: sinon.spy(() => ({

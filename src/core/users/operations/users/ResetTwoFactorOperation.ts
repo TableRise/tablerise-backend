@@ -13,7 +13,8 @@ export default class ResetTwoFactorOperation {
     }
 
     public async execute(userId: string): Promise<TwoFactorResponse> {
-        this.logger('info', 'Execute - ResetTwoFactorOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const user2FAReseted = await this.resetTwoFactorService.reset(userId);
 

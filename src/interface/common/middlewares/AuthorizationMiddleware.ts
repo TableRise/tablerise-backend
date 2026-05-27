@@ -2,10 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { stateFlowsKeys } from 'src/domains/common/enums/stateFlowsEnum';
-import {
-    TAuthenticateSecretQuestionBody,
-    TAuthenticateSecretQuestionQuery,
-} from 'src/interface/users/presentation/users/UsersSchemas';
 
 export default class AuthorizationMiddleware {
     private readonly usersRepository;
@@ -38,15 +34,16 @@ export default class AuthorizationMiddleware {
 
         this.checkAdminRole = this.checkAdminRole.bind(this);
         this.twoFactor = this.twoFactor.bind(this);
-        this.secretQuestion = this.secretQuestion.bind(this);
     }
 
     public async checkAdminRole(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', 'CheckAdminRole - AuthorizationMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.checkAdminRole.name}`;
+        this.logger('info', callName);
 
         const { userId } = req.user as Express.User;
 
         const userDetail = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetail) HttpRequestErrors.throwError('user-inexistent');
 
         if (userDetail.role === 'admin') {
             next();
@@ -56,13 +53,15 @@ export default class AuthorizationMiddleware {
     }
 
     public async twoFactor(req: Request, res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', 'TwoFactor - AuthorizationMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.twoFactor.name}`;
+        this.logger('info', callName);
 
         const { token, email, flow } = req.query;
 
         this.schemaValidator.entry(this.usersSchemas.postAuthenticate2FA.query, { email, token, flow });
 
         const userInDb = await this.usersRepository.findOne({ email });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (!this.ALLOWED_STATUS.includes(userInDb.inProgress.status))
             HttpRequestErrors.throwError('invalid-user-status');
@@ -83,42 +82,6 @@ export default class AuthorizationMiddleware {
             userId: userAuthorized.userId,
             userStatus: userAuthorized.inProgress.status,
             accountSecurityMethod: 'two-factor',
-            lastUpdate: userAuthorized.updatedAt,
-        };
-
-        next();
-    }
-
-    public async secretQuestion(req: Request, res: Response, next: NextFunction): Promise<void> {
-        this.logger('warn', 'SecretQuestion - AuthorizationMiddleware');
-
-        const payload = req.body as TAuthenticateSecretQuestionBody;
-        const query = req.query as TAuthenticateSecretQuestionQuery;
-
-        this.schemaValidator.entry(this.usersSchemas.postAuthenticateSecretQuestion.body, payload);
-        this.schemaValidator.entry(this.usersSchemas.postAuthenticateSecretQuestion.query, query);
-
-        const userInDb = await this.usersRepository.findOne({ email: query.email });
-        const userDetailsInDb = await this.usersDetailsRepository.findOne({ userId: userInDb.userId });
-
-        if (!userDetailsInDb.secretQuestion) {
-            next();
-            return;
-        }
-
-        if (!this.ALLOWED_STATUS.includes(userInDb.inProgress.status))
-            HttpRequestErrors.throwError('invalid-user-status');
-        if (payload.question !== userDetailsInDb.secretQuestion.question)
-            HttpRequestErrors.throwError('incorrect-secret-question');
-        if (payload.answer !== userDetailsInDb.secretQuestion.answer)
-            HttpRequestErrors.throwError('incorrect-secret-question');
-
-        const userAuthorized = await this.stateMachine.machine(query.flow as stateFlowsKeys, userInDb);
-
-        res.locals = {
-            userId: userAuthorized.userId,
-            userStatus: userAuthorized.inProgress.status,
-            accountSecurityMethod: 'secret-question',
             lastUpdate: userAuthorized.updatedAt,
         };
 

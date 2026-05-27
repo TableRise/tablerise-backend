@@ -4,7 +4,6 @@ import { UsersRepositoryContract } from 'src/types/modules/infra/repositories/us
 import { UsersDetailsRepositoryContract } from 'src/types/modules/infra/repositories/users/UsersDetailsRepository';
 import { UpdateTimestampRepositoryContract } from 'src/types/modules/infra/repositories/users/UpdateTimestampRepository';
 import { CampaignsRepositoryContract } from './repositories/campaigns/CampaignsRepository';
-import { ManagerCronJobContract } from 'src/types/modules/infra/cronJob/CronJob';
 import { CharactersRepositoryContract } from './repositories/character/CharactersRepository';
 
 export default interface InfraDependencies {
@@ -13,8 +12,6 @@ export default interface InfraDependencies {
     usersRepositoryContract: UsersRepositoryContract;
     usersDetailsRepositoryContract: UsersDetailsRepositoryContract;
     updateTimestampRepositoryContract: UpdateTimestampRepositoryContract;
-    managerCronJobContract: ManagerCronJobContract;
-    deleteUserCronJobContract: DeleteUserCronJobContract;
 
     // <--------- CAMPAIGN DOMAIN --------->
     socketIOContract: SocketIOContract;

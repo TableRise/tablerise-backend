@@ -9,34 +9,46 @@ export default class CharactersController {
     private readonly getAllCharactersOperation;
     private readonly getCharacterByIdOperation;
     private readonly updateCharacterOperation;
-    private readonly recoverCharacterByCampaignOperation;
     private readonly updateCharacterPictureOperation;
     private readonly orgPictureUploadOperation;
+    private readonly addEquipmentOperation;
+    private readonly removeEquipmentOperation;
+    private readonly updateCharacterMoneyOperation;
+    private readonly deleteCharacterOperation;
 
     constructor({
         createCharacterOperation,
         getAllCharactersOperation,
         getCharacterByIdOperation,
-        recoverCharacterByCampaignOperation,
         orgPictureUploadOperation,
         updateCharacterOperation,
         updateCharacterPictureOperation,
+        addEquipmentOperation,
+        removeEquipmentOperation,
+        updateCharacterMoneyOperation,
+        deleteCharacterOperation,
     }: InterfaceDependencies['charactersControllerContract']) {
         this.createCharacterOperation = createCharacterOperation;
-        this.recoverCharacterByCampaignOperation = recoverCharacterByCampaignOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
         this.getCharacterByIdOperation = getCharacterByIdOperation;
         this.orgPictureUploadOperation = orgPictureUploadOperation;
         this.updateCharacterPictureOperation = updateCharacterPictureOperation;
         this.updateCharacterOperation = updateCharacterOperation;
+        this.addEquipmentOperation = addEquipmentOperation;
+        this.removeEquipmentOperation = removeEquipmentOperation;
+        this.updateCharacterMoneyOperation = updateCharacterMoneyOperation;
+        this.deleteCharacterOperation = deleteCharacterOperation;
 
         this.createCharacter = this.createCharacter.bind(this);
         this.getById = this.getById.bind(this);
         this.getAll = this.getAll.bind(this);
-        this.recoverCharactersByCampaign = this.recoverCharactersByCampaign.bind(this);
         this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
         this.updateCharacter = this.updateCharacter.bind(this);
         this.organizationPicture = this.organizationPicture.bind(this);
+        this.addEquipment = this.addEquipment.bind(this);
+        this.removeEquipment = this.removeEquipment.bind(this);
+        this.updateCharacterMoney = this.updateCharacterMoney.bind(this);
+        this.deleteCharacter = this.deleteCharacter.bind(this);
     }
 
     public async createCharacter(req: Request, res: Response): Promise<Response> {
@@ -84,17 +96,6 @@ export default class CharactersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async recoverCharactersByCampaign(req: Request, res: Response): Promise<Response> {
-        const { id: campaignId } = req.params;
-        const { userId } = req.user as Express.User;
-
-        const result = await this.recoverCharacterByCampaignOperation.execute({
-            userId,
-            campaignId,
-        });
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
     public async updateCharacterPicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const result = await this.updateCharacterPictureOperation.execute({
@@ -103,5 +104,45 @@ export default class CharactersController {
         });
 
         return res.status(HttpStatusCode.CREATED).json(result);
+    }
+
+    public async addEquipment(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { equipmentId } = req.query as { equipmentId: string };
+
+        const result = await this.addEquipmentOperation.execute({ characterId: id, equipmentId });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removeEquipment(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { equipmentId } = req.query as { equipmentId: string };
+
+        const result = await this.removeEquipmentOperation.execute({ characterId: id, equipmentId });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCharacterMoney(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { operation, money, moneyType } = req.body;
+        const result = await this.updateCharacterMoneyOperation.execute({
+            characterId: id,
+            operation,
+            money,
+            moneyType,
+        });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async deleteCharacter(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        await this.deleteCharacterOperation.execute({
+            characterId: id,
+            userId,
+        });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 }

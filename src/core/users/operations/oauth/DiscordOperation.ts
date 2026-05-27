@@ -2,7 +2,6 @@ import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDepende
 import Discord from 'passport-discord';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import User, { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
-import { __TokenObject } from 'src/types/api/users/methods';
 
 export default class DiscordOperation {
     private readonly oAuthService;
@@ -17,8 +16,9 @@ export default class DiscordOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(payload: Discord.Profile): Promise<RegisterUserResponse | __TokenObject> {
-        this.logger('info', 'Execute - DiscordOperation');
+    public async execute(payload: Discord.Profile): Promise<RegisterUserResponse> {
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const entitySerialized = await this.oAuthService.serialize(payload);
 
@@ -33,7 +33,8 @@ export default class DiscordOperation {
     }
 
     private async createUser(userSerialized: User, userDetailsSerialized: UserDetail): Promise<RegisterUserResponse> {
-        this.logger('info', 'CreateUser - DiscordOperation');
+        const callName = `[${this.constructor.name}] - ${this.createUser.name}`;
+        this.logger('info', callName);
 
         const entityEnriched = await this.oAuthService.enrichment(
             {

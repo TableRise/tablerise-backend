@@ -128,5 +128,40 @@ describe('Core :: Users :: Services :: ResetProfileService', () => {
                 }
             });
         });
+
+        context('When user profile reset fails because the user or details do not exist', () => {
+            const userId = newUUID();
+
+            before(() => {
+                usersRepository = {
+                    findOne: sinon.spy(() => null),
+                    update: sinon.spy(),
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => null),
+                    update: sinon.spy(),
+                };
+
+                resetProfileService = new ResetProfileService({
+                    usersRepository,
+                    usersDetailsRepository,
+                    logger,
+                    stateMachine,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await resetProfileService.reset(userId);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
     });
 });

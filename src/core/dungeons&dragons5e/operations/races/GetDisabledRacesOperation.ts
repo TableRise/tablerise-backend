@@ -14,7 +14,8 @@ export default class GetDisabledRacesOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Race>>> {
-        this.logger('info', 'Execute - GetDisabledRacesOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const races = await this.getDisabledRacesService.getAllDisabled();
 
         return races;

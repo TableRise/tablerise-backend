@@ -115,5 +115,36 @@ describe('Interface :: Common :: Middlewares :: StateMachineFlowsMiddleware', ()
                 }
             });
         });
+
+        context('When state machine exists', () => {
+            const machine = sinon.stub().resolves();
+
+            beforeEach(() => {
+                user = DomainDataFaker.generateUsersJSON()[0];
+
+                usersRepository = {
+                    findOne: sinon.stub().returns(user),
+                    update: sinon.spy(),
+                };
+
+                stateMachineFlowsMiddleware = new StateMachineFlowsMiddleware({
+                    usersRepository,
+                    stateMachine: {
+                        machine,
+                    } as any,
+                    logger,
+                });
+            });
+
+            it('should delegate to the state machine instead of updating the repository', async () => {
+                req.params = { id: user.userId };
+                req.query = { flow: stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION };
+
+                await stateMachineFlowsMiddleware.setNewFlow(req, res, next);
+
+                expect(machine).to.have.been.calledWith(stateFlowsEnum.enum.ACTIVATE_SECRET_QUESTION, user);
+                expect(usersRepository.update).to.not.have.been.called();
+            });
+        });
     });
 });

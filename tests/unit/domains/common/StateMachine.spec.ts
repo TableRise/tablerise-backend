@@ -1,12 +1,6 @@
 import sinon from 'sinon';
 import StateMachine from 'src/domains/common/StateMachine';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
-import getErrorName from 'src/domains/common/helpers/getErrorName';
-// import getErrorName from 'src/domains/common/helpers/getErrorName';
-// import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-// import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 
@@ -34,7 +28,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.DONE,
                     currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
                     code: '',
                 };
@@ -46,7 +40,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     code: '',
                 };
@@ -58,7 +52,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_START_PASSWORD_CHANGE,
                     nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                     code: '',
                 };
@@ -70,7 +64,7 @@ describe('Domains :: User :: StateMachine', () => {
                 user.inProgress = {
                     status: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                    prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                     code: '',
                 };
@@ -81,7 +75,7 @@ describe('Domains :: User :: StateMachine', () => {
             });
         });
 
-        context('And this flow is: update-password - but prev status is wrong', () => {
+        context('And this flow is: update-password - with unexpected currentFlow metadata', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
@@ -95,31 +89,22 @@ describe('Domains :: User :: StateMachine', () => {
                 });
             });
 
-            it('should throw correct error', async () => {
-                try {
-                    user.inProgress = {
-                        status: InProgressStatusEnum.enum.DONE,
-                        currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
-                        nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
-                        code: '',
-                    };
+            it('should advance based only on the current status', async () => {
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.DONE,
+                    currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
+                    nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
+                    code: '',
+                };
 
-                    await stateMachine.machine(stateFlowsEnum.enum.UPDATE_PASSWORD, user);
+                await stateMachine.machine(stateFlowsEnum.enum.UPDATE_PASSWORD, user);
 
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Entity actual status is done and previous status should be wait-for-new-flow but is actually done'
-                    );
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
-                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                }
+                sinon.assert.callCount(usersRepository.update, 1);
             });
         });
 
-        context('And this flow is: update-password - but next status is wrong', () => {
+        context('And this flow is: update-password - with unexpected next status metadata', () => {
             before(() => {
                 user = DomainDataFaker.generateUsersJSON()[0];
 
@@ -133,27 +118,18 @@ describe('Domains :: User :: StateMachine', () => {
                 });
             });
 
-            it('should throw correct error', async () => {
-                try {
-                    user.inProgress = {
-                        status: InProgressStatusEnum.enum.DONE,
-                        currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
-                        nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
-                        code: '',
-                    };
+            it('should advance based only on the current status', async () => {
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.DONE,
+                    currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
+                    nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
+                    code: '',
+                };
 
-                    await stateMachine.machine(stateFlowsEnum.enum.UPDATE_PASSWORD, user);
+                await stateMachine.machine(stateFlowsEnum.enum.UPDATE_PASSWORD, user);
 
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Entity actual status is done and next status should be wait-to-finish-password-change but is actually wait-to-start-password-change'
-                    );
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
-                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                }
+                sinon.assert.callCount(usersRepository.update, 1);
             });
         });
 
@@ -171,39 +147,30 @@ describe('Domains :: User :: StateMachine', () => {
                 });
             });
 
-            it('should throw correct error', async () => {
-                try {
-                    user.inProgress = {
-                        status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
-                        currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
-                        nextStatusWillBe: InProgressStatusEnum.enum.DONE,
-                        code: '',
-                    };
+            it('should advance the flow until done', async () => {
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                    currentFlow: stateFlowsEnum.enum.CREATE_USER,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                    nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+                    code: '',
+                };
 
-                    await stateMachine.machine(stateFlowsEnum.enum.CREATE_USER, user);
+                await stateMachine.machine(stateFlowsEnum.enum.CREATE_USER, user);
 
-                    sinon.assert.callCount(usersRepository.update, 1);
+                sinon.assert.callCount(usersRepository.update, 1);
 
-                    user.inProgress = {
-                        status: InProgressStatusEnum.enum.DONE,
-                        currentFlow: stateFlowsEnum.enum.CREATE_USER,
-                        prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
-                        nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
-                        code: '',
-                    };
+                user.inProgress = {
+                    status: InProgressStatusEnum.enum.DONE,
+                    currentFlow: stateFlowsEnum.enum.CREATE_USER,
+                    prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+                    nextStatusWillBe: InProgressStatusEnum.enum.WAIT_FOR_NEW_FLOW,
+                    code: '',
+                };
 
-                    await stateMachine.machine(stateFlowsEnum.enum.CREATE_USER, user);
+                await stateMachine.machine(stateFlowsEnum.enum.CREATE_USER, user);
 
-                    sinon.assert.callCount(usersRepository.update, 2);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Entity actual status is done and next status should be wait-to-finish-password-change but is actually wait-to-start-password-change'
-                    );
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY));
-                    expect(err.code).to.be.equal(HttpStatusCode.UNPROCESSABLE_ENTITY);
-                }
+                sinon.assert.callCount(usersRepository.update, 2);
             });
         });
     });

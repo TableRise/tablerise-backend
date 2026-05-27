@@ -1,5 +1,6 @@
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 import { CampaignPlayerInvitationPayload } from 'src/types/modules/core/campaigns/campaigns/PostInvitationEmail';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 
 export default class PostInvitationEmailOperation {
     private readonly usersRepository;
@@ -19,8 +20,10 @@ export default class PostInvitationEmailOperation {
     }
 
     public async execute({ targetEmail, campaignId }: CampaignPlayerInvitationPayload): Promise<void> {
-        this.logger('info', 'Execute - PostInvitationEmailOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const user = await this.usersRepository.findOne({ email: targetEmail });
+        if (!user) HttpRequestErrors.throwError('user-inexistent');
 
         await this.postInvitationEmailService.sendEmail({
             userId: user.userId,

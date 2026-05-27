@@ -37,7 +37,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     ...user.inProgress,
                     status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                     currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                    prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                    prevStatusWas: InProgressStatusEnum.enum.DONE,
                     nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 };
 
@@ -53,7 +53,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.WAIT_TO_FINISH_EMAIL_CHANGE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
@@ -100,7 +100,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
@@ -150,7 +150,7 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     inProgress: {
                         status: InProgressStatusEnum.enum.DONE,
                         currentFlow: stateFlowsEnum.enum.UPDATE_EMAIL,
-                        prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                        prevStatusWas: InProgressStatusEnum.enum.DONE,
                         nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                         code: updateEmailPayload.code,
                     },
@@ -178,6 +178,39 @@ describe('Core :: Users :: Services :: UpdateEmailService', () => {
                     expect(err.message).to.be.equal('Email already exists in database');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
+
+        context('When an email is updated but the user does not exist', () => {
+            before(() => {
+                updateEmailPayload = {
+                    userId: 'missing-user',
+                    email: 'testnew@email.com',
+                };
+
+                usersRepository = {
+                    findOne: sinon.spy(() => null),
+                    find: () => [],
+                    update: sinon.spy(),
+                };
+
+                updateEmailService = new UpdateEmailService({
+                    usersRepository,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await updateEmailService.update(updateEmailPayload);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                 }
             });
         });

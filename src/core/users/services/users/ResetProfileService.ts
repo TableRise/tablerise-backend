@@ -22,11 +22,13 @@ export default class ResetProfileService {
     }
 
     public async reset(userId: string): Promise<void> {
-        this.logger('info', 'Reset - ResetProfileService');
+        const callName = `[${this.constructor.name}] - ${this.reset.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
 
         const userInDb = await this.usersRepository.findOne({ userId });
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userInDb || !userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_RESET_PROFILE)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -35,11 +37,11 @@ export default class ResetProfileService {
         userDetailInDb.gameInfo.campaigns = [];
         userDetailInDb.gameInfo.characters = [];
 
-        await this.stateMachine.machine(flows.RESET_PROFILE, userInDb);
+        const userUpdated = await this.stateMachine.machine(flows.RESET_PROFILE, userInDb);
 
         await this.usersRepository.update({
             query: { userId: userInDb.userId },
-            payload: userInDb,
+            payload: userUpdated,
         });
 
         await this.usersDetailsRepository.update({

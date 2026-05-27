@@ -11,6 +11,7 @@ import { MongooseEnvs, RedisEnvs } from '@tablerise/database-management/dist/src
 import VerifyUserMiddleware from 'src/interface/common/middlewares/VerifyUserMiddleware';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
+import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 
 setup({ loadExt: 'ts' });
 chai.use(dirtyChai);
@@ -36,7 +37,7 @@ exports.mochaHooks = {
             inProgress: {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             },
@@ -60,13 +61,16 @@ exports.mochaHooks = {
             userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
             firstName: 'Joe',
             lastName: 'Einstein',
-            pronoun: 'he/his',
-            secretQuestion: {
-                question: 'What sound does the fox?',
-                answer: 'Kikikikikiu',
-            },
             birthday: '1995-10-25',
-            gameInfo: { campaigns: [], characters: [], badges: [] },
+            gameInfo: {
+                campaigns: [],
+                characters: [],
+                badges: [],
+                campaignsJoinedAmount: 0,
+                campaignsCreatedAmount: 0,
+                campaignsClosedAmount: 0,
+                equipBoughtAmount: 0,
+            },
             biography: 'Some bio',
             role: 'admin',
         };
@@ -104,6 +108,16 @@ exports.mochaHooks = {
             next();
         });
         logger('test', 'Stub VerifyUserMiddleware.prototype');
+
+        sinon.stub(ImageStorageClient.prototype, 'upload').callsFake(async () => ({
+            id: 'stub-image-id',
+            link: 'https://img.bb/stub-image',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            title: '',
+            request: { success: true, status: 200 },
+        }));
+        logger('test', 'Stub ImageStorageClient.prototype');
     },
 
     async afterAll() {

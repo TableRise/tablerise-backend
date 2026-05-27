@@ -70,23 +70,32 @@ export default class Serializer {
         userId = null,
         firstName = null,
         lastName = null,
-        pronoun = null,
-        secretQuestion = null,
         birthday = null,
-        gameInfo = { campaigns: [], characters: [], badges: [], bannedCampaigns: [] },
+        gameInfo = {
+            campaigns: [],
+            characters: [],
+            badges: [],
+            bannedCampaigns: [],
+            campaignsJoinedAmount: 0,
+            campaignsCreatedAmount: 0,
+            campaignsClosedAmount: 0,
+            equipBoughtAmount: 0,
+        },
         biography = null,
+        rank = null,
         role = 'user',
+        cover = null,
     }: any): UserDetail {
         return {
             userDetailId,
             userId,
             firstName,
             lastName,
-            pronoun,
-            secretQuestion,
             birthday,
             gameInfo,
             biography,
+            rank,
+            cover,
             role,
         };
     }
@@ -95,37 +104,60 @@ export default class Serializer {
         campaignId = null,
         title = null,
         cover = null,
+        code = null,
         description = null,
         system = null,
+        status = null,
         ageRestriction = null,
         campaignPlayers = null,
         visibility = null,
         matchData = null,
+        musics = null,
+        buys = [],
         infos = {
             campaignAge: '1',
-            matchDates: [],
+            nextMatchDate: '',
             announcements: [],
             visibility,
         },
+        nextMatchDate = null,
         password = null,
-        lores = null,
-        images = null,
+        lore = null,
+        playerAmountLimit = null,
+        socialMedia = null,
+        configurations = { xpSystem: false, shopSystem: false },
+        mainHistory = null,
         createdAt = null,
         updatedAt = null,
-    }: any): Campaign {
+    }: any): Campaign & {
+        lore?: string;
+        nextMatchDate?: string;
+        playerAmountLimit?: string;
+        socialMedia?: { discord?: string; twitter?: string; youtube?: string } | string;
+        configurations?: Campaign['configurations'];
+        code: string;
+    } {
         return {
             campaignId,
             title,
             cover,
+            code,
             description,
             system,
+            status,
+            nextMatchDate,
             ageRestriction,
             campaignPlayers,
+            mainHistory,
             matchData,
+            musics,
+            buys,
             infos,
             password,
-            lores,
-            images,
+            playerAmountLimit,
+            lore,
+            socialMedia,
+            configurations,
             createdAt,
             updatedAt,
         };
@@ -165,7 +197,7 @@ export default class Serializer {
         dataSerialized.link = url || '';
         dataSerialized.uploadDate = time ? new Date(time).toISOString() : new Date().toISOString();
         dataSerialized.thumbSizeUrl = thumb.url || '';
-        dataSerialized.mediumSizeUrl = medium.url || '';
+        dataSerialized.mediumSizeUrl = medium?.url || '';
         dataSerialized.deleteUrl = deleteUrl || '';
         dataSerialized.request = { success: result.success, status: result.status };
 

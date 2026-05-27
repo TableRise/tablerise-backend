@@ -93,6 +93,39 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
             });
         });
 
+        context('When a campaign is closed', () => {
+            const campaignId = newUUID();
+
+            before(() => {
+                campaign = {
+                    campaignId,
+                    status: 'closed',
+                } as Campaign;
+
+                database = {
+                    modelInstance: () => ({ findOne: () => campaign }),
+                };
+
+                serializer = {
+                    postCampaign: (payload: any) => payload,
+                };
+
+                updateTimestampRepository = {};
+
+                campaignsRepository = new CampaignsRepository({
+                    database,
+                    updateTimestampRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should return null', async () => {
+                const campaignTest = await campaignsRepository.findOne({ campaignId });
+                expect(campaignTest).to.equal(null);
+            });
+        });
+
         context('When a campaign is not recovered from database', () => {
             const campaignId = newUUID();
 
@@ -158,7 +191,22 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
         it('should return all campaigns in database', async () => {
             const campaignsTest = await campaignsRepository.find();
             expect(findAll).to.have.been.called();
-            expect(campaignsTest).to.be.deep.equal(campaigns);
+            expect(campaignsTest).to.have.length(campaigns.length);
+            expect(campaignsTest[0]).to.include({
+                campaignId: campaigns[0].campaignId,
+                title: campaigns[0].title,
+            });
+        });
+
+        it('should filter closed campaigns from result', async () => {
+            campaigns = [
+                ...DomainDataFaker.generateCampaignsJSON({ count: 1 }),
+                { ...DomainDataFaker.generateCampaignsJSON({ count: 0 })[0], status: 'closed' } as Campaign,
+            ];
+
+            const campaignsTest = await campaignsRepository.find();
+            expect(campaignsTest).to.have.length(1);
+            expect(campaignsTest.some((campaignResult) => campaignResult.status === 'closed')).to.equal(false);
         });
     });
     context('#update', () => {
@@ -249,6 +297,204 @@ describe('Infra :: Repositories :: Campaign :: CampaignsRepository', () => {
                     expect(err.name).to.be.equal('NotFound');
                 }
             });
+        });
+    });
+
+    context('#updateRealtimeState', () => {
+        let update: sinon.SinonSpy;
+
+        beforeEach(() => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            update = sinon.spy((_query: any, payload: any) => ({
+                ...campaign,
+                payload,
+            }));
+
+            database = {
+                modelInstance: () => ({ update }),
+            };
+
+            serializer = {
+                postCampaign: (payload: any) => payload,
+            };
+
+            updateTimestampRepository = {
+                updateTimestamp: sinon.stub().resolves(),
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                updateTimestampRepository,
+                serializer,
+                logger,
+            });
+        });
+
+        it('should build a partial realtime update payload for hot state fields', async () => {
+            await campaignsRepository.updateRealtimeState(
+                campaign.campaignId as string,
+                {
+                    matchStateFields: {
+                        activeMapId: 'map-2',
+                        gridVisible: false,
+                    },
+                    tokens: [],
+                    logs: [{ loggedAt: new Date().toISOString(), content: 'token moved' }],
+                    confirmedPlayers: ['user-1'],
+                } as any
+            );
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.activeMapId': 'map-2',
+                        'matchData.state.gridVisible': false,
+                        'matchData.state.tokens': [],
+                        'matchData.logs': [{ loggedAt: sinon.match.string, content: 'token moved' }],
+                        'matchData.confirmedPlayers': ['user-1'],
+                    },
+                }
+            );
+        });
+
+        it('should update tokens through the dedicated helper', async () => {
+            await campaignsRepository.updateTokens(campaign.campaignId as string, []);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.tokens': [],
+                    },
+                }
+            );
+        });
+
+        it('should update highlighted journal through the dedicated helper', async () => {
+            await campaignsRepository.updateHighlightedJournal(campaign.campaignId as string, null as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'infos.highlightedJournal': null,
+                    },
+                }
+            );
+        });
+
+        it('should update buys through the dedicated helper', async () => {
+            await campaignsRepository.updateBuys(campaign.campaignId as string, [
+                {
+                    name: 'Potion',
+                    cost: '10 gp',
+                    character: 'Lia',
+                    user: 'user-1',
+                    date: '2026-05-16',
+                },
+            ]);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        buys: [
+                            {
+                                name: 'Potion',
+                                cost: '10 gp',
+                                character: 'Lia',
+                                user: 'user-1',
+                                date: '2026-05-16',
+                            },
+                        ],
+                    },
+                }
+            );
+        });
+
+        it('should update match logs through the dedicated helper', async () => {
+            const logs = [{ loggedAt: '2026-05-25', content: 'updated log' }];
+
+            await campaignsRepository.updateMatchLogs(campaign.campaignId as string, logs as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.logs': logs,
+                    },
+                }
+            );
+        });
+
+        it('should update confirmed players through the dedicated helper', async () => {
+            const confirmedPlayers = ['user-1'];
+
+            await campaignsRepository.updateConfirmedPlayers(campaign.campaignId as string, confirmedPlayers as any);
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.confirmedPlayers': confirmedPlayers,
+                    },
+                }
+            );
+        });
+
+        it('should return findOne when no realtime payload keys are provided', async () => {
+            const findOneStub = sinon.stub(campaignsRepository, 'findOne').resolves(campaign);
+
+            const result = await campaignsRepository.updateRealtimeState(campaign.campaignId as string, {});
+
+            expect(findOneStub).to.have.been.calledWith({ campaignId: campaign.campaignId });
+            expect(result).to.equal(campaign);
+        });
+
+        it('should update match state fields through the dedicated helper', async () => {
+            await campaignsRepository.updateMatchStateFields(
+                campaign.campaignId as string,
+                {
+                    activeEffect: 'fog',
+                } as any
+            );
+
+            expect(update).to.have.been.calledWith(
+                { campaignId: campaign.campaignId },
+                {
+                    $set: {
+                        'matchData.state.activeEffect': 'fog',
+                    },
+                }
+            );
+        });
+    });
+
+    context('#delete', () => {
+        const remove = sinon.spy(() => undefined);
+
+        beforeEach(() => {
+            database = {
+                modelInstance: () => ({ delete: remove }),
+            };
+
+            serializer = {
+                postCampaign: (payload: any) => payload,
+            };
+
+            campaignsRepository = new CampaignsRepository({
+                database,
+                serializer,
+                updateTimestampRepository,
+                logger,
+            });
+        });
+
+        it('should delegate delete to model', async () => {
+            await campaignsRepository.delete({ campaignId: '123' });
+
+            expect(remove).to.have.been.calledWith({ campaignId: '123' });
         });
     });
 });

@@ -29,6 +29,11 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 hashPassword = await SecurePasswordHandler.hashPassword('1234');
                 campaign.password = hashPassword;
                 userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.campaigns = Array.from({ length: 49 }, (_, index) => ({
+                    campaignId: `existing-${index}`,
+                    notes: [],
+                })) as any;
+                userDetails.gameInfo.badges = [];
 
                 campaignPlayersLength = campaign.campaignPlayers.length;
 
@@ -58,6 +63,46 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
                 expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
+                expect(matchDataAdded.userDetails.gameInfo.campaignsJoinedAmount).to.equal(0);
+                expect(matchDataAdded.userDetails.gameInfo.badges).to.deep.equal([]);
+            });
+        });
+
+        context('When a player is added to match data - no password required', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.password = 'no-password';
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaignPlayersLength = campaign.campaignPlayers.length;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    characterId: newUUID(),
+                    userId: userDetails.userId,
+                    password: '',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should return the add campaign without password check', async () => {
+                const matchDataAdded = await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.not.equal(campaignPlayersLength);
+                expect(matchDataAdded.campaign.campaignPlayers.length).to.be.equal(campaignPlayersLength + 1);
+                expect(matchDataAdded.userDetails.gameInfo.campaignsJoinedAmount).to.equal(0);
             });
         });
 
@@ -141,14 +186,14 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 });
             });
 
-            it('should return the add campaign', async () => {
+            it('should throw a campaign-specific password error instead of unauthorized', async () => {
                 try {
                     await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
                 } catch (error) {
                     const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('Unauthorized');
-                    expect(err.code).to.be.equal(HttpStatusCode.UNAUTHORIZED);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.UNAUTHORIZED));
+                    expect(err.message).to.be.equal('The campaign password is incorrect');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
                 }
             });
         });
@@ -239,8 +284,8 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 } catch (error) {
                     const err = error as HttpRequestErrors;
                     expect(err.message).to.be.equal('The new player can not be also the master');
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.code).to.be.equal(HttpStatusCode.CONFLICT);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.CONFLICT));
                 }
             });
         });
@@ -293,6 +338,94 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 }
             });
         });
+
+        context('When a player is added to match - campaign already reached player limit', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+
+                campaign.infos.playerAmountLimit = 1;
+                campaign.campaignPlayers = [
+                    {
+                        userId: newUUID(),
+                        characterIds: [],
+                        role: 'dungeon_master',
+                        status: 'active',
+                    },
+                ];
+                hashPassword = await SecurePasswordHandler.hashPassword('1234');
+                campaign.password = hashPassword;
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => ({ ...userDetails }),
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: userDetails.userId,
+                    password: '1234',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw an error', async () => {
+                try {
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('The campaign reached the limit of players');
+                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                }
+            });
+        });
+
+        context('When the player user details do not exist', () => {
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.password = 'no-password';
+
+                campaignsRepository = {
+                    findOne: () => ({ ...campaign }),
+                };
+
+                usersDetailsRepository = {
+                    findOne: () => null,
+                };
+
+                addPlayersPayload = {
+                    campaignId: campaign.campaignId,
+                    userId: newUUID(),
+                    password: '',
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should throw user-inexistent', async () => {
+                try {
+                    await addCampaignPlayersService.addCampaignPlayers(addPlayersPayload);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
+            });
+        });
     });
 
     context('#save', () => {
@@ -317,6 +450,7 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                 };
 
                 usersDetailsRepository = {
+                    findOne: sinon.stub(),
                     update: sinon.spy(() => {}),
                 };
 
@@ -339,6 +473,40 @@ describe('Core :: Camapaigns :: Services :: AddCampaignPlayersService', async ()
                     query: { campaignId: campaign.campaignId },
                     payload: campaign,
                 });
+            });
+        });
+
+        context('When a campaign contains a legacy invalid highlighted journal', () => {
+            let updateCall: sinon.SinonSpy;
+
+            before(async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                userDetails = UsersDataFaker.generateUserDetailsJSON()[0];
+                campaign.infos.highlightedJournal = {} as any;
+
+                updateCall = sinon.spy(() => campaign);
+
+                campaignsRepository = {
+                    update: updateCall,
+                };
+
+                usersDetailsRepository = {
+                    findOne: sinon.stub(),
+                    update: sinon.spy(() => {}),
+                };
+
+                addCampaignPlayersService = new AddCampaignPlayersService({
+                    logger,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                });
+            });
+
+            it('should keep the payload shape untouched before update', async () => {
+                await addCampaignPlayersService.save(campaign, userDetails);
+
+                expect(updateCall).to.have.been.called();
+                expect(updateCall.args[0][0].payload.infos).to.have.property('highlightedJournal');
             });
         });
     });

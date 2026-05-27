@@ -14,7 +14,8 @@ export default class GetFeatOperation {
     }
 
     public async execute(id: string): Promise<Internacional<Feat>> {
-        this.logger('info', 'Execute - GetFeatOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const feat = await this.getFeatService.get(id);
         return feat;
     }

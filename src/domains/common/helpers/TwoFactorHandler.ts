@@ -18,7 +18,8 @@ export default class TwoFactorHandler {
     }
 
     public async create(labelAttach: string): Promise<TwoFactorProps> {
-        this.logger('info', 'Create - TwoFactorHandler');
+        const callName = `[${this.constructor.name}] - ${this.create.name}`;
+        this.logger('info', callName);
         const secret = speakeasy.generateSecret();
         const url = speakeasy.otpauthURL({
             secret: secret.base32,

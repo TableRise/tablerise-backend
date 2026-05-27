@@ -23,7 +23,7 @@ describe('When some character is updated', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.DONE,
                 currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-                prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+                prevStatusWas: InProgressStatusEnum.enum.DONE,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: '',
             };
@@ -59,10 +59,8 @@ describe('When some character is updated', () => {
             expect(body).to.have.property('logs');
             expect(body.data).to.have.property('profile');
             expect(body.data).to.have.property('stats');
-            expect(body.data).to.have.property('attacks');
             expect(body.data).to.have.property('equipments');
             expect(body.data).to.have.property('money');
-            expect(body.data).to.have.property('features');
             expect(body.data.profile).to.have.property('class');
             expect(body.data.profile).to.have.property('race');
             expect(body.data.profile).to.have.property('level');

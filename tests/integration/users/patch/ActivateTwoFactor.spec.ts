@@ -16,8 +16,8 @@ describe('When the user has twoFactor activated', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_ACTIVATE_TWO_FACTOR,
             currentFlow: stateFlowsEnum.enum.ACTIVATE_TWO_FACTOR,
-            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
-            nextStatusWillBe: InProgressStatusEnum.enum.DONE,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            nextStatusWillBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
             code: '',
         };
 
@@ -29,10 +29,6 @@ describe('When the user has twoFactor activated', () => {
         it('should activate with success', async () => {
             const { body: twoFactorResponse } = await requester()
                 .patch(`/users/${user.userId}/2fa/activate`)
-                .send({
-                    question: userDetails.secretQuestion?.question,
-                    answer: userDetails.secretQuestion?.answer,
-                })
                 .expect(HttpStatusCode.OK);
 
             expect(twoFactorResponse).to.have.property('qrcode');

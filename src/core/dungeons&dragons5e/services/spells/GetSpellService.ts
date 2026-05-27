@@ -14,7 +14,8 @@ export default class GetSpellService {
     }
 
     public async get(id: string): Promise<Internacional<Spell>> {
-        this.logger('info', 'Get - GetSpellService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Spells');
 
         const spellInDb = (await this.dungeonsAndDragonsRepository.findOne({

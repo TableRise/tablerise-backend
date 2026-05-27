@@ -82,6 +82,42 @@ describe('Interface :: Common :: Middleware :: VerifyUserMiddleware', () => {
                     expect(err.message).to.be.equal('User status is invalid to perform this operation');
                     expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
+                    expect(err.details).to.deep.equal({
+                        attribute: 'status',
+                        path: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
+                        reason: `Wrong status - ${InProgressStatusEnum.enum.WAIT_TO_COMPLETE}`,
+                    });
+                }
+            });
+        });
+
+        context('When the user no longer exists', () => {
+            const response = {} as Response;
+            const request = {} as Request;
+            const next = Sinon.spy(() => {});
+
+            before(() => {
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                verifyUserMiddleware = new VerifyUserMiddleware({
+                    usersRepository,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    request.user = { userId: '123' } as Express.User;
+                    await verifyUserMiddleware.userStatus(request, response, next);
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                 }
             });
         });

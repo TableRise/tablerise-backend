@@ -1,6 +1,7 @@
-import ActivateSecretQuestionOperation from 'src/core/users/operations/users/ActivateSecretQuestionOperation';
 import ActivateTwoFactorOperation from 'src/core/users/operations/users/ActivateTwoFactorOperation';
+import AddCampaignNoteOperation from 'src/core/users/operations/users/AddCampaignNoteOperation';
 import CreateUserOperation from 'src/core/users/operations/users/CreateUserOperation';
+import DeactivateTwoFactorOperation from 'src/core/users/operations/users/DeactivateTwoFactorOperation';
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
@@ -10,32 +11,35 @@ import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOpe
 import UpdateGameInfoOperation from 'src/core/users/operations/users/UpdateGameInfoOperation';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
+import UpdateUserDetailsOperation from 'src/core/users/operations/users/UpdateUserDetailsOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
 import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
 import ResetTwoFactorOperation from 'src/core/users/operations/users/ResetTwoFactorOperation';
-import UpdateSecretQuestionOperation from 'src/core/users/operations/users/UpdateSecretQuestionOperation';
 import { IUsersSchemas } from './UsersSchemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
+import GetCampaignsByUserIdOperation from 'src/core/users/operations/users/GetCampaignsByUserIdOperation';
 
 export interface UsersControllerContract {
     schemaValidator: SchemaValidator;
     usersSchemas: IUsersSchemas;
     createUserOperation: CreateUserOperation;
     updateUserOperation: UpdateUserOperation;
+    updateUserDetailsOperation: UpdateUserDetailsOperation;
     verifyEmailOperation: VerifyEmailOperation;
     getUsersOperation: GetUsersOperation;
     getUserByIdOperation: GetUserByIdOperation;
-    activateSecretQuestionOperation: ActivateSecretQuestionOperation;
-    updateSecretQuestionOperation: UpdateSecretQuestionOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
+    deactivateTwoFactorOperation: DeactivateTwoFactorOperation;
     resetTwoFactorOperation: ResetTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;
     updatePasswordOperation: UpdatePasswordOperation;
     updateGameInfoOperation: UpdateGameInfoOperation;
+    addCampaignNoteOperation: AddCampaignNoteOperation;
     resetProfileOperation: ResetProfileOperation;
     pictureProfileOperation: PictureProfileOperation;
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
     loginUserOperation: LoginUserOperation;
+    getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation;
 }

@@ -1,9 +1,7 @@
-import {
-    ActivateSecretQuestionOperationContract,
-    ActivateSecretQuestionServiceContract,
-} from './users/ActivateSecretQuestion';
+import { AddCampaignNoteOperationContract, AddCampaignNoteServiceContract } from './users/AddCampaignNote';
 import { ActivateTwoFactorOperationContract, ActivateTwoFactorServiceContract } from './users/ActivateTwoFactor';
 import { CreateUserOperationContract, CreateUserServiceContract } from './users/CreateUser';
+import { DeactivateTwoFactorOperationContract, DeactivateTwoFactorServiceContract } from './users/DeactivateTwoFactor';
 import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/DeleteUser';
 import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
@@ -14,16 +12,20 @@ import { ResetProfileOperationContract, ResetProfileServiceContract } from './us
 import { ResetTwoFactorOperationContract, ResetTwoFactorServiceContract } from './users/ResetTwoFactor';
 import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './users/VerifyEmail';
 import { UpdateEmailOperationContract, UpdateEmailServiceContract } from './users/UpdateEmail';
+import { UpdateGameInfoOperationContract, UpdateGameInfoServiceContract } from './users/UpdateGameInfo';
+import { UpdateUserDetailsOperationContract, UpdateUserDetailsServiceContract } from './users/UpdateUserDetails';
 import { UpdatePasswordOperationContract, UpdatePasswordServiceContract } from './users/UpdatePassword';
+import { UpdateUserOperationContract, UpdateUserServiceContract } from './users/UpdateUser';
 import {
-    UpdateSecretQuestionOperationContract,
-    UpdateSecretQuestionServiceContract,
-} from './users/UpdateSecretQuestion';
+    GetCampaignsByUserIdOperationContract,
+    GetCampaignsByUserIdServiceContract,
+} from './campaigns/GetCampaignByUserId';
 
 export default interface UserCoreDependencies {
     // Operations
-    activateSecretQuestionOperationContract: ActivateSecretQuestionOperationContract;
+    addCampaignNoteOperationContract: AddCampaignNoteOperationContract;
     activateTwoFactorOperationContract: ActivateTwoFactorOperationContract;
+    deactivateTwoFactorOperationContract: DeactivateTwoFactorOperationContract;
     resetTwoFactorOperationContract: ResetTwoFactorOperationContract;
     createUserOperationContract: CreateUserOperationContract;
     deleteUserOperationContract: DeleteUserOperationContract;
@@ -34,15 +36,17 @@ export default interface UserCoreDependencies {
     resetProfileOperationContract: ResetProfileOperationContract;
     updateEmailOperationContract: UpdateEmailOperationContract;
     updateGameInfoOperationContract: UpdateGameInfoOperationContract;
+    updateUserDetailsOperationContract: UpdateUserDetailsOperationContract;
     updatePasswordOperationContract: UpdatePasswordOperationContract;
-    updateSecretQuestionOperationContract: UpdateSecretQuestionOperationContract;
     updateUserOperationContract: UpdateUserOperationContract;
     verifyEmailOperationContract: VerifyEmailOperationContract;
     loginUserOperationContract: LoginUserOperationContract;
+    getCampaignsByUserIdOperationContract: GetCampaignsByUserIdOperationContract;
 
     // Services
-    activateSecretQuestionServiceContract: ActivateSecretQuestionServiceContract;
+    addCampaignNoteServiceContract: AddCampaignNoteServiceContract;
     activateTwoFactorServiceContract: ActivateTwoFactorServiceContract;
+    deactivateTwoFactorServiceContract: DeactivateTwoFactorServiceContract;
     resetTwoFactorServiceContract: ResetTwoFactorServiceContract;
     createUserServiceContract: CreateUserServiceContract;
     deleteUserServiceContract: DeleteUserServiceContract;
@@ -53,9 +57,10 @@ export default interface UserCoreDependencies {
     resetProfileServiceContract: ResetProfileServiceContract;
     updateEmailServiceContract: UpdateEmailServiceContract;
     updateGameInfoServiceContract: UpdateGameInfoServiceContract;
+    updateUserDetailsServiceContract: UpdateUserDetailsServiceContract;
     updatePasswordServiceContract: UpdatePasswordServiceContract;
-    updateSecretQuestionServiceContract: UpdateSecretQuestionServiceContract;
     updateUserServiceContract: UpdateUserServiceContract;
     verifyEmailServiceContract: VerifyEmailServiceContract;
     loginUserServiceContract: LoginUserServiceContract;
+    getCampaignsByUserIdServiceContract: GetCampaignsByUserIdServiceContract;
 }

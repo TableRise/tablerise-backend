@@ -14,7 +14,8 @@ export default class GetAllBackgroundsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Background>>> {
-        this.logger('info', 'Execute - GetAllBackgroundsOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const backgrounds = await this.getAllBackgroundsService.getAll();
 
         return backgrounds;
