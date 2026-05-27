@@ -1,5 +1,5 @@
 import chai from 'chai';
-import dirtyChai = require('dirty-chai');
+import dirtyChai from 'dirty-chai';
 import DatabaseManagement, { mongoose } from '@tablerise/database-management';
 import setup from 'src/container';
 import logger from '@tablerise/dynamic-logger';
