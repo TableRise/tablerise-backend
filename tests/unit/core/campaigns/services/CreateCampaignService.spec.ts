@@ -204,6 +204,44 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 expect(campaignEnriched.infos.socialMedia).to.deep.equal({});
             });
+
+            it('should accept object configurations without forcing JSON parsing', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = {
+                    xpSystem: true,
+                    shopSystem: false,
+                    shopOn: false,
+                } as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: true,
+                    shopSystem: false,
+                    shopOn: false,
+                });
+            });
+
+            it('should default configurations to disabled flags when missing', async () => {
+                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                campaign.createdAt = null as unknown as string;
+                campaign.updatedAt = null as unknown as string;
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = undefined as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+
+                const campaignEnriched = await createCampaignService.enrichment(campaign, userId);
+
+                expect(campaignEnriched.configurations).to.deep.equal({
+                    xpSystem: false,
+                    shopSystem: false,
+                    shopOn: false,
+                });
+            });
         });
     });
 

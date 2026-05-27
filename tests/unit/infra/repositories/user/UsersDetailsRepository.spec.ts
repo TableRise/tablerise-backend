@@ -11,6 +11,55 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
 
     const logger: Logger = () => {};
 
+    context('#internal helpers', () => {
+        it('should return undefined when the raw collection model is missing', () => {
+            updateTimestampRepository = {};
+
+            database = {
+                modelInstance: (_scope: string, modelName: string) =>
+                    modelName === 'UserDetails' ? undefined : { findOne: sinon.stub().returns(null) },
+            };
+
+            serializer = {
+                postUserDetails: (obj: any) => obj,
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            expect((usersDetailsRepository as any).getRawCollection()).to.equal(undefined);
+        });
+
+        it('should not hide user details when no detail payload is provided', async () => {
+            updateTimestampRepository = {};
+
+            database = {
+                modelInstance: () => ({
+                    findOne: sinon.stub().returns(null),
+                }),
+            };
+
+            serializer = {
+                postUserDetails: (obj: any) => obj,
+            };
+
+            usersDetailsRepository = new UsersDetailsRepository({
+                updateTimestampRepository,
+                database,
+                serializer,
+                logger,
+            });
+
+            const result = await (usersDetailsRepository as any).shouldHideUserDetail(undefined);
+
+            expect(result).to.equal(false);
+        });
+    });
+
     context('#create', () => {
         const create = sinon.spy(() => ({ firstName: 'Jully' }));
 

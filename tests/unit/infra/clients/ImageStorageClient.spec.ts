@@ -121,7 +121,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             });
 
             it('should throw error', async () => {
-                process.env.NODE_ENV = 'develop';
+                process.env.NODE_ENV = 'production';
                 try {
                     await imageStorageClient.upload(imageMock);
                     expect('it should not be here').to.be.equal(false);
@@ -130,6 +130,19 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                     expect(err.message).to.be.equal('error test');
                     expect(err.code).to.be.equal(500);
                 }
+                process.env.NODE_ENV = 'test';
+            });
+
+            it('should fallback to the mocked upload response outside production mode', async () => {
+                process.env.NODE_ENV = 'develop';
+
+                const imageUp = await imageStorageClient.upload(imageMock);
+
+                expect(imageUp).to.have.property('id');
+                expect(imageUp).to.have.property('title');
+                expect(imageUp).to.have.property('link');
+                expect(imageUp).to.have.property('uploadDate');
+                expect(imageUp).to.have.property('request');
                 process.env.NODE_ENV = 'test';
             });
         });
