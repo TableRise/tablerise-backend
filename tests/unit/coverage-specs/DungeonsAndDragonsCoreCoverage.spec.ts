@@ -171,13 +171,19 @@ describe('Coverage :: DungeonsAndDragons5e :: Core', () => {
                 update: sinon.stub().resolves({ ...payload, active: true }),
             };
 
-            const getAllService = new testCase.GetAllService({ dungeonsAndDragonsRepository: repository, logger } as any);
+            const getAllService = new testCase.GetAllService({
+                dungeonsAndDragonsRepository: repository,
+                logger,
+            } as any);
             const getService = new testCase.GetService({ dungeonsAndDragonsRepository: repository, logger } as any);
             const getDisabledService = new testCase.GetDisabledService({
                 dungeonsAndDragonsRepository: repository,
                 logger,
             } as any);
-            const toggleService = new testCase.ToggleService({ dungeonsAndDragonsRepository: repository, logger } as any);
+            const toggleService = new testCase.ToggleService({
+                dungeonsAndDragonsRepository: repository,
+                logger,
+            } as any);
 
             expect(await getAllService.getAll()).to.deep.equal([payload]);
             expect(await getService.get('entity-1')).to.deep.equal(payload);

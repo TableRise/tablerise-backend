@@ -7,7 +7,9 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
     const buildController = (overrides: Record<string, any> = {}): CampaignsController =>
         new CampaignsController({
             createCampaignOperation: { execute: sinon.stub() },
-            getCampaignByIdOperation: { execute: sinon.stub().resolves({ campaignPlayers: [], infos: { journal: [] } }) },
+            getCampaignByIdOperation: {
+                execute: sinon.stub().resolves({ campaignPlayers: [], infos: { journal: [] } }),
+            },
             getCampaignsByUserIdOperation: { execute: sinon.stub() },
             deleteCampaignOperation: { execute: sinon.stub() },
             updateCampaignOperation: { execute: sinon.stub() },
@@ -48,7 +50,7 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
             json: sinon.stub().returnsThis(),
             end: sinon.stub().returnsThis(),
             send: sinon.stub().returnsThis(),
-        } as unknown as Response);
+        }) as unknown as Response;
 
     it('should cover player and journal getter methods', async () => {
         const getCampaignByIdOperation = {

@@ -94,10 +94,10 @@ const interfaceModules: InterfaceModuleMetadata[] = [
 
 describe('Coverage :: DungeonsAndDragons5e :: Interface', () => {
     interfaceModules.forEach((metadata) => {
-        const Controller = require(`src/interface/dungeons&dragons5e/presentation/${metadata.folder}/${metadata.controllerName}`)
-            .default;
-        const Routes = require(`src/interface/dungeons&dragons5e/presentation/${metadata.folder}/${metadata.routesName}`)
-            .default;
+        const Controller =
+            require(`src/interface/dungeons&dragons5e/presentation/${metadata.folder}/${metadata.controllerName}`).default;
+        const Routes =
+            require(`src/interface/dungeons&dragons5e/presentation/${metadata.folder}/${metadata.routesName}`).default;
 
         it(`should cover ${metadata.folder} controller and routes`, async () => {
             const singularStub = sinon.stub().resolves({ id: 'entity-1' });
@@ -150,12 +150,12 @@ describe('Coverage :: DungeonsAndDragons5e :: Interface', () => {
             const declaredRoutes = routes.routes();
             expect(declaredRoutes[0].path).to.equal(metadata.basePath);
             expect(declaredRoutes[0].options.tag).to.equal(metadata.tag);
-            expect(declaredRoutes.some((route: { path: string }) => route.path === `${metadata.basePath}/disabled`)).to.equal(
-                true
-            );
-            expect(declaredRoutes.some((route: { path: string }) => route.path === `${metadata.basePath}/:id`)).to.equal(
-                true
-            );
+            expect(
+                declaredRoutes.some((route: { path: string }) => route.path === `${metadata.basePath}/disabled`)
+            ).to.equal(true);
+            expect(
+                declaredRoutes.some((route: { path: string }) => route.path === `${metadata.basePath}/:id`)
+            ).to.equal(true);
             expect(declaredRoutes.some((route: { method: string }) => route.method === 'patch')).to.equal(true);
 
             if (metadata.extraOperation) {
@@ -173,7 +173,9 @@ describe('Coverage :: DungeonsAndDragons5e :: Interface', () => {
             require('src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware').default;
 
         const routeFactory = (name: string) => ({
-            routes: sinon.stub().returns([{ method: 'get', path: `/test/${name}`, controller: sinon.stub(), options: {} }]),
+            routes: sinon
+                .stub()
+                .returns([{ method: 'get', path: `/test/${name}`, controller: sinon.stub(), options: {} }]),
         });
 
         const builder = new DungeonsAndDragonsRoutesBuilder({

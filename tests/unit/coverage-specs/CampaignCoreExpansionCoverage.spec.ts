@@ -49,7 +49,11 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
 
             await confirmCampaignPlayerOperation.execute(savedCampaign.campaignId, 'dm', 'target');
 
-            expect(confirmCampaignPlayerService.confirm).to.have.been.calledWith(savedCampaign.campaignId, 'dm', 'target');
+            expect(confirmCampaignPlayerService.confirm).to.have.been.calledWith(
+                savedCampaign.campaignId,
+                'dm',
+                'target'
+            );
             expect(socketIO.syncActiveCampaign).to.have.been.calledWith(confirmedCampaign);
             expect(socketIO.emitToCampaign).to.have.been.calledWith(
                 savedCampaign.campaignId,
@@ -110,7 +114,10 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
 
         it('should cover image, dungeon master, cover and picture update operations', async () => {
             const savedCampaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
-            savedCampaign.matchData = { ...(savedCampaign.matchData ?? {}), mapImages: [{ id: 'map-1', link: 'map-link' }] } as any;
+            savedCampaign.matchData = {
+                ...(savedCampaign.matchData ?? {}),
+                mapImages: [{ id: 'map-1', link: 'map-link' }],
+            } as any;
             savedCampaign.cover = { id: 'cover-1', link: 'cover-link' } as any;
 
             const socketIO = {
@@ -135,7 +142,9 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
                 imageUrl: 'map-link',
             } as any);
 
-            expect(removeCampaignImageService.removeCover).to.have.been.calledWith({ campaignId: savedCampaign.campaignId });
+            expect(removeCampaignImageService.removeCover).to.have.been.calledWith({
+                campaignId: savedCampaign.campaignId,
+            });
             expect(removeCampaignImageService.removeMatchMapImage).to.have.been.calledWith({
                 campaignId: savedCampaign.campaignId,
                 imageUrl: 'map-link',
@@ -426,7 +435,9 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
                 query: { characterId: 'char-1' },
                 payload: { campaignId: null },
             });
-            expect(await removePlayerCharacterService.save(campaignWithoutCharacter)).to.equal(campaignWithoutCharacter);
+            expect(await removePlayerCharacterService.save(campaignWithoutCharacter)).to.equal(
+                campaignWithoutCharacter
+            );
 
             const transferService = new TransferDungeonMasterService({
                 logger,
