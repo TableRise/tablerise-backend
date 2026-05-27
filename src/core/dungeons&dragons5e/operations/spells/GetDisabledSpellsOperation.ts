@@ -14,7 +14,8 @@ export default class GetDisabledSpellsOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Spell>>> {
-        this.logger('info', 'Execute - GetDisabledSpellsOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const spells = await this.getDisabledSpellsService.getAllDisabled();
 
         return spells;

@@ -88,5 +88,38 @@ describe('Core :: Users :: Services :: UpdatePasswordService', () => {
                 }
             });
         });
+
+        context('When update an user password fail - user does not exist', () => {
+            before(() => {
+                usersRepository = {
+                    findOne: () => null,
+                };
+
+                payload = {
+                    email: 'user@email.com',
+                    code: '123456',
+                    password: 'World#123',
+                };
+
+                updatePasswordService = new UpdatePasswordService({
+                    usersRepository,
+                    stateMachine,
+                    logger,
+                });
+            });
+
+            it('should throw a not found error', async () => {
+                try {
+                    await updatePasswordService.update(payload);
+
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.name).to.be.equal('NotFound');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                }
+            });
+        });
     });
 });

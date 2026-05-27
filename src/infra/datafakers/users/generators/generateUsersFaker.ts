@@ -12,7 +12,7 @@ function createUserFaker({ userId = newUUID() }: User): User {
         inProgress: {
             status: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
             currentFlow: stateFlowsEnum.enum.CREATE_USER,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_CONFIRM,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: 'HJS74',
         },

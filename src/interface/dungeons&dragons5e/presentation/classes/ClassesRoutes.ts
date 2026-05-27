@@ -5,6 +5,12 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 import { ClassesRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/classes/ClassesRoutes';
 
 const BASE_PATH = '/system/dnd5e/classes';
+const desc = {
+    getAll: 'List all D&D 5e classes available in the system.',
+    getDisabled: 'List D&D 5e classes currently marked as unavailable.',
+    getById: 'Get one D&D 5e class by id.',
+    toggleAvailability: 'Enable or disable a D&D 5e class.',
+};
 
 export default class ClassesRoutes {
     private readonly classesController;
@@ -24,6 +30,7 @@ export default class ClassesRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
+                    description: desc.getAll,
                 },
             },
             {
@@ -33,6 +40,7 @@ export default class ClassesRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
+                    description: desc.getDisabled,
                 },
             },
             {
@@ -43,6 +51,7 @@ export default class ClassesRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
+                    description: desc.getById,
                 },
             },
             {
@@ -56,6 +65,7 @@ export default class ClassesRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'classes',
+                    description: desc.toggleAvailability,
                 },
             },
         ] as unknown as routeInstance[];

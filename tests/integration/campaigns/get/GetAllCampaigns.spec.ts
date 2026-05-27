@@ -9,19 +9,24 @@ describe('When recover all campaigns', () => {
     context('And is succesfull', () => {
         before(async () => {
             campaigns = [];
-            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 1 });
-            campaigns.forEach(async (campaign) => {
-                campaign.infos.visibility = 'visible';
-                await InjectNewCampaign(campaign);
-            });
+            campaigns = DomainDataFaker.generateCampaignsJSON({ count: 2 });
+            await Promise.all(
+                campaigns.map(async (campaign) => {
+                    campaign.infos.visibility = 'visible';
+                    await InjectNewCampaign(campaign);
+                })
+            );
         });
 
         it('should return correct data', async () => {
             const { body } = await requester().get(`/campaigns`).expect(HttpStatusCode.OK);
 
-            const campaign = body[1];
+            const campaign = body.find(
+                (currentCampaign: Campaign) => currentCampaign.campaignId === campaigns[0].campaignId
+            );
             expect(body).to.be.an('array');
-            expect(campaign).not.to.have.property('campaignId');
+            expect(campaign).to.exist;
+            expect(campaign).to.have.property('campaignId');
             expect(campaign).to.have.property('title');
             expect(campaign.title).to.be.equal(campaigns[0].title);
             expect(campaign).to.have.property('cover');
@@ -30,7 +35,8 @@ describe('When recover all campaigns', () => {
             expect(campaign.description).to.be.equal(campaigns[0].description);
             expect(campaign).to.have.property('ageRestriction');
             expect(campaign.ageRestriction).to.be.equal(campaigns[0].ageRestriction);
-            expect(campaign).not.to.have.property('system');
+            expect(campaign).to.have.property('playerAmountLimit');
+            expect(campaign).to.have.property('system');
             expect(campaign).not.to.have.property('campaignPlayers');
             expect(campaign).to.have.property('playersAmount');
             expect(campaign.playersAmount).to.be.equal(campaigns[0].campaignPlayers.length);

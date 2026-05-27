@@ -56,18 +56,6 @@ export default class CharactersRoutes {
                     description: desc.getById,
                 },
             },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/by-campaign/:id`,
-                controller: this.charactersController.recoverCharactersByCampaign,
-                parameters: [...generateIDParam()],
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    description: desc.getByCampaign,
-                    tag: 'recover',
-                },
-            },
-
             // POST
             {
                 method: 'post',
@@ -134,7 +122,53 @@ export default class CharactersRoutes {
                     tag: 'management',
                 },
             },
+
             // PATCH
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/equipments/add`,
+                controller: this.charactersController.addEquipment,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.addEquipment,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/equipments/remove`,
+                controller: this.charactersController.removeEquipment,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.removeEquipment,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/money`,
+                controller: this.charactersController.updateCharacterMoney,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.charactersSchemas.patchUpdateMoney.body }],
+                    tag: 'management',
+                    description: desc.updateMoney,
+                },
+            },
+            {
+                method: 'delete',
+                path: `${BASE_PATH}/:id/delete`,
+                controller: this.charactersController.deleteCharacter,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.deleteCharacter,
+                },
+            },
         ] as routeInstance[];
     }
 }

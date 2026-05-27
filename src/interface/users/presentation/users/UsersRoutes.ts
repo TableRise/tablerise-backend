@@ -82,6 +82,17 @@ export default class UsersRoutes {
                     description: desc.get,
                 },
             },
+            {
+                method: 'get',
+                path: `${BASE_PATH}/:id/campaigns`,
+                controller: this.usersController.getCampaignsByUserId,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'users',
+                    description: desc.getCampaigns,
+                },
+            },
 
             // POST
             {
@@ -175,33 +186,13 @@ export default class UsersRoutes {
                     description: desc.token2FA,
                 },
             },
-            {
-                method: 'post',
-                path: `${BASE_PATH}/authenticate/secret-question`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'flow', type: 'string' },
-                    ]),
-                ],
-                controller: this.usersController.internalAuthentication,
-                options: {
-                    middlewares: [this.authorizationMiddleware.secretQuestion],
-                    schemas: [
-                        { query: this.usersSchemas.postAuthenticateSecretQuestion.query },
-                        { body: this.usersSchemas.postAuthenticateSecretQuestion.body },
-                    ],
-                    tag: 'authentication',
-                    description: desc.secretQuestion,
-                },
-            },
 
             // PUT
             {
                 method: 'put',
                 path: `${BASE_PATH}/:id/update`,
                 parameters: [...generateIDParam()],
-                controller: this.usersController.update,
+                controller: this.usersController.updateUser,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     schemas: [{ body: this.usersSchemas.putUpdateUser.body }],
@@ -209,32 +200,20 @@ export default class UsersRoutes {
                     description: desc.update,
                 },
             },
+            {
+                method: 'put',
+                path: `${BASE_PATH}/:id/update/details`,
+                parameters: [...generateIDParam()],
+                controller: this.usersController.updateUserDetails,
+                options: {
+                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ body: this.usersSchemas.putUpdateUserDetails.body }],
+                    tag: 'management',
+                    description: desc.updateDetails,
+                },
+            },
 
             // PATCH
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/question/activate`,
-                parameters: [...generateIDParam()],
-                controller: this.usersController.activateSecretQuestion,
-                options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
-                    schemas: [{ body: this.usersSchemas.patchActivateSecretQuestion.body }],
-                    tag: 'management',
-                    description: desc.activateQuestion,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/question/update`,
-                parameters: [...generateIDParam()],
-                controller: this.usersController.updateSecretQuestion,
-                options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
-                    schemas: [{ body: this.usersSchemas.patchSecretQuestionUpdate.body }],
-                    tag: 'management',
-                    description: desc.updateSecretQuestion,
-                },
-            },
             {
                 method: 'patch',
                 path: `${BASE_PATH}/:id/2fa/activate`,
@@ -244,6 +223,17 @@ export default class UsersRoutes {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'management',
                     description: desc.activate2FA,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/2fa/deactivate`,
+                parameters: [...generateIDParam()],
+                controller: this.usersController.deactivateTwoFactor,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.deactivate2FA,
                 },
             },
             {
@@ -282,14 +272,41 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/game-info`,
-                controller: this.usersController.updateGameInfo,
+                path: `${BASE_PATH}/:id/update/game-info/add`,
+                controller: this.usersController.addGameInfo,
                 parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ body: this.usersSchemas.patchUpdateUserGameInfo.body }],
+                    schemas: [{ body: this.usersSchemas.patchAddUserGameInfo.body }],
                     tag: 'management',
-                    description: desc.updateGameInfo,
+                    description: desc.addGameInfo,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/game-info/remove`,
+                controller: this.usersController.removeGameInfo,
+                parameters: [...generateIDParam()],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.patchRemoveUserGameInfo.body }],
+                    tag: 'management',
+                    description: desc.removeGameInfo,
+                },
+            },
+            {
+                method: 'patch',
+                path: `${BASE_PATH}/:id/update/campaign/notes`,
+                controller: this.usersController.updateCampaignNotes,
+                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'campaignId', type: 'string' }])],
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [
+                        { query: this.usersSchemas.patchUpdateCampaignNotes.query },
+                        { body: this.usersSchemas.patchUpdateCampaignNotes.body },
+                    ],
+                    tag: 'management',
+                    description: desc.updateCampaignNotes,
                 },
             },
             {

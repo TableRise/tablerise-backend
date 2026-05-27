@@ -12,7 +12,8 @@ export default class PostInvitationEmailService {
     }
 
     private async send(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
-        this.logger('info', 'Send - SendEmail - PostInvitationEmailService');
+        const callName = `[${this.constructor.name}] - ${this.send.name}`;
+        this.logger('info', callName);
         this.emailSender.type = 'invitation';
 
         const emailSendResult = await this.emailSender.send(
@@ -26,13 +27,13 @@ export default class PostInvitationEmailService {
         );
 
         if (!emailSendResult.success) {
-            this.logger('error', 'Some error ocurred in email sending - PostInvitationEmailService');
             HttpRequestErrors.throwError('verification-email-send-fail');
         }
     }
 
     public async sendEmail(payload: CampaignPlayerInvitationEmailSend): Promise<void> {
-        this.logger('info', 'SendEmail - PostInvitationEmailService');
+        const callName = `[${this.constructor.name}] - ${this.sendEmail.name}`;
+        this.logger('info', callName);
         await this.send(payload);
     }
 }

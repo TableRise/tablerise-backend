@@ -13,7 +13,8 @@ export default class GetUsersOperation {
     }
 
     public async execute(): Promise<RegisterUserResponse[]> {
-        this.logger('info', 'Execute - GetUsersOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getUsersService.get();
     }
 }

@@ -17,7 +17,8 @@ export default class AddPlayerCharacterOperation {
     }
 
     public async execute(payload: addCharacterPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - AddPlayerCharacterOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const campaignWithPlayerAdded = await this.addPlayerCharacterService.addCharacter(payload);
         return this.addPlayerCharacterService.save(campaignWithPlayerAdded);

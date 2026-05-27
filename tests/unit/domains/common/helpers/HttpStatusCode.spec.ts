@@ -11,6 +11,7 @@ describe('Domains :: Common :: Helpers :: HttpStatusCode', () => {
                 'UNAUTHORIZED',
                 'FORBIDDEN',
                 'NOT_FOUND',
+                'CONFLICT',
                 'UNPROCESSABLE_ENTITY',
                 'INTERNAL_SERVER',
                 'EXTERNAL_ERROR',
@@ -24,7 +25,7 @@ describe('Domains :: Common :: Helpers :: HttpStatusCode', () => {
         });
 
         it('should have the correct values', () => {
-            const enumValues = [200, 201, 204, 400, 401, 403, 404, 422, 500, 502];
+            const enumValues = [200, 201, 204, 400, 401, 403, 404, 409, 422, 500, 502];
             const enumValuesDeclared = Object.values(HttpStatusCode).filter((key: any) => !isNaN(key));
 
             expect(enumValues.length).to.be.equal(enumValuesDeclared.length);

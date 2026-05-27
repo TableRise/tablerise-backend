@@ -11,6 +11,7 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
         campaign: Campaign;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign has the match players', () => {
@@ -43,6 +44,7 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
 
                 addCampaignPlayersOperation = new AddCampaignPlayersOperation({
                     addCampaignPlayersService,
+                    socketIO,
                     logger,
                 });
             });
@@ -62,5 +64,38 @@ describe('Core :: Campaigns :: Operations :: AddCampaignPlayersOperation', () =>
                 expect(addPlayerTest[0].status).to.be.equal('pending');
             });
         });
+    });
+
+    it('should not emit player_joined when the saved player cannot be found', async () => {
+        campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        matchPlayersPayload = {
+            campaignId: campaign.campaignId,
+            characterId: newUUID(),
+            userId: 'missing-user',
+        };
+
+        addCampaignPlayersService = {
+            addCampaignPlayers: sinon.spy(() => ({
+                campaign,
+                userDetails: {},
+            })),
+            save: sinon.spy(() => ({
+                ...campaign,
+                campaignPlayers: [],
+            })),
+        };
+
+        const isolatedSocketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
+
+        addCampaignPlayersOperation = new AddCampaignPlayersOperation({
+            addCampaignPlayersService,
+            socketIO: isolatedSocketIO,
+            logger,
+        });
+
+        await addCampaignPlayersOperation.execute(matchPlayersPayload);
+
+        expect(isolatedSocketIO.syncActiveCampaign).to.have.been.calledOnce;
+        expect(isolatedSocketIO.emitToCampaign).not.to.have.been.called;
     });
 });

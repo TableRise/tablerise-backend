@@ -86,5 +86,86 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
             imageMiddleware.fileType(request, response, next);
             expect(next).to.have.been.called();
         });
+
+        it('should call next - with req.files as array', async () => {
+            request.file = undefined;
+            request.files = [
+                {
+                    buffer: bufferMock,
+                    mimetype: 'image/jpg',
+                    originalname: 'img1.jpg',
+                    fieldname: 'images',
+                    encoding: 'utf-8',
+                    size: 100,
+                    stream: '' as unknown as Readable,
+                    destination: '',
+                    filename: '',
+                    path: '',
+                },
+            ];
+
+            imageMiddleware.fileType(request, response, next);
+
+            expect(next).to.have.been.called();
+            request.files = undefined;
+        });
+
+        it('should call next - with req.files as fields object', async () => {
+            request.file = undefined;
+            request.files = {
+                cover: [
+                    {
+                        buffer: bufferMock,
+                        mimetype: 'image/jpeg',
+                        originalname: 'cover.jpeg',
+                        fieldname: 'cover',
+                        encoding: 'utf-8',
+                        size: 200,
+                        stream: '' as unknown as Readable,
+                        destination: '',
+                        filename: '',
+                        path: '',
+                    },
+                ],
+            };
+
+            imageMiddleware.fileType(request, response, next);
+
+            expect(next).to.have.been.called();
+            request.files = undefined;
+        });
+
+        it('should throw an error - invalid extension in req.files fields object', async () => {
+            try {
+                request.file = undefined;
+                request.files = {
+                    cover: [
+                        {
+                            buffer: bufferMock,
+                            mimetype: 'application/pdf',
+                            originalname: 'doc.pdf',
+                            fieldname: 'cover',
+                            encoding: 'utf-8',
+                            size: 300,
+                            stream: '' as unknown as Readable,
+                            destination: '',
+                            filename: '',
+                            path: '',
+                        },
+                    ],
+                };
+
+                imageMiddleware.fileType(request, response, next);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.message).to.be.equal(
+                    'File extension is not allowed, valid extensions are: [png, jpg, jpeg]'
+                );
+                expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
+                expect(err.name).to.be.equal('BadRequest');
+            } finally {
+                request.files = undefined;
+            }
+        });
     });
 });

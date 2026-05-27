@@ -22,12 +22,13 @@ const [
         campaignPlayers,
         matchData,
         infos,
+        configurations,
+        buys,
         password,
-        lores,
         createdAt,
         updatedAt,
     },
-] = generateCampaignsJSON();
+] = generateCampaignsJSON() as any[];
 
 const mocks = {
     campaignMock: {
@@ -39,8 +40,9 @@ const mocks = {
         campaignPlayers,
         matchData,
         infos,
+        configurations,
+        buys,
         password,
-        lores,
         createdAt,
         updatedAt,
     },
@@ -50,7 +52,9 @@ const mocks = {
         system,
         ageRestriction,
         password,
+        playerAmountLimit: '4',
         visibility: infos.visibility,
+        configurations,
         cover: { isBinary: true },
     },
     uploadMatchMapImage: { mapImage: { isBinary: true } },

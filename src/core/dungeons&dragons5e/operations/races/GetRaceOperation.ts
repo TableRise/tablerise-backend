@@ -14,7 +14,8 @@ export default class GetRaceOperation {
     }
 
     public async execute(id: string): Promise<Internacional<Race>> {
-        this.logger('info', 'Execute - GetRaceOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const race = await this.getRaceService.get(id);
 
         return race;

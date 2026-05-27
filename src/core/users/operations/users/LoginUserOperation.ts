@@ -13,7 +13,8 @@ export default class LoginUserOperation {
     }
 
     async execute(token: string): Promise<LoginResponse> {
-        this.logger('info', 'Execute - LoginUserOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
 
         const tokenData = await this.loginUserService.enrichToken(token);
         const cookieOptions = this.loginUserService.setCookieOptions();

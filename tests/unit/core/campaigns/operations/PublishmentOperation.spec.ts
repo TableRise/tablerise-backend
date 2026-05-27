@@ -8,16 +8,19 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
     let publishmentOperation: PublishmentOperation, publishmentService: any, campaign: Campaign, postPayload: any;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         before(() => {
             campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
-            campaign.infos.announcements = [
+            campaign.infos.journal = [
                 {
                     title: 'New post',
                     content: 'Content of new post',
-                    author: 'Some author',
+                    author: campaign.campaignPlayers[0],
+                    timestamp: new Date().toISOString(),
+                    category: 'master',
                 },
             ];
 
@@ -34,6 +37,7 @@ describe('Core :: Campaigns :: Operations :: publishmentOperation', () => {
 
             publishmentOperation = new PublishmentOperation({
                 publishmentService,
+                socketIO,
                 logger,
             });
         });

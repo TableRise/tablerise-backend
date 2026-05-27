@@ -1,6 +1,6 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { updateMatchDatePayload } from 'src/types/api/campaigns/http/payload';
+import { AddMatchDatePayload, RemoveMatchDatePayload } from 'src/types/api/campaigns/http/payload';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
 
 export default class updateMatchDateService {
@@ -12,19 +12,24 @@ export default class updateMatchDateService {
         this.logger = logger;
     }
 
-    async updateMatchDate({ campaignId, date, operation }: updateMatchDatePayload): Promise<Campaign> {
-        this.logger('info', 'updateMatchDate - updateMatchDateService');
+    async addMatchDate({ campaignId, date }: AddMatchDatePayload): Promise<Campaign> {
+        const callName = `[${this.constructor.name}] - ${this.addMatchDate.name}`;
+        this.logger('info', callName);
         const campaign = await this.campaignsRepository.findOne({ campaignId });
+        const dateExist = campaign.infos.nextMatchDate;
 
-        if (operation === 'add') {
-            const dateExist = campaign.infos.nextMatchDate;
+        if (dateExist !== 'no-date') HttpRequestErrors.throwError('date-already-added');
 
-            if (dateExist !== 'no-date') HttpRequestErrors.throwError('date-already-added');
+        campaign.infos.nextMatchDate = date;
 
-            campaign.infos.nextMatchDate = date;
-        }
+        return campaign;
+    }
 
-        if (operation === 'remove') campaign.infos.nextMatchDate = 'no-date';
+    async removeMatchDate({ campaignId }: RemoveMatchDatePayload): Promise<Campaign> {
+        const callName = `[${this.constructor.name}] - ${this.removeMatchDate.name}`;
+        this.logger('info', callName);
+        const campaign = await this.campaignsRepository.findOne({ campaignId });
+        campaign.infos.nextMatchDate = 'no-date';
 
         return campaign;
     }

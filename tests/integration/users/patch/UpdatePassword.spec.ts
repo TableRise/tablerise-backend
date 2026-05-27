@@ -20,15 +20,11 @@ describe('When an user has the password changed', () => {
             user.inProgress = {
                 status: InProgressStatusEnum.enum.WAIT_TO_FINISH_PASSWORD_CHANGE,
                 currentFlow: stateFlowsEnum.enum.UPDATE_PASSWORD,
-                prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
+                prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_SECOND_AUTH,
                 nextStatusWillBe: InProgressStatusEnum.enum.DONE,
                 code: 'H45J7F',
             };
 
-            userDetails.secretQuestion = {
-                question: '123',
-                answer: '123',
-            } as UserDetail['secretQuestion'];
             user.twoFactorSecret = { active: true, qrcode: '', secret: '' };
 
             await InjectNewUser(user);

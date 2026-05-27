@@ -14,7 +14,8 @@ export default class GetClassService {
     }
 
     public async get(id: string): Promise<Internacional<Class>> {
-        this.logger('info', 'GetAll - GetClassService');
+        const callName = `[${this.constructor.name}] - ${this.get.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Classes');
 
         const classInDb = (await this.dungeonsAndDragonsRepository.findOne({

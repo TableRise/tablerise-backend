@@ -37,8 +37,10 @@ export default class PictureProfileService {
     }
 
     public async uploadPicture({ userId, image }: UserImagePayload): Promise<User> {
-        this.logger('info', 'UploadPicture - PictureProfileService');
+        const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
+        this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         this.verifyLastUpdate(userInDb);
 

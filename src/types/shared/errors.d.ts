@@ -18,7 +18,6 @@ export type ErrorTypes =
     | 'tag-already-exist'
     | 'user-inexistent'
     | '2fa-no-active'
-    | '2fa-and-secret-question-no-active'
     | '2fa-already-active'
     | '2fa-incorrect'
     | 'rpg-not-found-id'
@@ -39,8 +38,6 @@ export type ErrorTypes =
     | 'player-already-banned'
     | 'player-not-in-match'
     | 'content-inexistent'
-    | 'incorrect-secret-question'
-    | 'new-structure-secret-question-missing'
     | 'unauthorized'
     | 'campaign-inexistent'
     | 'music-link-already-added'
@@ -52,4 +49,10 @@ export type ErrorTypes =
     | 'character-does-not-exist'
     | 'player-master-equal'
     | 'save-forbidden-content'
-    | 'campaign-player-not-exists';
+    | 'campaign-player-not-exists'
+    | 'forbidden-post-category'
+    | 'forbidden-role-operation'
+    | 'journal-post-inexistent'
+    | 'equipment-already-added'
+    | 'already-full-campaign'
+    | 'campaign-password-incorrect';

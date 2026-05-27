@@ -15,7 +15,8 @@ export default class ToggleFeatsAvailabilityService {
     }
 
     public async toggle({ id, availability }: AvailabilityPayload): Promise<Internacional<Feat>> {
-        this.logger('info', 'Toggle - ToggleFeatsAvailabilityService');
+        const callName = `[${this.constructor.name}] - ${this.toggle.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Feats');
 
         const featInDb = (await this.dungeonsAndDragonsRepository.findOne({

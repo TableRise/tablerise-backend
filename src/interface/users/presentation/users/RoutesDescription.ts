@@ -1,76 +1,71 @@
-const getAll = 'This route returns all users registered in database';
+const getAll = 'List all registered users.';
 
-const get = 'Route to recovery of one user';
+const get = 'Get a user by id.';
 
-const verify = `This route receives an userId and send an email to verify the user.\n
-The user status is changed and is necessary to confirm the email using the code sent in the email message to perform any further operations.`;
+const getCampaigns = 'List the campaigns that belong to a specific user.';
 
-const register = 'Route for user registration, after register email confirmation is needed.';
+const verify = 'Send an email verification code for the requested authentication or account flow.';
 
-const login = 'Route for user login';
+const register = 'Create a new user account. Email verification is required before protected actions.';
 
-const update = 'Route for update user but only allowed fields.';
+const login = 'Sign in with email and password and return the authenticated session data.';
 
-const activateQuestion = 'Activate the secretQuestion - 2FA will be disabled';
+const update = 'Update the allowed profile fields for a user.';
 
-const updateSecretQuestion = ' Route for update user Secret Question.';
+const updateDetails = 'Update the allowed user detail fields for a user.';
 
-const confirm = `This route must be used to confirm an account that was recently created the route receives the param "code", that was send to the user email in the signup.`;
+const confirm = 'Confirm a recently created account with the code sent by email.';
 
-const activate2FA = 'Route for 2FA activation';
+const activate2FA = 'Enable two-factor authentication and return the setup data.';
 
-const reset2FA = 'Route for 2FA reset';
+const deactivate2FA = 'Disable the user two-factor authentication after the deactivation flow is completed.';
 
-const updateEmail = `Route for email update, verification code send to user email is needed.\n
-If the user has 2FA enabled the 2FA token will be needed as well.`;
+const reset2FA = 'Reset the user two-factor authentication setup.';
 
-const updatePassword =
-    'Route to perform the password reset operation, receives an email code and 2FA or secret question if enabled.';
+const updateEmail = 'Change the user email address. A verification flow is required.';
 
-const updateGameInfo = `Route to update user game info.\n
-------------------------
-Params:
-- userId: expects an user id.\n
-Body:
-- id: content id to add or remove
-- info: "badges" | "campaigns" | "characters"
-- operation: "add" | "remove"`;
+const updatePassword = 'Reset the user password using the email verification flow and any enabled extra checks.';
 
-const resetProfile = `Route for user reset, this route erase all the content in: characters - campaigns - badges`;
+const addGameInfo = 'Add a campaign, character, or badge reference to the user game info.';
 
-const profilePicture = 'Route used to upload a photo as profile ficture - Only PNG or JPEG';
+const removeGameInfo = 'Remove a campaign, character, or badge reference from the user game info.';
 
-const deleteProfile =
-    'Route for user deletion, if the user has 2FA enabled the 2FA token will be needed, if not the secret question will be needed.';
+const updateCampaignNotes = 'Add a note to one campaign inside the user game info.';
 
-const logoutUser = 'Route for logout of an user and addition of token in a forbidden list';
+const resetProfile = 'Clear the user characters, campaigns, and badges.';
 
-const emailCode = 'Route to verify email code sent to user';
+const profilePicture = 'Upload or replace the user profile picture. Accepted formats: PNG and JPEG.';
 
-const token2FA = 'Route to verify user two factor authentication';
+const deleteProfile = 'Delete a user account.';
 
-const secretQuestion = 'Route to verify user secret question authentication';
+const logoutUser = 'Sign out the current user and invalidate the current token.';
+
+const emailCode = 'Validate an email verification code for the requested flow.';
+
+const token2FA = 'Validate a two-factor authentication token for the requested flow.';
 
 export default {
     get,
     getAll,
+    getCampaigns,
     register,
     verify,
     login,
     update,
+    updateDetails,
     activate2FA,
+    deactivate2FA,
     reset2FA,
-    activateQuestion,
-    updateSecretQuestion,
     confirm,
     updateEmail,
     updatePassword,
-    updateGameInfo,
+    addGameInfo,
+    removeGameInfo,
+    updateCampaignNotes,
     resetProfile,
     profilePicture,
     deleteProfile,
     logoutUser,
     emailCode,
     token2FA,
-    secretQuestion,
 };

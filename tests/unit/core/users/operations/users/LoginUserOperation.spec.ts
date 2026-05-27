@@ -2,6 +2,7 @@ import { CookieOptions } from 'express';
 import sinon from 'sinon';
 import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperation';
 import newUUID from 'src/domains/common/helpers/newUUID';
+import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import { JWTResponse } from 'src/types/api/users/methods';
 
 describe('Core :: Users :: Operations :: LoginUserOperation', () => {
@@ -19,6 +20,7 @@ describe('Core :: Users :: Operations :: LoginUserOperation', () => {
                     userId: newUUID(),
                     providerId: newUUID(),
                     username: 'JohnDoe#321',
+                    status: InProgressStatusEnum.enum.DONE,
                     picture: {
                         id: '',
                         link: '',

@@ -14,7 +14,8 @@ export default class GetDisabledFeatsService {
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Feat>>> {
-        this.logger('info', 'GetAll - GetDisabledFeatsService');
+        const callName = `[${this.constructor.name}] - ${this.getAllDisabled.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Feats');
 
         const featInDb = (await this.dungeonsAndDragonsRepository.find({

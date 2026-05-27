@@ -1,5 +1,6 @@
 import { CookieOptions } from 'express';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { JWTResponse } from 'src/types/api/users/methods';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 
@@ -16,7 +17,8 @@ export default class LoginUserService {
     }
 
     async enrichToken(token: string): Promise<JWTResponse> {
-        this.logger('info', 'EnrichToken - LoginUserService');
+        const callName = `[${this.constructor.name}] - ${this.enrichToken.name}`;
+        this.logger('info', callName);
 
         const tokenData = JWTGenerator.verify(token) as JWTResponse;
 
@@ -26,6 +28,7 @@ export default class LoginUserService {
         const userDetails = await this.usersDetailsRepository.findOne({
             userId: tokenData.userId,
         });
+        if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
         tokenData.fullname = userDetails.firstName + ' ' + userDetails.lastName;
 
@@ -33,10 +36,11 @@ export default class LoginUserService {
     }
 
     setCookieOptions(): CookieOptions {
-        this.logger('info', 'SetCookieOptions - LoginUserService');
+        const callName = `[${this.constructor.name}] - ${this.setCookieOptions.name}`;
+        this.logger('info', callName);
 
         return {
-            maxAge: 3600000,
+            maxAge: 86_400_000,
             httpOnly: true,
             secure: process.env.COOKIE_SECURE === 'yes',
             sameSite: 'lax',

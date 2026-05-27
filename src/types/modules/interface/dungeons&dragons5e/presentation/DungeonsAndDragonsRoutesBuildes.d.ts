@@ -1,6 +1,7 @@
 import ArmorsRoutes from 'src/interface/dungeons&dragons5e/presentation/armors/ArmorsRoutes';
 import BackgroundRoutes from 'src/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsRoutes';
 import ClassRoutes from 'src/interface/dungeons&dragons5e/presentation/classes/ClassesRoutes';
+import EquipmentRoutes from 'src/interface/dungeons&dragons5e/presentation/equipment/EquipmentRoutes';
 import FeatsRoutes from 'src/interface/dungeons&dragons5e/presentation/feats/FeatsRoutes';
 import GodsRoutes from 'src/interface/dungeons&dragons5e/presentation/gods/GodsRoutes';
 import ItemsRoutes from 'src/interface/dungeons&dragons5e/presentation/items/ItemsRoutes';
@@ -16,6 +17,7 @@ export interface DungeonsAndDragonsRoutesBuilderContract {
     armorsRoutes: ArmorsRoutes;
     backgroundsRoutes: BackgroundRoutes;
     classesRoutes: ClassRoutes;
+    equipmentRoutes: EquipmentRoutes;
     featsRoutes: FeatsRoutes;
     godsRoutes: GodsRoutes;
     itemsRoutes: ItemsRoutes;

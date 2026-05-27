@@ -8,6 +8,7 @@ export default class JWTGenerator {
             providerId: user.providerId,
             username: `${user.nickname}${user.tag}`,
             picture: user.picture,
+            status: user.inProgress.status,
         };
 
         if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET environment variable is required');

@@ -1,6 +1,6 @@
-import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
+import bindUserStatusMiddleware from 'src/domains/common/helpers/bindUserStatusMiddleware';
 
-describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
+describe('Domains :: :: Common :: Helpers :: bindUserStatusMiddleware', () => {
     context('When a middleware is binded to routes', () => {
         let routes = [] as any;
         const middleware = (): void => {};
@@ -18,7 +18,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - push', () => {
-            const routesBinded = bindMiddleware(middleware, routes, { substringLoc: 3 });
+            const routesBinded = bindUserStatusMiddleware(middleware, routes, { substringLoc: 3 });
 
             expect(routesBinded[0].options).to.have.property('middlewares');
             expect(routesBinded[0].options.middlewares).to.be.an('array');
@@ -26,7 +26,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - with ignore', () => {
-            const routesBinded = bindMiddleware(middleware, routes, {
+            const routesBinded = bindUserStatusMiddleware(middleware, routes, {
                 substringLoc: 5,
                 pathsToIgnore: ['/api'],
             });
@@ -35,7 +35,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - unshift', () => {
-            const routesBinded = bindMiddleware(middleware, routes, {
+            const routesBinded = bindUserStatusMiddleware(middleware, routes, {
                 substringLoc: 3,
                 addMethod: 'unshift',
             });
@@ -46,7 +46,7 @@ describe('Domains :: :: Common :: Helpers :: BindMiddleware', () => {
         });
 
         it('should bind correctly - no-options', () => {
-            const routesBinded = bindMiddleware(middleware, routes);
+            const routesBinded = bindUserStatusMiddleware(middleware, routes);
 
             expect(routesBinded[0].options).to.have.property('middlewares');
             expect(routesBinded[0].options.middlewares).to.be.an('array');

@@ -5,7 +5,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 import desc from 'src/interface/users/presentation/oauth/RoutesDescription';
 
@@ -13,17 +12,20 @@ const BASE_PATH = '/oauth';
 
 export default class OAuthRoutes {
     private readonly oAuthController;
+    private readonly oAuthSchemas;
     private readonly authErrorMiddleware;
     private readonly verifyIdMiddleware;
 
     constructor({
         oAuthController,
+        oAuthSchemas,
         verifyIdMiddleware,
         authErrorMiddleware,
     }: InterfaceDependencies['oAuthRoutesContract']) {
         this.authErrorMiddleware = authErrorMiddleware;
         this.verifyIdMiddleware = verifyIdMiddleware;
         this.oAuthController = oAuthController;
+        this.oAuthSchemas = oAuthSchemas;
     }
 
     public routes(): routeInstance[] {
@@ -110,10 +112,10 @@ export default class OAuthRoutes {
                 path: `${BASE_PATH}/:id/complete`,
                 parameters: [...generateIDParam()],
                 controller: this.oAuthController.complete,
-                schema: DomainDataFaker.mocks.completeUserMock,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'register',
+                    schemas: [{ body: this.oAuthSchemas.postCompleteOauthRegister.body }],
                     description: desc.confirmExternal,
                 },
             },

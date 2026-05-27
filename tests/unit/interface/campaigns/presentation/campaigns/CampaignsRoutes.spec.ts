@@ -12,21 +12,38 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
     context('When all the routes are correctly implemented', () => {
         campaignsController = {};
         verifyIdMiddleware = () => ({});
-        imageMiddleware = { multer: () => ({ single: () => {} }) };
+        imageMiddleware = { multer: () => ({ single: () => {}, fields: () => {} }) };
         authorizationMiddleware = {};
         verifyMatchMiddleware = { exists: () => {} };
         campaignsSchemas = {
             postCreateCampaign: { body: {} },
             postCreateCampaignPublishment: { body: {} },
+            postCampaignLog: { body: {} },
+            postCampaignBuy: { body: {} },
             postInvitePlayerByEmail: { query: {} },
-            postBanCampaignPlayer: { query: {} },
             postAddCampaignPlayers: { query: {} },
             putUpdateCampaign: { body: {} },
             patchUpdateCampaignMatchMapImages: { body: {} },
-            patchUpdateCampaignMatchMusics: { body: {} },
-            patchUpdateCampaignMatchDate: { query: {} },
+            patchAddCampaignMatchMusics: { body: {} },
+            patchRemoveCampaignMatchMusic: { body: {} },
+            patchEditCampaignMatchMusic: { body: {} },
+            patchAddCampaignMatchDate: { query: {} },
             patchUpdateCampaignPlayerCharacter: { query: {} },
-            patchUpdateCampaignImages: { body: {} },
+            patchRemoveCampaignPlayerCharacter: { query: {} },
+            patchUpdateCampaignPlayerLimit: { query: {} },
+            patchUpdateCampaignJournalHighlight: { body: {} },
+            patchUpdateCampaignPlayerNote: { query: {}, body: {} },
+            patchRemoveCampaignPlayerNote: { query: {} },
+            patchUpdateCampaignMatchImages: { body: {} },
+            patchHighlightCampaignMatchImage: { query: {} },
+            patchConfirmCampaignPlayer: { query: {} },
+            patchUpdateCampaignCover: { body: {} },
+            patchRemoveCampaignMatchMapImage: { query: {} },
+            patchTransferDungeonMaster: { query: {} },
+            patchUpdateMatchCharacterPicture: { body: {} },
+            getAllCampaigns: { query: {} },
+            patchUpdateCampaignJournalPost: { query: {}, body: {} },
+            patchDeleteCampaignJournalPost: { query: {} },
         };
 
         campaignsRoutes = new CampaignsRoutes({
@@ -40,7 +57,35 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(15);
+            expect(routes).to.have.lengthOf(39);
+        });
+
+        it('should include the journal highlight routes', () => {
+            const routes = campaignsRoutes.routes();
+
+            expect(routes.some((route) => route.path === '/campaigns/:id/journal/highlight' && route.method === 'get'))
+                .to.be.true;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/journal/highlight' && route.method === 'patch'
+                )
+            ).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/update/journal' && route.method === 'patch'))
+                .to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/delete/journal' && route.method === 'delete'))
+                .to.be.true;
+            expect(
+                routes.some((route) => route.path === '/campaigns/:id/update/match/images' && route.method === 'patch')
+            ).to.be.true;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/match/images/highlight' && route.method === 'patch'
+                )
+            ).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/close' && route.method === 'patch')).to.be
+                .true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/logs' && route.method === 'post')).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/buys' && route.method === 'post')).to.be.true;
         });
     });
 });

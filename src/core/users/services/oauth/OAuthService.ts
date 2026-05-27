@@ -5,7 +5,8 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import OAuthCoreDependencies from 'src/types/modules/core/users/OAuthCoreDependencies';
-import { __FullUser, __TokenObject, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
+import { __FullUser, __UserEnriched, __UserSaved, __UserSerialized } from 'src/types/api/users/methods';
+import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 
@@ -32,17 +33,19 @@ export default class OAuthService {
         this.saveUser = this.saveUser.bind(this);
     }
 
-    public login(userInDb: User, userSerialized: User): __TokenObject {
-        this.logger('info', 'Login - OAuthService');
+    public login(userInDb: User, userSerialized: User): RegisterUserResponse {
+        const callName = `[${this.constructor.name}] - ${this.login.name}`;
+        this.logger('info', callName);
         const isProviderIdValid = userInDb.providerId === userSerialized.providerId;
 
         if (!isProviderIdValid) HttpRequestErrors.throwError('email-already-exist', '/register');
 
-        return { token: JWTGenerator.generate(userInDb) };
+        return { ...userInDb, token: JWTGenerator.generate(userInDb) } as RegisterUserResponse;
     }
 
     public async serialize(payload: Google.Profile | Discord.Profile): Promise<__UserSerialized> {
-        this.logger('info', 'Serialize - OAuthService');
+        const callName = `[${this.constructor.name}] - ${this.serialize.name}`;
+        this.logger('info', callName);
         const userExternalSerialized = this.serializer.externalUser(payload);
 
         const userSerialized = this.serializer.postUser(userExternalSerialized);
@@ -51,8 +54,9 @@ export default class OAuthService {
         return { userSerialized, userDetailsSerialized };
     }
 
-    public async enrichment({ user, userDetails }: __FullUser, provider: string): Promise<__UserEnriched> {
-        this.logger('info', 'Enrichment - CreateUserService');
+    public async enrichment({ user, userDetails }: __FullUser, _provider: string): Promise<__UserEnriched> {
+        const callName = `[${this.constructor.name}] - ${this.enrichment.name}`;
+        this.logger('info', callName);
         const tag = `#${Math.floor(Math.random() * 9999) + 1}`;
 
         user.tag = tag;
@@ -63,12 +67,10 @@ export default class OAuthService {
         user.inProgress = {
             status: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-            prevStatusMustBe: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
+            prevStatusWas: InProgressStatusEnum.enum.WAIT_TO_COMPLETE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
-
-        userDetails.secretQuestion = { question: 'oauth', answer: provider };
 
         return {
             userEnriched: user,
@@ -77,7 +79,8 @@ export default class OAuthService {
     }
 
     public async saveUser({ user, userDetails }: __FullUser): Promise<__UserSaved> {
-        this.logger('info', 'SaveUser - CreateUserService');
+        const callName = `[${this.constructor.name}] - ${this.saveUser.name}`;
+        this.logger('info', callName);
         const userSaved = await this.usersRepository.create({
             ...user,
             userId: newUUID(),

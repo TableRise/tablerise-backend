@@ -1,12 +1,8 @@
 import CreateCharacterService from 'src/core/characters/services/CreateCharacterService';
-import getErrorName from 'src/domains/common/helpers/getErrorName';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
-import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
-import DomainDataFakerDND from 'src/infra/datafakers/dungeons&dragons5e/DomainDataFaker';
-import Sinon from 'sinon';
 
 describe('Core :: Characters :: Services :: CreateCharacterService', () => {
     let createCharacterService: CreateCharacterService,
@@ -17,7 +13,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
         serializer: any,
         characterPayloadMock: any,
         characterMock: any,
-        dndRulesRaceMock: any;
+        userDetailsUpdated: any;
 
     const logger = (): void => {};
 
@@ -94,7 +90,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             });
         });
 
-        context('When a character is not successfully serialized - forbidden keys', () => {
+        context('When a character is serialized with a permissive serializer payload', () => {
             before(() => {
                 characterMock = DomainDataFaker.generateCharactersJSON()[0];
                 characterPayloadMock = DomainDataFaker.mocks.createCharacterMock;
@@ -134,18 +130,10 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 });
             });
 
-            it('should throw an error', () => {
-                try {
-                    createCharacterService.serialize(characterPayloadMock);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal(
-                        'Forbidden content was sent to save in database - check business rules'
-                    );
-                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-                    expect(err.code).to.be.equal(HttpStatusCode.BAD_REQUEST);
-                }
+            it('should return the serializer output as-is', () => {
+                const characterTest = createCharacterService.serialize(characterPayloadMock);
+                expect(characterTest.data).to.not.have.property('money');
+                expect(characterTest.data).to.have.property('spells');
             });
         });
     });
@@ -183,53 +171,50 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 const characterTest = await createCharacterService.enrichment(characterMock, userId);
                 expect(characterTest).to.have.property('author');
                 expect(characterTest.author).to.have.property('nickname');
-                expect(characterTest.data.profile.level).to.be.equal(0);
-                expect(characterTest.data.profile.xp).to.be.equal(0);
-                expect(characterTest.data.stats.abilityScores).to.be.an('array');
+                expect(characterTest.data.profile.characteristics.appearance.picture).to.equal(null);
+                expect(characterTest.logs).to.be.an('array').that.is.not.empty;
+                expect(characterTest.picture).to.have.property('link');
 
                 characterMock = characterTest;
             });
         });
-    });
 
-    context('#Automation', () => {
-        before(() => {
-            characterMock = DomainDataFaker.generateCharactersJSON()[0];
-            dndRulesRaceMock = DomainDataFakerDND.generateDungeonsAndDragonsJSON({ count: 1, entity: 'races' })[0];
-
-            characterMock.data.profile.race = 'Dwarf';
-            characterMock.data.stats.speed = 0;
-            characterMock.data.profile.characteristics.other.languages = [];
-
-            dungeonsAndDragonsRepository = {
-                setEntity: Sinon.spy(),
-                findOne: Sinon.spy(() => dndRulesRaceMock),
-            };
+        it('should reject when the user or user details do not exist', async () => {
+            characterMock = DomainDataFaker.mocks.createCharacterMock;
 
             createCharacterService = new CreateCharacterService({
+                charactersRepository: {},
+                usersRepository: {
+                    findOne: () => null,
+                },
                 dungeonsAndDragonsRepository,
-                charactersRepository,
-                serializer,
-                usersRepository,
-                usersDetailsRepository,
+                usersDetailsRepository: {
+                    findOne: () => null,
+                },
+                serializer: {},
                 logger,
-            });
-        });
+            } as any);
 
-        it('should call correct methods and return correct data', async () => {
-            const result = await createCharacterService.automation(characterMock);
-            expect(result.data.stats.abilityScores[1].value).to.be.equal(2);
-            expect(result.data.stats.speed).to.be.equal(7.6);
-            expect(result.data.profile.characteristics.other.languages[0]).to.be.equal('Common');
-            expect(dungeonsAndDragonsRepository.setEntity).to.have.been.calledWith('Races');
-            expect(dungeonsAndDragonsRepository.findOne).to.have.been.called();
+            let thrownError;
+
+            try {
+                await createCharacterService.enrichment(characterMock, newUUID());
+            } catch (error) {
+                thrownError = error;
+            }
+
+            expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         });
     });
 
     context('#Save', () => {
         context('When a character enriched is saved', () => {
             before(() => {
-                const userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                characterMock = DomainDataFaker.generateCharactersJSON()[0];
+                characterMock.author = { userId: newUUID(), nickname: 'tester', fullname: 'Test User' };
+                userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetailsUpdated.gameInfo.characters = Array.from({ length: 9 }, (_, index) => `existing-${index}`);
+                userDetailsUpdated.gameInfo.badges = [];
 
                 charactersRepository = {
                     create: () => characterMock,
@@ -238,7 +223,7 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
                 usersRepository = {};
 
                 usersDetailsRepository = {
-                    findOne: () => DomainDataFakerUsers.generateUserDetailsJSON()[0],
+                    findOne: () => userDetailsUpdated,
                     update: () => userDetailsUpdated,
                 };
 
@@ -257,7 +242,74 @@ describe('Core :: Characters :: Services :: CreateCharacterService', () => {
             it('should return correct character', async () => {
                 const characterCreated = await createCharacterService.save(characterMock);
                 expect(characterCreated).to.deep.equal(characterMock);
+                expect(userDetailsUpdated.gameInfo.badges).to.deep.equal([]);
             });
+        });
+
+        context('When the twentieth character is saved', () => {
+            before(() => {
+                characterMock = DomainDataFaker.generateCharactersJSON()[0];
+                characterMock.author = { userId: newUUID(), nickname: 'tester', fullname: 'Test User' };
+                userDetailsUpdated = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+                userDetailsUpdated.gameInfo.characters = Array.from({ length: 19 }, (_, index) => `existing-${index}`);
+                userDetailsUpdated.gameInfo.badges = [];
+
+                charactersRepository = {
+                    create: () => characterMock,
+                };
+
+                usersRepository = {};
+
+                usersDetailsRepository = {
+                    findOne: () => userDetailsUpdated,
+                    update: () => userDetailsUpdated,
+                };
+
+                serializer = {};
+
+                createCharacterService = new CreateCharacterService({
+                    charactersRepository,
+                    usersRepository,
+                    dungeonsAndDragonsRepository,
+                    usersDetailsRepository,
+                    serializer,
+                    logger,
+                });
+            });
+
+            it('should not award character badges automatically', async () => {
+                await createCharacterService.save(characterMock);
+
+                expect(userDetailsUpdated.gameInfo.badges).to.deep.equal([]);
+            });
+        });
+
+        it('should reject when user details are missing on save', async () => {
+            characterMock = DomainDataFaker.generateCharactersJSON()[0];
+            characterMock.author = { userId: newUUID(), nickname: 'tester', fullname: 'Test User' };
+
+            createCharacterService = new CreateCharacterService({
+                charactersRepository: {
+                    create: () => characterMock,
+                },
+                usersRepository: {},
+                dungeonsAndDragonsRepository,
+                usersDetailsRepository: {
+                    findOne: () => null,
+                },
+                serializer: {},
+                logger,
+            } as any);
+
+            let thrownError;
+
+            try {
+                await createCharacterService.save(characterMock);
+            } catch (error) {
+                thrownError = error;
+            }
+
+            expect(thrownError).to.be.instanceOf(HttpRequestErrors);
         });
     });
 });

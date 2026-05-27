@@ -14,7 +14,8 @@ export default class GetDisabledRacesService {
     }
 
     public async getAllDisabled(): Promise<Array<Internacional<Race>>> {
-        this.logger('info', 'getAllDisabled - getDisabledRacesService');
+        const callName = `[${this.constructor.name}] - ${this.getAllDisabled.name}`;
+        this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Races');
 
         const racesInDb = (await this.dungeonsAndDragonsRepository.find({

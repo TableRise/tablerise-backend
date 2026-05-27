@@ -4,18 +4,40 @@ import { TUpdateCampaignBody } from 'src/interface/campaigns/presentation/campai
 
 export default class UpdateCampaignOperation {
     private readonly updateCampaignService;
+    private readonly socketIO;
     private readonly logger;
 
-    constructor({ updateCampaignService, logger }: CampaignCoreDependencies['updateCampaignOperationContract']) {
+    constructor({
+        updateCampaignService,
+        socketIO,
+        logger,
+    }: CampaignCoreDependencies['updateCampaignOperationContract']) {
         this.updateCampaignService = updateCampaignService;
+        this.socketIO = socketIO;
         this.logger = logger;
 
         this.execute = this.execute.bind(this);
     }
 
-    async execute(payload: TUpdateCampaignBody): Promise<Campaign> {
-        this.logger('info', 'Execute - UpdateCampaignOperation');
+    async execute(payload: TUpdateCampaignBody & { campaignId: string }): Promise<Campaign> {
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const campaignUpdated = await this.updateCampaignService.update(payload);
-        return this.updateCampaignService.save(campaignUpdated);
+        const savedCampaign = await this.updateCampaignService.save(campaignUpdated);
+
+        this.socketIO.syncActiveCampaign(savedCampaign);
+        this.socketIO.emitToCampaign(payload.campaignId, 'campaign:settings_updated', {
+            campaignId: payload.campaignId,
+            title: savedCampaign.title,
+            description: savedCampaign.description,
+            visibility: savedCampaign.infos.visibility,
+            ageRestriction: savedCampaign.ageRestriction,
+            nextMatchDate: savedCampaign.infos.nextMatchDate,
+            nextSessionResume: savedCampaign.matchData?.nextSessionResume ?? null,
+            playerAmountLimit: savedCampaign.infos.playerAmountLimit,
+            socialMedia: savedCampaign.infos.socialMedia,
+        });
+
+        return savedCampaign;
     }
 }

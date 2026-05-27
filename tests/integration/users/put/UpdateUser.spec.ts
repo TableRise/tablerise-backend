@@ -6,8 +6,10 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { InjectNewUser, InjectNewUserDetails } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
-describe('When the user is updated', () => {
-    let user: User, userDetails: UserDetail, userToUpdate: any;
+describe('When the user is updated', function () {
+    this.timeout(30000);
+
+    let user: User, userDetails: UserDetail, userToUpdate: any, userDetailsToUpdate: any;
 
     before(async () => {
         user = DomainDataFaker.generateUsersJSON()[0];
@@ -16,7 +18,7 @@ describe('When the user is updated', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.DONE,
             currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+            prevStatusWas: InProgressStatusEnum.enum.DONE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
@@ -32,28 +34,41 @@ describe('When the user is updated', () => {
 
             userToUpdate = {
                 nickname: user.nickname,
-                details: {
-                    firstName: userDetails.firstName,
-                    lastName: userDetails.lastName,
-                    pronoun: 'he/his',
-                    biography: userDetails.biography,
-                    birthday: userDetails.birthday,
-                },
+            };
+
+            userDetailsToUpdate = {
+                firstName: userDetails.firstName,
+                lastName: userDetails.lastName,
+                biography: userDetails.biography,
+                birthday: userDetails.birthday,
             };
         });
 
-        it('should update with success', async () => {
+        it('should update the user with success', async () => {
             const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
-            const { body: userUpdated } = await requester().put(`/users/${user.userId}/update`).send(userToUpdate);
+            const { body: userUpdated } = await requester()
+                .put(`/users/${user.userId}/update`)
+                .send(userToUpdate)
+                .expect(HttpStatusCode.OK);
 
             expect(userUpdated.nickname).to.not.be.equal(userBeforeUpdate.nickname);
             expect(userUpdated.picture).to.not.be.equal(userBeforeUpdate.picture);
-            expect(userUpdated.details.firstName).to.not.be.equal(userBeforeUpdate.details.firstName);
-            expect(userUpdated.details.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
-            expect(userUpdated.details.pronoun).to.not.be.equal(userBeforeUpdate.details.pronoun);
-            expect(userUpdated.details.biography).to.not.be.equal(userBeforeUpdate.details.biography);
-            expect(userUpdated.details.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
+            expect(userUpdated).to.not.have.property('details');
+        });
+
+        it('should update the user details with success', async () => {
+            const { body: userBeforeUpdate } = await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
+
+            const { body: userDetailsUpdated } = await requester()
+                .put(`/users/${user.userId}/update/details`)
+                .send(userDetailsToUpdate)
+                .expect(HttpStatusCode.OK);
+
+            expect(userDetailsUpdated.firstName).to.not.be.equal(userBeforeUpdate.details.firstName);
+            expect(userDetailsUpdated.lastName).to.not.be.equal(userBeforeUpdate.details.lastName);
+            expect(userDetailsUpdated.biography).to.not.be.equal(userBeforeUpdate.details.biography);
+            expect(userDetailsUpdated.birthday).to.not.be.equal(userBeforeUpdate.details.birthday);
         });
     });
 });

@@ -10,6 +10,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
         campaign: Campaign;
 
     const logger = (): void => {};
+    const socketIO = { emitToCampaign: sinon.spy(), syncActiveCampaign: sinon.spy() } as any;
 
     context('#execute', () => {
         context('When a campaign has the match map images', () => {
@@ -18,8 +19,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
 
                 matchMapImagesPayload = {
                     campaignId: campaign.campaignId,
-                    operation: 'add',
-                    mapImage: {},
+                    mapImages: [{}],
                 };
 
                 if (campaign.matchData) campaign.matchData.mapImages = [DomainDataFaker.generateImagesObjectJSON()[0]];
@@ -31,6 +31,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
 
                 updateMatchMapImagesOperation = new UpdateMatchMapImagesOperation({
                     updateMatchMapImagesService,
+                    socketIO,
                     logger,
                 });
             });

@@ -14,7 +14,8 @@ export default class CreateUserOperation {
     }
 
     public async execute(payload: TCreateUserBody): Promise<RegisterUserResponse> {
-        this.logger('info', 'Execute - CreateUserOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const entitySerialized = await this.createUserService.serialize(payload);
 
         const entityEnriched = await this.createUserService.enrichment({

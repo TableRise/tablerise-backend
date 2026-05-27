@@ -1,92 +1,101 @@
 import { Response, Request } from 'express';
 import {
-    RegisterUserPayload,
-    UpdateGameInfoPayload,
+    AddCampaignNotePayload,
+    AddGameInfoPayload,
+    RemoveGameInfoPayload,
+    UpdateUserDetailsPayload,
+    UpdateUserPayload,
     VerifyEmailPayload,
-    UpdateSecretQuestion,
 } from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { TCreateUserBody } from './UsersSchemas';
-import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import { TCreateUserBody, TUpdateCampaignNotesBody, TUpdateCampaignNotesQuery } from './UsersSchemas';
+import User from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class UsersController {
     private readonly createUserOperation;
     private readonly updateUserOperation;
+    private readonly updateUserDetailsOperation;
     private readonly verifyEmailOperation;
     private readonly getUsersOperation;
     private readonly getUserByIdOperation;
-    private readonly activateSecretQuestionOperation;
-    private readonly updateSecretQuestionOperation;
     private readonly activateTwoFactorOperation;
+    private readonly deactivateTwoFactorOperation;
     private readonly resetTwoFactorOperation;
     private readonly updateEmailOperation;
     private readonly updatePasswordOperation;
     private readonly updateGameInfoOperation;
+    private readonly addCampaignNoteOperation;
     private readonly resetProfileOperation;
     private readonly pictureProfileOperation;
     private readonly deleteUserOperation;
     private readonly logoutUserOperation;
     private readonly loginUserOperation;
+    private readonly getCampaignsByUserIdOperation;
 
     constructor({
-        usersSchemas,
-        schemaValidator,
         createUserOperation,
         updateUserOperation,
+        updateUserDetailsOperation,
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
-        activateSecretQuestionOperation,
-        updateSecretQuestionOperation,
         activateTwoFactorOperation,
+        deactivateTwoFactorOperation,
         resetTwoFactorOperation,
         updateEmailOperation,
         updatePasswordOperation,
         updateGameInfoOperation,
+        addCampaignNoteOperation,
         resetProfileOperation,
         pictureProfileOperation,
         deleteUserOperation,
         logoutUserOperation,
         loginUserOperation,
+        getCampaignsByUserIdOperation,
     }: InterfaceDependencies['usersControllerContract']) {
         this.createUserOperation = createUserOperation;
         this.updateUserOperation = updateUserOperation;
+        this.updateUserDetailsOperation = updateUserDetailsOperation;
         this.verifyEmailOperation = verifyEmailOperation;
         this.getUsersOperation = getUsersOperation;
         this.getUserByIdOperation = getUserByIdOperation;
-        this.activateSecretQuestionOperation = activateSecretQuestionOperation;
-        this.updateSecretQuestionOperation = updateSecretQuestionOperation;
         this.activateTwoFactorOperation = activateTwoFactorOperation;
+        this.deactivateTwoFactorOperation = deactivateTwoFactorOperation;
         this.resetTwoFactorOperation = resetTwoFactorOperation;
         this.updateEmailOperation = updateEmailOperation;
         this.updatePasswordOperation = updatePasswordOperation;
         this.updateGameInfoOperation = updateGameInfoOperation;
+        this.addCampaignNoteOperation = addCampaignNoteOperation;
         this.resetProfileOperation = resetProfileOperation;
         this.pictureProfileOperation = pictureProfileOperation;
         this.deleteUserOperation = deleteUserOperation;
         this.logoutUserOperation = logoutUserOperation;
         this.loginUserOperation = loginUserOperation;
+        this.getCampaignsByUserIdOperation = getCampaignsByUserIdOperation;
 
         this.register = this.register.bind(this);
-        this.update = this.update.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+        this.updateUserDetails = this.updateUserDetails.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.getUserById = this.getUserById.bind(this);
-        this.activateSecretQuestion = this.activateSecretQuestion.bind(this);
-        this.updateSecretQuestion = this.updateSecretQuestion.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
+        this.deactivateTwoFactor = this.deactivateTwoFactor.bind(this);
         this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
-        this.updateGameInfo = this.updateGameInfo.bind(this);
+        this.addGameInfo = this.addGameInfo.bind(this);
+        this.removeGameInfo = this.removeGameInfo.bind(this);
+        this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
         this.login = this.login.bind(this);
+        this.getCampaignsByUserId = this.getCampaignsByUserId.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -102,14 +111,30 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(res.locals);
     }
 
-    public async update(req: Request, res: Response): Promise<Response> {
+    public async updateUser(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const payload = req.body as RegisterUserPayload;
+        const payload = req.body as UpdateUserPayload['payload'];
 
         const result = await this.updateUserOperation.execute({ userId: id, payload });
-        delete (result as Partial<RegisterUserResponse>).password;
+        delete (result as Partial<User>).password;
 
-        return res.status(HttpStatusCode.CREATED).json(result);
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateUserDetails(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as UpdateUserDetailsPayload['payload'];
+
+        const result = await this.updateUserDetailsOperation.execute({ userId: id, payload });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getCampaignsByUserId(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.getCampaignsByUserIdOperation.execute(id);
+        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async verifyEmail(req: Request, res: Response): Promise<Response> {
@@ -142,29 +167,18 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).cookie('token', token, cookieOptions).json(tokenData);
     }
 
-    public async activateSecretQuestion(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as UserDetail['secretQuestion'];
-
-        await this.activateSecretQuestionOperation.execute({ userId: id, payload });
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
-    public async updateSecretQuestion(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as UpdateSecretQuestion;
-
-        await this.updateSecretQuestionOperation.execute({ userId: id, payload });
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
     public async activateTwoFactor(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
         const result = await this.activateTwoFactorOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async deactivateTwoFactor(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        await this.deactivateTwoFactorOperation.execute(id);
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
@@ -198,14 +212,40 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
-    public async updateGameInfo(req: Request, res: Response): Promise<Response> {
+    public async addGameInfo(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const payload = req.body as Omit<UpdateGameInfoPayload, 'userId'>;
+        const payload = req.body as Omit<AddGameInfoPayload, 'userId'>;
 
-        const result = await this.updateGameInfoOperation.execute({
+        const result = await this.updateGameInfoOperation.add({
             userId: id,
             ...payload,
         });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async removeGameInfo(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const payload = req.body as Omit<RemoveGameInfoPayload, 'userId'>;
+
+        const result = await this.updateGameInfoOperation.remove({
+            userId: id,
+            ...payload,
+        });
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async updateCampaignNotes(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { campaignId } = req.query as unknown as TUpdateCampaignNotesQuery;
+        const payload = req.body as TUpdateCampaignNotesBody;
+
+        const result = await this.addCampaignNoteOperation.execute({
+            userId: id,
+            campaignId,
+            note: payload,
+        } as AddCampaignNotePayload);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -219,6 +259,9 @@ export default class UsersController {
 
     public async logoutUser(req: Request, res: Response): Promise<Response> {
         await this.logoutUserOperation.execute(req.token as string);
+        res.clearCookie('token');
+        res.clearCookie('session');
+        res.clearCookie('session.sig');
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

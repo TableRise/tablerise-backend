@@ -5,6 +5,12 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 import { FeatsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/feats/FeatsRoutes';
 
 const BASE_PATH = '/system/dnd5e/feats';
+const desc = {
+    getAll: 'List all D&D 5e feats available in the system.',
+    getDisabled: 'List D&D 5e feats currently marked as unavailable.',
+    getById: 'Get one D&D 5e feat by id.',
+    toggleAvailability: 'Enable or disable a D&D 5e feat.',
+};
 
 export default class FeatsRoutes {
     private readonly featsController;
@@ -24,6 +30,7 @@ export default class FeatsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
+                    description: desc.getAll,
                 },
             },
             {
@@ -33,6 +40,7 @@ export default class FeatsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
+                    description: desc.getDisabled,
                 },
             },
             {
@@ -43,6 +51,7 @@ export default class FeatsRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
+                    description: desc.getById,
                 },
             },
             {
@@ -56,6 +65,7 @@ export default class FeatsRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'feats',
+                    description: desc.toggleAvailability,
                 },
             },
         ] as unknown as routeInstance[];

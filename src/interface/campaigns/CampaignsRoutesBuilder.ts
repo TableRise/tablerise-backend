@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { buildRouter, routeInstance } from '@tablerise/auto-swagger';
 import { CampaignsRoutesBuilderContract } from 'src/types/modules/interface/campaigns/CampaignsRoutesBuilder';
-import bindMiddleware from 'src/domains/common/helpers/bindMiddleware';
+import bindUserStatusMiddleware from 'src/domains/common/helpers/bindUserStatusMiddleware';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ export default class CampaignsRoutesBuilder {
     }
 
     private campaign(): { campaignRoutes: Router; campaignSwagger: routeInstance[] } {
-        const campaignRoutesToBuild = bindMiddleware(
+        const campaignRoutesToBuild = bindUserStatusMiddleware(
             this.verifyUserMiddleware.userStatus,
             this.campaignsRoutes.routes(),
             { addMethod: 'push' }

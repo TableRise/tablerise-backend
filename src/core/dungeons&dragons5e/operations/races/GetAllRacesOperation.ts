@@ -14,7 +14,8 @@ export default class GetAllRacesOperation {
     }
 
     public async execute(): Promise<Array<Internacional<Race>>> {
-        this.logger('info', 'Execute - GetAllRacesOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         const races = await this.getAllRacesService.getAll();
 
         return races;

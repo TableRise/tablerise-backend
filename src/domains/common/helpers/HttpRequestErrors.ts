@@ -20,11 +20,47 @@ export default class HttpRequestErrors extends Error {
 
     static throwError(errorType: ErrorTypes, redirectTo?: string): never {
         switch (errorType) {
+            case 'already-full-campaign':
+                throw new HttpRequestErrors({
+                    message: 'The campaign reached the limit of players',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'campaign-password-incorrect':
+                throw new HttpRequestErrors({
+                    message: 'The campaign password is incorrect',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
             case 'campaign-match-inexistent':
                 throw new HttpRequestErrors({
                     message: 'Campaign Match does not exist and cannot be updated',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'forbidden-post-category':
+                throw new HttpRequestErrors({
+                    message: 'The post category is forbidden for this role',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'forbidden-role-operation':
+                throw new HttpRequestErrors({
+                    message: 'The operation is forbidden for this role',
+                    code: HttpStatusCode.BAD_REQUEST,
+                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                });
+            case 'journal-post-inexistent':
+                throw new HttpRequestErrors({
+                    message: 'Journal post does not exist',
+                    code: HttpStatusCode.NOT_FOUND,
+                    name: getErrorName(HttpStatusCode.NOT_FOUND),
+                });
+            case 'equipment-already-added':
+                throw new HttpRequestErrors({
+                    message: 'Equipment already added to character',
+                    code: HttpStatusCode.CONFLICT,
+                    name: getErrorName(HttpStatusCode.CONFLICT),
                 });
             case 'campaign-player-not-exists':
                 throw new HttpRequestErrors({
@@ -47,8 +83,8 @@ export default class HttpRequestErrors extends Error {
             case 'player-master-equal':
                 throw new HttpRequestErrors({
                     message: 'The new player can not be also the master',
-                    code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
+                    code: HttpStatusCode.CONFLICT,
+                    name: getErrorName(HttpStatusCode.CONFLICT),
                 });
             case 'campaign-inexistent':
                 throw new HttpRequestErrors({
@@ -104,18 +140,6 @@ export default class HttpRequestErrors extends Error {
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });
-            case 'new-structure-secret-question-missing':
-                throw new HttpRequestErrors({
-                    message: 'Structure of new for new question and answer is missing',
-                    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
-                    name: getErrorName(HttpStatusCode.UNPROCESSABLE_ENTITY),
-                });
-            case 'incorrect-secret-question':
-                throw new HttpRequestErrors({
-                    message: 'Secret question is incorrect',
-                    code: HttpStatusCode.UNAUTHORIZED,
-                    name: getErrorName(HttpStatusCode.UNAUTHORIZED),
-                });
             case 'content-inexistent':
                 throw new HttpRequestErrors({
                     message: 'This content do not exist in the RPG system',
@@ -150,12 +174,6 @@ export default class HttpRequestErrors extends Error {
             case '2fa-no-active':
                 throw new HttpRequestErrors({
                     message: '2FA not enabled for this user',
-                    code: HttpStatusCode.BAD_REQUEST,
-                    name: getErrorName(HttpStatusCode.BAD_REQUEST),
-                });
-            case '2fa-and-secret-question-no-active':
-                throw new HttpRequestErrors({
-                    message: '2FA not enabled for this user neither secretQuestion',
                     code: HttpStatusCode.BAD_REQUEST,
                     name: getErrorName(HttpStatusCode.BAD_REQUEST),
                 });

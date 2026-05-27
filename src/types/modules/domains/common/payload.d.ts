@@ -2,6 +2,6 @@ import { InProgressStatusEnum } from 'src/domains/users/enums/InProgressStatusEn
 
 export interface StateMachineResponse {
     status: InProgressStatusEnum;
-    prevStatusMustBe: InProgressStatusEnum;
+    prevStatusWas: InProgressStatusEnum;
     nextStatusWillBe: InProgressStatusEnum;
 }

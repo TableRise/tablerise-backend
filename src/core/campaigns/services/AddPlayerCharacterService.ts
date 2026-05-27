@@ -21,11 +21,14 @@ export default class AddPlayerCharacterService {
         this.save = this.save.bind(this);
     }
 
-    public async addCharacter({ characterId, userId, campaignId }: addCharacterPayload): Promise<Campaign> {
-        this.logger('info', 'AddCharacter - AddPlayerCharacterService');
+    public async addCharacter({ characterId, campaignId }: addCharacterPayload): Promise<Campaign> {
+        const callName = `[${this.constructor.name}] - ${this.addCharacter.name}`;
+        this.logger('info', callName);
         const campaignInDb = await this.campaignsRepository.findOne({ campaignId });
+        const characterInDb = await this.charactersRepository.findOne({ characterId });
+
         const playerIncampaignIndex = campaignInDb.campaignPlayers.findIndex(
-            (player: Player) => player.userId === userId
+            (player: Player) => player.userId === characterInDb.author.userId
         );
 
         if (playerIncampaignIndex === -1) HttpRequestErrors.throwError('campaign-player-not-exists');
@@ -41,7 +44,8 @@ export default class AddPlayerCharacterService {
     }
 
     public async save(payload: Campaign): Promise<Campaign> {
-        this.logger('info', 'Save - AddPlayerCharacterService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
         return this.campaignsRepository.update({
             query: { campaignId: payload.campaignId },
             payload,

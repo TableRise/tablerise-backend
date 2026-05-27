@@ -11,7 +11,8 @@ export default class DeleteUserOperation {
     }
 
     public async execute(userId: string): Promise<void> {
-        this.logger('info', 'Execute - DeleteUserOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.deleteUserService.delete(userId);
     }
 }

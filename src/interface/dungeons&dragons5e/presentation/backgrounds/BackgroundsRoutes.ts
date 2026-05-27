@@ -5,6 +5,12 @@ import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/
 import { BackgroundsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsRoutes';
 
 const BASE_PATH = '/system/dnd5e/backgrounds';
+const desc = {
+    getAll: 'List all D&D 5e backgrounds available in the system.',
+    getDisabled: 'List D&D 5e backgrounds currently marked as unavailable.',
+    getById: 'Get one D&D 5e background by id.',
+    toggleAvailability: 'Enable or disable a D&D 5e background.',
+};
 
 export default class BackgroundsRoutes {
     private readonly backgroundsController;
@@ -24,6 +30,7 @@ export default class BackgroundsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
+                    description: desc.getAll,
                 },
             },
             {
@@ -33,6 +40,7 @@ export default class BackgroundsRoutes {
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
+                    description: desc.getDisabled,
                 },
             },
             {
@@ -43,6 +51,7 @@ export default class BackgroundsRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
+                    description: desc.getById,
                 },
             },
             {
@@ -56,6 +65,7 @@ export default class BackgroundsRoutes {
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
                     tag: 'backgrounds',
+                    description: desc.toggleAvailability,
                 },
             },
         ] as unknown as routeInstance[];

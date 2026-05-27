@@ -23,11 +23,13 @@ export default class VerifyUserMiddleware {
     }
 
     public async userStatus(req: Request, _res: Response, next: NextFunction): Promise<void> {
-        this.logger('info', 'UserStatus - VerifyUserMiddleware');
+        const callName = `[${this.constructor.name}] - ${this.userStatus.name}`;
+        this.logger('info', callName);
 
         const { userId } = req.user as Express.User;
 
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         try {
             if (this.FORBIDDEN_STATUS.includes(userInDb.inProgress.status))

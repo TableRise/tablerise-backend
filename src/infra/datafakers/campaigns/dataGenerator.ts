@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 export default {
     title: faker.company.catchPhrase(),
+    code: faker.string.alphanumeric({ length: 6 }).toUpperCase(),
     description: faker.company.buzzPhrase(),
     visibility: faker.helpers.arrayElement(['hidden', 'visible']),
     system: faker.helpers.arrayElement(['dnd5e']),
@@ -20,6 +21,7 @@ export default {
         {
             userId: faker.string.uuid(),
             characterIds: [],
+            notes: [],
             role: faker.helpers.arrayElement(['admin_player', 'dungeon_master', 'player']),
             status: faker.helpers.arrayElement(['pending']),
         },
@@ -39,15 +41,25 @@ export default {
             deleteUrl: '',
             request: { success: true, status: 200 },
         },
+        images: [],
+        imageHighlighted: null,
         password: faker.word.sample(),
         logs: [],
     },
     infos: {
         campaignAge: '1',
         nextMatchDate: 'no-date',
-        announcements: [],
+        highlightedJournal: null,
+        journal: [],
+        playerAmountLimit: 4,
         visibility: faker.helpers.arrayElement(['hidden', 'visible']),
+        socialMedia: {},
     },
+    configurations: {
+        xpSystem: faker.datatype.boolean(),
+        shopSystem: faker.datatype.boolean(),
+    },
+    buys: [],
     password: '1234',
     lores: {
         playerCharacters: [],

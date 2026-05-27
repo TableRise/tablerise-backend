@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import GetCampaignsByUserIdService from 'src/core/campaigns/services/GetCampaignsByUserIdService';
+import GetCampaignsByUserIdService from 'src/core/users/services/users/GetCampaignsByUserIdService';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import CampaignDomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
@@ -29,21 +29,23 @@ describe('Core :: Campaigns :: Services :: GetCampaignsByUserIdService', () => {
                 campaign[0].campaignId = campaignIdOne;
                 campaign[1].campaignId = campaignIdTwo;
                 campaign[2].campaignId = campaignIdThree;
-
-                userDetails.gameInfo.campaigns = [
+                campaign[0].campaignPlayers = [
                     {
-                        campaignId: campaignIdOne,
+                        userId: userDetails.userId,
+                        characterIds: [],
                         role: 'dungeon_master',
-                    },
-                    {
-                        campaignId: campaignIdTwo,
-                        role: 'player',
-                    },
-                    {
-                        campaignId: campaignIdThree,
-                        role: 'player_admin',
+                        status: 'active',
+                        notes: [],
                     },
                 ];
+                campaign[1].campaignPlayers = [
+                    { userId: userDetails.userId, characterIds: [], role: 'player', status: 'active', notes: [] },
+                ];
+                campaign[2].campaignPlayers = [
+                    { userId: userDetails.userId, characterIds: [], role: 'admin_player', status: 'active', notes: [] },
+                ];
+
+                userDetails.gameInfo.campaigns = [campaignIdOne, campaignIdTwo, campaignIdThree];
 
                 usersDetailsRepository = {
                     findOne: sinon.spy(() => userDetails),
@@ -113,6 +115,71 @@ describe('Core :: Campaigns :: Services :: GetCampaignsByUserIdService', () => {
                     expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
                     expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
                 }
+            });
+        });
+
+        context('When the user detail does not exist anymore', () => {
+            before(() => {
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => null),
+                };
+
+                campaignsRepository = {
+                    findOne: sinon.spy(),
+                };
+
+                getCampaignsByUserIdService = new GetCampaignsByUserIdService({
+                    campaignsRepository,
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should throw user not found', async () => {
+                try {
+                    await getCampaignsByUserIdService.getByUserId('missing-user');
+                    expect('it should not be here').to.be.equal(false);
+                } catch (error) {
+                    const err = error as HttpRequestErrors;
+                    expect(err.message).to.be.equal('User does not exist');
+                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
+                    expect(err.name).to.be.equal(getErrorName(HttpStatusCode.NOT_FOUND));
+                }
+            });
+        });
+
+        context('When stored campaign ids no longer resolve to campaigns or roles', () => {
+            before(() => {
+                userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+                userDetails.gameInfo.campaigns = ['missing-campaign', 'campaign-without-player'];
+
+                usersDetailsRepository = {
+                    findOne: sinon.spy(() => userDetails),
+                };
+
+                campaignsRepository = {
+                    findOne: sinon.spy(({ campaignId }) =>
+                        campaignId === 'campaign-without-player'
+                            ? {
+                                  campaignId,
+                                  campaignPlayers: [],
+                              }
+                            : null
+                    ),
+                };
+
+                getCampaignsByUserIdService = new GetCampaignsByUserIdService({
+                    campaignsRepository,
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            it('should skip unresolved campaigns without crashing', async () => {
+                const result = await getCampaignsByUserIdService.getByUserId(userDetails.userId);
+
+                expect(result.master).to.deep.equal([]);
+                expect(result.player).to.deep.equal([]);
             });
         });
     });

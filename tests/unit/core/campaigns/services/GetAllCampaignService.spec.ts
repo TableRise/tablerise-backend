@@ -27,12 +27,15 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                         campaign.cover = DomainDataFaker.generateImagesObjectJSON()[0];
                         campaign.description = 'test desciprtion';
                         campaign.campaignPlayers = [];
-                        campaign.ageRestriction = Number.MAX_SAFE_INTEGER;
+                        campaign.ageRestriction = String(Number.MAX_SAFE_INTEGER);
                         campaign.infos = {
                             campaignAge: '1',
                             nextMatchDate: 'no-date',
-                            announcements: [],
+                            highlightedJournal: null as unknown as Campaign['infos']['highlightedJournal'],
+                            journal: [],
+                            playerAmountLimit: 1,
                             visibility: 'hidden',
+                            socialMedia: {},
                         };
                         campaign.updatedAt = new Date(2023, 3, 12).toISOString();
                     }
@@ -40,7 +43,9 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                 });
 
                 campaignsRepository = {
-                    find: sinon.spy(() => campaigns),
+                    find: sinon.spy((query: any) =>
+                        campaigns.filter((c: Campaign) => c.infos.visibility === query['infos.visibility'])
+                    ),
                 };
 
                 getAllCampaignsService = new GetAllCampaignsService({
@@ -54,7 +59,7 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
 
                 expect(campaignsRepository.find).to.have.been.called();
                 expect(campaignsTest.length).to.be.equal(campaigns.length - 1);
-                expect(Object.keys(campaignsTest[0]).length).to.be.equal(6);
+                expect(Object.keys(campaignsTest[0]).length).to.be.equal(9);
                 expect(campaignsTest[0].title).not.to.be.equal(campaigns[HIDDEN].title);
                 expect(campaignsTest[0].description).not.to.be.equal(campaigns[HIDDEN].description);
                 expect(campaignsTest[0].playersAmount).not.to.be.equal(campaigns[HIDDEN].campaignPlayers.length);
@@ -62,6 +67,20 @@ describe('Core :: Campaigns :: Services :: GetAllCampaignsService', () => {
                 expect(JSON.stringify(campaignsTest[0].updatedAt)).not.to.be.equal(
                     JSON.stringify(campaigns[HIDDEN].updatedAt)
                 );
+            });
+
+            it('should filter by title when provided', async () => {
+                const campaignsTest = await getAllCampaignsService.getAll({ title: 'some-title' });
+
+                expect(campaignsRepository.find).to.have.been.called();
+                expect(Array.isArray(campaignsTest)).to.be.true();
+            });
+
+            it('should filter by code when provided', async () => {
+                const campaignsTest = await getAllCampaignsService.getAll({ code: 'ABC123' });
+
+                expect(campaignsRepository.find).to.have.been.called();
+                expect(Array.isArray(campaignsTest)).to.be.true();
             });
         });
     });

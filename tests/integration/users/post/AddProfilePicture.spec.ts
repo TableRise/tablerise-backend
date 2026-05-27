@@ -16,7 +16,7 @@ describe('When a profile picture is uploaded', () => {
         user.inProgress = {
             status: InProgressStatusEnum.enum.DONE,
             currentFlow: stateFlowsEnum.enum.NO_CURRENT_FLOW,
-            prevStatusMustBe: InProgressStatusEnum.enum.DONE,
+            prevStatusWas: InProgressStatusEnum.enum.DONE,
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };

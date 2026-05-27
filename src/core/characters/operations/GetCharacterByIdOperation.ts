@@ -13,7 +13,8 @@ export default class GetCharacterByIdOperation {
     }
 
     async execute(characterId: string): Promise<CharactersDnd> {
-        this.logger('info', 'Execute - GetCharacterByIdOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getCharacterByIdService.get(characterId);
     }
 }

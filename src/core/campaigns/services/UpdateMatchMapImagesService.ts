@@ -20,19 +20,17 @@ export default class UpdateMatchMapImagesService {
 
     async updateMatchMapImage({
         campaignId,
-        picture,
-        operation,
-        imageId,
+        mapImages,
     }: TUpdateCampaignMatchMapImagesBody & { campaignId: string }): Promise<Campaign> {
         this.logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
-        const imageUploadResponse = picture && (await this.imageStorageClient.upload(picture as unknown as FileObject));
 
-        if (operation === 'add' && imageUploadResponse && campaign.matchData)
-            campaign.matchData.mapImages.push(imageUploadResponse);
-
-        if (operation === 'remove' && campaign.matchData)
-            campaign.matchData.mapImages = campaign.matchData.mapImages.filter((mapImage) => mapImage.id !== imageId);
+        if (mapImages && campaign.matchData) {
+            for (const file of mapImages) {
+                const uploaded = await this.imageStorageClient.upload(file as unknown as FileObject);
+                campaign.matchData.mapImages.push(uploaded);
+            }
+        }
 
         return campaign;
     }

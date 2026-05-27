@@ -14,7 +14,8 @@ export default class GetCampaignByIdOperation {
     }
 
     async execute({ campaignId }: GetCampaignByIdPayload): Promise<Campaign> {
-        this.logger('info', 'Execute - GetCampaignByIdOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         return this.getCampaignByIdService.get({ campaignId });
     }
 }

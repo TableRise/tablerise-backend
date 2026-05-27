@@ -23,7 +23,6 @@ import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
 import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
-import ManagerCronJob from './domains/users/helpers/ManagerCronJob';
 import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
@@ -85,13 +84,12 @@ export default function setup(
         swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),
-        managerCronJob: asClass(ManagerCronJob).singleton(),
 
         // #Clients
         imageStorageClient: asClass(ImageStorageClient),
 
         // #Connections
-        socketIO: asClass(SocketIO),
+        socketIO: asClass(SocketIO).singleton(),
 
         // #Libraries
         logger: asValue(logger),

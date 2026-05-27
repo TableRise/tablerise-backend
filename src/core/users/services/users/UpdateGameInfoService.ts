@@ -1,7 +1,9 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
-import { UpdateGameInfoPayload } from 'src/types/api/users/http/payload';
+import { AddGameInfoPayload, RemoveGameInfoPayload } from 'src/types/api/users/http/payload';
 import { UpdateGameInfoProcessPayload, UserGameInfoDoneResponse } from 'src/types/api/users/methods';
+import { syncRankByBadgesLength } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class UpdateGameInfoService {
     private readonly logger;
@@ -11,14 +13,20 @@ export default class UpdateGameInfoService {
         this.usersDetailsRepository = usersDetailsRepository;
         this.logger = logger;
 
-        this.update = this.update.bind(this);
+        this.add = this.add.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     private addId({ infoId, targetInfo, data, gameInfo }: UpdateGameInfoProcessPayload): UserGameInfoDoneResponse {
-        this.logger('info', 'AddId - UpdateGameInfoService');
+        const callName = `[${this.constructor.name}] - ${this.addId.name}`;
+        this.logger('info', callName);
 
-        const hasInfo = gameInfo[targetInfo].some((data) => data === infoId);
         const dataLength = Object.keys(data).length;
+        const filterProp = `${targetInfo.slice(0, targetInfo.length - 2)}Id`;
+        const hasInfo =
+            dataLength > 0
+                ? gameInfo[targetInfo].some((currentData) => currentData[filterProp] === data[filterProp])
+                : gameInfo[targetInfo].some((currentData) => currentData === infoId);
 
         hasInfo
             ? HttpRequestErrors.throwError('info-already-added')
@@ -54,22 +62,41 @@ export default class UpdateGameInfoService {
         return gameInfo;
     }
 
-    public async update({ userId, infoId, data, targetInfo, operation }: UpdateGameInfoPayload): Promise<string> {
-        this.logger('info', 'Update - UpdateGameInfoService');
+    public async add({ userId, infoId, data, targetInfo }: AddGameInfoPayload): Promise<string> {
+        const callName = `[${this.constructor.name}] - ${this.add.name}`;
+        this.logger('info', callName);
         const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
+        ensureGameInfoCounters(userDetailInDb);
+        const gameInfo = userDetailInDb.gameInfo as UpdateGameInfoProcessPayload['gameInfo'];
 
-        let gameInfo = userDetailInDb.gameInfo;
-
-        if (operation === 'add') gameInfo = this.addId({ infoId, targetInfo, gameInfo, data });
-        if (operation === 'remove') gameInfo = this.removeId({ infoId, targetInfo, gameInfo, data });
-
-        userDetailInDb.gameInfo = gameInfo;
+        userDetailInDb.gameInfo = this.addId({ infoId, targetInfo, gameInfo, data });
+        if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetailInDb.userDetailId },
             payload: userDetailInDb,
         });
 
-        return `ID ${infoId} ${operation} with success to ${targetInfo}`;
+        return `ID ${infoId} add with success to ${targetInfo}`;
+    }
+
+    public async remove({ userId, infoId, data, targetInfo }: RemoveGameInfoPayload): Promise<string> {
+        const callName = `[${this.constructor.name}] - ${this.remove.name}`;
+        this.logger('info', callName);
+        const userDetailInDb = await this.usersDetailsRepository.findOne({ userId });
+        if (!userDetailInDb) HttpRequestErrors.throwError('user-inexistent');
+        ensureGameInfoCounters(userDetailInDb);
+        const gameInfo = userDetailInDb.gameInfo as UpdateGameInfoProcessPayload['gameInfo'];
+
+        userDetailInDb.gameInfo = this.removeId({ infoId, targetInfo, gameInfo, data });
+        if (targetInfo === 'badges') syncRankByBadgesLength(userDetailInDb);
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetailInDb.userDetailId },
+            payload: userDetailInDb,
+        });
+
+        return `ID ${infoId} remove with success to ${targetInfo}`;
     }
 }

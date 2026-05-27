@@ -10,6 +10,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
         armorsRoutes: any,
         backgroundsRoutes: any,
         classesRoutes: any,
+        equipmentRoutes: any,
         featsRoutes: any,
         godsRoutes: any,
         itemsRoutes: any,
@@ -75,6 +76,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
             armorsRoutes = mockRoute('armors');
             backgroundsRoutes = mockRoute('backgrounds');
             classesRoutes = mockRoute('classes');
+            equipmentRoutes = mockRoute('equipment');
             featsRoutes = mockRoute('feats');
             godsRoutes = mockRoute('gods');
             itemsRoutes = mockRoute('items');
@@ -90,6 +92,7 @@ describe('Interface :: DungeonsAndDragons :: Presentation :: DungeonsAndDragonsR
                 armorsRoutes,
                 backgroundsRoutes,
                 classesRoutes,
+                equipmentRoutes,
                 featsRoutes,
                 godsRoutes,
                 itemsRoutes,

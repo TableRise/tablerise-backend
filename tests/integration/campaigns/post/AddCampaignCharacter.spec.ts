@@ -23,6 +23,7 @@ describe('When a character is added to campaign', () => {
                 {
                     userId: userLoggedId,
                     characterIds: [],
+                    notes: [],
                     role: 'player',
                     status: 'active',
                 },
@@ -39,7 +40,7 @@ describe('When a character is added to campaign', () => {
         it('should return correct campaign character added', async () => {
             const { body } = await requester()
                 .patch(
-                    `/campaigns/${campaign.campaignId as string}/update/player/character?characterId=${
+                    `/campaigns/${campaign.campaignId as string}/update/player/character/add?characterId=${
                         character.characterId
                     }`
                 )

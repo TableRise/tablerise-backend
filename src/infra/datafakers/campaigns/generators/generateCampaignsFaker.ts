@@ -7,6 +7,7 @@ function createCampaignFaker({ campaignId = newUUID() }: Campaign): Campaign {
     return {
         campaignId,
         title: dataGenerator.title,
+        code: dataGenerator.code,
         description: dataGenerator.description,
         visibility: dataGenerator.visibility,
         system: dataGenerator.system,
@@ -14,19 +15,21 @@ function createCampaignFaker({ campaignId = newUUID() }: Campaign): Campaign {
         cover: dataGenerator.cover,
         campaignPlayers: dataGenerator.campaignPlayers,
         matchData: dataGenerator.matchData,
-        infos: dataGenerator.infos,
+        infos: { ...dataGenerator.infos },
+        configurations: dataGenerator.configurations,
+        buys: dataGenerator.buys,
         password: dataGenerator.password,
         lores: dataGenerator.lores,
         images: dataGenerator.images,
         createdAt: dataGenerator.createdAt.toISOString(),
         updatedAt: dataGenerator.updatedAt.toISOString(),
-    } as Campaign;
+    } as unknown as Campaign;
 }
 
 export default function generateCampaignsFaker({ count, campaignId }: CampaignJSONPayload): Campaign[] {
     const campaigns: Campaign[] = [];
 
-    for (let index = 0; index <= count; index += 1) {
+    for (let index = 0; index < count; index += 1) {
         campaigns.push(createCampaignFaker({ campaignId } as Campaign));
     }
 

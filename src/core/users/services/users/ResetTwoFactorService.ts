@@ -25,9 +25,11 @@ export default class ResetTwoFactorService {
     }
 
     public async reset(userId: string): Promise<User> {
-        this.logger('info', 'Reset - ResetTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.reset.name}`;
+        this.logger('info', callName);
         const { status, flows } = this.stateMachine.props;
         const userInDb = await this.usersRepository.findOne({ userId });
+        if (!userInDb) HttpRequestErrors.throwError('user-inexistent');
 
         if (userInDb.inProgress.status !== status.WAIT_TO_FINISH_RESET_TWO_FACTOR)
             HttpRequestErrors.throwError('invalid-user-status');
@@ -40,7 +42,8 @@ export default class ResetTwoFactorService {
     }
 
     public async save(user: User): Promise<TwoFactorResponse> {
-        this.logger('info', 'Save - ResetTwoFactorService');
+        const callName = `[${this.constructor.name}] - ${this.save.name}`;
+        this.logger('info', callName);
 
         await this.usersRepository.update({
             query: { userId: user.userId },

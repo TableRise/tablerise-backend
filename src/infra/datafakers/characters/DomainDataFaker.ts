@@ -9,19 +9,9 @@ function generateCharactersJSON({ count, characterId }: CharacterJSONPayload = {
 const [character] = generateCharactersJSON() as any;
 const [characterToUpdate] = generateCharactersJSON() as any[];
 
-delete character.data.profile.level;
-delete character.data.profile.xp;
 delete character.data.profile.characteristics.appearance.picture;
-delete character.data.stats.abilityScores;
-delete character.data.stats.skills;
-delete character.data.stats.deathSaves;
-delete character.data.money;
-delete character.data.spells;
 delete character.data.createdAt;
 delete character.data.updatedAt;
-
-delete character.data.profile.characteristics.appearance.picture;
-delete character.data.profile.characteristics.alliesAndOrgs[0].symbol;
 delete character.characterId;
 
 delete character.author;

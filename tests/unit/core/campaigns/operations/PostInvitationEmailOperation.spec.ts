@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import PostInvitationEmailOperation from 'src/core/campaigns/operations/PostInvitationEmailOperation';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () => {
@@ -50,5 +51,35 @@ describe('Core :: Campaigns :: Operations :: PostInvitationEmailOperation', () =
 
             expect(postInvitationEmailService.sendEmail).to.have.been.called();
         });
+    });
+
+    it('should reject when the target user does not exist', async () => {
+        usersRepository = {
+            findOne: sinon.stub().resolves(null),
+        };
+
+        postInvitationEmailService = {
+            sendEmail: sinon.spy(),
+        };
+
+        postInvitationEmailOperation = new PostInvitationEmailOperation({
+            postInvitationEmailService,
+            usersRepository,
+            logger,
+        } as any);
+
+        let thrownError;
+
+        try {
+            await postInvitationEmailOperation.execute({
+                campaignId: 'campaign-id',
+                targetEmail: 'missing@email.com',
+            } as any);
+        } catch (error) {
+            thrownError = error;
+        }
+
+        expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        expect(postInvitationEmailService.sendEmail).not.to.have.been.called();
     });
 });

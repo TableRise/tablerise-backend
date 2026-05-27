@@ -10,9 +10,15 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthRoutes', () => {
         oAuthController = {} as OAuthController;
         authErrorMiddleware = () => ({}) as typeof AuthErrorMiddleware;
 
+        const oAuthSchemas = {
+            postCompleteOauthRegister: { body: {} },
+        };
+
         oauthRoutes = new OAuthRoutes({
             oAuthController,
             authErrorMiddleware,
+            oAuthSchemas,
+            verifyIdMiddleware: () => ({}),
         } as unknown as OAuthRoutesContract);
 
         it('Should return the correct number of routes', () => {

@@ -12,7 +12,8 @@ export default class LogoutUserOperation {
     }
 
     async execute(token: string): Promise<void> {
-        this.logger('info', 'Execute - LogoutUserOperation');
+        const callName = `[${this.constructor.name}] - ${this.execute.name}`;
+        this.logger('info', callName);
         await this.logoutUserService.addToForbiddenList(token);
     }
 }

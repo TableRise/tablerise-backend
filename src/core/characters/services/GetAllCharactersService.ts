@@ -11,7 +11,8 @@ export default class GetAllCharactersService {
     }
 
     async getAll(): Promise<CharactersDnd[]> {
-        this.logger('info', 'GetAll - GetAllCharactersService');
+        const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
+        this.logger('info', callName);
         return this.charactersRepository.find({});
     }
 }

@@ -2,6 +2,7 @@ import Sinon from 'sinon';
 import AddPlayerCharacterService from 'src/core/campaigns/services/AddPlayerCharacterService';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
+import CharacterDomainDataFaker from 'src/infra/datafakers/characters/DomainDataFaker';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
@@ -12,7 +13,8 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
         campaignsRepository: any,
         charactersRepository: any,
         addPlayerCharacterPayload: any,
-        campaign: Campaign;
+        campaign: Campaign,
+        characterInDb: any;
 
     const logger = (): void => {};
 
@@ -22,12 +24,15 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
 
             before(async () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                characterInDb = CharacterDomainDataFaker.generateCharactersJSON()[0];
+                characterInDb.author.userId = userId;
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
                 };
 
                 charactersRepository = {
+                    findOne: () => characterInDb,
                     update: Sinon.spy(),
                 };
 
@@ -65,9 +70,16 @@ describe('Core :: Camapaigns :: Services :: AddPlayerCharacterService', async ()
         context('When a player do not exists', () => {
             before(async () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
+                characterInDb = CharacterDomainDataFaker.generateCharactersJSON()[0];
+                characterInDb.author.userId = '123';
 
                 campaignsRepository = {
                     findOne: () => ({ ...campaign }),
+                };
+
+                charactersRepository = {
+                    findOne: () => characterInDb,
+                    update: Sinon.spy(),
                 };
 
                 campaign.campaignPlayers = [];

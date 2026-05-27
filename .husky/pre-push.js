@@ -15,7 +15,7 @@ const execSilent = (command) => {
 const BRANCH = execSync('git symbolic-ref --short HEAD').toString().trim();
 
 // Regex corrigido
-const REGEX = /^(feat|bugfix|hotfix)\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)$/;
+const REGEX = /^(feat|bugfix|hotfix)\/([a-zA-Z0-9-]+)$/;
 
 // Exibição do título do hook
 console.log(
