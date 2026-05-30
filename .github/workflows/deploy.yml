@@ -1,0 +1,27 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH with password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          port: ${{ secrets.VM_PORT }}
+          script: |
+            cd ~/tablerise-backend
+            git fetch origin main
+            git reset --hard origin/main
+            npm ci
+            npm run build || true
+            pm2 restart tablerise-api
+            pm2 save
