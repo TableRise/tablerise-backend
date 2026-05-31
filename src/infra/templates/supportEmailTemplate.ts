@@ -30,7 +30,7 @@ export default function supportEmailTemplate({
         preheader: `Nova solicitacao de suporte: ${title}`,
         title: 'Nova solicitacao de suporte',
         intro: 'Uma nova mensagem de suporte foi enviada por um usuario autenticado do TableRise.',
-        heroImageUrl: 'https://i.ibb.co/qYs6HK7G/orange-lost-city.png',
+        heroImageUrl: 'https://i.ibb.co/3JZYpQn/putple-forest.webp',
         paragraphs: ['Revise os detalhes abaixo e responda diretamente para o email informado pelo usuario.'],
         sections,
     });

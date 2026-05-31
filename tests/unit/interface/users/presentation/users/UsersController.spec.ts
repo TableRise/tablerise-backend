@@ -135,6 +135,18 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         expect(response.json).to.have.been.calledWith([{ userId: '123' }, { userId: '456' }]);
     });
 
+    it('should return the current authenticated user without password', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+        (controller as any).getUserByIdOperation.execute.returns({ userId: '123', password: 'secret' });
+
+        await controller.currentUser({ user: { userId: '123' } } as any, response);
+
+        expect((controller as any).getUserByIdOperation.execute).to.have.been.calledWith({ userId: '123' });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+        expect(response.json).to.have.been.calledWith({ userId: '123' });
+    });
+
     it('should get a user by id without password', async () => {
         const controller = buildController();
         const response = buildResponse();

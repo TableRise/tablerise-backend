@@ -63,6 +63,16 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
+                path: `${BASE_PATH}/me`,
+                controller: this.usersController.currentUser,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'users',
+                    description: desc.currentUser,
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/logout`,
                 controller: this.usersController.logoutUser,
                 options: {

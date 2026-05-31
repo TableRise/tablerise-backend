@@ -5,7 +5,7 @@ export default function verifyEmailTemplate(verifyCode: string, usernameUser: st
         preheader: 'Verifique seu email no TableRise',
         title: 'Verifique seu email',
         intro: `Ola, ${usernameUser}. Use o codigo abaixo para validar o endereco de email vinculado a sua conta.`,
-        heroImageUrl: 'https://i.ibb.co/ns4jvjtk/putple-forest.png',
+        heroImageUrl: 'https://i.ibb.co/qFrk7vZH/orange-lost-city.webp',
         highlight: verifyCode,
         paragraphs: [
             'Se voce nao reconhece esta solicitacao, nenhuma acao adicional e necessaria. Sua conta permanecera protegida.',

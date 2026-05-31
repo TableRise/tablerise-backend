@@ -2,6 +2,8 @@ const getAll = 'List all registered users.';
 
 const get = 'Get a user by id.';
 
+const currentUser = 'Get the currently authenticated user using the active cookie session.';
+
 const getCampaigns = 'List the campaigns that belong to a specific user.';
 
 const verify = 'Send an email verification code for the requested authentication or account flow.';
@@ -48,6 +50,7 @@ const token2FA = 'Validate a two-factor authentication token for the requested f
 
 export default {
     get,
+    currentUser,
     getAll,
     getCampaigns,
     register,

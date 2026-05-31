@@ -1,7 +1,6 @@
 import 'express-async-errors';
 
 import express from 'express';
-import session from 'cookie-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import cors from 'cors';
@@ -50,24 +49,7 @@ export default class Application {
                     credentials: true,
                 })
             )
-            .use(
-                session({
-                    secret: (process.env.COOKIE_SECRET as string) || 'catfish',
-                })
-            )
-            .use((req, _res, next) => {
-                if (req.session && !req.session.regenerate) {
-                    req.session.regenerate = (cb: () => void) => {
-                        cb();
-                    };
-                    req.session.save = (cb: () => void) => {
-                        cb();
-                    };
-                }
-                next();
-            })
             .use(passport.initialize())
-            .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
             .use('/health', (req, res) => res.send('OK!'))

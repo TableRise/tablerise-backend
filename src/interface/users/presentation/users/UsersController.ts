@@ -91,6 +91,7 @@ export default class UsersController {
         this.updateUserDetails = this.updateUserDetails.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.currentUser = this.currentUser.bind(this);
         this.getUserById = this.getUserById.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.deactivateTwoFactor = this.deactivateTwoFactor.bind(this);
@@ -158,6 +159,15 @@ export default class UsersController {
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const result = await this.getUsersOperation.execute();
         result.map((user) => delete (user as Partial<RegisterUserResponse>).password);
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async currentUser(req: Request, res: Response): Promise<Response> {
+        const { userId } = req.user as Express.User;
+
+        const result = await this.getUserByIdOperation.execute({ userId });
+        delete (result as Partial<RegisterUserResponse>).password;
 
         return res.status(HttpStatusCode.OK).json(result);
     }

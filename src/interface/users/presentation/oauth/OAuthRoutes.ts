@@ -3,6 +3,7 @@ import 'src/interface/users/strategies/DiscordStrategy';
 import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
+import { NextFunction, Request, Response } from 'express';
 import { routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
@@ -26,6 +27,34 @@ export default class OAuthRoutes {
         this.verifyIdMiddleware = verifyIdMiddleware;
         this.oAuthController = oAuthController;
         this.oAuthSchemas = oAuthSchemas;
+
+        this.authenticateGoogleCallback = this.authenticateGoogleCallback.bind(this);
+        this.authenticateDiscordCallback = this.authenticateDiscordCallback.bind(this);
+    }
+
+    private authenticateGoogleCallback(req: Request, res: Response, next: NextFunction): void {
+        this.authenticateExternalProvider('google', req, res, next);
+    }
+
+    private authenticateDiscordCallback(req: Request, res: Response, next: NextFunction): void {
+        this.authenticateExternalProvider('discord', req, res, next);
+    }
+
+    private authenticateExternalProvider(
+        provider: 'google' | 'discord',
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): void {
+        passport.authenticate(provider, { session: false }, (error: Error | null, user?: Express.User) => {
+            if (error ?? !user) {
+                res.redirect('/oauth/error');
+                return;
+            }
+
+            req.user = user;
+            next();
+        })(req, res, next);
     }
 
     public routes(): routeInstance[] {
@@ -34,7 +63,7 @@ export default class OAuthRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/google`,
                 options: {
-                    middlewares: [passport.authenticate('google')],
+                    middlewares: [passport.authenticate('google', { session: false })],
                     tag: 'external',
                     description: desc.google,
                 },
@@ -42,22 +71,9 @@ export default class OAuthRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/google/callback`,
-                options: {
-                    middlewares: [
-                        passport.authenticate('google', {
-                            successRedirect: '/oauth/google/register',
-                            failureRedirect: '/oauth/error',
-                        }),
-                    ],
-                    tag: 'external',
-                },
-                hide: true,
-            },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/google/register`,
                 controller: this.oAuthController.google,
                 options: {
+                    middlewares: [this.authenticateGoogleCallback],
                     tag: 'external',
                 },
                 hide: true,
@@ -67,7 +83,7 @@ export default class OAuthRoutes {
                 method: 'get',
                 path: `${BASE_PATH}/discord`,
                 options: {
-                    middlewares: [passport.authenticate('discord', { passReqToCallback: true })],
+                    middlewares: [passport.authenticate('discord', { session: false })],
                     tag: 'external',
                     description: desc.discord,
                 },
@@ -75,24 +91,9 @@ export default class OAuthRoutes {
             {
                 method: 'get',
                 path: `${BASE_PATH}/discord/callback`,
-                options: {
-                    middlewares: [
-                        passport.authenticate('discord', {
-                            keepSessionInfo: true,
-                            passReqToCallback: true,
-                            successRedirect: '/oauth/discord/register',
-                            failureRedirect: '/oauth/error',
-                        }),
-                    ],
-                    tag: 'external',
-                },
-                hide: true,
-            },
-            {
-                method: 'get',
-                path: `${BASE_PATH}/discord/register`,
                 controller: this.oAuthController.discord,
                 options: {
+                    middlewares: [this.authenticateDiscordCallback],
                     tag: 'external',
                 },
                 hide: true,

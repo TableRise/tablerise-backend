@@ -42,10 +42,7 @@ export default class OAuthController {
 
         const urlToRedirect = process.env.URL_TO_REDIRECT ? partialUrlRedirect : 'http://localhost:3000';
 
-        res.cookie('token', result.token, cookieOptions)
-            .cookie('session', 'no-use', cookieOptions)
-            .cookie('session.sig', 'no-use', cookieOptions)
-            .redirect(urlToRedirect);
+        res.cookie('token', result.token, cookieOptions).redirect(urlToRedirect);
     }
 
     public async discord(req: Request, res: Response): Promise<void> {
@@ -61,10 +58,7 @@ export default class OAuthController {
 
         const urlToRedirect = process.env.URL_TO_REDIRECT ? partialUrlRedirect : 'http://localhost:3000';
 
-        res.cookie('token', result.token, cookieOptions)
-            .cookie('session', 'no-use', cookieOptions)
-            .cookie('session.sig', 'no-use', cookieOptions)
-            .redirect(urlToRedirect);
+        res.cookie('token', result.token, cookieOptions).redirect(urlToRedirect);
     }
 
     public async complete(req: Request, res: Response): Promise<Response> {
