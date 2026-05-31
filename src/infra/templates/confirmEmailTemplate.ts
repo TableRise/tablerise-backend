@@ -7,9 +7,7 @@ export default function confirmEmailTemplate(verifyCode: string, usernameUser: s
         intro: `Ola, ${usernameUser}. Para concluir a criacao da sua conta, use o codigo abaixo no TableRise.`,
         heroImageUrl: 'https://i.ibb.co/WW8QHxq7/purple-lost-city.png',
         highlight: verifyCode,
-        paragraphs: [
-            'Este codigo e pessoal e temporario. Se voce nao solicitou este cadastro, ignore este email.',
-        ],
+        paragraphs: ['Este codigo e pessoal e temporario. Se voce nao solicitou este cadastro, ignore este email.'],
         footerNote: 'Este endereco e usado apenas para comunicacoes automatizadas do TableRise.',
     });
 }
