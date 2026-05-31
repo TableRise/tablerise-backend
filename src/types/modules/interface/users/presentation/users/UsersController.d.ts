@@ -6,6 +6,7 @@ import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOpera
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
+import PostSupportEmailOperation from 'src/core/users/operations/users/PostSupportEmailOperation';
 import ResetProfileOperation from 'src/core/users/operations/users/ResetProfileOperation';
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdateGameInfoOperation from 'src/core/users/operations/users/UpdateGameInfoOperation';
@@ -38,6 +39,7 @@ export interface UsersControllerContract {
     addCampaignNoteOperation: AddCampaignNoteOperation;
     resetProfileOperation: ResetProfileOperation;
     pictureProfileOperation: PictureProfileOperation;
+    postSupportEmailOperation: PostSupportEmailOperation;
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
     loginUserOperation: LoginUserOperation;

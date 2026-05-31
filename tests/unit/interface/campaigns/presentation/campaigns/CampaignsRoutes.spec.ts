@@ -20,7 +20,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             postCreateCampaignPublishment: { body: {} },
             postCampaignLog: { body: {} },
             postCampaignBuy: { body: {} },
-            postInvitePlayerByEmail: { query: {} },
             postAddCampaignPlayers: { query: {} },
             putUpdateCampaign: { body: {} },
             patchUpdateCampaignMatchMapImages: { body: {} },
@@ -57,7 +56,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(39);
+            expect(routes).to.have.lengthOf(38);
         });
 
         it('should include the journal highlight routes', () => {

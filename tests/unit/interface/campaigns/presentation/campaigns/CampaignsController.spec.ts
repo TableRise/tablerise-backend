@@ -379,64 +379,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
         });
     });
 
-    context('#inviteEmail', () => {
-        const request = {} as Request;
-        const response = {} as Response;
-
-        beforeEach(() => {
-            response.status = sinon.spy(() => response);
-            response.json = sinon.spy(() => response);
-            response.end = sinon.spy(() => response);
-
-            createCampaignOperation = { execute: () => {} };
-            getCampaignByIdOperation = { execute: () => {} };
-            getAllCampaignsOperation = { execute: () => {} };
-            updateMatchMapImagesOperation = { execute: () => {} };
-            publishmentOperation = { execute: () => {} };
-            updateMatchMusicsOperation = { execute: () => {} };
-            updateMatchDateOperation = { execute: () => {} };
-            addCampaignPlayersOperation = { execute: () => {} };
-            getCampaignsByUserIdOperation = { execute: () => {} };
-            addPlayerCharacterOperation = { execute: () => {} };
-            removeCampaignPlayersOperation = { execute: () => {} };
-            updateCampaignImagesOperation = { execute: () => {} };
-            postInvitationEmailOperation = { execute: sinon.spy(() => ({})) };
-
-            campaignsController = new CampaignsController({
-                createCampaignOperation,
-                updateMatchMapImagesOperation,
-                publishmentOperation,
-                updateCampaignOperation,
-                updateMatchMusicsOperation,
-                updateMatchDateOperation,
-                getCampaignByIdOperation,
-                getAllCampaignsOperation,
-                addCampaignPlayersOperation,
-                getCampaignsByUserIdOperation,
-                removeCampaignPlayersOperation,
-                postInvitationEmailOperation,
-                updateCampaignImagesOperation,
-                updateCampaignPlayerLimitOperation,
-                addPlayerCharacterOperation,
-            });
-        });
-
-        it('should correctly call the methods and functions', async () => {
-            request.params = { id: '123' };
-            request.query = { campaignId: '123', targetEmail: 'test20@email.com' };
-
-            await campaignsController.inviteEmail(request, response);
-
-            expect(postInvitationEmailOperation.execute).to.have.been.calledWith({
-                campaignId: request.params.id,
-                targetEmail: request.query.targetEmail,
-            });
-            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-            expect(response.json).to.have.not.been.called();
-            expect(response.end).to.have.been.called();
-        });
-    });
-
     context('#addMatchMapImages', () => {
         const request = {} as Request;
         const response = {} as Response;

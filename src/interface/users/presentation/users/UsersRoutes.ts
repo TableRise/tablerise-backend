@@ -134,6 +134,18 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
+                path: `${BASE_PATH}/:id/support/post`,
+                parameters: [...generateIDParam()],
+                controller: this.usersController.postSupportEmail,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.postSupportEmail.body }],
+                    tag: 'management',
+                    description: desc.postSupportEmail,
+                },
+            },
+            {
+                method: 'post',
                 path: `${BASE_PATH}/:id/update/picture`,
                 parameters: [...generateIDParam()],
                 controller: this.usersController.profilePicture,

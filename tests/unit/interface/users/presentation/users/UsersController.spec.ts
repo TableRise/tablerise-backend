@@ -28,6 +28,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             addCampaignNoteOperation: { execute: sinon.stub() },
             resetProfileOperation: { execute: sinon.stub() },
             pictureProfileOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
+            postSupportEmailOperation: { execute: sinon.stub() },
             deleteUserOperation: { execute: sinon.stub() },
             logoutUserOperation: { execute: sinon.stub() },
             loginUserOperation: {
@@ -240,6 +241,37 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ title: 'note', content: 'updated' });
+    });
+
+    it('should post a support email and return no content', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.postSupportEmail(
+            {
+                params: { id: '123' },
+                user: { userId: '123' },
+                body: {
+                    title: 'Nao consigo entrar',
+                    content: 'Meu codigo nao chega.',
+                    category: 'Autenticacao',
+                    campaignCode: 'ABC123',
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).postSupportEmailOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            payload: {
+                title: 'Nao consigo entrar',
+                content: 'Meu codigo nao chega.',
+                category: 'Autenticacao',
+                campaignCode: 'ABC123',
+            },
+        });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+        expect(response.end).to.have.been.called();
     });
 
     it('should reset the profile and return no content', async () => {

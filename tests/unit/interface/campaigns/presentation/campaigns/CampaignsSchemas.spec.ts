@@ -8,7 +8,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('postCreateCampaign');
             expect(schemas).to.have.property('putUpdateCampaign');
             expect(schemas).to.have.property('postAddCampaignPlayers');
-            expect(schemas).to.have.property('postInvitePlayerByEmail');
             expect(schemas).to.have.property('postCreateCampaignPublishment');
             expect(schemas).to.have.property('postCampaignLog');
             expect(schemas).to.have.property('postCampaignBuy');

@@ -1,135 +1,159 @@
 import EmailSender from 'src/domains/users/helpers/EmailSender';
 
 describe('Domains :: User :: Helpers :: EmailSender', () => {
-    let emailSender: EmailSender, nodemailer: any, emailType: any;
+    let transportConfig: any;
+    let sentMessage: any;
 
-    context('When data is correct to send an email', () => {
-        context('and type is common', () => {
-            before(() => {
-                emailType = 'common';
-                nodemailer = {
-                    createTransport: () => ({
-                        sendMail: () => {},
-                    }),
-                };
+    const buildNodemailer = () => ({
+        createTransport: (config) => {
+            transportConfig = config;
 
-                process.env.EMAIL_SENDING = 'on';
-                emailSender = new EmailSender({ emailType, nodemailer });
-            });
+            return {
+                sendMail: (message) => {
+                    sentMessage = message;
+                },
+            };
+        },
+    });
 
-            after(() => {
-                process.env.EMAIL_SENDING = 'off';
-            });
+    beforeEach(() => {
+        transportConfig = undefined;
+        sentMessage = undefined;
 
-            it('should return true when the process is done with success', async () => {
-                const testContent = {
-                    subject: 'Test',
-                    body: 'Test',
-                };
+        process.env.SMTP_HOST = 'smtp.mailtrap.io';
+        process.env.SMTP_PORT = '2525';
+        process.env.SMTP_SECURE = 'true';
+        process.env.SMTP_USER = 'mailtrap-user';
+        process.env.SMTP_PASS = 'mailtrap-pass';
+        process.env.EMAIL_FROM = 'TableRise <support@tablerise.com>';
+        process.env.EMAIL_ENABLED = 'on';
+    });
 
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest).to.deep.equal({ success: true });
-            });
+    afterEach(() => {
+        delete process.env.SMTP_HOST;
+        delete process.env.SMTP_PORT;
+        delete process.env.SMTP_SECURE;
+        delete process.env.SMTP_USER;
+        delete process.env.SMTP_PASS;
+        delete process.env.EMAIL_FROM;
+        delete process.env.EMAIL_ENABLED;
+    });
+
+    it('should send a common email as plain text', async () => {
+        const emailSender = new EmailSender({ emailType: 'common', nodemailer: buildNodemailer() as any });
+
+        const sendEmailTest = await emailSender.send(
+            {
+                subject: 'Test',
+                body: 'Test body',
+            },
+            'test@email.com'
+        );
+
+        expect(sendEmailTest).to.deep.equal({ success: true });
+        expect(sentMessage.text).to.equal('Test body');
+        expect(sentMessage.html).to.be.undefined();
+    });
+
+    it('should build the transport from env vars', async () => {
+        const emailSender = new EmailSender({ emailType: 'common', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Test',
+                body: 'Test body',
+            },
+            'test@email.com'
+        );
+
+        expect(transportConfig).to.deep.equal({
+            host: 'smtp.mailtrap.io',
+            port: 2525,
+            secure: true,
+            auth: {
+                user: 'mailtrap-user',
+                pass: 'mailtrap-pass',
+            },
         });
+    });
 
-        context('And type is confirmation', () => {
-            beforeEach(() => {
-                emailType = 'confirmation';
-                nodemailer = {
-                    createTransport: () => ({
-                        sendMail: () => {},
-                    }),
-                };
+    it('should render the confirmation email template', async () => {
+        const emailSender = new EmailSender({ emailType: 'confirmation', nodemailer: buildNodemailer() as any });
 
-                emailSender = new EmailSender({ emailType, nodemailer });
-            });
+        const sendEmailTest = await emailSender.send(
+            {
+                username: 'userTest',
+                subject: 'Confirmacao',
+            },
+            'test@email.com'
+        );
 
-            it('should return true when the process is done with success', async () => {
-                const testContent = {
-                    username: 'userTest',
-                    subject: 'Test',
-                    body: '',
-                };
+        expect(sendEmailTest.success).to.equal(true);
+        expect(sendEmailTest.verificationCode).to.have.lengthOf(6);
+        expect(sentMessage.html).to.contain('Confirme seu cadastro');
+        expect(sentMessage.html).to.contain('class="img-bg"');
+        expect(sentMessage.html).to.not.contain('<img');
+    });
 
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest.success).to.be.equal(true);
-                expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
-                expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
-            });
+    it('should render the verification email template', async () => {
+        const emailSender = new EmailSender({ emailType: 'verification', nodemailer: buildNodemailer() as any });
 
-            it('should return true when the process is done with success without the username', async () => {
-                const testContent = {
-                    subject: 'Test',
-                    body: '',
-                };
+        const sendEmailTest = await emailSender.send(
+            {
+                username: 'userTest',
+                subject: 'Verificacao',
+            },
+            'test@email.com'
+        );
 
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest.success).to.be.equal(true);
-                expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
-                expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
-            });
-        });
+        expect(sendEmailTest.success).to.equal(true);
+        expect(sendEmailTest.verificationCode).to.have.lengthOf(6);
+        expect(sentMessage.html).to.contain('Verifique seu email');
+        expect(sentMessage.html).to.contain('class="img-bg"');
+        expect(sentMessage.html).to.not.contain('<img');
+    });
 
-        context('And type is verification', () => {
-            beforeEach(() => {
-                emailType = 'verification';
-                nodemailer = {
-                    createTransport: () => ({
-                        sendMail: () => {},
-                    }),
-                };
+    it('should render the support email template and include replyTo', async () => {
+        const emailSender = new EmailSender({ emailType: 'support', nodemailer: buildNodemailer() as any });
 
-                emailSender = new EmailSender({ emailType, nodemailer });
-            });
+        const sendEmailTest = await emailSender.send(
+            {
+                username: 'Joe Einstein',
+                userEmail: 'joe@email.com',
+                title: 'Nao consigo entrar',
+                category: 'Autenticacao',
+                campaignCode: 'ABC123',
+                body: 'Meu codigo nao chega.',
+                subject: 'Solicitacao de suporte - TableRise',
+                replyTo: 'joe@email.com',
+            },
+            process.env.EMAIL_FROM as string
+        );
 
-            it('should return true when the process is done with success', async () => {
-                const testContent = {
-                    username: 'userTest',
-                    subject: 'Test',
-                    body: '',
-                };
+        expect(sendEmailTest).to.deep.equal({ success: true });
+        expect(sentMessage.replyTo).to.equal('joe@email.com');
+        expect(sentMessage.html).to.contain('Nao consigo entrar');
+        expect(sentMessage.html).to.contain('Autenticacao');
+        expect(sentMessage.html).to.contain('ABC123');
+        expect(sentMessage.html).to.contain('joe@email.com');
+    });
 
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest.success).to.be.equal(true);
-                expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
-                expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
-            });
+    it('should omit the campaign code section when support email has no campaign code', async () => {
+        const emailSender = new EmailSender({ emailType: 'support', nodemailer: buildNodemailer() as any });
 
-            it('should return true when the process is done with success without the username', async () => {
-                const testContent = {
-                    subject: 'Test',
-                    body: '',
-                };
+        await emailSender.send(
+            {
+                username: 'Joe Einstein',
+                userEmail: 'joe@email.com',
+                title: 'Nao consigo entrar',
+                category: 'Autenticacao',
+                body: 'Meu codigo nao chega.',
+                subject: 'Solicitacao de suporte - TableRise',
+                replyTo: 'joe@email.com',
+            },
+            process.env.EMAIL_FROM as string
+        );
 
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest.success).to.be.equal(true);
-                expect(typeof sendEmailTest.verificationCode).to.be.equal('string');
-                expect(sendEmailTest.verificationCode?.length).to.be.equal(6);
-            });
-        });
-
-        context('and type is invitation', () => {
-            before(() => {
-                emailType = 'invitation';
-                nodemailer = {
-                    createTransport: () => ({
-                        sendMail: () => {},
-                    }),
-                };
-
-                emailSender = new EmailSender({ emailType, nodemailer });
-            });
-
-            it('should return true when the process is done with success', async () => {
-                const testContent = {
-                    campaignId: '1234567890',
-                    userId: '1234567890',
-                    username: 'joaquim',
-                };
-
-                const sendEmailTest = await emailSender.send(testContent, 'test@email.com');
-                expect(sendEmailTest).to.deep.equal({ success: true });
-            });
-        });
+        expect(sentMessage.html).to.not.contain('Codigo da campanha');
     });
 });

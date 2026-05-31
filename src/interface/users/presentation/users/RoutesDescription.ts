@@ -10,6 +10,8 @@ const register = 'Create a new user account. Email verification is required befo
 
 const login = 'Sign in with email and password and return the authenticated session data.';
 
+const postSupportEmail = 'Send an authenticated support email to the TableRise support inbox.';
+
 const update = 'Update the allowed profile fields for a user.';
 
 const updateDetails = 'Update the allowed user detail fields for a user.';
@@ -51,6 +53,7 @@ export default {
     register,
     verify,
     login,
+    postSupportEmail,
     update,
     updateDetails,
     activate2FA,

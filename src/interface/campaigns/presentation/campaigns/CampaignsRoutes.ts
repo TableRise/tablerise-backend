@@ -174,18 +174,6 @@ export default class CampaignsRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/invite`,
-                parameters: [...generateIDParam()],
-                controller: this.campaignsController.inviteEmail,
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ query: this.campaignsSchemas.postInvitePlayerByEmail.query }],
-                    tag: 'management',
-                    description: desc.inviteEmail,
-                },
-            },
-            {
-                method: 'post',
                 path: `${BASE_PATH}/:id/update/player/add`,
                 parameters: [
                     ...generateIDParam(),

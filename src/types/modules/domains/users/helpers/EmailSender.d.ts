@@ -8,18 +8,23 @@ export interface EmailSenderContract {
         | nodemailer.TestAccount
         | nodemailer.TransportOptions
         | nodemailer.Transporter;
-    emailType: 'common' | 'confirmation' | 'verification' | 'invitation';
+    emailType: 'common' | 'confirmation' | 'support' | 'verification';
 }
 
-export type EmailSenderType = 'confirmation' | 'newsletter' | 'common' | 'verification' | 'invitation';
+export type EmailSenderType = 'common' | 'confirmation' | 'support' | 'verification';
 
 export interface CommonContent {
     username?: string;
+    userEmail?: string;
     userId?: string;
     campaignId?: string;
+    campaignCode?: string;
+    category?: string;
+    title?: string;
     verificationCode?: string;
     subject?: string;
     body?: string;
+    replyTo?: string;
 }
 
 export interface ResponseEmailSender {
@@ -32,5 +37,6 @@ export interface EmailMessage {
     to: string;
     subject: string;
     html?: string;
+    replyTo?: string;
     text?: string;
 }

@@ -29,11 +29,6 @@ import {
 
 import { AddCampaignPlayersOperationContract, AddCampaignPlayersServiceContract } from './campaigns/AddCampaignPlayers';
 
-import {
-    PostInvitationEmailOperationContract,
-    PostInvitationEmailServiceContract,
-} from './campaigns/PostInvitationEmail';
-
 import { AddPlayerCharacterOperationContract, AddPlayerCharacterServiceContract } from './campaigns/AddPlayerCharacter';
 import {
     GetCampaignCharactersOperationContract,
@@ -123,7 +118,6 @@ export default interface CampaignCoreDependencies {
     removePlayerCharacterOperationContract: RemovePlayerCharacterOperationContract;
     getCampaignCharactersOperationContract: GetCampaignCharactersOperationContract;
     getCharactersByPlayerOperationContract: GetCharactersByPlayerOperationContract;
-    postInvitationEmailOperationContract: PostInvitationEmailOperationContract;
     updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
     confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
@@ -156,7 +150,6 @@ export default interface CampaignCoreDependencies {
     removePlayerCharacterServiceContract: RemovePlayerCharacterServiceContract;
     getCampaignCharactersServiceContract: GetCampaignCharactersServiceContract;
     getCharactersByPlayerServiceContract: GetCharactersByPlayerServiceContract;
-    postInvitationEmailServiceContract: PostInvitationEmailServiceContract;
     updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
     confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;

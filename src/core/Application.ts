@@ -16,7 +16,6 @@ export default class Application {
     private readonly campaignsRoutesMiddleware;
     private readonly charactersRoutesMiddleware;
     private readonly swaggerGenerator;
-    private readonly accessHeadersMiddleware;
     private readonly errorMiddleware;
     private readonly socketIO;
     private readonly logger;
@@ -28,7 +27,6 @@ export default class Application {
         charactersRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
-        accessHeadersMiddleware,
         socketIO,
         logger,
     }: ApplicationContract) {
@@ -37,7 +35,6 @@ export default class Application {
         this.campaignsRoutesMiddleware = campaignsRoutesMiddleware;
         this.charactersRoutesMiddleware = charactersRoutesMiddleware;
         this.swaggerGenerator = swaggerGenerator;
-        this.accessHeadersMiddleware = accessHeadersMiddleware;
         this.errorMiddleware = errorMiddleware;
         this.socketIO = socketIO;
         this.logger = logger;
@@ -73,7 +70,6 @@ export default class Application {
             .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
-            .use(this.accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
             .use(this.swaggerGenerator)
             .use(this.usersRoutesMiddleware.get())
