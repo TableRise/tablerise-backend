@@ -77,6 +77,39 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
         });
     });
 
+    it('should fallback SMTP secure to false when the env var is missing', async () => {
+        delete process.env.SMTP_SECURE;
+
+        const emailSender = new EmailSender({ emailType: 'common', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Test',
+                body: 'Test body',
+            },
+            'test@email.com'
+        );
+
+        expect(transportConfig.secure).to.equal(false);
+    });
+
+    it('should skip sendMail when email sending is disabled', async () => {
+        process.env.EMAIL_ENABLED = 'off';
+
+        const emailSender = new EmailSender({ emailType: 'common', nodemailer: buildNodemailer() as any });
+
+        const sendEmailTest = await emailSender.send(
+            {
+                subject: 'Test',
+                body: 'Test body',
+            },
+            'test@email.com'
+        );
+
+        expect(sendEmailTest).to.deep.equal({ success: true });
+        expect(sentMessage).to.be.undefined();
+    });
+
     it('should render the confirmation email template', async () => {
         const emailSender = new EmailSender({ emailType: 'confirmation', nodemailer: buildNodemailer() as any });
 
@@ -95,6 +128,19 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
         expect(sentMessage.html).to.not.contain('<img');
     });
 
+    it('should fallback confirmation username to the target email', async () => {
+        const emailSender = new EmailSender({ emailType: 'confirmation', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Confirmacao',
+            },
+            'target@email.com'
+        );
+
+        expect(sentMessage.html).to.contain('target@email.com');
+    });
+
     it('should render the verification email template', async () => {
         const emailSender = new EmailSender({ emailType: 'verification', nodemailer: buildNodemailer() as any });
 
@@ -111,6 +157,19 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
         expect(sentMessage.html).to.contain('Verifique seu email');
         expect(sentMessage.html).to.contain('class="img-bg"');
         expect(sentMessage.html).to.not.contain('<img');
+    });
+
+    it('should fallback verification username to the target email', async () => {
+        const emailSender = new EmailSender({ emailType: 'verification', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Verificacao',
+            },
+            'target@email.com'
+        );
+
+        expect(sentMessage.html).to.contain('target@email.com');
     });
 
     it('should render the support email template and include replyTo', async () => {
@@ -155,5 +214,20 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
         );
 
         expect(sentMessage.html).to.not.contain('Codigo da campanha');
+    });
+
+    it('should fallback support email fields to safe defaults', async () => {
+        const emailSender = new EmailSender({ emailType: 'support', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Solicitacao de suporte - TableRise',
+            },
+            'support@email.com'
+        );
+
+        expect(sentMessage.html).to.contain('support@email.com');
+        expect(sentMessage.html).to.contain('Solicitacao de suporte');
+        expect(sentMessage.html).to.contain('Geral');
     });
 });

@@ -65,9 +65,9 @@ describe('Core :: Users :: Services :: PostSupportEmailService', () => {
         );
     });
 
-    it('should fallback to nickname when user details have no name', async () => {
-        userDetails.firstName = '';
-        userDetails.lastName = '';
+    it('should fallback to nickname when user details names are undefined', async () => {
+        (userDetails as any).firstName = undefined;
+        (userDetails as any).lastName = undefined;
 
         const usersRepository = {
             findOne: sinon.stub().returns(user),

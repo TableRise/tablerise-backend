@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import UsersController from 'src/interface/users/presentation/users/UsersController';
 
 describe('Interface :: Users :: Presentation :: Users :: UsersController', () => {
@@ -272,6 +273,36 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
         expect(response.end).to.have.been.called();
+    });
+
+    it('should reject support email requests for a different authenticated user', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        let thrownError;
+
+        try {
+            await controller.postSupportEmail(
+                {
+                    params: { id: '123' },
+                    user: { userId: '456' },
+                    body: {
+                        title: 'Nao consigo entrar',
+                        content: 'Meu codigo nao chega.',
+                        category: 'Autenticacao',
+                    },
+                } as any,
+                response
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        const err = thrownError as HttpRequestErrors;
+        expect(err.message).to.equal('Unauthorized');
+        expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        expect((controller as any).postSupportEmailOperation.execute).to.not.have.been.called();
+        expect(response.status).to.not.have.been.called();
     });
 
     it('should reset the profile and return no content', async () => {
