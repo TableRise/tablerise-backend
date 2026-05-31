@@ -9,7 +9,7 @@ describe('Infra :: Templates :: EmailTemplates', () => {
         expect(html).to.contain('Confirme seu cadastro');
         expect(html).to.contain('ABC123');
         expect(html).to.contain('class="img-bg"');
-        expect(html).to.contain('purple-lost-city.png');
+        expect(html).to.contain('purple-lost-city.webp');
         expect(html).to.not.contain('<img');
     });
 
@@ -19,7 +19,7 @@ describe('Infra :: Templates :: EmailTemplates', () => {
         expect(html).to.contain('Verifique seu email');
         expect(html).to.contain('ZXCVBN');
         expect(html).to.contain('class="img-bg"');
-        expect(html).to.contain('putple-forest.png');
+        expect(html).to.contain('orange-lost-city.webp');
         expect(html).to.not.contain('<img');
     });
 
@@ -39,7 +39,7 @@ describe('Infra :: Templates :: EmailTemplates', () => {
         expect(html).to.contain('joe@email.com');
         expect(html).to.contain('ABC123');
         expect(html).to.contain('class="img-bg"');
-        expect(html).to.contain('orange-lost-city.png');
+        expect(html).to.contain('putple-forest.webp');
     });
 
     it('should omit the campaign code section when it is not provided', () => {
