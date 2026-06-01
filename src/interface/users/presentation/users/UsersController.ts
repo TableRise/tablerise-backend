@@ -2,16 +2,23 @@ import { Response, Request } from 'express';
 import {
     AddCampaignNotePayload,
     AddGameInfoPayload,
+    PostSupportEmailPayload,
     RemoveGameInfoPayload,
     UpdateUserDetailsPayload,
     UpdateUserPayload,
     VerifyEmailPayload,
 } from 'src/types/api/users/http/payload';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { FileObject } from 'src/types/shared/file';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { RegisterUserResponse } from 'src/types/api/users/http/response';
-import { TCreateUserBody, TUpdateCampaignNotesBody, TUpdateCampaignNotesQuery } from './UsersSchemas';
+import {
+    TCreateUserBody,
+    TPostSupportEmailBody,
+    TUpdateCampaignNotesBody,
+    TUpdateCampaignNotesQuery,
+} from './UsersSchemas';
 import User from '@tablerise/database-management/dist/src/interfaces/User';
 
 export default class UsersController {
@@ -30,6 +37,7 @@ export default class UsersController {
     private readonly addCampaignNoteOperation;
     private readonly resetProfileOperation;
     private readonly pictureProfileOperation;
+    private readonly postSupportEmailOperation;
     private readonly deleteUserOperation;
     private readonly logoutUserOperation;
     private readonly loginUserOperation;
@@ -51,6 +59,7 @@ export default class UsersController {
         addCampaignNoteOperation,
         resetProfileOperation,
         pictureProfileOperation,
+        postSupportEmailOperation,
         deleteUserOperation,
         logoutUserOperation,
         loginUserOperation,
@@ -71,6 +80,7 @@ export default class UsersController {
         this.addCampaignNoteOperation = addCampaignNoteOperation;
         this.resetProfileOperation = resetProfileOperation;
         this.pictureProfileOperation = pictureProfileOperation;
+        this.postSupportEmailOperation = postSupportEmailOperation;
         this.deleteUserOperation = deleteUserOperation;
         this.logoutUserOperation = logoutUserOperation;
         this.loginUserOperation = loginUserOperation;
@@ -81,6 +91,7 @@ export default class UsersController {
         this.updateUserDetails = this.updateUserDetails.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.currentUser = this.currentUser.bind(this);
         this.getUserById = this.getUserById.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.deactivateTwoFactor = this.deactivateTwoFactor.bind(this);
@@ -90,6 +101,7 @@ export default class UsersController {
         this.addGameInfo = this.addGameInfo.bind(this);
         this.removeGameInfo = this.removeGameInfo.bind(this);
         this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
+        this.postSupportEmail = this.postSupportEmail.bind(this);
         this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
@@ -147,6 +159,15 @@ export default class UsersController {
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const result = await this.getUsersOperation.execute();
         result.map((user) => delete (user as Partial<RegisterUserResponse>).password);
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async currentUser(req: Request, res: Response): Promise<Response> {
+        const { userId } = req.user as Express.User;
+
+        const result = await this.getUserByIdOperation.execute({ userId });
+        delete (result as Partial<RegisterUserResponse>).password;
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -248,6 +269,21 @@ export default class UsersController {
         } as AddCampaignNotePayload);
 
         return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async postSupportEmail(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const payload = req.body as TPostSupportEmailBody;
+
+        if (id !== userId) HttpRequestErrors.throwError('unauthorized');
+
+        await this.postSupportEmailOperation.execute({
+            userId,
+            payload,
+        } as PostSupportEmailPayload);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async resetProfile(req: Request, res: Response): Promise<Response> {

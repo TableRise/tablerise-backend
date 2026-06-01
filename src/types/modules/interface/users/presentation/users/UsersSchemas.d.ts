@@ -4,6 +4,7 @@ export interface IUsersSchemas {
     postValidateEmailSendCode: ISchemaProps;
     postCreateUser: ISchemaProps;
     postLogin: ISchemaProps;
+    postSupportEmail: ISchemaProps;
     postUpdateUserProfilePicture: ISchemaProps;
     putUpdateUser: ISchemaProps;
     putUpdateUserDetails: ISchemaProps;

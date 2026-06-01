@@ -12,7 +12,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaign Player Notes :: Cam
                 postCreateCampaignPublishment: { body: {} },
                 postCampaignLog: { body: {} },
                 postCampaignBuy: { body: {} },
-                postInvitePlayerByEmail: { query: {} },
                 postAddCampaignPlayers: { query: {} },
                 putUpdateCampaign: { body: {} },
                 patchUpdateCampaignMatchMapImages: { body: {} },

@@ -5,7 +5,6 @@ import CampaignsRoutesMiddleware from 'src/interface/campaigns/middlewares/Campa
 import swaggerGenerator, { generateSwaggerFiles } from 'src/domains/common/helpers/swaggerGenerator';
 import { Logger } from '../../Logger';
 import DungeonsAndDragonsRoutesMiddleware from 'src/interface/dungeons&dragons5e/middlewares/DungeonsAndDragonsRoutesMiddleware';
-import AccessHeadersMiddleware from 'src/interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from 'src/infra/clients/SocketIO';
 import RoutesWrapper from 'src/interface/common/RoutesWrapper';
 import CharactersRoutesMiddleware from 'src/interface/characters/middlewares/CharactersRoutesMiddleware';
@@ -19,7 +18,6 @@ export interface ApplicationContract {
     swaggerGenerator: typeof swaggerGenerator;
     generateSwaggerFiles: typeof generateSwaggerFiles;
     errorMiddleware: typeof ErrorMiddleware;
-    accessHeadersMiddleware: typeof AccessHeadersMiddleware;
     database: DatabaseManagement;
     socketIO: SocketIO;
     routesWrapper: RoutesWrapper;

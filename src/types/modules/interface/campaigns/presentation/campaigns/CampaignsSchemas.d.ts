@@ -4,7 +4,6 @@ export interface ICampaignsSchemas {
     postCreateCampaign: ISchemaProps;
     putUpdateCampaign: ISchemaProps;
     postAddCampaignPlayers: ISchemaProps;
-    postInvitePlayerByEmail: ISchemaProps;
     postCreateCampaignPublishment: ISchemaProps;
     postCampaignLog: ISchemaProps;
     postCampaignBuy: ISchemaProps;

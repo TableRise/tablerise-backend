@@ -2,6 +2,8 @@ const getAll = 'List all registered users.';
 
 const get = 'Get a user by id.';
 
+const currentUser = 'Get the currently authenticated user using the active cookie session.';
+
 const getCampaigns = 'List the campaigns that belong to a specific user.';
 
 const verify = 'Send an email verification code for the requested authentication or account flow.';
@@ -9,6 +11,8 @@ const verify = 'Send an email verification code for the requested authentication
 const register = 'Create a new user account. Email verification is required before protected actions.';
 
 const login = 'Sign in with email and password and return the authenticated session data.';
+
+const postSupportEmail = 'Send an authenticated support email to the TableRise support inbox.';
 
 const update = 'Update the allowed profile fields for a user.';
 
@@ -46,11 +50,13 @@ const token2FA = 'Validate a two-factor authentication token for the requested f
 
 export default {
     get,
+    currentUser,
     getAll,
     getCampaigns,
     register,
     verify,
     login,
+    postSupportEmail,
     update,
     updateDetails,
     activate2FA,

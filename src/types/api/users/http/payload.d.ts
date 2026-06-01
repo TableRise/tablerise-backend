@@ -32,6 +32,18 @@ export interface AddCampaignNotePayload {
     note: GameInfoCampaigns['notes'][number];
 }
 
+export interface PostSupportEmailBodyPayload {
+    title: string;
+    content: string;
+    category: string;
+    campaignCode?: string;
+}
+
+export interface PostSupportEmailPayload {
+    userId: string;
+    payload: PostSupportEmailBodyPayload;
+}
+
 export interface UserImagePayload {
     userId: string;
     image: FileObject;

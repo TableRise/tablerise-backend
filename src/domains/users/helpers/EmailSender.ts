@@ -1,4 +1,5 @@
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
+import supportEmailTemplate from 'src/infra/templates/supportEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/users/helpers/generateVerificationCode';
 import {
@@ -7,7 +8,6 @@ import {
     EmailMessage,
     ResponseEmailSender,
 } from 'src/types/modules/domains/users/helpers/EmailSender';
-import sendCampaignInviteEmailTemplate from 'src/infra/templates/sendCampaignInviteEmailTemplate';
 
 export default class EmailSender {
     public type;
@@ -20,35 +20,59 @@ export default class EmailSender {
         this.handleEmail = this.handleEmail.bind(this);
         this.sendCommon = this.sendCommon.bind(this);
         this.sendConfirmation = this.sendConfirmation.bind(this);
+        this.sendSupport = this.sendSupport.bind(this);
         this.sendVerification = this.sendVerification.bind(this);
-        this.sendInvitation = this.sendInvitation.bind(this);
+        this.resolveTransportConfig = this.resolveTransportConfig.bind(this);
+        this.resolveFromAddress = this.resolveFromAddress.bind(this);
         this.send = this.send.bind(this);
     }
 
-    public async handleEmail(contentType: 'html' | 'text', content: CommonContent, target: string): Promise<boolean> {
-        const { EMAIL_SENDING_USER, EMAIL_SENDING_PASSWORD, EMAIL_SENDING } = process.env;
+    private resolveTransportConfig(): {
+        host: string;
+        port: number;
+        secure: boolean;
+        auth: {
+            user: string;
+            pass: string;
+        };
+    } {
+        const host = process.env.SMTP_HOST as string;
+        const port = Number(process.env.SMTP_PORT);
+        const secure = ['1', 'on', 'true'].includes((process.env.SMTP_SECURE ?? '').toLowerCase());
+        const user = process.env.SMTP_USER as string;
+        const pass = process.env.SMTP_PASS as string;
 
-        const config = {
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
+        return {
+            host,
+            port,
+            secure,
             auth: {
-                user: EMAIL_SENDING_USER as string,
-                pass: EMAIL_SENDING_PASSWORD as string,
+                user,
+                pass,
             },
         };
+    }
+
+    private resolveFromAddress(): string {
+        return process.env.EMAIL_FROM as string;
+    }
+
+    public async handleEmail(contentType: 'html' | 'text', content: CommonContent, target: string): Promise<boolean> {
+        const emailEnabled = process.env.EMAIL_ENABLED;
+        const config = this.resolveTransportConfig();
 
         const message: EmailMessage = {
-            from: 'TableRise <tablerise@gmail.com>',
+            from: this.resolveFromAddress(),
             to: target,
             subject: content.subject as string,
         };
 
         if (contentType === 'html') message.html = content.body;
         if (contentType === 'text') message.text = content.body;
+        if (content.replyTo) message.replyTo = content.replyTo;
 
         const transporter = this.nodemailer.createTransport(config);
-        if (EMAIL_SENDING === 'on') await transporter.sendMail(message);
+        if (emailEnabled === 'on') await transporter.sendMail(message);
 
         return true;
     }
@@ -67,6 +91,26 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
+    private async sendSupport(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+        const username = content.username ?? target;
+        const userEmail = content.userEmail ?? target;
+        const title = content.title ?? 'Solicitacao de suporte';
+        const category = content.category ?? 'Geral';
+        const messageContent = content.body ?? '';
+
+        content.body = supportEmailTemplate({
+            title,
+            category,
+            content: messageContent,
+            senderName: username,
+            senderEmail: userEmail,
+            campaignCode: content.campaignCode,
+        });
+
+        const sendEmailResult = await this.handleEmail('html', content, target);
+        return { success: sendEmailResult };
+    }
+
     private async sendVerification(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const verificationCode = generateVerificationCode(6);
         const username = content.username ?? target;
@@ -76,22 +120,12 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
-    private async sendInvitation(content: CommonContent, target: string): Promise<ResponseEmailSender> {
-        const campaignId = content.campaignId as string;
-        const userId = content.userId as string;
-        const username = content.username as string;
-        content.body = sendCampaignInviteEmailTemplate(campaignId, userId, username);
-
-        const sendEmailResult = await this.handleEmail('html', content, target);
-        return { success: sendEmailResult };
-    }
-
     public async send(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,
+            support: this.sendSupport,
             verification: this.sendVerification,
-            invitation: this.sendInvitation,
         };
 
         const result = await options[this.type](content, target);

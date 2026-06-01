@@ -49,7 +49,6 @@ export default class CampaignsController {
     private readonly removePlayerCharacterOperation;
     private readonly getCampaignCharactersOperation;
     private readonly getCharactersByPlayerOperation;
-    private readonly postInvitationEmailOperation;
     private readonly postCampaignLogOperation;
     private readonly postCampaignBuyOperation;
     private readonly updateCampaignPlayerLimitOperation;
@@ -83,7 +82,6 @@ export default class CampaignsController {
         removePlayerCharacterOperation,
         getCampaignCharactersOperation,
         getCharactersByPlayerOperation,
-        postInvitationEmailOperation,
         postCampaignLogOperation,
         postCampaignBuyOperation,
         updateCampaignPlayerLimitOperation,
@@ -118,7 +116,6 @@ export default class CampaignsController {
         this.getCampaignCharactersOperation = getCampaignCharactersOperation;
         this.getCharactersByPlayerOperation = getCharactersByPlayerOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
-        this.postInvitationEmailOperation = postInvitationEmailOperation;
         this.postCampaignLogOperation = postCampaignLogOperation;
         this.postCampaignBuyOperation = postCampaignBuyOperation;
         this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
@@ -158,7 +155,6 @@ export default class CampaignsController {
         this.getCampaignPlayers = this.getCampaignPlayers.bind(this);
         this.getCampaignJournalPosts = this.getCampaignJournalPosts.bind(this);
         this.getCampaignJournalHighlight = this.getCampaignJournalHighlight.bind(this);
-        this.inviteEmail = this.inviteEmail.bind(this);
         this.postCampaignLog = this.postCampaignLog.bind(this);
         this.postCampaignBuy = this.postCampaignBuy.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
@@ -226,18 +222,6 @@ export default class CampaignsController {
             payload,
         });
         return res.status(HttpStatusCode.CREATED).json(result);
-    }
-
-    public async inviteEmail(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { targetEmail } = req.query as { targetEmail: string };
-
-        await this.postInvitationEmailOperation.execute({
-            campaignId: id,
-            targetEmail,
-        });
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async postCampaignLog(req: Request, res: Response): Promise<Response> {

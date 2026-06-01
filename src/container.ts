@@ -21,7 +21,6 @@ import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
 import axios from 'axios';
 import TokenForbidden from './domains/common/helpers/TokenForbidden';
-import AccessHeadersMiddleware from './interface/common/middlewares/AccessHeadersMiddleware';
 import SocketIO from './infra/clients/SocketIO';
 import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
@@ -102,7 +101,6 @@ export default function setup(
         // #Function Middlewares
         verifyIdMiddleware: asValue(VerifyIdMiddleware),
         authErrorMiddleware: asValue(AuthErrorMiddleware),
-        accessHeadersMiddleware: asValue(AccessHeadersMiddleware),
         errorMiddleware: asValue(ErrorMiddleware),
     });
 

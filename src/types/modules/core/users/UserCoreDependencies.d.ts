@@ -8,6 +8,7 @@ import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetU
 import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
 import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
 import { PictureProfileOperationContract, PictureProfileServiceContract } from './users/PictureProfile';
+import { PostSupportEmailOperationContract, PostSupportEmailServiceContract } from './users/PostSupportEmail';
 import { ResetProfileOperationContract, ResetProfileServiceContract } from './users/ResetProfile';
 import { ResetTwoFactorOperationContract, ResetTwoFactorServiceContract } from './users/ResetTwoFactor';
 import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './users/VerifyEmail';
@@ -33,6 +34,7 @@ export default interface UserCoreDependencies {
     getUsersOperationContract: GetUsersOperationContract;
     logoutUserOperationContract: LogoutUserOperationContract;
     pictureProfileOperationContract: PictureProfileOperationContract;
+    postSupportEmailOperationContract: PostSupportEmailOperationContract;
     resetProfileOperationContract: ResetProfileOperationContract;
     updateEmailOperationContract: UpdateEmailOperationContract;
     updateGameInfoOperationContract: UpdateGameInfoOperationContract;
@@ -54,6 +56,7 @@ export default interface UserCoreDependencies {
     getUsersServiceContract: GetUsersServiceContract;
     logoutUserServiceContract: LogoutUserServiceContract;
     pictureProfileServiceContract: PictureProfileServiceContract;
+    postSupportEmailServiceContract: PostSupportEmailServiceContract;
     resetProfileServiceContract: ResetProfileServiceContract;
     updateEmailServiceContract: UpdateEmailServiceContract;
     updateGameInfoServiceContract: UpdateGameInfoServiceContract;

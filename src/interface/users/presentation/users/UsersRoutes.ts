@@ -63,6 +63,16 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
+                path: `${BASE_PATH}/me`,
+                controller: this.usersController.currentUser,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    tag: 'users',
+                    description: desc.currentUser,
+                },
+            },
+            {
+                method: 'get',
                 path: `${BASE_PATH}/logout`,
                 controller: this.usersController.logoutUser,
                 options: {
@@ -130,6 +140,18 @@ export default class UsersRoutes {
                     schemas: [{ body: this.usersSchemas.postLogin.body }],
                     tag: 'authentication',
                     description: desc.login,
+                },
+            },
+            {
+                method: 'post',
+                path: `${BASE_PATH}/:id/support/post`,
+                parameters: [...generateIDParam()],
+                controller: this.usersController.postSupportEmail,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.postSupportEmail.body }],
+                    tag: 'management',
+                    description: desc.postSupportEmail,
                 },
             },
             {

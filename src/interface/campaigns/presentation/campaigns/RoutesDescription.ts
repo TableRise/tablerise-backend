@@ -16,7 +16,6 @@ const removeMatchDate = 'Remove the next scheduled match date from the campaign.
 const publishment = 'Create a new journal post for the campaign.';
 const addCampaignPlayers = 'Add a player to the campaign.';
 const removeCampaignPlayers = 'Remove a player from the campaign.';
-const inviteEmail = 'Send a campaign invitation by email.';
 const postCampaignLog = 'Add a new entry to the campaign log.';
 const postCampaignBuy = 'Add a new buy entry to the campaign.';
 const addPlayerCharacter = 'Assign a character to a player in the campaign.';
@@ -60,7 +59,6 @@ export default {
     publishment,
     addCampaignPlayers,
     removeCampaignPlayers,
-    inviteEmail,
     postCampaignLog,
     postCampaignBuy,
     addPlayerCharacter,

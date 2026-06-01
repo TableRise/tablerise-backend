@@ -1,7 +1,6 @@
 import 'express-async-errors';
 
 import express from 'express';
-import session from 'cookie-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import cors from 'cors';
@@ -16,7 +15,6 @@ export default class Application {
     private readonly campaignsRoutesMiddleware;
     private readonly charactersRoutesMiddleware;
     private readonly swaggerGenerator;
-    private readonly accessHeadersMiddleware;
     private readonly errorMiddleware;
     private readonly socketIO;
     private readonly logger;
@@ -28,7 +26,6 @@ export default class Application {
         charactersRoutesMiddleware,
         errorMiddleware,
         swaggerGenerator,
-        accessHeadersMiddleware,
         socketIO,
         logger,
     }: ApplicationContract) {
@@ -37,7 +34,6 @@ export default class Application {
         this.campaignsRoutesMiddleware = campaignsRoutesMiddleware;
         this.charactersRoutesMiddleware = charactersRoutesMiddleware;
         this.swaggerGenerator = swaggerGenerator;
-        this.accessHeadersMiddleware = accessHeadersMiddleware;
         this.errorMiddleware = errorMiddleware;
         this.socketIO = socketIO;
         this.logger = logger;
@@ -53,27 +49,9 @@ export default class Application {
                     credentials: true,
                 })
             )
-            .use(
-                session({
-                    secret: (process.env.COOKIE_SECRET as string) || 'catfish',
-                })
-            )
-            .use((req, _res, next) => {
-                if (req.session && !req.session.regenerate) {
-                    req.session.regenerate = (cb: () => void) => {
-                        cb();
-                    };
-                    req.session.save = (cb: () => void) => {
-                        cb();
-                    };
-                }
-                next();
-            })
             .use(passport.initialize())
-            .use(passport.session())
             .use(cookieParser(process.env.COOKIE_SECRET))
             .use(helmet())
-            .use(this.accessHeadersMiddleware)
             .use('/health', (req, res) => res.send('OK!'))
             .use(this.swaggerGenerator)
             .use(this.usersRoutesMiddleware.get())

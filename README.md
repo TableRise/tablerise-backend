@@ -174,10 +174,22 @@ GOOGLE_CLIENT_SECRET=
 DISCORD_CLIENT_ID=
 DISCORD_CLIENT_SECRET=
 
-# Email (Nodemailer)
+# Email (SMTP provider)
+EMAIL_ENABLED=on
+EMAIL_FROM=TableRise <no-reply@yourdomain.com>
+SMTP_HOST=smtp.yourprovider.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=
+SMTP_PASS=
+
+# Support emails
+# Support requests sent by POST /users/:id/support/post are delivered to EMAIL_FROM
+
+# Legacy compatibility
 EMAIL_SENDING_USER=
 EMAIL_SENDING_PASSWORD=
-EMAIL_SENDING=smtp.example.com
+EMAIL_SENDING=off
 
 # Image storage (ImgBB)
 IMGBB_CLIENT_SECRET=
@@ -276,6 +288,7 @@ All endpoints except registration, login, and email verification require a valid
 | `GET`    | `/users/logout`                       | Logout current user                              |
 | `POST`   | `/users/register`                     | Register a new user                              |
 | `POST`   | `/users/login`                        | Login with email and password                    |
+| `POST`   | `/users/:id/support/post`             | Send an authenticated support email              |
 | `POST`   | `/users/:id/update/picture`           | Upload profile picture                           |
 | `POST`   | `/users/authenticate/email/send-code` | Send email verification code                     |
 | `POST`   | `/users/authenticate/email`           | Verify email code (initiates internal auth flow) |

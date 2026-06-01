@@ -17,6 +17,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
         usersSchemas = {
             postCreateUser: { example: {} },
             postLogin: { example: {} },
+            postSupportEmail: { body: {} },
             postUpdateUserProfilePicture: { example: {} },
             postValidateEmailSendCode: { query: {} },
             postAuthenticateEmail: { query: {} },
@@ -51,7 +52,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(22);
+            expect(routes).to.have.lengthOf(24);
+            expect(routes.find((route) => route.path === '/users/:id/support/post')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/users/me')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/users/:id/update')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.putUpdateUser.body,
             });

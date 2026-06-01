@@ -38,6 +38,7 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
         });
 
         it('should redirect to default URL when URL_TO_REDIRECT is not defined', async () => {
+            delete process.env.URL_TO_REDIRECT;
             request.user = { username: '' } as Express.User;
             googleOperation = {
                 execute: sinon.spy(() => ({
@@ -84,6 +85,29 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
             expect(googleOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://example.com-redirect?userId=123');
+        });
+
+        it('should only set the token cookie for google oauth login', async () => {
+            request.user = { username: '' } as Express.User;
+            googleOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    userId: '123',
+                    inProgress: { status: 'done' },
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: { httpOnly: true } }) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                discordOperation,
+                completeUserOperation,
+                loginUserOperation,
+            });
+
+            await oauthController.google(request, response);
+
+            expect(response.cookie).to.have.been.calledOnceWith('token', 'token-value', { httpOnly: true });
         });
 
         it('should correctly call the methods and functions', async () => {
@@ -231,6 +255,29 @@ describe('Interface :: Users :: Presentation :: Oauth :: OAuthController', () =>
 
             expect(discordOperation.execute).to.have.been.calledWith(request.user);
             expect(response.redirect).to.have.been.calledWith('http://example.com-redirect?userId=123');
+        });
+
+        it('should only set the token cookie for discord oauth login', async () => {
+            request.user = { username: '' } as Express.User;
+            discordOperation = {
+                execute: sinon.spy(() => ({
+                    token: 'token-value',
+                    userId: '123',
+                    inProgress: { status: 'done' },
+                })),
+            };
+            loginUserOperation = { execute: () => ({ cookieOptions: { httpOnly: true } }) };
+
+            oauthController = new OAuthController({
+                googleOperation,
+                discordOperation,
+                completeUserOperation,
+                loginUserOperation,
+            });
+
+            await oauthController.discord(request, response);
+
+            expect(response.cookie).to.have.been.calledOnceWith('token', 'token-value', { httpOnly: true });
         });
 
         it('should correctly call the methods and functions', async () => {
