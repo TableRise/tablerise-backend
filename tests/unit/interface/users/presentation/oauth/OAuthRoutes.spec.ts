@@ -1,6 +1,5 @@
 import passport from 'passport';
 import sinon from 'sinon';
-import AuthErrorMiddleware from 'src/interface/common/middlewares/AuthErrorMiddleware';
 import OAuthController from 'src/interface/users/presentation/oauth/OAuthController';
 import OAuthRoutes from 'src/interface/users/presentation/oauth/OAuthRoutes';
 import { OAuthRoutesContract } from 'src/types/modules/interface/users/presentation/oauth/OAuthRoutes';
