@@ -93,6 +93,7 @@ export default class CreateUserService {
             equipBoughtAmount: 0,
         };
         userDetails.role = 'user';
+        userDetails.rank = 'bronze';
 
         return {
             userEnriched: user,

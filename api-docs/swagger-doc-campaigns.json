@@ -1,1 +1,1986 @@
-{"openapi":"3.0.3","info":{"title":"TableRise - campaigns","contact":{"email":"tablerise@outlook.com","name":"tablerise"},"license":{"name":"MIT","url":"https://opensource.org/licenses/MIT"},"version":"3.0.0"},"servers":[{"url":"http://localhost:3001/"}],"tags":[{"name":"recover"},{"name":"create"},{"name":"management"},{"name":"update"},{"name":"delete"}],"paths":{"/campaigns/{id}":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Get a campaign by its id."}},"/campaigns":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"title","in":"query","required":false,"schema":{"type":"string"}},{"name":"code","in":"query","required":false,"schema":{"type":"string"}}],"description":"List campaigns, with optional filters by title or code."}},"/campaigns/{id}/characters":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"List all characters currently linked to the campaign."}},"/campaigns/{id}/players":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"List all players currently linked to the campaign."}},"/campaigns/{id}/characters-by-player":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"List the authenticated player characters available in the campaign."}},"/campaigns/{id}/journal/posts":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"List all journal posts for the campaign."}},"/campaigns/{id}/journal/highlight":{"get":{"tags":["recover"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Get the highlighted journal post for the campaign."}},"/campaigns/create":{"post":{"tags":["create"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"description":"Create a new campaign and return the saved campaign data.","requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"title":{"type":"string","example":"2h>g_+/Z47"},"description":{"type":"string","example":"[}?>V$w$nL"},"system":{"type":"string","example":"*fpq(Ubt?n"},"musics":{"type":"string","example":"$q|0P!nf&V"},"playerAmountLimit":{"type":"string","example":"p}G-z$`aqh"},"ageRestriction":{"type":"string","example":"<xpsG/h!,J"},"configurations":{"type":"string","example":"E]5@f2F9#N"},"mainHistory":{"type":"string","example":"._J!<<n-fk"}}}}}}}},"/campaigns/{id}/journal/post":{"post":{"tags":["create"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Create a new journal post for the campaign.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"title":{"type":"string","example":"l)kW498a{n"},"content":{"type":"string","example":"DeYdxuU30s"},"category":{"type":"string","example":"o\\!4L0MVcT"}}}}}}}},"/campaigns/{id}/logs":{"post":{"tags":["create"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Add a new entry to the campaign log.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"loggedAt":{"type":"string","example":"C{5Su/n=q%"},"content":{"type":"string","example":"_T0[p7TO2O"}}}}}}}},"/campaigns/{id}/buys":{"post":{"tags":["create"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Add a new buy entry to the campaign.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string","example":"_\"/,g\\W6$@"},"cost":{"type":"string","example":"yv%y7y'[1r"},"character":{"type":"string","example":"l4OG)5&\"bu"},"user":{"type":"string","example":":m59E)rjQH"},"date":{"type":"string","example":"#30!z:nSCx"}}}}}}}},"/campaigns/{id}/update/player/add":{"post":{"tags":["management"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"password","in":"query","required":false,"schema":{"type":"string"}},{"name":"userToAdd","in":"query","required":false,"schema":{"type":"string"}}],"description":"Add a player to the campaign."}},"/campaigns/{id}/update/player/remove":{"post":{"tags":["management"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"userToRemove","in":"query","required":false,"schema":{"type":"string"}}],"description":"Remove a player from the campaign."}},"/campaigns/{id}/update/match/player-presence":{"post":{"tags":["management"],"responses":{"201":{"description":"Created"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"cancel","in":"query","required":true,"schema":{"type":"boolean"}}],"description":"Confirm or cancel the authenticated player presence for the next match."}},"/campaigns/{id}/update":{"put":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Update the main campaign information.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{}}}}}}},"/campaigns/{id}/update/journal":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"userId","in":"query","required":true,"schema":{"type":"string"}}],"description":"Edit a campaign journal post. Available to the post author.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"postId":{"type":"string","example":"{1Osn@qZ97"},"title":{"type":"string","example":"#e*qFjrP*["},"post":{"type":"string","example":"BIBW,d-&>}"},"category":{"type":"string","example":"y+MliFr`%g"}}}}}}}},"/campaigns/{id}/update/notes":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"title","in":"query","required":true,"schema":{"type":"string"}}],"description":"Edit one of the authenticated player notes in the campaign by title.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"content":{"type":"string","example":"wk9zndIyU2"}}}}}}}},"/campaigns/{id}/update/notes/remove":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"title","in":"query","required":true,"schema":{"type":"string"}}],"description":"Remove one of the authenticated player notes in the campaign by title."}},"/campaigns/{id}/delete/journal":{"delete":{"tags":["delete"],"responses":{"204":{"description":"No content"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"userId","in":"query","required":true,"schema":{"type":"string"}},{"name":"postId","in":"query","required":true,"schema":{"type":"string"}}],"description":"Delete a campaign journal post. Available to the post author, an admin player, or the dungeon master."}},"/campaigns/{id}/update/journal/highlight":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Set or update the highlighted journal post. Available to the dungeon master or an admin player.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"toggle":{"type":"string","example":"S!t_p\"5`V_"}}}}}}}},"/campaigns/{id}/update/match/map-images/add":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Add map images to the active match.","requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{}}}}}}},"/campaigns/{id}/update/match/images":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Add gallery images to the active match.","requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{}}}}}}},"/campaigns/{id}/update/match/images/highlight":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"imageId","in":"query","required":false,"schema":{"type":"string"}},{"name":"remove","in":"query","required":false,"schema":{"type":"boolean"}}],"description":"Highlight one gallery image for every player in the active match."}},"/campaigns/{id}/update/match/map-images/remove":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"imageUrl","in":"query","required":true,"schema":{"type":"string"}}],"description":"Remove one map image from the active match."}},"/campaigns/{id}/update/infos/player-limit":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"newLimit","in":"query","required":true,"schema":{"type":"number"}}],"description":"Update the maximum number of players allowed in the campaign."}},"/campaigns/{id}/update/match/musics/add":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Add a music track to the active match.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","example":"$xG_))>8AA"},"title":{"type":"string","example":"']>%zc8\"NN"},"thumbnail":{"type":"string","example":"9\\IIlL2&j_"}}}}}}}},"/campaigns/{id}/update/match/musics/remove":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Remove a music track from the active match.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","example":"A|,@k^r!pE"}}}}}}}},"/campaigns/{id}/update/match/musics/edit":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Edit one music track from the active match.","requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","example":"cfr6>@m/3Q"},"title":{"type":"string","example":"(|NzG21eVR"},"thumbnail":{"type":"string","example":"c\\h|G^<a^n"}}}}}}}},"/campaigns/{id}/update/infos/match-dates/add":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"date","in":"query","required":true,"schema":{"type":"string"}}],"description":"Set the next scheduled match date for the campaign."}},"/campaigns/{id}/update/infos/match-dates/remove":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Remove the next scheduled match date from the campaign."}},"/campaigns/{id}/update/player/dungeon-master":{"patch":{"tags":["management"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"userToMaster","in":"query","required":true,"schema":{"type":"string"}}],"description":"Transfer the dungeon master role to another player in the campaign."}},"/campaigns/{id}/update/player/confirm":{"patch":{"tags":["management"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"userToActivate","in":"query","required":true,"schema":{"type":"string"}}],"description":"Approve a pending player in the campaign. Available to the dungeon master or an admin player."}},"/campaigns/{id}/update/player/character/add":{"patch":{"tags":["management"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"characterId","in":"query","required":true,"schema":{"type":"string"}}],"description":"Assign a character to a player in the campaign."}},"/campaigns/{id}/update/player/character/remove":{"patch":{"tags":["management"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"characterId","in":"query","required":true,"schema":{"type":"string"}}],"description":"Remove a player character from the campaign."}},"/campaigns/{id}/update/cover/remove":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Remove the campaign cover image."}},"/campaigns/{id}/update/cover":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Upload or replace the campaign cover image.","requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"picture":{"type":"object","example":{}}}}}}}}},"/campaigns/{id}/update/match/character/picture":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"consumes":["multipart/form-data"],"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"characterId","in":"query","required":true,"schema":{"type":"string"}}],"description":"Upload or replace a character token for the active match.","requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"picture":{"type":"object","example":{}}}}}}}}},"/campaigns/{id}/close":{"patch":{"tags":["update"],"responses":{"200":{"description":"OK"},"400":{"description":"Bad Request"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"422":{"description":"Unprocessable Entity"},"500":{"description":"Internal"}},"parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"description":"Close a campaign by updating its status to closed. This action is only available to the dungeon master."}}},"components":{"securitySchemes":{"bearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}}}
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TableRise",
+    "version": "1.0.0"
+  },
+  "servers": [],
+  "tags": [
+    {
+      "name": "create"
+    },
+    {
+      "name": "delete"
+    },
+    {
+      "name": "management"
+    },
+    {
+      "name": "recover"
+    },
+    {
+      "name": "update"
+    }
+  ],
+  "paths": {
+    "/campaigns/{id}": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Get a campaign by its id."
+      }
+    },
+    "/campaigns": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "List campaigns, with optional filters by title or code."
+      }
+    },
+    "/campaigns/{id}/characters": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "List all characters currently linked to the campaign."
+      }
+    },
+    "/campaigns/{id}/players": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "List all players currently linked to the campaign."
+      }
+    },
+    "/campaigns/{id}/characters-by-player": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "List the authenticated player characters available in the campaign."
+      }
+    },
+    "/campaigns/{id}/journal/posts": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "List all journal posts for the campaign."
+      }
+    },
+    "/campaigns/{id}/journal/highlight": {
+      "get": {
+        "tags": [
+          "recover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Get the highlighted journal post for the campaign."
+      }
+    },
+    "/campaigns/create": {
+      "post": {
+        "tags": [
+          "create"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "description": "Create a new campaign and return the saved campaign data.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "cover": {
+                    "type": "string"
+                  },
+                  "mapImages": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "visibility": {
+                    "type": "string",
+                    "enum": [
+                      "hidden",
+                      "visible"
+                    ]
+                  },
+                  "system": {
+                    "type": "string",
+                    "enum": [
+                      "dnd5e"
+                    ]
+                  },
+                  "musics": {
+                    "type": "string"
+                  },
+                  "nextMatchDate": {
+                    "type": "string"
+                  },
+                  "playerAmountLimit": {
+                    "type": "string"
+                  },
+                  "ageRestriction": {
+                    "type": "string"
+                  },
+                  "socialMedia": {
+                    "type": "string"
+                  },
+                  "configurations": {
+                    "type": "string"
+                  },
+                  "mainHistory": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "description",
+                  "system",
+                  "musics",
+                  "playerAmountLimit",
+                  "ageRestriction",
+                  "configurations",
+                  "mainHistory"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/journal/post": {
+      "post": {
+        "tags": [
+          "create"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Create a new journal post for the campaign.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content",
+                  "category"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/buys": {
+      "post": {
+        "tags": [
+          "create"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add a new buy entry to the campaign.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "cost": {
+                    "type": "string"
+                  },
+                  "character": {
+                    "type": "string"
+                  },
+                  "user": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "cost",
+                  "character",
+                  "user",
+                  "date"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/player/add": {
+      "post": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "password",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userToAdd",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add a player to the campaign."
+      }
+    },
+    "/campaigns/{id}/update/player/remove": {
+      "post": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "userToRemove",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove a player from the campaign."
+      }
+    },
+    "/campaigns/{id}/update/match/player-presence": {
+      "post": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "cancel",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Confirm or cancel the authenticated player presence for the next match."
+      }
+    },
+    "/campaigns/{id}/update": {
+      "put": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Update the main campaign information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "visibility": {
+                    "type": "string",
+                    "enum": [
+                      "hidden",
+                      "visible"
+                    ]
+                  },
+                  "ageRestriction": {
+                    "type": "string",
+                    "enum": [
+                      "10",
+                      "14",
+                      "16",
+                      "L",
+                      "+18"
+                    ]
+                  },
+                  "nextMatchDate": {
+                    "type": "string"
+                  },
+                  "nextSessionResume": {
+                    "type": "string"
+                  },
+                  "playerAmountLimit": {
+                    "type": "number"
+                  },
+                  "socialMedia": {
+                    "type": "object",
+                    "properties": {
+                      "discord": {
+                        "type": "string"
+                      },
+                      "twitter": {
+                        "type": "string"
+                      },
+                      "youtube": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "adminId": {
+                    "type": "string"
+                  },
+                  "configurations": {
+                    "type": "object",
+                    "properties": {
+                      "shopOn": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "shopOn"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/journal": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Edit a campaign journal post. Available to the post author.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "postId": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "post": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "master",
+                      "admin",
+                      "players",
+                      "characters-players",
+                      "characters-master",
+                      "environment",
+                      "world-news",
+                      "announcements"
+                    ]
+                  }
+                },
+                "required": [
+                  "postId",
+                  "title",
+                  "post",
+                  "category"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/notes": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Edit one of the authenticated player notes in the campaign by title.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "content"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/notes/remove": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove one of the authenticated player notes in the campaign by title."
+      }
+    },
+    "/campaigns/{id}/delete/journal": {
+      "delete": {
+        "tags": [
+          "delete"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Delete a campaign journal post. Available to the post author, an admin player, or the dungeon master."
+      }
+    },
+    "/campaigns/{id}/update/journal/highlight": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Set or update the highlighted journal post. Available to the dungeon master or an admin player.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "toggle": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off"
+                    ]
+                  },
+                  "post": {
+                    "type": "object",
+                    "properties": {
+                      "postId": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "author": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string"
+                          },
+                          "characterIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "role": {
+                            "type": "string",
+                            "enum": [
+                              "admin_player",
+                              "dungeon_master",
+                              "player"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "pending",
+                              "active",
+                              "inactive",
+                              "banned"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "userId",
+                          "characterIds",
+                          "role",
+                          "status"
+                        ]
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "timestamp": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string",
+                        "enum": [
+                          "master",
+                          "admin",
+                          "players",
+                          "characters-players",
+                          "characters-master",
+                          "environment",
+                          "world-news",
+                          "announcements"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "author",
+                      "content",
+                      "timestamp",
+                      "category"
+                    ]
+                  }
+                },
+                "required": [
+                  "toggle"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/match/map-images/add": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add map images to the active match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mapImages": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/match/images": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add gallery images to the active match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/match/images/highlight": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "remove",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Highlight one gallery image for every player in the active match."
+      }
+    },
+    "/campaigns/{id}/update/match/map-images/remove": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove one map image from the active match."
+      }
+    },
+    "/campaigns/{id}/update/match/musics/add": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add a music track to the active match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "thumbnail": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "thumbnail"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/match/musics/remove": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove a music track from the active match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/match/musics/edit": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Edit one music track from the active match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "thumbnail": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "thumbnail"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/update/player/dungeon-master": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "userToMaster",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Transfer the dungeon master role to another player in the campaign."
+      }
+    },
+    "/campaigns/{id}/update/player/confirm": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "userToActivate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Approve a pending player in the campaign. Available to the dungeon master or an admin player."
+      }
+    },
+    "/campaigns/{id}/update/player/character/add": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "characterId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Assign a character to a player in the campaign."
+      }
+    },
+    "/campaigns/{id}/update/player/character/remove": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "characterId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove a player character from the campaign."
+      }
+    },
+    "/campaigns/{id}/update/cover/remove": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove the campaign cover image."
+      }
+    },
+    "/campaigns/{id}/update/cover": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Upload or replace the campaign cover image.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "picture": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "picture"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/close": {
+      "patch": {
+        "tags": [
+          "update"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Close a campaign by updating its status to closed. This action is only available to the dungeon master."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "token"
+      }
+    }
+  }
+}

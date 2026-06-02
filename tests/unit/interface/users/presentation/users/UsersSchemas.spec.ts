@@ -34,4 +34,25 @@ describe('Interface :: Users :: Presentation :: Users :: UsersSchemas', () => {
             })
         ).to.throw();
     });
+
+    it('should validate profile picture payloads for both browser and multer uploads', () => {
+        const schemas = UsersSchemas();
+
+        expect(() =>
+            schemas.postUpdateUserProfilePicture.body.parse({
+                picture: new File(['cover'], 'cover.png', { type: 'image/png' }),
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.postUpdateUserProfilePicture.body.parse({
+                picture: {
+                    fieldname: 'picture',
+                    originalname: 'cover.png',
+                    mimetype: 'image/png',
+                    buffer: Buffer.from('cover'),
+                },
+            })
+        ).to.not.throw();
+    });
 });

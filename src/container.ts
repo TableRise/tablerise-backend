@@ -1,21 +1,16 @@
 import nodemailer from 'nodemailer';
 /* eslint-disable import/first */
-import { createContainer, InjectionMode, asClass, asFunction, asValue } from 'awilix';
+import { createContainer, InjectionMode, asClass, asValue } from 'awilix';
 import path from 'path';
 import logger from '@tablerise/dynamic-logger';
 import DatabaseManagement from '@tablerise/database-management';
 import SchemaValidator from './domains/common/helpers/SchemaValidator';
 import EmailSender from './domains/users/helpers/EmailSender';
-import swaggerGenerator from './domains/common/helpers/swaggerGenerator';
 import Serializer from './domains/common/helpers/Serializer';
 import VerifyIdMiddleware from './interface/common/middlewares/VerifyIdMiddleware';
 import ErrorMiddleware from './interface/common/middlewares/ErrorMiddleware';
 import Application from './core/Application';
-import RoutesWrapper from './interface/common/RoutesWrapper';
-import UsersRoutesBuilder from './interface/users/UsersRoutesBuilder';
-import CampaignsRoutesBuilder from './interface/campaigns/CampaignsRoutesBuilder';
 import AuthErrorMiddleware from './interface/common/middlewares/AuthErrorMiddleware';
-import DungeonsAndDragonsRoutesBuilder from './interface/dungeons&dragons5e/DungeonsAndDragonsRoutesBuilder';
 import { ContainerContract } from './types/container';
 import TwoFactorHandler from './domains/common/helpers/TwoFactorHandler';
 import ImageStorageClient from './infra/clients/ImageStorageClient';
@@ -25,7 +20,6 @@ import SocketIO from './infra/clients/SocketIO';
 import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
-import CharactersRoutesBuilder from './interface/characters/CharactersRoutesBuilder';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -62,11 +56,6 @@ export default function setup(
     container.register({
         // #Setup
         application: asClass(Application).singleton(),
-        routesWrapper: asClass(RoutesWrapper).singleton(),
-        usersRoutesBuilder: asClass(UsersRoutesBuilder).singleton(),
-        campaignsRoutesBuilder: asClass(CampaignsRoutesBuilder).singleton(),
-        charactersRoutesBuilder: asClass(CharactersRoutesBuilder).singleton(),
-        dungeonsAndDragonsRoutesBuilder: asClass(DungeonsAndDragonsRoutesBuilder).singleton(),
         database: asClass(DatabaseManagement).singleton(),
         redisClient: asValue(DatabaseManagement.connect(true, 'redis')),
         configs: asValue(configs),
@@ -80,7 +69,6 @@ export default function setup(
         schemaValidator: asClass(SchemaValidator).singleton(),
         emailSender: asClass(EmailSender).singleton(),
         serializer: asClass(Serializer).singleton(),
-        swaggerGenerator: asFunction(swaggerGenerator),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),
 

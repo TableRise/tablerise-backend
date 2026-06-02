@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ICharactersSchemas } from 'src/types/modules/interface/characters/presentation/characters/CharactersSchemas';
+import uploadedFileSchema from 'src/interface/common/helpers/uploadedFileSchema';
 
 // ─── POST (create) ────────────────────────────────────────────────────────────
 
@@ -276,12 +277,8 @@ const updateCharacterZodSchema = z.object({
     data: dataUpdateZodSchema,
 });
 
-const insertOrganizationPictureZodSchema = z.object({
-    orgName: z.string(),
-});
-
 const insertCharacterPictureZodSchema = z.object({
-    picture: z.file(),
+    picture: uploadedFileSchema,
 });
 
 const updateMoneyZodSchema = z.object({
@@ -290,11 +287,14 @@ const updateMoneyZodSchema = z.object({
     moneyType: z.enum(['PC', 'PP', 'PE', 'PO', 'PL']),
 });
 
+const updateEquipmentQueryZodSchema = z.object({
+    equipmentId: z.string(),
+});
+
 // ─── Exports ──────────────────────────────────────────────────────────────────
 
 export type TCreateCharacterBody = z.infer<typeof characterPostZodSchema>;
 export type TUpdateCharacterBody = z.infer<typeof updateCharacterZodSchema>;
-export type TInsertOrgPictureQuery = z.infer<typeof insertOrganizationPictureZodSchema>;
 export type TInsertCharacterPictureBody = z.infer<typeof insertCharacterPictureZodSchema>;
 export type TUpdateMoneyBody = z.infer<typeof updateMoneyZodSchema>;
 
@@ -305,11 +305,14 @@ export default (): ICharactersSchemas => ({
     putUpdateCharacter: {
         body: updateCharacterZodSchema,
     },
-    postOrganizationPicture: {
-        query: insertOrganizationPictureZodSchema,
-    },
     postCharacterPicture: {
         body: insertCharacterPictureZodSchema,
+    },
+    patchAddEquipment: {
+        query: updateEquipmentQueryZodSchema,
+    },
+    patchRemoveEquipment: {
+        query: updateEquipmentQueryZodSchema,
     },
     patchUpdateMoney: {
         body: updateMoneyZodSchema,

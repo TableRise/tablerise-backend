@@ -10,7 +10,6 @@ export default class CharactersController {
     private readonly getCharacterByIdOperation;
     private readonly updateCharacterOperation;
     private readonly updateCharacterPictureOperation;
-    private readonly orgPictureUploadOperation;
     private readonly addEquipmentOperation;
     private readonly removeEquipmentOperation;
     private readonly updateCharacterMoneyOperation;
@@ -20,7 +19,6 @@ export default class CharactersController {
         createCharacterOperation,
         getAllCharactersOperation,
         getCharacterByIdOperation,
-        orgPictureUploadOperation,
         updateCharacterOperation,
         updateCharacterPictureOperation,
         addEquipmentOperation,
@@ -31,7 +29,6 @@ export default class CharactersController {
         this.createCharacterOperation = createCharacterOperation;
         this.getAllCharactersOperation = getAllCharactersOperation;
         this.getCharacterByIdOperation = getCharacterByIdOperation;
-        this.orgPictureUploadOperation = orgPictureUploadOperation;
         this.updateCharacterPictureOperation = updateCharacterPictureOperation;
         this.updateCharacterOperation = updateCharacterOperation;
         this.addEquipmentOperation = addEquipmentOperation;
@@ -44,7 +41,6 @@ export default class CharactersController {
         this.getAll = this.getAll.bind(this);
         this.updateCharacterPicture = this.updateCharacterPicture.bind(this);
         this.updateCharacter = this.updateCharacter.bind(this);
-        this.organizationPicture = this.organizationPicture.bind(this);
         this.addEquipment = this.addEquipment.bind(this);
         this.removeEquipment = this.removeEquipment.bind(this);
         this.updateCharacterMoney = this.updateCharacterMoney.bind(this);
@@ -64,19 +60,6 @@ export default class CharactersController {
 
         const result = await this.getCharacterByIdOperation.execute(id);
         return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async organizationPicture(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { orgName } = req.query as { orgName: string };
-
-        const result = await this.orgPictureUploadOperation.execute({
-            orgName,
-            characterId: id,
-            image: req.file as FileObject,
-        });
-
-        return res.status(HttpStatusCode.CREATED).json(result);
     }
 
     public async updateCharacter(req: Request, res: Response): Promise<Response> {

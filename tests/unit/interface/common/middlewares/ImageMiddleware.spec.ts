@@ -49,10 +49,12 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
                 filename: '',
                 path: '',
             };
+            request.body = {};
 
             imageMiddleware.fileType(request, response, next);
 
             expect(next).to.have.been.called();
+            expect(request.body.file).to.equal(request.file);
         });
 
         it('should throw an error - invalid extension', async () => {
@@ -89,6 +91,7 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
 
         it('should call next - with req.files as array', async () => {
             request.file = undefined;
+            request.body = {};
             request.files = [
                 {
                     buffer: bufferMock,
@@ -107,11 +110,13 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
             imageMiddleware.fileType(request, response, next);
 
             expect(next).to.have.been.called();
+            expect(request.body.images).to.deep.equal(request.files);
             request.files = undefined;
         });
 
         it('should call next - with req.files as fields object', async () => {
             request.file = undefined;
+            request.body = {};
             request.files = {
                 cover: [
                     {
@@ -132,6 +137,7 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
             imageMiddleware.fileType(request, response, next);
 
             expect(next).to.have.been.called();
+            expect(request.body.cover).to.deep.equal(request.files.cover);
             request.files = undefined;
         });
 

@@ -19,7 +19,6 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
             updateMatchMapImagesOperation: { execute: sinon.stub() },
             updateMatchImagesOperation: { execute: sinon.stub() },
             updateMatchHighlightedImageOperation: { execute: sinon.stub() },
-            updateMatchDateOperation: { add: sinon.stub(), remove: sinon.stub() },
             addCampaignPlayersOperation: { execute: sinon.stub() },
             removeCampaignPlayersOperation: { execute: sinon.stub() },
             addPlayerCharacterOperation: { execute: sinon.stub() },
@@ -27,15 +26,12 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
             getCampaignCharactersOperation: { execute: sinon.stub() },
             getCharactersByPlayerOperation: { execute: sinon.stub() },
             postInvitationEmailOperation: { execute: sinon.stub() },
-            postCampaignLogOperation: { execute: sinon.stub() },
             postCampaignBuyOperation: { execute: sinon.stub() },
-            updateCampaignPlayerLimitOperation: { execute: sinon.stub() },
             confirmMatchPlayerPresenceOperation: { execute: sinon.stub() },
             confirmCampaignPlayerOperation: { execute: sinon.stub() },
             updateCampaignCoverOperation: { execute: sinon.stub() },
             removeCampaignImageOperation: { removeCover: sinon.stub(), removeMatchMapImage: sinon.stub() },
             transferDungeonMasterOperation: { execute: sinon.stub() },
-            updateMatchCharacterPictureOperation: { execute: sinon.stub() },
             updateCampaignJournalHighlightOperation: { execute: sinon.stub() },
             updateCampaignJournalPostOperation: { execute: sinon.stub() },
             deleteCampaignJournalPostOperation: { execute: sinon.stub() },
@@ -162,12 +158,10 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
         expect(transferRes.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
     });
 
-    it('should cover cover and match character picture upload handlers', async () => {
+    it('should cover the campaign cover upload handler', async () => {
         const updateCampaignCoverOperation = { execute: sinon.stub().resolves({ id: 'cover-1' }) };
-        const updateMatchCharacterPictureOperation = { execute: sinon.stub().resolves({ id: 'img-1' }) };
         const controller = buildController({
             updateCampaignCoverOperation,
-            updateMatchCharacterPictureOperation,
         });
 
         const coverReq = {
@@ -182,20 +176,6 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
         });
         expect(coverRes.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(coverRes.json).to.have.been.calledWith({ id: 'cover-1' });
-
-        const pictureReq = {
-            params: { id: 'campaign-1' },
-            query: { characterId: 'char-1' },
-            file: { originalname: 'char.png' },
-        } as unknown as Request;
-        const pictureRes = buildResponse();
-        await controller.updateMatchCharacterPicture(pictureReq, pictureRes);
-        expect(updateMatchCharacterPictureOperation.execute).to.have.been.calledWith({
-            campaignId: 'campaign-1',
-            characterId: 'char-1',
-            picture: { originalname: 'char.png' },
-        });
-        expect(pictureRes.json).to.have.been.calledWith({ id: 'img-1' });
     });
 
     it('should cover removePlayerCharacter handler', async () => {

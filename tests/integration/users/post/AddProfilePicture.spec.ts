@@ -32,8 +32,6 @@ describe('When a profile picture is uploaded', () => {
         it('should return correct user with picture', async () => {
             const { body } = await requester()
                 .post(`/users/${user.userId}/update/picture`)
-                .set('Content-Type', 'multipart/form-data')
-                .set('connection', 'keep-alive')
                 .attach('picture', filePath)
                 .expect(HttpStatusCode.OK);
 

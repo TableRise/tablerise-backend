@@ -8,6 +8,7 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
         getSpellOperation: any,
         getAllSpellsOperation: any,
         getDisabledSpellsOperation: any,
+        getByLevelOperation: any,
         toggleSpellsAvailabilityOperation: any;
 
     context('#get', () => {
@@ -21,12 +22,14 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
             getSpellOperation = { execute: sinon.spy(() => ({})) };
             getAllSpellsOperation = { execute: () => ({}) };
             getDisabledSpellsOperation = { execute: () => ({}) };
+            getByLevelOperation = { execute: () => ({}) };
             toggleSpellsAvailabilityOperation = { execute: () => ({}) };
 
             spellsController = new SpellsController({
                 getSpellOperation,
                 getAllSpellsOperation,
                 getDisabledSpellsOperation,
+                getByLevelOperation,
                 toggleSpellsAvailabilityOperation,
             });
         });
@@ -52,12 +55,14 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
             getSpellOperation = { execute: () => ({}) };
             getAllSpellsOperation = { execute: sinon.spy(() => ({})) };
             getDisabledSpellsOperation = { execute: () => ({}) };
+            getByLevelOperation = { execute: () => ({}) };
             toggleSpellsAvailabilityOperation = { execute: () => ({}) };
 
             spellsController = new SpellsController({
                 getSpellOperation,
                 getAllSpellsOperation,
                 getDisabledSpellsOperation,
+                getByLevelOperation,
                 toggleSpellsAvailabilityOperation,
             });
         });
@@ -82,12 +87,14 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
             getSpellOperation = { execute: () => ({}) };
             getAllSpellsOperation = { execute: () => ({}) };
             getDisabledSpellsOperation = { execute: sinon.spy(() => ({})) };
+            getByLevelOperation = { execute: () => ({}) };
             toggleSpellsAvailabilityOperation = { execute: () => ({}) };
 
             spellsController = new SpellsController({
                 getSpellOperation,
                 getAllSpellsOperation,
                 getDisabledSpellsOperation,
+                getByLevelOperation,
                 toggleSpellsAvailabilityOperation,
             });
         });
@@ -96,6 +103,39 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
             await spellsController.getDisabled(request, response);
 
             expect(getDisabledSpellsOperation.execute).to.have.been.called();
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+            expect(response.json).to.have.been.called();
+        });
+    });
+
+    context('#getByLevel', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            getSpellOperation = { execute: () => ({}) };
+            getAllSpellsOperation = { execute: () => ({}) };
+            getDisabledSpellsOperation = { execute: () => ({}) };
+            getByLevelOperation = { execute: sinon.spy(() => ({})) };
+            toggleSpellsAvailabilityOperation = { execute: () => ({}) };
+
+            spellsController = new SpellsController({
+                getSpellOperation,
+                getAllSpellsOperation,
+                getDisabledSpellsOperation,
+                getByLevelOperation,
+                toggleSpellsAvailabilityOperation,
+            });
+        });
+
+        it('should correctly call the getByLevel operation', async () => {
+            request.query = { queryLevel: '4' };
+            await spellsController.getByLevel(request, response);
+
+            expect(getByLevelOperation.execute).to.have.been.calledWith(4);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
@@ -112,12 +152,14 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Spells :: SpellsC
             getSpellOperation = { execute: () => ({}) };
             getAllSpellsOperation = { execute: () => ({}) };
             getDisabledSpellsOperation = { execute: () => ({}) };
+            getByLevelOperation = { execute: () => ({}) };
             toggleSpellsAvailabilityOperation = { execute: sinon.spy(() => ({})) };
 
             spellsController = new SpellsController({
                 getSpellOperation,
                 getAllSpellsOperation,
                 getDisabledSpellsOperation,
+                getByLevelOperation,
                 toggleSpellsAvailabilityOperation,
             });
         });

@@ -67,7 +67,7 @@ export function syncRankByBadgesLength(userDetails: UserDetail): UserDetail {
     const badgesLength = userDetails.gameInfo?.badges?.length ?? 0;
     const matchedRule = BADGE_RANK_RULES.find((rule) => badgesLength >= rule.badgesAmount);
 
-    userDetails.rank = matchedRule?.rank ?? '';
+    userDetails.rank = matchedRule?.rank ?? 'bronze';
 
     return userDetails;
 }

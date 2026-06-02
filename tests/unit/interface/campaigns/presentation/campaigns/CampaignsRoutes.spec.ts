@@ -18,18 +18,17 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
         campaignsSchemas = {
             postCreateCampaign: { body: {} },
             postCreateCampaignPublishment: { body: {} },
-            postCampaignLog: { body: {} },
             postCampaignBuy: { body: {} },
             postAddCampaignPlayers: { query: {} },
+            postRemoveCampaignPlayers: { query: {} },
+            postConfirmPlayerPresence: { query: {} },
             putUpdateCampaign: { body: {} },
             patchUpdateCampaignMatchMapImages: { body: {} },
             patchAddCampaignMatchMusics: { body: {} },
             patchRemoveCampaignMatchMusic: { body: {} },
             patchEditCampaignMatchMusic: { body: {} },
-            patchAddCampaignMatchDate: { query: {} },
             patchUpdateCampaignPlayerCharacter: { query: {} },
             patchRemoveCampaignPlayerCharacter: { query: {} },
-            patchUpdateCampaignPlayerLimit: { query: {} },
             patchUpdateCampaignJournalHighlight: { body: {} },
             patchUpdateCampaignPlayerNote: { query: {}, body: {} },
             patchRemoveCampaignPlayerNote: { query: {} },
@@ -39,7 +38,6 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             patchUpdateCampaignCover: { body: {} },
             patchRemoveCampaignMatchMapImage: { query: {} },
             patchTransferDungeonMaster: { query: {} },
-            patchUpdateMatchCharacterPicture: { body: {} },
             getAllCampaigns: { query: {} },
             patchUpdateCampaignJournalPost: { query: {}, body: {} },
             patchDeleteCampaignJournalPost: { query: {} },
@@ -56,7 +54,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
 
         it('Should return the correct number of routes', () => {
             const routes = campaignsRoutes.routes();
-            expect(routes).to.have.lengthOf(38);
+            expect(routes).to.have.lengthOf(34);
         });
 
         it('should include the journal highlight routes', () => {
@@ -83,8 +81,30 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsRoutes
             ).to.be.true;
             expect(routes.some((route) => route.path === '/campaigns/:id/close' && route.method === 'patch')).to.be
                 .true;
-            expect(routes.some((route) => route.path === '/campaigns/:id/logs' && route.method === 'post')).to.be.true;
             expect(routes.some((route) => route.path === '/campaigns/:id/buys' && route.method === 'post')).to.be.true;
+            expect(routes.some((route) => route.path === '/campaigns/:id/logs' && route.method === 'post')).to.be.false;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/infos/player-limit' && route.method === 'patch'
+                )
+            ).to.be.false;
+            expect(
+                routes.some(
+                    (route) => route.path === '/campaigns/:id/update/infos/match-dates/add' && route.method === 'patch'
+                )
+            ).to.be.false;
+            expect(
+                routes.some(
+                    (route) =>
+                        route.path === '/campaigns/:id/update/infos/match-dates/remove' && route.method === 'patch'
+                )
+            ).to.be.false;
+            expect(
+                routes.some(
+                    (route) =>
+                        route.path === '/campaigns/:id/update/match/character/picture' && route.method === 'patch'
+                )
+            ).to.be.false;
         });
     });
 });

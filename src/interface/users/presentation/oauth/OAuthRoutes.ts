@@ -6,7 +6,6 @@ import passport from 'passport';
 import { NextFunction, Request, Response } from 'express';
 import { routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
-import generateIDParam from 'src/domains/common/helpers/parametersWrapper';
 import desc from 'src/interface/users/presentation/oauth/RoutesDescription';
 
 const BASE_PATH = '/oauth';
@@ -59,9 +58,10 @@ export default class OAuthRoutes {
 
     public routes(): routeInstance[] {
         return [
+            { basePath: BASE_PATH },
             {
                 method: 'get',
-                path: `${BASE_PATH}/google`,
+                path: '/google',
                 options: {
                     middlewares: [passport.authenticate('google', { session: false })],
                     tag: 'external',
@@ -70,7 +70,7 @@ export default class OAuthRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/google/callback`,
+                path: '/google/callback',
                 controller: this.oAuthController.google,
                 options: {
                     middlewares: [this.authenticateGoogleCallback],
@@ -81,7 +81,7 @@ export default class OAuthRoutes {
 
             {
                 method: 'get',
-                path: `${BASE_PATH}/discord`,
+                path: '/discord',
                 options: {
                     middlewares: [passport.authenticate('discord', { session: false })],
                     tag: 'external',
@@ -90,7 +90,7 @@ export default class OAuthRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/discord/callback`,
+                path: '/discord/callback',
                 controller: this.oAuthController.discord,
                 options: {
                     middlewares: [this.authenticateDiscordCallback],
@@ -100,7 +100,7 @@ export default class OAuthRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/error`,
+                path: '/error',
                 options: {
                     middlewares: [this.authErrorMiddleware],
                     tag: 'external',
@@ -110,8 +110,7 @@ export default class OAuthRoutes {
 
             {
                 method: 'put',
-                path: `${BASE_PATH}/:id/complete`,
-                parameters: [...generateIDParam()],
+                path: '/:id/complete',
                 controller: this.oAuthController.complete,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],

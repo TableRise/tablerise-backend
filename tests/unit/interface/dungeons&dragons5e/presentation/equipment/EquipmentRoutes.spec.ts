@@ -1,17 +1,17 @@
 import passport from 'passport';
 import sinon from 'sinon';
-import BackgroundsController from 'src/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsController';
-import BackgroundsRoutes from 'src/interface/dungeons&dragons5e/presentation/backgrounds/BackgroundsRoutes';
+import EquipmentController from 'src/interface/dungeons&dragons5e/presentation/equipment/EquipmentController';
+import EquipmentRoutes from 'src/interface/dungeons&dragons5e/presentation/equipment/EquipmentRoutes';
 
-describe('Interface :: Dungeons&dragons5e :: Presentation :: Backgrounds :: BackgroundsRoutes', () => {
-    let backgroundsRoutes: BackgroundsRoutes;
-    let backgroundsController: Record<string, sinon.SinonStub>;
+describe('Interface :: Dungeons&dragons5e :: Presentation :: Equipment :: EquipmentRoutes', () => {
+    let equipmentRoutes: EquipmentRoutes;
+    let equipmentController: Record<string, sinon.SinonStub>;
     let verifyIdMiddleware: sinon.SinonStub;
     let authenticateStub: sinon.SinonStub;
     let cookieMiddleware: sinon.SinonStub;
 
     beforeEach(() => {
-        backgroundsController = {
+        equipmentController = {
             get: sinon.stub(),
             getAll: sinon.stub(),
             getDisabled: sinon.stub(),
@@ -21,8 +21,8 @@ describe('Interface :: Dungeons&dragons5e :: Presentation :: Backgrounds :: Back
         cookieMiddleware = sinon.stub();
         authenticateStub = sinon.stub(passport, 'authenticate').returns(cookieMiddleware as any);
 
-        backgroundsRoutes = new BackgroundsRoutes({
-            backgroundsController: backgroundsController as unknown as BackgroundsController,
+        equipmentRoutes = new EquipmentRoutes({
+            equipmentController: equipmentController as unknown as EquipmentController,
             verifyIdMiddleware,
         });
     });
@@ -33,14 +33,14 @@ describe('Interface :: Dungeons&dragons5e :: Presentation :: Backgrounds :: Back
 
     context('When all the routes are correctly implemented', () => {
         it('should return the current route table and parse the availability query', () => {
-            const routes = backgroundsRoutes.routes();
+            const routes = equipmentRoutes.routes();
 
             expect(routes).to.have.lengthOf(5);
-            expect(routes[0]).to.deep.equal({ basePath: '/system/dnd5e/backgrounds' });
-            expect(routes[1].controller).to.equal(backgroundsController.getAll);
-            expect(routes[2].controller).to.equal(backgroundsController.getDisabled);
-            expect(routes[3].controller).to.equal(backgroundsController.get);
-            expect(routes[4].controller).to.equal(backgroundsController.toggleAvailability);
+            expect(routes[0]).to.deep.equal({ basePath: '/system/dnd5e/equipment' });
+            expect(routes[1].controller).to.equal(equipmentController.getAll);
+            expect(routes[2].controller).to.equal(equipmentController.getDisabled);
+            expect(routes[3].controller).to.equal(equipmentController.get);
+            expect(routes[4].controller).to.equal(equipmentController.toggleAvailability);
             expect(routes[3].options.middlewares).to.deep.equal([verifyIdMiddleware, cookieMiddleware]);
             expect(routes[4].options.middlewares).to.deep.equal([verifyIdMiddleware, cookieMiddleware]);
             expect(authenticateStub.callCount).to.equal(4);
