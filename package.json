@@ -128,6 +128,7 @@
         "zod": "4.2.1"
     },
     "overrides": {
+        "cookie": "0.7.2",
         "diff": "5.2.2",
         "serialize-javascript": "7.0.5",
         "qs": "6.15.2",
