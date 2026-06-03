@@ -44,6 +44,7 @@ export default class LoginUserService {
             maxAge: 86_400_000,
             httpOnly: true,
             secure,
+            domain: '.tablerise-rpg.com',
             sameSite: secure ? 'none' : 'lax',
         };
     }
