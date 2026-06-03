@@ -68,6 +68,11 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
     context('#SetCookieOptions', () => {
         context('When a user is logging in', () => {
             before(() => {
+                delete process.env.NODE_ENV;
+                delete process.env.COOKIE_SECURE;
+            });
+
+            before(() => {
                 usersDetailsRepository = {};
 
                 loginUserService = new LoginUserService({
@@ -83,6 +88,8 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 expect(cookieOptions).to.have.property('httpOnly');
                 expect(cookieOptions).to.have.property('secure');
                 expect(cookieOptions).to.have.property('sameSite');
+                expect(cookieOptions.secure).to.be.equal(false);
+                expect(cookieOptions.sameSite).to.be.equal('lax');
             });
         });
 
@@ -106,6 +113,32 @@ describe('Core :: Users :: Services :: LoginUserService', () => {
                 const cookieOptions = loginUserService.setCookieOptions();
 
                 expect(cookieOptions.secure).to.be.equal(true);
+                expect(cookieOptions.sameSite).to.be.equal('none');
+            });
+        });
+
+        context('When running in production', () => {
+            before(() => {
+                process.env.NODE_ENV = 'production';
+                delete process.env.COOKIE_SECURE;
+
+                usersDetailsRepository = {};
+
+                loginUserService = new LoginUserService({
+                    usersDetailsRepository,
+                    logger,
+                });
+            });
+
+            after(() => {
+                delete process.env.NODE_ENV;
+            });
+
+            it('should force secure cookies with sameSite none', () => {
+                const cookieOptions = loginUserService.setCookieOptions();
+
+                expect(cookieOptions.secure).to.be.equal(true);
+                expect(cookieOptions.sameSite).to.be.equal('none');
             });
         });
     });

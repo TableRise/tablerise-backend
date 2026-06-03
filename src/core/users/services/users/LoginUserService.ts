@@ -38,12 +38,13 @@ export default class LoginUserService {
     setCookieOptions(): CookieOptions {
         const callName = `[${this.constructor.name}] - ${this.setCookieOptions.name}`;
         this.logger('info', callName);
+        const secure = process.env.NODE_ENV === 'production' || process.env.COOKIE_SECURE === 'yes';
 
         return {
             maxAge: 86_400_000,
             httpOnly: true,
-            secure: process.env.COOKIE_SECURE === 'yes',
-            sameSite: 'lax',
+            secure,
+            sameSite: secure ? 'none' : 'lax',
         };
     }
 }
