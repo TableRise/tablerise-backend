@@ -22,7 +22,7 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             equipBoughtAmount: 0,
         },
         biography: dataGenerator.biography(),
-        rank: '',
+        rank: 'bronze',
         cover: {
             request: { success: true, status: 200 },
             id: '',

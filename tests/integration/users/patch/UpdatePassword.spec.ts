@@ -35,7 +35,7 @@ describe('When an user has the password changed', () => {
             await requester().get(`/users/${user.userId}`).expect(HttpStatusCode.OK);
 
             await requester()
-                .patch('/users/update/password')
+                .patch(`/users/update/password?email=${encodeURIComponent(user.email)}`)
                 .send({ password: 'TheWorld@123', email: user.email })
                 .expect(HttpStatusCode.NO_CONTENT);
 

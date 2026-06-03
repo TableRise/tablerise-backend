@@ -12,8 +12,6 @@ import RemoveCampaignImageOperation from 'src/core/campaigns/operations/RemoveCa
 import RemovePlayerCharacterOperation from 'src/core/campaigns/operations/RemovePlayerCharacterOperation';
 import TransferDungeonMasterOperation from 'src/core/campaigns/operations/TransferDungeonMasterOperation';
 import UpdateCampaignCoverOperation from 'src/core/campaigns/operations/UpdateCampaignCoverOperation';
-import UpdateMatchCharacterPictureOperation from 'src/core/campaigns/operations/UpdateMatchCharacterPictureOperation';
-import updateMatchDateOperation from 'src/core/campaigns/operations/UpdateMatchDateOperation';
 import UpdateMatchMusicsOperation from 'src/core/campaigns/operations/UpdateMatchMusicsOperation';
 import ConfirmMatchPlayerPresenceService from 'src/core/campaigns/services/ConfirmMatchPlayerPresenceService';
 import GetCampaignCharactersService from 'src/core/campaigns/services/GetCampaignCharactersService';
@@ -22,7 +20,6 @@ import RemoveCampaignImageService from 'src/core/campaigns/services/RemoveCampai
 import RemovePlayerCharacterService from 'src/core/campaigns/services/RemovePlayerCharacterService';
 import TransferDungeonMasterService from 'src/core/campaigns/services/TransferDungeonMasterService';
 import UpdateCampaignCoverService from 'src/core/campaigns/services/UpdateCampaignCoverService';
-import UpdateMatchCharacterPictureService from 'src/core/campaigns/services/UpdateMatchCharacterPictureService';
 
 describe('Coverage :: Campaigns :: Core Expansion', () => {
     const logger = (): void => {};
@@ -112,7 +109,7 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
             expect(removePlayerCharacterService.save).to.have.been.calledWith(campaignAfterCharacterRemoval);
         });
 
-        it('should cover image, dungeon master, cover and picture update operations', async () => {
+        it('should cover image, dungeon master, and cover update operations', async () => {
             const savedCampaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
             savedCampaign.matchData = {
                 ...(savedCampaign.matchData ?? {}),
@@ -189,59 +186,16 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
                     picture: { originalname: 'cover.png' } as any,
                 })
             ).to.equal(coverCampaign.cover);
-
-            const uploaded = { id: 'pic-1', link: 'img-link' };
-            const updateMatchCharacterPictureService = {
-                updatePicture: sinon.stub().resolves({ campaign: savedCampaign, uploaded }),
-                save: sinon.stub().resolves(savedCampaign),
-            };
-            const updateMatchCharacterPictureOperation = new UpdateMatchCharacterPictureOperation({
-                updateMatchCharacterPictureService,
-                logger,
-            } as any);
-
-            expect(
-                await updateMatchCharacterPictureOperation.execute({
-                    campaignId: savedCampaign.campaignId,
-                    characterId: 'char-1',
-                    picture: { originalname: 'char.png' } as any,
-                })
-            ).to.equal(uploaded);
-            expect(updateMatchCharacterPictureService.save).to.have.been.calledWith(savedCampaign);
         });
 
-        it('should cover remove branches for match date and music operations', async () => {
+        it('should cover remove branches for music operations', async () => {
             const savedCampaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
-            savedCampaign.infos.nextMatchDate = '2026-05-25';
             savedCampaign.musics = [{ id: 'music-1', title: 'Song', thumbnail: 'thumb' }] as any;
 
             const socketIO = {
                 syncActiveCampaign: sinon.stub(),
                 emitToCampaign: sinon.stub(),
             };
-
-            const updateMatchDateService = {
-                addMatchDate: sinon.stub().resolves(savedCampaign),
-                removeMatchDate: sinon.stub().resolves(savedCampaign),
-                save: sinon.stub().resolves(savedCampaign),
-            };
-            const matchDateOperation = new updateMatchDateOperation({
-                updateMatchDateService,
-                socketIO,
-                logger,
-            } as any);
-
-            expect(await matchDateOperation.remove({ campaignId: savedCampaign.campaignId } as any)).to.equal(
-                '2026-05-25'
-            );
-            expect(socketIO.emitToCampaign).to.have.been.calledWith(
-                savedCampaign.campaignId,
-                'campaign:settings_updated',
-                {
-                    campaignId: savedCampaign.campaignId,
-                    nextMatchDate: '2026-05-25',
-                }
-            );
 
             const updateMatchMusicsService = {
                 addMatchMusic: sinon.stub().resolves(savedCampaign),
@@ -458,7 +412,7 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
             }
         });
 
-        it('should cover forbidden transfer and match character picture service branches', async () => {
+        it('should cover forbidden transfer and cover upload service branches', async () => {
             const campaign = CampaignDomainDataFaker.generateCampaignsJSON()[0];
             campaign.campaignPlayers = [
                 {
@@ -468,10 +422,6 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
                     characterIds: [],
                 },
             ] as any;
-            campaign.matchData = {
-                ...(campaign.matchData ?? {}),
-                charactersInGame: [{ characterId: 'char-1', picture: null }],
-            } as any;
 
             const campaignsRepository = {
                 findOne: sinon.stub().resolves(campaign),
@@ -507,49 +457,6 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
             });
             expect(campaignWithCover.cover).to.deep.equal({ id: 'img-1', link: 'img-link' });
             expect(await updateCampaignCoverService.save(campaignWithCover)).to.equal(campaignWithCover);
-
-            const matchCharacterPictureService = new UpdateMatchCharacterPictureService({
-                campaignsRepository,
-                imageStorageClient,
-                logger,
-            } as any);
-            const pictureResult = await matchCharacterPictureService.updatePicture({
-                campaignId: campaign.campaignId,
-                characterId: 'char-1',
-                picture: { originalname: 'char.png' } as any,
-            });
-            expect(pictureResult.uploaded).to.deep.equal({ id: 'img-1', link: 'img-link' });
-            expect(await matchCharacterPictureService.save(campaign)).to.equal(campaign);
-
-            try {
-                await matchCharacterPictureService.updatePicture({
-                    campaignId: campaign.campaignId,
-                    characterId: 'missing-char',
-                    picture: { originalname: 'char.png' } as any,
-                });
-                expect.fail('expected missing player error');
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).to.equal('This player is not in the campaign');
-                expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
-                expect(err.name).to.equal(getErrorName(HttpStatusCode.NOT_FOUND));
-            }
-
-            campaign.matchData = null as any;
-
-            try {
-                await matchCharacterPictureService.updatePicture({
-                    campaignId: campaign.campaignId,
-                    characterId: 'char-1',
-                    picture: { originalname: 'char.png' } as any,
-                });
-                expect.fail('expected match missing error');
-            } catch (error) {
-                const err = error as HttpRequestErrors;
-                expect(err.message).to.equal('Campaign Match does not exist and cannot be updated');
-                expect(err.code).to.equal(HttpStatusCode.BAD_REQUEST);
-                expect(err.name).to.equal(getErrorName(HttpStatusCode.BAD_REQUEST));
-            }
         });
     });
 });

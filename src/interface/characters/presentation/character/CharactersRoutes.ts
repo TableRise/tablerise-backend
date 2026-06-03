@@ -4,7 +4,6 @@ import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import desc from 'src/interface/characters/presentation/character/RoutesDescription';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 
 const BASE_PATH = '/characters';
 
@@ -31,10 +30,11 @@ export default class CharactersRoutes {
 
     public routes(): routeInstance[] {
         return [
+            { basePath: BASE_PATH },
             // GET
             {
                 method: 'get',
-                path: `${BASE_PATH}`,
+                path: '/',
                 controller: this.charactersController.getAll,
                 options: {
                     middlewares: [
@@ -47,8 +47,7 @@ export default class CharactersRoutes {
             },
             {
                 method: 'get',
-                parameters: [...generateIDParam()],
-                path: `${BASE_PATH}/:id`,
+                path: '/:id',
                 controller: this.charactersController.getById,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -59,7 +58,7 @@ export default class CharactersRoutes {
             // POST
             {
                 method: 'post',
-                path: `${BASE_PATH}/create`,
+                path: '/create',
                 controller: this.charactersController.createCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -70,9 +69,8 @@ export default class CharactersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/picture`,
+                path: '/:id/picture',
                 controller: this.charactersController.updateCharacterPicture,
-                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [
                         passport.authenticate('cookie', { session: false }),
@@ -86,34 +84,11 @@ export default class CharactersRoutes {
                     fileUpload: true,
                 },
             },
-            {
-                method: 'post',
-                path: `${BASE_PATH}/:id/symbol`,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'orgName', type: 'text' }])],
-                controller: this.charactersController.organizationPicture,
-                options: {
-                    middlewares: [
-                        passport.authenticate('cookie', { session: false }),
-                        this.imageMiddleware.multer().single('picture'),
-                        this.imageMiddleware.fileType,
-                        this.verifyIdMiddleware,
-                    ],
-                    tag: 'management',
-                    schemas: [
-                        {
-                            query: this.charactersSchemas.postOrganizationPicture.query,
-                            body: this.charactersSchemas.postCharacterPicture.body,
-                        },
-                    ],
-                    description: desc.orgSymbol,
-                    fileUpload: true,
-                },
-            },
 
             // PUT
             {
                 method: 'put',
-                path: `${BASE_PATH}/:id/update`,
+                path: '/:id/update',
                 controller: this.charactersController.updateCharacter,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -126,31 +101,30 @@ export default class CharactersRoutes {
             // PATCH
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/equipments/add`,
+                path: '/:id/update/equipments/add',
                 controller: this.charactersController.addEquipment,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.charactersSchemas.patchAddEquipment.query }],
                     tag: 'management',
                     description: desc.addEquipment,
                 },
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/equipments/remove`,
+                path: '/:id/update/equipments/remove',
                 controller: this.charactersController.removeEquipment,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'equipmentId', type: 'text' }])],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.charactersSchemas.patchRemoveEquipment.query }],
                     tag: 'management',
                     description: desc.removeEquipment,
                 },
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/money`,
+                path: '/:id/update/money',
                 controller: this.charactersController.updateCharacterMoney,
-                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [{ body: this.charactersSchemas.patchUpdateMoney.body }],
@@ -160,15 +134,14 @@ export default class CharactersRoutes {
             },
             {
                 method: 'delete',
-                path: `${BASE_PATH}/:id/delete`,
+                path: '/:id/delete',
                 controller: this.charactersController.deleteCharacter,
-                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'management',
                     description: desc.deleteCharacter,
                 },
             },
-        ] as routeInstance[];
+        ] as unknown as routeInstance[];
     }
 }

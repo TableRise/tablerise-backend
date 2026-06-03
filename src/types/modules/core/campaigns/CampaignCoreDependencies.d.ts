@@ -16,10 +16,7 @@ import {
 
 import { UpdateMatchMusicsOperationContract, UpdateMatchMusicsServiceContract } from './campaigns/UpdateMatchMapMusics';
 
-import { updateMatchDateOperationContract, updateMatchDateServiceContract } from './campaigns/UpdateMatchDate';
-
 import { PublishmentOperationContract, PublishmentServiceContract } from './campaigns/publishment';
-import { PostCampaignLogOperationContract, PostCampaignLogServiceContract } from './campaigns/PostCampaignLog';
 import { PostCampaignBuyOperationContract, PostCampaignBuyServiceContract } from './campaigns/PostCampaignBuy';
 
 import {
@@ -44,11 +41,6 @@ import {
 } from './campaigns/GetCharactersByPlayer';
 
 import {
-    UpdateCampaignPlayerLimitOperationContract,
-    UpdateCampaignPlayerLimitServiceContract,
-} from './campaigns/UpdateCampaignPlayerLimit';
-
-import {
     ConfirmMatchPlayerPresenceOperationContract,
     ConfirmMatchPlayerPresenceServiceContract,
 } from './campaigns/ConfirmMatchPlayerPresence';
@@ -71,11 +63,6 @@ import {
     TransferDungeonMasterOperationContract,
     TransferDungeonMasterServiceContract,
 } from './campaigns/TransferDungeonMaster';
-
-import {
-    UpdateMatchCharacterPictureOperationContract,
-    UpdateMatchCharacterPictureServiceContract,
-} from './campaigns/UpdateMatchCharacterPicture';
 import {
     UpdateCampaignJournalHighlightOperationContract,
     UpdateCampaignJournalHighlightServiceContract,
@@ -105,26 +92,22 @@ export default interface CampaignCoreDependencies {
     updateCampaignOperationContract: UpdateCampaignOperationContract;
     getCampaignByIdOperationContract: GetCampaignByIdOperationContract;
     publishmentOperationContract: PublishmentOperationContract;
-    postCampaignLogOperationContract: PostCampaignLogOperationContract;
     postCampaignBuyOperationContract: PostCampaignBuyOperationContract;
     updateMatchMapImagesOperationContract: UpdateMatchMapImagesOperationContract;
     updateMatchImagesOperationContract: UpdateMatchImagesOperationContract;
     updateMatchHighlightedImageOperationContract: UpdateMatchHighlightedImageOperationContract;
     updateMatchMusicsOperationContract: UpdateMatchMusicsOperationContract;
-    updateMatchDateOperationContract: updateMatchDateOperationContract;
     addCampaignPlayersOperationContract: AddCampaignPlayersOperationContract;
     removeCampaignPlayersOperationContract: RemoveCampaignPlayersOperationContract;
     addPlayerCharacterOperationContract: AddPlayerCharacterOperationContract;
     removePlayerCharacterOperationContract: RemovePlayerCharacterOperationContract;
     getCampaignCharactersOperationContract: GetCampaignCharactersOperationContract;
     getCharactersByPlayerOperationContract: GetCharactersByPlayerOperationContract;
-    updateCampaignPlayerLimitOperationContract: UpdateCampaignPlayerLimitOperationContract;
     confirmMatchPlayerPresenceOperationContract: ConfirmMatchPlayerPresenceOperationContract;
     confirmCampaignPlayerOperationContract: ConfirmCampaignPlayerOperationContract;
     updateCampaignCoverOperationContract: UpdateCampaignCoverOperationContract;
     removeCampaignImageOperationContract: RemoveCampaignImageOperationContract;
     transferDungeonMasterOperationContract: TransferDungeonMasterOperationContract;
-    updateMatchCharacterPictureOperationContract: UpdateMatchCharacterPictureOperationContract;
     updateCampaignJournalHighlightOperationContract: UpdateCampaignJournalHighlightOperationContract;
     updateCampaignJournalPostOperationContract: UpdateCampaignJournalPostOperationContract;
     deleteCampaignJournalPostOperationContract: DeleteCampaignJournalPostOperationContract;
@@ -137,26 +120,22 @@ export default interface CampaignCoreDependencies {
     updateCampaignServiceContract: UpdateCampaignServiceContract;
     getCampaignByIdServiceContract: GetCampaignByIdServiceContract;
     publishmentServiceContract: PublishmentServiceContract;
-    postCampaignLogServiceContract: PostCampaignLogServiceContract;
     postCampaignBuyServiceContract: PostCampaignBuyServiceContract;
     updateMatchMapImagesServiceContract: UpdateMatchMapImagesServiceContract;
     updateMatchImagesServiceContract: UpdateMatchImagesServiceContract;
     updateMatchHighlightedImageServiceContract: UpdateMatchHighlightedImageServiceContract;
     updateMatchMusicsServiceContract: UpdateMatchMusicsServiceContract;
-    updateMatchDateServiceContract: updateMatchDateServiceContract;
     addCampaignPlayersServiceContract: AddCampaignPlayersServiceContract;
     removeCampaignPlayersServiceContract: RemoveCampaignPlayersServiceContract;
     addPlayerCharacterServiceContract: AddPlayerCharacterServiceContract;
     removePlayerCharacterServiceContract: RemovePlayerCharacterServiceContract;
     getCampaignCharactersServiceContract: GetCampaignCharactersServiceContract;
     getCharactersByPlayerServiceContract: GetCharactersByPlayerServiceContract;
-    updateCampaignPlayerLimitServiceContract: UpdateCampaignPlayerLimitServiceContract;
     confirmMatchPlayerPresenceServiceContract: ConfirmMatchPlayerPresenceServiceContract;
     confirmCampaignPlayerServiceContract: ConfirmCampaignPlayerServiceContract;
     updateCampaignCoverServiceContract: UpdateCampaignCoverServiceContract;
     removeCampaignImageServiceContract: RemoveCampaignImageServiceContract;
     transferDungeonMasterServiceContract: TransferDungeonMasterServiceContract;
-    updateMatchCharacterPictureServiceContract: UpdateMatchCharacterPictureServiceContract;
     updateCampaignJournalHighlightServiceContract: UpdateCampaignJournalHighlightServiceContract;
     updateCampaignJournalPostServiceContract: UpdateCampaignJournalPostServiceContract;
     deleteCampaignJournalPostServiceContract: DeleteCampaignJournalPostServiceContract;

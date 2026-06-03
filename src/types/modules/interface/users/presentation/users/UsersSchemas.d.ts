@@ -12,7 +12,5 @@ export interface IUsersSchemas {
     postAuthenticate2FA: ISchemaProps;
     patchUpdateEmail: ISchemaProps;
     patchUpdatePassword: ISchemaProps;
-    patchAddUserGameInfo: ISchemaProps;
-    patchRemoveUserGameInfo: ISchemaProps;
     patchUpdateCampaignNotes: ISchemaProps;
 }

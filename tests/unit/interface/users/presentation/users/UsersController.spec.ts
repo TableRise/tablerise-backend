@@ -22,12 +22,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             getUserByIdOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
             activateTwoFactorOperation: { execute: sinon.stub().returns({ active: true, qrcode: 'qr' }) },
             deactivateTwoFactorOperation: { execute: sinon.stub() },
-            resetTwoFactorOperation: { execute: sinon.stub().returns({ active: true, qrcode: 'qr' }) },
             updateEmailOperation: { execute: sinon.stub() },
             updatePasswordOperation: { execute: sinon.stub() },
-            updateGameInfoOperation: { add: sinon.stub(), remove: sinon.stub() },
             addCampaignNoteOperation: { execute: sinon.stub() },
-            resetProfileOperation: { execute: sinon.stub() },
             pictureProfileOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
             postSupportEmailOperation: { execute: sinon.stub() },
             deleteUserOperation: { execute: sinon.stub() },
@@ -169,16 +166,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         expect(response.json).to.have.been.calledWith({ userId: '123' });
     });
 
-    it('should reset two factor and return the new payload', async () => {
-        const controller = buildController();
-        const response = buildResponse();
-
-        await controller.resetTwoFactor({ params: { id: '123' } } as any, response);
-
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-        expect(response.json).to.have.been.calledWith({ active: true, qrcode: 'qr' });
-    });
-
     it('should update email and return no content', async () => {
         const controller = buildController();
         const response = buildResponse();
@@ -208,34 +195,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ userId: '123' });
-    });
-
-    it('should add game info and return the updated payload', async () => {
-        const controller = buildController();
-        const response = buildResponse();
-        (controller as any).updateGameInfoOperation.add.returns({ userId: '123', type: 'campaigns' });
-
-        await controller.addGameInfo(
-            { params: { id: '123' }, body: { type: 'campaigns', value: 'campaign-1' } } as any,
-            response
-        );
-
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-        expect(response.json).to.have.been.calledWith({ userId: '123', type: 'campaigns' });
-    });
-
-    it('should remove game info and return the updated payload', async () => {
-        const controller = buildController();
-        const response = buildResponse();
-        (controller as any).updateGameInfoOperation.remove.returns({ userId: '123', type: 'campaigns' });
-
-        await controller.removeGameInfo(
-            { params: { id: '123' }, body: { type: 'campaigns', value: 'campaign-1' } } as any,
-            response
-        );
-
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
-        expect(response.json).to.have.been.calledWith({ userId: '123', type: 'campaigns' });
     });
 
     it('should update campaign notes', async () => {
@@ -315,16 +274,6 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
         expect((controller as any).postSupportEmailOperation.execute).to.not.have.been.called();
         expect(response.status).to.not.have.been.called();
-    });
-
-    it('should reset the profile and return no content', async () => {
-        const controller = buildController();
-        const response = buildResponse();
-
-        await controller.resetProfile({ params: { id: '123' } } as any, response);
-
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-        expect(response.end).to.have.been.called();
     });
 
     it('should logout and clear auth cookies', async () => {

@@ -2,7 +2,6 @@ import 'src/interface/common/strategies/CookieStrategy';
 
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
 import desc from 'src/interface/users/presentation/users/RoutesDescription';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 
@@ -46,10 +45,11 @@ export default class UsersRoutes {
         this.authenticatePassport.cookieStrategy();
 
         return [
+            { basePath: BASE_PATH },
             // GET
             {
                 method: 'get',
-                path: `${BASE_PATH}/all`,
+                path: '/all',
                 controller: this.usersController.getUsers,
                 options: {
                     middlewares: [
@@ -63,7 +63,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/me`,
+                path: '/me',
                 controller: this.usersController.currentUser,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -73,7 +73,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/logout`,
+                path: '/logout',
                 controller: this.usersController.logoutUser,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -83,8 +83,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/:id`,
-                parameters: [...generateIDParam()],
+                path: '/:id',
                 controller: this.usersController.getUserById,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -94,9 +93,8 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/:id/campaigns`,
+                path: '/:id/campaigns',
                 controller: this.usersController.getCampaignsByUserId,
-                parameters: [...generateIDParam()],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'users',
@@ -107,13 +105,7 @@ export default class UsersRoutes {
             // POST
             {
                 method: 'post',
-                path: `${BASE_PATH}/authenticate/email/send-code`,
-                parameters: [
-                    ...generateQueryParam(2, [
-                        { name: 'email', type: 'string' },
-                        { name: 'flow', type: 'string' },
-                    ]),
-                ],
+                path: '/authenticate/email/send-code',
                 controller: this.usersController.verifyEmail,
                 options: {
                     schemas: [{ query: this.usersSchemas.postValidateEmailSendCode.query }],
@@ -123,7 +115,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/register`,
+                path: '/register',
                 controller: this.usersController.register,
                 options: {
                     schemas: [{ body: this.usersSchemas.postCreateUser.body }],
@@ -133,7 +125,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/login`,
+                path: '/login',
                 controller: this.usersController.login,
                 options: {
                     middlewares: [passport.authenticate('local', { session: false })],
@@ -144,8 +136,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/support/post`,
-                parameters: [...generateIDParam()],
+                path: '/:id/support/post',
                 controller: this.usersController.postSupportEmail,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -156,8 +147,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/:id/update/picture`,
-                parameters: [...generateIDParam()],
+                path: '/:id/update/picture',
                 controller: this.usersController.profilePicture,
                 options: {
                     middlewares: [
@@ -174,14 +164,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/authenticate/email`,
-                parameters: [
-                    ...generateQueryParam(3, [
-                        { name: 'email', type: 'string' },
-                        { name: 'code', type: 'string' },
-                        { name: 'flow', type: 'string' },
-                    ]),
-                ],
+                path: '/authenticate/email',
                 controller: this.usersController.internalAuthentication,
                 options: {
                     middlewares: [this.verifyEmailCodeMiddleware.verify],
@@ -192,14 +175,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
-                path: `${BASE_PATH}/authenticate/2fa`,
-                parameters: [
-                    ...generateQueryParam(3, [
-                        { name: 'email', type: 'string' },
-                        { name: 'token', type: 'string' },
-                        { name: 'flow', type: 'string' },
-                    ]),
-                ],
+                path: '/authenticate/2fa',
                 controller: this.usersController.internalAuthentication,
                 options: {
                     middlewares: [this.authorizationMiddleware.twoFactor],
@@ -212,8 +188,7 @@ export default class UsersRoutes {
             // PUT
             {
                 method: 'put',
-                path: `${BASE_PATH}/:id/update`,
-                parameters: [...generateIDParam()],
+                path: '/:id/update',
                 controller: this.usersController.updateUser,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -224,8 +199,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'put',
-                path: `${BASE_PATH}/:id/update/details`,
-                parameters: [...generateIDParam()],
+                path: '/:id/update/details',
                 controller: this.usersController.updateUserDetails,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -238,8 +212,7 @@ export default class UsersRoutes {
             // PATCH
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/2fa/activate`,
-                parameters: [...generateIDParam()],
+                path: '/:id/2fa/activate',
                 controller: this.usersController.activateTwoFactor,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -249,8 +222,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/2fa/deactivate`,
-                parameters: [...generateIDParam()],
+                path: '/:id/2fa/deactivate',
                 controller: this.usersController.deactivateTwoFactor,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
@@ -260,19 +232,7 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/2fa/reset`,
-                parameters: [...generateIDParam()],
-                controller: this.usersController.resetTwoFactor,
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    tag: 'management',
-                    description: desc.reset2FA,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/update/email`,
-                parameters: [...generateIDParam()],
+                path: '/:id/update/email',
                 controller: this.usersController.updateEmail,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -283,44 +243,23 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/update/password`,
+                path: '/update/password',
                 controller: this.usersController.updatePassword,
-                parameters: [...generateQueryParam(1, [{ name: 'email', type: 'string' }])],
                 options: {
-                    schemas: [{ body: this.usersSchemas.patchUpdatePassword.body }],
+                    schemas: [
+                        {
+                            query: this.usersSchemas.patchUpdatePassword.query,
+                            body: this.usersSchemas.patchUpdatePassword.body,
+                        },
+                    ],
                     tag: 'management',
                     description: desc.updatePassword,
                 },
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id/update/game-info/add`,
-                controller: this.usersController.addGameInfo,
-                parameters: [...generateIDParam()],
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ body: this.usersSchemas.patchAddUserGameInfo.body }],
-                    tag: 'management',
-                    description: desc.addGameInfo,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/update/game-info/remove`,
-                controller: this.usersController.removeGameInfo,
-                parameters: [...generateIDParam()],
-                options: {
-                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
-                    schemas: [{ body: this.usersSchemas.patchRemoveUserGameInfo.body }],
-                    tag: 'management',
-                    description: desc.removeGameInfo,
-                },
-            },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/update/campaign/notes`,
+                path: '/:id/update/campaign/notes',
                 controller: this.usersController.updateCampaignNotes,
-                parameters: [...generateIDParam(), ...generateQueryParam(1, [{ name: 'campaignId', type: 'string' }])],
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     schemas: [
@@ -331,23 +270,10 @@ export default class UsersRoutes {
                     description: desc.updateCampaignNotes,
                 },
             },
-            {
-                method: 'patch',
-                path: `${BASE_PATH}/:id/reset`,
-                controller: this.usersController.resetProfile,
-                parameters: [...generateIDParam()],
-                options: {
-                    middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
-                    tag: 'management',
-                    description: desc.resetProfile,
-                },
-            },
-
             // DELETE
             {
                 method: 'delete',
-                path: `${BASE_PATH}/:id/delete`,
-                parameters: [...generateIDParam()],
+                path: '/:id/delete',
                 controller: this.usersController.delete,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -355,6 +281,6 @@ export default class UsersRoutes {
                     description: desc.deleteProfile,
                 },
             },
-        ] as routeInstance[];
+        ] as unknown as routeInstance[];
     }
 }

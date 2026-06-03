@@ -9,7 +9,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
     let getAllCharactersOperation: any;
     let getCharacterByIdOperation: any;
     let updateCharacterPictureOperation: any;
-    let orgPictureUploadOperation: any;
     let updateCharacterOperation: any;
     let addEquipmentOperation: any;
     let removeEquipmentOperation: any;
@@ -22,7 +21,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             getAllCharactersOperation,
             getCharacterByIdOperation,
             updateCharacterPictureOperation,
-            orgPictureUploadOperation,
             updateCharacterOperation,
             addEquipmentOperation,
             removeEquipmentOperation,
@@ -35,7 +33,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         getAllCharactersOperation = { execute: sinon.stub().resolves([]) };
         getCharacterByIdOperation = { execute: sinon.stub().resolves({}) };
         updateCharacterPictureOperation = { execute: sinon.stub().resolves({}) };
-        orgPictureUploadOperation = { execute: sinon.stub().resolves({}) };
         updateCharacterOperation = { execute: sinon.stub().resolves({}) };
         addEquipmentOperation = { execute: sinon.stub().resolves({}) };
         removeEquipmentOperation = { execute: sinon.stub().resolves({}) };
@@ -99,27 +96,6 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
         expect(response.end).to.have.been.called();
-    });
-
-    it('should upload an organization picture', async () => {
-        const request = {
-            params: { id: 'character-1' },
-            query: { orgName: 'Guild' },
-            file: { originalname: 'org.png' },
-        } as unknown as Request;
-        const response = {
-            status: sinon.stub().returnsThis(),
-            json: sinon.stub().returnsThis(),
-        } as unknown as Response;
-
-        await charactersController.organizationPicture(request, response);
-
-        expect(orgPictureUploadOperation.execute).to.have.been.calledWith({
-            orgName: 'Guild',
-            characterId: 'character-1',
-            image: request.file,
-        });
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
     });
 
     it('should update a character payload', async () => {

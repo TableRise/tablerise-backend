@@ -78,7 +78,7 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         expect(userDetails.gameInfo.badges).to.deep.equal([]);
     });
 
-    it('should sync rank to diamond, gold, white, and null based on badge count', () => {
+    it('should sync rank to bronze, diamond, gold, and white based on badge count', () => {
         userDetails.gameInfo.badges = Array.from({ length: 10 }, (_, index) => `badge-${index}`);
         syncRankByBadgesLength(userDetails);
         expect(userDetails.rank).to.equal('diamond');
@@ -93,14 +93,14 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         userDetails.gameInfo.badges = ['only-one'];
         syncRankByBadgesLength(userDetails);
-        expect(userDetails.rank).to.equal('');
+        expect(userDetails.rank).to.equal('bronze');
     });
 
-    it('should keep empty rank when gameInfo or badges are missing', () => {
+    it('should keep bronze rank when gameInfo or badges are missing', () => {
         delete (userDetails as any).gameInfo;
 
         syncRankByBadgesLength(userDetails);
 
-        expect(userDetails.rank).to.equal('');
+        expect(userDetails.rank).to.equal('bronze');
     });
 });

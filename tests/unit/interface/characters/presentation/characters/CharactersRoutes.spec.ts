@@ -17,7 +17,8 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
             postCreateCharacter: { body: {} },
             putUpdateCharacter: { body: {} },
             postCharacterPicture: { body: {} },
-            postOrganizationPicture: { query: {} },
+            patchAddEquipment: { query: {} },
+            patchRemoveEquipment: { query: {} },
             patchUpdateMoney: { body: {} },
         };
 
@@ -32,8 +33,8 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
         it('should return the correct number of routes and register the delete endpoint', () => {
             const routes = charactersRoutes.routes();
             expect(routes).to.have.lengthOf(10);
-            expect(routes.some((route) => route.method === 'delete' && route.path === '/characters/:id/delete')).to.be
-                .true;
+            expect(routes.some((route) => route.method === 'delete' && route.path === '/:id/delete')).to.be.true;
+            expect(routes.some((route) => route.method === 'post' && route.path === '/:id/symbol')).to.be.false;
         });
     });
 });

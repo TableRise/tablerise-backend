@@ -12,7 +12,7 @@
         "test": "npm run test:unit && npm run test:integration",
         "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ts-mocha --paths -r tests/support/setup.ts \"tests/unit/**/*.spec.ts\" --ignore \"tests/unit/core/dungeons&dragons5e/**/*.spec.ts\" --ignore \"tests/unit/interface/dungeons&dragons5e/**/*.spec.ts\" --exit",
         "test:integration": "cross-env NODE_ENV=test TEST_TYPE=integration ts-mocha --paths -r tests/support/setup.integration.ts --timeout 10000 \"tests/integration/**/*.spec.ts\" --ignore \"tests/integration/dungeons&dragons5e/**/*.spec.ts\" --exit",
-        "test:coverage": "cross-env NODE_ENV=test TEST_TYPE=coverage nyc ts-mocha --paths -r tests/support/setup.ts \"tests/unit/**/*.spec.ts\" --ignore \"tests/unit/core/dungeons&dragons5e/**/*.spec.ts\" --ignore \"tests/unit/interface/dungeons&dragons5e/**/*.spec.ts\" --exit",
+        "test:coverage": "cross-env NODE_ENV=test TEST_TYPE=coverage nyc ts-mocha --paths -r tests/support/setup.ts \"tests/unit/**/*.spec.ts\" --ignore \"tests/unit/core/dungeons&dragons5e/**/*.spec.ts\" --exit",
         "lint": "npx eslint . --ext .ts --max-warnings=20",
         "prettier": "npx prettier --check .",
         "prettier:fix": "npx prettier . --write",
@@ -91,7 +91,7 @@
     },
     "dependencies": {
         "@socket.io/redis-adapter": "8.3.0",
-        "@tablerise/auto-swagger": "4.6.2",
+        "@tablerise/auto-swagger": "5.5.0",
         "@tablerise/database-management": "7.2.15",
         "@tablerise/database-seeder": "5.8.0",
         "@tablerise/dynamic-logger": "1.6.2",
@@ -128,6 +128,7 @@
         "zod": "4.2.1"
     },
     "overrides": {
+        "cookie": "0.7.2",
         "diff": "5.2.2",
         "serialize-javascript": "7.0.5",
         "qs": "6.15.2",

@@ -27,8 +27,6 @@ describe('When a character picture is uploaded', () => {
         it('should return the updated character with picture', async () => {
             const { body } = await requester()
                 .post(`/characters/${character.characterId}/picture`)
-                .set('Content-Type', 'multipart/form-data')
-                .set('connection', 'keep-alive')
                 .attach('picture', filePath)
                 .expect(HttpStatusCode.CREATED);
 

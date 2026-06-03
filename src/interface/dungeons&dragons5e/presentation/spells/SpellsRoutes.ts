@@ -1,7 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import { z } from 'zod';
 import { SpellsRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/spells/SpellsRoutes';
 
 const BASE_PATH = '/system/dnd5e/spells';
@@ -12,6 +12,20 @@ const desc = {
     getById: 'Get one D&D 5e spell by id.',
     toggleAvailability: 'Enable or disable a D&D 5e spell.',
 };
+
+const queryLevelSchema = z.object({
+    queryLevel: z.preprocess((value) => {
+        if (typeof value === 'string') return Number(value);
+        return value;
+    }, z.number().int().nonnegative()),
+});
+
+const availabilityQuerySchema = z.object({
+    availability: z.preprocess((value) => {
+        if (typeof value === 'string') return value === 'true';
+        return value;
+    }, z.boolean()),
+});
 
 export default class SpellsRoutes {
     private readonly spellsController;
@@ -24,9 +38,10 @@ export default class SpellsRoutes {
 
     public routes(): routeInstance[] {
         return [
+            { basePath: BASE_PATH },
             {
                 method: 'get',
-                path: `${BASE_PATH}`,
+                path: '/',
                 controller: this.spellsController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -36,7 +51,7 @@ export default class SpellsRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/disabled`,
+                path: '/disabled',
                 controller: this.spellsController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -46,19 +61,18 @@ export default class SpellsRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/by-level`,
-                parameters: [...generateQueryParam(1, [{ name: 'queryLevel', type: 'string' }])],
+                path: '/by-level',
                 controller: this.spellsController.getByLevel,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: queryLevelSchema }],
                     tag: 'spells',
                     description: desc.getByLevel,
                 },
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/:id`,
-                parameters: [...generateIDParam()],
+                path: '/:id',
                 controller: this.spellsController.get,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -68,14 +82,11 @@ export default class SpellsRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
-                ],
+                path: '/:id',
                 controller: this.spellsController.toggleAvailability,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: availabilityQuerySchema }],
                     tag: 'spells',
                     description: desc.toggleAvailability,
                 },

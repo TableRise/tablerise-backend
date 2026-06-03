@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import {
-    AddMatchDatePayload,
     PostCampaignBuyPayload,
     AddMatchMusicPayload,
     CampaignPayload,
@@ -9,7 +8,6 @@ import {
     EditMatchMusicPayload,
     HighlightedJournalPayload,
     RemoveCampaignPlayerNotePayload,
-    RemoveMatchDatePayload,
     RemoveMatchMusicPayload,
     RemoveMatchMapImagePayload,
     UpdateMatchHighlightedImagePayload,
@@ -42,22 +40,18 @@ export default class CampaignsController {
     private readonly updateMatchMapImagesOperation;
     private readonly updateMatchImagesOperation;
     private readonly updateMatchHighlightedImageOperation;
-    private readonly updateMatchDateOperation;
     private readonly addCampaignPlayersOperation;
     private readonly removeCampaignPlayersOperation;
     private readonly addPlayerCharacterOperation;
     private readonly removePlayerCharacterOperation;
     private readonly getCampaignCharactersOperation;
     private readonly getCharactersByPlayerOperation;
-    private readonly postCampaignLogOperation;
     private readonly postCampaignBuyOperation;
-    private readonly updateCampaignPlayerLimitOperation;
     private readonly confirmMatchPlayerPresenceOperation;
     private readonly confirmCampaignPlayerOperation;
     private readonly updateCampaignCoverOperation;
     private readonly removeCampaignImageOperation;
     private readonly transferDungeonMasterOperation;
-    private readonly updateMatchCharacterPictureOperation;
     private readonly updateCampaignJournalHighlightOperation;
     private readonly updateCampaignJournalPostOperation;
     private readonly deleteCampaignJournalPostOperation;
@@ -75,22 +69,18 @@ export default class CampaignsController {
         updateMatchImagesOperation,
         updateMatchHighlightedImageOperation,
         updateMatchMusicsOperation,
-        updateMatchDateOperation,
         addCampaignPlayersOperation,
         removeCampaignPlayersOperation,
         addPlayerCharacterOperation,
         removePlayerCharacterOperation,
         getCampaignCharactersOperation,
         getCharactersByPlayerOperation,
-        postCampaignLogOperation,
         postCampaignBuyOperation,
-        updateCampaignPlayerLimitOperation,
         confirmMatchPlayerPresenceOperation,
         confirmCampaignPlayerOperation,
         updateCampaignCoverOperation,
         removeCampaignImageOperation,
         transferDungeonMasterOperation,
-        updateMatchCharacterPictureOperation,
         updateCampaignJournalHighlightOperation,
         updateCampaignJournalPostOperation,
         deleteCampaignJournalPostOperation,
@@ -109,22 +99,18 @@ export default class CampaignsController {
         this.updateMatchImagesOperation = updateMatchImagesOperation;
         this.updateMatchHighlightedImageOperation = updateMatchHighlightedImageOperation;
         this.updateMatchMusicsOperation = updateMatchMusicsOperation;
-        this.updateMatchDateOperation = updateMatchDateOperation;
         this.addCampaignPlayersOperation = addCampaignPlayersOperation;
         this.addPlayerCharacterOperation = addPlayerCharacterOperation;
         this.removePlayerCharacterOperation = removePlayerCharacterOperation;
         this.getCampaignCharactersOperation = getCampaignCharactersOperation;
         this.getCharactersByPlayerOperation = getCharactersByPlayerOperation;
         this.removeCampaignPlayersOperation = removeCampaignPlayersOperation;
-        this.postCampaignLogOperation = postCampaignLogOperation;
         this.postCampaignBuyOperation = postCampaignBuyOperation;
-        this.updateCampaignPlayerLimitOperation = updateCampaignPlayerLimitOperation;
         this.confirmMatchPlayerPresenceOperation = confirmMatchPlayerPresenceOperation;
         this.confirmCampaignPlayerOperation = confirmCampaignPlayerOperation;
         this.updateCampaignCoverOperation = updateCampaignCoverOperation;
         this.removeCampaignImageOperation = removeCampaignImageOperation;
         this.transferDungeonMasterOperation = transferDungeonMasterOperation;
-        this.updateMatchCharacterPictureOperation = updateMatchCharacterPictureOperation;
         this.updateCampaignJournalHighlightOperation = updateCampaignJournalHighlightOperation;
         this.updateCampaignJournalPostOperation = updateCampaignJournalPostOperation;
         this.deleteCampaignJournalPostOperation = deleteCampaignJournalPostOperation;
@@ -144,8 +130,6 @@ export default class CampaignsController {
         this.addMatchMusic = this.addMatchMusic.bind(this);
         this.removeMatchMusic = this.removeMatchMusic.bind(this);
         this.editMatchMusic = this.editMatchMusic.bind(this);
-        this.addMatchDate = this.addMatchDate.bind(this);
-        this.removeMatchDate = this.removeMatchDate.bind(this);
         this.addCampaignPlayers = this.addCampaignPlayers.bind(this);
         this.removeCampaignPlayers = this.removeCampaignPlayers.bind(this);
         this.addPlayerCharacter = this.addPlayerCharacter.bind(this);
@@ -155,14 +139,12 @@ export default class CampaignsController {
         this.getCampaignPlayers = this.getCampaignPlayers.bind(this);
         this.getCampaignJournalPosts = this.getCampaignJournalPosts.bind(this);
         this.getCampaignJournalHighlight = this.getCampaignJournalHighlight.bind(this);
-        this.postCampaignLog = this.postCampaignLog.bind(this);
         this.postCampaignBuy = this.postCampaignBuy.bind(this);
         this.confirmPlayerPresence = this.confirmPlayerPresence.bind(this);
         this.confirmCampaignPlayer = this.confirmCampaignPlayer.bind(this);
         this.updateCampaignCover = this.updateCampaignCover.bind(this);
         this.removeCampaignCover = this.removeCampaignCover.bind(this);
         this.transferDungeonMaster = this.transferDungeonMaster.bind(this);
-        this.updateMatchCharacterPicture = this.updateMatchCharacterPicture.bind(this);
         this.updateCampaignJournalHighlight = this.updateCampaignJournalHighlight.bind(this);
         this.updateJournalPost = this.updateJournalPost.bind(this);
         this.deleteJournalPost = this.deleteJournalPost.bind(this);
@@ -224,20 +206,6 @@ export default class CampaignsController {
         return res.status(HttpStatusCode.CREATED).json(result);
     }
 
-    public async postCampaignLog(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { userId } = req.user as Express.User;
-        const payload = req.body;
-
-        const result = await this.postCampaignLogOperation.execute({
-            campaignId: id,
-            userId,
-            payload,
-        });
-
-        return res.status(HttpStatusCode.CREATED).json(result);
-    }
-
     public async postCampaignBuy(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { userId } = req.user as Express.User;
@@ -250,15 +218,6 @@ export default class CampaignsController {
         } as PostCampaignBuyPayload);
 
         return res.status(HttpStatusCode.CREATED).json(result);
-    }
-
-    public async updateCampaignPlayerLimit(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { newLimit } = req.query;
-
-        await this.updateCampaignPlayerLimitOperation.execute(id, Number(newLimit));
-
-        return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
     public async confirmPlayerPresence(req: Request, res: Response): Promise<Response> {
@@ -368,28 +327,6 @@ export default class CampaignsController {
             thumbnail,
             id: youtubeId,
         });
-
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async addMatchDate(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { date } = req.query as Omit<AddMatchDatePayload, 'campaignId'>;
-
-        const result = await this.updateMatchDateOperation.add({
-            campaignId: id,
-            date,
-        });
-
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async removeMatchDate(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-
-        const result = await this.updateMatchDateOperation.remove({
-            campaignId: id,
-        } as RemoveMatchDatePayload);
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -535,20 +472,6 @@ export default class CampaignsController {
         await this.transferDungeonMasterOperation.execute(id, userId, userToMaster);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
-    public async updateMatchCharacterPicture(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const { characterId } = req.query as { characterId: string };
-        const picture = req.file as FileObject;
-
-        const result = await this.updateMatchCharacterPictureOperation.execute({
-            campaignId: id,
-            characterId,
-            picture,
-        });
-
-        return res.status(HttpStatusCode.OK).json(result);
     }
 
     public async updateCampaignJournalHighlight(req: Request, res: Response): Promise<Response> {

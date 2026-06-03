@@ -1,9 +1,7 @@
 import { Response, Request } from 'express';
 import {
     AddCampaignNotePayload,
-    AddGameInfoPayload,
     PostSupportEmailPayload,
-    RemoveGameInfoPayload,
     UpdateUserDetailsPayload,
     UpdateUserPayload,
     VerifyEmailPayload,
@@ -30,12 +28,9 @@ export default class UsersController {
     private readonly getUserByIdOperation;
     private readonly activateTwoFactorOperation;
     private readonly deactivateTwoFactorOperation;
-    private readonly resetTwoFactorOperation;
     private readonly updateEmailOperation;
     private readonly updatePasswordOperation;
-    private readonly updateGameInfoOperation;
     private readonly addCampaignNoteOperation;
-    private readonly resetProfileOperation;
     private readonly pictureProfileOperation;
     private readonly postSupportEmailOperation;
     private readonly deleteUserOperation;
@@ -52,12 +47,9 @@ export default class UsersController {
         getUserByIdOperation,
         activateTwoFactorOperation,
         deactivateTwoFactorOperation,
-        resetTwoFactorOperation,
         updateEmailOperation,
         updatePasswordOperation,
-        updateGameInfoOperation,
         addCampaignNoteOperation,
-        resetProfileOperation,
         pictureProfileOperation,
         postSupportEmailOperation,
         deleteUserOperation,
@@ -73,12 +65,9 @@ export default class UsersController {
         this.getUserByIdOperation = getUserByIdOperation;
         this.activateTwoFactorOperation = activateTwoFactorOperation;
         this.deactivateTwoFactorOperation = deactivateTwoFactorOperation;
-        this.resetTwoFactorOperation = resetTwoFactorOperation;
         this.updateEmailOperation = updateEmailOperation;
         this.updatePasswordOperation = updatePasswordOperation;
-        this.updateGameInfoOperation = updateGameInfoOperation;
         this.addCampaignNoteOperation = addCampaignNoteOperation;
-        this.resetProfileOperation = resetProfileOperation;
         this.pictureProfileOperation = pictureProfileOperation;
         this.postSupportEmailOperation = postSupportEmailOperation;
         this.deleteUserOperation = deleteUserOperation;
@@ -95,14 +84,10 @@ export default class UsersController {
         this.getUserById = this.getUserById.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
         this.deactivateTwoFactor = this.deactivateTwoFactor.bind(this);
-        this.resetTwoFactor = this.resetTwoFactor.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
-        this.addGameInfo = this.addGameInfo.bind(this);
-        this.removeGameInfo = this.removeGameInfo.bind(this);
         this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
         this.postSupportEmail = this.postSupportEmail.bind(this);
-        this.resetProfile = this.resetProfile.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
@@ -202,13 +187,6 @@ export default class UsersController {
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
-    public async resetTwoFactor(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-
-        const result = await this.resetTwoFactorOperation.execute(id);
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
     public async updateEmail(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { email } = req.body;
@@ -229,30 +207,6 @@ export default class UsersController {
             image: req.file as FileObject,
         });
         delete (result as Partial<RegisterUserResponse>).password;
-
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async addGameInfo(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as Omit<AddGameInfoPayload, 'userId'>;
-
-        const result = await this.updateGameInfoOperation.add({
-            userId: id,
-            ...payload,
-        });
-
-        return res.status(HttpStatusCode.OK).json(result);
-    }
-
-    public async removeGameInfo(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-        const payload = req.body as Omit<RemoveGameInfoPayload, 'userId'>;
-
-        const result = await this.updateGameInfoOperation.remove({
-            userId: id,
-            ...payload,
-        });
 
         return res.status(HttpStatusCode.OK).json(result);
     }
@@ -283,13 +237,6 @@ export default class UsersController {
             payload,
         } as PostSupportEmailPayload);
 
-        return res.status(HttpStatusCode.NO_CONTENT).end();
-    }
-
-    public async resetProfile(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params;
-
-        await this.resetProfileOperation.execute(id);
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

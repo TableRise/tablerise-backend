@@ -52,6 +52,26 @@ export default class ImageMiddleware {
             return;
         }
 
+        req.body = req.body ?? {};
+
+        if (req.file) {
+            req.body[req.file.fieldname] = req.file;
+        }
+
+        if (req.files) {
+            if (Array.isArray(req.files)) {
+                const filesByField = req.files.reduce<Record<string, Express.Multer.File[]>>((acc, file) => {
+                    acc[file.fieldname] ??= [];
+                    acc[file.fieldname].push(file);
+                    return acc;
+                }, {});
+
+                Object.assign(req.body, filesByField);
+            } else {
+                Object.assign(req.body, req.files);
+            }
+        }
+
         for (const file of files) {
             const extension = file.mimetype.split('/').pop();
             if (!ALLOWED_EXT.includes(extension as string))

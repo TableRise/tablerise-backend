@@ -9,9 +9,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             expect(schemas).to.have.property('putUpdateCampaign');
             expect(schemas).to.have.property('postAddCampaignPlayers');
             expect(schemas).to.have.property('postCreateCampaignPublishment');
-            expect(schemas).to.have.property('postCampaignLog');
             expect(schemas).to.have.property('postCampaignBuy');
-            expect(schemas).to.have.property('patchAddCampaignMatchDate');
             expect(schemas).to.have.property('patchUpdateCampaignMatchMapImages');
             expect(schemas).to.have.property('patchUpdateCampaignMatchImages');
             expect(schemas).to.have.property('patchHighlightCampaignMatchImage');
@@ -163,6 +161,50 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     user: '12cd093b-0a8a-42fe-910f-001f2ab28454',
                 })
             ).to.throw();
+        });
+
+        it('should validate campaign cover and note schemas that remain exposed', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.patchUpdateCampaignCover.body.parse({
+                    picture: new File(['cover'], 'cover.png', { type: 'image/png' }),
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignPlayerNote.query.parse({
+                    title: 'Session Plan',
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignPlayerNote.body.parse({
+                    content: 'Remember the hidden door',
+                })
+            ).to.not.throw();
+        });
+
+        it('should validate multer-backed campaign image payloads', () => {
+            const schemas = CampaignsSchemas();
+            const multerFile = {
+                fieldname: 'images',
+                originalname: 'cover.png',
+                mimetype: 'image/png',
+                buffer: Buffer.from('cover'),
+            };
+
+            expect(() =>
+                schemas.patchUpdateCampaignMatchImages.body.parse({
+                    images: [multerFile],
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignMatchMapImages.body.parse({
+                    mapImages: [multerFile],
+                })
+            ).to.not.throw();
         });
 
         it('should validate confirm presence defaults and campaign search limits', () => {

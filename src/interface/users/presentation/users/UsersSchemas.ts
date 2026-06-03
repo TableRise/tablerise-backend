@@ -1,7 +1,7 @@
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
-import userGameInfoEnum from 'src/domains/users/enums/userGameInfoEnum';
 import { IUsersSchemas } from 'src/types/modules/interface/users/presentation/users/UsersSchemas';
 import { z } from 'zod';
+import uploadedFileSchema from 'src/interface/common/helpers/uploadedFileSchema';
 
 const postValidateEmailSendCodeQuerySchema = z.object({
     email: z.email().default(''),
@@ -27,7 +27,7 @@ const postLoginBodySchema = z.object({
 });
 
 const postUpdateUserProfilePictureBodySchema = z.object({
-    picture: z.file(),
+    picture: uploadedFileSchema,
 });
 
 const putUpdateUserBodySchema = z.object({
@@ -67,16 +67,8 @@ const patchUpdatePasswordBodySchema = z.object({
         .default(''),
 });
 
-const patchAddUserGameInfoBodySchema = z.object({
-    infoId: z.uuidv4(),
-    targetInfo: z.enum(userGameInfoEnum.values),
-    data: z.any().default({}),
-});
-
-const patchRemoveUserGameInfoBodySchema = z.object({
-    infoId: z.uuidv4(),
-    targetInfo: z.enum(userGameInfoEnum.values),
-    data: z.any().default({}),
+const patchUpdatePasswordQuerySchema = z.object({
+    email: z.email(),
 });
 
 const patchUpdateCampaignNotesQuerySchema = z.object({
@@ -105,8 +97,6 @@ export type TAuthenticateEmailQuery = z.infer<typeof postAuthenticateEmailQueryS
 export type TAuthenticate2FAQuery = z.infer<typeof postAuthenticate2FAQuerySchema>;
 export type TUpdateEmailBody = z.infer<typeof patchUpdateEmailBodySchema>;
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
-export type TAddUserGameInfoBody = z.infer<typeof patchAddUserGameInfoBodySchema>;
-export type TRemoveUserGameInfoBody = z.infer<typeof patchRemoveUserGameInfoBodySchema>;
 export type TUpdateCampaignNotesQuery = z.infer<typeof patchUpdateCampaignNotesQuerySchema>;
 export type TUpdateCampaignNotesBody = z.infer<typeof patchUpdateCampaignNotesBodySchema>;
 export type TPostSupportEmailBody = z.infer<typeof postSupportEmailBodySchema>;
@@ -143,13 +133,8 @@ export default (): IUsersSchemas => ({
         body: patchUpdateEmailBodySchema,
     },
     patchUpdatePassword: {
+        query: patchUpdatePasswordQuerySchema,
         body: patchUpdatePasswordBodySchema,
-    },
-    patchAddUserGameInfo: {
-        body: patchAddUserGameInfoBodySchema,
-    },
-    patchRemoveUserGameInfo: {
-        body: patchRemoveUserGameInfoBodySchema,
     },
     patchUpdateCampaignNotes: {
         query: patchUpdateCampaignNotesQuerySchema,

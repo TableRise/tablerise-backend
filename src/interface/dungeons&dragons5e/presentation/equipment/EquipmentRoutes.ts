@@ -1,7 +1,7 @@
 import 'src/interface/common/strategies/CookieStrategy';
 import passport from 'passport';
 import { routeInstance } from '@tablerise/auto-swagger';
-import generateIDParam, { generateQueryParam } from 'src/domains/common/helpers/parametersWrapper';
+import { z } from 'zod';
 import { EquipmentRoutesContract } from 'src/types/modules/interface/dungeons&dragons5e/presentation/equipment/EquipmentRoutes';
 
 const BASE_PATH = '/system/dnd5e/equipment';
@@ -11,6 +11,13 @@ const desc = {
     getById: 'Get one D&D 5e equipment item by id.',
     toggleAvailability: 'Enable or disable a D&D 5e equipment item.',
 };
+
+const availabilityQuerySchema = z.object({
+    availability: z.preprocess((value) => {
+        if (typeof value === 'string') return value === 'true';
+        return value;
+    }, z.boolean()),
+});
 
 export default class EquipmentRoutes {
     private readonly equipmentController;
@@ -23,9 +30,10 @@ export default class EquipmentRoutes {
 
     public routes(): routeInstance[] {
         return [
+            { basePath: BASE_PATH },
             {
                 method: 'get',
-                path: `${BASE_PATH}`,
+                path: '/',
                 controller: this.equipmentController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -35,7 +43,7 @@ export default class EquipmentRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/disabled`,
+                path: '/disabled',
                 controller: this.equipmentController.getDisabled,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
@@ -45,8 +53,7 @@ export default class EquipmentRoutes {
             },
             {
                 method: 'get',
-                path: `${BASE_PATH}/:id`,
-                parameters: [...generateIDParam()],
+                path: '/:id',
                 controller: this.equipmentController.get,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
@@ -56,14 +63,11 @@ export default class EquipmentRoutes {
             },
             {
                 method: 'patch',
-                path: `${BASE_PATH}/:id`,
-                parameters: [
-                    ...generateIDParam(),
-                    ...generateQueryParam(1, [{ name: 'availability', type: 'boolean' }]),
-                ],
+                path: '/:id',
                 controller: this.equipmentController.toggleAvailability,
                 options: {
                     middlewares: [this.verifyIdMiddleware, passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: availabilityQuerySchema }],
                     tag: 'equipment',
                     description: desc.toggleAvailability,
                 },
