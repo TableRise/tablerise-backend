@@ -114,6 +114,44 @@ describe('Interface :: Users :: Middlewares :: ImageMiddleware', () => {
             request.files = undefined;
         });
 
+        it('should initialize req.body and group duplicate array fields by name', async () => {
+            request.file = undefined;
+            request.body = undefined as unknown as Request['body'];
+            request.files = [
+                {
+                    buffer: bufferMock,
+                    mimetype: 'image/png',
+                    originalname: 'img1.png',
+                    fieldname: 'images',
+                    encoding: 'utf-8',
+                    size: 100,
+                    stream: '' as unknown as Readable,
+                    destination: '',
+                    filename: '',
+                    path: '',
+                },
+                {
+                    buffer: bufferMock,
+                    mimetype: 'image/jpeg',
+                    originalname: 'img2.jpeg',
+                    fieldname: 'images',
+                    encoding: 'utf-8',
+                    size: 100,
+                    stream: '' as unknown as Readable,
+                    destination: '',
+                    filename: '',
+                    path: '',
+                },
+            ];
+
+            imageMiddleware.fileType(request, response, next);
+
+            expect(next).to.have.been.called();
+            expect(request.body).to.have.property('images');
+            expect(request.body.images).to.have.lengthOf(2);
+            request.files = undefined;
+        });
+
         it('should call next - with req.files as fields object', async () => {
             request.file = undefined;
             request.body = {};
