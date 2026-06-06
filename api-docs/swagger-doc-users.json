@@ -422,6 +422,83 @@
         }
       }
     },
+    "/users/{id}/donate": {
+      "post": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "validation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Register a donation intent for the authenticated user, optionally sending the request for manual validation.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "timestamp": {
+                    "type": "string"
+                  },
+                  "nickname": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "value",
+                  "timestamp",
+                  "userId"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{id}/update/picture": {
       "post": {
         "tags": [
@@ -793,6 +870,105 @@
           }
         ],
         "description": "Disable the user two-factor authentication after the deactivation flow is completed."
+      }
+    },
+    "/users/{id}/update/cover": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Upload or replace the user details cover image. Accepted formats: PNG and JPEG.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "image"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/update/cover/remove": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Remove the user details cover image."
       }
     },
     "/users/{id}/update/email": {

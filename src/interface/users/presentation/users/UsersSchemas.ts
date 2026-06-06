@@ -57,6 +57,10 @@ const patchUpdateEmailBodySchema = z.object({
     email: z.email(),
 });
 
+const patchUpdateUserCoverBodySchema = z.object({
+    image: uploadedFileSchema,
+});
+
 const patchUpdatePasswordBodySchema = z.object({
     email: z.email(),
     password: z
@@ -87,6 +91,23 @@ const postSupportEmailBodySchema = z.object({
     campaignCode: z.string().optional(),
 });
 
+const postDonateQuerySchema = z.object({
+    validation: z.preprocess((value) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value;
+    }, z.boolean()),
+});
+
+const postDonateBodySchema = z.object({
+    value: z.number(),
+    timestamp: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+        message: 'Invalid timestamp',
+    }),
+    nickname: z.string().max(32).optional(),
+    userId: z.uuidv4(),
+});
+
 export type TValidateEmailSendCodeQuery = z.infer<typeof postValidateEmailSendCodeQuerySchema>;
 export type TCreateUserBody = z.infer<typeof postCreateUserBodySchema>;
 export type TLoginBody = z.infer<typeof postLoginBodySchema>;
@@ -96,10 +117,13 @@ export type TUpdateUserDetailsBody = z.infer<typeof putUpdateUserDetailsBodySche
 export type TAuthenticateEmailQuery = z.infer<typeof postAuthenticateEmailQuerySchema>;
 export type TAuthenticate2FAQuery = z.infer<typeof postAuthenticate2FAQuerySchema>;
 export type TUpdateEmailBody = z.infer<typeof patchUpdateEmailBodySchema>;
+export type TUpdateUserCoverBody = z.infer<typeof patchUpdateUserCoverBodySchema>;
 export type TUpdatePasswordBody = z.infer<typeof patchUpdatePasswordBodySchema>;
 export type TUpdateCampaignNotesQuery = z.infer<typeof patchUpdateCampaignNotesQuerySchema>;
 export type TUpdateCampaignNotesBody = z.infer<typeof patchUpdateCampaignNotesBodySchema>;
 export type TPostSupportEmailBody = z.infer<typeof postSupportEmailBodySchema>;
+export type TRegisterDonationQuery = z.infer<typeof postDonateQuerySchema>;
+export type TRegisterDonationBody = z.infer<typeof postDonateBodySchema>;
 
 export default (): IUsersSchemas => ({
     postValidateEmailSendCode: {
@@ -113,6 +137,10 @@ export default (): IUsersSchemas => ({
     },
     postSupportEmail: {
         body: postSupportEmailBodySchema,
+    },
+    postDonate: {
+        query: postDonateQuerySchema,
+        body: postDonateBodySchema,
     },
     postUpdateUserProfilePicture: {
         body: postUpdateUserProfilePictureBodySchema,
@@ -131,6 +159,9 @@ export default (): IUsersSchemas => ({
     },
     patchUpdateEmail: {
         body: patchUpdateEmailBodySchema,
+    },
+    patchUpdateUserCover: {
+        body: patchUpdateUserCoverBodySchema,
     },
     patchUpdatePassword: {
         query: patchUpdatePasswordQuerySchema,

@@ -9,8 +9,11 @@ import { LoginUserOperationContract, LoginUserServiceContract } from './users/Lo
 import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
 import { PictureProfileOperationContract, PictureProfileServiceContract } from './users/PictureProfile';
 import { PostSupportEmailOperationContract, PostSupportEmailServiceContract } from './users/PostSupportEmail';
+import { RegisterDonationOperationContract, RegisterDonationServiceContract } from './users/RegisterDonation';
+import { RemoveUserCoverOperationContract, RemoveUserCoverServiceContract } from './users/RemoveUserCover';
 import { VerifyEmailOperationContract, VerifyEmailServiceContract } from './users/VerifyEmail';
 import { UpdateEmailOperationContract, UpdateEmailServiceContract } from './users/UpdateEmail';
+import { UpdateUserCoverOperationContract, UpdateUserCoverServiceContract } from './users/UpdateUserCover';
 import { UpdateUserDetailsOperationContract, UpdateUserDetailsServiceContract } from './users/UpdateUserDetails';
 import { UpdatePasswordOperationContract, UpdatePasswordServiceContract } from './users/UpdatePassword';
 import { UpdateUserOperationContract, UpdateUserServiceContract } from './users/UpdateUser';
@@ -31,7 +34,10 @@ export default interface UserCoreDependencies {
     logoutUserOperationContract: LogoutUserOperationContract;
     pictureProfileOperationContract: PictureProfileOperationContract;
     postSupportEmailOperationContract: PostSupportEmailOperationContract;
+    registerDonationOperationContract: RegisterDonationOperationContract;
+    removeUserCoverOperationContract: RemoveUserCoverOperationContract;
     updateEmailOperationContract: UpdateEmailOperationContract;
+    updateUserCoverOperationContract: UpdateUserCoverOperationContract;
     updateUserDetailsOperationContract: UpdateUserDetailsOperationContract;
     updatePasswordOperationContract: UpdatePasswordOperationContract;
     updateUserOperationContract: UpdateUserOperationContract;
@@ -50,7 +56,10 @@ export default interface UserCoreDependencies {
     logoutUserServiceContract: LogoutUserServiceContract;
     pictureProfileServiceContract: PictureProfileServiceContract;
     postSupportEmailServiceContract: PostSupportEmailServiceContract;
+    registerDonationServiceContract: RegisterDonationServiceContract;
+    removeUserCoverServiceContract: RemoveUserCoverServiceContract;
     updateEmailServiceContract: UpdateEmailServiceContract;
+    updateUserCoverServiceContract: UpdateUserCoverServiceContract;
     updateUserDetailsServiceContract: UpdateUserDetailsServiceContract;
     updatePasswordServiceContract: UpdatePasswordServiceContract;
     updateUserServiceContract: UpdateUserServiceContract;

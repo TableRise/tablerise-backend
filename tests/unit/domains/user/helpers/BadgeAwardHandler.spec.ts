@@ -2,6 +2,7 @@ import { UserDetail } from '@tablerise/database-management/dist/src/interfaces/U
 import {
     awardCampaignBadges,
     awardCharacterBadges,
+    awardDonationBadges,
     awardNewbieBadge,
     syncRankByBadgesLength,
 } from 'src/domains/users/helpers/BadgeAwardHandler';
@@ -28,7 +29,7 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include.members(['enthusiast-badge', 'student-badge', 'cleric-badge']);
+        expect(userDetails.gameInfo.badges).to.include.members(['enthusiast_badge', 'student_badge', 'cleric_badge']);
     });
 
     it('should add equipment buy badges when thresholds are reached', () => {
@@ -36,17 +37,17 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include.members(['imp-badge', 'imp-rich-badge']);
+        expect(userDetails.gameInfo.badges).to.include.members(['imp_badge', 'imp_rich_badge']);
     });
 
     it('should not duplicate badges that the user already has', () => {
-        userDetails.gameInfo.badges = ['enthusiast-badge'];
+        userDetails.gameInfo.badges = ['enthusiast_badge'];
         userDetails.gameInfo.campaignsJoinedAmount = 5;
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'enthusiast-badge')).to.have.length(1);
-        expect(userDetails.gameInfo.badges).to.include('student-badge');
+        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'enthusiast_badge')).to.have.length(1);
+        expect(userDetails.gameInfo.badges).to.include('student_badge');
     });
 
     it('should award the higher closed-campaign badges at later thresholds', () => {
@@ -55,11 +56,11 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         awardCampaignBadges(userDetails);
 
         expect(userDetails.gameInfo.badges).to.include.members([
-            'warrior-badge',
-            'warrior-young-badge',
-            'warrior-arcane-badge',
-            'warrior-darkness-badge',
-            'warrior-ancient-badge',
+            'warrior_badge',
+            'warrior_young_badge',
+            'warrior_arcane_badge',
+            'warrior_darkness_badge',
+            'warrior_ancient_badge',
         ]);
     });
 
@@ -69,13 +70,21 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.deep.equal(['enthusiast-badge']);
+        expect(userDetails.gameInfo.badges).to.deep.equal(['enthusiast_badge']);
     });
 
     it('should keep character badge flow disabled', () => {
         awardCharacterBadges(userDetails);
 
         expect(userDetails.gameInfo.badges).to.deep.equal([]);
+    });
+
+    it('should award donation badges based on the cumulative donation amount', () => {
+        userDetails.gameInfo.donateAmount = 100;
+
+        awardDonationBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges).to.include.members(['donate_normal', 'donate_rare', 'donate_super_rare']);
     });
 
     it('should sync rank to bronze, diamond, gold, and white based on badge count', () => {

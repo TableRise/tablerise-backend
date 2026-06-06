@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import {
     AddCampaignNotePayload,
+    RegisterDonationPayload,
     PostSupportEmailPayload,
     UpdateUserDetailsPayload,
     UpdateUserPayload,
@@ -14,6 +15,8 @@ import { RegisterUserResponse } from 'src/types/api/users/http/response';
 import {
     TCreateUserBody,
     TPostSupportEmailBody,
+    TRegisterDonationBody,
+    TRegisterDonationQuery,
     TUpdateCampaignNotesBody,
     TUpdateCampaignNotesQuery,
 } from './UsersSchemas';
@@ -33,10 +36,19 @@ export default class UsersController {
     private readonly addCampaignNoteOperation;
     private readonly pictureProfileOperation;
     private readonly postSupportEmailOperation;
+    private readonly registerDonationOperation;
+    private readonly updateUserCoverOperation;
+    private readonly removeUserCoverOperation;
     private readonly deleteUserOperation;
     private readonly logoutUserOperation;
     private readonly loginUserOperation;
     private readonly getCampaignsByUserIdOperation;
+
+    private normalizeBooleanQuery(value: unknown): boolean {
+        if (value === true || value === 'true') return true;
+        if (value === false || value === 'false') return false;
+        return Boolean(value);
+    }
 
     constructor({
         createUserOperation,
@@ -52,6 +64,9 @@ export default class UsersController {
         addCampaignNoteOperation,
         pictureProfileOperation,
         postSupportEmailOperation,
+        registerDonationOperation,
+        updateUserCoverOperation,
+        removeUserCoverOperation,
         deleteUserOperation,
         logoutUserOperation,
         loginUserOperation,
@@ -70,6 +85,9 @@ export default class UsersController {
         this.addCampaignNoteOperation = addCampaignNoteOperation;
         this.pictureProfileOperation = pictureProfileOperation;
         this.postSupportEmailOperation = postSupportEmailOperation;
+        this.registerDonationOperation = registerDonationOperation;
+        this.updateUserCoverOperation = updateUserCoverOperation;
+        this.removeUserCoverOperation = removeUserCoverOperation;
         this.deleteUserOperation = deleteUserOperation;
         this.logoutUserOperation = logoutUserOperation;
         this.loginUserOperation = loginUserOperation;
@@ -88,7 +106,10 @@ export default class UsersController {
         this.updatePassword = this.updatePassword.bind(this);
         this.updateCampaignNotes = this.updateCampaignNotes.bind(this);
         this.postSupportEmail = this.postSupportEmail.bind(this);
+        this.registerDonation = this.registerDonation.bind(this);
         this.profilePicture = this.profilePicture.bind(this);
+        this.updateUserCover = this.updateUserCover.bind(this);
+        this.removeUserCover = this.removeUserCover.bind(this);
         this.delete = this.delete.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
         this.login = this.login.bind(this);
@@ -211,6 +232,31 @@ export default class UsersController {
         return res.status(HttpStatusCode.OK).json(result);
     }
 
+    public async updateUserCover(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        if (id !== userId) HttpRequestErrors.throwError('unauthorized');
+
+        await this.updateUserCoverOperation.execute({
+            userId: id,
+            image: req.file as FileObject,
+        });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async removeUserCover(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+
+        if (id !== userId) HttpRequestErrors.throwError('unauthorized');
+
+        await this.removeUserCoverOperation.execute({ userId: id });
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
     public async updateCampaignNotes(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { campaignId } = req.query as unknown as TUpdateCampaignNotesQuery;
@@ -236,6 +282,24 @@ export default class UsersController {
             userId,
             payload,
         } as PostSupportEmailPayload);
+
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async registerDonation(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { userId } = req.user as Express.User;
+        const query = req.query as unknown as TRegisterDonationQuery;
+        const payload = req.body as TRegisterDonationBody;
+        const validation = this.normalizeBooleanQuery(query.validation);
+
+        if (id !== userId) HttpRequestErrors.throwError('unauthorized');
+
+        await this.registerDonationOperation.execute({
+            userId: id,
+            validation,
+            payload,
+        } as RegisterDonationPayload);
 
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }

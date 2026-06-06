@@ -8,29 +8,34 @@ interface CounterBadgeRule {
 }
 
 export const CAMPAIGN_BADGE_RULES = [
-    { counter: 'campaignsJoinedAmount', amount: 2, badge: 'enthusiast-badge' },
-    { counter: 'campaignsJoinedAmount', amount: 5, badge: 'student-badge' },
-    { counter: 'campaignsJoinedAmount', amount: 10, badge: 'mage-badge' },
-    { counter: 'campaignsJoinedAmount', amount: 30, badge: 'necromant-badge' },
-    { counter: 'campaignsJoinedAmount', amount: 50, badge: 'dragon-badge' },
-    { counter: 'campaignsCreatedAmount', amount: 2, badge: 'cleric-badge' },
-    { counter: 'campaignsCreatedAmount', amount: 5, badge: 'high-cleric-badge' },
-    { counter: 'campaignsCreatedAmount', amount: 10, badge: 'sorcerer-badge' },
-    { counter: 'campaignsCreatedAmount', amount: 30, badge: 'high-sorcerer-badge' },
-    { counter: 'campaignsCreatedAmount', amount: 50, badge: 'supreme-sorcerer-cleric-badge' },
-    { counter: 'campaignsClosedAmount', amount: 2, badge: 'warrior-badge' },
-    { counter: 'campaignsClosedAmount', amount: 5, badge: 'warrior-young-badge' },
-    { counter: 'campaignsClosedAmount', amount: 10, badge: 'warrior-arcane-badge' },
-    { counter: 'campaignsClosedAmount', amount: 30, badge: 'warrior-darkness-badge' },
-    { counter: 'campaignsClosedAmount', amount: 50, badge: 'warrior-ancient-badge' },
-    { counter: 'equipBoughtAmount', amount: 10, badge: 'imp-badge' },
-    { counter: 'equipBoughtAmount', amount: 30, badge: 'imp-rich-badge' },
-    { counter: 'equipBoughtAmount', amount: 50, badge: 'imp-very-rich-badge' },
-    { counter: 'equipBoughtAmount', amount: 70, badge: 'imp-with-glasses-and-money' },
-    { counter: 'equipBoughtAmount', amount: 90, badge: 'imp-king-rich-badge' },
+    { counter: 'campaignsJoinedAmount', amount: 2, badge: 'enthusiast_badge' },
+    { counter: 'campaignsJoinedAmount', amount: 5, badge: 'student_badge' },
+    { counter: 'campaignsJoinedAmount', amount: 10, badge: 'mage_badge' },
+    { counter: 'campaignsJoinedAmount', amount: 30, badge: 'necromant_badge' },
+    { counter: 'campaignsJoinedAmount', amount: 50, badge: 'dragon_badge' },
+    { counter: 'campaignsCreatedAmount', amount: 2, badge: 'cleric_badge' },
+    { counter: 'campaignsCreatedAmount', amount: 5, badge: 'high_cleric_badge' },
+    { counter: 'campaignsCreatedAmount', amount: 10, badge: 'sorcerer_badge' },
+    { counter: 'campaignsCreatedAmount', amount: 30, badge: 'high_sorcerer_badge' },
+    { counter: 'campaignsCreatedAmount', amount: 50, badge: 'supreme_sorcerer_cleric_badge' },
+    { counter: 'campaignsClosedAmount', amount: 2, badge: 'warrior_badge' },
+    { counter: 'campaignsClosedAmount', amount: 5, badge: 'warrior_young_badge' },
+    { counter: 'campaignsClosedAmount', amount: 10, badge: 'warrior_arcane_badge' },
+    { counter: 'campaignsClosedAmount', amount: 30, badge: 'warrior_darkness_badge' },
+    { counter: 'campaignsClosedAmount', amount: 50, badge: 'warrior_ancient_badge' },
+    { counter: 'equipBoughtAmount', amount: 10, badge: 'imp_badge' },
+    { counter: 'equipBoughtAmount', amount: 30, badge: 'imp_rich_badge' },
+    { counter: 'equipBoughtAmount', amount: 50, badge: 'imp_very_rich_badge' },
+    { counter: 'equipBoughtAmount', amount: 70, badge: 'imp_with_glasses_and_money' },
+    { counter: 'equipBoughtAmount', amount: 90, badge: 'imp_king_rich_badge' },
 ] as const;
 export const CHARACTER_BADGE_RULES = [] as const;
 export const NEWBIE_BADGE = null;
+export const DONATION_BADGE_RULES = [
+    { counter: 'donateAmount', amount: 10, badge: 'donate_normal' },
+    { counter: 'donateAmount', amount: 50, badge: 'donate_rare' },
+    { counter: 'donateAmount', amount: 100, badge: 'donate_super_rare' },
+] as const;
 export const BADGE_RANK_RULES = [
     { badgesAmount: 20, rank: 'white' },
     { badgesAmount: 15, rank: 'gold' },
@@ -82,4 +87,8 @@ export function awardCampaignBadges(userDetails: UserDetail): UserDetail {
 
 export function awardCharacterBadges(userDetails: UserDetail): UserDetail {
     return userDetails;
+}
+
+export function awardDonationBadges(userDetails: UserDetail): UserDetail {
+    return awardBadgesByRules(userDetails, DONATION_BADGE_RULES);
 }

@@ -44,9 +44,31 @@ export interface PostSupportEmailPayload {
     payload: PostSupportEmailBodyPayload;
 }
 
+export interface RegisterDonationBodyPayload {
+    value: number;
+    timestamp: string;
+    nickname?: string;
+    userId: string;
+}
+
+export interface RegisterDonationPayload {
+    userId: string;
+    validation: boolean;
+    payload: RegisterDonationBodyPayload;
+}
+
 export interface UserImagePayload {
     userId: string;
     image: FileObject;
+}
+
+export interface UpdateUserCoverPayload {
+    userId: string;
+    image: FileObject;
+}
+
+export interface RemoveUserCoverPayload {
+    userId: string;
 }
 
 export interface CompleteOAuth {

@@ -1,4 +1,5 @@
 import confirmEmailTemplate from 'src/infra/templates/confirmEmailTemplate';
+import donationEmailTemplate from 'src/infra/templates/donationEmailTemplate';
 import supportEmailTemplate from 'src/infra/templates/supportEmailTemplate';
 import verifyEmailTemplate from 'src/infra/templates/verifyEmailTemplate';
 import generateVerificationCode from 'src/domains/users/helpers/generateVerificationCode';
@@ -20,6 +21,7 @@ export default class EmailSender {
         this.handleEmail = this.handleEmail.bind(this);
         this.sendCommon = this.sendCommon.bind(this);
         this.sendConfirmation = this.sendConfirmation.bind(this);
+        this.sendDonation = this.sendDonation.bind(this);
         this.sendSupport = this.sendSupport.bind(this);
         this.sendVerification = this.sendVerification.bind(this);
         this.resolveTransportConfig = this.resolveTransportConfig.bind(this);
@@ -91,6 +93,20 @@ export default class EmailSender {
         return { success: sendEmailResult, verificationCode };
     }
 
+    private async sendDonation(content: CommonContent, target: string): Promise<ResponseEmailSender> {
+        const nickname = content.username ?? 'Anonymous';
+
+        content.body = donationEmailTemplate({
+            nickname,
+            userId: content.userId ?? '',
+            value: content.value ?? 0,
+            timestamp: content.timestamp ?? '',
+        });
+
+        const sendEmailResult = await this.handleEmail('html', content, target);
+        return { success: sendEmailResult };
+    }
+
     private async sendSupport(content: CommonContent, target: string): Promise<ResponseEmailSender> {
         const username = content.username ?? target;
         const userEmail = content.userEmail ?? target;
@@ -124,6 +140,7 @@ export default class EmailSender {
         const options = {
             common: this.sendCommon,
             confirmation: this.sendConfirmation,
+            donation: this.sendDonation,
             support: this.sendSupport,
             verification: this.sendVerification,
         };

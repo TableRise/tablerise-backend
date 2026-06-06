@@ -147,6 +147,22 @@ export default class UsersRoutes {
             },
             {
                 method: 'post',
+                path: '/:id/donate',
+                controller: this.usersController.registerDonation,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [
+                        {
+                            query: this.usersSchemas.postDonate.query,
+                            body: this.usersSchemas.postDonate.body,
+                        },
+                    ],
+                    tag: 'management',
+                    description: desc.postDonate,
+                },
+            },
+            {
+                method: 'post',
                 path: '/:id/update/picture',
                 controller: this.usersController.profilePicture,
                 options: {
@@ -228,6 +244,33 @@ export default class UsersRoutes {
                     middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
                     tag: 'management',
                     description: desc.deactivate2FA,
+                },
+            },
+            {
+                method: 'patch',
+                path: '/:id/update/cover',
+                controller: this.usersController.updateUserCover,
+                options: {
+                    middlewares: [
+                        passport.authenticate('cookie', { session: false }),
+                        this.imageMiddleware.multer().single('image'),
+                        this.imageMiddleware.fileType,
+                        this.verifyIdMiddleware,
+                    ],
+                    schemas: [{ body: this.usersSchemas.patchUpdateUserCover.body }],
+                    tag: 'management',
+                    description: desc.updateUserCover,
+                    fileUpload: true,
+                },
+            },
+            {
+                method: 'patch',
+                path: '/:id/update/cover/remove',
+                controller: this.usersController.removeUserCover,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.removeUserCover,
                 },
             },
             {

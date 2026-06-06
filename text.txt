@@ -1,0 +1,68 @@
+I have new keys at userDetail model and I gonna need a few new routes:
+:::::::::::::::::::::::::::::: (New routes for message)
+POST: /users/:id/message
+----------
+BODY
+----------
+```
+{
+  "title": string,
+  "content": string,
+  "targetUserId": string
+}
+```
+----------
+Interface (userDetail.messages)
+----------
+{
+    messageId: string,
+    title: string;
+    content: string;
+    userId: string ---> userId from the route param;
+    timestamp: string;
+}[] ---> Should be pushed at the userDetail.messages of the targetUserId from the body,
+and validate if the targetUserId is from a friend user `userDetail.friends`.
+
+****************************************
+GET: /users/:id/messages
+GET: /users/:id/messages/:messageId
+DELETE: /users/:id/messages/:messageId
+****************************************
+:::::::::::::::::::::::::::::: (New routes for gallery)
+GET: /users/:id/gallery
+GET: /users/:id/gallery/:imageId
+DELETE: /users/:id/gallery/:imageId
+----------
+Interface (userDetail.gallery)
+----------
+{
+    id: string;
+    title: string;
+    link: string;
+    uploadDate: string;
+    thumbSizeUrl?: string;
+    mediumSizeUrl?: string;
+    deleteUrl: string;
+    request: ImageObjectRequest;
+}[] ---> Identify every place where image is uploaded, and for the user that is uploading
+add the imageObject at the userDetails.gallery from the requester
+:::::::::::::::::::::::::::::: (New routes for friends)
+POST: /users/:id/friends/:targetUserId
+----------
+Interface (userDetail.friends)
+----------
+{
+    userId: string --> From targetUserId,
+    nickname: string,
+    tag: string,
+    picture: string,
+    rank: string,
+    status: string --> Will be 'pending' by default at db creation.
+}[]
+
+****************************************
+GET: /users/:id/friends
+GET: /users/:id/friends/:targetUserId
+PATCH: /users/:id/friends/remove/:targetUserId
+****************************************
+::::::::::::::::::::::::::::::

@@ -7,9 +7,12 @@ import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOpe
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
 import PostSupportEmailOperation from 'src/core/users/operations/users/PostSupportEmailOperation';
+import RegisterDonationOperation from 'src/core/users/operations/users/RegisterDonationOperation';
+import RemoveUserCoverOperation from 'src/core/users/operations/users/RemoveUserCoverOperation';
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
+import UpdateUserCoverOperation from 'src/core/users/operations/users/UpdateUserCoverOperation';
 import UpdateUserDetailsOperation from 'src/core/users/operations/users/UpdateUserDetailsOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
@@ -34,8 +37,11 @@ export interface UsersControllerContract {
     addCampaignNoteOperation: AddCampaignNoteOperation;
     pictureProfileOperation: PictureProfileOperation;
     postSupportEmailOperation: PostSupportEmailOperation;
+    registerDonationOperation: RegisterDonationOperation;
+    removeUserCoverOperation: RemoveUserCoverOperation;
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
     loginUserOperation: LoginUserOperation;
     getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation;
+    updateUserCoverOperation: UpdateUserCoverOperation;
 }

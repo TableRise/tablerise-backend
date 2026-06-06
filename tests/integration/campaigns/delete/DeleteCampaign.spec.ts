@@ -49,7 +49,7 @@ describe('When deleting a campaign', () => {
             .expect(HttpStatusCode.OK);
 
         expect(authenticatedUserUpdated.details.gameInfo.campaignsClosedAmount).to.equal(2);
-        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('warrior-badge');
+        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('warrior_badge');
 
         await requester()
             .get(`/campaigns/${campaign.campaignId as string}`)

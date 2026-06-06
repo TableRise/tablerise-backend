@@ -292,7 +292,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 expect(campaignSaved).to.be.deep.equal(campaign);
                 expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
-                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric-badge']);
+                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric_badge']);
             });
         });
 

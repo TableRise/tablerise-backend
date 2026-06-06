@@ -14,6 +14,9 @@ const login = 'Sign in with email and password and return the authenticated sess
 
 const postSupportEmail = 'Send an authenticated support email to the TableRise support inbox.';
 
+const postDonate =
+    'Register a donation intent for the authenticated user, optionally sending the request for manual validation.';
+
 const update = 'Update the allowed profile fields for a user.';
 
 const updateDetails = 'Update the allowed user detail fields for a user.';
@@ -32,6 +35,10 @@ const updateCampaignNotes = 'Add a note to one campaign inside the user game inf
 
 const profilePicture = 'Upload or replace the user profile picture. Accepted formats: PNG and JPEG.';
 
+const updateUserCover = 'Upload or replace the user details cover image. Accepted formats: PNG and JPEG.';
+
+const removeUserCover = 'Remove the user details cover image.';
+
 const deleteProfile = 'Delete a user account.';
 
 const logoutUser = 'Sign out the current user and invalidate the current token.';
@@ -49,6 +56,7 @@ export default {
     verify,
     login,
     postSupportEmail,
+    postDonate,
     update,
     updateDetails,
     activate2FA,
@@ -58,6 +66,8 @@ export default {
     updatePassword,
     updateCampaignNotes,
     profilePicture,
+    updateUserCover,
+    removeUserCover,
     deleteProfile,
     logoutUser,
     emailCode,

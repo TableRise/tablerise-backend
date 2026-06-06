@@ -18,6 +18,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             postCreateUser: { example: {} },
             postLogin: { example: {} },
             postSupportEmail: { body: {} },
+            postDonate: { query: {}, body: {} },
             postUpdateUserProfilePicture: { example: {} },
             postValidateEmailSendCode: { query: {} },
             postAuthenticateEmail: { query: {} },
@@ -25,6 +26,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             putUpdateUser: { body: {} },
             putUpdateUserDetails: { body: {} },
             patchUpdateEmail: { example: {} },
+            patchUpdateUserCover: { body: {} },
             patchUpdatePassword: { example: {} },
             patchUpdateCampaignNotes: { query: {}, body: {} },
         };
@@ -50,9 +52,12 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(21);
+            expect(routes).to.have.lengthOf(24);
             expect(routes.find((route) => route.path === '/:id/support/post')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/donate')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/me')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/update/cover')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/update/cover/remove')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.putUpdateUser.body,
             });
@@ -61,6 +66,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             ).to.be.deep.equal({
                 body: usersSchemas.putUpdateUserDetails.body,
             });
+            expect(routes.find((route) => route.path === '/:id/update/cover')?.options?.schemas?.[0]).to.be.deep.equal({
+                body: usersSchemas.patchUpdateUserCover.body,
+            });
+            expect(routes.find((route) => route.path === '/:id/update/cover')?.options?.fileUpload).to.equal(true);
             expect(routes.find((route) => route.path === '/:id/2fa/deactivate')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/2fa/reset')).to.be.undefined();
             expect(routes.find((route) => route.path === '/:id/update/game-info/add')).to.be.undefined();

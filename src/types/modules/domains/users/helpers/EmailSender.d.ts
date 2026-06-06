@@ -8,10 +8,10 @@ export interface EmailSenderContract {
         | nodemailer.TestAccount
         | nodemailer.TransportOptions
         | nodemailer.Transporter;
-    emailType: 'common' | 'confirmation' | 'support' | 'verification';
+    emailType: 'common' | 'confirmation' | 'donation' | 'support' | 'verification';
 }
 
-export type EmailSenderType = 'common' | 'confirmation' | 'support' | 'verification';
+export type EmailSenderType = 'common' | 'confirmation' | 'donation' | 'support' | 'verification';
 
 export interface CommonContent {
     username?: string;
@@ -21,6 +21,8 @@ export interface CommonContent {
     campaignCode?: string;
     category?: string;
     title?: string;
+    value?: number;
+    timestamp?: string;
     verificationCode?: string;
     subject?: string;
     body?: string;
