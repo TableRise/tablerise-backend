@@ -5,6 +5,7 @@ import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
 import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
+import { ensureUserDetailCollections } from 'src/domains/users/helpers/UserDetailCollections';
 
 export default class UsersDetailsRepository {
     private readonly model;
@@ -29,6 +30,7 @@ export default class UsersDetailsRepository {
     private formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
         ensureGameInfoCounters(format);
+        ensureUserDetailCollections(format);
         return this.serializer.postUserDetails(format);
     }
 
@@ -49,12 +51,19 @@ export default class UsersDetailsRepository {
         if (!rawCollection?.updateOne) return;
 
         const gameInfo = (payload as unknown as { gameInfo?: Record<string, unknown> }).gameInfo;
-        if (!gameInfo || typeof gameInfo.campaignsCreatedAmount !== 'number') return;
+        if (!gameInfo) return;
+
+        const rawGameInfoFields: Record<string, number> = {};
+        if (typeof gameInfo.campaignsCreatedAmount === 'number') {
+            rawGameInfoFields['gameInfo.campaignsCreatedAmount'] = gameInfo.campaignsCreatedAmount;
+        }
+        if (typeof gameInfo.donateAmount === 'number') {
+            rawGameInfoFields['gameInfo.donateAmount'] = gameInfo.donateAmount;
+        }
+        if (!Object.keys(rawGameInfoFields).length) return;
 
         await rawCollection.updateOne(query, {
-            $set: {
-                'gameInfo.campaignsCreatedAmount': gameInfo.campaignsCreatedAmount,
-            },
+            $set: rawGameInfoFields,
         });
     }
 

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ICharactersSchemas } from 'src/types/modules/interface/characters/presentation/characters/CharactersSchemas';
+import { optionalImageObjectZodSchema } from 'src/domains/common/schemas/commonValidationSchema';
 import uploadedFileSchema from 'src/interface/common/helpers/uploadedFileSchema';
 
 // ─── POST (create) ────────────────────────────────────────────────────────────
@@ -277,9 +278,15 @@ const updateCharacterZodSchema = z.object({
     data: dataUpdateZodSchema,
 });
 
-const insertCharacterPictureZodSchema = z.object({
-    picture: uploadedFileSchema,
-});
+const insertCharacterPictureZodSchema = z
+    .object({
+        picture: uploadedFileSchema.optional(),
+        imageObject: optionalImageObjectZodSchema,
+    })
+    .refine((payload) => payload.picture !== undefined || payload.imageObject !== undefined, {
+        message: 'Either picture or imageObject is required',
+        path: ['picture'],
+    });
 
 const updateMoneyZodSchema = z.object({
     operation: z.enum(['add', 'subtract']),

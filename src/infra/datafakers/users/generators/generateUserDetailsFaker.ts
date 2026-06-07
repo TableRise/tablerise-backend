@@ -20,6 +20,7 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             campaignsCreatedAmount: 0,
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
+            donateAmount: 0,
         },
         biography: dataGenerator.biography(),
         rank: 'bronze',
@@ -30,6 +31,14 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             link: '',
             uploadDate: new Date().toISOString(),
             deleteUrl: '',
+        },
+        messages: [],
+        gallery: [],
+        friends: [],
+        social: {
+            discord: '',
+            instagram: '',
+            x: '',
         },
         role: 'admin',
     } as UserDetail;

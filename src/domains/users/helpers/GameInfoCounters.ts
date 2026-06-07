@@ -4,7 +4,8 @@ export type UserGameInfoCounterKey =
     | 'campaignsJoinedAmount'
     | 'campaignsCreatedAmount'
     | 'campaignsClosedAmount'
-    | 'equipBoughtAmount';
+    | 'equipBoughtAmount'
+    | 'donateAmount';
 
 export function ensureGameInfoCounters(userDetails: UserDetail): UserDetail {
     if (!userDetails.gameInfo) {
@@ -17,6 +18,7 @@ export function ensureGameInfoCounters(userDetails: UserDetail): UserDetail {
             campaignsCreatedAmount: 0,
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
+            donateAmount: 0,
         } as UserDetail['gameInfo'];
     }
 
@@ -26,6 +28,7 @@ export function ensureGameInfoCounters(userDetails: UserDetail): UserDetail {
     if (typeof gameInfo.campaignsCreatedAmount !== 'number') gameInfo.campaignsCreatedAmount = 0;
     if (typeof gameInfo.campaignsClosedAmount !== 'number') gameInfo.campaignsClosedAmount = 0;
     if (typeof gameInfo.equipBoughtAmount !== 'number') gameInfo.equipBoughtAmount = 0;
+    if (typeof gameInfo.donateAmount !== 'number') gameInfo.donateAmount = 0;
     if (typeof gameInfo.charactersCreatedAmount !== 'number') gameInfo.charactersCreatedAmount = 0;
 
     return userDetails;

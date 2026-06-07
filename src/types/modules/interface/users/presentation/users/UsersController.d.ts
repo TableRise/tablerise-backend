@@ -7,9 +7,12 @@ import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOpe
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
 import PostSupportEmailOperation from 'src/core/users/operations/users/PostSupportEmailOperation';
+import RegisterDonationOperation from 'src/core/users/operations/users/RegisterDonationOperation';
+import RemoveUserCoverOperation from 'src/core/users/operations/users/RemoveUserCoverOperation';
 import UpdateEmailOperation from 'src/core/users/operations/users/UpdateEmailOperation';
 import UpdatePasswordOperation from 'src/core/users/operations/users/UpdatePasswordOperation';
 import UpdateUserOperation from 'src/core/users/operations/users/UpdateUserOperation';
+import UpdateUserCoverOperation from 'src/core/users/operations/users/UpdateUserCoverOperation';
 import UpdateUserDetailsOperation from 'src/core/users/operations/users/UpdateUserDetailsOperation';
 import VerifyEmailOperation from 'src/core/users/operations/users/VerifyEmailOperation';
 import LogoutUserOperation from 'src/core/users/operations/users/LogoutUserOperation';
@@ -17,6 +20,9 @@ import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperati
 import { IUsersSchemas } from './UsersSchemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import GetCampaignsByUserIdOperation from 'src/core/users/operations/users/GetCampaignsByUserIdOperation';
+import MessagesOperation from 'src/core/users/operations/users/MessagesOperation';
+import GalleryOperation from 'src/core/users/operations/users/GalleryOperation';
+import FriendsOperation from 'src/core/users/operations/users/FriendsOperation';
 
 export interface UsersControllerContract {
     schemaValidator: SchemaValidator;
@@ -34,8 +40,14 @@ export interface UsersControllerContract {
     addCampaignNoteOperation: AddCampaignNoteOperation;
     pictureProfileOperation: PictureProfileOperation;
     postSupportEmailOperation: PostSupportEmailOperation;
+    registerDonationOperation: RegisterDonationOperation;
+    removeUserCoverOperation: RemoveUserCoverOperation;
     deleteUserOperation: DeleteUserOperation;
     logoutUserOperation: LogoutUserOperation;
     loginUserOperation: LoginUserOperation;
     getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation;
+    updateUserCoverOperation: UpdateUserCoverOperation;
+    messagesOperation: MessagesOperation;
+    galleryOperation: GalleryOperation;
+    friendsOperation: FriendsOperation;
 }

@@ -1,6 +1,6 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
-import { FileObject } from 'src/types/shared/file';
+import { UpdateCampaignCoverPayload } from 'src/types/api/campaigns/http/payload';
 
 export default class UpdateCampaignCoverOperation {
     private readonly updateCampaignCoverService;
@@ -16,10 +16,20 @@ export default class UpdateCampaignCoverOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute({ campaignId, picture }: { campaignId: string; picture: FileObject }): Promise<Campaign['cover']> {
+    async execute({
+        campaignId,
+        userId,
+        picture,
+        imageObject,
+    }: UpdateCampaignCoverPayload): Promise<Campaign['cover']> {
         this.logger('info', 'Execute - UpdateCampaignCoverOperation');
 
-        const campaignWithNewCover = await this.updateCampaignCoverService.updateCover({ campaignId, picture });
+        const campaignWithNewCover = await this.updateCampaignCoverService.updateCover({
+            campaignId,
+            userId,
+            picture,
+            imageObject,
+        });
         const savedCampaign = await this.updateCampaignCoverService.save(campaignWithNewCover);
 
         return savedCampaign.cover;

@@ -17,6 +17,7 @@ import {
     swaggerConfig,
     usersGroup,
 } from 'src/domains/common/helpers/swaggerConfigs';
+import { isAllowedCorsOrigin } from 'src/domains/common/helpers/corsOrigins';
 
 export default class Application {
     private readonly usersRoutes;
@@ -77,8 +78,15 @@ export default class Application {
         app.use(express.json())
             .use(
                 cors({
-                    origin: process.env.CORS_ORIGIN,
+                    origin: (origin, callback) => {
+                        if (isAllowedCorsOrigin(origin)) {
+                            callback(null, true);
+                            return;
+                        }
+                        callback(new Error('Not allowed by CORS'));
+                    },
                     credentials: true,
+                    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
                 })
             )
             .use(passport.initialize())

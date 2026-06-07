@@ -25,7 +25,7 @@ describe('Core :: Campaigns :: Operations :: CreateCampaignOperation', () => {
                 enrichment: sinon.spy(() => ({
                     campaignEnriched: {},
                 })),
-                save: sinon.spy(() => campaignCreated),
+                saveWithGalleryOptions: sinon.spy(() => campaignCreated),
             };
 
             createCampaignOperation = new CreateCampaignOperation({
@@ -47,10 +47,72 @@ describe('Core :: Campaigns :: Operations :: CreateCampaignOperation', () => {
                 },
                 userId
             );
-            expect(createCampaignService.save).to.have.been.calledWith({
-                campaignEnriched: {},
-            });
+            expect(createCampaignService.saveWithGalleryOptions).to.have.been.calledWith(
+                {
+                    campaignEnriched: {},
+                },
+                {
+                    appendCoverToGallery: false,
+                    appendMapImagesToGallery: false,
+                }
+            );
             expect(campaignTest).to.be.deep.equal(campaignCreated);
+        });
+
+        it('should append uploaded cover and map images to gallery when files are provided', async () => {
+            await createCampaignOperation.execute({
+                campaign: campaignToCreate,
+                userId,
+                image: { originalname: 'cover.png' } as any,
+                mapImages: [{ originalname: 'map.png' }] as any,
+            });
+
+            expect(createCampaignService.saveWithGalleryOptions).to.have.been.calledWith(
+                {
+                    campaignEnriched: {},
+                },
+                {
+                    appendCoverToGallery: true,
+                    appendMapImagesToGallery: true,
+                }
+            );
+        });
+
+        it('should skip gallery appends when imageObject overrides uploaded files', async () => {
+            await createCampaignOperation.execute({
+                campaign: campaignToCreate,
+                userId,
+                image: { originalname: 'cover.png' } as any,
+                mapImages: [{ originalname: 'map.png' }] as any,
+                imageObject: {
+                    cover: {
+                        id: 'cover-1',
+                        title: '',
+                        link: 'https://img.bb/cover',
+                        uploadDate: new Date().toISOString(),
+                        deleteUrl: '',
+                    } as any,
+                    mapImages: [
+                        {
+                            id: 'map-1',
+                            title: '',
+                            link: 'https://img.bb/map',
+                            uploadDate: new Date().toISOString(),
+                            deleteUrl: '',
+                        } as any,
+                    ],
+                },
+            });
+
+            expect(createCampaignService.saveWithGalleryOptions).to.have.been.calledWith(
+                {
+                    campaignEnriched: {},
+                },
+                {
+                    appendCoverToGallery: false,
+                    appendMapImagesToGallery: false,
+                }
+            );
         });
     });
 
@@ -67,7 +129,7 @@ describe('Core :: Campaigns :: Operations :: CreateCampaignOperation', () => {
                 enrichment: sinon.spy(() => ({
                     campaignEnriched: {},
                 })),
-                save: sinon.spy(() => campaignCreated),
+                saveWithGalleryOptions: sinon.spy(() => campaignCreated),
             };
 
             createCampaignOperation = new CreateCampaignOperation({

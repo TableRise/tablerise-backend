@@ -18,14 +18,24 @@ export default class CreateCampaignOperation {
         userId,
         image,
         mapImages,
+        imageObject,
     }: CreateCampaignPayload): Promise<CreateCampaignResponse> {
         this.logger('info', 'Execute - CreateCampaignOperation');
         const entitySerialized = await this.createCampaignService.serialize({
             ...campaign,
         });
 
-        const entityEnriched = await this.createCampaignService.enrichment(entitySerialized, userId, image, mapImages);
+        const entityEnriched = await this.createCampaignService.enrichment(
+            entitySerialized,
+            userId,
+            image,
+            mapImages,
+            imageObject
+        );
 
-        return this.createCampaignService.save(entityEnriched);
+        return this.createCampaignService.saveWithGalleryOptions(entityEnriched, {
+            appendCoverToGallery: imageObject?.cover === undefined && image !== undefined,
+            appendMapImagesToGallery: imageObject?.mapImages === undefined && Boolean(mapImages?.length),
+        });
     }
 }

@@ -43,6 +43,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: Match Images Co
     it('should add match images from multipart files', async () => {
         const request = {
             params: { id: 'campaign-1' },
+            user: { userId: 'user-1' },
             files: { images: [{ fieldname: 'images' }] },
         } as unknown as Request;
         const response = {
@@ -56,10 +57,53 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: Match Images Co
 
         expect(updateMatchImagesOperation.execute).to.have.been.calledWith({
             campaignId: 'campaign-1',
+            userId: 'user-1',
             images: [{ fieldname: 'images' }],
+            imageObject: undefined,
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith([{ id: 'image-1' }]);
+    });
+
+    it('should add match images from provided imageObject payloads without files', async () => {
+        const request = {
+            params: { id: 'campaign-1' },
+            user: { userId: 'user-1' },
+            body: {
+                imageObject: JSON.stringify([
+                    {
+                        id: 'image-1',
+                        link: 'https://img.bb/image-1',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                ]),
+            },
+        } as unknown as Request;
+        const response = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub().returnsThis(),
+        } as unknown as Response;
+        const updateMatchImagesOperation = { execute: sinon.stub().resolves([{ id: 'image-1' }]) };
+        const controller = buildController({ updateMatchImagesOperation });
+
+        await controller.addMatchImages(request, response);
+
+        expect(updateMatchImagesOperation.execute).to.have.been.calledWith({
+            campaignId: 'campaign-1',
+            userId: 'user-1',
+            images: undefined,
+            imageObject: [
+                {
+                    id: 'image-1',
+                    link: 'https://img.bb/image-1',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                },
+            ],
+        });
     });
 
     it('should highlight one match image by query param', async () => {

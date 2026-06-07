@@ -62,7 +62,7 @@ describe('When a campaign buy is created', () => {
             .get(`/users/${authenticatedUserId}`)
             .expect(HttpStatusCode.OK);
         expect(authenticatedUserUpdated.details.gameInfo.equipBoughtAmount).to.equal(10);
-        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('imp-badge');
+        expect(authenticatedUserUpdated.details.gameInfo.badges).to.include('imp');
     });
 
     it('should preserve existing buys and append the new one at the end', async () => {

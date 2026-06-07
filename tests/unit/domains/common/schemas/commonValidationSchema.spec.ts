@@ -1,7 +1,11 @@
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
-import { uuidV4Schema } from 'src/domains/common/schemas/commonValidationSchema';
+import {
+    optionalImageObjectArrayZodSchema,
+    optionalImageObjectZodSchema,
+    uuidV4Schema,
+} from 'src/domains/common/schemas/commonValidationSchema';
 import newUUID from 'src/domains/common/helpers/newUUID';
 
 describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {
@@ -40,6 +44,22 @@ describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {
                 expect(err.details).to.have.length(1);
                 expect(err.details[0].reason).to.be.equal('Too small: expected string to have >=36 characters');
             }
+        });
+
+        it('should reject invalid JSON imageObject strings after preprocessing fallback', () => {
+            expect(() => optionalImageObjectZodSchema.parse('{invalid-json}')).to.throw();
+            expect(() => optionalImageObjectArrayZodSchema.parse('[invalid-json]')).to.throw();
+        });
+
+        it('should allow imageObject payloads without the request key', () => {
+            expect(() =>
+                optionalImageObjectZodSchema.parse({
+                    id: 'image-1',
+                    link: 'https://img.bb/image',
+                    uploadDate: '2026-06-07T00:00:00.000Z',
+                    deleteUrl: '',
+                })
+            ).to.not.throw();
         });
     });
 });

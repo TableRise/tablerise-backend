@@ -27,6 +27,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             addCampaignNoteOperation: { execute: sinon.stub() },
             pictureProfileOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
             postSupportEmailOperation: { execute: sinon.stub() },
+            registerDonationOperation: { execute: sinon.stub() },
+            updateUserCoverOperation: { execute: sinon.stub() },
+            removeUserCoverOperation: { execute: sinon.stub() },
             deleteUserOperation: { execute: sinon.stub() },
             logoutUserOperation: { execute: sinon.stub() },
             loginUserOperation: {
@@ -193,8 +196,172 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         await controller.profilePicture({ params: { id: '123' }, file: { name: 'file' } } as any, response);
 
+        expect((controller as any).pictureProfileOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: { name: 'file' },
+            imageObject: undefined,
+        });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ userId: '123' });
+    });
+
+    it('should forward a provided profile imageObject without needing a file', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.profilePicture(
+            {
+                params: { id: '123' },
+                body: {
+                    imageObject: JSON.stringify({
+                        id: 'image-1',
+                        link: 'https://img.bb/profile',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).pictureProfileOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: undefined,
+            imageObject: {
+                id: 'image-1',
+                link: 'https://img.bb/profile',
+                uploadDate: '2026-06-06T00:00:00.000Z',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            },
+        });
+    });
+
+    it('should update the user cover and return no content', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.updateUserCover(
+            {
+                params: { id: '123' },
+                user: { userId: '123' },
+                file: { originalname: 'cover.png' },
+            } as any,
+            response
+        );
+
+        expect((controller as any).updateUserCoverOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: { originalname: 'cover.png' },
+            imageObject: undefined,
+        });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+        expect(response.end).to.have.been.called();
+    });
+
+    it('should forward a provided cover imageObject without needing a file', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.updateUserCover(
+            {
+                params: { id: '123' },
+                user: { userId: '123' },
+                body: {
+                    imageObject: JSON.stringify({
+                        id: 'cover-1',
+                        link: 'https://img.bb/cover',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).updateUserCoverOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: undefined,
+            imageObject: {
+                id: 'cover-1',
+                link: 'https://img.bb/cover',
+                uploadDate: '2026-06-06T00:00:00.000Z',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            },
+        });
+    });
+
+    it('should remove the user cover and return no content', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.removeUserCover(
+            {
+                params: { id: '123' },
+                user: { userId: '123' },
+            } as any,
+            response
+        );
+
+        expect((controller as any).removeUserCoverOperation.execute).to.have.been.calledWith({
+            userId: '123',
+        });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+        expect(response.end).to.have.been.called();
+    });
+
+    it('should reject user cover update requests for a different authenticated user', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        let thrownError;
+
+        try {
+            await controller.updateUserCover(
+                {
+                    params: { id: '123' },
+                    user: { userId: '456' },
+                    file: { originalname: 'cover.png' },
+                } as any,
+                response
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        const err = thrownError as HttpRequestErrors;
+        expect(err.message).to.equal('Unauthorized');
+        expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        expect((controller as any).updateUserCoverOperation.execute).to.not.have.been.called();
+        expect(response.status).to.not.have.been.called();
+    });
+
+    it('should reject user cover removal requests for a different authenticated user', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        let thrownError;
+
+        try {
+            await controller.removeUserCover(
+                {
+                    params: { id: '123' },
+                    user: { userId: '456' },
+                } as any,
+                response
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        const err = thrownError as HttpRequestErrors;
+        expect(err.message).to.equal('Unauthorized');
+        expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        expect((controller as any).removeUserCoverOperation.execute).to.not.have.been.called();
+        expect(response.status).to.not.have.been.called();
     });
 
     it('should update campaign notes', async () => {
@@ -274,6 +441,107 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
         expect((controller as any).postSupportEmailOperation.execute).to.not.have.been.called();
         expect(response.status).to.not.have.been.called();
+    });
+
+    it('should register a donation and return no content', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.registerDonation(
+            {
+                params: { id: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                user: { userId: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                query: { validation: 'false' },
+                body: {
+                    value: 15,
+                    timestamp: '2026-06-03T12:30:00.000Z',
+                    userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).registerDonationOperation.execute).to.have.been.calledWith({
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            validation: false,
+            payload: {
+                value: 15,
+                timestamp: '2026-06-03T12:30:00.000Z',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            },
+        });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+        expect(response.end).to.have.been.called();
+    });
+
+    it('should normalize string true in donation validation queries', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.registerDonation(
+            {
+                params: { id: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                user: { userId: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                query: { validation: 'true' },
+                body: {
+                    value: 15,
+                    timestamp: '2026-06-03T12:30:00.000Z',
+                    nickname: 'Lia',
+                    userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).registerDonationOperation.execute).to.have.been.calledWith({
+            userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            validation: true,
+            payload: {
+                value: 15,
+                timestamp: '2026-06-03T12:30:00.000Z',
+                nickname: 'Lia',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            },
+        });
+    });
+
+    it('should reject donation requests for a different authenticated user', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        let thrownError;
+
+        try {
+            await controller.registerDonation(
+                {
+                    params: { id: '123' },
+                    user: { userId: '456' },
+                    query: { validation: true },
+                    body: {
+                        value: 15,
+                        timestamp: '2026-06-03T12:30:00.000Z',
+                        nickname: 'Lia',
+                        userId: '123',
+                    },
+                } as any,
+                response
+            );
+        } catch (error) {
+            thrownError = error;
+        }
+
+        const err = thrownError as HttpRequestErrors;
+        expect(err.message).to.equal('Unauthorized');
+        expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        expect((controller as any).registerDonationOperation.execute).to.not.have.been.called();
+        expect(response.status).to.not.have.been.called();
+    });
+
+    it('should fallback boolean query normalization for unknown values', () => {
+        const controller = buildController() as any;
+
+        expect(controller.normalizeBooleanQuery(undefined)).to.equal(false);
+        expect(controller.normalizeBooleanQuery(1)).to.equal(true);
     });
 
     it('should logout and clear auth cookies', async () => {

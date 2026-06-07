@@ -948,10 +948,13 @@
                 "properties": {
                   "picture": {
                     "type": "string"
+                  },
+                  "imageObject": {
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "picture"
+                  "imageObject"
                 ]
               }
             }

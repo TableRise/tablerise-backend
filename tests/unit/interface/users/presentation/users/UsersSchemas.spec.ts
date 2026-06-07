@@ -5,6 +5,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersSchemas', () => {
         const schemas = UsersSchemas();
 
         expect(schemas).to.have.property('postSupportEmail');
+        expect(schemas).to.have.property('postDonate');
     });
 
     it('should validate support email payloads with optional campaign code', () => {
@@ -54,5 +55,121 @@ describe('Interface :: Users :: Presentation :: Users :: UsersSchemas', () => {
                 },
             })
         ).to.not.throw();
+
+        expect(() =>
+            schemas.postUpdateUserProfilePicture.body.parse({
+                imageObject: JSON.stringify({
+                    id: 'image-1',
+                    link: 'https://img.bb/profile',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                }),
+            })
+        ).to.not.throw();
+    });
+
+    it('should validate user cover payloads for both browser and multer uploads', () => {
+        const schemas = UsersSchemas();
+
+        expect(() =>
+            schemas.patchUpdateUserCover.body.parse({
+                image: new File(['cover'], 'cover.png', { type: 'image/png' }),
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.patchUpdateUserCover.body.parse({
+                image: {
+                    fieldname: 'image',
+                    originalname: 'cover.png',
+                    mimetype: 'image/png',
+                    buffer: Buffer.from('cover'),
+                },
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.patchUpdateUserCover.body.parse({
+                image: 'invalid-file',
+            })
+        ).to.throw();
+
+        expect(() =>
+            schemas.patchUpdateUserCover.body.parse({
+                imageObject: JSON.stringify({
+                    id: 'image-1',
+                    link: 'https://img.bb/cover',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                }),
+            })
+        ).to.not.throw();
+    });
+
+    it('should parse the donation validation query flag', () => {
+        const schemas = UsersSchemas();
+
+        expect(schemas.postDonate.query.parse({ validation: 'true' })).to.deep.equal({ validation: true });
+        expect(schemas.postDonate.query.parse({ validation: 'false' })).to.deep.equal({ validation: false });
+        expect(() => schemas.postDonate.query.parse({ validation: 'not-a-boolean' })).to.throw();
+    });
+
+    it('should validate message payloads', () => {
+        const schemas = UsersSchemas();
+
+        expect(() =>
+            schemas.postMessage.body.parse({
+                title: 'Hello',
+                content: 'How are you?',
+                targetUserId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.postMessage.body.parse({
+                title: 'Hello',
+                content: 'How are you?',
+                targetUserId: 'invalid-id',
+            })
+        ).to.throw();
+    });
+
+    it('should parse the accept-friend decline flag', () => {
+        const schemas = UsersSchemas();
+
+        expect(schemas.patchAcceptFriend.query.parse({})).to.deep.equal({ decline: false });
+        expect(schemas.patchAcceptFriend.query.parse({ decline: 'true' })).to.deep.equal({ decline: true });
+        expect(schemas.patchAcceptFriend.query.parse({ decline: 'false' })).to.deep.equal({ decline: false });
+    });
+
+    it('should validate donation payloads and allow nickname to stay optional at schema level', () => {
+        const schemas = UsersSchemas();
+
+        expect(() =>
+            schemas.postDonate.body.parse({
+                value: 15,
+                timestamp: '2026-06-03T12:30:00.000Z',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.postDonate.body.parse({
+                value: 15,
+                timestamp: '2026-06-03T12:30:00.000Z',
+                nickname: 'Lia',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            })
+        ).to.not.throw();
+
+        expect(() =>
+            schemas.postDonate.body.parse({
+                value: 15,
+                timestamp: 'invalid-date',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+            })
+        ).to.throw();
     });
 });

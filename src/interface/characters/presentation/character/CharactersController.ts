@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import InterfaceDependencies from 'src/types/modules/interface/InterfaceDependencies';
 import { FileObject } from 'src/types/shared/file';
+import parseRequestJsonField from 'src/interface/common/helpers/parseRequestJsonField';
 import { TCreateCharacterBody } from './CharactersSchemas';
 
 export default class CharactersController {
@@ -81,9 +82,12 @@ export default class CharactersController {
 
     public async updateCharacterPicture(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { userId } = req.user as Express.User;
         const result = await this.updateCharacterPictureOperation.execute({
             characterId: id,
-            image: req.file as FileObject,
+            userId,
+            image: req.file as FileObject | undefined,
+            imageObject: parseRequestJsonField(req.body?.imageObject),
         });
 
         return res.status(HttpStatusCode.CREATED).json(result);

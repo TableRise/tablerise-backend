@@ -2,6 +2,7 @@ import UpdateMatchMapImagesService from 'src/core/campaigns/services/UpdateMatch
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import SocketIO from 'src/infra/clients/SocketIO';
 import CampaignsRepository from 'src/infra/repositories/campaign/CampaignsRepository';
+import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/shared/logger';
 
 export interface UpdateMatchMapImagesOperationContract {
@@ -12,6 +13,7 @@ export interface UpdateMatchMapImagesOperationContract {
 
 export interface UpdateMatchMapImagesServiceContract {
     campaignsRepository: CampaignsRepository;
+    usersDetailsRepository: UsersDetailsRepository;
     imageStorageClient: ImageStorageClient;
     logger: Logger;
 }

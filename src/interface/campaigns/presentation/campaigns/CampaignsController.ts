@@ -27,6 +27,7 @@ import {
 } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import { CampaignsControllerContract } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsController.d';
 import { FileObject } from 'src/types/shared/file';
+import parseRequestJsonField from 'src/interface/common/helpers/parseRequestJsonField';
 
 export default class CampaignsController {
     private readonly getCampaignsByUserIdOperation;
@@ -153,7 +154,8 @@ export default class CampaignsController {
     }
 
     public async create(req: Request, res: Response): Promise<Response> {
-        const campaign = req.body as CampaignPayload;
+        const body = req.body as CampaignPayload & { imageObject?: unknown };
+        const { imageObject, ...campaign } = body;
         const { userId } = req.user as Express.User;
         const files = req.files as Record<string, Express.Multer.File[]>;
         const image = files?.cover?.[0] as FileObject | undefined;
@@ -164,6 +166,7 @@ export default class CampaignsController {
             userId,
             image,
             mapImages,
+            imageObject: parseRequestJsonField(imageObject),
         });
 
         delete result.password;
@@ -242,12 +245,15 @@ export default class CampaignsController {
 
     public async addMatchMapImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { userId } = req.user as Express.User;
         const files = req.files as { mapImages?: Express.Multer.File[] };
         const mapImages = files?.mapImages;
 
         const result = await this.updateMatchMapImagesOperation.execute({
             campaignId: id,
+            userId,
             mapImages,
+            imageObject: parseRequestJsonField(req.body?.imageObject),
         });
 
         return res.status(HttpStatusCode.OK).json(result);
@@ -255,12 +261,15 @@ export default class CampaignsController {
 
     public async addMatchImages(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
+        const { userId } = req.user as Express.User;
         const files = req.files as TUpdateCampaignMatchImagesBody;
         const images = files?.images;
 
         const result = await this.updateMatchImagesOperation.execute({
             campaignId: id,
+            userId,
             images,
+            imageObject: parseRequestJsonField(req.body?.imageObject),
         });
 
         return res.status(HttpStatusCode.OK).json(result);
@@ -446,11 +455,14 @@ export default class CampaignsController {
 
     public async updateCampaignCover(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const picture = req.file as FileObject;
+        const { userId } = req.user as Express.User;
+        const picture = req.file as FileObject | undefined;
 
         const result = await this.updateCampaignCoverOperation.execute({
             campaignId: id,
+            userId,
             picture,
+            imageObject: parseRequestJsonField(req.body?.imageObject),
         });
 
         return res.status(HttpStatusCode.OK).json(result);

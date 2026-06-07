@@ -13,6 +13,7 @@ describe('Core :: Characters :: Operations :: UpdateCharacterPictureOperation', 
         beforeEach(() => {
             payload = {
                 characterId: 'string',
+                userId: 'user-1',
                 image: {} as FileObject,
             };
 

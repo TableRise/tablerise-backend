@@ -1,87 +1,195 @@
 import UpdateCharacterPictureService from 'src/core/characters/services/UpdateCharacterPictureService';
 import Sinon from 'sinon';
+import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import { FileObject } from 'src/types/shared/file';
 import { UpdateCharacterPicturePayload } from 'src/types/api/characters/http/payload';
 
 describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () => {
-    let updateCharacterPictureService: UpdateCharacterPictureService,
-        charactersRepository: any,
-        imageStorageClient: any,
-        payload: UpdateCharacterPicturePayload;
-
     const logger = (): void => {};
 
-    context('When a picture is uploaded to a character', () => {
-        beforeEach(() => {
-            payload = {
-                characterId: 'string',
+    it('should update the character picture and append it to the uploader gallery', async () => {
+        const payload: UpdateCharacterPicturePayload = {
+            characterId: 'character-1',
+            userId: 'user-1',
+            image: {} as FileObject,
+        };
+        const uploaded = {
+            id: 'image-1',
+            link: 'https://img.bb/character',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const userDetails = {
+            userDetailId: 'detail-1',
+            gallery: [],
+        };
+
+        const charactersRepository = {
+            findOne: Sinon.stub().resolves({
+                picture: '',
+                characterId: 'character-1',
+            }),
+            update: Sinon.stub().resolves({}),
+        };
+        const usersDetailsRepository = {
+            findOne: Sinon.stub().resolves(userDetails),
+            update: Sinon.stub().resolves(userDetails),
+        };
+        const imageStorageClient = { upload: Sinon.stub().resolves(uploaded) };
+
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository,
+            usersDetailsRepository,
+            imageStorageClient,
+        } as any);
+
+        await service.uploadPicture(payload);
+
+        expect(charactersRepository.findOne).to.have.been.calledWith({ characterId: payload.characterId });
+        expect(imageStorageClient.upload).to.have.been.calledWith(payload.image);
+        expect(usersDetailsRepository.update).to.have.been.calledWith({
+            query: { userDetailId: 'detail-1' },
+            payload: userDetails,
+        });
+        expect(userDetails.gallery).to.deep.equal([uploaded]);
+        expect(charactersRepository.update).to.have.been.calledWith({
+            query: { characterId: 'character-1' },
+            payload: Sinon.match.object,
+        });
+    });
+
+    it('should bubble repository and upload errors', async () => {
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository: {
+                findOne: Sinon.stub().rejects(new Error('Character not found')),
+                update: Sinon.stub(),
+            },
+            usersDetailsRepository: {
+                findOne: Sinon.stub(),
+                update: Sinon.stub(),
+            },
+            imageStorageClient: { upload: Sinon.stub() },
+        } as any);
+
+        try {
+            await service.uploadPicture({
+                characterId: 'character-1',
+                userId: 'user-1',
                 image: {} as FileObject,
-            };
+            });
+        } catch (error: unknown) {
+            expect((error as Error).message).to.equal('Character not found');
+        }
+    });
 
-            charactersRepository = {
-                findOne: Sinon.spy(async () => ({
+    it('should use the provided imageObject without calling image storage', async () => {
+        const uploaded = {
+            id: 'image-1',
+            link: 'https://img.bb/character',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
+        const imageStorageClient = { upload: Sinon.stub().resolves(uploaded) };
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository: {
+                findOne: Sinon.stub().resolves({
                     picture: '',
-                    characterId: 'string',
-                })),
-                update: Sinon.spy(async () => ({})),
-            };
+                    characterId: 'character-1',
+                }),
+                update: Sinon.stub().resolves({}),
+            },
+            usersDetailsRepository: {
+                findOne: Sinon.stub().resolves(userDetails),
+                update: Sinon.stub().resolves({}),
+            },
+            imageStorageClient,
+        } as any);
 
-            imageStorageClient = { upload: Sinon.spy(async () => 'image-url') };
-
-            updateCharacterPictureService = new UpdateCharacterPictureService({
-                logger,
-                charactersRepository,
-                imageStorageClient,
-            });
+        await service.uploadPicture({
+            characterId: 'character-1',
+            userId: 'user-1',
+            imageObject: uploaded,
         });
 
-        it('should update the character picture', async () => {
-            await updateCharacterPictureService.uploadPicture(payload);
+        expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(userDetails.gallery).to.deep.equal([]);
+    });
 
-            expect(charactersRepository.findOne).to.have.been.calledWith({
-                characterId: payload.characterId,
-            });
-            expect(imageStorageClient.upload).to.have.been.calledWith(payload.image);
-            expect(charactersRepository.update).to.have.been.calledWith({
-                query: { characterId: 'string' },
-                payload: Sinon.match.object,
-            });
-        });
+    it('should reject character picture updates without an image file or imageObject', async () => {
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository: {
+                findOne: Sinon.stub().resolves({
+                    picture: '',
+                    characterId: 'character-1',
+                }),
+                update: Sinon.stub(),
+            },
+            usersDetailsRepository: {
+                findOne: Sinon.stub(),
+                update: Sinon.stub(),
+            },
+            imageStorageClient: { upload: Sinon.stub() },
+        } as any);
 
-        it('should throw an error if character is not found', async () => {
-            charactersRepository.findOne = Sinon.spy(async () => {
-                throw new Error('Character not found');
-            });
+        try {
+            await service.uploadPicture({
+                characterId: 'character-1',
+                userId: 'user-1',
+            } as any);
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.BAD_REQUEST);
+            expect(err.message).to.equal('An image file or imageObject is required');
+        }
+    });
 
-            try {
-                await updateCharacterPictureService.uploadPicture(payload);
-            } catch (error: unknown) {
-                expect((error as Error).message).to.equal('Character not found');
-            }
-        });
+    it('should reject character picture updates when the uploader user details do not exist', async () => {
+        const uploaded = {
+            id: 'image-1',
+            link: 'https://img.bb/character',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const service = new UpdateCharacterPictureService({
+            logger,
+            charactersRepository: {
+                findOne: Sinon.stub().resolves({
+                    picture: '',
+                    characterId: 'character-1',
+                }),
+                update: Sinon.stub(),
+            },
+            usersDetailsRepository: {
+                findOne: Sinon.stub().resolves(null),
+                update: Sinon.stub(),
+            },
+            imageStorageClient: { upload: Sinon.stub() },
+        } as any);
 
-        it('should throw an error if image upload fails', async () => {
-            imageStorageClient.upload = Sinon.spy(async () => {
-                throw new Error('Image upload failed');
-            });
-
-            try {
-                await updateCharacterPictureService.uploadPicture(payload);
-            } catch (error: unknown) {
-                expect((error as Error).message).to.equal('Image upload failed');
-            }
-        });
-
-        it('should throw an error if repository update fails', async () => {
-            charactersRepository.update = Sinon.spy(async () => {
-                throw new Error('Update failed');
-            });
-
-            try {
-                await updateCharacterPictureService.uploadPicture(payload);
-            } catch (error: unknown) {
-                expect((error as Error).message).to.equal('Update failed');
-            }
-        });
+        try {
+            await service.uploadPicture({
+                characterId: 'character-1',
+                userId: 'user-1',
+                imageObject: uploaded,
+            } as any);
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
+            expect(err.message).to.equal('User does not exist');
+        }
     });
 });

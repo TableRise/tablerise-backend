@@ -11,8 +11,11 @@ import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCoun
 import { FileObject } from 'src/types/shared/file';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { awardCampaignBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { appendGalleryImage } from 'src/domains/users/helpers/UserDetailCollections';
+import { resolveImageUpload, resolveImageUploads } from 'src/domains/common/helpers/resolveImageUpload';
 
 function normalizeBooleanValue(value: boolean | string | undefined): boolean {
     return value === true || value === 'true';
@@ -53,7 +56,11 @@ export default class CreateCampaignService {
         campaign: __FullCampaign,
         userId: string,
         image?: FileObject,
-        mapImages?: FileObject[]
+        mapImages?: FileObject[],
+        imageObject?: {
+            cover?: ImageObject;
+            mapImages?: ImageObject[];
+        }
     ): Promise<__CampaignEnriched> {
         this.logger('info', 'Enrichment - CreateCampaignService');
         const socialMedia =
@@ -78,8 +85,14 @@ export default class CreateCampaignService {
             },
         ];
 
-        if (image) {
-            campaign.cover = await this.imageStorageClient.upload(image);
+        const coverImage = await resolveImageUpload({
+            image,
+            imageObject: imageObject?.cover,
+            imageStorageClient: this.imageStorageClient,
+        });
+
+        if (coverImage) {
+            campaign.cover = coverImage;
         } else {
             delete campaign.cover;
         }
@@ -122,11 +135,13 @@ export default class CreateCampaignService {
             },
         } as Campaign['matchData'];
 
-        if (mapImages) {
-            for (const mapImage of mapImages) {
-                campaign.matchData.mapImages.push(await this.imageStorageClient.upload(mapImage));
-            }
-        }
+        campaign.matchData.mapImages.push(
+            ...(await resolveImageUploads({
+                images: mapImages,
+                imageObject: imageObject?.mapImages,
+                imageStorageClient: this.imageStorageClient,
+            }))
+        );
 
         campaign.createdAt = new Date().toISOString();
         campaign.updatedAt = new Date().toISOString();
@@ -150,6 +165,22 @@ export default class CreateCampaignService {
     }
 
     public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {
+        return this.saveWithGalleryOptions(campaign, {
+            appendCoverToGallery: Boolean(campaign.cover),
+            appendMapImagesToGallery: Boolean(campaign.matchData?.mapImages?.length),
+        });
+    }
+
+    public async saveWithGalleryOptions(
+        campaign: __CampaignSerialized,
+        {
+            appendCoverToGallery,
+            appendMapImagesToGallery,
+        }: {
+            appendCoverToGallery: boolean;
+            appendMapImagesToGallery: boolean;
+        }
+    ): Promise<__CampaignSaved> {
         const callName = `[${this.constructor.name}] - ${this.save.name}`;
         this.logger('info', callName);
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
@@ -164,6 +195,16 @@ export default class CreateCampaignService {
         incrementGameInfoCounter(userDetailsInDb, 'campaignsCreatedAmount');
         userDetailsInDb.gameInfo.campaigns.push(campaignCreated.campaignId as string);
         awardCampaignBadges(userDetailsInDb);
+
+        if (appendCoverToGallery && campaignCreated.cover) {
+            appendGalleryImage(userDetailsInDb, campaignCreated.cover);
+        }
+
+        if (appendMapImagesToGallery) {
+            for (const image of campaignCreated.matchData?.mapImages ?? []) {
+                appendGalleryImage(userDetailsInDb, image);
+            }
+        }
 
         await this.usersDetailsRepository.update({
             query: { userId: campaign.campaignPlayers[0].userId },

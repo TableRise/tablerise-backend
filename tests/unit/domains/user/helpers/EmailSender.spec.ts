@@ -141,6 +141,44 @@ describe('Domains :: User :: Helpers :: EmailSender', () => {
         expect(sentMessage.html).to.contain('target@email.com');
     });
 
+    it('should render the donation email template', async () => {
+        const emailSender = new EmailSender({ emailType: 'donation', nodemailer: buildNodemailer() as any });
+
+        const sendEmailTest = await emailSender.send(
+            {
+                username: 'Lia',
+                userId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+                value: 15,
+                timestamp: '2026-06-03T12:30:00.000Z',
+                subject: 'Donation validation - TableRise',
+            },
+            'rwd.tablesrise.ttrpg@gmail.com'
+        );
+
+        expect(sendEmailTest).to.deep.equal({ success: true });
+        expect(sentMessage.html).to.contain('Donation Validation Request');
+        expect(sentMessage.html).to.contain('Lia');
+        expect(sentMessage.html).to.contain('12cd093b-0a8a-42fe-910f-001f2ab28454');
+        expect(sentMessage.html).to.contain('15.00');
+        expect(sentMessage.html).to.contain('2026-06-03T12:30:00.000Z');
+    });
+
+    it('should fallback donation email fields to safe defaults', async () => {
+        const emailSender = new EmailSender({ emailType: 'donation', nodemailer: buildNodemailer() as any });
+
+        await emailSender.send(
+            {
+                subject: 'Donation validation - TableRise',
+            },
+            'rwd.tablesrise.ttrpg@gmail.com'
+        );
+
+        expect(sentMessage.html).to.contain('Anonymous');
+        expect(sentMessage.html).to.contain('User ID:</strong> ');
+        expect(sentMessage.html).to.contain('0.00');
+        expect(sentMessage.html).to.contain('Timestamp:</strong> ');
+    });
+
     it('should render the verification email template', async () => {
         const emailSender = new EmailSender({ emailType: 'verification', nodemailer: buildNodemailer() as any });
 

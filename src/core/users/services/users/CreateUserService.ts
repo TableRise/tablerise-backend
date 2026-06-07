@@ -91,6 +91,7 @@ export default class CreateUserService {
             campaignsCreatedAmount: 0,
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
+            donateAmount: 0,
         };
         userDetails.role = 'user';
         userDetails.rank = 'bronze';

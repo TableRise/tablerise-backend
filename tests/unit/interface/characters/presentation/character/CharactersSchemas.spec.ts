@@ -29,6 +29,18 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersSch
                     },
                 })
             ).to.not.throw();
+
+            expect(() =>
+                schemas.postCharacterPicture.body.parse({
+                    imageObject: JSON.stringify({
+                        id: 'image-1',
+                        link: 'https://img.bb/character',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                })
+            ).to.not.throw();
         });
     });
 });

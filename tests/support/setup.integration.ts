@@ -70,6 +70,7 @@ exports.mochaHooks = {
                 campaignsCreatedAmount: 0,
                 campaignsClosedAmount: 0,
                 equipBoughtAmount: 0,
+                donateAmount: 0,
             },
             biography: 'Some bio',
             role: 'admin',

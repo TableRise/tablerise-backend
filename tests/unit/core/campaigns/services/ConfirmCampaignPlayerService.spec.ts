@@ -73,7 +73,7 @@ describe('Core :: Campaigns :: Services :: ConfirmCampaignPlayerService', () => 
                     query: { userDetailId: userDetails.userDetailId },
                     payload: sinon.match
                         .hasNested('gameInfo.campaignsJoinedAmount', 2)
-                        .and(sinon.match.hasNested('gameInfo.badges', ['enthusiast-badge'])),
+                        .and(sinon.match.hasNested('gameInfo.badges', ['enthusiast'])),
                 });
             });
         });

@@ -2,6 +2,11 @@ import z from 'zod';
 import { ICampaignsSchemas } from 'src/types/modules/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import campaignVisibilityEnum from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import systemsEnum from 'src/domains/common/enums/systemsEnum';
+import {
+    imageObjectZodSchema,
+    optionalImageObjectArrayZodSchema,
+    optionalImageObjectZodSchema,
+} from 'src/domains/common/schemas/commonValidationSchema';
 import uploadedFileSchema from 'src/interface/common/helpers/uploadedFileSchema';
 
 const journalCategories = [
@@ -19,6 +24,25 @@ const postCreateCampaignBodySchema = z.object({
     title: z.string(),
     cover: uploadedFileSchema.optional(),
     mapImages: z.array(uploadedFileSchema).max(3).optional(),
+    imageObject: z
+        .preprocess(
+            (value) => {
+                if (typeof value !== 'string') return value;
+
+                try {
+                    return JSON.parse(value);
+                } catch {
+                    return value;
+                }
+            },
+            z
+                .object({
+                    cover: imageObjectZodSchema.optional(),
+                    mapImages: z.array(imageObjectZodSchema).max(3).optional(),
+                })
+                .optional()
+        )
+        .optional(),
     description: z.string().max(255),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     system: z.enum(systemsEnum.values),
@@ -113,10 +137,12 @@ const patchUpdateCampaignJournalHighlightBodySchema = z
 
 const patchUpdateCampaignMatchMapImagesBodySchema = z.object({
     mapImages: z.array(uploadedFileSchema).max(3).optional(),
+    imageObject: optionalImageObjectArrayZodSchema,
 });
 
 const patchUpdateCampaignMatchImagesBodySchema = z.object({
     images: z.array(uploadedFileSchema).optional(),
+    imageObject: optionalImageObjectArrayZodSchema,
 });
 
 const patchHighlightCampaignMatchImageQuerySchema = z
@@ -160,9 +186,15 @@ const patchTransferDungeonMasterQuerySchema = z.object({
     userToMaster: z.uuid(),
 });
 
-const patchUpdateCampaignCoverBodySchema = z.object({
-    picture: uploadedFileSchema,
-});
+const patchUpdateCampaignCoverBodySchema = z
+    .object({
+        picture: uploadedFileSchema.optional(),
+        imageObject: optionalImageObjectZodSchema,
+    })
+    .refine((payload) => payload.picture !== undefined || payload.imageObject !== undefined, {
+        message: 'Either picture or imageObject is required',
+        path: ['picture'],
+    });
 
 const patchRemoveCampaignMatchMapImageQuerySchema = z.object({
     imageUrl: z.string(),

@@ -36,6 +36,7 @@ describe('Core :: Users :: Operation :: Users :: PictureProfileOperation', () =>
             const payload = {
                 userId: user.userId,
                 image: '' as unknown as FileObject,
+                imageObject: undefined,
             };
 
             const userWithPicture = await pictureProfileOperation.execute(payload);

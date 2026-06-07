@@ -1,4 +1,5 @@
 import Campaign, { Journal } from '@tablerise/database-management/dist/src/interfaces/Campaigns';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { systemsEnum } from 'src/domains/common/enums/systemsEnum';
 import { campaignVisibilityEnum } from 'src/domains/campaigns/enums/campaignVisibilityEnum';
 import { FileObject } from 'src/types/shared/file';
@@ -42,6 +43,10 @@ export interface CreateCampaignPayload {
     userId: string;
     image?: FileObject;
     mapImages?: FileObject[];
+    imageObject?: {
+        cover?: ImageObject;
+        mapImages?: ImageObject[];
+    };
 }
 
 export interface GetCampaignByIdPayload {
@@ -82,13 +87,16 @@ export interface PostCampaignBuyPayload {
 
 export interface UpdateMatchMapImagesPayload {
     campaignId: string;
-    mapImage?: FileObject;
-    imageId?: string;
+    userId: string;
+    mapImages?: FileObject[];
+    imageObject?: ImageObject[];
 }
 
 export interface UpdateMatchImagesPayload {
     campaignId: string;
+    userId: string;
     images?: FileObject[];
+    imageObject?: ImageObject[];
 }
 
 export interface UpdateMatchHighlightedImagePayload {
@@ -143,6 +151,12 @@ export interface CheckCharactersPayload {
 
 export interface RemoveCampaignCoverPayload {
     campaignId: string;
+    userId: string;
+}
+
+export interface UpdateCampaignCoverPayload extends RemoveCampaignCoverPayload {
+    picture?: FileObject;
+    imageObject?: ImageObject;
 }
 
 export interface RemoveMatchMapImagePayload {
