@@ -1,4 +1,3 @@
-import MessagesOperation from 'src/core/users/operations/users/MessagesOperation';
 import MessagesService from 'src/core/users/services/users/MessagesService';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import { Logger } from 'src/types/shared/logger';

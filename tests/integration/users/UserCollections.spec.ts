@@ -101,12 +101,12 @@ describe('Users collections routes', () => {
         expect(messages[0].status).to.equal('not-read');
 
         await supertest(app)
-            .patch(`/users/${targetUser.userId}/messages/${message.messageId}/mark`)
+            .patch(`/users/${targetUser.userId}/messages/${message.messageId as string}/mark`)
             .set('Cookie', `token=${targetToken}`)
             .expect(HttpStatusCode.NO_CONTENT);
 
         const { body: markedMessage } = await supertest(app)
-            .get(`/users/${targetUser.userId}/messages/${message.messageId}`)
+            .get(`/users/${targetUser.userId}/messages/${message.messageId as string}`)
             .set('Cookie', `token=${targetToken}`)
             .expect(HttpStatusCode.OK);
 
@@ -122,7 +122,7 @@ describe('Users collections routes', () => {
         const { body: gallery } = await requester().get(`/users/${ownerUserId}/gallery`).expect(HttpStatusCode.OK);
         expect(gallery).to.have.lengthOf(1);
 
-        await requester().delete(`/users/${ownerUserId}/gallery/${gallery[0].id}`).expect(HttpStatusCode.NO_CONTENT);
+        await requester().delete(`/users/${ownerUserId}/gallery/${gallery[0].id as string}`).expect(HttpStatusCode.NO_CONTENT);
 
         const { body: galleryAfterDelete } = await requester()
             .get(`/users/${ownerUserId}/gallery`)

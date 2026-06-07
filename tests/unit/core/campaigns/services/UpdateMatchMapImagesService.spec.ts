@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import UpdateMatchMapImagesService from 'src/core/campaigns/services/UpdateMatchMapImagesService';
-import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => {
@@ -121,7 +120,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
             logger,
         } as any);
 
-        expect(await service.save(campaign as Campaign)).to.deep.equal(campaign);
+        expect(await service.save(campaign)).to.deep.equal(campaign);
         expect(campaignsRepository.update).to.have.been.calledWith({
             query: { campaignId: campaign.campaignId },
             payload: campaign,

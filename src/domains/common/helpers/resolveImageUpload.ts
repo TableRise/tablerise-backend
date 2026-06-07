@@ -2,7 +2,7 @@ import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/
 import { FileObject } from 'src/types/shared/file';
 
 interface ImageStorageUploader {
-    upload(image: FileObject): Promise<ImageObject>;
+    upload: (image: FileObject) => Promise<ImageObject>;
 }
 
 export async function resolveImageUpload({

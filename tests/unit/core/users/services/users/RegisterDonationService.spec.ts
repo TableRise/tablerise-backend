@@ -124,12 +124,12 @@ describe('Core :: Users :: Services :: RegisterDonationService', () => {
         } as any);
 
         await service.register({
-            userId: userDetails.userId as string,
+            userId: userDetails.userId,
             validation: false,
             payload: {
                 value: 15,
                 timestamp: '2026-06-03T12:30:00.000Z',
-                userId: userDetails.userId as string,
+                userId: userDetails.userId,
             },
         });
 
@@ -159,12 +159,12 @@ describe('Core :: Users :: Services :: RegisterDonationService', () => {
         } as any);
 
         await service.register({
-            userId: userDetails.userId as string,
+            userId: userDetails.userId,
             validation: false,
             payload: {
                 value: 51,
                 timestamp: '2026-06-03T12:30:00.000Z',
-                userId: userDetails.userId as string,
+                userId: userDetails.userId,
             },
         });
 
