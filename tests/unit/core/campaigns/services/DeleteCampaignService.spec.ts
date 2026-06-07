@@ -83,7 +83,7 @@ describe('Core :: Campaigns :: Services :: DeleteCampaignService', () => {
                     2
                 );
                 expect(usersDetailsRepository.update.firstCall.args[0].payload.gameInfo.badges).to.deep.equal([
-                    'warrior_badge',
+                    'warrior',
                 ]);
                 expect(updatedCampaign.status).to.equal('closed');
             });

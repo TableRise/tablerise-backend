@@ -5,6 +5,7 @@ import { UpdateObj } from 'src/types/shared/repository';
 import InfraDependencies from 'src/types/modules/infra/InfraDependencies';
 import { isUserWaitingToDelete } from 'src/domains/common/helpers/RepositoryVisibility';
 import { ensureGameInfoCounters } from 'src/domains/users/helpers/GameInfoCounters';
+import { ensureUserDetailCollections } from 'src/domains/users/helpers/UserDetailCollections';
 
 export default class UsersDetailsRepository {
     private readonly model;
@@ -29,6 +30,7 @@ export default class UsersDetailsRepository {
     private formatAndSerializeData(data: UserDetail): UserDetail {
         const format = JSON.parse(JSON.stringify(data));
         ensureGameInfoCounters(format);
+        ensureUserDetailCollections(format);
         return this.serializer.postUserDetails(format);
     }
 

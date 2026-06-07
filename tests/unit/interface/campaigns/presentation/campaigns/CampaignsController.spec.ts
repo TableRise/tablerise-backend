@@ -78,6 +78,7 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 userId,
                 image: undefined,
                 mapImages: [],
+                imageObject: undefined,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
@@ -97,9 +98,62 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
                 userId,
                 image: { fieldname: 'cover' },
                 mapImages: [{ fieldname: 'mapImages' }],
+                imageObject: undefined,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
             expect(response.json).to.have.been.called();
+        });
+
+        it('should forward provided campaign imageObject payloads without files', async () => {
+            request.body = {
+                title: 'The new era',
+                imageObject: JSON.stringify({
+                    cover: {
+                        id: 'cover-1',
+                        link: 'https://img.bb/cover',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                    mapImages: [
+                        {
+                            id: 'map-1',
+                            link: 'https://img.bb/map',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                    ],
+                }),
+            };
+            request.files = undefined as any;
+            request.user = { userId } as Express.User;
+            await campaignsController.create(request, response);
+
+            expect(createCampaignOperation.execute).to.have.been.calledWith({
+                campaign: { title: 'The new era' },
+                userId,
+                image: undefined,
+                mapImages: [],
+                imageObject: {
+                    cover: {
+                        id: 'cover-1',
+                        link: 'https://img.bb/cover',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                    mapImages: [
+                        {
+                            id: 'map-1',
+                            link: 'https://img.bb/map',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                    ],
+                },
+            });
         });
     });
 
@@ -424,16 +478,53 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
 
         it('should correctly call the methods and functions', async () => {
             request.params = { id: '123' };
+            request.user = { userId: 'user-123' } as Express.User;
             request.files = { mapImages: [{} as Express.Multer.File] };
 
             await campaignsController.addMatchMapImages(request, response);
 
             expect(updateMatchMapImagesOperation.execute).to.have.been.calledWith({
                 campaignId: request.params.id,
+                userId: 'user-123',
                 mapImages: request.files.mapImages,
+                imageObject: undefined,
             });
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
+        });
+
+        it('should forward provided match map imageObjects without files', async () => {
+            request.params = { id: '123' };
+            request.user = { userId: 'user-123' } as Express.User;
+            request.body = {
+                imageObject: JSON.stringify([
+                    {
+                        id: 'map-1',
+                        link: 'https://img.bb/map',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                ]),
+            };
+            request.files = undefined as any;
+
+            await campaignsController.addMatchMapImages(request, response);
+
+            expect(updateMatchMapImagesOperation.execute).to.have.been.calledWith({
+                campaignId: request.params.id,
+                userId: 'user-123',
+                mapImages: undefined,
+                imageObject: [
+                    {
+                        id: 'map-1',
+                        link: 'https://img.bb/map',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    },
+                ],
+            });
         });
     });
 
@@ -923,6 +1014,80 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsContro
             expect(removeCampaignImageOperation.removeCover).to.have.been.calledWith(request.params.id);
             expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
             expect(response.send).to.have.been.called();
+        });
+    });
+
+    context('#updateCampaignCover', () => {
+        const request = {} as Request;
+        const response = {} as Response;
+
+        beforeEach(() => {
+            response.status = sinon.spy(() => response);
+            response.json = sinon.spy(() => response);
+
+            createCampaignOperation = { execute: () => {} };
+            getCampaignByIdOperation = { execute: () => {} };
+            getAllCampaignsOperation = { execute: () => {} };
+            publishmentOperation = { execute: () => {} };
+            updateCampaignOperation = { execute: () => {} };
+            updateMatchMapImagesOperation = { execute: () => {} };
+            updateMatchMusicsOperation = { add: () => {}, remove: () => {}, edit: () => {} };
+            updateMatchDateOperation = { add: () => {}, remove: () => {} };
+            addCampaignPlayersOperation = { execute: () => {} };
+            getCampaignsByUserIdOperation = { execute: () => {} };
+            addPlayerCharacterOperation = { execute: () => {} };
+            removeCampaignPlayersOperation = { execute: () => {} };
+            postInvitationEmailOperation = { execute: () => {} };
+            updateCampaignImagesOperation = { execute: sinon.spy(() => ({})) };
+
+            campaignsController = new CampaignsController({
+                createCampaignOperation,
+                updateCampaignOperation,
+                updateMatchMapImagesOperation,
+                publishmentOperation,
+                updateMatchMusicsOperation,
+                updateMatchDateOperation,
+                getCampaignByIdOperation,
+                addCampaignPlayersOperation,
+                getCampaignsByUserIdOperation,
+                removeCampaignPlayersOperation,
+                getAllCampaignsOperation,
+                updateCampaignImagesOperation,
+                postInvitationEmailOperation,
+                updateCampaignPlayerLimitOperation,
+                addPlayerCharacterOperation,
+                updateCampaignCoverOperation: { execute: sinon.spy(() => ({ id: 'cover-1' })) },
+            } as any);
+        });
+
+        it('should forward a provided cover imageObject without a file', async () => {
+            request.params = { id: '123' };
+            request.user = { userId: 'user-123' } as Express.User;
+            request.body = {
+                imageObject: JSON.stringify({
+                    id: 'cover-1',
+                    link: 'https://img.bb/cover',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                }),
+            };
+
+            await campaignsController.updateCampaignCover(request, response);
+
+            expect((campaignsController as any).updateCampaignCoverOperation.execute).to.have.been.calledWith({
+                campaignId: '123',
+                userId: 'user-123',
+                picture: undefined,
+                imageObject: {
+                    id: 'cover-1',
+                    link: 'https://img.bb/cover',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                },
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         });
     });
 });

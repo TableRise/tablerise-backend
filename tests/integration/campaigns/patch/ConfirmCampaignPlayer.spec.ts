@@ -70,6 +70,6 @@ describe('When a master confirms a player in a campaign', () => {
         const { body } = await requester().get(`/users/${acceptedUser.userId}`).expect(HttpStatusCode.OK);
 
         expect(body.details.gameInfo.campaignsJoinedAmount).to.equal(2);
-        expect(body.details.gameInfo.badges).to.include('enthusiast_badge');
+        expect(body.details.gameInfo.badges).to.include('enthusiast');
     });
 });

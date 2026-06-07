@@ -4,136 +4,127 @@ import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaig
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 
 describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => {
-    let updateMatchMapImagesService: UpdateMatchMapImagesService,
-        campaignsRepository: any,
-        updateMatchMapPayload: any,
-        imageStorageClient: any,
-        campaignMapImagesLength: number,
-        campaign: Campaign;
-
     const logger = (): void => {};
 
-    context('#updateMatchMapImage', () => {
-        context('When a map image is added to match data', () => {
-            before(() => {
-                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+    it('should append uploaded map images to match data and uploader gallery', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
+        const uploaded = {
+            id: 'map-1',
+            link: 'https://img.bb/map',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
 
-                campaignMapImagesLength = campaign.matchData?.mapImages.length ?? 0;
+        const service = new UpdateMatchMapImagesService({
+            campaignsRepository: {
+                findOne: sinon.stub().resolves({ ...campaign }),
+                update: sinon.stub().resolves(campaign),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(userDetails),
+            },
+            imageStorageClient: {
+                upload: sinon.stub().resolves(uploaded),
+            },
+            logger,
+        } as any);
 
-                campaignsRepository = {
-                    findOne: () => ({ ...campaign }),
-                };
+        const updated = await service.updateMatchMapImage({
+            campaignId: campaign.campaignId,
+            userId: 'user-1',
+            mapImages: [{}],
+        } as any);
 
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://img.bb',
-                        },
-                    }),
-                };
-
-                updateMatchMapPayload = {
-                    campaignId: campaign.campaignId,
-                    mapImages: [{}],
-                };
-
-                updateMatchMapImagesService = new UpdateMatchMapImagesService({
-                    logger,
-                    campaignsRepository,
-                    imageStorageClient,
-                });
-            });
-
-            it('should return the updated campaign', async () => {
-                const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage(updateMatchMapPayload);
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.not.equal(campaignMapImagesLength);
-                expect(matchDataUpdated.matchData?.mapImages.length).to.be.equal(campaignMapImagesLength + 1);
-            });
-        });
-
-        it('should skip uploads when map images are not provided', async () => {
-            campaign = DomainDataFaker.generateCampaignsJSON()[0];
-
-            campaignsRepository = {
-                findOne: () => ({ ...campaign }),
-            };
-
-            imageStorageClient = {
-                upload: sinon.spy(),
-            };
-
-            updateMatchMapImagesService = new UpdateMatchMapImagesService({
-                logger,
-                campaignsRepository,
-                imageStorageClient,
-            });
-
-            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
-                campaignId: campaign.campaignId,
-                mapImages: undefined as any,
-            });
-
-            expect(matchDataUpdated.matchData?.mapImages.length).to.equal(campaign.matchData?.mapImages.length);
-            expect(imageStorageClient.upload).not.to.have.been.called;
-        });
-
-        it('should skip uploads when matchData is missing', async () => {
-            campaign = DomainDataFaker.generateCampaignsJSON()[0];
-
-            campaignsRepository = {
-                findOne: () => ({ ...campaign, matchData: null }),
-            };
-
-            imageStorageClient = {
-                upload: sinon.spy(),
-            };
-
-            updateMatchMapImagesService = new UpdateMatchMapImagesService({
-                logger,
-                campaignsRepository,
-                imageStorageClient,
-            });
-
-            const matchDataUpdated = await updateMatchMapImagesService.updateMatchMapImage({
-                campaignId: campaign.campaignId,
-                mapImages: [{}],
-            } as any);
-
-            expect(matchDataUpdated.matchData).to.equal(null);
-            expect(imageStorageClient.upload).not.to.have.been.called;
-        });
+        expect(updated.matchData?.mapImages.at(-1)).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([uploaded]);
     });
 
-    context('#save', () => {
-        context('When a campaign with new map image is saved', () => {
-            before(() => {
-                campaign = DomainDataFaker.generateCampaignsJSON()[0];
+    it('should skip gallery persistence when no files are uploaded', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const usersDetailsRepository = {
+            findOne: sinon.stub(),
+            update: sinon.stub(),
+        };
 
-                if (campaign.matchData) campaign.matchData.mapImages = [DomainDataFaker.generateImagesObjectJSON()[0]];
+        const service = new UpdateMatchMapImagesService({
+            campaignsRepository: {
+                findOne: sinon.stub().resolves({ ...campaign }),
+                update: sinon.stub().resolves(campaign),
+            },
+            usersDetailsRepository,
+            imageStorageClient: {
+                upload: sinon.stub(),
+            },
+            logger,
+        } as any);
 
-                campaignsRepository = {
-                    update: sinon.spy(() => campaign),
-                };
+        await service.updateMatchMapImage({
+            campaignId: campaign.campaignId,
+            userId: 'user-1',
+            mapImages: undefined as any,
+        });
 
-                imageStorageClient = {};
+        expect(usersDetailsRepository.findOne).to.not.have.been.called();
+    });
 
-                updateMatchMapImagesService = new UpdateMatchMapImagesService({
-                    campaignsRepository,
-                    imageStorageClient,
-                    logger,
-                });
-            });
+    it('should use provided imageObject items without calling image storage', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const uploaded = {
+            id: 'map-1',
+            link: 'https://img.bb/map',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const imageStorageClient = {
+            upload: sinon.stub().resolves(uploaded),
+        };
 
-            it('should call correct methods', async () => {
-                const saveCamapaignTest = await updateMatchMapImagesService.save(campaign);
+        const service = new UpdateMatchMapImagesService({
+            campaignsRepository: {
+                findOne: sinon.stub().resolves({ ...campaign }),
+                update: sinon.stub().resolves(campaign),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves({ userDetailId: 'detail-1', gallery: [] }),
+                update: sinon.stub().resolves({}),
+            },
+            imageStorageClient,
+            logger,
+        } as any);
 
-                expect(saveCamapaignTest).to.be.deep.equal(campaign);
-                expect(campaignsRepository.update).to.have.been.calledWith({
-                    query: { campaignId: campaign.campaignId },
-                    payload: campaign,
-                });
-            });
+        const updated = await service.updateMatchMapImage({
+            campaignId: campaign.campaignId,
+            userId: 'user-1',
+            imageObject: [uploaded],
+        } as any);
+
+        expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(updated.matchData?.mapImages.at(-1)).to.deep.equal(uploaded);
+    });
+
+    it('should persist campaigns through save', async () => {
+        const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const campaignsRepository = {
+            update: sinon.stub().resolves(campaign),
+        };
+
+        const service = new UpdateMatchMapImagesService({
+            campaignsRepository,
+            usersDetailsRepository: {},
+            imageStorageClient: {},
+            logger,
+        } as any);
+
+        expect(await service.save(campaign as Campaign)).to.deep.equal(campaign);
+        expect(campaignsRepository.update).to.have.been.calledWith({
+            query: { campaignId: campaign.campaignId },
+            payload: campaign,
         });
     });
 });

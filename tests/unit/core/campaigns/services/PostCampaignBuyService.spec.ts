@@ -100,7 +100,7 @@ describe('Core :: Campaigns :: Services :: PostCampaignBuyService', () => {
             query: { userDetailId: userDetails.userDetailId },
             payload: sinon.match
                 .hasNested('gameInfo.equipBoughtAmount', 10)
-                .and(sinon.match.hasNested('gameInfo.badges', ['imp_badge'])),
+                .and(sinon.match.hasNested('gameInfo.badges', ['imp'])),
         });
     });
 

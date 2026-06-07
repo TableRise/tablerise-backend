@@ -20,7 +20,7 @@ export default class RemoveUserCoverService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
-        userDetails.cover = null;
+        userDetails.cover = null as unknown as typeof userDetails.cover;
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },

@@ -6,6 +6,7 @@ export interface IUsersSchemas {
     postLogin: ISchemaProps;
     postSupportEmail: ISchemaProps;
     postDonate: ISchemaProps;
+    postMessage: ISchemaProps;
     postUpdateUserProfilePicture: ISchemaProps;
     putUpdateUser: ISchemaProps;
     putUpdateUserDetails: ISchemaProps;
@@ -15,4 +16,5 @@ export interface IUsersSchemas {
     patchUpdateUserCover: ISchemaProps;
     patchUpdatePassword: ISchemaProps;
     patchUpdateCampaignNotes: ISchemaProps;
+    patchAcceptFriend: ISchemaProps;
 }

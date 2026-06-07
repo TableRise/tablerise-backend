@@ -1,6 +1,7 @@
 import { CompleteOAuthPayload } from 'src/domains/users/schemas/oAuthValidationSchema';
 import { FileObject } from 'src/types/shared/file';
 import User, { GameInfoCampaigns, UserDetail } from '@tablerise/database-management/dist/src/interfaces/User';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export interface UserExternal {
     providerId: string;
@@ -59,12 +60,14 @@ export interface RegisterDonationPayload {
 
 export interface UserImagePayload {
     userId: string;
-    image: FileObject;
+    image?: FileObject;
+    imageObject?: ImageObject;
 }
 
 export interface UpdateUserCoverPayload {
     userId: string;
-    image: FileObject;
+    image?: FileObject;
+    imageObject?: ImageObject;
 }
 
 export interface RemoveUserCoverPayload {
@@ -124,3 +127,36 @@ export interface VerifyEmailPayload {
     email: string;
     flow: StateMachineFlowKeys;
 }
+
+export interface CreateMessagePayload {
+    senderId: string;
+    targetUserId: string;
+    title: string;
+    content: string;
+}
+
+export interface MessageLookupPayload {
+    userId: string;
+    messageId: string;
+}
+
+export interface GalleryLookupPayload {
+    userId: string;
+    imageId: string;
+}
+
+export interface FriendLookupPayload {
+    userId: string;
+    targetUserId: string;
+}
+
+export interface AnswerFriendRequestPayload extends FriendLookupPayload {
+    decline?: boolean;
+}
+
+export type MessageStatus = 'not-read' | 'read';
+export type UserMessage = Omit<UserDetail['messages'][number], 'status'> & {
+    status: MessageStatus;
+};
+export type UserGalleryItem = ImageObject;
+export type UserFriend = UserDetail['friends'][number];

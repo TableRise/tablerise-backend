@@ -132,6 +132,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
     it('should update the character picture', async () => {
         const request = {
             params: { id: 'character-1' },
+            user: { userId: 'user-1' },
             file: { originalname: 'picture.png' },
         } as unknown as Request;
         const response = {
@@ -143,9 +144,46 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
 
         expect(updateCharacterPictureOperation.execute).to.have.been.calledWith({
             characterId: 'character-1',
+            userId: 'user-1',
             image: request.file,
+            imageObject: undefined,
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.CREATED);
+    });
+
+    it('should forward a provided character imageObject without needing a file', async () => {
+        const request = {
+            params: { id: 'character-1' },
+            user: { userId: 'user-1' },
+            body: {
+                imageObject: JSON.stringify({
+                    id: 'image-1',
+                    link: 'https://img.bb/character',
+                    uploadDate: '2026-06-06T00:00:00.000Z',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                }),
+            },
+        } as unknown as Request;
+        const response = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub().returnsThis(),
+        } as unknown as Response;
+
+        await charactersController.updateCharacterPicture(request, response);
+
+        expect(updateCharacterPictureOperation.execute).to.have.been.calledWith({
+            characterId: 'character-1',
+            userId: 'user-1',
+            image: undefined,
+            imageObject: {
+                id: 'image-1',
+                link: 'https://img.bb/character',
+                uploadDate: '2026-06-06T00:00:00.000Z',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            },
+        });
     });
 
     it('should add equipment to a character', async () => {

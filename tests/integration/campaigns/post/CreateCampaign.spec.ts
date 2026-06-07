@@ -97,7 +97,7 @@ describe('When a campaign is created', function () {
 
             const authenticatedUserUpdated = await userDetailsCollection.findOne({ userDetailId: userLoggedDetailsId });
             expect(authenticatedUserUpdated.gameInfo.campaignsCreatedAmount).to.equal(2);
-            expect(authenticatedUserUpdated.gameInfo.badges).to.include('cleric_badge');
+            expect(authenticatedUserUpdated.gameInfo.badges).to.include('cleric');
         });
     });
 });

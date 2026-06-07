@@ -3,6 +3,7 @@ import {
     TUpdateCharacterBody,
 } from 'src/interface/characters/presentation/character/CharactersSchemas';
 import { FileObject } from 'src/types/shared/file';
+import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 
 export interface CreateCharacterPayload {
     payload: TCreateCharacterBody;
@@ -16,7 +17,9 @@ export interface GetCharacterByCampaignPayload {
 
 export interface UpdateCharacterPicturePayload {
     characterId: string;
-    image: FileObject;
+    userId: string;
+    image?: FileObject;
+    imageObject?: ImageObject;
 }
 export interface orgPicturePayload {
     orgName: string;

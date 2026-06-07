@@ -29,7 +29,7 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include.members(['enthusiast_badge', 'student_badge', 'cleric_badge']);
+        expect(userDetails.gameInfo.badges).to.include.members(['enthusiast', 'student', 'cleric']);
     });
 
     it('should add equipment buy badges when thresholds are reached', () => {
@@ -37,17 +37,17 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.include.members(['imp_badge', 'imp_rich_badge']);
+        expect(userDetails.gameInfo.badges).to.include.members(['imp', 'imp_rich']);
     });
 
     it('should not duplicate badges that the user already has', () => {
-        userDetails.gameInfo.badges = ['enthusiast_badge'];
+        userDetails.gameInfo.badges = ['enthusiast'];
         userDetails.gameInfo.campaignsJoinedAmount = 5;
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'enthusiast_badge')).to.have.length(1);
-        expect(userDetails.gameInfo.badges).to.include('student_badge');
+        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'enthusiast')).to.have.length(1);
+        expect(userDetails.gameInfo.badges).to.include('student');
     });
 
     it('should award the higher closed-campaign badges at later thresholds', () => {
@@ -56,11 +56,11 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         awardCampaignBadges(userDetails);
 
         expect(userDetails.gameInfo.badges).to.include.members([
-            'warrior_badge',
-            'warrior_young_badge',
-            'warrior_arcane_badge',
-            'warrior_darkness_badge',
-            'warrior_ancient_badge',
+            'warrior',
+            'warrior_young',
+            'warrior_arcane',
+            'warrior_darkness',
+            'warrior_ancient',
         ]);
     });
 
@@ -70,7 +70,7 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
 
         awardCampaignBadges(userDetails);
 
-        expect(userDetails.gameInfo.badges).to.deep.equal(['enthusiast_badge']);
+        expect(userDetails.gameInfo.badges).to.deep.equal(['enthusiast']);
     });
 
     it('should keep character badge flow disabled', () => {

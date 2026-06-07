@@ -72,4 +72,62 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
             expect(usersDetailsRepository.update).to.not.have.been.called();
         }
     });
+
+    it('should use the provided imageObject without calling image storage', async () => {
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = {
+            id: 'stub-image-id',
+            link: 'https://img.bb/stub-image',
+            uploadDate: new Date().toISOString(),
+            deleteUrl: '',
+            title: '',
+            request: { success: true, status: 200 },
+        };
+        const imageStorageClient = {
+            upload: sinon.stub().resolves(uploaded),
+        };
+        const service = new UpdateUserCoverService({
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(),
+            },
+            imageStorageClient,
+            logger,
+        } as any);
+
+        await service.update({
+            userId: userDetails.userId,
+            imageObject: uploaded,
+        });
+
+        expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(userDetails.cover).to.deep.equal(uploaded);
+    });
+
+    it('should reject cover updates without an image file or imageObject', async () => {
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const imageStorageClient = {
+            upload: sinon.stub(),
+        };
+        const service = new UpdateUserCoverService({
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub(),
+            },
+            imageStorageClient,
+            logger,
+        } as any);
+
+        try {
+            await service.update({
+                userId: userDetails.userId,
+            });
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.BAD_REQUEST);
+            expect(err.message).to.equal('An image file or imageObject is required');
+            expect(imageStorageClient.upload).to.not.have.been.called();
+        }
+    });
 });

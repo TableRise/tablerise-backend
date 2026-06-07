@@ -19,6 +19,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchMapImagesOperation', () 
 
                 matchMapImagesPayload = {
                     campaignId: campaign.campaignId,
+                    userId: 'user-1',
                     mapImages: [{}],
                 };
 

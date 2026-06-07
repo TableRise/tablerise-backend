@@ -19,6 +19,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             postLogin: { example: {} },
             postSupportEmail: { body: {} },
             postDonate: { query: {}, body: {} },
+            postMessage: { body: {} },
             postUpdateUserProfilePicture: { example: {} },
             postValidateEmailSendCode: { query: {} },
             postAuthenticateEmail: { query: {} },
@@ -29,6 +30,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             patchUpdateUserCover: { body: {} },
             patchUpdatePassword: { example: {} },
             patchUpdateCampaignNotes: { query: {}, body: {} },
+            patchAcceptFriend: { query: {} },
         };
         verifyIdMiddleware = () => ({});
         authorizationMiddleware = {};
@@ -52,12 +54,25 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(24);
+            expect(routes).to.have.lengthOf(37);
             expect(routes.find((route) => route.path === '/:id/support/post')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/donate')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/me')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/message')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/messages')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/messages/:messageId')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/messages/:messageId/mark')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/gallery')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/gallery/:imageId')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/friends')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/friends/:targetUserId')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/friends/accept/:targetUserId')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/friends/remove/:targetUserId')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover/remove')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/message')?.options?.schemas?.[0]).to.be.deep.equal({
+                body: usersSchemas.postMessage.body,
+            });
             expect(routes.find((route) => route.path === '/:id/update')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.putUpdateUser.body,
             });
@@ -68,6 +83,11 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             });
             expect(routes.find((route) => route.path === '/:id/update/cover')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.patchUpdateUserCover.body,
+            });
+            expect(
+                routes.find((route) => route.path === '/:id/friends/accept/:targetUserId')?.options?.schemas?.[0]
+            ).to.be.deep.equal({
+                query: usersSchemas.patchAcceptFriend.query,
             });
             expect(routes.find((route) => route.path === '/:id/update/cover')?.options?.fileUpload).to.equal(true);
             expect(routes.find((route) => route.path === '/:id/2fa/deactivate')).to.be.not.undefined();

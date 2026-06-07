@@ -101,8 +101,79 @@ export default class UsersRoutes {
                     description: desc.getCampaigns,
                 },
             },
+            {
+                method: 'get',
+                path: '/:id/messages',
+                controller: this.usersController.getMessages,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getMessages,
+                },
+            },
+            {
+                method: 'get',
+                path: '/:id/messages/:messageId',
+                controller: this.usersController.getMessageById,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getMessageById,
+                },
+            },
+            {
+                method: 'get',
+                path: '/:id/gallery',
+                controller: this.usersController.getGallery,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getGallery,
+                },
+            },
+            {
+                method: 'get',
+                path: '/:id/gallery/:imageId',
+                controller: this.usersController.getGalleryImage,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getGalleryImage,
+                },
+            },
+            {
+                method: 'get',
+                path: '/:id/friends',
+                controller: this.usersController.getFriends,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getFriends,
+                },
+            },
+            {
+                method: 'get',
+                path: '/:id/friends/:targetUserId',
+                controller: this.usersController.getFriendById,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.getFriendById,
+                },
+            },
 
             // POST
+            {
+                method: 'post',
+                path: '/:id/message',
+                controller: this.usersController.postMessage,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ body: this.usersSchemas.postMessage.body }],
+                    tag: 'management',
+                    description: desc.postMessage,
+                },
+            },
             {
                 method: 'post',
                 path: '/authenticate/email/send-code',
@@ -159,6 +230,16 @@ export default class UsersRoutes {
                     ],
                     tag: 'management',
                     description: desc.postDonate,
+                },
+            },
+            {
+                method: 'post',
+                path: '/:id/friends/:targetUserId',
+                controller: this.usersController.postFriendRequest,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.postFriendRequest,
                 },
             },
             {
@@ -226,6 +307,37 @@ export default class UsersRoutes {
             },
 
             // PATCH
+            {
+                method: 'patch',
+                path: '/:id/messages/:messageId/mark',
+                controller: this.usersController.markMessageAsRead,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.markMessageAsRead,
+                },
+            },
+            {
+                method: 'patch',
+                path: '/:id/friends/accept/:targetUserId',
+                controller: this.usersController.acceptFriendRequest,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    schemas: [{ query: this.usersSchemas.patchAcceptFriend.query }],
+                    tag: 'management',
+                    description: desc.acceptFriendRequest,
+                },
+            },
+            {
+                method: 'patch',
+                path: '/:id/friends/remove/:targetUserId',
+                controller: this.usersController.removeFriend,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.removeFriend,
+                },
+            },
             {
                 method: 'patch',
                 path: '/:id/2fa/activate',
@@ -314,6 +426,26 @@ export default class UsersRoutes {
                 },
             },
             // DELETE
+            {
+                method: 'delete',
+                path: '/:id/messages/:messageId',
+                controller: this.usersController.deleteMessage,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.deleteMessage,
+                },
+            },
+            {
+                method: 'delete',
+                path: '/:id/gallery/:imageId',
+                controller: this.usersController.deleteGalleryImage,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.deleteGalleryImage,
+                },
+            },
             {
                 method: 'delete',
                 path: '/:id/delete',

@@ -18,6 +18,7 @@ describe('Core :: Campaigns :: Operations :: UpdateMatchImagesOperation', () => 
 
         payload = {
             campaignId: campaign.campaignId,
+            userId: 'user-1',
             images: [{}],
         };
 

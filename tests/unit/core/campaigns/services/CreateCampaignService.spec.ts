@@ -5,6 +5,7 @@ import newUUID from 'src/domains/common/helpers/newUUID';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import DomainDataFakerUsers from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
+import sinon from 'sinon';
 
 describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
     let createCampaignService: CreateCampaignService,
@@ -154,6 +155,48 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignEnriched.matchData.mapImages).to.have.lengthOf(2);
             });
 
+            it('should use provided imageObject values without calling image storage', async () => {
+                campaign.musics = '[]' as unknown as typeof campaign.musics;
+                campaign.configurations = JSON.stringify({
+                    xpSystem: false,
+                    shopSystem: false,
+                }) as unknown as typeof campaign.configurations;
+                campaign.socialMedia = JSON.stringify({}) as unknown as typeof campaign.socialMedia;
+                imageStorageClient = {
+                    upload: sinon.stub(),
+                };
+                createCampaignService = new CreateCampaignService({
+                    serializer,
+                    campaignsRepository,
+                    usersDetailsRepository,
+                    imageStorageClient,
+                    logger,
+                } as any);
+                const uploaded = {
+                    id: 'provided-image',
+                    link: 'https://img.bb/provided',
+                    uploadDate: new Date().toISOString(),
+                    title: '',
+                    deleteUrl: '',
+                    request: { success: true, status: 200 },
+                };
+
+                const campaignEnriched = await createCampaignService.enrichment(
+                    campaign,
+                    userId,
+                    undefined,
+                    undefined,
+                    {
+                        cover: uploaded,
+                        mapImages: [uploaded],
+                    }
+                );
+
+                expect(imageStorageClient.upload).to.not.have.been.called();
+                expect(campaignEnriched.cover).to.deep.equal(uploaded);
+                expect(campaignEnriched.matchData.mapImages).to.deep.equal([uploaded]);
+            });
+
             it('should return the correct result without password', async () => {
                 campaign.musics = '[]' as unknown as typeof campaign.musics;
                 campaign.password = '' as unknown as string;
@@ -292,7 +335,7 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
 
                 expect(campaignSaved).to.be.deep.equal(campaign);
                 expect(userDetails.gameInfo.campaignsCreatedAmount).to.equal(2);
-                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric_badge']);
+                expect(userDetails.gameInfo.badges).to.deep.equal(['cleric']);
             });
         });
 
@@ -323,6 +366,34 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             }
 
             expect(thrownError).to.be.instanceOf(HttpRequestErrors);
+        });
+
+        it('should save campaigns without cover or match map images without touching the gallery', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            delete (campaign as Partial<Campaign>).cover;
+            campaign.matchData = undefined as any;
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+            const usersDetailsUpdate = sinon.stub().resolves();
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: usersDetailsUpdate,
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            const saved = await createCampaignService.save(campaign);
+
+            expect(saved).to.equal(campaign);
+            expect(userDetails.gallery).to.deep.equal([]);
+            expect(usersDetailsUpdate).to.have.been.calledOnce();
         });
     });
 });

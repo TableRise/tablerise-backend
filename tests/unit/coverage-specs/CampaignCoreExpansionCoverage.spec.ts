@@ -183,6 +183,7 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
             expect(
                 await updateCampaignCoverOperation.execute({
                     campaignId: savedCampaign.campaignId,
+                    userId: 'user-1',
                     picture: { originalname: 'cover.png' } as any,
                 })
             ).to.equal(coverCampaign.cover);
@@ -448,11 +449,16 @@ describe('Coverage :: Campaigns :: Core Expansion', () => {
 
             const updateCampaignCoverService = new UpdateCampaignCoverService({
                 campaignsRepository,
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves({ userDetailId: 'detail-1', gallery: [] }),
+                    update: sinon.stub().resolves(),
+                },
                 imageStorageClient,
                 logger,
             } as any);
             const campaignWithCover = await updateCampaignCoverService.updateCover({
                 campaignId: campaign.campaignId,
+                userId: 'user-1',
                 picture: { originalname: 'cover.png' } as any,
             });
             expect(campaignWithCover.cover).to.deep.equal({ id: 'img-1', link: 'img-link' });

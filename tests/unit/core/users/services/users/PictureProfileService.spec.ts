@@ -7,355 +7,259 @@ import DomainDataFaker from 'src/infra/datafakers/users/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
 
 describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
-    let pictureProfileService: PictureProfileService,
-        imageStorageClient: any,
-        usersRepository: any,
-        user: User,
-        userWithPicture: User;
-
     const logger = (): void => {};
 
-    context('#uploadPicture', () => {
-        context('When update picture with success', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
+    const buildUploaded = () => ({
+        id: 'image-123',
+        link: 'https://img.bb/profile',
+        uploadDate: new Date().toISOString(),
+        title: '',
+        deleteUrl: '',
+        request: { success: true, status: 200 },
+    });
 
-                user.picture = {
-                    id: '',
-                    link: '',
-                    uploadDate: new Date().toISOString(),
-                    title: '',
-                    deleteUrl: '',
-                    request: { success: true, status: 200 },
-                };
+    it('should upload the profile picture and append it to the user gallery', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = {} as User['picture'];
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = buildUploaded();
 
-                userWithPicture = {
-                    ...user,
-                    picture: {
-                        id: '123',
-                        link: 'https://123.com',
-                        uploadDate: new Date().toISOString(),
-                        title: '',
-                        deleteUrl: '',
-                        request: { success: true, status: 200 },
-                    },
-                };
+        const usersRepository = {
+            findOne: sinon.stub().resolves(user),
+            update: sinon.stub().resolves({ ...user, picture: uploaded }),
+        };
+        const usersDetailsRepository = {
+            findOne: sinon.stub().resolves(userDetails),
+            update: sinon.stub().resolves(userDetails),
+        };
+        const imageStorageClient = {
+            upload: sinon.stub().resolves(uploaded),
+        };
 
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(() => userWithPicture),
-                };
+        const service = new PictureProfileService({
+            usersRepository,
+            usersDetailsRepository,
+            imageStorageClient,
+            logger,
+        } as any);
 
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://123.com',
-                        },
-                    }),
-                };
-
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
-            });
-
-            it('should call correct methods and return correct data', async () => {
-                const payload = {
-                    userId: user.userId,
-                    image: '' as unknown as FileObject,
-                };
-
-                const userUpdated = await pictureProfileService.uploadPicture(payload);
-
-                expect(usersRepository.update).to.have.been.calledWith();
-                expect(userUpdated).to.have.property('picture');
-                expect(userUpdated.picture).to.have.property('id');
-                expect(userUpdated.picture).to.have.property('link');
-                expect(userUpdated.picture).to.have.property('uploadDate');
-
-                if (!userUpdated.picture) return;
-                expect(userUpdated.picture.id).to.be.equal('123');
-                expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
-            });
+        const result = await service.uploadPicture({
+            userId: user.userId,
+            image: { originalname: 'profile.png' } as FileObject,
         });
 
-        context('When update picture with success - days higher than 15', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
+        expect(imageStorageClient.upload).to.have.been.calledWith({ originalname: 'profile.png' });
+        expect(usersDetailsRepository.update).to.have.been.calledWith({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
+        });
+        expect(userDetails.gallery.at(-1)).to.deep.equal(uploaded);
+        expect(result.picture).to.deep.equal(uploaded);
+    });
 
-                user.picture = {
-                    id: '123',
-                    link: '',
-                    uploadDate: '2023-12-01T17:30:26.393Z',
-                    title: '',
-                    deleteUrl: '',
-                    request: { success: true, status: 200 },
-                };
+    it('should reject profile picture updates before uploading when the user does not exist', async () => {
+        const usersRepository = {
+            findOne: sinon.stub().returns(null),
+            update: sinon.stub(),
+        };
+        const usersDetailsRepository = {
+            findOne: sinon.stub(),
+            update: sinon.stub(),
+        };
+        const imageStorageClient = {
+            upload: sinon.stub(),
+        };
 
-                userWithPicture = {
-                    ...user,
-                    picture: {
-                        id: '123',
-                        link: 'https://123.com',
-                        uploadDate: new Date().toISOString(),
-                        title: '',
-                        deleteUrl: '',
-                        request: { success: true, status: 200 },
-                    },
-                };
+        const service = new PictureProfileService({
+            usersRepository,
+            usersDetailsRepository,
+            imageStorageClient,
+            logger,
+        } as any);
 
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(() => userWithPicture),
-                };
-
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://123.com',
-                        },
-                    }),
-                };
-
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
+        try {
+            await service.uploadPicture({
+                userId: 'missing-user',
+                image: {} as FileObject,
             });
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.equal('User does not exist');
+            expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
+            expect(imageStorageClient.upload).to.not.have.been.called();
+            expect(usersDetailsRepository.update).to.not.have.been.called();
+        }
+    });
 
-            it('should call correct methods and return correct data', async () => {
-                const payload = {
-                    userId: user.userId,
-                    image: '' as unknown as FileObject,
-                };
+    it('should use the provided imageObject without calling image storage', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = {} as User['picture'];
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = buildUploaded();
+        const imageStorageClient = {
+            upload: sinon.stub().resolves(uploaded),
+        };
 
-                const userUpdated = await pictureProfileService.uploadPicture(payload);
+        const service = new PictureProfileService({
+            usersRepository: {
+                findOne: sinon.stub().resolves(user),
+                update: sinon.stub().resolves({ ...user, picture: uploaded }),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(userDetails),
+            },
+            imageStorageClient,
+            logger,
+        } as any);
 
-                expect(usersRepository.update).to.have.been.calledWith();
-                expect(userUpdated).to.have.property('picture');
-                expect(userUpdated.picture).to.have.property('id');
-                expect(userUpdated.picture).to.have.property('link');
-                expect(userUpdated.picture).to.have.property('uploadDate');
-
-                if (!userUpdated.picture) return;
-                expect(userUpdated.picture.id).to.be.equal('123');
-                expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
-            });
+        await service.uploadPicture({
+            userId: user.userId,
+            imageObject: uploaded,
         });
 
-        context('When update picture with success - picture is undefined', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-                user.picture = undefined as unknown as User['picture'];
-                userWithPicture = {
-                    ...user,
-                    picture: {
-                        id: '123',
-                        link: 'https://123.com',
-                        uploadDate: new Date().toISOString(),
-                        title: '',
-                        deleteUrl: '',
-                        request: { success: true, status: 200 },
-                    },
-                };
+        expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(userDetails.gallery.at(-1)).to.deep.equal(uploaded);
+    });
 
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(() => userWithPicture),
-                };
+    it('should reject updates when the picture cooldown has not expired', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = {
+            id: 'existing',
+            link: 'https://img.bb/existing',
+            uploadDate: new Date().toISOString(),
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
 
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://123.com',
-                        },
-                    }),
-                };
+        const service = new PictureProfileService({
+            usersRepository: {
+                findOne: sinon.stub().resolves(user),
+                update: sinon.stub(),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub(),
+                update: sinon.stub(),
+            },
+            imageStorageClient: {
+                upload: sinon.stub(),
+            },
+            logger,
+        } as any);
 
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
+        try {
+            await service.uploadPicture({
+                userId: user.userId,
+                image: {} as FileObject,
             });
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.message).to.equal('You only can upload a new profile picture one time in 15-days');
+            expect(err.code).to.equal(HttpStatusCode.FORBIDDEN);
+        }
+    });
 
-            it('should call correct methods and return correct data', async () => {
-                const payload = {
-                    userId: user.userId,
-                    image: '' as unknown as FileObject,
-                };
+    it('should reject profile picture updates without an image file or imageObject', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = {} as User['picture'];
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const imageStorageClient = {
+            upload: sinon.stub(),
+        };
+        const service = new PictureProfileService({
+            usersRepository: {
+                findOne: sinon.stub().resolves(user),
+                update: sinon.stub(),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub(),
+            },
+            imageStorageClient,
+            logger,
+        } as any);
 
-                const userUpdated = await pictureProfileService.uploadPicture(payload);
-                expect(usersRepository.update).to.have.been.calledWith();
-                expect(userUpdated).to.have.property('picture');
+        try {
+            await service.uploadPicture({
+                userId: user.userId,
             });
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.BAD_REQUEST);
+            expect(err.message).to.equal('An image file or imageObject is required');
+            expect(imageStorageClient.upload).to.not.have.been.called();
+        }
+    });
+
+    it('should allow updates when an existing profile picture is older than the cooldown window', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = {
+            id: 'existing',
+            link: 'https://img.bb/existing',
+            uploadDate: '2026-01-01T00:00:00.000Z',
+            title: '',
+            deleteUrl: '',
+            request: { success: true, status: 200 },
+        };
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = buildUploaded();
+        const imageStorageClient = {
+            upload: sinon.stub(),
+        };
+        const usersRepository = {
+            findOne: sinon.stub().resolves(user),
+            update: sinon.stub().resolves({ ...user, picture: uploaded }),
+        };
+        const usersDetailsRepository = {
+            findOne: sinon.stub().resolves(userDetails),
+            update: sinon.stub().resolves(userDetails),
+        };
+        const service = new PictureProfileService({
+            usersRepository,
+            usersDetailsRepository,
+            imageStorageClient,
+            logger,
+        } as any);
+
+        const result = await service.uploadPicture({
+            userId: user.userId,
+            imageObject: uploaded,
         });
 
-        context('When update picture with success - no picture property', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-                user.picture = {} as User['picture'];
-                userWithPicture = {
-                    ...user,
-                    picture: {
-                        id: '123',
-                        link: 'https://123.com',
-                        uploadDate: new Date().toISOString(),
-                        title: '',
-                        deleteUrl: '',
-                        request: { success: true, status: 200 },
-                    },
-                };
+        expect(result.picture).to.deep.equal(uploaded);
+        expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(usersDetailsRepository.update).to.have.been.calledOnce();
+    });
 
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(() => userWithPicture),
-                };
+    it('should allow updates when the user has no profile picture yet', async () => {
+        const user = DomainDataFaker.generateUsersJSON()[0];
+        user.picture = undefined as any;
+        const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+        const uploaded = buildUploaded();
+        const service = new PictureProfileService({
+            usersRepository: {
+                findOne: sinon.stub().resolves(user),
+                update: sinon.stub().resolves({ ...user, picture: uploaded }),
+            },
+            usersDetailsRepository: {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(userDetails),
+            },
+            imageStorageClient: {
+                upload: sinon.stub(),
+            },
+            logger,
+        } as any);
 
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://123.com',
-                        },
-                    }),
-                };
-
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
-            });
-
-            it('should call correct methods and return correct data', async () => {
-                const payload = {
-                    userId: user.userId,
-                    image: '' as unknown as FileObject,
-                };
-
-                const userUpdated = await pictureProfileService.uploadPicture(payload);
-
-                expect(usersRepository.update).to.have.been.calledWith();
-                expect(userUpdated).to.have.property('picture');
-                expect(userUpdated.picture).to.have.property('id');
-                expect(userUpdated.picture).to.have.property('link');
-                expect(userUpdated.picture).to.have.property('uploadDate');
-
-                if (!userUpdated.picture) return;
-                expect(userUpdated.picture.id).to.be.equal('123');
-                expect(userUpdated.picture.link).to.be.equal('https://123.com');
-                expect(typeof userUpdated.picture.uploadDate).to.be.equal('string');
-            });
+        const result = await service.uploadPicture({
+            userId: user.userId,
+            imageObject: uploaded,
         });
 
-        context('When update picture fails', () => {
-            before(() => {
-                user = DomainDataFaker.generateUsersJSON()[0];
-
-                user.picture = {
-                    id: '123',
-                    link: 'https://123.com',
-                    uploadDate: new Date().toISOString(),
-                    title: '',
-                    deleteUrl: '',
-                    request: { success: true, status: 200 },
-                };
-
-                userWithPicture = {
-                    ...user,
-                    picture: {
-                        id: '123',
-                        link: 'https://123.com',
-                        uploadDate: new Date().toISOString(),
-                        title: '',
-                        deleteUrl: '',
-                        request: { success: true, status: 200 },
-                    },
-                };
-
-                usersRepository = {
-                    findOne: () => user,
-                    update: sinon.spy(() => userWithPicture),
-                };
-
-                imageStorageClient = {
-                    upload: () => ({
-                        data: {
-                            id: '123',
-                            link: 'https://123.com',
-                        },
-                    }),
-                };
-
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
-            });
-
-            it('should throw correct error', async () => {
-                const payload = {
-                    userId: user.userId,
-                    image: '' as unknown as FileObject,
-                };
-
-                try {
-                    await pictureProfileService.uploadPicture(payload);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('You only can upload a new profile picture one time in 15-days');
-                    expect(err.code).to.be.equal(HttpStatusCode.FORBIDDEN);
-                    expect(err.name).to.be.equal('ForbiddenRequest');
-                }
-            });
-        });
-
-        context('When update picture fails because the user does not exist', () => {
-            before(() => {
-                usersRepository = {
-                    findOne: () => null,
-                    update: sinon.spy(),
-                };
-
-                imageStorageClient = {
-                    upload: sinon.spy(),
-                };
-
-                pictureProfileService = new PictureProfileService({
-                    imageStorageClient,
-                    usersRepository,
-                    logger,
-                });
-            });
-
-            it('should throw a not found error before uploading', async () => {
-                const payload = {
-                    userId: 'missing-user',
-                    image: '' as unknown as FileObject,
-                };
-
-                try {
-                    await pictureProfileService.uploadPicture(payload);
-                    expect('it should not be here').to.be.equal(false);
-                } catch (error) {
-                    const err = error as HttpRequestErrors;
-                    expect(err.message).to.be.equal('User does not exist');
-                    expect(err.code).to.be.equal(HttpStatusCode.NOT_FOUND);
-                    expect(err.name).to.be.equal('NotFound');
-                    expect(imageStorageClient.upload).to.not.have.been.called();
-                }
-            });
-        });
+        expect(result.picture).to.deep.equal(uploaded);
     });
 });

@@ -20,6 +20,9 @@ import LoginUserOperation from 'src/core/users/operations/users/LoginUserOperati
 import { IUsersSchemas } from './UsersSchemas';
 import SchemaValidator from 'src/domains/common/helpers/SchemaValidator';
 import GetCampaignsByUserIdOperation from 'src/core/users/operations/users/GetCampaignsByUserIdOperation';
+import MessagesOperation from 'src/core/users/operations/users/MessagesOperation';
+import GalleryOperation from 'src/core/users/operations/users/GalleryOperation';
+import FriendsOperation from 'src/core/users/operations/users/FriendsOperation';
 
 export interface UsersControllerContract {
     schemaValidator: SchemaValidator;
@@ -44,4 +47,7 @@ export interface UsersControllerContract {
     loginUserOperation: LoginUserOperation;
     getCampaignsByUserIdOperation: GetCampaignsByUserIdOperation;
     updateUserCoverOperation: UpdateUserCoverOperation;
+    messagesOperation: MessagesOperation;
+    galleryOperation: GalleryOperation;
+    friendsOperation: FriendsOperation;
 }

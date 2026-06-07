@@ -86,6 +86,14 @@ export default class Serializer {
         rank = null,
         role = 'user',
         cover = null,
+        messages = [],
+        gallery = [],
+        friends = [],
+        social = {
+            discord: '',
+            instagram: '',
+            x: '',
+        },
     }: any): UserDetail {
         return {
             userDetailId,
@@ -97,7 +105,11 @@ export default class Serializer {
             biography,
             rank,
             cover,
+            messages,
+            gallery,
+            friends,
             role,
+            social,
         };
     }
 

@@ -196,8 +196,46 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
 
         await controller.profilePicture({ params: { id: '123' }, file: { name: 'file' } } as any, response);
 
+        expect((controller as any).pictureProfileOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: { name: 'file' },
+            imageObject: undefined,
+        });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ userId: '123' });
+    });
+
+    it('should forward a provided profile imageObject without needing a file', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.profilePicture(
+            {
+                params: { id: '123' },
+                body: {
+                    imageObject: JSON.stringify({
+                        id: 'image-1',
+                        link: 'https://img.bb/profile',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).pictureProfileOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: undefined,
+            imageObject: {
+                id: 'image-1',
+                link: 'https://img.bb/profile',
+                uploadDate: '2026-06-06T00:00:00.000Z',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            },
+        });
     });
 
     it('should update the user cover and return no content', async () => {
@@ -216,9 +254,44 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         expect((controller as any).updateUserCoverOperation.execute).to.have.been.calledWith({
             userId: '123',
             image: { originalname: 'cover.png' },
+            imageObject: undefined,
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
         expect(response.end).to.have.been.called();
+    });
+
+    it('should forward a provided cover imageObject without needing a file', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+
+        await controller.updateUserCover(
+            {
+                params: { id: '123' },
+                user: { userId: '123' },
+                body: {
+                    imageObject: JSON.stringify({
+                        id: 'cover-1',
+                        link: 'https://img.bb/cover',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                },
+            } as any,
+            response
+        );
+
+        expect((controller as any).updateUserCoverOperation.execute).to.have.been.calledWith({
+            userId: '123',
+            image: undefined,
+            imageObject: {
+                id: 'cover-1',
+                link: 'https://img.bb/cover',
+                uploadDate: '2026-06-06T00:00:00.000Z',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            },
+        });
     });
 
     it('should remove the user cover and return no content', async () => {

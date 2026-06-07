@@ -5,18 +5,23 @@ import User from '@tablerise/database-management/dist/src/interfaces/User';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { UserImagePayload } from 'src/types/api/users/http/payload';
 import daysDifference from 'src/domains/common/helpers/daysDifference';
+import { appendGalleryImage } from 'src/domains/users/helpers/UserDetailCollections';
+import { resolveImageUpload } from 'src/domains/common/helpers/resolveImageUpload';
 
 export default class PictureProfileService {
     private readonly usersRepository;
+    private readonly usersDetailsRepository;
     private readonly imageStorageClient;
     private readonly logger;
 
     constructor({
         usersRepository,
+        usersDetailsRepository,
         imageStorageClient,
         logger,
     }: UserCoreDependencies['pictureProfileServiceContract']) {
         this.usersRepository = usersRepository;
+        this.usersDetailsRepository = usersDetailsRepository;
         this.imageStorageClient = imageStorageClient;
         this.logger = logger;
 
@@ -36,7 +41,7 @@ export default class PictureProfileService {
         }
     }
 
-    public async uploadPicture({ userId, image }: UserImagePayload): Promise<User> {
+    public async uploadPicture({ userId, image, imageObject }: UserImagePayload): Promise<User> {
         const callName = `[${this.constructor.name}] - ${this.uploadPicture.name}`;
         this.logger('info', callName);
         const userInDb = await this.usersRepository.findOne({ userId });
@@ -44,7 +49,27 @@ export default class PictureProfileService {
 
         this.verifyLastUpdate(userInDb);
 
-        userInDb.picture = await this.imageStorageClient.upload(image);
+        const uploaded = await resolveImageUpload({
+            image,
+            imageObject,
+            imageStorageClient: this.imageStorageClient,
+        });
+        if (!uploaded) {
+            throw new HttpRequestErrors({
+                message: 'An image file or imageObject is required',
+                code: HttpStatusCode.BAD_REQUEST,
+                name: getErrorName(HttpStatusCode.BAD_REQUEST),
+            });
+        }
+        userInDb.picture = uploaded;
+
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
+        appendGalleryImage(userDetails, uploaded);
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
+        });
 
         return this.usersRepository.update({
             query: { userId: userInDb.userId },

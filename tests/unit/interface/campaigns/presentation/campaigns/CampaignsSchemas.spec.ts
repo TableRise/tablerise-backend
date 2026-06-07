@@ -173,6 +173,18 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             ).to.not.throw();
 
             expect(() =>
+                schemas.patchUpdateCampaignCover.body.parse({
+                    imageObject: JSON.stringify({
+                        id: 'cover-1',
+                        link: 'https://img.bb/cover',
+                        uploadDate: '2026-06-06T00:00:00.000Z',
+                        deleteUrl: '',
+                        request: { success: true, status: 200 },
+                    }),
+                })
+            ).to.not.throw();
+
+            expect(() =>
                 schemas.patchUpdateCampaignPlayerNote.query.parse({
                     title: 'Session Plan',
                 })
@@ -205,6 +217,122 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                     mapImages: [multerFile],
                 })
             ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignMatchImages.body.parse({
+                    imageObject: JSON.stringify([
+                        {
+                            id: 'image-1',
+                            link: 'https://img.bb/image',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                    ]),
+                })
+            ).to.not.throw();
+
+            expect(() =>
+                schemas.patchUpdateCampaignMatchMapImages.body.parse({
+                    imageObject: JSON.stringify([
+                        {
+                            id: 'map-1',
+                            link: 'https://img.bb/map',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                    ]),
+                })
+            ).to.not.throw();
+        });
+
+        it('should validate create campaign imageObject payloads', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    title: 'Campaign',
+                    description: 'A short description',
+                    system: 'dnd5e',
+                    musics: '[]',
+                    mainHistory: 'A great adventure begins',
+                    playerAmountLimit: '4',
+                    ageRestriction: '16',
+                    configurations: JSON.stringify({ xpSystem: true, shopSystem: false }),
+                    imageObject: JSON.stringify({
+                        cover: {
+                            id: 'cover-1',
+                            link: 'https://img.bb/cover',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                        mapImages: [
+                            {
+                                id: 'map-1',
+                                link: 'https://img.bb/map',
+                                uploadDate: '2026-06-06T00:00:00.000Z',
+                                deleteUrl: '',
+                                request: { success: true, status: 200 },
+                            },
+                        ],
+                    }),
+                })
+            ).to.not.throw();
+        });
+
+        it('should validate create campaign imageObject payloads already parsed as objects', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    title: 'Campaign',
+                    description: 'A short description',
+                    system: 'dnd5e',
+                    musics: '[]',
+                    mainHistory: 'A great adventure begins',
+                    playerAmountLimit: '4',
+                    ageRestriction: '16',
+                    configurations: JSON.stringify({ xpSystem: true, shopSystem: false }),
+                    imageObject: {
+                        cover: {
+                            id: 'cover-1',
+                            link: 'https://img.bb/cover',
+                            uploadDate: '2026-06-06T00:00:00.000Z',
+                            deleteUrl: '',
+                            request: { success: true, status: 200 },
+                        },
+                        mapImages: [
+                            {
+                                id: 'map-1',
+                                link: 'https://img.bb/map',
+                                uploadDate: '2026-06-06T00:00:00.000Z',
+                                deleteUrl: '',
+                                request: { success: true, status: 200 },
+                            },
+                        ],
+                    },
+                })
+            ).to.not.throw();
+        });
+
+        it('should reject invalid create campaign imageObject JSON strings', () => {
+            const schemas = CampaignsSchemas();
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    title: 'Campaign',
+                    description: 'A short description',
+                    system: 'dnd5e',
+                    musics: '[]',
+                    mainHistory: 'A great adventure begins',
+                    playerAmountLimit: '4',
+                    ageRestriction: '16',
+                    configurations: JSON.stringify({ xpSystem: true, shopSystem: false }),
+                    imageObject: '{invalid-json}',
+                })
+            ).to.throw();
         });
 
         it('should validate confirm presence defaults and campaign search limits', () => {

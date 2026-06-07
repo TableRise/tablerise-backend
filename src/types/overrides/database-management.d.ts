@@ -5,6 +5,10 @@ declare module '@tablerise/database-management/dist/src/interfaces/User' {
         campaignsCreatedAmount?: number;
         bannedFromCampaigns?: string[];
     }
+
+    interface Friends {
+        status?: 'pending' | 'active';
+    }
 }
 
 declare module '@tablerise/database-management/dist/src/interfaces/DungeonsAndDragons5e' {

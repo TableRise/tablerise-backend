@@ -32,6 +32,14 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             uploadDate: new Date().toISOString(),
             deleteUrl: '',
         },
+        messages: [],
+        gallery: [],
+        friends: [],
+        social: {
+            discord: '',
+            instagram: '',
+            x: '',
+        },
         role: 'admin',
     } as UserDetail;
 }

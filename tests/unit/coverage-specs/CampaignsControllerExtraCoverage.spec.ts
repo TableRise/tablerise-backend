@@ -166,13 +166,16 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
 
         const coverReq = {
             params: { id: 'campaign-1' },
+            user: { userId: 'dm-1' },
             file: { originalname: 'cover.png' },
         } as unknown as Request;
         const coverRes = buildResponse();
         await controller.updateCampaignCover(coverReq, coverRes);
         expect(updateCampaignCoverOperation.execute).to.have.been.calledWith({
             campaignId: 'campaign-1',
+            userId: 'dm-1',
             picture: { originalname: 'cover.png' },
+            imageObject: undefined,
         });
         expect(coverRes.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(coverRes.json).to.have.been.calledWith({ id: 'cover-1' });
@@ -242,6 +245,7 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
 
         const req = {
             params: { id: 'campaign-1' },
+            user: { userId: 'dm-1' },
         } as unknown as Request;
         const res = buildResponse();
 
@@ -249,7 +253,9 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
 
         expect(updateMatchMapImagesOperation.execute).to.have.been.calledWith({
             campaignId: 'campaign-1',
+            userId: 'dm-1',
             mapImages: undefined,
+            imageObject: undefined,
         });
         expect(res.json).to.have.been.calledWith(['map']);
     });
@@ -262,6 +268,7 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
 
         const req = {
             params: { id: 'campaign-1' },
+            user: { userId: 'dm-1' },
         } as unknown as Request;
         const res = buildResponse();
 
@@ -269,7 +276,9 @@ describe('Coverage :: CampaignsController :: Extra Methods', () => {
 
         expect(updateMatchImagesOperation.execute).to.have.been.calledWith({
             campaignId: 'campaign-1',
+            userId: 'dm-1',
             images: undefined,
+            imageObject: undefined,
         });
         expect(res.json).to.have.been.calledWith(['image']);
     });

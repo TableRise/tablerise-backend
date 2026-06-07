@@ -19,7 +19,9 @@ export default class UpdateMatchMapImagesOperation {
         this.execute = this.execute.bind(this);
     }
 
-    async execute(payload: TUpdateCampaignMatchMapImagesBody & { campaignId: string }): Promise<ImageObject[]> {
+    async execute(
+        payload: TUpdateCampaignMatchMapImagesBody & { campaignId: string; userId: string }
+    ): Promise<ImageObject[]> {
         const callName = `[${this.constructor.name}] - ${this.execute.name}`;
         this.logger('info', callName);
 
