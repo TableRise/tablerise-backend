@@ -122,7 +122,9 @@ describe('Users collections routes', () => {
         const { body: gallery } = await requester().get(`/users/${ownerUserId}/gallery`).expect(HttpStatusCode.OK);
         expect(gallery).to.have.lengthOf(1);
 
-        await requester().delete(`/users/${ownerUserId}/gallery/${gallery[0].id as string}`).expect(HttpStatusCode.NO_CONTENT);
+        await requester()
+            .delete(`/users/${ownerUserId}/gallery/${gallery[0].id as string}`)
+            .expect(HttpStatusCode.NO_CONTENT);
 
         const { body: galleryAfterDelete } = await requester()
             .get(`/users/${ownerUserId}/gallery`)
