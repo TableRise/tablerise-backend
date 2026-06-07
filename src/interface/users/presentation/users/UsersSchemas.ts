@@ -129,8 +129,7 @@ const postMessageBodySchema = z.object({
 
 const patchAcceptFriendQuerySchema = z.object({
     decline: z.preprocess((value) => {
-        if (value === 'true') return true;
-        if (value === 'false') return false;
+        if (typeof value === 'string') return value === 'true';
         return value;
     }, z.boolean().default(false)),
 });

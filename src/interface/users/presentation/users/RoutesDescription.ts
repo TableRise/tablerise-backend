@@ -10,7 +10,7 @@ const getMessageById = 'Get one stored message by message id for the authenticat
 const markMessageAsRead = 'Mark one stored message as read for the authenticated user.';
 const getGallery = 'List the uploaded gallery items stored for the authenticated user.';
 const getGalleryImage = 'Get one stored gallery image by image id for the authenticated user.';
-const getFriends = 'List the stored friends and pending friend requests for the authenticated user.';
+const getFriends = 'List the stored friends and pending friend requests for the requested user.';
 const getFriendById = 'Get one friend or pending request by target user id for the authenticated user.';
 
 const verify = 'Send an email verification code for the requested authentication or account flow.';
@@ -43,6 +43,7 @@ const updatePassword = 'Reset the user password using the email verification flo
 const updateCampaignNotes = 'Add a note to one campaign inside the user game info.';
 const acceptFriendRequest = 'Accept or decline a pending friend request for the authenticated user.';
 const removeFriend = 'Remove a friend entry or pending request for the authenticated user.';
+const toggleFavoriteFriend = 'Toggle the favorite flag for one active friend of the authenticated user.';
 
 const profilePicture = 'Upload or replace the user profile picture. Accepted formats: PNG and JPEG.';
 
@@ -89,6 +90,7 @@ export default {
     updateCampaignNotes,
     acceptFriendRequest,
     removeFriend,
+    toggleFavoriteFriend,
     profilePicture,
     updateUserCover,
     removeUserCover,

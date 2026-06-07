@@ -50,7 +50,9 @@ export default class UpdateCharacterPictureService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         if (!userDetails) HttpRequestErrors.throwError('user-inexistent');
 
-        appendGalleryImage(userDetails, uploaded);
+        if (imageObject === undefined) {
+            appendGalleryImage(userDetails, uploaded);
+        }
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },

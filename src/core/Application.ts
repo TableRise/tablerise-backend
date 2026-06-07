@@ -17,8 +17,7 @@ import {
     swaggerConfig,
     usersGroup,
 } from 'src/domains/common/helpers/swaggerConfigs';
-
-const allowedOrigins = [process.env.CORS_ORIGIN_1, process.env.CORS_ORIGIN_2];
+import { isAllowedCorsOrigin } from 'src/domains/common/helpers/corsOrigins';
 
 export default class Application {
     private readonly usersRoutes;
@@ -80,7 +79,7 @@ export default class Application {
             .use(
                 cors({
                     origin: (origin, callback) => {
-                        if (!origin || allowedOrigins.includes(origin)) {
+                        if (isAllowedCorsOrigin(origin)) {
                             callback(null, true);
                             return;
                         }

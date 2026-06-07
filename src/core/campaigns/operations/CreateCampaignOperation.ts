@@ -33,6 +33,9 @@ export default class CreateCampaignOperation {
             imageObject
         );
 
-        return this.createCampaignService.save(entityEnriched);
+        return this.createCampaignService.saveWithGalleryOptions(entityEnriched, {
+            appendCoverToGallery: imageObject?.cover === undefined && image !== undefined,
+            appendMapImagesToGallery: imageObject?.mapImages === undefined && Boolean(mapImages?.length),
+        });
     }
 }

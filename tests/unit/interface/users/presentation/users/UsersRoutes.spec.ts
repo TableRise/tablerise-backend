@@ -54,7 +54,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(37);
+            expect(routes).to.have.lengthOf(38);
             expect(routes.find((route) => route.path === '/:id/support/post')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/donate')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/me')).to.be.not.undefined();
@@ -68,6 +68,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             expect(routes.find((route) => route.path === '/:id/friends/:targetUserId')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/friends/accept/:targetUserId')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/friends/remove/:targetUserId')).to.be.not.undefined();
+            expect(routes.find((route) => route.path === '/:id/friends/:targetUserId/favorite')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/update/cover/remove')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/message')?.options?.schemas?.[0]).to.be.deep.equal({

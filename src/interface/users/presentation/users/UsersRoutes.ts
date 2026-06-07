@@ -340,6 +340,16 @@ export default class UsersRoutes {
             },
             {
                 method: 'patch',
+                path: '/:id/friends/:targetUserId/favorite',
+                controller: this.usersController.toggleFavoriteFriend,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.toggleFavoriteFriend,
+                },
+            },
+            {
+                method: 'patch',
                 path: '/:id/2fa/activate',
                 controller: this.usersController.activateTwoFactor,
                 options: {

@@ -12,6 +12,7 @@ import {
     normalizeRealtimeMatchData,
     syncLegacyMapSelection,
 } from 'src/domains/campaigns/helpers/RealtimeCampaignState';
+import { isAllowedCorsOrigin } from 'src/domains/common/helpers/corsOrigins';
 import JWTGenerator from 'src/domains/users/helpers/JWTGenerator';
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { MatchToken, RealtimeCampaign, SocketAck } from 'src/types/realtime';
@@ -148,7 +149,14 @@ export default class SocketIO {
 
         this.io = new Server(httpServer, {
             cors: {
-                origin: process.env.CORS_ORIGIN ?? '*',
+                origin: (origin, callback) => {
+                    if (isAllowedCorsOrigin(origin)) {
+                        callback(null, true);
+                        return;
+                    }
+
+                    callback(new Error('Not allowed by CORS'));
+                },
                 credentials: true,
             },
         });

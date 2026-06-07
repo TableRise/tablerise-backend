@@ -151,7 +151,7 @@ export interface FriendLookupPayload {
 }
 
 export interface AnswerFriendRequestPayload extends FriendLookupPayload {
-    decline?: boolean;
+    decline?: boolean | string;
 }
 
 export type MessageStatus = 'not-read' | 'read';

@@ -165,6 +165,22 @@ export default class CreateCampaignService {
     }
 
     public async save(campaign: __CampaignSerialized): Promise<__CampaignSaved> {
+        return this.saveWithGalleryOptions(campaign, {
+            appendCoverToGallery: Boolean(campaign.cover),
+            appendMapImagesToGallery: Boolean(campaign.matchData?.mapImages?.length),
+        });
+    }
+
+    public async saveWithGalleryOptions(
+        campaign: __CampaignSerialized,
+        {
+            appendCoverToGallery,
+            appendMapImagesToGallery,
+        }: {
+            appendCoverToGallery: boolean;
+            appendMapImagesToGallery: boolean;
+        }
+    ): Promise<__CampaignSaved> {
         const callName = `[${this.constructor.name}] - ${this.save.name}`;
         this.logger('info', callName);
         const userDetailsInDb = await this.usersDetailsRepository.findOne({
@@ -179,9 +195,15 @@ export default class CreateCampaignService {
         incrementGameInfoCounter(userDetailsInDb, 'campaignsCreatedAmount');
         userDetailsInDb.gameInfo.campaigns.push(campaignCreated.campaignId as string);
         awardCampaignBadges(userDetailsInDb);
-        if (campaignCreated.cover) appendGalleryImage(userDetailsInDb, campaignCreated.cover);
-        for (const image of campaignCreated.matchData?.mapImages ?? []) {
-            appendGalleryImage(userDetailsInDb, image);
+
+        if (appendCoverToGallery && campaignCreated.cover) {
+            appendGalleryImage(userDetailsInDb, campaignCreated.cover);
+        }
+
+        if (appendMapImagesToGallery) {
+            for (const image of campaignCreated.matchData?.mapImages ?? []) {
+                appendGalleryImage(userDetailsInDb, image);
+            }
         }
 
         await this.usersDetailsRepository.update({

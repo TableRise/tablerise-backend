@@ -64,12 +64,14 @@ export default class PictureProfileService {
         userInDb.picture = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
-        appendGalleryImage(userDetails, uploaded);
+        if (imageObject === undefined) {
+            appendGalleryImage(userDetails, uploaded);
 
-        await this.usersDetailsRepository.update({
-            query: { userDetailId: userDetails.userDetailId },
-            payload: userDetails,
-        });
+            await this.usersDetailsRepository.update({
+                query: { userDetailId: userDetails.userDetailId },
+                payload: userDetails,
+            });
+        }
 
         return this.usersRepository.update({
             query: { userId: userInDb.userId },

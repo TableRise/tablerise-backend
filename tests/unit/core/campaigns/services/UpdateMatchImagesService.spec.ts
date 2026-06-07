@@ -140,6 +140,7 @@ describe('Core :: Campaigns :: Services :: UpdateMatchImagesService', () => {
     it('should use provided imageObject items without calling image storage', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
         campaign.matchData.images = campaign.matchData.images ?? [];
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const uploaded = {
             id: 'image-123',
             link: 'https://img.bb/gallery',
@@ -158,7 +159,7 @@ describe('Core :: Campaigns :: Services :: UpdateMatchImagesService', () => {
                 update: sinon.stub().resolves(campaign),
             },
             usersDetailsRepository: {
-                findOne: sinon.stub().resolves({ userDetailId: 'detail-1', gallery: [] }),
+                findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub().resolves({}),
             },
             imageStorageClient,
@@ -173,6 +174,7 @@ describe('Core :: Campaigns :: Services :: UpdateMatchImagesService', () => {
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(updated.matchData.images.at(-1)).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should skip gallery persistence when no images are uploaded', async () => {

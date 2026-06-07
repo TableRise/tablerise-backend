@@ -72,6 +72,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
     it('should use provided imageObject items without calling image storage', async () => {
         const campaign = DomainDataFaker.generateCampaignsJSON()[0];
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const uploaded = {
             id: 'map-1',
             link: 'https://img.bb/map',
@@ -90,7 +91,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
                 update: sinon.stub().resolves(campaign),
             },
             usersDetailsRepository: {
-                findOne: sinon.stub().resolves({ userDetailId: 'detail-1', gallery: [] }),
+                findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub().resolves({}),
             },
             imageStorageClient,
@@ -105,6 +106,7 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMapImagesService', () => 
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(updated.matchData?.mapImages.at(-1)).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should persist campaigns through save', async () => {

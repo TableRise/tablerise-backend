@@ -96,6 +96,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
             deleteUrl: '',
             request: { success: true, status: 200 },
         };
+        const userDetails = { userDetailId: 'detail-1', gallery: [] };
         const imageStorageClient = { upload: Sinon.stub().resolves(uploaded) };
         const service = new UpdateCharacterPictureService({
             logger,
@@ -107,7 +108,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
                 update: Sinon.stub().resolves({}),
             },
             usersDetailsRepository: {
-                findOne: Sinon.stub().resolves({ userDetailId: 'detail-1', gallery: [] }),
+                findOne: Sinon.stub().resolves(userDetails),
                 update: Sinon.stub().resolves({}),
             },
             imageStorageClient,
@@ -120,6 +121,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterPictureService', () =
         });
 
         expect(imageStorageClient.upload).to.not.have.been.called();
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should reject character picture updates without an image file or imageObject', async () => {

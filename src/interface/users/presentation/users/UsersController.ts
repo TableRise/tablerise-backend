@@ -156,6 +156,7 @@ export default class UsersController {
         this.getFriendById = this.getFriendById.bind(this);
         this.acceptFriendRequest = this.acceptFriendRequest.bind(this);
         this.removeFriend = this.removeFriend.bind(this);
+        this.toggleFavoriteFriend = this.toggleFavoriteFriend.bind(this);
     }
 
     public async register(req: Request, res: Response): Promise<Response> {
@@ -295,9 +296,6 @@ export default class UsersController {
 
     public async getFriends(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { userId } = req.user as Express.User;
-
-        this.assertOwner(id, userId);
 
         const result = await this.friendsOperation.getAll(id);
         return res.status(HttpStatusCode.OK).json(result);
@@ -334,6 +332,17 @@ export default class UsersController {
         this.assertUuid(targetUserId, 'targetUserId');
 
         await this.friendsOperation.remove({ userId: id, targetUserId });
+        return res.status(HttpStatusCode.NO_CONTENT).end();
+    }
+
+    public async toggleFavoriteFriend(req: Request, res: Response): Promise<Response> {
+        const { id, targetUserId } = req.params;
+        const { userId } = req.user as Express.User;
+
+        this.assertOwner(id, userId);
+        this.assertUuid(targetUserId, 'targetUserId');
+
+        await this.friendsOperation.toggleFavorite({ userId: id, targetUserId });
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 

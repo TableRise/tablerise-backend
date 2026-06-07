@@ -50,5 +50,16 @@ describe('Domains :: User :: Schemas :: UsersValidationSchema', () => {
             expect(() => optionalImageObjectZodSchema.parse('{invalid-json}')).to.throw();
             expect(() => optionalImageObjectArrayZodSchema.parse('[invalid-json]')).to.throw();
         });
+
+        it('should allow imageObject payloads without the request key', () => {
+            expect(() =>
+                optionalImageObjectZodSchema.parse({
+                    id: 'image-1',
+                    link: 'https://img.bb/image',
+                    uploadDate: '2026-06-07T00:00:00.000Z',
+                    deleteUrl: '',
+                })
+            ).to.not.throw();
+        });
     });
 });

@@ -81,6 +81,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignCoverService', () => {
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(updated.cover).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should reject cover updates without a picture or imageObject', async () => {

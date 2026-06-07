@@ -325,6 +325,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 nickname: 'sender',
                 tag: '#1001',
                 status: 'pending',
+                favorite: false,
             });
         });
 
@@ -362,6 +363,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
             expect(targetDetails.friends[0]).to.include({
                 picture: '',
                 rank: 'bronze',
+                favorite: false,
             });
         });
 
@@ -580,6 +582,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 nickname: 'target',
                 tag: '#2001',
                 status: 'active',
+                favorite: false,
             });
             expect(usersDetailsRepository.update).to.have.been.calledTwice();
         });
@@ -630,6 +633,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
 
             expect(accepterDetails.friends[0].status).to.equal('active');
             expect(requesterDetails.friends[0].status).to.equal('active');
+            expect(requesterDetails.friends[0].favorite).to.equal(false);
         });
 
         it('should update an existing mirrored friend entry instead of pushing a new one', async () => {
@@ -691,6 +695,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 nickname: 'target',
                 tag: '#2001',
                 status: 'active',
+                favorite: false,
             });
         });
 
@@ -834,6 +839,97 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
             expect(userDetails.friends).to.have.lengthOf(0);
             expect(usersDetailsRepository.findOne).to.have.been.calledOnce();
             expect(usersDetailsRepository.update).to.have.been.calledOnce();
+        });
+
+        it('should toggle one active friend favorite flag from false to true and back', async () => {
+            const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            userDetails.userId = 'user-1';
+            userDetails.friends = [
+                {
+                    userId: 'user-2',
+                    nickname: 'user-2',
+                    tag: '#2222',
+                    picture: '',
+                    rank: 'bronze',
+                    status: 'active',
+                    favorite: false,
+                },
+            ];
+            const usersDetailsRepository = {
+                findOne: sinon.stub().resolves(userDetails),
+                update: sinon.stub().resolves(),
+            };
+
+            const service = new FriendsService({
+                usersRepository: {},
+                usersDetailsRepository,
+                logger,
+            } as any);
+
+            await service.toggleFavorite({ userId: 'user-1', targetUserId: 'user-2' });
+            expect(userDetails.friends[0].favorite).to.equal(true);
+
+            await service.toggleFavorite({ userId: 'user-1', targetUserId: 'user-2' });
+            expect(userDetails.friends[0].favorite).to.equal(false);
+            expect(usersDetailsRepository.update).to.have.been.calledTwice();
+        });
+
+        it('should reject favorite toggles for missing friend entries', async () => {
+            const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            userDetails.userId = 'user-1';
+            userDetails.friends = [];
+
+            const service = new FriendsService({
+                usersRepository: {},
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub(),
+                },
+                logger,
+            } as any);
+
+            try {
+                await service.toggleFavorite({ userId: 'user-1', targetUserId: 'user-2' });
+                expect('it should not be here').to.equal(false);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.code).to.equal(HttpStatusCode.NOT_FOUND);
+                expect(err.message).to.equal('Friend does not exist');
+            }
+        });
+
+        it('should reject favorite toggles for pending friend entries', async () => {
+            const userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            userDetails.userId = 'user-1';
+            userDetails.friends = [
+                {
+                    userId: 'user-2',
+                    nickname: 'user-2',
+                    tag: '#2222',
+                    picture: '',
+                    rank: 'bronze',
+                    status: 'pending',
+                    favorite: false,
+                },
+            ];
+
+            const service = new FriendsService({
+                usersRepository: {},
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub(),
+                },
+                logger,
+            } as any);
+
+            try {
+                await service.toggleFavorite({ userId: 'user-1', targetUserId: 'user-2' });
+                expect('it should not be here').to.equal(false);
+            } catch (error) {
+                const err = error as HttpRequestErrors;
+                expect(err.code).to.equal(HttpStatusCode.FORBIDDEN);
+                expect(err.message).to.equal('Only active friends can be favorited');
+            }
         });
 
         it('should reject when trying to remove one missing friendship', async () => {

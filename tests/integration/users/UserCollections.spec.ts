@@ -132,7 +132,9 @@ describe('Users collections routes', () => {
         expect(galleryAfterDelete).to.have.lengthOf(0);
     });
 
-    it('should reject owner-only collection reads from another authenticated user', async () => {
+    it('should keep gallery owner-only while allowing other users to read one user friends list', async () => {
+        await requester().post(`/users/${ownerUserId}/friends/${targetUser.userId}`).expect(HttpStatusCode.NO_CONTENT);
+
         const app = container.resolve('application').setupExpress();
         const targetToken = jwt.sign(
             {
@@ -149,5 +151,87 @@ describe('Users collections routes', () => {
             .expect(HttpStatusCode.UNAUTHORIZED);
 
         expect(body.message).to.equal('Unauthorized');
+
+        await supertest(app)
+            .patch(`/users/${targetUser.userId}/friends/accept/${ownerUserId}`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.NO_CONTENT);
+
+        const { body: ownerFriends } = await supertest(app)
+            .get(`/users/${ownerUserId}/friends`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.OK);
+
+        expect(ownerFriends).to.have.lengthOf(1);
+        expect(ownerFriends[0].userId).to.equal(targetUser.userId);
+    });
+
+    it('should toggle one active friend favorite flag for the owner only', async () => {
+        await requester().post(`/users/${ownerUserId}/friends/${targetUser.userId}`).expect(HttpStatusCode.NO_CONTENT);
+
+        const app = container.resolve('application').setupExpress();
+        const targetToken = jwt.sign(
+            {
+                userId: targetUser.userId,
+                providerId: null,
+                username: 'target-user',
+            },
+            'secret'
+        );
+
+        await supertest(app)
+            .patch(`/users/${targetUser.userId}/friends/accept/${ownerUserId}`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.NO_CONTENT);
+
+        await requester()
+            .patch(`/users/${ownerUserId}/friends/${targetUser.userId}/favorite`)
+            .expect(HttpStatusCode.NO_CONTENT);
+
+        const { body: ownerFriendsAfterFavorite } = await requester()
+            .get(`/users/${ownerUserId}/friends`)
+            .expect(HttpStatusCode.OK);
+        expect(ownerFriendsAfterFavorite[0].favorite).to.equal(true);
+
+        await requester()
+            .patch(`/users/${ownerUserId}/friends/${targetUser.userId}/favorite`)
+            .expect(HttpStatusCode.NO_CONTENT);
+
+        const { body: ownerFriendsAfterUnfavorite } = await requester()
+            .get(`/users/${ownerUserId}/friends`)
+            .expect(HttpStatusCode.OK);
+        expect(ownerFriendsAfterUnfavorite[0].favorite).to.equal(false);
+
+        const { body: targetFriends } = await supertest(app)
+            .get(`/users/${targetUser.userId}/friends`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.OK);
+        expect(targetFriends[0].favorite).to.equal(false);
+
+        await supertest(app)
+            .patch(`/users/${ownerUserId}/friends/${targetUser.userId}/favorite`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.UNAUTHORIZED);
+    });
+
+    it('should reject favorite toggles for pending friend requests', async () => {
+        await requester().post(`/users/${ownerUserId}/friends/${targetUser.userId}`).expect(HttpStatusCode.NO_CONTENT);
+
+        const app = container.resolve('application').setupExpress();
+        const targetToken = jwt.sign(
+            {
+                userId: targetUser.userId,
+                providerId: null,
+                username: 'target-user',
+            },
+            'secret'
+        );
+
+        const { body } = await supertest(app)
+            .patch(`/users/${targetUser.userId}/friends/${ownerUserId}/favorite`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.FORBIDDEN);
+
+        expect(body.message).to.equal('Only active friends can be favorited');
     });
 });

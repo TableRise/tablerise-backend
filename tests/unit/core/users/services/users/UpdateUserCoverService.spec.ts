@@ -102,6 +102,7 @@ describe('Core :: Users :: Services :: Users :: UpdateUserCoverService', () => {
 
         expect(imageStorageClient.upload).to.not.have.been.called();
         expect(userDetails.cover).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should reject cover updates without an image file or imageObject', async () => {

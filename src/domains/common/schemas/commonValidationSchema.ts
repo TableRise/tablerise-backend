@@ -27,7 +27,7 @@ export const imageObjectZodSchema = z.object({
     thumbSizeUrl: z.string().optional(),
     mediumSizeUrl: z.string().optional(),
     deleteUrl: z.string(),
-    request: imageObjectRequestZodSchema,
+    request: imageObjectRequestZodSchema.optional(),
 });
 
 export const optionalImageObjectZodSchema = z.preprocess(parseJsonString, imageObjectZodSchema.optional());

@@ -1,5 +1,4 @@
 import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaigns';
-import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/Common';
 import { resolveImageUploads } from 'src/domains/common/helpers/resolveImageUpload';
 import { TUpdateCampaignMatchMapImagesBody } from 'src/interface/campaigns/presentation/campaigns/CampaignsSchemas';
 import CampaignCoreDependencies from 'src/types/modules/core/campaigns/CampaignCoreDependencies';
@@ -29,16 +28,12 @@ export default class UpdateMatchMapImagesService {
         userId,
         mapImages,
         imageObject,
-    }: TUpdateCampaignMatchMapImagesBody & {
-        campaignId: string;
-        userId: string;
-        imageObject?: ImageObject[];
-    }): Promise<Campaign> {
+    }: TUpdateCampaignMatchMapImagesBody & { campaignId: string; userId: string }): Promise<Campaign> {
         this.logger('info', 'UpdateMatchMapImage - UpdateMatchMapImagesService');
         const campaign = await this.campaignsRepository.findOne({ campaignId });
         const uploadedImages = await resolveImageUploads({
             images: mapImages as FileObject[] | undefined,
-            imageObject,
+            imageObject: imageObject as any,
             imageStorageClient: this.imageStorageClient,
         });
 
@@ -46,7 +41,7 @@ export default class UpdateMatchMapImagesService {
             campaign.matchData.mapImages.push(...uploadedImages);
         }
 
-        if (uploadedImages.length) {
+        if (imageObject === undefined && uploadedImages.length) {
             const userDetails = await this.usersDetailsRepository.findOne({ userId });
             for (const image of uploadedImages) appendGalleryImage(userDetails, image);
             await this.usersDetailsRepository.update({

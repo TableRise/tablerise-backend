@@ -39,4 +39,10 @@ export default class FriendsOperation {
         this.logger('info', callName);
         await this.friendsService.remove(payload);
     }
+
+    public async toggleFavorite(payload: FriendLookupPayload): Promise<void> {
+        const callName = `[${this.constructor.name}] - ${this.toggleFavorite.name}`;
+        this.logger('info', callName);
+        await this.friendsService.toggleFavorite(payload);
+    }
 }

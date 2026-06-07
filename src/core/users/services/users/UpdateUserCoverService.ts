@@ -43,7 +43,10 @@ export default class UpdateUserCoverService {
             });
         }
         userDetails.cover = uploaded;
-        appendGalleryImage(userDetails, uploaded);
+
+        if (imageObject === undefined) {
+            appendGalleryImage(userDetails, uploaded);
+        }
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },

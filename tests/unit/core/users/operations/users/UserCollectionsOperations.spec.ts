@@ -51,6 +51,7 @@ describe('Core :: Users :: Operations :: Users :: UserCollectionsOperations', ()
             getById: sinon.stub().resolves({ userId: 'b' }),
             answerRequest: sinon.stub().resolves(),
             remove: sinon.stub().resolves(),
+            toggleFavorite: sinon.stub().resolves(),
         };
         const operation = new FriendsOperation({ friendsService, logger } as any);
 
@@ -59,5 +60,17 @@ describe('Core :: Users :: Operations :: Users :: UserCollectionsOperations', ()
         expect((await operation.getById({ userId: 'a', targetUserId: 'b' })).userId).to.equal('b');
         await operation.answerRequest({ userId: 'a', targetUserId: 'b', decline: false });
         await operation.remove({ userId: 'a', targetUserId: 'b' });
+        await operation.toggleFavorite({ userId: 'a', targetUserId: 'b' });
+
+        expect(friendsService.createRequest).to.have.been.calledOnce();
+        expect(friendsService.getAll).to.have.been.calledWith('a');
+        expect(friendsService.getById).to.have.been.calledWith({ userId: 'a', targetUserId: 'b' });
+        expect(friendsService.answerRequest).to.have.been.calledWith({
+            userId: 'a',
+            targetUserId: 'b',
+            decline: false,
+        });
+        expect(friendsService.remove).to.have.been.calledWith({ userId: 'a', targetUserId: 'b' });
+        expect(friendsService.toggleFavorite).to.have.been.calledWith({ userId: 'a', targetUserId: 'b' });
     });
 });

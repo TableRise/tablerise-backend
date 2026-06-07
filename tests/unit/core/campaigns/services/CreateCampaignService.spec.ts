@@ -395,5 +395,154 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
             expect(userDetails.gallery).to.deep.equal([]);
             expect(usersDetailsUpdate).to.have.been.calledOnce();
         });
+
+        it('should skip gallery appends for provided imageObject campaign assets', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(),
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            const saved = await createCampaignService.saveWithGalleryOptions(campaign, {
+                appendCoverToGallery: false,
+                appendMapImagesToGallery: false,
+            });
+
+            expect(saved).to.equal(campaign);
+            expect(userDetails.gallery).to.deep.equal([]);
+        });
+
+        it('should append only the campaign cover when match map images are absent', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.matchData = {
+                ...campaign.matchData,
+                mapImages: [],
+            } as any;
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(),
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            await createCampaignService.save(campaign);
+
+            expect(userDetails.gallery).to.deep.equal([campaign.cover]);
+        });
+
+        it('should append only match map images when the campaign cover is absent', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            delete (campaign as Partial<Campaign>).cover;
+            campaign.matchData = {
+                ...campaign.matchData,
+                mapImages: [
+                    {
+                        id: 'map-1',
+                        title: '',
+                        link: 'https://img.bb/map',
+                        uploadDate: new Date().toISOString(),
+                        deleteUrl: '',
+                    },
+                ],
+            } as any;
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(),
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            await createCampaignService.save(campaign);
+
+            expect(userDetails.gallery).to.deep.equal(campaign.matchData.mapImages);
+        });
+
+        it('should tolerate saveWithGalleryOptions when appendMapImagesToGallery is true but matchData is missing', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.matchData = undefined as any;
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(),
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            const saved = await createCampaignService.saveWithGalleryOptions(campaign, {
+                appendCoverToGallery: false,
+                appendMapImagesToGallery: true,
+            });
+
+            expect(saved).to.equal(campaign);
+            expect(userDetails.gallery).to.deep.equal([]);
+        });
+
+        it('should tolerate saveWithGalleryOptions when appendMapImagesToGallery is true but mapImages is missing', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.matchData = {
+                ...campaign.matchData,
+                mapImages: undefined,
+            } as any;
+            userDetails = DomainDataFakerUsers.generateUserDetailsJSON()[0];
+            userDetails.gallery = [];
+
+            createCampaignService = new CreateCampaignService({
+                serializer: {},
+                campaignsRepository: {
+                    create: sinon.stub().resolves(campaign),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().resolves(userDetails),
+                    update: sinon.stub().resolves(),
+                },
+                imageStorageClient: {},
+                logger,
+            } as any);
+
+            const saved = await createCampaignService.saveWithGalleryOptions(campaign, {
+                appendCoverToGallery: false,
+                appendMapImagesToGallery: true,
+            });
+
+            expect(saved).to.equal(campaign);
+            expect(userDetails.gallery).to.deep.equal([]);
+        });
     });
 });

@@ -120,7 +120,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
         });
 
         expect(imageStorageClient.upload).to.not.have.been.called();
-        expect(userDetails.gallery.at(-1)).to.deep.equal(uploaded);
+        expect(userDetails.gallery).to.deep.equal([]);
     });
 
     it('should reject updates when the picture cooldown has not expired', async () => {
@@ -232,7 +232,7 @@ describe('Core :: Users :: Services :: Users :: PictureProfileService', () => {
 
         expect(result.picture).to.deep.equal(uploaded);
         expect(imageStorageClient.upload).to.not.have.been.called();
-        expect(usersDetailsRepository.update).to.have.been.calledOnce();
+        expect(usersDetailsRepository.update).to.not.have.been.called();
     });
 
     it('should allow updates when the user has no profile picture yet', async () => {

@@ -55,7 +55,9 @@ export default class UpdateCampaignCoverService {
         campaign.cover = uploaded;
 
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
-        appendGalleryImage(userDetails, uploaded);
+        if (imageObject === undefined) {
+            appendGalleryImage(userDetails, uploaded);
+        }
         await this.usersDetailsRepository.update({
             query: { userDetailId: userDetails.userDetailId },
             payload: userDetails,

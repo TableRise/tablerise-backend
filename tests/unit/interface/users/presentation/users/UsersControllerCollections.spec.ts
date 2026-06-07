@@ -50,6 +50,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
                 getById: sinon.stub().resolves({ userId: 'friend-1' }),
                 answerRequest: sinon.stub().resolves(),
                 remove: sinon.stub().resolves(),
+                toggleFavorite: sinon.stub().resolves(),
             },
         } as any);
 
@@ -74,6 +75,16 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
         expect(controller.messagesOperation.getAll).to.have.been.calledWith('user-1');
         expect(controller.galleryOperation.getAll).to.have.been.calledWith('user-1');
         expect(controller.friendsOperation.getAll).to.have.been.calledWith('user-1');
+    });
+
+    it('should allow another authenticated user to list one user friends', async () => {
+        const controller = buildController() as any;
+        const response = buildResponse();
+
+        await controller.getFriends({ params: { id: 'user-1' }, user: { userId: 'user-2' } } as any, response);
+
+        expect(controller.friendsOperation.getAll).to.have.been.calledWith('user-1');
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
     });
 
     it('should pass lookup and mutation payloads for nested collections', async () => {
@@ -125,6 +136,13 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
             } as any,
             response
         );
+        await controller.toggleFavoriteFriend(
+            {
+                params: { id: 'user-1', targetUserId: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                user: { userId: 'user-1' },
+            } as any,
+            response
+        );
         await controller.markMessageAsRead(
             { params: { id: 'user-1', messageId: 'msg-1' }, user: { userId: 'user-1' } } as any,
             response
@@ -152,6 +170,10 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
             userId: 'user-1',
             targetUserId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
         });
+        expect(controller.friendsOperation.toggleFavorite).to.have.been.calledWith({
+            userId: 'user-1',
+            targetUserId: '12cd093b-0a8a-42fe-910f-001f2ab28454',
+        });
     });
 
     it('should reject owner-only nested collection access', async () => {
@@ -165,6 +187,20 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
             const err = error as HttpRequestErrors;
             expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
         }
+
+        try {
+            await controller.toggleFavoriteFriend(
+                {
+                    params: { id: 'user-1', targetUserId: '12cd093b-0a8a-42fe-910f-001f2ab28454' },
+                    user: { userId: 'user-2' },
+                } as any,
+                response
+            );
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.UNAUTHORIZED);
+        }
     });
 
     it('should reject friend lookups with an invalid target user id', async () => {
@@ -173,6 +209,18 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController :: Coll
 
         try {
             await controller.getFriendById(
+                { params: { id: 'user-1', targetUserId: 'invalid-id' }, user: { userId: 'user-1' } } as any,
+                response
+            );
+            expect('it should not be here').to.equal(false);
+        } catch (error) {
+            const err = error as HttpRequestErrors;
+            expect(err.code).to.equal(HttpStatusCode.BAD_REQUEST);
+            expect(err.message).to.equal('The parameter targetUserId is invalid');
+        }
+
+        try {
+            await controller.toggleFavoriteFriend(
                 { params: { id: 'user-1', targetUserId: 'invalid-id' }, user: { userId: 'user-1' } } as any,
                 response
             );

@@ -31,6 +31,7 @@ export default class FriendsService {
             picture: payload.picture?.link ?? '',
             rank: payload.rank ?? 'bronze',
             status: payload.status,
+            favorite: false,
         };
     }
 
@@ -134,7 +135,7 @@ export default class FriendsService {
             });
         }
 
-        if (decline) {
+        if (decline === true || decline === 'true') {
             accepterDetails.friends.splice(friendIndex, 1);
 
             await this.usersDetailsRepository.update({
@@ -209,5 +210,37 @@ export default class FriendsService {
         } catch (error) {
             if (!(error instanceof HttpRequestErrors) || error.code !== HttpStatusCode.NOT_FOUND) throw error;
         }
+    }
+
+    public async toggleFavorite({ userId, targetUserId }: FriendLookupPayload): Promise<void> {
+        const callName = `[${this.constructor.name}] - ${this.toggleFavorite.name}`;
+        this.logger('info', callName);
+
+        const userDetails = await this.usersDetailsRepository.findOne({ userId });
+        ensureUserDetailCollections(userDetails);
+
+        const friend = userDetails.friends.find((entry) => entry.userId === targetUserId);
+        if (!friend) {
+            throw new HttpRequestErrors({
+                message: 'Friend does not exist',
+                code: HttpStatusCode.NOT_FOUND,
+                name: getErrorName(HttpStatusCode.NOT_FOUND),
+            });
+        }
+
+        if (getFriendStatus(friend) !== 'active') {
+            throw new HttpRequestErrors({
+                message: 'Only active friends can be favorited',
+                code: HttpStatusCode.FORBIDDEN,
+                name: getErrorName(HttpStatusCode.FORBIDDEN),
+            });
+        }
+
+        friend.favorite = !friend.favorite;
+
+        await this.usersDetailsRepository.update({
+            query: { userDetailId: userDetails.userDetailId },
+            payload: userDetails,
+        });
     }
 }

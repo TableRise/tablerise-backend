@@ -510,7 +510,7 @@
             }
           }
         ],
-        "description": "List the stored friends and pending friend requests for the authenticated user."
+        "description": "List the stored friends and pending friend requests for the requested user."
       }
     },
     "/users/{id}/friends/{targetUserId}": {
@@ -1423,6 +1423,55 @@
           }
         ],
         "description": "Remove a friend entry or pending request for the authenticated user."
+      }
+    },
+    "/users/{id}/friends/{targetUserId}/favorite": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "targetUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Toggle the favorite flag for one active friend of the authenticated user."
       }
     },
     "/users/{id}/2fa/activate": {
