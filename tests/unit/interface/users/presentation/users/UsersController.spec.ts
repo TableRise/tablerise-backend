@@ -20,6 +20,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
             verifyEmailOperation: { execute: sinon.stub() },
             getUsersOperation: { execute: sinon.stub().returns([]) },
             getUserByIdOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
+            getUserByNicknameAndTagOperation: { execute: sinon.stub().returns({ password: 'secret' }) },
             activateTwoFactorOperation: { execute: sinon.stub().returns({ active: true, qrcode: 'qr' }) },
             deactivateTwoFactorOperation: { execute: sinon.stub() },
             updateEmailOperation: { execute: sinon.stub() },
@@ -143,6 +144,21 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
         await controller.currentUser({ user: { userId: '123' } } as any, response);
 
         expect((controller as any).getUserByIdOperation.execute).to.have.been.calledWith({ userId: '123' });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+        expect(response.json).to.have.been.calledWith({ userId: '123' });
+    });
+
+    it('should get a user by nickname and tag without password', async () => {
+        const controller = buildController();
+        const response = buildResponse();
+        (controller as any).getUserByNicknameAndTagOperation.execute.returns({ userId: '123', password: 'secret' });
+
+        await controller.getUserByNicknameAndTag({ query: { nickname: 'joe_the_great#9999' } } as any, response);
+
+        expect((controller as any).getUserByNicknameAndTagOperation.execute).to.have.been.calledWith({
+            nickname: 'joe_the_great',
+            tag: '#9999',
+        });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
         expect(response.json).to.have.been.calledWith({ userId: '123' });
     });

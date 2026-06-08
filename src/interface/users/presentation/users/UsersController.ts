@@ -16,6 +16,7 @@ import parseRequestJsonField from 'src/interface/common/helpers/parseRequestJson
 import {
     TCreateUserBody,
     TAcceptFriendQuery,
+    TGetUserByNicknameAndTagQuery,
     TPostMessageBody,
     TPostSupportEmailBody,
     TRegisterDonationBody,
@@ -33,6 +34,7 @@ export default class UsersController {
     private readonly verifyEmailOperation;
     private readonly getUsersOperation;
     private readonly getUserByIdOperation;
+    private readonly getUserByNicknameAndTagOperation;
     private readonly activateTwoFactorOperation;
     private readonly deactivateTwoFactorOperation;
     private readonly updateEmailOperation;
@@ -80,6 +82,7 @@ export default class UsersController {
         verifyEmailOperation,
         getUsersOperation,
         getUserByIdOperation,
+        getUserByNicknameAndTagOperation,
         activateTwoFactorOperation,
         deactivateTwoFactorOperation,
         updateEmailOperation,
@@ -104,6 +107,7 @@ export default class UsersController {
         this.verifyEmailOperation = verifyEmailOperation;
         this.getUsersOperation = getUsersOperation;
         this.getUserByIdOperation = getUserByIdOperation;
+        this.getUserByNicknameAndTagOperation = getUserByNicknameAndTagOperation;
         this.activateTwoFactorOperation = activateTwoFactorOperation;
         this.deactivateTwoFactorOperation = deactivateTwoFactorOperation;
         this.updateEmailOperation = updateEmailOperation;
@@ -127,6 +131,7 @@ export default class UsersController {
         this.updateUserDetails = this.updateUserDetails.bind(this);
         this.verifyEmail = this.verifyEmail.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.getUserByNicknameAndTag = this.getUserByNicknameAndTag.bind(this);
         this.currentUser = this.currentUser.bind(this);
         this.getUserById = this.getUserById.bind(this);
         this.activateTwoFactor = this.activateTwoFactor.bind(this);
@@ -356,6 +361,18 @@ export default class UsersController {
     public async getUsers(req: Request, res: Response): Promise<Response> {
         const result = await this.getUsersOperation.execute();
         result.map((user) => delete (user as Partial<RegisterUserResponse>).password);
+
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async getUserByNicknameAndTag(req: Request, res: Response): Promise<Response> {
+        const { nickname: nicknameHandle } = req.query as unknown as TGetUserByNicknameAndTagQuery;
+        const hashIndex = nicknameHandle.lastIndexOf('#');
+        const nickname = nicknameHandle.slice(0, hashIndex);
+        const tag = nicknameHandle.slice(hashIndex);
+
+        const result = await this.getUserByNicknameAndTagOperation.execute({ nickname, tag });
+        delete (result as Partial<RegisterUserResponse>).password;
 
         return res.status(HttpStatusCode.OK).json(result);
     }

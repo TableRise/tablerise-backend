@@ -144,6 +144,19 @@ describe('Interface :: Users :: Presentation :: Users :: UsersSchemas', () => {
         expect(schemas.patchAcceptFriend.query.parse({ decline: 'false' })).to.deep.equal({ decline: false });
     });
 
+    it('should validate the combined nickname-and-tag query handle', () => {
+        const schemas = UsersSchemas();
+
+        expect(schemas.getUserByNicknameAndTag.query.parse({ nickname: 'joe_the_great#9999' })).to.deep.equal({
+            nickname: 'joe_the_great#9999',
+        });
+
+        expect(() => schemas.getUserByNicknameAndTag.query.parse({ nickname: 'joe_the_great' })).to.throw();
+        expect(() => schemas.getUserByNicknameAndTag.query.parse({ nickname: '#9999' })).to.throw();
+        expect(() => schemas.getUserByNicknameAndTag.query.parse({ nickname: 'joe_the_great#' })).to.throw();
+        expect(() => schemas.getUserByNicknameAndTag.query.parse({ nickname: `${'a'.repeat(33)}#9999` })).to.throw();
+    });
+
     it('should validate donation payloads and allow nickname to stay optional at schema level', () => {
         const schemas = UsersSchemas();
 

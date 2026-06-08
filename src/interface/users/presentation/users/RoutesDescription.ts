@@ -1,6 +1,7 @@
 const getAll = 'List all registered users.';
 
 const get = 'Get a user by id.';
+const getByNicknameAndTag = 'Get one user by the combined nickname and tag handle.';
 
 const currentUser = 'Get the currently authenticated user using the active cookie session.';
 
@@ -63,6 +64,7 @@ const token2FA = 'Validate a two-factor authentication token for the requested f
 
 export default {
     get,
+    getByNicknameAndTag,
     currentUser,
     getAll,
     getCampaigns,
