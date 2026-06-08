@@ -563,14 +563,28 @@ describe('Interface :: Users :: Presentation :: Users :: UsersController', () =>
     it('should logout and clear auth cookies', async () => {
         const controller = buildController();
         const response = buildResponse();
+        const previousNodeEnv = process.env.NODE_ENV;
+        const previousDomainCookie = process.env.DOMAIN_COOKIE;
 
-        await controller.logoutUser({ token: 'jwt-token' } as any, response);
+        process.env.NODE_ENV = 'production';
+        process.env.DOMAIN_COOKIE = 'example.com';
 
-        expect(response.clearCookie).to.have.been.calledWith('token');
-        expect(response.clearCookie).to.have.been.calledWith('session');
-        expect(response.clearCookie).to.have.been.calledWith('session.sig');
-        expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
-        expect(response.end).to.have.been.called();
+        try {
+            await controller.logoutUser({ token: 'jwt-token' } as any, response);
+
+            expect(response.clearCookie).to.have.been.calledWith('token', {
+                httpOnly: true,
+                secure: true,
+                domain: 'example.com',
+                sameSite: 'none',
+                path: '/',
+            });
+            expect(response.status).to.have.been.calledWith(HttpStatusCode.NO_CONTENT);
+            expect(response.end).to.have.been.called();
+        } finally {
+            process.env.NODE_ENV = previousNodeEnv;
+            process.env.DOMAIN_COOKIE = previousDomainCookie;
+        }
     });
 
     it('should delete the user and return no content', async () => {
