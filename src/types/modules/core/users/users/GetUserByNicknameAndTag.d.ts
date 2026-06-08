@@ -1,4 +1,3 @@
-import GetUserByNicknameAndTagOperation from 'src/core/users/operations/users/GetUserByNicknameAndTagOperation';
 import GetUserByNicknameAndTagService from 'src/core/users/services/users/GetUserByNicknameAndTagService';
 import UsersDetailsRepository from 'src/infra/repositories/user/UsersDetailsRepository';
 import UsersRepository from 'src/infra/repositories/user/UsersRepository';
