@@ -13,6 +13,11 @@ export interface GetByIdPayload {
     userId: string;
 }
 
+export interface GetByNicknameAndTagPayload {
+    nickname: string;
+    tag: string;
+}
+
 export interface AddGameInfoPayload {
     userId: string;
     infoId: string;

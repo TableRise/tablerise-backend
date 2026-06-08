@@ -6,6 +6,10 @@ import { DeleteUserOperationContract, DeleteUserServiceContract } from './users/
 import { FriendsOperationContract, FriendsServiceContract } from './users/Friends';
 import { GalleryOperationContract, GalleryServiceContract } from './users/Gallery';
 import { GetUserByIdOperationContract, GetUserByIdServiceContract } from './users/GetUserById';
+import {
+    GetUserByNicknameAndTagOperationContract,
+    GetUserByNicknameAndTagServiceContract,
+} from './users/GetUserByNicknameAndTag';
 import { GetUsersOperationContract, GetUsersServiceContract } from './users/GetUsers';
 import { LoginUserOperationContract, LoginUserServiceContract } from './users/LoginUser';
 import { LogoutUserOperationContract, LogoutUserServiceContract } from './users/LogoutUser';
@@ -35,6 +39,7 @@ export default interface UserCoreDependencies {
     friendsOperationContract: FriendsOperationContract;
     galleryOperationContract: GalleryOperationContract;
     getUserByIdOperationContract: GetUserByIdOperationContract;
+    getUserByNicknameAndTagOperationContract: GetUserByNicknameAndTagOperationContract;
     getUsersOperationContract: GetUsersOperationContract;
     logoutUserOperationContract: LogoutUserOperationContract;
     messagesOperationContract: MessagesOperationContract;
@@ -60,6 +65,7 @@ export default interface UserCoreDependencies {
     friendsServiceContract: FriendsServiceContract;
     galleryServiceContract: GalleryServiceContract;
     getUserByIdServiceContract: GetUserByIdServiceContract;
+    getUserByNicknameAndTagServiceContract: GetUserByNicknameAndTagServiceContract;
     getUsersServiceContract: GetUsersServiceContract;
     logoutUserServiceContract: LogoutUserServiceContract;
     messagesServiceContract: MessagesServiceContract;

@@ -15,6 +15,7 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
     context('When all the routes are correctly implemented', () => {
         usersController = {};
         usersSchemas = {
+            getUserByNicknameAndTag: { query: {} },
             postCreateUser: { example: {} },
             postLogin: { example: {} },
             postSupportEmail: { body: {} },
@@ -54,7 +55,8 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
 
         it('Should return the correct number of routes', () => {
             const routes = usersRoutes.routes();
-            expect(routes).to.have.lengthOf(38);
+            expect(routes).to.have.lengthOf(39);
+            expect(routes.find((route) => route.path === '/')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/support/post')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/:id/donate')).to.be.not.undefined();
             expect(routes.find((route) => route.path === '/me')).to.be.not.undefined();
@@ -76,6 +78,9 @@ describe('Interface :: Users :: Presentation :: Users :: UsersRoutes', () => {
             });
             expect(routes.find((route) => route.path === '/:id/update')?.options?.schemas?.[0]).to.be.deep.equal({
                 body: usersSchemas.putUpdateUser.body,
+            });
+            expect(routes.find((route) => route.path === '/')?.options?.schemas?.[0]).to.be.deep.equal({
+                query: usersSchemas.getUserByNicknameAndTag.query,
             });
             expect(
                 routes.find((route) => route.path === '/:id/update/details')?.options?.schemas?.[0]

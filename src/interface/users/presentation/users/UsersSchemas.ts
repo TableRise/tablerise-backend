@@ -27,6 +27,19 @@ const postLoginBodySchema = z.object({
         .default(''),
 });
 
+const getUserByNicknameAndTagQuerySchema = z.object({
+    nickname: z.string().refine((value) => {
+        const hashIndex = value.lastIndexOf('#');
+
+        if (hashIndex <= 0) return false;
+
+        const nickname = value.slice(0, hashIndex);
+        const tag = value.slice(hashIndex + 1);
+
+        return nickname.length > 0 && nickname.length <= 32 && /^\d{1,4}$/.test(tag);
+    }, 'Invalid nickname handle'),
+});
+
 const postUpdateUserProfilePictureBodySchema = z
     .object({
         picture: uploadedFileSchema.optional(),
@@ -137,6 +150,7 @@ const patchAcceptFriendQuerySchema = z.object({
 export type TValidateEmailSendCodeQuery = z.infer<typeof postValidateEmailSendCodeQuerySchema>;
 export type TCreateUserBody = z.infer<typeof postCreateUserBodySchema>;
 export type TLoginBody = z.infer<typeof postLoginBodySchema>;
+export type TGetUserByNicknameAndTagQuery = z.infer<typeof getUserByNicknameAndTagQuerySchema>;
 export type TUpdateUserProfilePictureBody = z.infer<typeof postUpdateUserProfilePictureBodySchema>;
 export type TUpdateUserBody = z.infer<typeof putUpdateUserBodySchema>;
 export type TUpdateUserDetailsBody = z.infer<typeof putUpdateUserDetailsBodySchema>;
@@ -154,6 +168,9 @@ export type TPostMessageBody = z.infer<typeof postMessageBodySchema>;
 export type TAcceptFriendQuery = z.infer<typeof patchAcceptFriendQuerySchema>;
 
 export default (): IUsersSchemas => ({
+    getUserByNicknameAndTag: {
+        query: getUserByNicknameAndTagQuerySchema,
+    },
     postValidateEmailSendCode: {
         query: postValidateEmailSendCodeQuerySchema,
     },

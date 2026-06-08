@@ -1,6 +1,7 @@
 import { ISchemaProps } from 'src/types/shared/configs';
 
 export interface IUsersSchemas {
+    getUserByNicknameAndTag: ISchemaProps;
     postValidateEmailSendCode: ISchemaProps;
     postCreateUser: ISchemaProps;
     postLogin: ISchemaProps;

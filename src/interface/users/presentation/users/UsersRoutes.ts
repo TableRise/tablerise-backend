@@ -63,6 +63,17 @@ export default class UsersRoutes {
             },
             {
                 method: 'get',
+                path: '/',
+                controller: this.usersController.getUserByNicknameAndTag,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: this.usersSchemas.getUserByNicknameAndTag.query }],
+                    tag: 'users',
+                    description: desc.getByNicknameAndTag,
+                },
+            },
+            {
+                method: 'get',
                 path: '/me',
                 controller: this.usersController.currentUser,
                 options: {

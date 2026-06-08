@@ -4,6 +4,7 @@ import CreateUserOperation from 'src/core/users/operations/users/CreateUserOpera
 import DeactivateTwoFactorOperation from 'src/core/users/operations/users/DeactivateTwoFactorOperation';
 import DeleteUserOperation from 'src/core/users/operations/users/DeleteUserOperation';
 import GetUserByIdOperation from 'src/core/users/operations/users/GetUserByIdOperation';
+import GetUserByNicknameAndTagOperation from 'src/core/users/operations/users/GetUserByNicknameAndTagOperation';
 import GetUsersOperation from 'src/core/users/operations/users/GetUsersOperation';
 import PictureProfileOperation from 'src/core/users/operations/users/PictureProfileOperation';
 import PostSupportEmailOperation from 'src/core/users/operations/users/PostSupportEmailOperation';
@@ -33,6 +34,7 @@ export interface UsersControllerContract {
     verifyEmailOperation: VerifyEmailOperation;
     getUsersOperation: GetUsersOperation;
     getUserByIdOperation: GetUserByIdOperation;
+    getUserByNicknameAndTagOperation: GetUserByNicknameAndTagOperation;
     activateTwoFactorOperation: ActivateTwoFactorOperation;
     deactivateTwoFactorOperation: DeactivateTwoFactorOperation;
     updateEmailOperation: UpdateEmailOperation;

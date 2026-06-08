@@ -283,6 +283,7 @@ All endpoints except registration, login, and email verification require a valid
 
 | Method   | Path                                  | Description                                      |
 | -------- | ------------------------------------- | ------------------------------------------------ |
+| `GET`    | `/users?nickname={nickname}%23{tag}`  | Get user by nickname and tag handle              |
 | `GET`    | `/users/all`                          | Get all users (admin only)                       |
 | `GET`    | `/users/:id`                          | Get user by ID                                   |
 | `GET`    | `/users/logout`                       | Logout current user                              |
