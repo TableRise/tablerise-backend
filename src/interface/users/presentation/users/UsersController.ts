@@ -59,6 +59,24 @@ export default class UsersController {
         return Boolean(value);
     }
 
+    private getAuthCookieOptions(): {
+        domain: string | undefined;
+        httpOnly: boolean;
+        path: string;
+        sameSite: 'none' | 'lax';
+        secure: boolean;
+    } {
+        const secure = process.env.NODE_ENV === 'production' || process.env.COOKIE_SECURE === 'yes';
+
+        return {
+            httpOnly: true,
+            secure,
+            domain: process.env.DOMAIN_COOKIE,
+            sameSite: secure ? 'none' : 'lax',
+            path: '/',
+        };
+    }
+
     private assertOwner(routeUserId: string, authenticatedUserId: string): void {
         if (routeUserId !== authenticatedUserId) HttpRequestErrors.throwError('unauthorized');
     }
@@ -516,9 +534,7 @@ export default class UsersController {
 
     public async logoutUser(req: Request, res: Response): Promise<Response> {
         await this.logoutUserOperation.execute(req.token as string);
-        res.clearCookie('token');
-        res.clearCookie('session');
-        res.clearCookie('session.sig');
+        res.clearCookie('token', this.getAuthCookieOptions());
         return res.status(HttpStatusCode.NO_CONTENT).end();
     }
 
