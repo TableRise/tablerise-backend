@@ -153,6 +153,7 @@ PORT=8080
 CORS_ORIGIN=http://localhost:3000
 SWAGGER_URL=http://localhost:8080/
 COOKIE_SECRET=your_cookie_secret
+MESSAGE_ENCRYPTION_KEY=base64_encoded_32_byte_key
 
 # MongoDB
 MONGODB_USERNAME=root

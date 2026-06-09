@@ -20,6 +20,7 @@ import SocketIO from './infra/clients/SocketIO';
 import StateMachine from './domains/common/StateMachine';
 import LoginPassport from './interface/users/strategies/LocalStrategy';
 import AuthenticatePassport from './interface/common/strategies/CookieStrategy';
+import MessageCrypto from './domains/users/helpers/MessageCrypto';
 
 const configs = require(path.join(process.cwd(), 'tablerise.environment.js'));
 
@@ -68,6 +69,7 @@ export default function setup(
         // #Helpers
         schemaValidator: asClass(SchemaValidator).singleton(),
         emailSender: asClass(EmailSender).singleton(),
+        messageCrypto: asClass(MessageCrypto).singleton(),
         serializer: asClass(Serializer).singleton(),
         twoFactorHandler: asClass(TwoFactorHandler).singleton(),
         tokenForbidden: asClass(TokenForbidden).singleton(),

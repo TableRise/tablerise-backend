@@ -93,12 +93,26 @@ describe('Users collections routes', () => {
             .get(`/users/${targetUser.userId}/messages`)
             .set('Cookie', `token=${targetToken}`)
             .expect(HttpStatusCode.OK);
+        const storedTargetDetails = await userDetailsModel.findOne({ userId: targetUser.userId });
+        const storedMessage = storedTargetDetails.messages[0];
 
         expect(message.title).to.equal('Hello');
+        expect(message.content).to.equal('Welcome friend');
         expect(message.status).to.equal('not-read');
         expect(messages).to.have.lengthOf(1);
         expect(messages[0].messageId).to.equal(message.messageId);
+        expect(messages[0].title).to.equal('Hello');
+        expect(messages[0].content).to.equal('Welcome friend');
         expect(messages[0].status).to.equal('not-read');
+        expect(storedMessage.encryptedTitle).to.be.a('string');
+        expect(storedMessage.encryptedContent).to.be.a('string');
+        expect(storedMessage.encryptedTitle).to.not.equal('Hello');
+        expect(storedMessage.encryptedContent).to.not.equal('Welcome friend');
+        expect(storedMessage.nonce).to.be.a('string');
+        expect(storedMessage.keyVersion).to.equal(1);
+        expect(storedMessage.algorithm).to.equal('aes-256-gcm');
+        expect(storedMessage.title).to.equal(undefined);
+        expect(storedMessage.content).to.equal(undefined);
 
         await supertest(app)
             .patch(`/users/${targetUser.userId}/messages/${message.messageId as string}/mark`)
@@ -110,6 +124,8 @@ describe('Users collections routes', () => {
             .set('Cookie', `token=${targetToken}`)
             .expect(HttpStatusCode.OK);
 
+        expect(markedMessage.title).to.equal('Hello');
+        expect(markedMessage.content).to.equal('Welcome friend');
         expect(markedMessage.status).to.equal('read');
     });
 
