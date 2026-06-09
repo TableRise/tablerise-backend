@@ -8,6 +8,17 @@ import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 
 describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => {
     const logger = (): void => {};
+    const encryptedMessagePayload = {
+        encryptedTitle: 'encrypted-title:auth-tag-title',
+        encryptedContent: 'encrypted-content:auth-tag-content',
+        nonce: 'bm9uY2U=',
+        keyVersion: 1,
+        algorithm: 'aes-256-gcm',
+    };
+    const decryptedMessagePayload = {
+        title: 'Hello',
+        content: 'How are you?',
+    };
 
     context('MessagesService', () => {
         it('should create a message for an active friend target', async () => {
@@ -30,9 +41,14 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 findOne: sinon.stub().onFirstCall().resolves(senderDetails).onSecondCall().resolves(targetDetails),
                 update: sinon.stub().resolves(targetDetails),
             };
+            const messageCrypto = {
+                encrypt: sinon.stub().returns(encryptedMessagePayload),
+                decrypt: sinon.stub(),
+            };
 
             const service = new MessagesService({
                 usersDetailsRepository,
+                messageCrypto,
                 logger,
             } as any);
 
@@ -45,8 +61,22 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
 
             expect(message.userId).to.equal('sender-1');
             expect(message.status).to.equal('not-read');
-            expect(targetDetails.messages.at(-1)).to.deep.equal(message);
+            expect(targetDetails.messages.at(-1)).to.include({
+                userId: 'sender-1',
+                status: 'not-read',
+                encryptedTitle: encryptedMessagePayload.encryptedTitle,
+                encryptedContent: encryptedMessagePayload.encryptedContent,
+                nonce: encryptedMessagePayload.nonce,
+                keyVersion: 1,
+                algorithm: 'aes-256-gcm',
+            });
+            expect(targetDetails.messages.at(-1)).to.not.have.property('title');
+            expect(targetDetails.messages.at(-1)).to.not.have.property('content');
             expect(usersDetailsRepository.update).to.have.been.calledOnce();
+            expect(messageCrypto.encrypt).to.have.been.calledWith({
+                title: 'Hello',
+                content: 'How are you?',
+            });
         });
 
         it('should reject messages for non-active friends', async () => {
@@ -67,6 +97,10 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 usersDetailsRepository: {
                     findOne: sinon.stub().onFirstCall().resolves(senderDetails).onSecondCall().resolves(targetDetails),
                     update: sinon.stub(),
+                },
+                messageCrypto: {
+                    encrypt: sinon.stub(),
+                    decrypt: sinon.stub(),
                 },
                 logger,
             } as any);
@@ -90,8 +124,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
             userDetails.messages = [
                 {
                     messageId: 'msg-1',
-                    title: 'Hello',
-                    content: 'How are you?',
+                    ...encryptedMessagePayload,
                     userId: 'sender-1',
                     timestamp: new Date().toISOString(),
                     status: 'not-read',
@@ -104,6 +137,10 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
 
             const service = new MessagesService({
                 usersDetailsRepository,
+                messageCrypto: {
+                    encrypt: sinon.stub(),
+                    decrypt: sinon.stub(),
+                },
                 logger,
             } as any);
 
@@ -120,6 +157,10 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 usersDetailsRepository: {
                     findOne: sinon.stub().resolves(userDetails),
                     update: sinon.stub(),
+                },
+                messageCrypto: {
+                    encrypt: sinon.stub(),
+                    decrypt: sinon.stub(),
                 },
                 logger,
             } as any);
@@ -139,8 +180,7 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
             userDetails.messages = [
                 {
                     messageId: 'msg-1',
-                    title: 'Hello',
-                    content: 'How are you?',
+                    ...encryptedMessagePayload,
                     userId: 'sender-1',
                     timestamp: new Date().toISOString(),
                     status: 'not-read',
@@ -150,20 +190,38 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 findOne: sinon.stub().resolves(userDetails),
                 update: sinon.stub().resolves(userDetails),
             };
+            const messageCrypto = {
+                encrypt: sinon.stub(),
+                decrypt: sinon.stub().returns(decryptedMessagePayload),
+            };
             const service = new MessagesService({
                 usersDetailsRepository,
+                messageCrypto,
                 logger,
             } as any);
 
-            expect(await service.getAll(userDetails.userId)).to.deep.equal(userDetails.messages);
-            expect(await service.getById({ userId: userDetails.userId, messageId: 'msg-1' })).to.deep.equal(
-                userDetails.messages[0]
-            );
+            expect(await service.getAll(userDetails.userId)).to.deep.equal([
+                {
+                    messageId: 'msg-1',
+                    ...decryptedMessagePayload,
+                    userId: 'sender-1',
+                    timestamp: userDetails.messages[0].timestamp,
+                    status: 'not-read',
+                },
+            ]);
+            expect(await service.getById({ userId: userDetails.userId, messageId: 'msg-1' })).to.deep.equal({
+                messageId: 'msg-1',
+                ...decryptedMessagePayload,
+                userId: 'sender-1',
+                timestamp: userDetails.messages[0].timestamp,
+                status: 'not-read',
+            });
 
             await service.remove({ userId: userDetails.userId, messageId: 'msg-1' });
 
             expect(userDetails.messages).to.have.lengthOf(0);
             expect(usersDetailsRepository.update).to.have.been.calledOnce();
+            expect(messageCrypto.decrypt).to.have.been.calledTwice();
         });
 
         it('should reject when one stored message does not exist for lookup or delete', async () => {
@@ -173,6 +231,10 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 usersDetailsRepository: {
                     findOne: sinon.stub().resolves(userDetails),
                     update: sinon.stub(),
+                },
+                messageCrypto: {
+                    encrypt: sinon.stub(),
+                    decrypt: sinon.stub(),
                 },
                 logger,
             } as any);

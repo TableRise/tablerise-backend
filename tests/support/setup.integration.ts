@@ -13,6 +13,8 @@ import InProgressStatusEnum from 'src/domains/users/enums/InProgressStatusEnum';
 import stateFlowsEnum from 'src/domains/common/enums/stateFlowsEnum';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 
+process.env.MESSAGE_ENCRYPTION_KEY = 'MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';
+
 setup({ loadExt: 'ts' });
 chai.use(dirtyChai);
 // @ts-expect-error Will create a new global property

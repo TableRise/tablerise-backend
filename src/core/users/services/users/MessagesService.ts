@@ -2,17 +2,37 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import { HttpStatusCode } from 'src/domains/common/helpers/HttpStatusCode';
 import getErrorName from 'src/domains/common/helpers/getErrorName';
 import newUUID from 'src/domains/common/helpers/newUUID';
-import { CreateMessagePayload, MessageLookupPayload, UserMessage } from 'src/types/api/users/http/payload';
+import {
+    CreateMessagePayload,
+    MessageLookupPayload,
+    StoredUserMessage,
+    UserMessage,
+} from 'src/types/api/users/http/payload';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { ensureUserDetailCollections, getFriendStatus } from 'src/domains/users/helpers/UserDetailCollections';
 
 export default class MessagesService {
     private readonly usersDetailsRepository;
+    private readonly messageCrypto;
     private readonly logger;
 
-    constructor({ usersDetailsRepository, logger }: UserCoreDependencies['messagesServiceContract']) {
+    constructor({ usersDetailsRepository, messageCrypto, logger }: UserCoreDependencies['messagesServiceContract']) {
         this.usersDetailsRepository = usersDetailsRepository;
+        this.messageCrypto = messageCrypto;
         this.logger = logger;
+    }
+
+    private toPublicMessage(message: StoredUserMessage): UserMessage {
+        const { title, content } = this.messageCrypto.decrypt(message);
+
+        return {
+            messageId: message.messageId,
+            title,
+            content,
+            userId: message.userId,
+            timestamp: message.timestamp,
+            status: message.status as UserMessage['status'],
+        };
     }
 
     public async create({ senderId, targetUserId, title, content }: CreateMessagePayload): Promise<UserMessage> {
@@ -37,23 +57,31 @@ export default class MessagesService {
             });
         }
 
-        const message: UserMessage = {
+        const encryptedMessage = this.messageCrypto.encrypt({ title, content });
+        const messageTimestamp = new Date().toISOString();
+        const storedMessage: StoredUserMessage = {
             messageId: newUUID(),
-            title,
-            content,
+            ...encryptedMessage,
             userId: senderId,
-            timestamp: new Date().toISOString(),
+            timestamp: messageTimestamp,
             status: 'not-read',
         };
 
-        targetDetails.messages.push(message);
+        targetDetails.messages.push(storedMessage);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: targetDetails.userDetailId },
             payload: targetDetails,
         });
 
-        return message;
+        return {
+            messageId: storedMessage.messageId,
+            title,
+            content,
+            userId: senderId,
+            timestamp: messageTimestamp,
+            status: 'not-read',
+        };
     }
 
     public async getAll(userId: string): Promise<UserMessage[]> {
@@ -63,7 +91,7 @@ export default class MessagesService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         ensureUserDetailCollections(userDetails);
 
-        return userDetails.messages as UserMessage[];
+        return userDetails.messages.map((message) => this.toPublicMessage(message as StoredUserMessage));
     }
 
     public async getById({ userId, messageId }: MessageLookupPayload): Promise<UserMessage> {
@@ -82,7 +110,7 @@ export default class MessagesService {
             });
         }
 
-        return message as UserMessage;
+        return this.toPublicMessage(message as StoredUserMessage);
     }
 
     public async remove({ userId, messageId }: MessageLookupPayload): Promise<void> {

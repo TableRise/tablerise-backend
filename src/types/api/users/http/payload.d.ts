@@ -140,6 +140,19 @@ export interface CreateMessagePayload {
     content: string;
 }
 
+export interface MessagePlaintextPayload {
+    title: string;
+    content: string;
+}
+
+export interface EncryptedMessagePayload {
+    encryptedTitle: string;
+    encryptedContent: string;
+    nonce: string;
+    keyVersion: number;
+    algorithm: string;
+}
+
 export interface MessageLookupPayload {
     userId: string;
     messageId: string;
@@ -160,8 +173,12 @@ export interface AnswerFriendRequestPayload extends FriendLookupPayload {
 }
 
 export type MessageStatus = 'not-read' | 'read';
-export type UserMessage = Omit<UserDetail['messages'][number], 'status'> & {
+export type StoredUserMessage = UserDetail['messages'][number];
+export interface UserMessage extends MessagePlaintextPayload {
+    messageId: string;
+    userId: string;
+    timestamp: string;
     status: MessageStatus;
-};
+}
 export type UserGalleryItem = ImageObject;
 export type UserFriend = UserDetail['friends'][number];
