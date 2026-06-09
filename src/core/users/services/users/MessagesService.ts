@@ -91,7 +91,7 @@ export default class MessagesService {
         const userDetails = await this.usersDetailsRepository.findOne({ userId });
         ensureUserDetailCollections(userDetails);
 
-        return userDetails.messages.map((message) => this.toPublicMessage(message as StoredUserMessage));
+        return userDetails.messages.map((message) => this.toPublicMessage(message));
     }
 
     public async getById({ userId, messageId }: MessageLookupPayload): Promise<UserMessage> {
@@ -110,7 +110,7 @@ export default class MessagesService {
             });
         }
 
-        return this.toPublicMessage(message as StoredUserMessage);
+        return this.toPublicMessage(message);
     }
 
     public async remove({ userId, messageId }: MessageLookupPayload): Promise<void> {
