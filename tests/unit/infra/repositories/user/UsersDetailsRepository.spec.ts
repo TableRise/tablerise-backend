@@ -103,6 +103,7 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 gameInfo: {
                     campaignsCreatedAmount: 3,
                     donateAmount: 12,
+                    playersAdded: 7,
                 },
             });
 
@@ -135,12 +136,14 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 gameInfo: {
                     campaignsCreatedAmount: 3,
                     donateAmount: 12,
+                    playersAdded: 7,
                 },
             } as UserDetail);
 
             expect(updateOne).to.have.been.calledOnce();
             expect(result.gameInfo.campaignsCreatedAmount).to.equal(3);
             expect(result.gameInfo.donateAmount).to.equal(12);
+            expect(result.gameInfo.playersAdded).to.equal(7);
         });
 
         it('should skip raw persistence when the payload has no numeric campaignsCreatedAmount', async () => {
@@ -302,6 +305,7 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 campaignsClosedAmount: 0,
                 equipBoughtAmount: 0,
                 donateAmount: 0,
+                playersAdded: 0,
             });
         });
 
@@ -578,6 +582,7 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                     gameInfo: {
                         campaignsCreatedAmount: 9,
                         donateAmount: 48,
+                        playersAdded: 14,
                     },
                 });
 
@@ -616,6 +621,7 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                         gameInfo: {
                             campaignsCreatedAmount: 9,
                             donateAmount: 48,
+                            playersAdded: 14,
                         },
                     },
                 });
@@ -624,6 +630,7 @@ describe('Infra :: Repositories :: User :: UsersDetailsRepository', () => {
                 expect(rawFindOne).to.have.been.calledOnce();
                 expect(result.gameInfo.campaignsCreatedAmount).to.equal(9);
                 expect(result.gameInfo.donateAmount).to.equal(48);
+                expect(result.gameInfo.playersAdded).to.equal(14);
             });
 
             it('should skip raw counter persistence during update when campaignsCreatedAmount is absent', async () => {

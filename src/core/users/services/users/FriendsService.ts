@@ -4,6 +4,8 @@ import getErrorName from 'src/domains/common/helpers/getErrorName';
 import UserCoreDependencies from 'src/types/modules/core/users/UserCoreDependencies';
 import { AnswerFriendRequestPayload, FriendLookupPayload, UserFriend } from 'src/types/api/users/http/payload';
 import { ensureUserDetailCollections, getFriendStatus } from 'src/domains/users/helpers/UserDetailCollections';
+import { awardFriendBadges } from 'src/domains/users/helpers/BadgeAwardHandler';
+import { incrementGameInfoCounter } from 'src/domains/users/helpers/GameInfoCounters';
 
 export default class FriendsService {
     private readonly usersRepository;
@@ -163,6 +165,11 @@ export default class FriendsService {
         } else {
             requesterDetails.friends.push(mirroredFriend);
         }
+
+        incrementGameInfoCounter(accepterDetails, 'playersAdded');
+        incrementGameInfoCounter(requesterDetails, 'playersAdded');
+        awardFriendBadges(accepterDetails);
+        awardFriendBadges(requesterDetails);
 
         await this.usersDetailsRepository.update({
             query: { userDetailId: accepterDetails.userDetailId },

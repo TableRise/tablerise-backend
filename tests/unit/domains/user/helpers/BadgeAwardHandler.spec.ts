@@ -3,6 +3,7 @@ import {
     awardCampaignBadges,
     awardCharacterBadges,
     awardDonationBadges,
+    awardFriendBadges,
     awardNewbieBadge,
     syncRankByBadgesLength,
 } from 'src/domains/users/helpers/BadgeAwardHandler';
@@ -85,6 +86,25 @@ describe('Domains :: User :: Helpers :: BadgeAwardHandler', () => {
         awardDonationBadges(userDetails);
 
         expect(userDetails.gameInfo.badges).to.include.members(['donate_normal', 'donate_rare', 'donate_super_rare']);
+    });
+
+    it('should award friend badges based on the cumulative playersAdded counter', () => {
+        userDetails.gameInfo.playersAdded = 35;
+
+        awardFriendBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges).to.include.members(['friends', 'friends_rare', 'friends_super_rare']);
+        expect(userDetails.gameInfo.badges).to.have.length(3);
+    });
+
+    it('should not duplicate friend badges that the user already has', () => {
+        userDetails.gameInfo.badges = ['friends'];
+        userDetails.gameInfo.playersAdded = 15;
+
+        awardFriendBadges(userDetails);
+
+        expect(userDetails.gameInfo.badges.filter((badge) => badge === 'friends')).to.have.length(1);
+        expect(userDetails.gameInfo.badges).to.include('friends_rare');
     });
 
     it('should sync rank to bronze, diamond, gold, and white based on badge count', () => {

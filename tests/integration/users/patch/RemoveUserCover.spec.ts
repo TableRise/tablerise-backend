@@ -27,6 +27,7 @@ describe('When a user details cover is removed', () => {
                 campaignsClosedAmount: 0,
                 equipBoughtAmount: 0,
                 donateAmount: 0,
+                playersAdded: 0,
             },
             biography: 'Some bio',
             role: 'admin',

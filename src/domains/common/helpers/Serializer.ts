@@ -81,6 +81,7 @@ export default class Serializer {
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
             donateAmount: 0,
+            playersAdded: 0,
         },
         biography = null,
         rank = null,
