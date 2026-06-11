@@ -98,9 +98,9 @@ const spellLevelCharacterZodSchema = z.object({
 });
 
 const extraAbilityLevelCharacterZodSchema = z.object({
-    extraAbilityNames: z.array(z.string()),
-    slotsTotal: z.number(),
-    slotsExpended: z.number(),
+    extraAbilityNames: z.array(z.string()).optional(),
+    slotsTotal: z.number().optional(),
+    slotsExpended: z.number().optional(),
 });
 
 const spellsCharacterZodSchema = z.object({
@@ -117,16 +117,16 @@ const spellsCharacterZodSchema = z.object({
 });
 
 const extraAbilitiesCharacterZodSchema = z.object({
-    cantrips: z.array(z.string()),
-    1: extraAbilityLevelCharacterZodSchema,
-    2: extraAbilityLevelCharacterZodSchema,
-    3: extraAbilityLevelCharacterZodSchema,
-    4: extraAbilityLevelCharacterZodSchema,
-    5: extraAbilityLevelCharacterZodSchema,
-    6: extraAbilityLevelCharacterZodSchema,
-    7: extraAbilityLevelCharacterZodSchema,
-    8: extraAbilityLevelCharacterZodSchema,
-    9: extraAbilityLevelCharacterZodSchema,
+    cantrips: z.array(z.string()).optional(),
+    1: extraAbilityLevelCharacterZodSchema.optional(),
+    2: extraAbilityLevelCharacterZodSchema.optional(),
+    3: extraAbilityLevelCharacterZodSchema.optional(),
+    4: extraAbilityLevelCharacterZodSchema.optional(),
+    5: extraAbilityLevelCharacterZodSchema.optional(),
+    6: extraAbilityLevelCharacterZodSchema.optional(),
+    7: extraAbilityLevelCharacterZodSchema.optional(),
+    8: extraAbilityLevelCharacterZodSchema.optional(),
+    9: extraAbilityLevelCharacterZodSchema.optional(),
 });
 
 const dataCharacterZodSchema = z.object({
@@ -136,7 +136,7 @@ const dataCharacterZodSchema = z.object({
     equipments: z.array(z.any()).optional(),
     money: moneyCharacterZodSchema,
     spells: spellsCharacterZodSchema,
-    extraAbilities: extraAbilitiesCharacterZodSchema,
+    extraAbilities: extraAbilitiesCharacterZodSchema.optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });
