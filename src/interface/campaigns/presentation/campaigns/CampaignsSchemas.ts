@@ -62,7 +62,11 @@ const postCreateCampaignBodySchema = z.object({
 });
 
 const postConfirmPlayerPresenceQuerySchema = z.object({
-    cancel: z.boolean().default(false).optional(),
+    cancel: z.preprocess((value) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value;
+    }, z.boolean().default(false).optional()),
 });
 
 const configurationsBodySchema = z.object({

@@ -368,6 +368,18 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
                 })
             ).to.deep.equal({ cancel: false });
 
+            expect(
+                schemas.postConfirmPlayerPresence.query.parse({
+                    cancel: 'true',
+                })
+            ).to.deep.equal({ cancel: true });
+
+            expect(
+                schemas.postConfirmPlayerPresence.query.parse({
+                    cancel: 'false',
+                })
+            ).to.deep.equal({ cancel: false });
+
             expect(() =>
                 schemas.getAllCampaigns.query.parse({
                     code: '123456',
