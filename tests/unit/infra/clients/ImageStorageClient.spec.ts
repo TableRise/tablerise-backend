@@ -121,7 +121,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
             });
 
             it('should throw error', async () => {
-                process.env.NODE_ENV = 'develop';
+                process.env.NODE_ENV = 'production';
                 try {
                     await imageStorageClient.upload(imageMock);
                     expect('it should not be here').to.be.equal(false);

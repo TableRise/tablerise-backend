@@ -22,7 +22,7 @@ const journalCategories = [
 
 const postCreateCampaignBodySchema = z.object({
     title: z.string(),
-    cover: uploadedFileSchema.optional(),
+    cover: z.preprocess((value) => (Array.isArray(value) ? value[0] : value), uploadedFileSchema.optional()),
     mapImages: z.array(uploadedFileSchema).max(3).optional(),
     imageObject: z
         .preprocess(

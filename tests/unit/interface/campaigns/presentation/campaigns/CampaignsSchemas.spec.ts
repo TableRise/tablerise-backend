@@ -282,6 +282,30 @@ describe('Interface :: Campaigns :: Presentation :: Campaigns :: CampaignsSchema
             ).to.not.throw();
         });
 
+        it('should validate create campaign cover payloads when multer fields provide a single-item array', () => {
+            const schemas = CampaignsSchemas();
+            const multerFile = {
+                fieldname: 'cover',
+                originalname: 'cover.png',
+                mimetype: 'image/png',
+                buffer: Buffer.from('cover'),
+            };
+
+            expect(() =>
+                schemas.postCreateCampaign.body.parse({
+                    title: 'Campaign',
+                    cover: [multerFile],
+                    description: 'A short description',
+                    system: 'dnd5e',
+                    musics: '[]',
+                    mainHistory: 'A great adventure begins',
+                    playerAmountLimit: '4',
+                    ageRestriction: '16',
+                    configurations: JSON.stringify({ xpSystem: true, shopSystem: false }),
+                })
+            ).to.not.throw();
+        });
+
         it('should validate create campaign imageObject payloads already parsed as objects', () => {
             const schemas = CampaignsSchemas();
 
