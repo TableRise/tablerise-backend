@@ -21,6 +21,7 @@ function createUserDetailFaker({ userDetailId = newUUID() }: UserDetail): UserDe
             campaignsClosedAmount: 0,
             equipBoughtAmount: 0,
             donateAmount: 0,
+            playersAdded: 0,
         },
         biography: dataGenerator.biography(),
         rank: 'bronze',

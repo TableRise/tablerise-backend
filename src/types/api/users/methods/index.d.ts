@@ -24,6 +24,7 @@ export interface UserGameInfoDoneResponse {
     campaignsClosedAmount: number;
     equipBoughtAmount: number;
     donateAmount: number;
+    playersAdded: number;
 }
 
 export interface __FullUserPayload {
@@ -45,6 +46,7 @@ export interface UpdateGameInfoProcessPayload {
         campaignsClosedAmount: number;
         equipBoughtAmount: number;
         donateAmount: number;
+        playersAdded: number;
     };
 }
 

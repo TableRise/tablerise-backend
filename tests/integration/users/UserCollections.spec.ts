@@ -129,6 +129,50 @@ describe('Users collections routes', () => {
         expect(markedMessage.status).to.equal('read');
     });
 
+    it('should increment playersAdded and award the friends badge when a friendship is accepted', async () => {
+        const ownerDetails = await userDetailsModel.findOne({ userDetailId: ownerDetailId });
+        const rawCollection = (userDetailsModel as any)._model.collection;
+        ownerDetails.friends = [];
+        ownerDetails.gameInfo.badges = [];
+        ownerDetails.gameInfo.playersAdded = 4;
+        ownerDetails.rank = 'bronze';
+
+        targetDetails.friends = [];
+        targetDetails.gameInfo.badges = [];
+        targetDetails.gameInfo.playersAdded = 4;
+        targetDetails.rank = 'bronze';
+
+        await userDetailsModel.update({ userDetailId: ownerDetailId }, ownerDetails);
+        await userDetailsModel.update({ userId: targetUser.userId }, targetDetails);
+        await rawCollection.updateOne({ userDetailId: ownerDetailId }, { $set: { 'gameInfo.playersAdded': 4 } });
+        await rawCollection.updateOne({ userId: targetUser.userId }, { $set: { 'gameInfo.playersAdded': 4 } });
+
+        await requester().post(`/users/${ownerUserId}/friends/${targetUser.userId}`).expect(HttpStatusCode.NO_CONTENT);
+
+        const app = container.resolve('application').setupExpress();
+        const targetToken = jwt.sign(
+            {
+                userId: targetUser.userId,
+                providerId: null,
+                username: 'target-user',
+            },
+            'secret'
+        );
+
+        await supertest(app)
+            .patch(`/users/${targetUser.userId}/friends/accept/${ownerUserId}`)
+            .set('Cookie', `token=${targetToken}`)
+            .expect(HttpStatusCode.NO_CONTENT);
+
+        const storedOwnerDetails = await rawCollection.findOne({ userDetailId: ownerDetailId });
+        const storedTargetDetails = await rawCollection.findOne({ userId: targetUser.userId });
+
+        expect(storedOwnerDetails.gameInfo.playersAdded).to.equal(5);
+        expect(storedTargetDetails.gameInfo.playersAdded).to.equal(5);
+        expect(storedOwnerDetails.gameInfo.badges).to.include('friends');
+        expect(storedTargetDetails.gameInfo.badges).to.include('friends');
+    });
+
     it('should populate and delete gallery items after a profile picture upload', async () => {
         await requester()
             .post(`/users/${ownerUserId}/update/picture`)

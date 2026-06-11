@@ -60,6 +60,9 @@ export default class UsersDetailsRepository {
         if (typeof gameInfo.donateAmount === 'number') {
             rawGameInfoFields['gameInfo.donateAmount'] = gameInfo.donateAmount;
         }
+        if (typeof gameInfo.playersAdded === 'number') {
+            rawGameInfoFields['gameInfo.playersAdded'] = gameInfo.playersAdded;
+        }
         if (!Object.keys(rawGameInfoFields).length) return;
 
         await rawCollection.updateOne(query, {

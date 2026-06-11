@@ -19,6 +19,15 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
         title: 'Hello',
         content: 'How are you?',
     };
+    const createActiveFriend = (userId: string) => ({
+        userId,
+        nickname: userId,
+        tag: '#1000',
+        picture: '',
+        rank: 'bronze',
+        status: 'active' as const,
+        favorite: false,
+    });
 
     context('MessagesService', () => {
         it('should create a message for an active friend target', async () => {
@@ -647,6 +656,67 @@ describe('Core :: Users :: Services :: Users :: UserCollectionsServices', () => 
                 favorite: false,
             });
             expect(usersDetailsRepository.update).to.have.been.calledTwice();
+        });
+
+        it('should increment playersAdded and award friend badges to both users when accepting reaches the threshold', async () => {
+            const accepter = DomainDataFaker.generateUsersJSON()[0];
+            accepter.userId = 'target-1';
+            accepter.nickname = 'target';
+            accepter.tag = '#2001';
+            accepter.picture = {
+                id: 'pic-2',
+                link: 'https://img.bb/target',
+                uploadDate: new Date().toISOString(),
+                title: '',
+                deleteUrl: '',
+                request: { success: true, status: 200 },
+            };
+            const accepterDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            accepterDetails.userId = 'target-1';
+            accepterDetails.gameInfo.badges = [];
+            accepterDetails.rank = 'bronze';
+            accepterDetails.gameInfo.playersAdded = 4;
+            accepterDetails.friends = [
+                {
+                    userId: 'sender-1',
+                    nickname: 'sender',
+                    tag: '#1001',
+                    picture: '',
+                    rank: 'bronze',
+                    status: 'pending',
+                },
+                createActiveFriend('active-a'),
+                createActiveFriend('active-b'),
+                createActiveFriend('active-c'),
+                createActiveFriend('active-d'),
+            ];
+            const requesterDetails = DomainDataFaker.generateUserDetailsJSON()[0];
+            requesterDetails.userId = 'sender-1';
+            requesterDetails.gameInfo.badges = [];
+            requesterDetails.rank = 'bronze';
+            requesterDetails.gameInfo.playersAdded = 4;
+            requesterDetails.friends = [];
+
+            const service = new FriendsService({
+                usersRepository: {
+                    findOne: sinon.stub().returns(accepter),
+                },
+                usersDetailsRepository: {
+                    findOne: sinon.stub().callsFake(({ userId }) => {
+                        if (userId === 'target-1') return accepterDetails;
+                        return requesterDetails;
+                    }),
+                    update: sinon.stub().resolves(),
+                },
+                logger,
+            } as any);
+
+            await service.answerRequest({ userId: 'target-1', targetUserId: 'sender-1', decline: false });
+
+            expect(accepterDetails.gameInfo.playersAdded).to.equal(5);
+            expect(requesterDetails.gameInfo.playersAdded).to.equal(5);
+            expect(accepterDetails.gameInfo.badges).to.include('friends');
+            expect(requesterDetails.gameInfo.badges).to.include('friends');
         });
 
         it('should accept a pending friend request when decline is omitted', async () => {

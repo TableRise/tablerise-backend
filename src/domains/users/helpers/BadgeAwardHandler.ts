@@ -36,6 +36,11 @@ export const DONATION_BADGE_RULES = [
     { counter: 'donateAmount', amount: 50, badge: 'donate_rare' },
     { counter: 'donateAmount', amount: 100, badge: 'donate_super_rare' },
 ] as const;
+export const FRIEND_BADGE_RULES = [
+    { counter: 'playersAdded', amount: 5, badge: 'friends' },
+    { counter: 'playersAdded', amount: 15, badge: 'friends_rare' },
+    { counter: 'playersAdded', amount: 35, badge: 'friends_super_rare' },
+] as const;
 export const BADGE_RANK_RULES = [
     { badgesAmount: 20, rank: 'white' },
     { badgesAmount: 15, rank: 'gold' },
@@ -91,4 +96,8 @@ export function awardCharacterBadges(userDetails: UserDetail): UserDetail {
 
 export function awardDonationBadges(userDetails: UserDetail): UserDetail {
     return awardBadgesByRules(userDetails, DONATION_BADGE_RULES);
+}
+
+export function awardFriendBadges(userDetails: UserDetail): UserDetail {
+    return awardBadgesByRules(userDetails, FRIEND_BADGE_RULES);
 }
