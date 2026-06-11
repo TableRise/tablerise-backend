@@ -5,6 +5,7 @@ const update = 'Update a character main stats and profile information.';
 const addEquipment = 'Add an equipment item to the character by equipment id.';
 const removeEquipment = 'Remove an equipment item from the character and refund 90% of its value.';
 const updateMoney = 'Add or subtract money from one of the character currency types.';
+const turnOffNotifications = 'Turn off the level-up notification flag for the character profile.';
 const deleteCharacter = 'Delete a character owned by the authenticated user and remove its linked references.';
 
 const updatePicture = 'Upload or replace the character picture. Accepted formats: PNG, JPG, and JPEG.';
@@ -18,5 +19,6 @@ export default {
     addEquipment,
     removeEquipment,
     updateMoney,
+    turnOffNotifications,
     deleteCharacter,
 };

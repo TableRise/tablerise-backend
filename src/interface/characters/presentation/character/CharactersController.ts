@@ -45,6 +45,7 @@ export default class CharactersController {
         this.addEquipment = this.addEquipment.bind(this);
         this.removeEquipment = this.removeEquipment.bind(this);
         this.updateCharacterMoney = this.updateCharacterMoney.bind(this);
+        this.turnOffNotifications = this.turnOffNotifications.bind(this);
         this.deleteCharacter = this.deleteCharacter.bind(this);
     }
 
@@ -118,6 +119,22 @@ export default class CharactersController {
             money,
             moneyType,
         });
+        return res.status(HttpStatusCode.OK).json(result);
+    }
+
+    public async turnOffNotifications(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const result = await this.updateCharacterOperation.execute({
+            characterId: id,
+            payload: {
+                data: {
+                    profile: {
+                        notificationOn: false,
+                    },
+                },
+            },
+        });
+
         return res.status(HttpStatusCode.OK).json(result);
     }
 

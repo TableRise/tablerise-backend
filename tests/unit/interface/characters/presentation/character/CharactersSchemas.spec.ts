@@ -53,6 +53,8 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersSch
                         class: 'Wizard',
                         race: 'Elf',
                         level: 1,
+                        prevLevel: 0,
+                        notificationOn: false,
                         xp: 0,
                         characteristics: {
                             alignment: 'neutral',
@@ -138,6 +140,22 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersSch
                             1: { slotsTotal: 2 },
                             2: {},
                             3: { slotsExpended: 1 },
+                        },
+                    },
+                })
+            ).to.not.throw();
+        });
+
+        it('should validate update payloads containing profile notification fields', () => {
+            const schemas = CharactersSchemas();
+
+            expect(() =>
+                schemas.putUpdateCharacter.body.parse({
+                    data: {
+                        profile: {
+                            level: 5,
+                            prevLevel: 4,
+                            notificationOn: true,
                         },
                     },
                 })

@@ -133,6 +133,16 @@ export default class CharactersRoutes {
                 },
             },
             {
+                method: 'patch',
+                path: '/:id/update/notifications/off',
+                controller: this.charactersController.turnOffNotifications,
+                options: {
+                    middlewares: [passport.authenticate('cookie', { session: false }), this.verifyIdMiddleware],
+                    tag: 'management',
+                    description: desc.turnOffNotifications,
+                },
+            },
+            {
                 method: 'delete',
                 path: '/:id/delete',
                 controller: this.charactersController.deleteCharacter,
