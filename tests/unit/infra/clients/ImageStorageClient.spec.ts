@@ -2,16 +2,29 @@ import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
 import ImageStorageClient from 'src/infra/clients/ImageStorageClient';
 import DomainDataFaker from 'src/infra/datafakers/campaigns/DomainDataFaker';
 import { FileObject } from 'src/types/shared/file';
+import sharp from 'sharp';
 
 describe('Infra :: Clients :: ImageStorageClient', () => {
     let imageStorageClient: ImageStorageClient, configs: any, serializer: any, httpRequest: any, imageMock: FileObject;
 
     const logger = (): void => {};
+    let pngBufferMock: Buffer;
+
+    before(async () => {
+        pngBufferMock = await sharp({
+            create: {
+                width: 1,
+                height: 1,
+                channels: 4,
+                background: { r: 255, g: 255, b: 255, alpha: 1 },
+            },
+        })
+            .png()
+            .toBuffer();
+    });
 
     context('#upload', () => {
         context('When upload is made successfully', () => {
-            const bufferMock = Buffer.from('', 'binary');
-
             before(() => {
                 configs = {
                     api: {
@@ -28,7 +41,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 httpRequest = () => ({ data: { title: 'upload test' } });
 
                 imageMock = {
-                    buffer: bufferMock,
+                    buffer: pngBufferMock,
                     mimetype: 'image/png',
                     originalname: 'test.png',
                     fieldname: 'file',
@@ -60,6 +73,15 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 process.env.NODE_ENV = 'develop';
             });
 
+            it('should convert uploaded images to webp before sending them upstream', async () => {
+                const convertedImage = await (imageStorageClient as any).convertToWebp(imageMock);
+                const metadata = await sharp(convertedImage.buffer).metadata();
+
+                expect(convertedImage.originalname).to.equal('test.webp');
+                expect(convertedImage.mimetype).to.equal('image/webp');
+                expect(metadata.format).to.equal('webp');
+            });
+
             it('should correctly upload the picture - No Prod', async () => {
                 const imageUp = await imageStorageClient.upload(imageMock);
                 expect(imageUp).to.have.property('id');
@@ -80,8 +102,6 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
         });
 
         context('When upload fail', () => {
-            const bufferMock = Buffer.from('', 'binary');
-
             before(() => {
                 configs = {
                     api: {
@@ -100,7 +120,7 @@ describe('Infra :: Clients :: ImageStorageClient', () => {
                 };
 
                 imageMock = {
-                    buffer: bufferMock,
+                    buffer: pngBufferMock,
                     mimetype: 'image/png',
                     originalname: 'test.png',
                     fieldname: 'file',
