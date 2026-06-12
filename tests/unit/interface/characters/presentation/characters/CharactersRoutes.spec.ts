@@ -32,8 +32,10 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersRou
 
         it('should return the correct number of routes and register the delete endpoint', () => {
             const routes = charactersRoutes.routes();
-            expect(routes).to.have.lengthOf(10);
+            expect(routes).to.have.lengthOf(11);
             expect(routes.some((route) => route.method === 'delete' && route.path === '/:id/delete')).to.be.true;
+            expect(routes.some((route) => route.method === 'patch' && route.path === '/:id/update/notifications/off'))
+                .to.be.true;
             expect(routes.some((route) => route.method === 'post' && route.path === '/:id/symbol')).to.be.false;
         });
     });

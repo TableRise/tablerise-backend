@@ -5,6 +5,7 @@ import { ImageObject } from '@tablerise/database-management/dist/src/interfaces/
 import FormData from 'form-data';
 import { AxiosError, AxiosResponse } from 'axios';
 import HttpRequestErrors from 'src/domains/common/helpers/HttpRequestErrors';
+import sharp from 'sharp';
 
 export default class ImageStorageClient {
     private readonly logger;
@@ -17,6 +18,8 @@ export default class ImageStorageClient {
         this.configs = configs;
         this.httpRequest = httpRequest;
         this.serializer = serializer;
+
+        this.convertToWebp = this.convertToWebp.bind(this);
     }
 
     async upload(image: FileObject, customTitle?: string): Promise<ImageObject> {
@@ -26,20 +29,7 @@ export default class ImageStorageClient {
 
         const url = `${baseUrl}${endpoints.postImage}${authorization}`;
 
-        const form = new FormData();
-        form.append('name', image.originalname);
-        form.append('image', Buffer.from(image.buffer).toString('base64'));
-
         let imageUploaded: AxiosResponse | ApiImgBBResponse;
-
-        const imageUploadPayload = {
-            method: 'post',
-            url,
-            data: form,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        };
 
         imageUploaded = {
             data: {
@@ -54,6 +44,20 @@ export default class ImageStorageClient {
         } as ApiImgBBResponse;
 
         try {
+            const imageWebp = await this.convertToWebp(image);
+            const form = new FormData();
+            form.append('name', imageWebp.originalname);
+            form.append('image', Buffer.from(imageWebp.buffer).toString('base64'));
+
+            const imageUploadPayload = {
+                method: 'post',
+                url,
+                data: form,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+
             imageUploaded =
                 process.env.NODE_ENV === 'production' ? await this.httpRequest(imageUploadPayload) : imageUploaded;
         } catch (error) {
@@ -69,5 +73,18 @@ export default class ImageStorageClient {
         imageUploaded.data.title = customTitle ?? imageUploaded.data.title;
 
         return this.serializer.imageResult(imageUploaded as ApiImgBBResponse);
+    }
+
+    private async convertToWebp(image: FileObject): Promise<FileObject> {
+        const buffer = await sharp(image.buffer).webp().toBuffer();
+        const baseName = image.originalname.replace(/\.[^.]+$/, '');
+
+        return {
+            ...image,
+            originalname: `${baseName}.webp`,
+            mimetype: 'image/webp',
+            buffer,
+            size: buffer.length,
+        };
     }
 }

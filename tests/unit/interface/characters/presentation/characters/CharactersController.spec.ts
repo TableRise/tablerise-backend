@@ -244,4 +244,28 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
         });
         expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
     });
+
+    it('should turn off character notifications', async () => {
+        const request = {
+            params: { id: 'character-1' },
+        } as unknown as Request;
+        const response = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub().returnsThis(),
+        } as unknown as Response;
+
+        await charactersController.turnOffNotifications(request, response);
+
+        expect(updateCharacterOperation.execute).to.have.been.calledWith({
+            characterId: 'character-1',
+            payload: {
+                data: {
+                    profile: {
+                        notificationOn: false,
+                    },
+                },
+            },
+        });
+        expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
+    });
 });

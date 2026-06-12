@@ -292,5 +292,79 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
                 expect(charactersRepository.update).to.have.been.called();
             });
         });
+
+        context('When the character levels up', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+                character.data.profile.level = 4;
+                character.data.profile.notificationOn = false;
+
+                payload = {
+                    data: {
+                        profile: {
+                            level: 5,
+                        },
+                    },
+                } as any;
+
+                charactersRepository = {
+                    findOne: sinon.stub().returns(character),
+                    update: sinon.stub().callsFake(({ payload: updatedCharacter }: any) => updatedCharacter),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should store the previous level and turn notifications on', async () => {
+                const updated = await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+
+                expect(updated.data.profile.level).to.equal(5);
+                expect(updated.data.profile.prevLevel).to.equal(4);
+                expect(updated.data.profile.notificationOn).to.equal(true);
+            });
+        });
+
+        context('When the profile level does not increase', () => {
+            before(() => {
+                [character] = DomainDataFaker.generateCharactersJSON();
+                character.data.profile.level = 4;
+                character.data.profile.prevLevel = 2;
+                character.data.profile.notificationOn = false;
+
+                payload = {
+                    data: {
+                        profile: {
+                            level: 4,
+                        },
+                    },
+                } as any;
+
+                charactersRepository = {
+                    findOne: sinon.stub().returns(character),
+                    update: sinon.stub().callsFake(({ payload: updatedCharacter }: any) => updatedCharacter),
+                };
+
+                updateCharacterService = new UpdateCharacterService({
+                    charactersRepository,
+                    logger,
+                });
+            });
+
+            it('should preserve the existing notification fields', async () => {
+                const updated = await updateCharacterService.update({
+                    characterId: '112',
+                    payload,
+                });
+
+                expect(updated.data.profile.prevLevel).to.equal(2);
+                expect(updated.data.profile.notificationOn).to.equal(false);
+            });
+        });
     });
 });

@@ -31,6 +31,9 @@ export default class UpdateCharacterService {
         const dbStats = characterInDb.data.stats;
         const dbCharacteristics = dbProfile?.characteristics ?? ({} as any);
         const characteristicsPayload = profilePayload?.characteristics;
+        const currentLevel = typeof dbProfile?.level === 'number' ? dbProfile.level : undefined;
+        const nextLevel = typeof profilePayload?.level === 'number' ? profilePayload.level : undefined;
+        const leveledUp = currentLevel !== undefined && nextLevel !== undefined && nextLevel > currentLevel;
 
         const characterToUpdate = {
             ...characterInDb,
@@ -39,6 +42,12 @@ export default class UpdateCharacterService {
                 profile: {
                     ...dbProfile,
                     ...(profilePayload ?? {}),
+                    ...(leveledUp
+                        ? {
+                              prevLevel: currentLevel,
+                              notificationOn: true,
+                          }
+                        : {}),
                     characteristics: {
                         ...dbCharacteristics,
                         ...(characteristicsPayload ?? {}),
