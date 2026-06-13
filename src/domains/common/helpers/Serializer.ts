@@ -187,12 +187,24 @@ export default class Serializer {
         picture = null,
         logs = null,
     }: any): Partial<CharactersDnd> {
+        const normalizedData =
+            data && data.profile
+                ? {
+                      ...data,
+                      profile: {
+                          ...data.profile,
+                          notificationOn: data.profile.notificationOn ?? data.profile.notificationsOn ?? null,
+                          notificationsOn: data.profile.notificationsOn ?? data.profile.notificationOn ?? null,
+                      },
+                  }
+                : data;
+
         return {
             characterId,
             campaignId,
             matchId,
             author,
-            data,
+            data: normalizedData,
             npc,
             picture,
             logs,

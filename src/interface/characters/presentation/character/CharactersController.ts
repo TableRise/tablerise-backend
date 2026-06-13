@@ -129,7 +129,7 @@ export default class CharactersController {
             payload: {
                 data: {
                     profile: {
-                        notificationOn: false,
+                        notificationsOn: false,
                     },
                 },
             },
