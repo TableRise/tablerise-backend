@@ -89,6 +89,7 @@ describe('Core :: Users :: Services :: OAuth :: OAuthService', () => {
                 expect(userEnriched.userEnriched).to.have.property('password');
                 expect(userEnriched.userEnriched).to.have.property('twoFactorSecret');
                 expect(userEnriched.userEnriched).to.have.property('inProgress');
+                expect(userEnriched.userDetailsEnriched.rank).to.equal('bronze');
             });
         });
     });

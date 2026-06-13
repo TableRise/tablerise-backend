@@ -71,6 +71,7 @@ export default class OAuthService {
             nextStatusWillBe: InProgressStatusEnum.enum.DONE,
             code: '',
         };
+        userDetails.rank = 'bronze';
 
         return {
             userEnriched: user,
