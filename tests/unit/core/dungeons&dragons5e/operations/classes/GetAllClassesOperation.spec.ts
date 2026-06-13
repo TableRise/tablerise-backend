@@ -30,5 +30,11 @@ describe('Core :: Dungeons&Dragons5e :: Operations :: GetAllClassesOperation', (
             expect(getAllClassesService.getAll).to.have.been.called();
             expect(classesTest).to.be.deep.equal(classes);
         });
+
+        it('should delegate the class name filter to the service', async () => {
+            await getAllClassesOperation.execute({ name: 'Wizard' });
+
+            expect(getAllClassesService.getAll).to.have.been.calledWith({ name: 'Wizard' });
+        });
     });
 });

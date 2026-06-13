@@ -70,6 +70,14 @@ describe('Interface :: DungeonsAndDragons5e :: Presentation :: Classes :: Classe
             expect(response.status).to.have.been.calledWith(HttpStatusCode.OK);
             expect(response.json).to.have.been.called();
         });
+
+        it('should pass the class name query filter to the operation', async () => {
+            request.query = { name: 'Wizard' };
+
+            await classesController.getAll(request, response);
+
+            expect(getAllClassesOperation.execute).to.have.been.calledWith({ name: 'Wizard' });
+        });
     });
 
     context('#getDisabled', () => {

@@ -34,6 +34,13 @@ export default class UpdateCharacterService {
         const currentLevel = typeof dbProfile?.level === 'number' ? dbProfile.level : undefined;
         const nextLevel = typeof profilePayload?.level === 'number' ? profilePayload.level : undefined;
         const leveledUp = currentLevel !== undefined && nextLevel !== undefined && nextLevel > currentLevel;
+        const recalculatedHitPoints = this.getRecalculatedHitPoints({
+            dbAbilityScores: dbStats?.abilityScores,
+            payloadAbilityScores: statsPayload?.abilityScores,
+            dbHitPoints: dbStats?.hitPoints,
+            currentLevel,
+            nextLevel,
+        });
 
         const characterToUpdate = {
             ...characterInDb,
@@ -69,6 +76,7 @@ export default class UpdateCharacterService {
                     hitPoints: {
                         ...(dbStats?.hitPoints ?? {}),
                         ...(statsPayload?.hitPoints ?? {}),
+                        ...(recalculatedHitPoints ?? {}),
                     },
                     deathSaves: {
                         ...(dbStats?.deathSaves ?? {}),
@@ -129,5 +137,86 @@ export default class UpdateCharacterService {
             query: { characterId },
             payload: characterToUpdate as unknown as CharactersDnd,
         });
+    }
+
+    private getRecalculatedHitPoints({
+        dbAbilityScores,
+        payloadAbilityScores,
+        dbHitPoints,
+        currentLevel,
+        nextLevel,
+    }: {
+        dbAbilityScores?: Array<{ ability?: string; modifier?: number; value?: number }>;
+        payloadAbilityScores?: Array<{ ability?: string; modifier?: number; value?: number }>;
+        dbHitPoints?: { points?: number; currentPoints?: number };
+        currentLevel?: number;
+        nextLevel?: number;
+    }): { points?: number; currentPoints?: number } | undefined {
+        const storedConstitution = this.findAbilityScoreByName(dbAbilityScores, ['constitution', 'con']);
+        const updatedConstitution = this.findAbilityScoreByName(payloadAbilityScores, ['constitution', 'con']);
+        const storedModifier = this.resolveAbilityModifier(storedConstitution);
+        const updatedModifier = this.resolveAbilityModifier(updatedConstitution);
+
+        if (typeof storedModifier !== 'number' || typeof updatedModifier !== 'number') {
+            return undefined;
+        }
+
+        const modifierDelta = updatedModifier - storedModifier;
+
+        if (modifierDelta === 0) {
+            return undefined;
+        }
+
+        const effectiveLevel = typeof nextLevel === 'number' ? nextLevel : currentLevel;
+
+        if (typeof effectiveLevel !== 'number') {
+            return undefined;
+        }
+
+        const hitPointDelta = modifierDelta * effectiveLevel;
+        const recalculatedHitPoints: { points?: number; currentPoints?: number } = {};
+
+        if (typeof dbHitPoints?.points === 'number') {
+            recalculatedHitPoints.points = dbHitPoints.points + hitPointDelta;
+        }
+
+        if (typeof dbHitPoints?.currentPoints === 'number') {
+            recalculatedHitPoints.currentPoints = dbHitPoints.currentPoints + hitPointDelta;
+        }
+
+        return Object.keys(recalculatedHitPoints).length > 0 ? recalculatedHitPoints : undefined;
+    }
+
+    private findAbilityScoreByName(
+        abilityScores: Array<{ ability?: string; modifier?: number; value?: number }> | undefined,
+        abilityNames: string[]
+    ): { ability?: string; modifier?: number; value?: number } | undefined {
+        if (!Array.isArray(abilityScores)) {
+            return undefined;
+        }
+
+        const normalizedNames = abilityNames.map((abilityName) => abilityName.toLowerCase());
+
+        return abilityScores.find(
+            (abilityScore) =>
+                typeof abilityScore?.ability === 'string' &&
+                normalizedNames.includes(abilityScore.ability.toLowerCase())
+        );
+    }
+
+    private resolveAbilityModifier(abilityScore?: {
+        ability?: string;
+        modifier?: number;
+        value?: number;
+    }): number | undefined {
+        if (typeof abilityScore?.modifier === 'number') {
+            return abilityScore.modifier;
+        }
+
+        if (typeof abilityScore?.value === 'number') {
+            return Math.floor((abilityScore.value - 10) / 2);
+        }
+
+        return undefined;
     }
 }

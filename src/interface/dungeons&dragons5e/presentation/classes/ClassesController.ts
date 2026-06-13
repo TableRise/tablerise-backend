@@ -33,7 +33,8 @@ export default class ClassesController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-        const result = await this.getAllClassesOperation.execute();
+        const name = typeof req.query?.name === 'string' ? req.query.name : undefined;
+        const result = await this.getAllClassesOperation.execute({ name });
         return res.status(HttpStatusCode.OK).json(result);
     }
 

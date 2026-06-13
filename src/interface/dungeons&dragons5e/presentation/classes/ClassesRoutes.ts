@@ -19,6 +19,10 @@ const availabilityQuerySchema = z.object({
     }, z.boolean()),
 });
 
+const getAllClassesQuerySchema = z.object({
+    name: z.string().trim().min(1).optional(),
+});
+
 export default class ClassesRoutes {
     private readonly classesController;
     private readonly verifyIdMiddleware;
@@ -37,6 +41,7 @@ export default class ClassesRoutes {
                 controller: this.classesController.getAll,
                 options: {
                     middlewares: [passport.authenticate('cookie', { session: false })],
+                    schemas: [{ query: getAllClassesQuerySchema }],
                     tag: 'classes',
                     description: desc.getAll,
                 },

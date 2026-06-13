@@ -32,7 +32,7 @@ describe('Interface :: Dungeons&dragons5e :: Presentation :: Classes :: ClassesR
     });
 
     context('When all the routes are correctly implemented', () => {
-        it('should return the current route table and parse the availability query', () => {
+        it('should return the current route table and parse the query schemas', () => {
             const routes = classesRoutes.routes();
 
             expect(routes).to.have.lengthOf(5);
@@ -45,8 +45,11 @@ describe('Interface :: Dungeons&dragons5e :: Presentation :: Classes :: ClassesR
             expect(routes[4].options.middlewares).to.deep.equal([verifyIdMiddleware, cookieMiddleware]);
             expect(authenticateStub.callCount).to.equal(4);
 
+            const getAllQuerySchema = routes[1].options.schemas[0].query;
             const availabilitySchema = routes[4].options.schemas[0].query;
 
+            expect(getAllQuerySchema.parse({ name: 'Wizard' })).to.deep.equal({ name: 'Wizard' });
+            expect(getAllQuerySchema.parse({})).to.deep.equal({});
             expect(availabilitySchema.parse({ availability: 'false' })).to.deep.equal({ availability: false });
             expect(availabilitySchema.parse({ availability: true })).to.deep.equal({ availability: true });
         });

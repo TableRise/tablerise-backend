@@ -17,6 +17,15 @@ describe('When some character is updated', () => {
             user = DomainDataFaker.generateUsersJSON()[0];
             userDetails = DomainDataFaker.generateUserDetailsJSON()[0];
             character = CharacterDomainDataFaker.generateCharactersJSON()[0];
+            character.data.profile.level = 10;
+            const constitution = character.data.stats.abilityScores.find(
+                (abilityScore) => abilityScore.ability === 'Constitution'
+            );
+
+            if (constitution) {
+                constitution.value = 12;
+                constitution.modifier = 1;
+            }
 
             characterId = character.characterId;
 
@@ -67,6 +76,28 @@ describe('When some character is updated', () => {
             expect(body.data.profile).to.have.property('xp');
             expect(body.data.profile).to.have.property('characteristics');
             expect(body.data.profile.name).to.be.equal('test name');
+        });
+
+        it('should recalculate hit points when constitution modifier changes', async () => {
+            const updatedAbilityScores = character.data.stats.abilityScores.map((abilityScore) =>
+                abilityScore.ability === 'Constitution' ? { ...abilityScore, value: 14, modifier: 2 } : abilityScore
+            );
+
+            const { body } = await requester()
+                .put(`/characters/${characterId}/update`)
+                .send({
+                    data: {
+                        stats: {
+                            abilityScores: updatedAbilityScores,
+                        },
+                    },
+                })
+                .expect(HttpStatusCode.OK);
+
+            expect(body.data.stats.hitPoints.points).to.equal(character.data.stats.hitPoints.points + 10);
+            expect(body.data.stats.hitPoints.currentPoints).to.equal(character.data.stats.hitPoints.currentPoints + 10);
+            expect(body.data.stats.hitPoints.tempPoints).to.equal(character.data.stats.hitPoints.tempPoints);
+            expect(body.data.stats.hitPoints.dicePoints).to.equal(character.data.stats.hitPoints.dicePoints);
         });
     });
 });

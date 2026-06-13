@@ -142,6 +142,12 @@
                           "level": {
                             "type": "number"
                           },
+                          "prevLevel": {
+                            "type": "number"
+                          },
+                          "notificationOn": {
+                            "type": "boolean"
+                          },
                           "xp": {
                             "type": "number"
                           },
@@ -668,12 +674,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "2": {
                             "type": "object",
@@ -690,12 +691,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "3": {
                             "type": "object",
@@ -712,12 +708,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "4": {
                             "type": "object",
@@ -734,12 +725,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "5": {
                             "type": "object",
@@ -756,12 +742,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "6": {
                             "type": "object",
@@ -778,12 +759,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "7": {
                             "type": "object",
@@ -800,12 +776,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "8": {
                             "type": "object",
@@ -822,12 +793,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "9": {
                             "type": "object",
@@ -844,12 +810,7 @@
                               "slotsExpended": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "extraAbilityNames",
-                              "slotsTotal",
-                              "slotsExpended"
-                            ]
+                            }
                           },
                           "cantrips": {
                             "type": "array",
@@ -857,19 +818,7 @@
                               "type": "string"
                             }
                           }
-                        },
-                        "required": [
-                          "1",
-                          "2",
-                          "3",
-                          "4",
-                          "5",
-                          "6",
-                          "7",
-                          "8",
-                          "9",
-                          "cantrips"
-                        ]
+                        }
                       },
                       "createdAt": {
                         "type": "string"
@@ -883,8 +832,7 @@
                       "stats",
                       "inventory",
                       "money",
-                      "spells",
-                      "extraAbilities"
+                      "spells"
                     ]
                   },
                   "npc": {
@@ -1025,6 +973,12 @@
                           "level": {
                             "type": "number",
                             "default": 0
+                          },
+                          "prevLevel": {
+                            "type": "number"
+                          },
+                          "notificationOn": {
+                            "type": "boolean"
                           },
                           "xp": {
                             "type": "number",
@@ -1757,6 +1711,47 @@
             }
           }
         }
+      }
+    },
+    "/characters/{id}/update/notifications/off": {
+      "patch": {
+        "tags": [
+          "management"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Turn off the level-up notification flag for the character profile."
       }
     },
     "/characters/{id}/delete": {

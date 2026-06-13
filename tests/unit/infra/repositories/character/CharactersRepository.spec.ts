@@ -256,16 +256,34 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
     context('#update', () => {
         context('When a character is updated', () => {
             const characterId = newUUID();
+            let update: sinon.SinonStub;
+            let findOne: sinon.SinonStub;
 
             before(() => {
                 character = {
                     characterId,
+                    data: {
+                        profile: {
+                            notificationOn: false,
+                        },
+                    },
                 } as CharactersDnd;
 
-                characterToUpdate = { ...character, npc: true };
+                characterToUpdate = {
+                    ...character,
+                    npc: true,
+                    data: {
+                        profile: {
+                            notificationOn: true,
+                        },
+                    },
+                };
+
+                update = sinon.stub().returns(character);
+                findOne = sinon.stub().returns(characterToUpdate);
 
                 database = {
-                    modelInstance: () => ({ update: () => characterToUpdate }),
+                    modelInstance: () => ({ update, findOne }),
                 };
 
                 serializer = {
@@ -298,6 +316,8 @@ describe('Infra :: Repositories :: Character :: CharactersRepository', () => {
                     query,
                     payload: characterToUpdate,
                 });
+                expect(update).to.have.been.calledWith(query, characterToUpdate);
+                expect(findOne).to.have.been.calledWith(query);
                 expect(characterTest).to.be.deep.equal(characterToUpdate);
             });
         });

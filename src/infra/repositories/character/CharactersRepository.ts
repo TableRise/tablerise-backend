@@ -92,7 +92,11 @@ export default class CharactersRepository {
 
         await this.updateTimestampRepository.updateTimestamp(query);
 
-        return this.formatAndSerializeData(request);
+        const updatedCharacter = await this.model.findOne(query);
+
+        if (!updatedCharacter) HttpRequestErrors.throwError('character-does-not-exist');
+
+        return this.formatAndSerializeData(updatedCharacter);
     }
 
     public async delete(query: any): Promise<void> {

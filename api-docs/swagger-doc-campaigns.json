@@ -411,6 +411,7 @@
                 },
                 "required": [
                   "title",
+                  "cover",
                   "description",
                   "system",
                   "musics",
@@ -703,9 +704,9 @@
           {
             "name": "cancel",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
-              "type": "boolean"
+              "type": "string"
             }
           },
           {

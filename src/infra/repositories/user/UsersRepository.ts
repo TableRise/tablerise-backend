@@ -71,7 +71,11 @@ export default class UsersRepository {
 
         await this.updateTimestampRepository.updateTimestamp(query);
 
-        return this.formatAndSerializeData(request);
+        const updatedUser = await this.model.findOne(query);
+
+        if (!updatedUser) HttpRequestErrors.throwError('user-inexistent');
+
+        return this.formatAndSerializeData(updatedUser);
     }
 
     public async delete(query: any): Promise<void> {

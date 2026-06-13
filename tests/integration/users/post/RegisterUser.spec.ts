@@ -34,6 +34,7 @@ describe('When a user is created', function () {
             expect(body.details.gameInfo).to.have.property('characters').that.is.an('array');
             expect(body.details.gameInfo).to.have.property('badges').that.is.an('array');
             expect(body.details.gameInfo.badges).to.deep.equal([]);
+            expect(body.details).to.have.property('rank').that.is.equal('bronze');
             expect(body.details).to.have.property('role').that.is.equal('user');
         });
     });
