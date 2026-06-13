@@ -13,13 +13,15 @@ export default class GetAllClassesService {
         this.getAll = this.getAll.bind(this);
     }
 
-    public async getAll(): Promise<Array<Internacional<Class>>> {
+    public async getAll({ name }: { name?: string } = {}): Promise<Array<Internacional<Class>>> {
         const callName = `[${this.constructor.name}] - ${this.getAll.name}`;
         this.logger('info', callName);
         this.dungeonsAndDragonsRepository.setEntity('Classes');
 
+        const normalizedName = name?.trim();
         const classesInDb = (await this.dungeonsAndDragonsRepository.find({
             active: true,
+            ...(normalizedName ? { name: { $regex: `^${normalizedName}$`, $options: 'i' } } : {}),
         })) as Array<Internacional<Class>>;
         return classesInDb;
     }

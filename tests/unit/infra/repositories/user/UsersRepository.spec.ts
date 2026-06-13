@@ -195,9 +195,12 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
 
     context('#update', () => {
         context('when is found', () => {
-            const update = sinon.spy(() => ({ email: 'test2@email.com' }));
+            let update: sinon.SinonSpy;
+            let findOne: sinon.SinonSpy;
 
             beforeEach(() => {
+                update = sinon.spy(() => ({ email: 'stale@email.com' }));
+                findOne = sinon.spy(() => ({ email: 'test2@email.com' }));
                 updateTimestampRepository = {
                     updateTimestamp: () => {},
                 };
@@ -205,6 +208,7 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
                 database = {
                     modelInstance: () => ({
                         update,
+                        findOne,
                     }),
                 };
 
@@ -227,6 +231,7 @@ describe('Infra :: Repositories :: User :: UsersRepository', () => {
                 });
 
                 expect(update).to.have.been.called();
+                expect(findOne).to.have.been.calledWith({ email: 'test@email.com' });
                 expect(result).to.have.property('email');
                 expect(result.email).to.be.equal('test2@email.com');
             });

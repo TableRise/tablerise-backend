@@ -13,10 +13,10 @@ export default class GetAllClassesOperation {
         this.execute = this.execute.bind(this);
     }
 
-    public async execute(): Promise<Array<Internacional<Class>>> {
+    public async execute({ name }: { name?: string } = {}): Promise<Array<Internacional<Class>>> {
         const callName = `[${this.constructor.name}] - ${this.execute.name}`;
         this.logger('info', callName);
-        const classes = await this.getAllClassesService.getAll();
+        const classes = await this.getAllClassesService.getAll({ name });
         return classes;
     }
 }
