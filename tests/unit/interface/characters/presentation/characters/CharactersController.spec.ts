@@ -261,7 +261,7 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersCon
             payload: {
                 data: {
                     profile: {
-                        notificationOn: false,
+                        notificationsOn: false,
                     },
                 },
             },

@@ -41,6 +41,7 @@ const profileCharacterZodSchema = z.object({
     level: z.number(),
     prevLevel: z.number().optional(),
     notificationOn: z.boolean().optional(),
+    notificationsOn: z.boolean().optional(),
     xp: z.number(),
     characteristics: characteristicsCharacterZodSchema,
 });
@@ -186,6 +187,7 @@ const profileUpdateZodSchema = z.object({
     level: z.number().default(0).optional(),
     prevLevel: z.number().optional(),
     notificationOn: z.boolean().optional(),
+    notificationsOn: z.boolean().optional(),
     xp: z.number().default(0).optional(),
     characteristics: characteristicsUpdateZodSchema.optional(),
 });

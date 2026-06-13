@@ -160,6 +160,16 @@ describe('Interface :: Characters :: Presentation :: Characters :: CharactersSch
                     },
                 })
             ).to.not.throw();
+
+            expect(() =>
+                schemas.putUpdateCharacter.body.parse({
+                    data: {
+                        profile: {
+                            notificationsOn: false,
+                        },
+                    },
+                })
+            ).to.not.throw();
         });
     });
 });

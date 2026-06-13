@@ -148,6 +148,9 @@
                           "notificationOn": {
                             "type": "boolean"
                           },
+                          "notificationsOn": {
+                            "type": "boolean"
+                          },
                           "xp": {
                             "type": "number"
                           },
@@ -978,6 +981,9 @@
                             "type": "number"
                           },
                           "notificationOn": {
+                            "type": "boolean"
+                          },
+                          "notificationsOn": {
                             "type": "boolean"
                           },
                           "xp": {

@@ -31,9 +31,16 @@ export default class UpdateCharacterService {
         const dbStats = characterInDb.data.stats;
         const dbCharacteristics = dbProfile?.characteristics ?? ({} as any);
         const characteristicsPayload = profilePayload?.characteristics;
-        const currentLevel = typeof dbProfile?.level === 'number' ? dbProfile.level : undefined;
-        const nextLevel = typeof profilePayload?.level === 'number' ? profilePayload.level : undefined;
+        const currentLevel = this.resolveNumericValue(dbProfile?.level);
+        const nextLevel = this.resolveNumericValue(profilePayload?.level);
         const leveledUp = currentLevel !== undefined && nextLevel !== undefined && nextLevel > currentLevel;
+        const currentNotificationState = this.resolveBooleanValue(
+            dbProfile?.notificationsOn ?? dbProfile?.notificationOn
+        );
+        const payloadNotificationState = this.resolveBooleanValue(
+            profilePayload?.notificationsOn ?? profilePayload?.notificationOn
+        );
+        const nextNotificationState = leveledUp ? true : payloadNotificationState ?? currentNotificationState;
         const recalculatedHitPoints = this.getRecalculatedHitPoints({
             dbAbilityScores: dbStats?.abilityScores,
             payloadAbilityScores: statsPayload?.abilityScores,
@@ -52,7 +59,12 @@ export default class UpdateCharacterService {
                     ...(leveledUp
                         ? {
                               prevLevel: currentLevel,
-                              notificationOn: true,
+                          }
+                        : {}),
+                    ...(nextNotificationState !== undefined
+                        ? {
+                              notificationsOn: nextNotificationState,
+                              notificationOn: nextNotificationState,
                           }
                         : {}),
                     characteristics: {
@@ -215,6 +227,35 @@ export default class UpdateCharacterService {
 
         if (typeof abilityScore?.value === 'number') {
             return Math.floor((abilityScore.value - 10) / 2);
+        }
+
+        return undefined;
+    }
+
+    private resolveBooleanValue(value: unknown): boolean | undefined {
+        if (typeof value === 'boolean') {
+            return value;
+        }
+
+        if (typeof value === 'string') {
+            if (value === 'true') return true;
+            if (value === 'false') return false;
+        }
+
+        return undefined;
+    }
+
+    private resolveNumericValue(value: unknown): number | undefined {
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return value;
+        }
+
+        if (typeof value === 'string') {
+            const parsedValue = Number(value);
+
+            if (Number.isFinite(parsedValue)) {
+                return parsedValue;
+            }
         }
 
         return undefined;

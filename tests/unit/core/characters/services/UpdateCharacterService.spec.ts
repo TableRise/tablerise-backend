@@ -571,4 +571,50 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
             dicePoints: '1d6',
         });
     });
+
+    it('should turn notifications on when stored and payload levels are numeric strings', async () => {
+        const character = {
+            characterId: 'character-11',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: '4',
+                    notificationOn: false,
+                    characteristics: {},
+                },
+                stats: {},
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-11',
+            payload: {
+                data: {
+                    profile: {
+                        level: '5',
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.profile.level).to.equal('5');
+        expect(updated.data.profile.prevLevel).to.equal(4);
+        expect(updated.data.profile.notificationOn).to.equal(true);
+    });
 });
