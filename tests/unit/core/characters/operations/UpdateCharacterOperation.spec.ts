@@ -63,7 +63,9 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                             },
                             stats: {
                                 hitPoints: {
+                                    points: 12,
                                     currentPoints: 8,
+                                    tempPoints: 4,
                                 },
                             },
                         },
@@ -73,6 +75,7 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                 payloadToUpdate = {
                     characterId: '123',
                     payload: {
+                        status: 'dead',
                         data: {
                             profile: {
                                 level: 2,
@@ -80,6 +83,7 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                             stats: {
                                 hitPoints: {
                                     currentPoints: 8,
+                                    dicePoints: '1d10',
                                 },
                             },
                             inventory: ['rope'],
@@ -100,7 +104,15 @@ describe('Core :: Characters :: Operations :: UpdateCharacterOperation', () => {
                 expect(socketIO.emitToCampaign).to.have.been.calledWith('campaign-1', 'character:updated', {
                     characterId: '123',
                     campaignId: 'campaign-1',
-                    updatedFields: ['profile.level', 'stats.hitPoints.currentPoints', 'inventory'],
+                    updatedFields: [
+                        'profile.level',
+                        'inventory',
+                        'status',
+                        'stats.hitPoints.points',
+                        'stats.hitPoints.currentPoints',
+                        'stats.hitPoints.tempPoints',
+                        'stats.hitPoints.dicePoints',
+                    ],
                     summary: {
                         currentHitPoints: 8,
                         level: 2,

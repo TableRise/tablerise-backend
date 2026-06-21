@@ -125,6 +125,8 @@ describe('Core :: Campaigns :: Services :: CreateCampaignService', () => {
                 expect(campaignEnriched.campaignPlayers[0].userId).to.be.equal(userId);
                 expect(campaignEnriched.createdAt).to.be.not.null();
                 expect(campaignEnriched.updatedAt).to.be.not.null();
+                expect((campaignEnriched.matchData as any).state.playingMusicTimeSeconds).to.equal(0);
+                expect((campaignEnriched.matchData as any).state.musicPlayback).to.equal(null);
             });
 
             it('should return the correct result without image', async () => {

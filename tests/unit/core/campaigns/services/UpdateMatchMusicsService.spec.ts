@@ -180,6 +180,8 @@ describe('Core :: Camapaigns :: Services :: UpdateMatchMusicsService', () => {
             });
 
             expect((updatedCampaign.matchData as any).state.playingMusicId).to.equal(null);
+            expect((updatedCampaign.matchData as any).state.playingMusicTimeSeconds).to.equal(0);
+            expect((updatedCampaign.matchData as any).state.musicPlayback).to.equal(null);
         });
 
         it('should keep playingMusicId untouched when another music is removed', async () => {

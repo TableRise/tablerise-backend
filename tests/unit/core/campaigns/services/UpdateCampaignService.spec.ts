@@ -31,8 +31,10 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 };
 
                 campaignUpdatePayload = {
+                    campaignId: campaign.campaignId,
                     title: 'New title',
                     description: 'New description text',
+                    mainHistory: 'The realm changed forever.',
                     visibility: 'hidden',
                 };
 
@@ -47,6 +49,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 const campaignUpdateTest = await updateCampaignService.update(campaignUpdatePayload);
                 expect(campaignUpdateTest.title).to.be.equal(campaignUpdatePayload.title);
                 expect(campaignUpdateTest.description).to.be.equal(campaignUpdatePayload.description);
+                expect(campaignUpdateTest.mainHistory).to.be.equal(campaignUpdatePayload.mainHistory);
                 expect(campaignUpdateTest.infos.visibility).to.be.equal(campaignUpdatePayload.visibility);
             });
         });
@@ -62,6 +65,7 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 imageStorageClient = {};
 
                 campaignUpdatePayload = {
+                    campaignId: campaign.campaignId,
                     title: 'New title',
                     description: 'New description text',
                     visibility: 'hidden',
@@ -144,6 +148,27 @@ describe('Core :: Campaigns :: Services :: UpdateCampaignService', () => {
                 shopSystem: true,
                 shopOn: false,
             });
+        });
+
+        it('should update the campaign main history when provided', async () => {
+            campaign = DomainDataFaker.generateCampaignsJSON()[0];
+            campaign.mainHistory = 'Old history';
+
+            campaignsRepository = {
+                findOne: () => campaign,
+            };
+
+            updateCampaignService = new UpdateCampaignService({
+                campaignsRepository,
+                logger,
+            } as any);
+
+            const updated = await updateCampaignService.update({
+                campaignId: campaign.campaignId,
+                mainHistory: 'The new campaign history',
+            });
+
+            expect(updated.mainHistory).to.equal('The new campaign history');
         });
 
         it('should update age restriction, next match date and player limit when provided', async () => {

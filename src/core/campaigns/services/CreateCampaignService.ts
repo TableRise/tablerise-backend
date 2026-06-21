@@ -130,6 +130,8 @@ export default class CreateCampaignService {
                 gridVisible: true,
                 activeEffect: null,
                 playingMusicId: null,
+                playingMusicTimeSeconds: 0,
+                musicPlayback: null,
                 visibleCharacterIds: [],
                 tokens: [],
             },

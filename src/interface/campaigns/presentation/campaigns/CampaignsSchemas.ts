@@ -76,6 +76,7 @@ const configurationsBodySchema = z.object({
 const putUpdateCampaignBodySchema = z.object({
     title: z.string().optional(),
     description: z.string().max(255).optional(),
+    mainHistory: z.string().optional(),
     visibility: z.enum(campaignVisibilityEnum.values).optional(),
     ageRestriction: z.enum(['L', '10', '14', '16', '+18']).optional(),
     nextMatchDate: z.string().optional(),

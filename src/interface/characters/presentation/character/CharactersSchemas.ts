@@ -282,6 +282,7 @@ const dataUpdateZodSchema = z.object({
 
 const updateCharacterZodSchema = z.object({
     data: dataUpdateZodSchema,
+    status: z.enum(['alive', 'dead', 'half-live']).optional(),
 });
 
 const insertCharacterPictureZodSchema = z

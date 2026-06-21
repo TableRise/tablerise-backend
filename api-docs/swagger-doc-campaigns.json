@@ -772,6 +772,9 @@
                   "description": {
                     "type": "string"
                   },
+                  "mainHistory": {
+                    "type": "string"
+                  },
                   "visibility": {
                     "type": "string",
                     "enum": [

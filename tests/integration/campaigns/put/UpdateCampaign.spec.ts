@@ -14,6 +14,7 @@ describe('When a campaign is updated', () => {
         newCampaignPayload = {
             title: 'Main Theme',
             description: 'New desc',
+            mainHistory: 'A refreshed campaign history',
             visibility: 'hidden',
         };
     });
@@ -27,6 +28,7 @@ describe('When a campaign is updated', () => {
         expect(body).to.have.property('title');
         expect(body.title).to.be.equal(newCampaignPayload.title);
         expect(body.description).to.be.equal(newCampaignPayload.description);
+        expect(body.mainHistory).to.be.equal(newCampaignPayload.mainHistory);
         expect(body.infos.visibility).to.be.equal(newCampaignPayload.visibility);
     });
 });

@@ -5,8 +5,10 @@ import {
     normalizeHighlightedJournal,
     normalizeRealtimeMatchData,
     resolveActiveMap,
+    resolvePlayingMusicTimeSeconds,
     syncLegacyMapSelection,
 } from 'src/domains/campaigns/helpers/RealtimeCampaignState';
+import sinon from 'sinon';
 
 describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
     it('should create default realtime state and base tokens from campaign players', () => {
@@ -62,13 +64,16 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
 
         expect(campaign.matchData.state.activeMapId).to.be.equal('map-1');
         expect(campaign.matchData.state.gridVisible).to.be.equal(true);
+        expect(campaign.matchData.state.playingMusicTimeSeconds).to.be.equal(0);
+        expect(campaign.matchData.state.musicPlayback).to.equal(null);
         expect(campaign.matchData.images).to.deep.equal([]);
         expect(campaign.matchData.imageHighlighted).to.equal(null);
         expect(campaign.matchData.state.tokens).to.have.length(1);
         expect(campaign.matchData.state.tokens[0].tokenId).to.be.equal('base:character-1');
     });
 
-    it('should build the canonical sync payload', () => {
+    it('should build the canonical sync payload with the effective music time for late joiners', () => {
+        const clock = sinon.useFakeTimers(new Date('2026-06-20T12:00:10.000Z'));
         const campaign = hydrateRealtimeCampaign({
             campaignId: 'campaign-1',
             title: 'Campaign',
@@ -116,6 +121,12 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
                     gridVisible: true,
                     activeEffect: 'rain',
                     playingMusicId: 'music-1',
+                    playingMusicTimeSeconds: 82,
+                    musicPlayback: {
+                        anchorTimeSeconds: 82,
+                        anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+                        isPlaying: true,
+                    },
                     visibleCharacterIds: ['character-1'],
                     tokens: [],
                 },
@@ -135,19 +146,29 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
             updatedAt: new Date().toISOString(),
         } as any);
 
-        const payload = buildCampaignSyncPayload(campaign, [
-            {
-                userId: 'user-1',
-                role: 'dungeon_master',
-            },
-        ]);
+        try {
+            const payload = buildCampaignSyncPayload(campaign, [
+                {
+                    userId: 'user-1',
+                    role: 'dungeon_master',
+                },
+            ]);
 
-        expect(payload.campaignId).to.be.equal('campaign-1');
-        expect(payload.presence.connectedUsers).to.have.length(1);
-        expect(payload.match.activeEffect).to.be.equal('rain');
-        expect(payload.match.playingMusicId).to.be.equal('music-1');
-        expect(payload.match.images).to.have.length(1);
-        expect(payload.match.imageHighlighted?.id).to.equal('image-1');
+            expect(payload.campaignId).to.be.equal('campaign-1');
+            expect(payload.presence.connectedUsers).to.have.length(1);
+            expect(payload.match.activeEffect).to.be.equal('rain');
+            expect(payload.match.playingMusicId).to.be.equal('music-1');
+            expect(payload.match.playingMusicTimeSeconds).to.be.equal(92);
+            expect(payload.match.musicPlayback).to.deep.equal({
+                anchorTimeSeconds: 82,
+                anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+                isPlaying: true,
+            });
+            expect(payload.match.images).to.have.length(1);
+            expect(payload.match.imageHighlighted?.id).to.equal('image-1');
+        } finally {
+            clock.restore();
+        }
     });
 
     it('should normalize legacy payloads, dedupe confirmed players, and sync legacy map selection', () => {
@@ -162,6 +183,12 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
             },
             imageHighlighted: 'invalid',
             state: {
+                playingMusicTimeSeconds: -1,
+                musicPlayback: {
+                    anchorTimeSeconds: -5,
+                    anchorUpdatedAt: 'invalid',
+                    isPlaying: true,
+                },
                 visibleCharacterIds: 'invalid',
                 tokens: 'invalid',
             },
@@ -173,6 +200,8 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
 
         expect(normalized.confirmedPlayers).to.have.length(1);
         expect(normalized.state.activeMapId).to.equal('map-1');
+        expect(normalized.state.playingMusicTimeSeconds).to.equal(0);
+        expect(normalized.state.musicPlayback).to.equal(null);
         expect(normalized.state.visibleCharacterIds).to.deep.equal([]);
         expect(normalized.state.tokens).to.deep.equal([]);
         expect(normalized.characters).to.deep.equal([]);
@@ -283,10 +312,23 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
 
         const normalized = normalizeRealtimeMatchData({
             nextSessionResume: 'Session summary',
-            state: {},
+            state: {
+                playingMusicTimeSeconds: 15,
+                musicPlayback: {
+                    anchorTimeSeconds: 15,
+                    anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+                    isPlaying: false,
+                },
+            },
         } as any);
 
         expect(normalized.nextSessionResume).to.equal('Session summary');
+        expect(normalized.state.playingMusicTimeSeconds).to.equal(15);
+        expect(normalized.state.musicPlayback).to.deep.equal({
+            anchorTimeSeconds: 15,
+            anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+            isPlaying: false,
+        });
     });
 
     it('should sync the active map object back into actualMapImage', () => {
@@ -414,6 +456,23 @@ describe('Domains :: Campaigns :: Helpers :: RealtimeCampaignState', () => {
                 role: 'player',
             },
         ]);
+    });
+
+    it('should derive the current playing music time from the playback anchor', () => {
+        const currentTimeSeconds = resolvePlayingMusicTimeSeconds(
+            {
+                playingMusicId: 'music-1',
+                playingMusicTimeSeconds: 10,
+                musicPlayback: {
+                    anchorTimeSeconds: 10,
+                    anchorUpdatedAt: '2026-06-20T12:00:00.000Z',
+                    isPlaying: true,
+                },
+            },
+            new Date('2026-06-20T12:00:09.900Z')
+        );
+
+        expect(currentTimeSeconds).to.equal(19);
     });
 
     it('should dedupe empty user ids only once when uniquePlayers runs through the sync payload', () => {

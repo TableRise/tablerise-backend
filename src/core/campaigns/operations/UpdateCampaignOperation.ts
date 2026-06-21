@@ -30,6 +30,7 @@ export default class UpdateCampaignOperation {
             campaignId: payload.campaignId,
             title: savedCampaign.title,
             description: savedCampaign.description,
+            mainHistory: savedCampaign.mainHistory,
             visibility: savedCampaign.infos.visibility,
             ageRestriction: savedCampaign.ageRestriction,
             nextMatchDate: savedCampaign.infos.nextMatchDate,

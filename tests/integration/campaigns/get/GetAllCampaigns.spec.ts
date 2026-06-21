@@ -5,17 +5,20 @@ import { InjectNewCampaign } from 'tests/support/dataInjector';
 import requester from 'tests/support/requester';
 
 describe('When recover all campaigns', () => {
-    let campaigns: Campaign[];
+    let campaigns: Campaign[], hiddenCampaign: Campaign;
     context('And is succesfull', () => {
         before(async () => {
             campaigns = [];
             campaigns = DomainDataFaker.generateCampaignsJSON({ count: 2 });
+            hiddenCampaign = DomainDataFaker.generateCampaignsJSON()[0];
             await Promise.all(
                 campaigns.map(async (campaign) => {
                     campaign.infos.visibility = 'visible';
                     await InjectNewCampaign(campaign);
                 })
             );
+            hiddenCampaign.infos.visibility = 'hidden';
+            await InjectNewCampaign(hiddenCampaign);
         });
 
         it('should return correct data', async () => {
@@ -45,6 +48,9 @@ describe('When recover all campaigns', () => {
             expect(campaign).not.to.have.property('lores');
             expect(campaign).not.to.have.property('createdAt');
             expect(campaign).to.have.property('updatedAt');
+            expect(
+                body.some((currentCampaign: Campaign) => currentCampaign.campaignId === hiddenCampaign.campaignId)
+            ).to.equal(false);
         });
     });
 });

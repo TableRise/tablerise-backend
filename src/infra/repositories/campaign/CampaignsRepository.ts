@@ -4,8 +4,9 @@ import Campaign from '@tablerise/database-management/dist/src/interfaces/Campaig
 import newUUID from 'src/domains/common/helpers/newUUID';
 import { UpdateObj } from 'src/types/shared/repository';
 import { isClosedCampaign } from 'src/domains/common/helpers/RepositoryVisibility';
+import { RealtimeCampaign } from 'src/types/realtime';
 
-type MatchStatePatch = Partial<Omit<Campaign['matchData']['state'], 'tokens'>>;
+type MatchStatePatch = Partial<Omit<RealtimeCampaign['matchData']['state'], 'tokens'>>;
 
 interface RealtimeStateUpdatePayload {
     matchStateFields?: MatchStatePatch;

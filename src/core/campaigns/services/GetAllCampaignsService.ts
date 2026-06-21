@@ -26,8 +26,9 @@ export default class GetAllCampaignsService {
         }
 
         const campaignsInDb = await this.campaignsRepository.find(dbQuery);
+        const visibleCampaigns = campaignsInDb.filter((campaign) => campaign.infos?.visibility === 'visible');
 
-        return campaignsInDb.map(
+        return visibleCampaigns.map(
             (campaign) =>
                 ({
                     campaignId: campaign.campaignId,

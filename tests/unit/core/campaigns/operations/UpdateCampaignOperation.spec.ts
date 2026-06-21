@@ -18,8 +18,10 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 campaign = DomainDataFaker.generateCampaignsJSON()[0];
 
                 campaignUpdatePayload = {
+                    campaignId: campaign.campaignId,
                     title: 'New title',
                     description: 'New description text',
+                    mainHistory: 'A rewritten campaign history',
                 };
 
                 campaignUpdated = {
@@ -44,6 +46,11 @@ describe('Core :: Campaigns :: Operations :: UpdateCampaignOperation', () => {
                 expect(campaignUpdateTest).to.be.deep.equal(campaignUpdated);
                 expect(updateCampaignService.update).to.have.been.calledWith(campaignUpdatePayload);
                 expect(updateCampaignService.save).to.have.been.calledWith(campaignUpdated);
+                expect(socketIO.emitToCampaign).to.have.been.calledWith(
+                    campaign.campaignId,
+                    'campaign:settings_updated',
+                    sinon.match.has('mainHistory', campaignUpdated.mainHistory)
+                );
             });
         });
 

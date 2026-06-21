@@ -9,6 +9,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
             characterId: 'character-1',
             campaignId: 'campaign-1',
             matchId: 'match-1',
+            status: 'alive',
             data: {
                 profile: {
                     name: 'Old Name',
@@ -54,6 +55,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
         const updated = await service.update({
             characterId: 'character-1',
             payload: {
+                status: 'dead',
                 data: {
                     profile: {
                         name: 'New Name',
@@ -77,6 +79,7 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
             } as any,
         });
 
+        expect(updated.status).to.equal('dead');
         expect(updated.data.profile.name).to.equal('New Name');
         expect(updated.data.profile.characteristics.appearance).to.deep.equal({ eyes: 'blue', age: '21' });
         expect(updated.data.profile.characteristics.other).to.deep.equal({ characteristicsAndAbilities: 'New' });
@@ -102,6 +105,277 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
         });
         expect(updated.data.inventory).to.equal('rope');
         expect(updated.data.equipments).to.deep.equal([{ equipmentId: 'equipment-1' }]);
+    });
+
+    it('should recalculate current hit points when temp points are updated from zero', async () => {
+        const character = {
+            characterId: 'character-temp-1',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 50, currentPoints: 50, tempPoints: 0, dicePoints: '1d10' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-temp-1',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            tempPoints: 50,
+                            currentPoints: 10,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 50,
+            currentPoints: 100,
+            tempPoints: 50,
+            dicePoints: '1d10',
+        });
+    });
+
+    it('should recalculate current hit points when temp points change from an existing bonus', async () => {
+        const character = {
+            characterId: 'character-temp-2',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 50, currentPoints: 100, tempPoints: 50, dicePoints: '1d10' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-temp-2',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            tempPoints: 25,
+                            currentPoints: 999,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 50,
+            currentPoints: 75,
+            tempPoints: 25,
+            dicePoints: '1d10',
+        });
+    });
+
+    it('should set current hit points to the new points value when temp points are absent', async () => {
+        const character = {
+            characterId: 'character-points-1',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 300, currentPoints: 340, tempPoints: 0, dicePoints: '1d12' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-points-1',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            points: 310,
+                            currentPoints: 100,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 310,
+            currentPoints: 310,
+            tempPoints: 0,
+            dicePoints: '1d12',
+        });
+    });
+
+    it('should set current hit points to the new points value plus stored temp points', async () => {
+        const character = {
+            characterId: 'character-points-2',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 300, currentPoints: 340, tempPoints: 40, dicePoints: '1d12' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-points-2',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            points: 310,
+                            currentPoints: 100,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 310,
+            currentPoints: 350,
+            tempPoints: 40,
+            dicePoints: '1d12',
+        });
+    });
+
+    it('should set current hit points to the new points value plus the new temp points', async () => {
+        const character = {
+            characterId: 'character-points-3',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 300, currentPoints: 340, tempPoints: 40, dicePoints: '1d12' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-points-3',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            points: 310,
+                            tempPoints: 25,
+                            currentPoints: 999,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 310,
+            currentPoints: 335,
+            tempPoints: 25,
+            dicePoints: '1d12',
+        });
     });
 
     it('should create default spell and extra ability slots when the stored character has none', async () => {
@@ -468,6 +742,59 @@ describe('Core :: Characters :: Services :: UpdateCharacterService', () => {
         expect(updated.data.profile.level).to.equal(5);
         expect(updated.data.profile.prevLevel).to.equal(4);
         expect(updated.data.profile.notificationOn).to.equal(true);
+    });
+
+    it('should keep a direct current hit points update when points and temp points are not provided', async () => {
+        const character = {
+            characterId: 'character-current-1',
+            campaignId: null,
+            matchId: null,
+            data: {
+                profile: {
+                    level: 5,
+                    characteristics: {},
+                },
+                stats: {
+                    hitPoints: { points: 50, currentPoints: 30, tempPoints: 5, dicePoints: '1d8' },
+                    abilityScores: [{ ability: 'Constitution', value: 12, modifier: 1, proficiency: false }],
+                },
+                money: {},
+                spells: {},
+                extraAbilities: {},
+                inventory: '',
+                equipments: [],
+            },
+        };
+
+        const charactersRepository = {
+            findOne: sinon.stub().resolves(character),
+            update: sinon.stub().callsFake(async ({ payload }) => payload),
+        };
+
+        const service = new UpdateCharacterService({
+            charactersRepository,
+            logger,
+        } as any);
+
+        const updated = await service.update({
+            characterId: 'character-current-1',
+            payload: {
+                data: {
+                    stats: {
+                        hitPoints: {
+                            currentPoints: 22,
+                        },
+                    },
+                },
+            } as any,
+        });
+
+        expect(updated.data.stats.hitPoints).to.deep.equal({
+            points: 50,
+            currentPoints: 22,
+            tempPoints: 5,
+            dicePoints: '1d8',
+        });
     });
 
     it('should recalculate hit points when constitution uses the short ability name', async () => {

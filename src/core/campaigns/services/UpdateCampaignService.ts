@@ -17,6 +17,7 @@ export default class UpdateCampaignService {
         campaignId,
         title,
         description,
+        mainHistory,
         visibility,
         ageRestriction,
         nextMatchDate,
@@ -31,6 +32,7 @@ export default class UpdateCampaignService {
 
         campaignInDb.title = title ?? campaignInDb.title;
         campaignInDb.description = description ?? campaignInDb.description;
+        campaignInDb.mainHistory = mainHistory ?? campaignInDb.mainHistory;
         campaignInDb.ageRestriction = ageRestriction ?? campaignInDb.ageRestriction;
         campaignInDb.infos.visibility = (visibility as 'hidden' | 'visible') ?? campaignInDb.infos.visibility;
         campaignInDb.infos.nextMatchDate = nextMatchDate ?? campaignInDb.infos.nextMatchDate;
